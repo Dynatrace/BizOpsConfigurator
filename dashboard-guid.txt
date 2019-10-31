@@ -1,0 +1,7 @@
+example: 6c9a9011-b650-495f-96c7-f78386a837fa
+rules: 
+  0-9a-f
+  8-4-4-4-12
+  unique
+proposed meaning: bizops-version-type-app-dashboard
+proposed baseline: bbbbbbbb-0001-0001-0001-000000000001
