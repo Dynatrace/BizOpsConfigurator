@@ -11,6 +11,10 @@ $(document).ready(function(){
 
   $("a#begin").click(function() {
      $("div.viewport").load("html/configurator-1.html");
+     if(typeof url !== 'undefined' && url != "")
+	$("url").val(url);
+     if(typeof token !== 'undefined' && token != "")
+	$("token").val(token);
   });
 
   $("a#overview").click(function() {
