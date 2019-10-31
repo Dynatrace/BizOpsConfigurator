@@ -82,10 +82,12 @@ function goalsCallback(result) {
 		  if(goals.indexOf(val2) == -1) goals.push(val2);
 	    });
 	  });
-goals.push("fake goal 1");
-goals.push("fake goal 2");
-goals.push("fake goal 3");
-          
+	  if(goals.length<2) {
+		goals.push("fake goal 1");
+		goals.push("fake goal 2");
+		goals.push("fake goal 3");
+		alert("Not enough Conversion Goals. Added fake goals for demo purposes.");
+          }
   //load goals fieldset
   $("div.viewport").load("html/configurator-4.html", function(){
     //Load goals

@@ -35,7 +35,11 @@ function transformDashboards() {
 
   publishOnlyStartDashboard("Dynatrace-DashboardsV4/TenantOverview.json"); //pattern 2
 
-
+  //example using user input to do a global search/replace, be sure to encode variables going into USQL
+  dashboardStringReplace( [ 
+	{search:"useraction.application=\\\"MyApp\\\"", replace:"useraction.application=\\\""+ encodeURIComponent(appname) +"\\\""},
+	{search:"MyApp", replace: appname} 
+  ] );
 
   $("input#transform").val("Transformed.");
 } 
@@ -45,15 +49,15 @@ function transformDashboards() {
 // Pattern 1 - change a specific value across all dashboards
 function updateDashboardIds(first, second, third, fourth) {
   var fifth=1;
-  var oldId,newId;
+  var oldId,newId,search,replace;
   var replacements=[];
 
   for(dashboardname in dashboards) {
     //safe store old ID and build the new ID
-    oldId=dashboards[dashboardname]["id"];
-    newId=first+"-"+second+"-"+third+"-"+fourth+"-"+fifth.toString().padStart(12, 0);
+    search=oldId=dashboards[dashboardname]["id"];
+    replace=newId=first+"-"+second+"-"+third+"-"+fourth+"-"+fifth.toString().padStart(12, 0);
     //we'll keep a list of replacements to go update all the links
-    replacements.push({oldId,newId});
+    replacements.push({search,replace});
 
     //do the actual replacement
     dashboards[dashboardname]["id"]=newId;
@@ -85,9 +89,10 @@ function dashboardStringReplace(replacements) {
   var tmpString = JSON.stringify(dashboards);
   
   //take in an array of search/replace objects, ie [{search1,replace1},{search2,replace2}]
+  //TODO: this seems to not work sometimes??
   replacements.forEach(function(replacement){
-    tmpString=tmpString.replace(replacement["oldId"],replacement["newId"]);
-    //console.log("Replace "+replacement["oldId"]+" with "+replacement["newId"]);
+    tmpString=tmpString.replace(replacement["search"],replacement["replace"]);
+    //console.log("Replace "+replacement["search"]+" with "+replacement["replace"]);
   });
 
   //convert back to objects when done

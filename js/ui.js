@@ -10,11 +10,12 @@ $(document).ready(function(){
   });
 
   $("a#begin").click(function() {
-     $("div.viewport").load("html/configurator-1.html");
-     if(typeof url !== 'undefined' && url != "")
-	$("url").val(url);
-     if(typeof token !== 'undefined' && token != "")
-	$("token").val(token);
+     $("div.viewport").load("html/configurator-1.html", function() {
+       if(typeof url !== 'undefined' && url != "")
+  	$("#url").val(url);
+       if(typeof token !== 'undefined' && token != "")
+	$("#token").val(token);
+     });
   });
 
   $("a#overview").click(function() {
@@ -52,6 +53,10 @@ $(document).ready(function(){
   });
 
   $("div.viewport").on("click", "#configurator-4", function() {
+    $("ul#goallist li input[type=checkbox]").each(function() {
+	if( $(this).prop('checked') )
+	  kpis.push($(this).attr('id'));
+    });
     $("div.viewport").load("html/configurator-5.html", function() {
       loadDashboards();
     });
@@ -91,7 +96,7 @@ function drawGoalSelector(goals){
   goals.forEach(function(goal) {
     $("ul#goallist").append(
 	"<li class=\"ui-state-default\"><span class=\"ui-icon ui-icon-arrowthick-2-n-s\"></span>"+
-	"<input type=\"checkbox\">" + goal + "</li>\n"
+	"<input id=\""+ goal +"\" type=\"checkbox\">" + goal + "</li>\n"
      );
   });
  
