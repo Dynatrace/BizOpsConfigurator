@@ -8,7 +8,7 @@ body {
 
 textarea, select, input, button { outline: none; }
 
-input[type=submit], input[type=submit].default:hover, input[type=submit]:visited {
+input[type=button], input[type=button].default:hover, input[type=button]:visited {
   border-radius: 3px;
   border-width: 1px;
   border-color: #00a1b2;
@@ -18,7 +18,7 @@ input[type=submit], input[type=submit].default:hover, input[type=submit]:visited
   margin-top: 10px;
 }
 
-input[type=submit]:hover, input[type=submit].default, input[type=submit]:active {
+input[type=button]:hover, input[type=button].default, input[type=button]:active {
   background: #00a1b2;
   color: #fff;
 }

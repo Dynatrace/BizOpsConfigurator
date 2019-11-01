@@ -1,6 +1,11 @@
 $(document).ready(function(){
   // jQuery methods go here... (main logic)
 
+  // prevent normal form submissions, we're using jQuery instead
+  $("form").submit(function(event){
+    event.preventDefault(); //prevent default action 
+  });
+
   // default load
   $("div.viewport").load("html/home.html");
 
@@ -62,11 +67,11 @@ $(document).ready(function(){
     });
   });
 
-  $("div.viewport").on("click", "input[type=submit].json", function() {
+  $("div.viewport").on("click", "input[type=button].json", function() {
       jsonviewer(dashboards[this.id],true,this.id);
   });
 
-  $("div.viewport").on("click", "input[type=submit]#transform", function() {
+  $("div.viewport").on("click", "input[type=button]#transform", function() {
     transformDashboards();
   });
 
@@ -79,7 +84,7 @@ function drawAppSelector(apps){
 	app["displayName"] +"\"> " + app["displayName"] + "<br>\n");
   });
 
-  $("fieldset#apps").append("<input type=\"submit\" id=\"configurator-2\" value=\"Next\">");
+  $("fieldset#apps").append("<input type=\"button\" id=\"configurator-2\" value=\"Next\">");
 }
 
 function drawKpiSelector(kpis){
@@ -89,7 +94,7 @@ function drawKpiSelector(kpis){
   });
   
   $("fieldset#kpis legend").append(" for "+ appname );
-  $("fieldset#kpis").append("<input type=\"submit\" id=\"configurator-3\" value=\"Next\">");
+  $("fieldset#kpis").append("<input type=\"button\" id=\"configurator-3\" value=\"Next\">");
 }
 
 function drawGoalSelector(goals){
@@ -105,18 +110,18 @@ function drawGoalSelector(goals){
     $( "ul#goallist" ).disableSelection();
   } ); 
   $("fieldset#goals legend").append(" for "+ appname );
-  $("fieldset#goals").append("<input type=\"submit\" id=\"configurator-4\" value=\"Next\">");
+  $("fieldset#goals").append("<input type=\"button\" id=\"configurator-4\" value=\"Next\">");
 }
 
 function drawDashboardList()
 {
   $("div#dashboardlist").append("<ul>");
   dashboardlist.forEach(function(dashboardname) {
-    $("div#dashboardlist ul").append("<li><input type='submit' id='"+ dashboardname +
+    $("div#dashboardlist ul").append("<li><input type='button' id='"+ dashboardname +
       "'value='JSON' class='json'>  "+ dashboardname + "</li>");
   });
   $("div#dashboardlist").append("</ul>");
-  $("div#dashboardlist").append("<input type='submit' id='transform' value='Transform'>");
+  $("div#dashboardlist").append("<input type='button' id='transform' value='Transform'>");
 }
 
 function jsonviewer(result,show=false,name="") {
