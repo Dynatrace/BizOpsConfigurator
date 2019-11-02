@@ -47,6 +47,7 @@ function appsCallback(result) {
   apps=result;
           
     //Load Apps
+  saveCredentials();
   drawAppSelector(apps);
   jsonviewer(result);
 }

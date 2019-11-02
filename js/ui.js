@@ -46,9 +46,7 @@ $(document).ready(function(){
   $("div.viewport").on("click", "#connect", function() {
     url=$("input#url").val();
     token=$("input#token").val();
-    $("div.viewport").load("html/configurator-2.html", function() {
-      getApps();
-    });
+    getApps();
   });
 
   $("div.viewport").on("click", "#configurator-2", function() {
@@ -88,12 +86,14 @@ $(document).ready(function(){
 
 // Drawing functions
 function drawAppSelector(apps){
-  apps.forEach(function(app) {
-     $("fieldset#apps").append("<input type=\"radio\" name=\"appname\" value=\""+ 
-	app["displayName"] +"\"> " + app["displayName"] + "<br>\n");
+  $("div.viewport").load("html/configurator-2.html", function() {
+    apps.forEach(function(app) {
+       $("fieldset#apps").append("<input type=\"radio\" name=\"appname\" value=\""+ 
+  	app["displayName"] +"\"> " + app["displayName"] + "<br>\n");
+    });
+  
+    $("fieldset#apps").append("<input type=\"button\" id=\"configurator-2\" value=\"Next\">");
   });
-
-  $("fieldset#apps").append("<input type=\"button\" id=\"configurator-2\" value=\"Next\">");
 }
 
 function drawKpiSelector(kpis){
@@ -145,5 +145,12 @@ function jsonviewer(result,show=false,name="") {
      	if($("div#jsonviewer").is(":visible")) $("input#json").val("Hide");
     }
   });
+}
+
+function saveCredentials() {
+  if (window.PasswordCredential) {
+     var c = new PasswordCredential(e.target);
+     return navigator.credentials.store(c);
+   }
 }
 
