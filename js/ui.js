@@ -82,6 +82,10 @@ $(document).ready(function(){
     transformDashboards();
   });
 
+  $("div.viewport").on("click", "input[type=button]#upload", function() {
+    uploadDashboards();
+  });
+
 });
 
 // Drawing functions
@@ -131,6 +135,7 @@ function drawDashboardList()
   });
   $("div#dashboardlist").append("</ul>");
   $("div#dashboardlist").append("<input type='button' id='transform' value='Transform'>");
+  $("div#dashboardlist").append("<input type='button' id='upload' value='Upload'>");
 }
 
 function jsonviewer(result,show=false,name="") {

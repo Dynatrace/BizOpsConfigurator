@@ -23,6 +23,20 @@ function loadDashboards() {
   });
 }
 
+function uploadDashboards() {
+  $("input#upload").val("Uploading...");
+  $("input#upload").prop('disabled', true);
+
+  for(dashboardname in dashboards) {
+    var id=dashboards[dashboardname]["id"];
+    var query="/api/config/v1/dashboards/"+id;
+    var data=JSON.stringify(dashboards[dashboardname]);
+    
+    dtAPIquery(query,function(){},"PUT",data);
+  }
+  $("input#upload").val("Uploaded");
+}
+
 ////////////////////////// Shady stuff below here /////////////////////////////
 
 function transformDashboards() {

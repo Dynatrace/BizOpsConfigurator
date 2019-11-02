@@ -31,12 +31,14 @@ function getGoals() {
 
 
 //// Functions ////
-function dtAPIquery(query, callback) {
+function dtAPIquery(query, callback, method="GET", data={}) {
     //Get App list from API as JSON
     $.ajax({
-	url: url + query + "&api-token=" + token,
-	data: {},
-	type: "GET",
+	url: url + query, 
+	contentType: "application/json; charset=utf-8",
+	headers: { 'Authorization': "Api-Token " + token },
+	data: data,
+	method: method,
 	dataType: "json"})
 	.done(callback);
 
