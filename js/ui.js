@@ -44,23 +44,32 @@ $(document).ready(function(){
   });
 
   $("div.viewport").on("click", "#connect", function() {
-    getApps();
+    url=$("input#url").val();
+    token=$("input#token").val();
+    $("div.viewport").load("html/configurator-2.html", function() {
+      getApps();
+    });
   });
 
   $("div.viewport").on("click", "#configurator-2", function() {
-    $("div.viewport").load("html/configurator-3.html");
-    getKpis();
+    appname=$("input[name='appname']:checked").val();
+    $("div.viewport").load("html/configurator-3.html", function() {
+      getKpis();
+    });
   });
 
   $("div.viewport").on("click", "#configurator-3", function() {
-    $("div.viewport").load("html/configurator-4.html");
-    getGoals();
+    kpi=$("input[name='kpi']:checked").val();
+    $("div.viewport").load("html/configurator-4.html", function() {
+      getGoals();
+    });
   });
 
   $("div.viewport").on("click", "#configurator-4", function() {
+    //populate the record selected goals
     $("ul#goallist li input[type=checkbox]").each(function() {
 	if( $(this).prop('checked') )
-	  kpis.push($(this).attr('id'));
+	  goals.push($(this).attr('id'));
     });
     $("div.viewport").load("html/configurator-5.html", function() {
       loadDashboards();

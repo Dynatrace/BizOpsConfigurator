@@ -1,28 +1,28 @@
-var url;
-var token;
-var apps;
-var appname;
+var url="";
+var token="";
+var apps={};
+var appname="";
 var kpis=[];
 var goals=[];
+var kpi="";
 
 // link handlers
 function getApps() {
-    url=$("input#url").val();
-    token=$("input#token").val();
+    apps={};
 
     var query="/api/v1/entity/applications?includeDetails=false";
     dtAPIquery(query,appsCallback);
 }
 
 function getKpis() {
-    appname=$("input[name='appname']:checked"). val();
+    kpis=[];
     var query="/api/v1/userSessionQueryLanguage/table?query=SELECT%20usersession.longProperties%2C%20usersession.doubleProperties%2C%20usersession.stringProperties%2C%20usersession.dateProperties%20FROM%20useraction%20WHERE%20application%3D%22"+
 	encodeURIComponent(appname) +"%22%20&explain=false";
     dtAPIquery(query,kpisCallback);
 }
 
 function getGoals() {
-     kpi=$("input[name='kpi']:checked"). val();
+     goals=[];
      var query="/api/v1/userSessionQueryLanguage/table?query=SELECT%20DISTINCT%20matchingConversionGoals%20FROM%20useraction%20WHERE%20"+
 	"application%3D%22"+ encodeURIComponent(appname) +"%22%20and%20matchingConversionGoals%20IS%20NOT%20NULL&explain=false";
     dtAPIquery(query,goalsCallback);
@@ -46,12 +46,9 @@ function appsCallback(result) {
   //store the app list as an object
   apps=result;
           
-  //load apps fieldset
-  $("div.viewport").load("html/configurator-2.html", function(){
     //Load Apps
-    drawAppSelector(apps);
-    jsonviewer(result);
-  });
+  drawAppSelector(apps);
+  jsonviewer(result);
 }
 
 function kpisCallback(result) {
