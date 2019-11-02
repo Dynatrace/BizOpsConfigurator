@@ -148,9 +148,10 @@ function jsonviewer(result,show=false,name="") {
 }
 
 function saveCredentials() {
-  if (window.PasswordCredential) {
+  //can't seem to make this work
+  /*if (window.PasswordCredential) {
      var c = new PasswordCredential(e.target);
      return navigator.credentials.store(c);
-   }
+   }*/
 }
 
