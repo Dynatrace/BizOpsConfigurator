@@ -106,3 +106,38 @@ fieldset {
 fieldset input.api {
   width: 300px;
 }
+
+ol.prereqs li img {
+  width: 60%;
+}
+
+ul.ids li {
+  margin-top: 6px;
+  margin-bottom: 6px;
+}
+
+span.id-1 {
+  border: 2px #1495FF solid;
+  background: #A1D5FF;
+  color: black;
+}
+span.id-2 {
+  border: 2px #8A36D0 solid;
+  background: #D0AFEC;
+  color: black;
+}
+span.id-3 {
+  border: 2px #5350B6 solid;
+  background: #BAB9E2;
+  color: black;
+}
+span.id-4 {
+  border: 2px #6140A3 solid;
+  background: #BEAEDF;
+  color: black;
+}
+span.id-5 {
+  border: 2px #73BE28 solid;
+  background: #C7ECA2;
+  color: black;
+}

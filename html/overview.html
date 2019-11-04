@@ -2,18 +2,42 @@
 <ol>
   <li>Get API connect info</li>
   <li>Connect to API</li>
-  <li>Get list of apps</li>
-  <li>Pick app(s)</li>
-  <li>Get list of User Session Props</li>
-  <li>Pick KPI(s) e.g. <i>revenue</i></li>
-  <li>Get list of Conversion Goals</li>
-  <li>Order Goals into Funnel</li>
-  <li>Load dashboard JSON</li>
-  <li>Do transforms</li>
-  <li>Generate unique GUID sequence</li>
-  <li>Upload dashboards</li>
-  <li>Preview - new tab</li>
-  <li>If Publish, transform sharing attributes</li>
-  <li>Upload again</li>
-  <li>Done</li>
+  <li>Get token owner</li>
+  <li>Mange BizOps Dashboards:
+    <ul>
+      <li>Deploy
+	<ul>
+	  <li>Get list of apps</li>
+	  <li>Pick app(s)</li>
+	  <li>Get list of User Session Props</li>
+	  <li>Pick KPI(s) e.g. <i>revenue</i></li>
+	  <li>Get list of Conversion Goals</li>
+	  <li>Order Goals into Funnel</li>
+	  <li>Load dashboard JSON</li>
+	  <li>Do transforms</li>
+	  <li>Generate unique GUID sequence</li>
+	  <li>Upload dashboards</li>
+	</ul>
+      </li>
+      <li>List
+	<ul>
+	  <li>Get/Show JSON</li>
+	  <li>Delete</li>
+	  <li>Upgrade</li>
+	</ul>
+      </li>
+    </ul>
+  </li>
 <ol>
+
+<h3>BizOps Dashboard IDs</h3>
+For BizOps Dashboards we predefine the dashboard ID to make it easier to track the dashboards as a collection.<br>
+Example: 
+<span class="id-1">bbbbbbbb</span>-<span class="id-2">0001</span>-<span class="id-3">0001</span>-<span class="id-4">0001</span>-<span class="id-5">0000000000001</span>
+<ul class="ids">
+  <li><span class="id-1">bbbbbbbb</span> - Prefix to denote BizOps Dashboards</li>
+  <li><span class="id-2">0001</span> - Collection number, increments with each deployment</li>
+  <li><span class="id-3">0001</span> - BizOps Dashboards version</li>
+  <li><span class="id-4">0001</span> - Application number, for multiple apps in a collection</li>
+  <li><span class="id-5">0000000000001</span> - Dashboard number, increments for each dashboard in the collection</li>
+</ul>

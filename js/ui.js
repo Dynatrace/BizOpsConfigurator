@@ -178,9 +178,9 @@ function drawBOdashboardList()
   $("fieldset#manage").append("<ul>");
   BOdashboards.forEach(function(dashboardname) {
     $("fieldset#manage  ul").append("<li>"+ dashboardname +
-	"&nbsp;<input type='button' id='"+ dashboardname + "'value='JSON' class='json'>  " + 
-	"&nbsp;<input type='button' id='"+ dashboardname + "'value='Delete' class='json'>  " + 
-	"&nbsp;<input type='button' id='"+ dashboardname + "'value='Upgrade' class='json'>  " + 
+	"&nbsp;<input type='button' id='"+ dashboardname + "'value='JSON' class='json' disabled>  " + 
+	"&nbsp;<input type='button' id='"+ dashboardname + "'value='Delete' class='json' disabled>  " + 
+	"&nbsp;<input type='button' id='"+ dashboardname + "'value='Upgrade' class='json' disabled>  " + 
 	"</li>");
   });
   $("fieldset#manage").append("</ul>");
