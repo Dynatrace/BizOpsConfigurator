@@ -45,14 +45,20 @@ function transformDashboards() {
 
 
   //use transfrom patterns here
-  updateDashboardIds("bbbbbbbb","0001","0001","0001"); //patterns 1 & 3
+  var id = {
+    BOprefix:   "bbbbbbbb",
+    collection: "0001",
+    version:    "0001",
+    appnum:        "0001"};
+  updateDashboardIds(id); //patterns 1 & 3
 
   publishOnlyStartDashboard("Dynatrace-DashboardsV4/TenantOverview.json"); //pattern 2
 
   //example using user input to do a global search/replace, be sure to encode variables going into USQL
   dashboardStringReplace( [ 
 	{search:"useraction.application=\\\"MyApp\\\"", replace:"useraction.application=\\\""+ encodeURIComponent(appname) +"\\\""},
-	{search:"MyApp", replace: appname} 
+	{search:"MyApp", replace: appname},
+	{search:"MyEmail", replace: owner}
   ] );
 
   $("input#transform").val("Transformed.");
@@ -61,22 +67,26 @@ function transformDashboards() {
 ////// Dashboard transforms go here  ///////
 
 // Pattern 1 - change a specific value across all dashboards
-function updateDashboardIds(first, second, third, fourth) {
-  var fifth=1;
+function updateDashboardIds(id) {
+  var dbnum=1;
   var oldId,newId,search,replace;
   var replacements=[];
 
   for(dashboardname in dashboards) {
     //safe store old ID and build the new ID
     search=oldId=dashboards[dashboardname]["id"];
-    replace=newId=first+"-"+second+"-"+third+"-"+fourth+"-"+fifth.toString().padStart(12, 0);
+    replace=newId=id["BOprefix"] +"-"+ 
+	id["collection"] +"-"+ 
+	id["version"] +"-"+
+	id["appnum"] +"-"+
+	dbnum.toString().padStart(12, 0);
     //we'll keep a list of replacements to go update all the links
     replacements.push({search,replace});
 
     //do the actual replacement
     dashboards[dashboardname]["id"]=newId;
     //loop
-    fifth++;
+    dbnum++;
   }
 
   //ok, go back and update all the links
@@ -103,9 +113,9 @@ function dashboardStringReplace(replacements) {
   var tmpString = JSON.stringify(dashboards);
   
   //take in an array of search/replace objects, ie [{search1,replace1},{search2,replace2}]
-  //TODO: this seems to not work sometimes??
   replacements.forEach(function(replacement){
-    tmpString=tmpString.replace(replacement["search"],replacement["replace"]);
+    let r = new RegExp(replacement["search"],"g"); 
+    tmpString=tmpString.replace(r,replacement["replace"]);
     //console.log("Replace "+replacement["search"]+" with "+replacement["replace"]);
   });
 

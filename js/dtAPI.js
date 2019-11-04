@@ -1,12 +1,25 @@
 var url="";
 var token="";
+var owner="";
 var apps={};
 var appname="";
 var kpis=[];
 var goals=[];
 var kpi="";
+var BOdashboards=[];
 
-// link handlers
+//API Querie
+function testConnect() {
+  var query="/api/v1/tokens/lookup";
+  var data="{\"token\":\""+ token +"\"}";
+  dtAPIquery(query,testCallback,"POST",data);
+}
+
+function listBOdashboards() {
+  var query="/api/config/v1/dashboards";
+  dtAPIquery(query,BOdashboardsCallback);
+}
+
 function getApps() {
     apps={};
 
@@ -68,10 +81,8 @@ function kpisCallback(result) {
 	  })
 	});
 
-  $("div.viewport").load("html/configurator-3.html", function(){
     drawKpiSelector(kpis);
     jsonviewer(result);
-  });
 }
 
 function goalsCallback(result) {
@@ -88,11 +99,28 @@ function goalsCallback(result) {
 		goals.push("fake goal 3");
 		alert("Not enough Conversion Goals. Added fake goals for demo purposes.");
           }
-  //load goals fieldset
-  $("div.viewport").load("html/configurator-4.html", function(){
     //Load goals
     drawGoalSelector(goals);
     jsonviewer(result);
-  });
 }
 
+function testCallback(result) {
+  owner=result["userId"];
+
+  if(!result["scopes"].includes("DTAQLAccess")) alert("Missing DTAQLAccess token scope");
+  if(!result["scopes"].includes("WriteConfig")) alert("Missing WriteConfig token scope");
+  if(!result["scopes"].includes("ReadConfig")) alert("Missing ReadConfig token scope");
+  if(!result["scopes"].includes("DataExport")) alert("Missing DataExport token scope");
+
+  drawManage();
+}
+
+function BOdashboardsCallback(result) {
+  result["dashboards"].forEach(function(dashboard) {
+    if(dashboard["id"].substring(0,8)=="bbbbbbbb")
+	BOdashboards.push(dashboard["id"]);
+  });
+
+  BOdashboards.sort();
+  drawBOdashboardList();
+}

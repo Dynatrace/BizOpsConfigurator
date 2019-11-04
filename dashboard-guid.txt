@@ -3,5 +3,5 @@ rules:
   0-9a-f
   8-4-4-4-12
   unique
-proposed meaning: bizops-version-type-app-dashboard
+proposed meaning: bizops-collection-version-app-dashboard
 proposed baseline: bbbbbbbb-0001-0001-0001-000000000001
