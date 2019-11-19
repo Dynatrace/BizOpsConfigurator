@@ -35,12 +35,21 @@ $(document).ready(function(){
      $("div.viewport").load("html/home.html");
   });
 
+  $("a#funneltest").click(function() {
+     $("div.viewport").load("html/funnel-v2.html");
+  });
 
   // dynamic link handlers
   $("div.viewport").on("click", "#json", function() {
      $("div#jsonviewer").toggle();
      if($("div#jsonviewer").is(":visible")) $("input#json").val("Hide");
      if($("div#jsonviewer").is(":hidden")) $("input#json").val("JSON");
+  });
+
+  $("div.viewport").on("click", "#json2", function() {
+     $("div#jsonviewer2").toggle();
+     if($("div#jsonviewer2").is(":visible")) $("input#json2").val("Hide");
+     if($("div#jsonviewer2").is(":hidden")) $("input#json2").val("JSON");
   });
 
   $("div.viewport").on("click", "#connect", function() {
@@ -77,7 +86,7 @@ $(document).ready(function(){
     //populate the record selected goals
     $("ul#goallist li input[type=checkbox]").each(function() {
 	if( $(this).prop('checked') )
-	  goals.push($(this).attr('id'));
+	  funnel.push($(this).attr('id'));
     });
     $("div.viewport").load("html/configurator-dashboards.html", function() {
       loadDashboards();
@@ -134,6 +143,21 @@ function drawGoalSelector(goals){
   $("fieldset#goals").append("<input type=\"button\" id=\"goals-next\" value=\"Next\">");
 }
 
+function addKeyActionSelector(keyActions) {
+  keyActions.forEach(function(action) {
+    $("ul#goallist").append(
+	"<li class=\"ui-state-default\"><span class=\"ui-icon ui-icon-arrowthick-2-n-s\"></span>"+
+	"<input id=\""+ action +"\" type=\"checkbox\">" + action + "</li>\n"
+     );
+  });
+ 
+  $( function() {
+    $( "ul#goallist" ).sortable();
+    $( "ul#goallist" ).disableSelection();
+  } ); 
+
+}
+
 function drawDashboardList()
 {
   $("div#dashboardlist").append("<ul>");
@@ -146,16 +170,16 @@ function drawDashboardList()
   $("div#dashboardlist").append("<input type='button' id='upload' value='Upload'>");
 }
 
-function jsonviewer(result,show=false,name="") {
+function jsonviewer(result,show=false,name="",selector="#jsonviewer") {
   //Load the JSON viewer
-  $("#jsonviewer").hide();
-  $("#jsonviewer").load("html/jsonviewer.html", function(){
-    $("#jsontitle").append(name);
-    $("div#results").append(JSON.stringify(result));
+  $(selector).hide();
+  $(selector).load("html/jsonviewer.html", function(){
+    $(selector+" #jsontitle").append(name);
+    $(selector+" div#results").append(JSON.stringify(result));
     $('.jsonFormatter').jsonFormatter();
     if(show){
-	$("#jsonviewer").show();
-     	if($("div#jsonviewer").is(":visible")) $("input#json").val("Hide");
+	$(selector).show();
+     	if($(selector).is(":visible")) $("input#json").val("Hide");
     }
   });
 }
@@ -175,13 +199,23 @@ function drawManage() {
 
 function drawBOdashboardList()
 {
-  $("fieldset#manage").append("<ul>");
-  BOdashboards.forEach(function(dashboardname) {
-    $("fieldset#manage  ul").append("<li>"+ dashboardname +
-	"&nbsp;<input type='button' id='"+ dashboardname + "'value='JSON' class='json' disabled>  " + 
-	"&nbsp;<input type='button' id='"+ dashboardname + "'value='Delete' class='json' disabled>  " + 
-	"&nbsp;<input type='button' id='"+ dashboardname + "'value='Upgrade' class='json' disabled>  " + 
+  //Create collapsible list of dashboards for each collection
+  BOcollections.forEach(function(collection) {
+    $("fieldset#manage").append("<ul id=\"BOcollections\">");
+    $("ul#BOcollections").append("<li class=\"BOcollection\" id=\"BOcollection-"+collection+
+       "\"><input type=\"checkbox\">bbbbbbbb-"+
+       collection+"-xxxx-xxxx-xxxxxxxxxxxx<ul>");
+    BOdashboards.forEach(function(dashboardid) {
+      let id=dashboardid.split("-");
+      if(id[1]==collection) {
+        $("li#BOcollection-"+collection+" ul").append("<li>"+ dashboardid +
+	"&nbsp;<input type='button' id='"+ dashboardid + "'value='JSON' class='json' disabled>  " + 
+	"&nbsp;<input type='button' id='"+ dashboardid + "'value='Delete' class='json' disabled>  " + 
+	"&nbsp;<input type='button' id='"+ dashboardid + "'value='Upgrade' class='json' disabled>  " + 
 	"</li>");
+      }
+    });
+    $("ul#BOcollections").append("</ul></li>");
   });
   $("fieldset#manage").append("</ul>");
 }

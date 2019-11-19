@@ -141,3 +141,24 @@ span.id-5 {
   background: #C7ECA2;
   color: black;
 }
+
+li.BOcollection input:checked ~ ul {
+  visibility: visible;
+  max-height: 100%;
+}
+
+li.BOcollection input ~ ul {
+  visibility: hidden;
+  overflow: hidden;
+  max-height: 0px;
+}
+
+div#options, div#funnelwrapper {
+  width: 50%;
+  float: left;
+}
+
+div#funnelbuttons {
+  margin: auto;
+  text-align: center;
+}

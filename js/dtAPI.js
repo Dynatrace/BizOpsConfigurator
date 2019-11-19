@@ -5,8 +5,11 @@ var apps={};
 var appname="";
 var kpis=[];
 var goals=[];
+var keyActions=[];
+var funnel=[];
 var kpi="";
 var BOdashboards=[];
+var BOcollections=[];
 
 //API Querie
 function testConnect() {
@@ -39,6 +42,13 @@ function getGoals() {
      var query="/api/v1/userSessionQueryLanguage/table?query=SELECT%20DISTINCT%20matchingConversionGoals%20FROM%20useraction%20WHERE%20"+
 	"application%3D%22"+ encodeURIComponent(appname) +"%22%20and%20matchingConversionGoals%20IS%20NOT%20NULL&explain=false";
     dtAPIquery(query,goalsCallback);
+}
+
+function getKeyActions() {
+     keyActions=[];
+     var query="/api/v1/userSessionQueryLanguage/table?query=SELECT%20name%20FROM%20useraction%20WHERE%20keyUserAction%20%3D%20true%20and%20" +
+	"application%3D%22"+ encodeURIComponent(appname) +"%22&explain=false";
+    dtAPIquery(query,keyActionsCallback);
 }
 
 
@@ -93,15 +103,23 @@ function goalsCallback(result) {
 		  if(goals.indexOf(val2) == -1) goals.push(val2);
 	    });
 	  });
-	  if(goals.length<2) {
-		goals.push("fake goal 1");
-		goals.push("fake goal 2");
-		goals.push("fake goal 3");
-		alert("Not enough Conversion Goals. Added fake goals for demo purposes.");
-          }
+          
     //Load goals
     drawGoalSelector(goals);
     jsonviewer(result);
+    getKeyActions();
+}
+
+function keyActionsCallback(result) {
+  //parse keyActions
+	result["values"].forEach(function(val) {
+	  val.forEach(function(val2) {
+		  if(keyActions.indexOf(val2) == -1) keyActions.push(val2);
+	    });
+	  });
+    //Load keyActions
+    addKeyActionSelector(keyActions);
+    jsonviewer(result,false,"","#jsonviewer2");
 }
 
 function testCallback(result) {
@@ -117,10 +135,14 @@ function testCallback(result) {
 
 function BOdashboardsCallback(result) {
   result["dashboards"].forEach(function(dashboard) {
-    if(dashboard["id"].substring(0,8)=="bbbbbbbb")
+    if(dashboard["id"].substring(0,8)=="bbbbbbbb") {
 	BOdashboards.push(dashboard["id"]);
+	let collection=dashboard["id"].substring(9,13);
+	if(!BOcollections.includes(collection)) BOcollections.push(collection);
+    }
   });
 
   BOdashboards.sort();
+  BOcollections.sort();
   drawBOdashboardList();
 }

@@ -1,0 +1,85 @@
+<div id="options" class="ui-widget ui-helper-clearfix">
+<ul id="goallist" class="ui-helper-reset ui-helper-clearfix">
+  <li class="ui-widget-content ui-corner-tr"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span><input id="Credit card validated" type="hidden">Credit card validated</li>
+<li class="ui-widget-content ui-corner-tr"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span><input id="/easytravel/rest/journeys/" type="hidden">/easytravel/rest/journeys/</li>
+<li class="ui-widget-content ui-corner-tr"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span><input id="/easytravel/rest/login" type="hidden">/easytravel/rest/login</li>
+<li class="ui-widget-content ui-corner-tr"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span><input id="/easytravel/rest/validate-creditcard" type="hidden">/easytravel/rest/validate-creditcard</li>
+<li class="ui-widget-content ui-corner-tr"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span><input id="Loading of page /easytravel/search" type="hidden">Loading of page /easytravel/search</li>
+<li class="ui-widget-content ui-corner-tr"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span><input id="Loading of page /blog/" type="hidden">Loading of page /blog/</li>
+</ul>
+</div>
+<div id="funnelwrapper">
+  <div id="funnel"></div>
+  <div id="funnelbuttons">
+    <input type="button" id="plus" value="+">
+    <input type="button" id="minus" value="-">
+  </div
+</div>
+
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://d3js.org/d3.v5.js"></script>
+<script src="3rdparty/d3-funnel/dist/d3-funnel.js"></script>
+<script>
+// funell logic here
+    var data = [
+        { label: 'Home', value: '/easytravel/home' },
+        { label: 'Product', value: '/easytravel/product_detail' },
+        { label: 'Cart', value: '/easytravel/add_to_cart' },
+        { label: 'Order', value: '/easytravel/place_order' }
+    ];
+    const options = {
+	chart: {
+	    curve: {
+		enabled: true
+	    },
+	    animate: 50,
+	    bottomPinch: 1
+	},
+	block: {
+            minHeight: 15,
+	    fill: {
+		type: 'gradient'
+	    },
+	    highlight: true
+	}
+    };
+
+    const chart = new D3Funnel('#funnel');
+
+    chart.draw(data, options);
+
+    $("#plus").click(function() {
+	data.push({ label: 'name', value: ''});
+       chart.draw(data, options);
+   });
+    $("#minus").click(function() {
+	data.pop();
+       chart.draw(data, options);
+   });
+
+
+// Dragable logic here
+// There's the gallery and the trash
+    var $from = $( "#options" ),
+      $to = $( "#trash" );
+ 
+    // Let the gallery items be draggable
+    $( "li", $from ).draggable({
+      cancel: "a.ui-icon", // clicking an icon won't initiate dragging
+      revert: "invalid", // when not dropped, the item will revert back to its initial position
+      containment: "document",
+      helper: "clone",
+      cursor: "move"
+    });
+
+   $to.droppable({
+      accept: "#funnel svg g",
+      classes: {
+        "ui-droppable-active": "ui-state-highlight"
+      },
+      drop: function( event, ui ) {
+        deleteImage( ui.draggable );
+      }
+    });
+</script>
+

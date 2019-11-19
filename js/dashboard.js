@@ -44,13 +44,8 @@ function transformDashboards() {
   $("input#transform").prop('disabled', true);
 
 
-  //use transfrom patterns here
-  var id = {
-    BOprefix:   "bbbbbbbb",
-    collection: "0001",
-    version:    "0001",
-    appnum:        "0001"};
-  updateDashboardIds(id); //patterns 1 & 3
+  //Update dashboard IDs
+  updateDashboardIds(); //patterns 1 & 3
 
   publishOnlyStartDashboard("Dynatrace-DashboardsV4/TenantOverview.json"); //pattern 2
 
@@ -58,19 +53,30 @@ function transformDashboards() {
   dashboardStringReplace( [ 
 	{search:"useraction.application=\\\"MyApp\\\"", replace:"useraction.application=\\\""+ encodeURIComponent(appname) +"\\\""},
 	{search:"MyApp", replace: appname},
-	{search:"MyEmail", replace: owner}
+	{search:"MyEmail", replace: owner},
+	{search:"https://MyTenant", replace: url}
   ] );
 
+  updateFunnelSteps();
+	//{search:"Step1", replace: funnel[0]},
+	//{search:"LastStep", replace: funnel[funnel.length-1]}
   $("input#transform").val("Transformed.");
 } 
 
 ////// Dashboard transforms go here  ///////
 
 // Pattern 1 - change a specific value across all dashboards
-function updateDashboardIds(id) {
+function updateDashboardIds() {
   var dbnum=1;
   var oldId,newId,search,replace;
   var replacements=[];
+  var id = {
+    BOprefix:   "bbbbbbbb",
+    collection: "0001",
+    version:    "0001",
+    appnum:        "0001"};
+  if(BOcollections.length>0)
+    id["collection"]=(Number(BOcollections[BOcollections.length-1])+1).toString().padStart(4, 0);
 
   for(dashboardname in dashboards) {
     //safe store old ID and build the new ID
@@ -121,4 +127,20 @@ function dashboardStringReplace(replacements) {
 
   //convert back to objects when done
   dashboards = JSON.parse(tmpString);
+}
+
+function updateFunnelSteps() {
+  var replacements=[];
+  var i=1;
+
+  funnel.forEach(function(step) {
+    replacements.push( {search:"%22Step"+i+"%22", replace:"%22"+ encodeURIComponent(step) +"%22"});
+    replacements.push( {search:"Step"+i, replace: step});
+    i++;
+  });
+  let step=funnel[funnel.length-1];
+    replacements.push( {search:"%22LastStep%22", replace:"%22"+ encodeURIComponent(step) +"%22"});
+    replacements.push( {search:"LastStep", replace: step});
+
+  dashboardStringReplace(replacements);
 }
