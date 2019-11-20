@@ -162,3 +162,22 @@ div#funnelbuttons {
   margin: auto;
   text-align: center;
 }
+
+li.ui-widget-content {
+  width: 75%;
+}
+
+div#labelForm {
+  position: absolute;
+  display: none;
+}
+
+div#querybox {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+input#whereClause {
+  width: 75%;
+}

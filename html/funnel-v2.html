@@ -1,26 +1,34 @@
+
 <div id="options" class="ui-widget ui-helper-clearfix">
-Drag Key User Action over to funnel step
+Drag Key User Action over to funnel step:
 <ul id="goallist" class="ui-helper-reset ui-helper-clearfix">
-  <li class="ui-widget-content ui-corner-tr"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span><input id="Credit card validated" type="hidden">Credit card validated</li>
-<li class="ui-widget-content ui-corner-tr"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span><input id="/easytravel/rest/journeys/" type="hidden">/easytravel/rest/journeys/</li>
-<li class="ui-widget-content ui-corner-tr"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span><input id="/easytravel/rest/login" type="hidden">/easytravel/rest/login</li>
-<li class="ui-widget-content ui-corner-tr"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span><input id="/easytravel/rest/validate-creditcard" type="hidden">/easytravel/rest/validate-creditcard</li>
-<li class="ui-widget-content ui-corner-tr"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span><input id="Loading of page /easytravel/search" type="hidden">Loading of page /easytravel/search</li>
-<li class="ui-widget-content ui-corner-tr"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span><input id="Loading of page /blog/" type="hidden">Loading of page /blog/</li>
+  <li class="ui-corner-all ui-widget-content"><input id="Credit card validated" type="hidden">Credit card validated</li>
+  <li class="ui-corner-all ui-widget-content"><input id="/easytravel/rest/journeys/" type="hidden">/easytravel/rest/journeys/</li>
+  <li class="ui-corner-all ui-widget-content"><input id="/easytravel/rest/login" type="hidden">/easytravel/rest/login</li>
+  <li class="ui-corner-all ui-widget-content"><input id="/easytravel/rest/validate-creditcard" type="hidden">/easytravel/rest/validate-creditcard</li>
+  <li class="ui-corner-all ui-widget-content"><input id="Loading of page /easytravel/search" type="hidden">Loading of page /easytravel/search</li>
+  <li class="ui-corner-all ui-widget-content"><input id="Loading of page /blog/" type="hidden">Loading of page /blog/</li>
 </ul>
-TODO: add logic to change funnel values with drag/drop, add double click on funnel to edit friendly name
 </div>
 <div id="funnelwrapper">
+Click funnel band to edit Friendly Name:
   <div id="funnel"></div>
   <div id="funnelbuttons">
     <input type="button" id="plus" value="+">
     <input type="button" id="minus" value="-">
-  </div
+  </div>
 </div>
 
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script src="https://d3js.org/d3.v5.js"></script>
-<script src="3rdparty/d3-funnel/dist/d3-funnel.js"></script>
+<div id="querybox">
+  Where: <input id="whereClause" disabled>
+</div>
+
+<div id="labelForm">
+  <input id="labelInput">
+  <input id="i" type="hidden">
+  <input type="button" value="Update">
+</div>
+
 <script>
 // funell logic here
     var data = [
@@ -32,7 +40,8 @@ TODO: add logic to change funnel values with drag/drop, add double click on funn
     const options = {
 	chart: {
 	    curve: {
-		enabled: true
+		enabled: true,
+		height: 40
 	    },
 	    animate: 50,
 	    bottomPinch: 1
@@ -43,45 +52,122 @@ TODO: add logic to change funnel values with drag/drop, add double click on funn
 		type: 'gradient'
 	    },
 	    highlight: true
+	},
+	events: {
+	    click: {
+		block: funnelClickHandler
+	    }
 	}
     };
 
     const chart = new D3Funnel('#funnel');
 
     chart.draw(data, options);
+    updateWhere();
 
     $("#plus").click(function() {
 	data.push({ label: 'name', value: ''});
-       chart.draw(data, options);
+	chart.draw(data, options);
+	updateWhere();
    });
     $("#minus").click(function() {
 	data.pop();
-       chart.draw(data, options);
+	chart.draw(data, options);
+	updateWhere();
    });
 
+   function funnelClickHandler(e) {
+	$( "#labelForm input:text").val(e.label.raw);
+	$( "#labelForm input#i").val(e.index);
+	//console.log("event:");
+	//console.log(e);
+	let rects = e.node.getClientRects();
+	let y = rects[0].y;
+	rects = e.node.parentNode.parentNode.getClientRects();
+	let x = rects[0].x;
+	let fill = e.fill.raw;
+	$( "#labelForm" ).css({top: y, left: x, position:'absolute', background:fill});
+	$( "#labelForm" ).show();
+   };
 
-// Dragable logic here
-// There's the gallery and the trash
-    var $from = $( "#options" ),
-      $to = $( "#trash" );
- 
-    // Let the gallery items be draggable
-    $( "li", $from ).draggable({
-      cancel: "a.ui-icon", // clicking an icon won't initiate dragging
-      revert: "invalid", // when not dropped, the item will revert back to its initial position
-      containment: "document",
-      helper: "clone",
-      cursor: "move"
-    });
+   $( "#labelForm input:button" ).click(function() {
+	let i = $( "#labelForm input#i").val();
+	let label = $( "#labelForm #labelInput").val();
+	data[i].label=label;
+	$( "#labelForm" ).hide();
+    	chart.draw(data, options);
+	updateWhere();
+   });
 
-   $to.droppable({
-      accept: "#funnel svg g",
-      classes: {
-        "ui-droppable-active": "ui-state-highlight"
-      },
-      drop: function( event, ui ) {
-        deleteImage( ui.draggable );
-      }
-    });
+   function updateWhere() {
+	let whereA = [];
+	data.forEach(function(i) {
+	   whereA.push("(" + i.value + ") AS " + i.label);
+	});
+	let whereS = whereA.join(" AND ");
+
+	$( "#whereClause").val(whereS);
+   }
 </script>
 
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+  <style>
+  #droppable {
+    position: absolute;
+    left: 250px;
+    top: 250px;
+    width: 125px;
+    height: 125px;
+    background: #999;
+    color: #fff;
+    padding: 10px;
+  }
+  </style>
+ 
+<script>
+
+// Dragable logic here
+$( "li" ).draggable();
+$( "#funnel" ).droppable({
+  tolerance: "pointer",
+  drop: function(event, ui) {
+    //alert( "dropped " + ui.draggable[0].childNodes[0].id );
+    //console.log(event);
+    //console.log(ui);
+    ui.draggable.hide();
+    let mx = event.clientX;
+    let my = event.clientY;
+    let id = ui.draggable[0].childNodes[0].id;
+    //let val = ui.draggable[0].childNodes[0].value;
+    console.log("mouse drop at " + mx + "," + my);
+    $("#funnel g").each(function(i) {
+      let rect = this.getClientRects();
+      if(typeof(rect[0]) != "undefined") {
+	let gx = rect[0].x;
+	let gy = rect[0].y;
+	let gw = rect[0].width;
+	let gh = rect[0].height;
+	if(	mx>gx &&
+		mx<gx+gw &&
+		my>gy &&
+		my<gy+gh ) {
+		console.log("hit: ");
+		//console.log({mx,my, gx,gy,gw,gh});
+		if(data[i].value.length==0)
+		  data[i].value = id;
+		if(data[i].value.length>0)
+		  data[i].value += " OR " +id;
+    		chart.draw(data, options);
+		updateWhere();
+	}
+	else {
+		console.log("miss: ");
+		console.log({mx,my, gx,gy,gw,gh});
+        }
+     }
+    });
+  }
+});
+
+</script>
+ 

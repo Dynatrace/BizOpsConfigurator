@@ -39,6 +39,9 @@ $(document).ready(function(){
      $("div.viewport").load("html/funnel-v2.html");
   });
 
+  $("a#dropexample").click(function() {
+     $("div.viewport").load("html/drop-example.html");
+  });
   // dynamic link handlers
   $("div.viewport").on("click", "#json", function() {
      $("div#jsonviewer").toggle();
