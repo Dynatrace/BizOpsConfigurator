@@ -1,4 +1,7 @@
 $(document).ready(function(){
+  $.ajaxSetup({
+    cache: false
+  });
   // jQuery methods go here... (main logic)
 
   // prevent normal form submissions, we're using jQuery instead

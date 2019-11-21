@@ -30,6 +30,7 @@ div.searchbar {
   right: 0;
   height: 44px;
   background: black;
+  z-index: 1;
 }
 
 div.searchbar a#home {
@@ -63,6 +64,7 @@ div.menubar {
   bottom: 0;
   width: 236px;
   background-color: #525252;
+  z-index: 1;
 }
 
 div.menubar a, div.menubar a:visited {
@@ -180,4 +182,9 @@ div#querybox {
 
 input#whereClause {
   width: 75%;
+}
+
+div#overviewImages img {
+  max-width: 50%;
+  height: auto;
 }
