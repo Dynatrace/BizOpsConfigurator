@@ -5,7 +5,7 @@
         { label: 'Cart', value: '/easytravel/add_to_cart' },
         { label: 'Order', value: '/easytravel/place_order' }
     ];
-    const options = {
+    var options = {
 	chart: {
 	    curve: {
 		enabled: true,
@@ -31,7 +31,7 @@
 	}
     };
 
-    const chart = new D3Funnel('#funnel');
+    var chart = new D3Funnel('#funnel');
 
     chart.draw(data, options);
     updateWhere();
