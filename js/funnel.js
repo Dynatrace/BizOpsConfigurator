@@ -1,35 +1,4 @@
-<div id="options" class="ui-widget ui-helper-clearfix">
-Drag Key User Action over to funnel step:
-<ul id="goallist" class="ui-helper-reset ui-helper-clearfix">
-  <li class="ui-corner-all ui-widget-content"><input id="Credit card validated" type="hidden">Credit card validated</li>
-  <li class="ui-corner-all ui-widget-content"><input id="/easytravel/rest/journeys/" type="hidden">/easytravel/rest/journeys/</li>
-  <li class="ui-corner-all ui-widget-content"><input id="/easytravel/rest/login" type="hidden">/easytravel/rest/login</li>
-  <li class="ui-corner-all ui-widget-content"><input id="/easytravel/rest/validate-creditcard" type="hidden">/easytravel/rest/validate-creditcard</li>
-  <li class="ui-corner-all ui-widget-content"><input id="Loading of page /easytravel/search" type="hidden">Loading of page /easytravel/search</li>
-  <li class="ui-corner-all ui-widget-content"><input id="Loading of page /blog/" type="hidden">Loading of page /blog/</li>
-</ul>
-</div>
-<div id="funnelwrapper">
-Click funnel band to edit Friendly Name:
-  <div id="funnel"></div>
-  <div id="funnelbuttons">
-    <input type="button" id="plus" value="+">
-    <input type="button" id="minus" value="-">
-  </div>
-</div>
-
-<div id="querybox">
-  Where: <input id="whereClause" disabled>
-</div>
-
-<div id="labelForm">
-  <input id="labelInput">
-  <input id="i" type="hidden">
-  <input type="button" value="Update">
-</div>
-
-<script>
-// funell logic here
+// funnel logic here
     var data = [
         { label: 'Home', value: '/easytravel/home' },
         { label: 'Product', value: '/easytravel/product_detail' },
@@ -52,6 +21,9 @@ Click funnel band to edit Friendly Name:
 	    },
 	    highlight: true
 	},
+	label: {
+	    fill: "#fff"
+	},
 	events: {
 	    click: {
 		block: funnelClickHandler
@@ -65,17 +37,22 @@ Click funnel band to edit Friendly Name:
     updateWhere();
 
     $("#plus").click(function() {
+     if( $("input#whereClause").attr('readonly') ) { //do nothing if in pencil mode
 	data.push({ label: 'name', value: ''});
 	chart.draw(data, options);
 	updateWhere();
+     }
    });
     $("#minus").click(function() {
+     if( $("input#whereClause").attr('readonly') ) { //do nothing if in pencil mode
 	data.pop();
 	chart.draw(data, options);
 	updateWhere();
+     }
    });
 
    function funnelClickHandler(e) {
+     if( $("input#whereClause").attr('readonly') ) { //do nothing if in pencil mode
 	$( "#labelForm input:text").val(e.label.raw);
 	$( "#labelForm input#i").val(e.index);
 	//console.log("event:");
@@ -87,6 +64,7 @@ Click funnel band to edit Friendly Name:
 	let fill = e.fill.raw;
 	$( "#labelForm" ).css({top: y, left: x, position:'absolute', background:fill});
 	$( "#labelForm" ).show();
+     } 
    };
 
    $( "#labelForm input:button" ).click(function() {
@@ -107,8 +85,6 @@ Click funnel band to edit Friendly Name:
 
 	$( "#whereClause").val(whereS);
    }
-</script>
-<script>
 
 // Dragable logic here
 $( "li" ).draggable();
@@ -152,6 +128,3 @@ $( "#funnel" ).droppable({
     });
   }
 });
-
-</script>
- 

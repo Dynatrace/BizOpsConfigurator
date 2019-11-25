@@ -14,7 +14,7 @@ input[type=button], input[type=button].default:hover, input[type=button]:visited
   border-color: #00a1b2;
   background: none;
   color: #fff;
-  width: 100px;
+  min-width: 100px;
   margin-top: 10px;
 }
 
@@ -103,6 +103,7 @@ background: url(data:image/svg+xml;base64,ICAgICAgICAgICAgPHN2ZyB2ZXJzaW9uPSIxLj
 fieldset {
   border-radius: 3px;
   margin-bottom: 10px;
+  margin-top: 20px;
 }
 
 fieldset input.api {
@@ -174,17 +175,120 @@ div#labelForm {
   display: none;
 }
 
-div#querybox {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
+div#funnelUpload {
+  display: flex;
+  justify-content: center;
 }
 
-input#whereClause {
-  width: 75%;
+div#funnelNameBox {
+}
+
+div#querybox {
+  bottom: 0;
+  display: flex;
+  align-items: center;
+}
+
+div#querybox input,
+div#querybox a {
+  margin: 5px 10px 0px 10px;
+}
+
+#whereClause {
+  width: 100%;
+  text-overflow: ellipsis;
+  background: #CCCCCC;
+}
+
+#whereClause.pencilMode {
+  text-overflow: display;
+  background: white;
 }
 
 div#overviewImages img {
   max-width: 50%;
   height: auto;
+}
+
+div.bc {
+  position: fixed;
+  top: 45px;
+  left: 236px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  background-color: #4556d7;
+}
+
+a.bc {
+  direction: ltr;
+  font-family: BerninaSansWeb, sans-serif;
+  display: -webkit-flex;
+  -webkit-flex-shrink: 0;
+  padding: 0 10px 0 15px;
+  height: 30px;
+  line-height: 30px;
+  font-size: 14px;
+  vertical-align: baseline;
+  text-decoration: none;
+  color: white;
+  position: relative;
+  margin: 0 2px 0 0;
+  white-space: nowrap;
+  background-color: #4556d7;
+  text-overflow: ellipsis;
+}
+
+a.bc:hover { 
+  background-color: #526CFF;
+}
+
+a.bc:not(.bc-first)::before {
+  content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+    border-left: 6px solid;
+}
+
+a.bc::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 100%;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+    z-index: 1;
+}
+
+a.bc::after {
+    border-left: 6px solid #4556d7;
+}
+
+a.bc:hover::after {
+    border-left: 6px solid #526CFF;
+}
+
+#pencil svg {
+  height: 20px;
+  width: 20px;
+  fill: white;
+}
+
+#pencil.pencilMode svg {
+  fill: #00A1B2;
+}
+
+#pencil:hover svg {
+  fill: #EF651F;
+}
+
+#goallist li {
+  background: white;
+}
+
+#goallist li.pencilMode {
+  background: #CCCCCC;
 }

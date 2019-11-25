@@ -1,0 +1,28 @@
+<fieldset id="deployApp-3">
+  <legend>Deploy App Overview</legend>
+  Tenant Overview: <span id="TOname">My Tenant Overview</span><br>
+  ID: <span id="TOid">bbbbbb-0001-xxxx-xxxxxxxx</span><br>
+  App Overview: <span id="appName">My App Overview</span><br>
+  App: <span id="appID">My Web Application</span><br>
+  KPI: <span id="kpi">Revenue</span><br>
+  <br>
+  Comparison App:
+  <select id="compareAppList">
+    <option value="none">None</option>
+    <option value="App-123">My App</option>
+    <option value="App-456">My Other App</option>
+  </select>
+  <input id="compareAppName" placeholder="Friendly Name"><br>
+  <input type="button" id="uploadApp" value="Upload">
+</fieldset>
+
+
+<input type="button" id="json" value="JSON">
+<div id="jsonviewer"></div>
+<div class="bc">
+  <a class="bc bc-first" id="connect">tenantID</a>
+  <a href="#configurator" class="bc" id="listTenant">Tenant Overviews</a>
+  <a href="#configurator" class="bc" id="deployApp-1">Deploy App</a>
+  <a href="#configurator" class="bc" id="deployApp-2">Choose KPI</a>
+  <a href="#configurator" class="bc" id="deployApp-3">Comparison App</a>
+</div>
