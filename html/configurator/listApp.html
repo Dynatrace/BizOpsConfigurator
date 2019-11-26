@@ -1,16 +1,26 @@
 <fieldset id="listApp">
   <legend>App Overviews</legend>
-  Tenant Overview: <span id="TOname">My Tenant Overview</span><br>
-  ID: <span id="TOid">bbbbbb-0001-xxxx-xxxxxxxx</span><br>
+  <span class="configHeader">Tenant Overview:</span> <span id="TOname">My Tenant Overview</span><br>
+  <span class="configHeader">ID:</span> <span id="TOid">bbbbbb-0001-xxxx-xxxxxxxx</span><br>
   <div id="appList">
-    <ul>
-	<li id="bbbbbbb-0001-0001-xxxx-xxxxxxxx">
+    <dl>
+	<dt id="bbbbbbb-0001-0001-xxxx-xxxxxxxx">
 	  <span id="appName">My App Overview</span>
+	</dt>
+	<dd>
 	  <input type="button" id="listFunnel" value="List Funnels">
 	  <input type="button" id="deployFunnel-1" value="Deploy Funnel">
 	  <input type="button" id="deleteApp" value="Delete">
-	</li>
-   </ul>
+	</dd>
+	<dt id="bbbbbbb-0001-0002-xxxx-xxxxxxxx">
+	  <span id="appName">My Other App Overview</span>
+	</dt>
+	<dd>
+	  <input type="button" id="listFunnel" value="List Funnels">
+	  <input type="button" id="deployFunnel-1" value="Deploy Funnel">
+	  <input type="button" id="deleteApp" value="Delete">
+	</dd>
+   </dl>
   </div>
   <input type="button" id="deployApp" value="Deploy Another">
 </fieldset>

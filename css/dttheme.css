@@ -15,7 +15,7 @@ input[type=button], input[type=button].default:hover, input[type=button]:visited
   background: none;
   color: #fff;
   min-width: 100px;
-  margin-top: 10px;
+  margin: 10px 5px 5px 5px;
 }
 
 input[type=button]:hover, input[type=button].default, input[type=button]:active {
@@ -184,6 +184,7 @@ div#funnelNameBox {
 }
 
 div#querybox {
+  width: 100%;
   bottom: 0;
   display: flex;
   align-items: center;
@@ -298,9 +299,47 @@ a.bc:hover::after {
 }
 
 #comparisons h3 {
-  color: #14A8F5;
+  color: #00B9CB;
 }
 
 #comparisons > div {
   margin: 0px 10px 0px 10px;
+  border: 1px solid #606060;
+  border-radius: 3px;
+  padding: 0px 5px 5px 5px;
+}
+
+span.configHeader {
+  color: #00B9CB;
+}
+dl {
+  display: flex;
+  flex-flow: row;
+  flex-wrap: wrap;
+  width: 100%;
+  overflow: visible;
+  align-items: flex-end;
+}
+dl dt {
+  flex: 0 0 50%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  border-bottom: 1px dotted #606060;
+  border-radius: 3px;
+}
+dl dd {
+  flex:0 0 50%;
+  margin-left: auto;
+  text-align: left;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: inline-flex;
+  justify-content: flex-end;
+  border-bottom: 1px dotted #606060;
+  border-radius: 3px;
+}
+
+input[type=file] {
+  border: 1px solid #606060;
+  border-radius: 3px;
 }
