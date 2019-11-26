@@ -1,0 +1,44 @@
+<fieldset id="deployFunnel-3">
+  <legend>Deploy Funnel</legend>
+  Tenant Overview: <span id="TOname">My Tenant Overview</span><br>
+  ID: <span id="TOid">bbbbbb-0001-xxxx-xxxxxxxx</span><br>
+  App Overview: <span id="appName">My App Overview</span><br>
+  App: <span id="appID">My Web Application</span><br>
+  KPI: <span id="kpi">Revenue</span><br>
+  <br>
+  <div id="comparisons">
+    <div id="compareApp">
+      <h3>A/B Testing / Canary</h3>
+      Comparison App:
+      <select id="compareAppList">
+        <option value="none">None</option>
+        <option value="App-123">My App</option>
+        <option value="App-456">My Other App</option>
+      </select>
+      <input id="compareAppName" placeholder="Friendly Name">
+    </div>
+    <div id="compareTime">
+      <h3>Time Comparison</h3>
+      Now vs :
+      <select id="compareTimeList">
+        <option value="none">None</option>
+        <option value="-2hr">2 Hours ago</option>
+        <option value="-1d">1 Day ago</option>
+        <option value="-1w">1 Week ago</option>
+      </select>
+    </div>
+  </div>
+  <input type="button" id="deployFunnel-4" value="Next">
+</fieldset>
+
+
+<input type="button" id="json" value="JSON">
+<div id="jsonviewer"></div>
+<div class="bc">
+  <a class="bc bc-first" id="connect">tenantID</a>
+  <a href="#configurator" class="bc" id="listTenant">Tenant Overviews</a>
+  <a href="#configurator" class="bc" id="listApp">App Overviews</a>
+  <a href="#configurator" class="bc" id="deployFunnel-1">Funnel Name</a>
+  <a href="#configurator" class="bc" id="deployFunnel-2">KPI</a>
+  <a href="#configurator" class="bc" id="deployFunnel-3">Comparisons</a>
+</div>

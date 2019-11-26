@@ -56,17 +56,20 @@ $(document).ready(function(){
 	case "deleteTenant":
 	   $("div.viewport").load("html/configurator/listTenant.html");
 	   break;
-	case "deployApp-1":
-	   $("div.viewport").load("html/configurator/deployApp-1.html");
+	case "deployApp":
+	   $("div.viewport").load("html/configurator/deployApp.html");
 	   break;
-	case "deployApp-2":
-	   $("div.viewport").load("html/configurator/deployApp-2.html");
+	case "deployFunnel-1":
+	   $("div.viewport").load("html/configurator/deployFunnel-1.html");
 	   break;
-	case "deployApp-3":
-	   $("div.viewport").load("html/configurator/deployApp-3.html");
+	case "deployFunnel-2":
+	   $("div.viewport").load("html/configurator/deployFunnel-2.html");
 	   break;
-	case "deployFunnel":
-	   $("div.viewport").load("html/configurator/deployFunnel.html");
+	case "deployFunnel-3":
+	   $("div.viewport").load("html/configurator/deployFunnel-3.html");
+	   break;
+	case "deployFunnel-4":
+	   $("div.viewport").load("html/configurator/deployFunnel-4.html");
 	   break;
 	case "deployTenant":
 	   $("div.viewport").load("html/configurator/deployTenant.html");
@@ -107,11 +110,15 @@ $(document).ready(function(){
 	case "uploadApp":
 	   $("div.viewport").load("html/configurator/listApp.html");
 	   break;
-	case "uploadFunnel":
-	   $("div.viewport").load("html/configurator/listFunnel.html");
-	   break;
 	case "uploadTenant":
 	   $("div.viewport").load("html/configurator/tenantMenu.html");
+	   break;
+	case "uploadFunnel":
+	   //do upload here
+	   $("div.viewport").load("html/configurator/deployFunnel-5.html");
+	   break;
+	case "downloadConfig":
+	   download("myfunnel.json",JSON.stringify(data));
 	   break;
 	default:
 	   alert("Unknown Button: " + this.id);
@@ -125,17 +132,20 @@ $(document).ready(function(){
 	case "connect":
 	   $("div.viewport").load("html/configurator/connect.html");
 	   break;
-	case "deployApp-1":
-	   $("div.viewport").load("html/configurator/deployApp-1.html");
+	case "deployApp":
+	   $("div.viewport").load("html/configurator/deployApp.html");
 	   break;
-	case "deployApp-2":
-	   $("div.viewport").load("html/configurator/deployApp-2.html");
+	case "deployFunnel-1":
+	   $("div.viewport").load("html/configurator/deployFunnel-1.html");
 	   break;
-	case "deployApp-3":
-	   $("div.viewport").load("html/configurator/deployApp-3.html");
+	case "deployFunnel-2":
+	   $("div.viewport").load("html/configurator/deployFunnel-2.html");
 	   break;
-	case "deployFunnel":
-	   $("div.viewport").load("html/configurator/deployFunnel.html");
+	case "deployFunnel-3":
+	   $("div.viewport").load("html/configurator/deployFunnel-3.html");
+	   break;
+	case "deployFunnel-4":
+	   $("div.viewport").load("html/configurator/deployFunnel-4.html");
 	   break;
 	case "deployTenant":
 	   $("div.viewport").load("html/configurator/deployTenant.html");
@@ -189,3 +199,20 @@ function pencilToggle() {
     updateWhere();
   }
 }
+
+function download(filename, text) {
+  var element = document.createElement('a');
+  element.setAttribute('href', 'data:application/json;charset=utf-8,' + encodeURIComponent(text));
+  element.setAttribute('download', filename);
+
+  element.style.display = 'none';
+  document.body.appendChild(element);
+
+  element.click();
+
+  document.body.removeChild(element);
+}
+
+// Start file download.
+// download("hello.txt","This is the content of my file :)");
+//

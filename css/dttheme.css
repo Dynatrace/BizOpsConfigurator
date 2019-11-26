@@ -292,3 +292,15 @@ a.bc:hover::after {
 #goallist li.pencilMode {
   background: #CCCCCC;
 }
+
+#comparisons {
+  display: flex;
+}
+
+#comparisons h3 {
+  color: #14A8F5;
+}
+
+#comparisons > div {
+  margin: 0px 10px 0px 10px;
+}
