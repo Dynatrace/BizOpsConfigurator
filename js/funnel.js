@@ -1,9 +1,9 @@
 // funnel logic here
     var data = [
-        { label: 'Home', value: '/easytravel/home' },
-        { label: 'Product', value: '/easytravel/product_detail' },
-        { label: 'Cart', value: '/easytravel/add_to_cart' },
-        { label: 'Order', value: '/easytravel/place_order' }
+        { label: 'Home', value: '/easytravel/home', clauses: ['useraction.name="/easytravel/home"'] },
+        { label: 'Product', value: '/easytravel/product_detail', clauses: ['useraction.name="/easytravel/product_detail"'] },
+        { label: 'Cart', value: '/easytravel/add_to_cart', clauses: ['useraction.name="/easytravel/add_to_cart"'] },
+        { label: 'Order', value: '/easytravel/place_order', clauses: ['useraction.name="/easytravel/place_order"'] }
     ];
     var options = {
 	chart: {
@@ -38,7 +38,7 @@
 
     $("#plus").click(function() {
      if( $("input#whereClause").attr('readonly') ) { //do nothing if in pencil mode
-	data.push({ label: 'name', value: ''});
+	data.push({ label: 'name', value: '', clauses: [] });
 	chart.draw(data, options);
 	updateWhere();
      }
@@ -58,7 +58,7 @@
 	//console.log("event:");
 	//console.log(e);
 	let rects = e.node.getClientRects();
-	let y = rects[0].y;
+	let y = rects[0].y - 2; //don't know why -2, but seems to work
 	rects = e.node.parentNode.parentNode.getClientRects();
 	let x = rects[0].x;
 	let fill = e.fill.raw;
@@ -78,8 +78,9 @@
 
    function updateWhere() {
 	let whereA = [];
-	data.forEach(function(i) {
-	   whereA.push("(" + i.value + ") AS " + i.label);
+	data.forEach(function(d) {
+	   let clauseString = d.clauses.join(" OR ");
+	   whereA.push("(" + clauseString + ") AS " + d.label);
 	});
 	let whereS = whereA.join(" AND ");
 
@@ -98,8 +99,10 @@ $( "#funnel" ).droppable({
     let mx = event.clientX;
     let my = event.clientY;
     let id = ui.draggable[0].childNodes[0].id;
+    let colname = ui.draggable[0].childNodes[0].dataset.colname;
+    let clause = colname + '="' + id + '"';
     //let val = ui.draggable[0].childNodes[0].value;
-    console.log("mouse drop at " + mx + "," + my);
+    //console.log("mouse drop at " + mx + "," + my);
     $("#funnel g").each(function(i) {
       let rect = this.getClientRects();
       if(typeof(rect[0]) != "undefined") {
@@ -111,18 +114,21 @@ $( "#funnel" ).droppable({
 		mx<gx+gw &&
 		my>gy &&
 		my<gy+gh ) {
-		console.log("hit: ");
+		//console.log("hit: ");
 		//console.log({mx,my, gx,gy,gw,gh});
-		if(data[i].value.length==0)
+		if(data[i].value.length==0) {
 		  data[i].value = id;
-		if(data[i].value.length>0)
+		}
+		else if(data[i].value.length>0) {
 		  data[i].value += " OR " +id;
+		}
+		data[i].clauses.push(clause);
     		chart.draw(data, options);
 		updateWhere();
 	}
 	else {
-		console.log("miss: ");
-		console.log({mx,my, gx,gy,gw,gh});
+		//console.log("miss: ");
+		//console.log({mx,my, gx,gy,gw,gh});
         }
      }
     });

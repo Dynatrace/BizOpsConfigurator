@@ -93,13 +93,13 @@ $(document).ready(function(){
 	   $("div.viewport").load("html/configurator/listTenant.html");
 	   break;
 	case "minus":
-	   alert("minus");
+	   //handled in funnel.js
 	   break;
 	case "other":
 	   alert("other");
 	   break;
 	case "plus":
-	   alert("plus");
+	   //handled in funnel.js
 	   break;
 	case "updateLabel":
 	   alert("updateLabel");
@@ -176,7 +176,6 @@ function pencilToggle() {
   if( $("#whereClause").attr('readonly') ) {
     $("#whereClause").attr('readonly',false);
     $("#whereClause").addClass("pencilMode");
-    //disable options LIs
     $("#goallist li").draggable({ disabled: true });
     $("#goallist li").addClass("pencilMode");
     //disable funnel
@@ -184,9 +183,8 @@ function pencilToggle() {
       options.block.fill.scale=d3.schemeGreys[9];
       options.label.fill="#000";
       chart.draw(data, options);
-    //change pencil color
     $("#pencil").addClass("pencilMode");
-  } else {
+  } else if(confirm("Revert where clause to funnel?")) {
     $("#whereClause").attr('readonly',true);
     $("#whereClause").removeClass("pencilMode");
     $("#goallist li").draggable({ disabled: false});
@@ -197,6 +195,7 @@ function pencilToggle() {
     $("#pencil").removeClass("pencilMode");
 
     updateWhere();
+
   }
 }
 
