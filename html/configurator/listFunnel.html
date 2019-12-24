@@ -1,34 +1,36 @@
-<fieldset id="listFunnels">
+<fieldset id="listFunnel">
   <legend>Funnels</legend>
   <span class="configHeader">Tenant Overview:</span> <span id="TOname">My Tenant Overview</span><br>
-  <span class="configHeader">App Overview:</span> <span id="appName">My App Overview</span><br>
+  <span class="configHeader">ID:</span> <span id="TOid">bbbbbb-xxxx-0000-00000000</span><br>
+  <span class="configHeader">App Overview:</span> <span id="AOname">My App Overview</span><br>
+  <span class="configHeader">ID:</span> <span id="AOid">bbbbbb-xxxx-xxxx-00000000</span><br>
   <div id="funnelList">
     <dl>
-	<dt id="bbbbbbb-0001-0001-0001-xxxxxxxx">
+	<dt id="bbbbbbb-0001-0001-0001-xxxxxxxx" class="uitest">
 	  <span id="appName">Standard Customer Journey</span>
 	</dt>
-	<dd>
+	<dd class="uitest">
 	  <input type="button" id="editFunnel" value="Edit Funnel">
 	  <input type="button" id="deleteFunnel" value="Delete Funnel">
 	</dd>
-	<dt id="bbbbbbb-0001-0001-0002-xxxxxxxx">
+	<dt id="bbbbbbb-0001-0001-0002-xxxxxxxx" class="uitest">
 	  <span id="appName">Campaign Customer Journey</span>
 	</dt>
-	<dd>
+	<dd class="uitest">
 	  <input type="button" id="editFunnel" value="Edit Funnel">
 	  <input type="button" id="deleteFunnel" value="Delete Funnel">
 	</dd>
    </dl>
   </div>
-  <input type="button" id="deployFunnel-1" value="Deploy Funnel">
+  <input type="button" id="deployAnotherFunnel" value="Deploy Funnel">
 </fieldset>
 
 
 <input type="button" id="json" value="JSON">
 <div id="jsonviewer"></div>
 <div class="bc">
-  <a class="bc bc-first" id="connect">tenantID</a>
-  <a href="#configurator" class="bc" id="listTenant">Tenant Overviews</a>
-  <a href="#configurator" class="bc" id="listApp">App Overviews</a>
-  <a href="#configurator" class="bc" id="listFunnel">Funnels</a>
+  <a class="bc bc-first" id="bc-connect">tenantID</a>
+  <a href="#configurator" class="bc" id="bc-listTenant">Tenant Overviews</a>
+  <a href="#configurator" class="bc" id="bc-listApp">App Overviews</a>
+  <a href="#configurator" class="bc" id="bc-listFunnel">Funnels</a>
 </div>

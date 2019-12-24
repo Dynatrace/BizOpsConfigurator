@@ -6,6 +6,8 @@ body {
   margin: 0;
 }
 
+.uitest { visibility: hidden;}
+
 textarea, select, input, button { outline: none; }
 
 input[type=button], input[type=button].default:hover, input[type=button]:visited {
@@ -342,4 +344,86 @@ dl dd {
 input[type=file] {
   border: 1px solid #606060;
   border-radius: 3px;
+}
+
+#loadConfigDiv {
+  display: none;
+}
+
+#folder svg{
+    fill: white;
+    width: 20px;
+    height: 20px;
+}
+
+#folder:hover svg {
+  fill: #EF651F;
+}
+
+#loaderwrapper {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateY(-50%);
+  transform: translateX(-50%);
+  width: 200px;
+}
+
+#loaderA {
+  position: absolute;
+  z-index: 10;
+  border: 8px solid #242424;
+  border-radius: 50%;
+  border-top: 8px solid #b4dc00;
+  width: 20px;
+  height: 20px;
+  -webkit-animation: spin 1.5s linear infinite; /* Safari */
+  animation: spin 1.5s linear infinite;
+}
+
+#loaderB {
+  position: absolute;
+  z-index: 11;
+  border: 8px solid transparent;
+  border-radius: 50%;
+  border-top: 8px solid #242424;
+  width: 20px;
+  height: 20px;
+  -webkit-animation: spin 1.2s linear infinite; /* Safari */
+  animation: spin 1.2s linear infinite;
+}
+
+#loading {
+  position: relative;
+  left: 40px;
+  top: 14px;
+  color: #b4dc00;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+a.newTab, a.newTab:visited {
+  color: #00b9cc;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+a.newTab:hover {
+  text-decoration: underline;
+}
+
+a.newTab img {
+  width: 1em;
+  height: 1em;
+  color: #00b9cc;
 }

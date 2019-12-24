@@ -93,16 +93,29 @@ $(document).ready(function(){
 	   $("div.viewport").load("html/configurator/listTenant.html");
 	   break;
 	case "minus":
-	   //handled in funnel.js
+	   if( $("input#whereClause").attr('readonly') ) { //do nothing if in pencil mode
+		funnelData.pop();
+		chart.draw(funnelData, options);
+		updateWhere(funnelData);
+	   }
 	   break;
 	case "other":
 	   alert("other");
 	   break;
 	case "plus":
-	   //handled in funnel.js
+	   if( $("input#whereClause").attr('readonly') ) { //do nothing if in pencil mode
+		funnelData.push({ label: 'name', value: '', clauses: [] });
+		chart.draw(funnelData, options);
+		updateWhere(funnelData);
+	   }
 	   break;
 	case "updateLabel":
-	   alert("updateLabel");
+	   let i = $( "#labelForm input#i").val();
+	   let label = $( "#labelForm #labelInput").val();
+	   funnelData[i].label=label;
+	   $( "#labelForm" ).hide();
+	   chart.draw(funnelData, options);
+	   updateWhere(funnelData);
 	   break;
 	case "upgradeTenant":
 	   $("div.viewport").load("html/configurator/listTenant.html");
@@ -114,11 +127,12 @@ $(document).ready(function(){
 	   $("div.viewport").load("html/configurator/tenantMenu.html");
 	   break;
 	case "uploadFunnel":
+	   selection.config.funnelData=funnelData;
 	   //do upload here
 	   $("div.viewport").load("html/configurator/deployFunnel-5.html");
 	   break;
 	case "downloadConfig":
-	   download("myfunnel.json",JSON.stringify(data));
+	   download("myfunnel.json",JSON.stringify(selection.config));
 	   break;
 	default:
 	   alert("Unknown Button: " + this.id);
@@ -145,7 +159,17 @@ $(document).ready(function(){
 	   $("div.viewport").load("html/configurator/deployFunnel-3.html");
 	   break;
 	case "deployFunnel-4":
-	   $("div.viewport").load("html/configurator/deployFunnel-4.html");
+	   $("div.viewport").load("html/configurator/deployFunnel-4.html", function(){
+	    var funnelData = [
+		{ label: 'Home', value: '/easytravel/home', clauses: ['useraction.name="/easytravel/home"'] },
+		{ label: 'Product', value: '/easytravel/product_detail', clauses: ['useraction.name="/easytravel/product_detail"'] },
+		{ label: 'Cart', value: '/easytravel/add_to_cart', clauses: ['useraction.name="/easytravel/add_to_cart"'] },
+		{ label: 'Order', value: '/easytravel/place_order', clauses: ['useraction.name="/easytravel/place_order"'] }
+	    ];
+	    chart.draw(funnelData, options);
+	    updateWhere(funnelData);
+	    $( "#goallist li" ).draggable();
+	   });
 	   break;
 	case "deployTenant":
 	   $("div.viewport").load("html/configurator/deployTenant.html");
@@ -182,7 +206,7 @@ function pencilToggle() {
       //handled in funnelClickHandler
       options.block.fill.scale=d3.schemeGreys[9];
       options.label.fill="#000";
-      chart.draw(data, options);
+      chart.draw(funnelData, options);
     $("#pencil").addClass("pencilMode");
   } else if(confirm("Revert where clause to funnel?")) {
     $("#whereClause").attr('readonly',true);
@@ -191,10 +215,10 @@ function pencilToggle() {
     $("#goallist li").removeClass("pencilMode");
       options.block.fill.scale=d3.schemeCategory10;
       options.label.fill="#fff";
-      chart.draw(data, options);
+      chart.draw(funnelData, options);
     $("#pencil").removeClass("pencilMode");
 
-    updateWhere();
+    updateWhere(funnelData);
 
   }
 }
@@ -211,7 +235,3 @@ function download(filename, text) {
 
   document.body.removeChild(element);
 }
-
-// Start file download.
-// download("hello.txt","This is the content of my file :)");
-//

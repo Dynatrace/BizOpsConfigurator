@@ -1,10 +1,4 @@
 // funnel logic here
-    var data = [
-        { label: 'Home', value: '/easytravel/home', clauses: ['useraction.name="/easytravel/home"'] },
-        { label: 'Product', value: '/easytravel/product_detail', clauses: ['useraction.name="/easytravel/product_detail"'] },
-        { label: 'Cart', value: '/easytravel/add_to_cart', clauses: ['useraction.name="/easytravel/add_to_cart"'] },
-        { label: 'Order', value: '/easytravel/place_order', clauses: ['useraction.name="/easytravel/place_order"'] }
-    ];
     var options = {
 	chart: {
 	    curve: {
@@ -33,24 +27,6 @@
 
     var chart = new D3Funnel('#funnel');
 
-    chart.draw(data, options);
-    updateWhere();
-
-    $("#plus").click(function() {
-     if( $("input#whereClause").attr('readonly') ) { //do nothing if in pencil mode
-	data.push({ label: 'name', value: '', clauses: [] });
-	chart.draw(data, options);
-	updateWhere();
-     }
-   });
-    $("#minus").click(function() {
-     if( $("input#whereClause").attr('readonly') ) { //do nothing if in pencil mode
-	data.pop();
-	chart.draw(data, options);
-	updateWhere();
-     }
-   });
-
    function funnelClickHandler(e) {
      if( $("input#whereClause").attr('readonly') ) { //do nothing if in pencil mode
 	$( "#labelForm input:text").val(e.label.raw);
@@ -67,16 +43,7 @@
      } 
    };
 
-   $( "#labelForm input:button" ).click(function() {
-	let i = $( "#labelForm input#i").val();
-	let label = $( "#labelForm #labelInput").val();
-	data[i].label=label;
-	$( "#labelForm" ).hide();
-    	chart.draw(data, options);
-	updateWhere();
-   });
-
-   function updateWhere() {
+   function updateWhere(data) {
 	let whereA = [];
 	data.forEach(function(d) {
 	   let clauseString = d.clauses.join(" OR ");
@@ -87,8 +54,7 @@
 	$( "#whereClause").val(whereS);
    }
 
-// Dragable logic here
-$( "li" ).draggable();
+//$( "li" ).draggable();
 $( "#funnel" ).droppable({
   tolerance: "pointer",
   drop: function(event, ui) {
@@ -116,15 +82,15 @@ $( "#funnel" ).droppable({
 		my<gy+gh ) {
 		//console.log("hit: ");
 		//console.log({mx,my, gx,gy,gw,gh});
-		if(data[i].value.length==0) {
-		  data[i].value = id;
+		if(funnelData[i].value.length==0) {
+		  funnelData[i].value = id;
 		}
-		else if(data[i].value.length>0) {
-		  data[i].value += " OR " +id;
+		else if(funnelData[i].value.length>0) {
+		  funnelData[i].value += " OR " +id;
 		}
-		data[i].clauses.push(clause);
-    		chart.draw(data, options);
-		updateWhere();
+		funnelData[i].clauses.push(clause);
+    		chart.draw(funnelData, options);
+		updateWhere(funnelData);
 	}
 	else {
 		//console.log("miss: ");

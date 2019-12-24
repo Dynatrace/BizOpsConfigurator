@@ -1,22 +1,30 @@
 <fieldset id="deployFunnel-1">
   <legend>Deploy Funnel</legend>
   <span class="configHeader">Tenant Overview:</span> <span id="TOname">My Tenant Overview</span><br>
-  <span class="configHeader">ID:</span> <span id="TOid">bbbbbb-0001-xxxx-xxxxxxxx</span><br>
-  <span class="configHeader">App Overview:</span> <span id="appName">My App Overview</span><br>
-  <span class="configHeader">App:</span> <span id="APP-1234">My Web Application</span><br>
+  <span class="configHeader">ID:</span> <span id="TOid">bbbbbb-xxxx-0000-00000000</span><br>
+  <span class="configHeader">App Overview:</span> <span id="AOname">My App Overview</span><br>
+  <span class="configHeader">ID:</span> <span id="AOid">bbbbbb-xxxx-xxxx-00000000</span><br>
+  <span class="configHeader">App:</span> <span id="appName">My Web Application</span><br>
+  <span class="configHeader">ID:</span> <span id="appID">APPLICATION-XXXXXXXX</span><br>
   <br>
-  (Optional) Load config: <input type="file" id="funnelConfig" accept=".json,application/json">
-  <input type="button" id="loadConfig" value="Load"><br>
-  Funnel Name: <input id="funnelName" placeholder="Funnel Name"><br>
-  <input type="button" id="deployFunnel-3" value="Next">
+  <div>
+    <a id="folder" href="#loadConfig"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="512px" height="512px" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path d="M239.905 126.64l-14.221-31.287A12.544 12.544 0 00214.264 88H88.544C81.616 88 76 93.616 76 100.543V176h360v-29.464c0-6.927-5.616-12.543-12.544-12.543H251.324a12.544 12.544 0 01-11.419-7.353zM56 196h400v228H56z"></path></svg></a>
+    <div id="loadConfigDiv">Load config: <input type="file" id="funnelConfig" accept=".json,application/json">
+      <input type="button" id="loadConfig" value="Load">
+    </div>
+  </div>
+  <div>
+    Funnel Name: <input id="funnelName" placeholder="Funnel Name"><br>
+    <input type="button" id="deployFunnel-2" value="Next">
+  </div>
 </fieldset>
 
 
 <input type="button" id="json" value="JSON">
 <div id="jsonviewer"></div>
 <div class="bc">
-  <a class="bc bc-first" id="connect">tenantID</a>
-  <a href="#configurator" class="bc" id="listTenant">Tenant Overviews</a>
-  <a href="#configurator" class="bc" id="listApp">App Overviews</a>
-  <a href="#configurator" class="bc" id="deployFunnel-1">Funnel Name</a>
+  <a class="bc bc-first" id="bc-connect">tenantID</a>
+  <a href="#configurator" class="bc" id="bc-listTenant">Tenant Overviews</a>
+  <a href="#configurator" class="bc" id="bc-listApp">App Overviews</a>
+  <a href="#configurator" class="bc" id="bc-deployFunnel-1">Funnel Name</a>
 </div>
