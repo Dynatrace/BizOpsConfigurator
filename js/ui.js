@@ -23,8 +23,8 @@ $(document).ready(function(){
 
 ////////// Functions ////////////
 
-function pencilToggle() {
-  if( $("#whereClause").attr('readonly') ) {
+function pencilToggle(on) {
+  if(on===true || $("#whereClause").attr('readonly') ) {
     $("#whereClause").attr('readonly',false);
     $("#whereClause").addClass("pencilMode");
     $("#goallist li").draggable({ disabled: true });
@@ -35,7 +35,7 @@ function pencilToggle() {
       options.label.fill="#000";
       chart.draw(funnelData, options);
     $("#pencil").addClass("pencilMode");
-  } else if(confirm("Revert where clause to funnel?")) {
+  } else if(on===false || confirm("Revert where clause to funnel?")) {
     $("#whereClause").attr('readonly',true);
     $("#whereClause").removeClass("pencilMode");
     $("#goallist li").draggable({ disabled: false});
@@ -89,9 +89,6 @@ function linkHandler(e) {
 	   break;
 	case "bc-deployTenant":
 	   $("div.viewport").load("html/configurator/deployTenant.html",fieldsetPainter);
-	   break;
-	case "bc-editFunnel":
-	   alert("editFunnel");
 	   break;
 	case "bc-listApp":
 	   $("div.viewport").load("html/configurator/listApp.html",fieldsetPainter);
@@ -249,7 +246,14 @@ function globalButtonHandler() {
 	   });
 	   break;
 	case "editFunnel":
-	   alert("editFunnel");
+	   selection.FOid = $(this)[0].parentNode.id;
+	   let p1 = loadDashboard(configID(selection.FOid));
+
+	   $.when(p1).done(function(data) {
+	       selection.config = parseConfigDashboard(data);
+	       selection.funnelLoaded=true;
+	       $("div.viewport").load("html/configurator/deployFunnel-1.html",fieldsetPainter);
+	   }); 
 	   break;
 	case "funnelbuttons":
 	   alert("funnelbuttons");
@@ -347,8 +351,26 @@ function globalButtonHandler() {
 	   break;
 	}
 	case "downloadConfig":
-	   download("myfunnel.json",JSON.stringify(selection.config));
+	   let filename = selection.config.funnelName + "-" +
+			  Date.now() +
+			  ".json";
+	   download(filename,JSON.stringify( (({config}) => ({config}))(selection)  ));
 	   break;
+	case "loadConfig": {
+	   let file = $("#funnelConfig").prop("files")[0];
+           fr = new FileReader();
+           fr.onload = function() {
+		let res = fr.result;
+		let json = JSON.parse(res);
+		if('config' in json) {
+		    selection.funnelLoaded=true;
+		    selection.config = json.config;
+		    fieldsetPainter();
+		}
+	   };
+           fr.readAsText(file);
+	   break;
+	}
 	case undefined:
 	   console.log("undefined button");
 	   break;
@@ -421,12 +443,6 @@ function fieldsetPainter() {
 	     $("#numDBADashboards").text(DBAdashboards.length);
 	   });
 	   break;
-	case "deleteApp":
-	   break;
-	case "deleteFunnel":
-	   break;
-	case "deleteTenant":
-	   break;
 	case "deployAnotherApp": 
 	case "deployApp": {
 	   $("#bc-connect").text(tenantID);
@@ -440,7 +456,7 @@ function fieldsetPainter() {
 	   break;
 	}
 	case "deployFunnel-1": {
-	   let p1 = loadDashboard(configID(selection.AOid));
+	   let p1 = (!selection.funnelLoaded ? loadDashboard(configID(selection.AOid)) : null);
 	   $("#bc-connect").text(tenantID);
 	   $("#TOid").text(selection.TOid);
 	   $("#TOname").text(DBAdashboards.find(x => x.id === selection.TOid).name);
@@ -448,9 +464,12 @@ function fieldsetPainter() {
 	   $("#AOname").text(DBAdashboards.find(x => x.id === selection.AOid).name);
 
 	   $.when(p1).done(function(data) {
-	     selection.config=parseConfigDashboard(data);
+	     if(!selection.funnelLoaded)
+	       selection.config = parseConfigDashboard(data);
 	     $("#appName").text(selection.config.appName);
 	     $("#appID").text(selection.config.appID);
+
+	     if('funnelName' in selection.config) $("#funnelName").val(selection.config.funnelName);
 	   });
 	   break;
 	}
@@ -469,6 +488,9 @@ function fieldsetPainter() {
 	   $.when(p1).done(function(data) {
 		let kpis = parseKPIs(data);
 		drawKPIs(kpis);
+
+	     if('kpi' in selection.config) $("#usplist").val(selection.config.kpi);
+	     if('kpiName' in selection.config) $("#kpiName").val(selection.config.kpiName);
 	   });
 	   break;
 	}
@@ -486,7 +508,12 @@ function fieldsetPainter() {
 
 	   let p1 = getApps();
 	   $.when(p1).done(function(data) {
-		drawCompareApps(data);
+	     drawCompareApps(data);
+
+	     if('compareFunnel' in selection.config) $("#compareFunnel").val(selection.config.compareFunnel);
+             if('compareAppID' in selection.config) $("#compareAppList").val(selection.config.compareAppID);
+             //if('' in selection.config) $("#compareAppList option:selected").text(selection.config.compareAppName);
+             if('compareTime' in selection.config) $("#compareTimeList").val(selection.config.compareTime);
 	   });
 	   break;
 	}
@@ -505,7 +532,8 @@ function fieldsetPainter() {
 	   $("#kpi").text(selection.config.kpiName);
 	   $("#goallist").html("");
 
-	   funnelData = [
+           if("funnelData" in selection.config) funnelData=selection.config.funnelData;
+	   else funnelData = [
 	        { label: 'Awareness', value: '', clauses: [] },
 	        { label: 'Interest', value: '', clauses: [] },
 	        { label: 'Evaluation', value: '', clauses: [] },
@@ -513,6 +541,11 @@ function fieldsetPainter() {
 	    ];
 	    chart.draw(funnelData, options);
 	    updateWhere(funnelData);
+	    if("whereClause" in selection.config &&
+	       $("#whereClause").val() != selection.config.whereClause) {
+		pencilToggle(true);
+		$("whereClause").val(selection.config.whereClause);
+	    }
 
 	   $.when(p1,p2).done(function(data1,data2) {
 		addGoals(parseKeyActions(data2[0]));
@@ -537,9 +570,6 @@ function fieldsetPainter() {
 	case "deployTenant":
 	   $("#bc-connect").text(tenantID);
 	   drawMZs();
-	   break;
-	case "editFunnel":
-	   alert("editFunnel");
 	   break;
 	case "funnelbuttons":
 	   alert("funnelbuttons");
