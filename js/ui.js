@@ -132,7 +132,7 @@ function globalButtonHandler() {
 	   let AOid = $(this)[0].parentNode.id;
 	   let count = 1;
 	  
-	   let re = new RegExp("^"+AOid.substring(0,24));
+	   let re = new RegExp("^"+AOid.substring(0,19));
 	   DBAdashboards.forEach(function(db) {
 	    if(re.test(db.id) && db.id!=AOid) {
 		count++;
@@ -187,7 +187,7 @@ function globalButtonHandler() {
 	   let TOid = $(this)[0].parentNode.id;
 	   let count = 1;
 	  
-	   let re = new RegExp("^"+TOid.substring(0,24));
+	   let re = new RegExp("^"+TOid.substring(0,14));
 	   DBAdashboards.forEach(function(db) {
 	    if(re.test(db.id) && db.id!=TOid) {
 		count++;
@@ -216,10 +216,13 @@ function globalButtonHandler() {
 	   $("div.viewport").load("html/configurator/deployApp.html",fieldsetPainter);
 	   break;
 	case "deployAnotherFunnel":
+	   selection.AOid=$("#AOid").text();
+	   selection.funnelLoaded=false;
 	   $("div.viewport").load("html/configurator/deployFunnel-1.html",fieldsetPainter);
 	   break;
 	case "deployFunnel-1":
 	   selection.AOid=$(this)[0].parentNode.id;
+	   selection.funnelLoaded=false;
 	   $("div.viewport").load("html/configurator/deployFunnel-1.html",fieldsetPainter);
 	   break;
 	case "deployFunnel-2":
@@ -259,7 +262,7 @@ function globalButtonHandler() {
 	   alert("funnelbuttons");
 	   break;
 	case "json":
-	   alert("json");
+	   $("#jsonviewer").toggle();
 	   break;
 	case "listApp": 
 	   selection.TOid=$(this)[0].parentNode.id;
@@ -441,6 +444,7 @@ function fieldsetPainter() {
 	   $.when(p_DBA).done(function(data) {
 	     processDBADashboards(data);
 	     $("#numDBADashboards").text(DBAdashboards.length);
+	     jsonviewer(data);
 	   });
 	   break;
 	case "deployAnotherApp": 
@@ -449,9 +453,14 @@ function fieldsetPainter() {
 	   $("#TOid").text(selection.TOid);
 	   $("#TOname").text(DBAdashboards.find(x => x.id === selection.TOid).name);
 
-	   let p1 = getApps();
-	   $.when(p1).done(function(data) {
+	   let p0 = loadDashboard(configID(selection.TOid));
+	   $.when(p0).done(function(d1) {
+	     selection.config = parseConfigDashboard(d1);
+	     let p1 = getApps(selection.config.mz);
+	     $.when(p1).done(function(data) {
+		jsonviewer(data);
 		drawApps(data);
+	     });
 	   });
 	   break;
 	}
@@ -464,6 +473,7 @@ function fieldsetPainter() {
 	   $("#AOname").text(DBAdashboards.find(x => x.id === selection.AOid).name);
 
 	   $.when(p1).done(function(data) {
+	     jsonviewer(data);
 	     if(!selection.funnelLoaded)
 	       selection.config = parseConfigDashboard(data);
 	     $("#appName").text(selection.config.appName);
@@ -486,6 +496,7 @@ function fieldsetPainter() {
 	   $("#appID").text(selection.config.appID);
 
 	   $.when(p1).done(function(data) {
+		jsonviewer(data);
 		let kpis = parseKPIs(data);
 		drawKPIs(kpis);
 
@@ -508,6 +519,7 @@ function fieldsetPainter() {
 
 	   let p1 = getApps();
 	   $.when(p1).done(function(data) {
+	     jsonviewer(data);
 	     drawCompareApps(data);
 
 	     if('compareFunnel' in selection.config) $("#compareFunnel").val(selection.config.compareFunnel);
@@ -523,6 +535,7 @@ function fieldsetPainter() {
 	   $("#bc-connect").text(tenantID);
 	   $("#bc-deployFunnel-1").text(selection.config.funnelName);
 
+	   //paint info we already have
 	   $("#TOid").text(selection.TOid);
 	   $("#TOname").text(DBAdashboards.find(x => x.id === selection.TOid).name);
 	   $("#AOid").text(selection.AOid);
@@ -532,6 +545,7 @@ function fieldsetPainter() {
 	   $("#kpi").text(selection.config.kpiName);
 	   $("#goallist").html("");
 
+	   //load the funnel and whereClause
            if("funnelData" in selection.config) funnelData=selection.config.funnelData;
 	   else funnelData = [
 	        { label: 'Awareness', value: '', clauses: [] },
@@ -547,10 +561,12 @@ function fieldsetPainter() {
 		$("whereClause").val(selection.config.whereClause);
 	    }
 
+	   //once XHRs are finished, do some stuff
 	   $.when(p1,p2).done(function(data1,data2) {
 		addGoals(parseKeyActions(data2[0]));
 		//addGoals(parseGoals(data1[0]));
 	        $( "#goallist li" ).draggable();
+		jsonviewer([data1[0],data2[0]]);
 	   });
 	   break;
 	}
@@ -586,6 +602,7 @@ function fieldsetPainter() {
 	   $.when(p_DBA).done(function(data) {
 	     processDBADashboards(data);
 	     drawAppOverviewList(selection.TOid);
+	     jsonviewer(DBAdashboards); //do NOT display raw dashboard list
 	   });
 	   break;
 	}
@@ -601,6 +618,7 @@ function fieldsetPainter() {
 	   $.when(p_DBA).done(function(data) {
 	     processDBADashboards(data);
 	     drawFunnelList(selection.AOid);
+	     jsonviewer(DBAdashboards); //do NOT display raw dashboard list
 	   });
 	   break;
 	}
@@ -611,15 +629,11 @@ function fieldsetPainter() {
 	   $.when(p_DBA).done(function(data) {
 	     processDBADashboards(data);
 	     drawTenantOverviewList();
+	     jsonviewer(DBAdashboards); //do NOT display raw dashboard list
 	   });
 	   break;
 	}
-	case "updateLabel":
-	   alert("updateLabel");
-	   break;
 	case "upgradeTenant":
-	   break;
-	case "downloadConfig":
 	   break;
 	default:
 	   alert("Unknown Fieldset: " + id);
@@ -725,4 +739,25 @@ function addGoals(goals) {
 	     "' data-colname='"+goals.type+"' type='hidden'>"+goal+"</li>";
   });
   $("#goallist").append(list);
+}
+
+function jsonviewer(result,show=false,name="",selector="#jsonviewer") {
+  //Load the JSON viewer
+  $(selector).hide();
+  $(selector).load("html/jsonviewer.html", function(){
+    $(selector+" #jsontitle").append(name);
+    let json = JSON.stringify(result);
+    if(json.length >10000) {
+	let subjson = json.substring(0,10000);
+	$(selector+" div#results").append("<pre>JSON to large to format!\n"+ subjson + 
+	   "\n... plus " + (json.length - 10000) + " more characters.</pre>");
+    } else {
+	$(selector+" div#results").append(json);
+	$('.jsonFormatter').jsonFormatter();
+    }
+    if(show){
+	$(selector).show();
+     	if($(selector).is(":visible")) $("input#json").val("Hide");
+    }
+  });
 }

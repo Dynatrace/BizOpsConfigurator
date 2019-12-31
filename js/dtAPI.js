@@ -19,10 +19,11 @@ function getMZs() {
   return dtAPIquery(query,{});
 }
 
-function getApps() {
+function getApps(mz=null) {
     apps={};
 
     var query="/api/v1/entity/applications?includeDetails=false";
+    if(mz!==null && mz!=="") query += "&managementZone="+mz;
     return dtAPIquery(query,{});
 }
 
@@ -43,8 +44,9 @@ function getGoals(appname) {
 
 function getKeyActions(appname) {
      keyActions=[];
-     var query="/api/v1/userSessionQueryLanguage/table?query=SELECT%20name%20FROM%20useraction%20WHERE%20keyUserAction%20%3D%20true%20and%20" +
-	"application%3D%22"+ encodeURIComponent(appname) +"%22&explain=false";
+     let yesterday = Date.now() - 86400000;
+     var query="/api/v1/userSessionQueryLanguage/table?query=SELECT%20DISTINCT%20name%20FROM%20useraction%20WHERE%20keyUserAction%20%3D%20true%20and%20" +
+	"application%3D%22"+ encodeURIComponent(appname) +"%22&explain=false&startTimestamp="+yesterday;
     return dtAPIquery(query,{});
 }
 
@@ -120,15 +122,15 @@ function updateTenantOverview(TOid) {
 	bounds:  {
 	  top:  dbFindBottom(dashboardTO),
 	  left: 0,
-	  width: 266,
+	  width: 332,
 	  height: 38
 	}
      }
      config.linkTile.index = dashboardTO["tiles"].length; //we'll put a linkTile at the end
-     dashboardTO["tiles"].push(createLinkTile(config.linkTile.bounds,re,TOid));
+     dashboardTO["tiles"].push(createLinkTile(config.linkTile.bounds,re,TOid,"App Overviews"));
     } else {
      let i = config.linkTile.index;
-     dashboardTO["tiles"][i] = createLinkTile(config.linkTile.bounds,re,TOid);
+     dashboardTO["tiles"][i] = createLinkTile(config.linkTile.bounds,re,TOid,"App Overviews");
     }
   var query="/api/config/v1/dashboards/"+TOid;
   var data2=JSON.stringify(dashboardTO);
@@ -187,15 +189,15 @@ function updateAppOverview(AOid) {
 	bounds:  {
 	  top:  dbFindBottom(dashboardAO),
 	  left: 0,
-	  width: 266,
+	  width: 332,
 	  height: 38
 	}
      }
      config.linkTile.index = dashboardAO["tiles"].length; //we'll put a linkTile at the end
-     dashboardAO["tiles"].push(createLinkTile(config.linkTile.bounds,re,AOid));
+     dashboardAO["tiles"].push(createLinkTile(config.linkTile.bounds,re,AOid,"Funnel Overviews"));
     } else {
      let i = config.linkTile.index;
-     dashboardAO["tiles"][i] = createLinkTile(config.linkTile.bounds,re,AOid);
+     dashboardAO["tiles"][i] = createLinkTile(config.linkTile.bounds,re,AOid,"Funnel Overviews");
     }
   var query="/api/config/v1/dashboards/"+AOid;
   var data2=JSON.stringify(dashboardAO);
@@ -220,22 +222,24 @@ function uploadFunnel(config) {
     dashboardFO = data1[0];
   
     //transform
-    var id=nextFO(config.AOid);
-    config.FOid=id;
+    if(typeof(config.FOid)==="undefined")
+      config.FOid=nextFO(config.AOid);
     config.oldFOid=dashboardFO["id"];
-    saveConfigDashboard(configID(id),config);
-    dashboardFO["id"]=id;
+    saveConfigDashboard(configID(config.FOid),config);
+    dashboardFO["id"]=config.FOid;
     dashboardFO["dashboardMetadata"]["owner"]=owner;
     dashboardFO["dashboardMetadata"]["name"]=dashboardFO["dashboardMetadata"]["name"].replace(/MyFunnel/g,config.funnelName);
     dashboardFO["dashboardMetadata"]["shared"]="true";
     dashboardFO["dashboardMetadata"]["sharingDetails"]["linkShared"]="true";
     dashboardFO["dashboardMetadata"]["sharingDetails"]["published"]="false";
   
-    var query="/api/config/v1/dashboards/"+id;
+    whereClauseSwaps(dashboardFO,config);  
+
+    var query="/api/config/v1/dashboards/"+config.FOid;
     var data2=JSON.stringify(dashboardFO);
     //string based transforms
     let dbs = loadFunnelAnalysis(config);
-    $.when.apply($, dbs.promises).then(function() { 
+    return $.when.apply($, dbs.promises).then(function() { 
        dbs.swaps.forEach(function(swap) {
          data2 = data2.replace(new RegExp(swap.from,"g"), swap.to);   
        });
@@ -255,15 +259,7 @@ function loadFunnelAnalysis(config) {
 
   //use an array of promises for synchronization
   promises[0]=$.Deferred();  //use the first one to wait until other promises are loaded
-  dbFunnelList.forEach(function(db) {
-  //skip unneeded dbs
-    if(config.kpi=="" && db.includes("True"))
-	return;
-    if(config.kpi!="" && db.includes("False"))
-	return;
-    if(config.compareApp=="" && db.includes("Compare"))
-	return; 
-
+  listFunnelDB(config).forEach(function(db) {
     //get dashboard JSON
     filename=dashboardDir+db;
     let p = $.get(filename);
@@ -283,7 +279,9 @@ function loadFunnelAnalysis(config) {
       dbData["dashboardMetadata"]["shared"]="true";
       dbData["dashboardMetadata"]["sharingDetails"]["linkShared"]="true";
       dbData["dashboardMetadata"]["sharingDetails"]["published"]="false";
-  
+
+      whereClauseSwaps(dbData,config);  
+
       var data2=JSON.stringify(dbData);
       //string based transforms
       //queue for upload

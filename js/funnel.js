@@ -47,7 +47,7 @@
 	let whereA = [];
 	data.forEach(function(d) {
 	   let clauseString = d.clauses.join(" OR ");
-	   whereA.push("(" + clauseString + ") AS " + d.label);
+	   whereA.push("(" + clauseString + ")" );
 	});
 	let whereS = whereA.join(" AND ");
 

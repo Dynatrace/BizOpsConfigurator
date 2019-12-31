@@ -218,16 +218,6 @@ function parseKPIs(result) {
       });
     }
   });
-	/*result["values"].forEach(function(val) {
-	  val.forEach(function(val2) {
-	    val2.forEach(function(val3) {
-		if(val3.hasOwnProperty("key")) {
-		  //console.log("key: "+ val[0][0]["key"]);
-		  if(kpis.indexOf(val3["key"]) == -1) kpis.push(val3["key"]);
-		}
-	    });
-	  })
-	});*/
   return kpis;
 }
 
@@ -253,41 +243,4 @@ function parseKeyActions(result) {
 	  });
     //jsonviewer(result,false,"","#jsonviewer2");
   return {goals:keyActions,type:"useraction.name"};
-}
-
-function generateSwapList(config)
-{
-  var swaps = [];
-
-  swaps.push({from:config.oldTOid, to:config.TOid});
-  swaps.push({from:config.oldAOid, to:config.AOid});
-  swaps.push({from:config.oldFOid, to:config.FOid});
-  swaps.push({from:'InternalAppID', to:config.appID});
-  swaps.push({from:'InternalCompareAppID', to:config.compareAppID});
-  swaps.push({from:'MyTenant', to:tenantID});
-  swaps.push({from:'MyEmail', to:owner});
-  swaps.push({from:'MyFunnel', to:config.funnelName});
-  swaps.push({from:'MyCompareFunnel', to:config.compareFunnel});   //Don't really understand this one
-  swaps.push({from:'MyTime', to:"2"});                          //What's this for?
-  swaps.push({from:'MyCompareTime', to:config.compareTime});
-  swaps.push({from:'MyApp', to:config.appName});
-  swaps.push({from:'MyCompareApp', to:config.compareAppName});
-  swaps.push({from:'PromHeaderStep', to:"No Active"});          //What do we do with this?
-  swaps.push({from:'comparerevenueproperty', to:config.kpi});   //Guess we need to pick the KPI from compare app...
-  swaps.push({from:'revenueproperty', to:config.kpi});
-  swaps.push({from:'Revenue', to:config.kpiName});
-
-  //add funnel steps to swaps
-  for(let i=config.funnelData.length-1; i>=0; i--) {  //go in reverse because steps are not zero padded
-    swaps.push({from:'Step'+i, to:config.funnelData[i].value});
-    swaps.push({from:'22Step'+i, to:encodeURI(config.funnelData[i].value)});
-    swaps.push({from:'StepHeader'+i, to:config.funnelData[i].label});
-    if(i==config.funnelData.length-1) {
-      swaps.push({from:'LastStep', to:config.funnelData[i].value});
-      swaps.push({from:'22LastStep', to:encodeURI(config.funnelData[i].value)});
-      swaps.push({from:'CompareLastStep', to:config.funnelData[i].label});
-    }
-  }
-
-  return swaps;
 }
