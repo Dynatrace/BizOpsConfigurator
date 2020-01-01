@@ -17,6 +17,7 @@ $(document).ready(function(){
     //handle breadcrumb navigation
     $("div.viewport").on("click", "a", linkHandler);
 
+    loadInputChangeHandlers();
   });
 
 });
@@ -238,6 +239,9 @@ function globalButtonHandler() {
 	   selection.config.compareFunnel=$("#compareFunnel").val();
 	   selection.config.compareAppID=$("#compareAppList").val();
 	   selection.config.compareAppName=$("#compareAppList option:selected").text();
+	   selection.config.compareFirstStep=$("#compareFirstStep option:selected").text();
+	   selection.config.compareLastStep=$("#compareLastStep option:selected").text();
+	   selection.config.compareRevenue=$("#compareRevenue").val();
 	   selection.config.compareTime=$("#compareTimeList").val();
 	   $("div.viewport").load("html/configurator/deployFunnel-4.html",fieldsetPainter);
 	   break;
@@ -524,8 +528,14 @@ function fieldsetPainter() {
 
 	     if('compareFunnel' in selection.config) $("#compareFunnel").val(selection.config.compareFunnel);
              if('compareAppID' in selection.config) $("#compareAppList").val(selection.config.compareAppID);
-             //if('' in selection.config) $("#compareAppList option:selected").text(selection.config.compareAppName);
              if('compareTime' in selection.config) $("#compareTimeList").val(selection.config.compareTime);
+
+	     let p2 = compareAppChangeHandler(); 
+	     $.when(p2).done(function() {
+               if('compareFirstStep' in selection.config) $("#compareFirstStep").val(selection.config.compareFirstStep);
+               if('compareLastStep' in selection.config) $("#compareLastStep").val(selection.config.compareLastStep);
+               if('compareRevenue' in selection.config) $("#compareRevenue").val(selection.config.compareRevenue);
+	     });
 	   });
 	   break;
 	}
@@ -652,7 +662,6 @@ function drawTenantOverviewList() {
 	  "<input type='button' id='listApp' value='List App Overviews'>"+
           "<input type='button' id='deployApp' value='Deploy App Overview'>"+
           "<input type='button' id='deleteTenant' value='Delete'>"+
-          "<input type='button' id='upgradeTenant' value='Upgrade'>"+
 		"</dd>";
 	$("#tenantList dl").append(dt+dd);
     } //else console.log(dashboardid+" did not match");
@@ -760,4 +769,44 @@ function jsonviewer(result,show=false,name="",selector="#jsonviewer") {
      	if($(selector).is(":visible")) $("input#json").val("Hide");
     }
   });
+}
+    
+function loadInputChangeHandlers(){
+    $("div.viewport").on("change", "#compareAppList", compareAppChangeHandler);
+}
+
+function compareAppChangeHandler(e){
+  $("#compareFirstStep").html("");
+  $("#compareLastStep").html("");
+  $("#compareRevenue").html("");
+  let compareApp = $("#compareAppList option:selected").text();
+
+  if(compareApp != "None") {
+    let p1 = getKeyActions(compareApp);
+    let p2 = getKPIs(compareApp);
+
+    return $.when(p1,p2).done(function(d1,d2) {
+      let KAs = parseKeyActions(d1[0]);
+      let kpis = parseKPIs(d2[0]);
+      let KAlist = "";
+      let KPIlist = "";
+
+      if(KAs.goals.length>0) KAs.goals.forEach(function(ka) {
+	KAlist += "<option value='"+ka+"' data-colname='"+KAs.type+"'>"+ka+"</option>";
+      });
+      if(kpis.length>0) kpis.forEach(function(kpi) {
+        KPIlist  += "<option value='"+kpi.type+"."+kpi.key+"'>"+kpi.key+"</option>";
+      });
+      $("#compareFirstStep").append(KAlist);
+      $("#compareLastStep").append(KAlist);
+      $("#compareRevenue").append(KPIlist);
+      $("#compareFirstStep").show();
+      $("#compareLastStep").show();
+      $("#compareRevenue").show();
+    });
+  } else {
+    $("#compareFirstStep").hide();
+    $("#compareLastStep").hide();
+    $("#compareRevenue").hide();
+  }
 }
