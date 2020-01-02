@@ -59,7 +59,9 @@ function dtAPIquery(query, options) {
     let method = (options.hasOwnProperty('method') ? options.method : "GET" );
     let data = (options.hasOwnProperty('data') ? options.data : {} );
     let error = (options.hasOwnProperty('error') ? options.error : function(jqXHR, textStatus, errorThrown)
-	{console.log("dtAPIQuery failed: "+errorThrown)} );
+	{console.log("dtAPIQuery failed ("+jqXHR.status+"): "+url+query+
+	"\nError: "+errorThrown+
+	"\nResponse: "+jqXHR.responseText)} );
 
     //Get App list from API as JSON
     return $.ajax({

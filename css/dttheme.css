@@ -427,3 +427,12 @@ a.newTab img {
   height: 1em;
   color: #00b9cc;
 }
+
+#errorBox {
+  display: none;
+  position: fixed;
+  top: 44px;
+  left: 236px;
+  width: 100%;
+  background-color: #ffe11c;
+}

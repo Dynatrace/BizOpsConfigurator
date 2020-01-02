@@ -113,17 +113,31 @@ function linkHandler(e) {
 }
 
 function globalButtonHandler() {
+    //a little cleanup first
+    $("#errorBox").hide();
+    $("#errorBox").html("");
+    //handle buttons
     if ($(this)[0].nodeName == 'INPUT') {
       let id = $(this)[0].id;
       switch(id) {
 	case "connect": 
 	   url=$("input#url").val();
+	   if(url.length>1 && url.charAt(url.length-1)=="/")
+		url = url.substring(0,url.length-1);
 	   token=$("input#token").val();
 	   let p_connect = testConnect();
 
 	   $.when(p_connect).done(function(data) {
 	     processTestConnect(data);
 	     $("div.viewport").load("html/configurator/main.html",fieldsetPainter); 
+	   });
+	   $.when(p_connect).fail(function(jqXHR, textStatus, errorThrown) {
+	     let errorMsg = "dtAPIQuery failed ("+jqXHR.status+"): "+this.url;
+	     if(errorThrown.length>0) errorMsg+="\nError: "+errorThrown;
+	     if(typeof(jqXHR.responseText)!=="undefined") errorMsg+="\nResponse: "+jqXHR.responseText;
+	     if(jqXHR.status==0) errorMsg+="\nPossible CORS failure, check Browser Console (F12)";
+	     $("#errorBox").html(errorMsg);
+	     $("#errorBox").show();
 	   });
 	   break;
 	case "deleteApp": {
