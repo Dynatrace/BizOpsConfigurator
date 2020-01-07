@@ -76,17 +76,17 @@ function linkHandler(e) {
 	case "bc-deployApp":
 	   $("div.viewport").load("html/configurator/deployApp.html",fieldsetPainter);
 	   break;
-	case "bc-deployFunnel-1":
-	   $("div.viewport").load("html/configurator/deployFunnel-1.html",fieldsetPainter);
+	case "bc-deployFunnel-name":
+	   $("div.viewport").load("html/configurator/deployFunnel-name.html",fieldsetPainter);
 	   break;
-	case "bc-deployFunnel-2":
-	   $("div.viewport").load("html/configurator/deployFunnel-2.html",fieldsetPainter);
+	case "bc-deployFunnel-kpi":
+	   $("div.viewport").load("html/configurator/deployFunnel-kpi.html",fieldsetPainter);
 	   break;
-	case "bc-deployFunnel-3":
-	   $("div.viewport").load("html/configurator/deployFunnel-3.html",fieldsetPainter);
+	case "bc-deployFunnel-compare":
+	   $("div.viewport").load("html/configurator/deployFunnel-compare.html",fieldsetPainter);
 	   break;
-	case "bc-deployFunnel-4":
-	   $("div.viewport").load("html/configurator/deployFunnel-4.html",fieldsetPainter);
+	case "bc-deployFunnel-funnel":
+	   $("div.viewport").load("html/configurator/deployFunnel-funnel.html",fieldsetPainter);
 	   break;
 	case "bc-deployTenant":
 	   $("div.viewport").load("html/configurator/deployTenant.html",fieldsetPainter);
@@ -233,31 +233,26 @@ function globalButtonHandler() {
 	case "deployAnotherFunnel":
 	   selection.AOid=$("#AOid").text();
 	   selection.funnelLoaded=false;
-	   $("div.viewport").load("html/configurator/deployFunnel-1.html",fieldsetPainter);
+	   $("div.viewport").load("html/configurator/deployFunnel-name.html",fieldsetPainter);
 	   break;
-	case "deployFunnel-1":
+	case "deployFunnel":
 	   selection.AOid=$(this)[0].parentNode.id;
 	   selection.funnelLoaded=false;
-	   $("div.viewport").load("html/configurator/deployFunnel-1.html",fieldsetPainter);
+	   $("div.viewport").load("html/configurator/deployFunnel-name.html",fieldsetPainter);
 	   break;
-	case "deployFunnel-2":
+	case "deployFunnel-name-next":
 	   selection.config.funnelName=$("#funnelName").val();
-	   $("div.viewport").load("html/configurator/deployFunnel-2.html",fieldsetPainter);
+	   $("div.viewport").load("html/configurator/deployFunnel-kpi.html",fieldsetPainter);
 	   break;
-	case "deployFunnel-3":
+	case "deployFunnel-kpi-next":
 	   selection.config.kpi=$("#usplist").val();
 	   selection.config.kpiName=$("#kpiName").val();
-	   $("div.viewport").load("html/configurator/deployFunnel-3.html",fieldsetPainter);
+	   $("div.viewport").load("html/configurator/deployFunnel-funnel.html",fieldsetPainter);
 	   break;
-	case "deployFunnel-4":
-	   selection.config.compareFunnel=$("#compareFunnel").val();
-	   selection.config.compareAppID=$("#compareAppList").val();
-	   selection.config.compareAppName=$("#compareAppList option:selected").text();
-	   selection.config.compareFirstStep=$("#compareFirstStep option:selected").text();
-	   selection.config.compareLastStep=$("#compareLastStep option:selected").text();
-	   selection.config.compareRevenue=$("#compareRevenue").val();
-	   selection.config.compareTime=$("#compareTimeList").val();
-	   $("div.viewport").load("html/configurator/deployFunnel-4.html",fieldsetPainter);
+	case "deployFunnel-funnel-next":
+	   selection.config.whereClause=$("#whereClause").val();
+	   selection.config.funnelData=funnelData;
+	   $("div.viewport").load("html/configurator/deployFunnel-compare.html",fieldsetPainter);
 	   break;
 	case "deployTenant": 
 	   let p_mz = getMZs();
@@ -273,11 +268,8 @@ function globalButtonHandler() {
 	   $.when(p1).done(function(data) {
 	       selection.config = parseConfigDashboard(data);
 	       selection.funnelLoaded=true;
-	       $("div.viewport").load("html/configurator/deployFunnel-1.html",fieldsetPainter);
+	       $("div.viewport").load("html/configurator/deployFunnel-name.html",fieldsetPainter);
 	   }); 
-	   break;
-	case "funnelbuttons":
-	   alert("funnelbuttons");
 	   break;
 	case "json":
 	   $("#jsonviewer").toggle();
@@ -359,14 +351,19 @@ function globalButtonHandler() {
 	   break;
 	}
 	case "uploadFunnel": {
+	   selection.config.compareFunnel=$("#compareFunnel").val();
+	   selection.config.compareAppID=$("#compareAppList").val();
+	   selection.config.compareAppName=$("#compareAppList option:selected").text();
+	   selection.config.compareFirstStep=$("#compareFirstStep option:selected").text();
+	   selection.config.compareLastStep=$("#compareLastStep option:selected").text();
+	   selection.config.compareRevenue=$("#compareRevenue").val();
+	   selection.config.compareTime=$("#compareTimeList").val();
 	   //do upload here
-	   selection.config.whereClause=$("#whereClause").val();
-	   selection.config.funnelData=funnelData;
 
 	   let p1 = uploadFunnel(selection.config);
 
 	   $.when(p1).done(function(){
-	     $("div.viewport").load("html/configurator/deployFunnel-5.html",fieldsetPainter);
+	     $("div.viewport").load("html/configurator/deployFunnel-finish.html",fieldsetPainter);
 	     updateAppOverview(selection.AOid);
 	   });
 	   break;
@@ -426,6 +423,12 @@ function loadStaticHandlers() {
   $("a#funneltest").click(function() {
      $("div.viewport").load("html/funnel-v2.html");
   });
+
+  $("#v5test").click(function() {
+     v5test=(v5test?false:true);
+     $("#v5test").text( (v5test?"Back to V4":"V5 Test") );
+     dashboardDir = (v5test?"json/Dynatrace-DashboardV5/":"json/Dynatrace-DashboardsV4/");
+  });
 }
 
 function jqueryInit() {
@@ -482,7 +485,7 @@ function fieldsetPainter() {
 	   });
 	   break;
 	}
-	case "deployFunnel-1": {
+	case "deployFunnel-name": {
 	   let p1 = (!selection.funnelLoaded ? loadDashboard(configID(selection.AOid)) : null);
 	   $("#bc-connect").text(tenantID);
 	   $("#TOid").text(selection.TOid);
@@ -501,10 +504,10 @@ function fieldsetPainter() {
 	   });
 	   break;
 	}
-	case "deployFunnel-2": {
+	case "deployFunnel-kpi": {
 	   let p1 = getKPIs(selection.config.appName);
 	   $("#bc-connect").text(tenantID);
-	   $("#bc-deployFunnel-1").text(selection.config.funnelName);
+	   $("#bc-deployFunnel-name").text(selection.config.funnelName);
 
 	   $("#TOid").text(selection.TOid);
 	   $("#TOname").text(DBAdashboards.find(x => x.id === selection.TOid).name);
@@ -520,12 +523,13 @@ function fieldsetPainter() {
 
 	     if('kpi' in selection.config) $("#usplist").val(selection.config.kpi);
 	     if('kpiName' in selection.config) $("#kpiName").val(selection.config.kpiName);
+	     uspListChangeHandler();
 	   });
 	   break;
 	}
-	case "deployFunnel-3": {
+	case "deployFunnel-compare": {
 	   $("#bc-connect").text(tenantID);
-	   $("#bc-deployFunnel-1").text(selection.config.funnelName);
+	   $("#bc-deployFunnel-name").text(selection.config.funnelName);
 
 	   $("#TOid").text(selection.TOid);
 	   $("#TOname").text(DBAdashboards.find(x => x.id === selection.TOid).name);
@@ -553,11 +557,11 @@ function fieldsetPainter() {
 	   });
 	   break;
 	}
-	case "deployFunnel-4": {
+	case "deployFunnel-funnel": {
 	   let p1 = getGoals(selection.config.appName);
 	   let p2 = getKeyActions(selection.config.appName);
 	   $("#bc-connect").text(tenantID);
-	   $("#bc-deployFunnel-1").text(selection.config.funnelName);
+	   $("#bc-deployFunnel-name").text(selection.config.funnelName);
 
 	   //paint info we already have
 	   $("#TOid").text(selection.TOid);
@@ -588,15 +592,15 @@ function fieldsetPainter() {
 	   //once XHRs are finished, do some stuff
 	   $.when(p1,p2).done(function(data1,data2) {
 		addGoals(parseKeyActions(data2[0]));
-		//addGoals(parseGoals(data1[0]));
+		addGoals(parseGoals(data1[0]));
 	        $( "#goallist li" ).draggable();
 		jsonviewer([data1[0],data2[0]]);
 	   });
 	   break;
 	}
-	case "deployFunnel-5":
+	case "deployFunnel-finish":
 	   $("#bc-connect").text(tenantID);
-	   $("#bc-deployFunnel-1").text(selection.config.funnelName);
+	   $("#bc-deployFunnel-name").text(selection.config.funnelName);
 
 	   $("#TOid").text(selection.TOid);
 	   $("#TOname").text(DBAdashboards.find(x => x.id === selection.TOid).name);
@@ -694,7 +698,7 @@ function drawAppOverviewList(TOid) {
 	  dashboard.name+" <img src='images/link.svg'></a> ("+dashboard.owner+")</dt>";
 	let dd = "<dd id='"+dashboard.id+"'>"+
 	  "<input type='button' id='listFunnel' value='List Funnels'>"+
-          "<input type='button' id='deployFunnel-1' value='Deploy Funnel'>"+
+          "<input type='button' id='deployFunnel' value='Deploy Funnel'>"+
           "<input type='button' id='deleteApp' value='Delete'>"+
 		"</dd>";
 	$("#appList dl").append(dt+dd);
@@ -748,7 +752,7 @@ function drawCompareApps(apps) {
 }
 
 function drawKPIs(kpis) {
-  let options = "";
+  let options = "<option value''>n/a</option>";
   kpis.forEach(function(kpi) {
     options += "<option value='"+kpi.type+"."+kpi.key+"'>"+kpi.key+"</option>";
   });
@@ -759,7 +763,7 @@ function addGoals(goals) {
   let list = "";
   goals.goals.forEach(function(goal) {
      list += "<li class='ui-corner-all ui-widget-content'><input id='"+goal+
-	     "' data-colname='"+goals.type+"' type='hidden'>"+goal+"</li>";
+	     "' data-colname='"+goals.type+"' type='hidden'>"+goals.type+": "+goal+"</li>";
   });
   $("#goallist").append(list);
 }
@@ -787,6 +791,7 @@ function jsonviewer(result,show=false,name="",selector="#jsonviewer") {
     
 function loadInputChangeHandlers(){
     $("div.viewport").on("change", "#compareAppList", compareAppChangeHandler);
+    $("div.viewport").on("change", "#usplist", uspListChangeHandler);
 }
 
 function compareAppChangeHandler(e){
@@ -823,4 +828,11 @@ function compareAppChangeHandler(e){
     $("#compareLastStep").hide();
     $("#compareRevenue").hide();
   }
+}
+
+function uspListChangeHandler(e) {
+  if($("#usplist").val()=="n/a")
+	$("#kpiName").hide();
+  else
+	$("#kpiName").show();
 }

@@ -1,21 +1,27 @@
-<fieldset id="deployFunnel-5">
-  <legend>Deployed Funnel</legend>
+<fieldset id="deployFunnel-kpi">
+  <legend>Deploy Funnel</legend>
   <span class="configHeader">Tenant Overview:</span> <span id="TOname">My Tenant Overview</span><br>
   <span class="configHeader">ID:</span> <span id="TOid">bbbbbb-xxxx-0000-00000000</span><br>
   <span class="configHeader">App Overview:</span> <span id="AOname">My App Overview</span><br>
   <span class="configHeader">ID:</span> <span id="AOid">bbbbbb-xxxx-xxxx-00000000</span><br>
   <span class="configHeader">App:</span> <span id="appName">My Web Application</span><br>
-  <span class="configHeader">KPI:</span> <span id="kpi">Revenue</span><br>
-  <span class="configHeader">Where clause:</span> <span id="finalWhereClause">(foo or bar) AND stuff</span>
   <br>
-  <input type="button" id="downloadConfig" value="Download Config"><br>
-  <input type="button" id="returnListFunnel" value="Return">
+  KPI: <select id="usplist">
+    <option value="Revenue">Revenue</option>
+    <option value="Bookings">Bookings</option>
+  </select>
+  <input id="kpiName" placeholder="Friendly Name"><br>
+  <input type="button" id="deployFunnel-kpi-next" value="Next">
 </fieldset>
 
 
+<input type="button" id="json" value="JSON">
+<div id="jsonviewer"></div>
 <div class="bc">
   <a class="bc bc-first" id="bc-connect">tenantID</a>
   <a href="#configurator" class="bc" id="bc-listTenant">Tenant Overviews</a>
   <a href="#configurator" class="bc" id="bc-listApp">App Overviews</a>
   <a href="#configurator" class="bc" id="bc-listFunnel">Funnels</a>
+  <a href="#configurator" class="bc" id="bc-deployFunnel-name">Funnel Name</a>
+  <a href="#configurator" class="bc" id="bc-deployFunnel-kpi">KPI</a>
 </div>

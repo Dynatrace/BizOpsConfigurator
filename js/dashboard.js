@@ -86,9 +86,9 @@ function listFunnelDB(config) {
 
   dbFunnelList.forEach(function(db) {
   //skip unneeded dbs
-    if(config.kpi=="" && db.includes("True"))
+    if(config.kpi=="n/a" && db.includes("True"))
 	return;
-    if(config.kpi!="" && db.includes("False"))
+    if(config.kpi!="n/a" && db.includes("False"))
 	return;
     if(config.compareApp=="" && db.includes("Compare"))
 	return; 
@@ -108,6 +108,7 @@ function listFunnelDB(config) {
 }
 
 function whereClauseSwaps(dbData,config) {
+  //config.whereClause = config.whereClause.replace(/[^"]"[^"]/,"\"\""); //escape doublequotes in whereClause
   let funnelSteps = config.whereClause.split("AND");
 
   //if(dbData["dashboardMetadata"]["name"].includes("Funnel")) {

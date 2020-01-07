@@ -1,6 +1,7 @@
 //////// Constants //////////////
+var v5test=false;
 const configDashboard = "json/configDashboard.json";
-const dashboardDir = "json/Dynatrace-DashboardsV4/";
+var dashboardDir = "json/Dynatrace-DashboardsV4/";
 const dbTO = "TenantOverview.json";
 const dbAO = "AppOverview.json";
 const dbFunnelTrue = "OverviewTrue.json";  
@@ -226,6 +227,7 @@ function parseGoals(result) {
   //parse goals
 	result["values"].forEach(function(val) {
 	  val.forEach(function(val2) {
+		  val2 = val2.replace(/[^"]"[^"]/,"\"\""); //escape janky doublequotes
 		  //console.log("key: "+ val[0][0]["key"]);
 		  if(goals.indexOf(val2) == -1) goals.push(val2);
 	    });
@@ -238,6 +240,7 @@ function parseKeyActions(result) {
   //parse keyActions
 	result["values"].forEach(function(val) {
 	  val.forEach(function(val2) {
+		  val2 = val2.replace(/[^"]"[^"]/,"\"\""); //escape janky doublequotes
 		  if(keyActions.indexOf(val2) == -1) keyActions.push(val2);
 	    });
 	  });

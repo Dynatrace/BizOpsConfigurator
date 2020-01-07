@@ -214,10 +214,10 @@ function uploadFunnel(config) {
   var dashboardFO;
   var filename="";
 
-  if(config.compareApp!="")
-    filename=dashboardDir+dbFunnelTrue;
-  else
+  if(config.kpi=="n/a")
     filename=dashboardDir+dbFunnelFalse;
+  else
+    filename=dashboardDir+dbFunnelTrue;
   var p1 = $.get(filename);
   let p2 = addParentConfig(config,config.AOid);
   return $.when(p1,p2).then(function(data1,data2) {
