@@ -591,8 +591,8 @@ function fieldsetPainter() {
 
 	   //once XHRs are finished, do some stuff
 	   $.when(p1,p2).done(function(data1,data2) {
-		addGoals(parseKeyActions(data2[0]));
-		addGoals(parseGoals(data1[0]));
+		drawGoals(parseKeyActions(data2[0]));
+		drawGoals(parseGoals(data1[0]));
 	        $( "#goallist li" ).draggable();
 		jsonviewer([data1[0],data2[0]]);
 	   });
@@ -610,6 +610,9 @@ function fieldsetPainter() {
 	   $("#appID").text(selection.config.appID);
 	   $("#kpi").text(selection.config.kpiName);
 	   $("#finalWhereClause").text(selection.config.whereClause);
+
+	   $("#deployFunnel-finish").append("<a target='_blank' href='"+url+"/#dashboard;id="+selection.config.FOid+"' class='newTab'>"+
+	      selection.config.dashboardName+" <img src='images/link.svg'></a> ("+owner+")");
 	   break;
 	case "deployTenant":
 	   $("#bc-connect").text(tenantID);
@@ -759,11 +762,22 @@ function drawKPIs(kpis) {
   $("#usplist").html(options);
 }
 
-function addGoals(goals) {
+function drawGoals(goals) {
   let list = "";
   goals.goals.forEach(function(goal) {
+     let type = "";
+     switch(goals.type) {
+     case "useraction.name":
+	type="KUA";
+	break;
+     case "useraction.matchingConversionGoals":
+	type="Conv. Goal";
+	break;
+     }
+
      list += "<li class='ui-corner-all ui-widget-content'><input id='"+goal+
-	     "' data-colname='"+goals.type+"' type='hidden'>"+goals.type+": "+goal+"</li>";
+	"' data-colname='"+goals.type+"' type='hidden'><span class='goaltype'>"+
+	type+"</span>: "+goal+"</li>";
   });
   $("#goallist").append(list);
 }

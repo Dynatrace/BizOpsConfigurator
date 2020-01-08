@@ -231,6 +231,7 @@ function uploadFunnel(config) {
     dashboardFO["id"]=config.FOid;
     dashboardFO["dashboardMetadata"]["owner"]=owner;
     dashboardFO["dashboardMetadata"]["name"]=dashboardFO["dashboardMetadata"]["name"].replace(/MyFunnel/g,config.funnelName);
+    config.dashboardName=dashboardFO["dashboardMetadata"]["name"];
     dashboardFO["dashboardMetadata"]["shared"]="true";
     dashboardFO["dashboardMetadata"]["sharingDetails"]["linkShared"]="true";
     dashboardFO["dashboardMetadata"]["sharingDetails"]["published"]="false";

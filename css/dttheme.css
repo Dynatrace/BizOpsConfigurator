@@ -436,3 +436,8 @@ a.newTab img {
   width: 100%;
   background-color: #ffe11c;
 }
+
+span.goaltype {
+  font-size: smaller;
+  color: #00a1b2;
+}
