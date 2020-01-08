@@ -131,14 +131,7 @@ function globalButtonHandler() {
 	     processTestConnect(data);
 	     $("div.viewport").load("html/configurator/main.html",fieldsetPainter); 
 	   });
-	   $.when(p_connect).fail(function(jqXHR, textStatus, errorThrown) {
-	     let errorMsg = "dtAPIQuery failed ("+jqXHR.status+"): "+this.url;
-	     if(errorThrown.length>0) errorMsg+="\nError: "+errorThrown;
-	     if(typeof(jqXHR.responseText)!=="undefined") errorMsg+="\nResponse: "+jqXHR.responseText;
-	     if(jqXHR.status==0) errorMsg+="\nPossible CORS failure, check Browser Console (F12)";
-	     $("#errorBox").html(errorMsg);
-	     $("#errorBox").show();
-	   });
+	   $.when(p_connect).fail(errorbox);
 	   break;
 	case "deleteApp": {
   	   $(this).val("Deleting...");
@@ -876,4 +869,16 @@ function campaignChangeHandler(e) {
   } else {
 	$(".campaignActive").hide();
   }
+}
+
+function errorbox(jqXHR, textStatus, errorThrown) {
+     let errorMsg = "dtAPIQuery failed ("+jqXHR.status+"): "+this.url;
+     let responseText = "<pre>"+jqXHR.responseText.replace(/<([^>]*)>/g,"&lt$1&gt")+"</pre>";
+     responseText = responseText.replace(/\n/g,"");
+     if(errorThrown.length>0) errorMsg+="\nError: "+errorThrown;
+     if(typeof(jqXHR.responseText)!=="undefined") errorMsg+="\nResponse: "+responseText;
+     if(jqXHR.status==0) errorMsg+="\nPossible CORS failure, check Browser Console (F12)";
+     $("#errorBox").html(errorMsg);
+     $("#errorBox").show();
+     console.log(errorMsg);
 }

@@ -445,3 +445,8 @@ span.goaltype {
 .campaignActive {
   display: none;
 }
+
+#errorBox pre {
+  display: inline;
+  white-space: nowrap;
+}

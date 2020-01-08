@@ -58,10 +58,7 @@ function dtAPIquery(query, options) {
 	{console.log("dtAPIQuery success")} );
     let method = (options.hasOwnProperty('method') ? options.method : "GET" );
     let data = (options.hasOwnProperty('data') ? options.data : {} );
-    let error = (options.hasOwnProperty('error') ? options.error : function(jqXHR, textStatus, errorThrown)
-	{console.log("dtAPIQuery failed ("+jqXHR.status+"): "+url+query+
-	"\nError: "+errorThrown+
-	"\nResponse: "+jqXHR.responseText)} );
+    let error = (options.hasOwnProperty('error') ? options.error : errorbox);
 
     //Get App list from API as JSON
     return $.ajax({
@@ -80,7 +77,8 @@ function dtAPIquery(query, options) {
 function uploadTenantOverview(config) {
   //get dashboard JSON
   var dashboardTO;
-  var p = $.get(dashboardDir+dbTO);
+  var p = $.get(dashboardDir+dbTO)
+      .fail(errorbox);
   return p.then(function(data) {
     dashboardTO = data;
 
@@ -145,7 +143,8 @@ function updateTenantOverview(TOid) {
 function uploadAppOverview(config) {
   //get dashboard JSON
   var dashboardAO;
-  var p1 = $.get(dashboardDir+dbAO);
+  var p1 = $.get(dashboardDir+dbAO)
+      .fail(errorbox);
   let p2 = addParentConfig(config,config.TOid);
   return $.when(p1,p2).then(function(data1,data2) {
    dashboardAO = data1[0];
@@ -218,7 +217,8 @@ function uploadFunnel(config) {
     filename=dashboardDir+dbFunnelFalse;
   else
     filename=dashboardDir+dbFunnelTrue;
-  var p1 = $.get(filename);
+  var p1 = $.get(filename)
+      .fail(errorbox);
   let p2 = addParentConfig(config,config.AOid);
   return $.when(p1,p2).then(function(data1,data2) {
     dashboardFO = data1[0];
@@ -265,7 +265,8 @@ function loadFunnelAnalysis(config) {
   listFunnelDB(config).forEach(function(db) {
     //get dashboard JSON
     filename=dashboardDir+db;
-    let p = $.get(filename);
+    let p = $.get(filename)
+      .fail(errorbox);
     promises.push(p);
     p.then(function(data) {
       let p2 = $.Deferred();
@@ -361,7 +362,8 @@ function deleteApp(id) {
 
 function saveConfigDashboard(id,config) {
   var dashboard;
-  var p = $.get(configDashboard);
+  var p = $.get(configDashboard)
+      .fail(errorbox);
   return p.then(function(data) {
     dashboard = data;
 

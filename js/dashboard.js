@@ -117,11 +117,13 @@ function whereClauseSwaps(dbData,config) {
 	//let funnelSteps = config.whereClause.split("AND");
 	for(let i=funnelSteps.length-1; i>=0; i--) {  //go in reverse because steps are not zero padded
 	    let j=i+1;
+  	    t.query = t.query.replace(new RegExp('StepFunnel'+j,"g"), funnelSteps[i]); //for DashboardsV5
   	    t.query = t.query.replace(new RegExp('useraction.name ?= ?"Step'+j+'"',"g"), funnelSteps[i]);
   	    t.query = t.query.replace(new RegExp('name ?= ?"?Step'+j+'"',"g"), funnelSteps[i]);
   	    t.query = t.query.replace(new RegExp('useraction.name ?!= ?"Step'+j+'"',"g"), " NOT " +funnelSteps[i]);
   	    t.query = t.query.replace(new RegExp('name ?!= ?"Step'+j+'"',"g"), " NOT " +funnelSteps[i]);
 	    if(i==funnelSteps.length-1) {
+  	      t.query = t.query.replace(new RegExp('StepFunnelLast'+j,"g"), funnelSteps[i]); //for DashboardsV5
   	      t.query = t.query.replace(new RegExp('useraction.name ?= ?"LastStep"',"g"), funnelSteps[i]);
   	      t.query = t.query.replace(new RegExp('useraction.name ?[iInN]{2} ?\\("LastStep"\\)',"g"), funnelSteps[i]);
   	      t.query = t.query.replace(new RegExp('name ?= ?"?LastStep"',"g"), funnelSteps[i]);
