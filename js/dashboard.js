@@ -46,35 +46,30 @@ function generateSwapList(config)
   swaps.push({from:'https://MyTenant', to:url});
   swaps.push({from:'MyEmail', to:owner});
   swaps.push({from:'MyFunnel', to:config.funnelName});
-  swaps.push({from:'MyCompareFunnel', to:config.compareFunnel});   //Don't really understand this one
+  swaps.push({from:'MyCompareFunnel', to:config.compareFunnel});   
   swaps.push({from:'MyTime', to:"2"});                          //What's this for?
   swaps.push({from:'MyCompareTime', to:config.compareTime});
   swaps.push({from:'MyApp', to:config.appName});
   swaps.push({from:'MyCompareApp', to:config.compareAppName});
   swaps.push({from:'CompareStep1', to:config.compareFirstStep});
   swaps.push({from:'CompareLastStep', to:config.compareLastStep});
-  swaps.push({from:'PromHeaderStep', to:"No Active"});          //What do we do with this?
-  swaps.push({from:'comparerevenueproperty', to:config.compareRevenue});   //Guess we need to pick the KPI from compare app...
+  swaps.push({from:'comparerevenueproperty', to:config.compareRevenue});   
   swaps.push({from:'revenueproperty', to:config.kpi});
   swaps.push({from:'Revenue', to:config.kpiName});
 
-  //add funnel steps to swaps
+  //add funnel step headers to swaps
   let funnelSteps = config.whereClause.split("AND");
   for(let i=funnelSteps.length-1; i>=0; i--) {  //go in reverse because steps are not zero padded
     let j=i+1;
-//    swaps.push({from:new RegExp('useraction.name ?= ?\\\\?"Step'+j+'\\\\?"'), to:funnelSteps[i]});
-//    swaps.push({from:'Step'+j, to:funnelSteps[i]});
-//    swaps.push({from:'22Step'+j, to:encodeURI(funnelSteps[i])});
     swaps.push({from:'StepHeader'+j, to:config.funnelData[i].label});
-    if(i==funnelSteps.length-1) {
-//      swaps.push({from:new RegExp('useraction.name ?= ?\\\\?"LastStep\\\\?"'), to:funnelSteps[i]});
-//      swaps.push({from:'useraction.name = "LastStep"', to:funnelSteps[i]});
-//      swaps.push({from:'LastStep', to:funnelSteps[i]});
-//      swaps.push({from:'22LastStep', to:encodeURI(funnelSteps[i])});
-      swaps.push({from:'CompareLastStep', to:funnelSteps[i].label});
-    }
   }
 
+  //handle campaign
+  if(config.campaignActive) {
+    swaps.push({from:'PromHeaderStep', to:config.promHeaderStep});
+  } else {
+    swaps.push({from:'PromHeaderStep', to:"No Active"});
+  }
   return swaps;
 }
 
@@ -108,14 +103,18 @@ function listFunnelDB(config) {
 }
 
 function whereClauseSwaps(dbData,config) {
-  //config.whereClause = config.whereClause.replace(/[^"]"[^"]/,"\"\""); //escape doublequotes in whereClause
   let funnelSteps = config.whereClause.split("AND");
+  if(config.campaignActive) { //add campaign entrypoint for Step1 on all DBs, note Step1 also get fully replaced for marketing DBs elsewhere
+    if(dbData["dashboardMetadata"]["name"].includes("Marketing"))
+        funnelSteps[0]="(useraction.name=\""+config.campaignStep1+"\") ";
+    else
+        funnelSteps[0]=funnelSteps[0].replace(/\) ?$/, " OR useraction.name=\"" + config.campaignStep1 + "\") ");
+  }
 
-  //if(dbData["dashboardMetadata"]["name"].includes("Funnel")) {
     dbData["tiles"].forEach(function(t) {
       if(t.tileType=="DTAQL") {
   	if(typeof(t.query) === 'undefined'){console.log("DTAQL w/o query");return;}
-	let funnelSteps = config.whereClause.split("AND");
+	//let funnelSteps = config.whereClause.split("AND");
 	for(let i=funnelSteps.length-1; i>=0; i--) {  //go in reverse because steps are not zero padded
 	    let j=i+1;
   	    t.query = t.query.replace(new RegExp('useraction.name ?= ?"Step'+j+'"',"g"), funnelSteps[i]);

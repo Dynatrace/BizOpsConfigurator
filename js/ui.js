@@ -358,6 +358,9 @@ function globalButtonHandler() {
 	   selection.config.compareLastStep=$("#compareLastStep option:selected").text();
 	   selection.config.compareRevenue=$("#compareRevenue").val();
 	   selection.config.compareTime=$("#compareTimeList").val();
+	   selection.config.campaignStep1=$("#campaignStep1").val();
+	   selection.config.promHeaderStep=$("#promHeaderStep").val();
+	   selection.config.campaignActive=$("#campaignActive").prop('checked');
 	   //do upload here
 
 	   let p1 = uploadFunnel(selection.config);
@@ -545,8 +548,9 @@ function fieldsetPainter() {
 	     drawCompareApps(data);
 
 	     if('compareFunnel' in selection.config) $("#compareFunnel").val(selection.config.compareFunnel);
-             if('compareAppID' in selection.config) $("#compareAppList").val(selection.config.compareAppID);
-             if('compareTime' in selection.config) $("#compareTimeList").val(selection.config.compareTime);
+         if('compareAppID' in selection.config) $("#compareAppList").val(selection.config.compareAppID);
+         if('compareTime' in selection.config) $("#compareTimeList").val(selection.config.compareTime);
+         if('campaignActive' in selection.config) $("#campaignActive").prop('checked',selection.config.campaignActive);
 
 	     let p2 = compareAppChangeHandler(); 
 	     $.when(p2).done(function() {
@@ -554,6 +558,11 @@ function fieldsetPainter() {
                if('compareLastStep' in selection.config) $("#compareLastStep").val(selection.config.compareLastStep);
                if('compareRevenue' in selection.config) $("#compareRevenue").val(selection.config.compareRevenue);
 	     });
+         let p3 = campaignChangeHandler();
+         $.when(p3).done(function() {
+               if('campaignStep1' in selection.config) $("#campaignStep1").val(selection.config.campaignStep1);
+               if('promHeaderStep' in selection.config) $("#promHeaderStep").val(selection.config.promHeaderStep);
+         });
 	   });
 	   break;
 	}
@@ -806,6 +815,7 @@ function jsonviewer(result,show=false,name="",selector="#jsonviewer") {
 function loadInputChangeHandlers(){
     $("div.viewport").on("change", "#compareAppList", compareAppChangeHandler);
     $("div.viewport").on("change", "#usplist", uspListChangeHandler);
+    $("div.viewport").on("change", "#campaignActive", campaignChangeHandler);
 }
 
 function compareAppChangeHandler(e){
@@ -825,7 +835,7 @@ function compareAppChangeHandler(e){
       let KPIlist = "";
 
       if(KAs.goals.length>0) KAs.goals.forEach(function(ka) {
-	KAlist += "<option value='"+ka+"' data-colname='"+KAs.type+"'>"+ka+"</option>";
+	    KAlist += "<option value='"+ka+"' data-colname='"+KAs.type+"'>"+ka+"</option>";
       });
       if(kpis.length>0) kpis.forEach(function(kpi) {
         KPIlist  += "<option value='"+kpi.type+"."+kpi.key+"'>"+kpi.key+"</option>";
@@ -849,4 +859,21 @@ function uspListChangeHandler(e) {
 	$("#kpiName").hide();
   else
 	$("#kpiName").show();
+}
+
+function campaignChangeHandler(e) {
+  if($("#campaignActive").prop('checked')==true) {
+    let p1 = getKeyActions(selection.config.appName);
+    return $.when(p1).done(function(d1) {
+        let KAs = parseKeyActions(d1); 
+        let KAlist = "";
+        if(KAs.goals.length>0) KAs.goals.forEach(function(ka) {
+	      KAlist += "<option value='"+ka+"' data-colname='"+KAs.type+"'>"+ka+"</option>";
+        });
+        $("#campaignStep1").html(KAlist);
+	    $(".campaignActive").show();
+    });
+  } else {
+	$(".campaignActive").hide();
+  }
 }

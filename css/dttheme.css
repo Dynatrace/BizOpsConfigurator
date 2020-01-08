@@ -441,3 +441,7 @@ span.goaltype {
   font-size: smaller;
   color: #00a1b2;
 }
+
+.campaignActive {
+  display: none;
+}
