@@ -131,7 +131,7 @@ function whereClauseSwaps(dbData,config) {
 	    }
 	}
       } else if(t.tileType=="MARKDOWN" && t.markdown.includes("sessionquery")) {
-	let query = t.markdown.match(/sessionquery=([^&]*)&/)[1];
+	let query = t.markdown.match(/sessionquery=([^&]*)&?/)[1];
 	query = decodeURIComponent(query);
 	let funnelSteps = config.whereClause.split("AND");
 	for(let i=funnelSteps.length-1; i>=0; i--) {  //go in reverse because steps are not zero padded

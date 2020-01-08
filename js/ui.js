@@ -611,8 +611,8 @@ function fieldsetPainter() {
 	   $("#kpi").text(selection.config.kpiName);
 	   $("#finalWhereClause").text(selection.config.whereClause);
 
-	   $("#deployFunnel-finish").append("<a target='_blank' href='"+url+"/#dashboard;id="+selection.config.FOid+"' class='newTab'>"+
-	      selection.config.dashboardName+" <img src='images/link.svg'></a> ("+owner+")");
+	   $("#deployFunnel-finish").append("Uploaded: <a target='_blank' href='"+url+"/#dashboard;id="+selection.config.FOid+"' class='newTab'>"+
+	      selection.config.dashboardName+" <img src='images/link.svg'></a>");
 	   break;
 	case "deployTenant":
 	   $("#bc-connect").text(tenantID);
