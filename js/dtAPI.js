@@ -77,10 +77,12 @@ function dtAPIquery(query, options) {
 function uploadTenantOverview(config) {
   //get dashboard JSON
   var dashboardTO;
-  var p = $.get(dashboardDir+dbTO)
+  let filename=dbFunnelList.find( ({ name }) => name === dbTO ).download_url;
+  //var p = $.get(dashboardDir+dbTO)
+  var p = $.get(filename)
       .fail(errorbox);
   return p.then(function(data) {
-    dashboardTO = data;
+    dashboardTO = JSON.parse(data);
 
   //transform
   var id=nextTO();
@@ -143,11 +145,13 @@ function updateTenantOverview(TOid) {
 function uploadAppOverview(config) {
   //get dashboard JSON
   var dashboardAO;
-  var p1 = $.get(dashboardDir+dbAO)
+  let filename=dbFunnelList.find( ({ name }) => name === dbAO ).download_url;
+  //var p1 = $.get(dashboardDir+dbAO)
+  var p1 = $.get(filename)
       .fail(errorbox);
   let p2 = addParentConfig(config,config.TOid);
   return $.when(p1,p2).then(function(data1,data2) {
-   dashboardAO = data1[0];
+   dashboardAO = JSON.parse(data1[0]);
 
   //transform
   var id=nextAO(config.TOid);
@@ -214,14 +218,16 @@ function uploadFunnel(config) {
   var filename="";
 
   if(config.kpi=="n/a")
-    filename=dashboardDir+dbFunnelFalse;
+    //filename=dashboardDir+dbFunnelFalse; //move this logic to github urls
+    filename=dbFunnelList.find( ({ name }) => name === dbFunnelFalse ).download_url;
   else
-    filename=dashboardDir+dbFunnelTrue;
+    //filename=dashboardDir+dbFunnelTrue;
+    filename=dbFunnelList.find( ({ name }) => name === dbFunnelTrue ).download_url;
   var p1 = $.get(filename)
       .fail(errorbox);
   let p2 = addParentConfig(config,config.AOid);
   return $.when(p1,p2).then(function(data1,data2) {
-    dashboardFO = data1[0];
+    dashboardFO = JSON.parse(data1[0]);
   
     //transform
     if(typeof(config.FOid)==="undefined")
@@ -264,14 +270,15 @@ function loadFunnelAnalysis(config) {
   promises[0]=$.Deferred();  //use the first one to wait until other promises are loaded
   listFunnelDB(config).forEach(function(db) {
     //get dashboard JSON
-    filename=dashboardDir+db;
+    //filename=dashboardDir+db;
+    filename=db.download_url;
     let p = $.get(filename)
       .fail(errorbox);
     promises.push(p);
     p.then(function(data) {
       let p2 = $.Deferred();
       promises.push(p2.promise());
-      let dbData = data;
+      let dbData = JSON.parse(data);
   
       //transform
       let id=config.FOid.substring(0,24) + idx.toString().padStart(12, '0'); idx++;

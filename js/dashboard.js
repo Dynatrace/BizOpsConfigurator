@@ -76,17 +76,20 @@ function generateSwapList(config)
 function listFunnelDB(config) {
   let list = [];
   let re1= /[fF]unnel([0-9]{1,2})/;
-  let re2= /[fF]unnelAnalysisStep([0-9]{1,2})/;
+  let re2= /[fF]unnelAnalysisStepAction([0-9]{1,2})/;
   let steps = config.funnelData.length;
 
-  dbFunnelList.forEach(function(db) {
+  dbFunnelList.forEach(function(file) {
+    let db = file.path;
   //skip unneeded dbs
     if(config.kpi=="n/a" && db.includes("True"))
-	return;
+	    return;
     if(config.kpi!="n/a" && db.includes("False"))
-	return;
-    if(config.compareApp=="" && db.includes("Compare"))
-	return; 
+	    return;
+    if(config.compareAppName=="None" || config.compareAppName=="" && db.includes("Compare"))
+	    return; 
+    if(db in [dbTO,dbAO,dbFunnelTrue,dbFunnelFalse])
+        return;
 
   //figure out if the funnel db is needed
     let res1 = re1.exec(db);
@@ -97,7 +100,8 @@ function listFunnelDB(config) {
 	return;
 
   //if we're still going, it should be good, add it to the list
-    list.push(db);
+    //list.push(db);
+    list.push(file);
   });
   return list;
 }
@@ -118,35 +122,41 @@ function whereClauseSwaps(dbData,config) {
 	for(let i=funnelSteps.length-1; i>=0; i--) {  //go in reverse because steps are not zero padded
 	    let j=i+1;
   	    t.query = t.query.replace(new RegExp('StepFunnel'+j,"g"), funnelSteps[i]); //for DashboardsV5
-  	    t.query = t.query.replace(new RegExp('useraction.name ?= ?"Step'+j+'"',"g"), funnelSteps[i]);
-  	    t.query = t.query.replace(new RegExp('name ?= ?"?Step'+j+'"',"g"), funnelSteps[i]);
-  	    t.query = t.query.replace(new RegExp('useraction.name ?!= ?"Step'+j+'"',"g"), " NOT " +funnelSteps[i]);
-  	    t.query = t.query.replace(new RegExp('name ?!= ?"Step'+j+'"',"g"), " NOT " +funnelSteps[i]);
+  	    t.query = t.query.replace(new RegExp('useraction.name ?= ?"StepAction'+j+'"',"g"), funnelSteps[i]);//V4
+  	    t.query = t.query.replace(new RegExp('useraction.name ?!= ?"StepAction'+j+'"',"g"), " NOT " +funnelSteps[i]);
+  	    t.query = t.query.replace(new RegExp('name ?= ?"?StepAction'+j+'"',"g"), funnelSteps[i]);
+  	    t.query = t.query.replace(new RegExp('name ?!= ?"StepAction'+j+'"',"g"), " NOT " +funnelSteps[i]);
+  	    t.query = t.query.replace(new RegExp('Step'+j+'"',"g"), funnelSteps[i]); //temp until John fixes V5
 	    if(i==funnelSteps.length-1) {
-  	      t.query = t.query.replace(new RegExp('StepFunnelLast'+j,"g"), funnelSteps[i]); //for DashboardsV5
+  	      t.query = t.query.replace(new RegExp('StepFunnelLast',"g"), funnelSteps[i]); //for DashboardsV5
   	      t.query = t.query.replace(new RegExp('useraction.name ?= ?"LastStep"',"g"), funnelSteps[i]);
   	      t.query = t.query.replace(new RegExp('useraction.name ?[iInN]{2} ?\\("LastStep"\\)',"g"), funnelSteps[i]);
-  	      t.query = t.query.replace(new RegExp('name ?= ?"?LastStep"',"g"), funnelSteps[i]);
   	      t.query = t.query.replace(new RegExp('useraction.name ?!= ?"?LastStep"',"g"), " NOT "+funnelSteps[i]);
+  	      t.query = t.query.replace(new RegExp('name ?= ?"?LastStep"',"g"), funnelSteps[i]);
   	      t.query = t.query.replace(new RegExp('name ?!= ?"?LastStep"',"g"), " NOT "+funnelSteps[i]);
+  	      t.query = t.query.replace(new RegExp('LastStep',"g"), funnelSteps[i]); //temp until John fixes V5
 	    }
 	}
-      } else if(t.tileType=="MARKDOWN" && t.markdown.includes("sessionquery")) {
+      } else if(t.tileType=="MARKDOWN" && t.markdown.includes("sessionquery")) { //handle URL Encoded queries
 	let query = t.markdown.match(/sessionquery=([^&]*)&?/)[1];
 	query = decodeURIComponent(query);
 	let funnelSteps = config.whereClause.split("AND");
 	for(let i=funnelSteps.length-1; i>=0; i--) {  //go in reverse because steps are not zero padded
 	    let j=i+1;
-  	    query = query.replace(new RegExp('useraction.name ?= ?"?Step'+j+'"',"g"), funnelSteps[i]);
-  	    query = query.replace(new RegExp('name ?= ?"?Step'+j+'"',"g"), funnelSteps[i]);
-  	    query = query.replace(new RegExp('useraction.name ?!= ?"Step'+j+'"',"g"), " NOT " +funnelSteps[i]);
-  	    query = query.replace(new RegExp('name ?!= ?"Step'+j+'"',"g"), " NOT " +funnelSteps[i]);
+  	    query = query.replace(new RegExp('StepFunnel'+j,"g"), funnelSteps[i]); //for DashboardsV5
+  	    query = query.replace(new RegExp('useraction.name ?= ?"?StepAction'+j+'"',"g"), funnelSteps[i]);
+  	    query = query.replace(new RegExp('useraction.name ?!= ?"StepAction'+j+'"',"g"), " NOT " +funnelSteps[i]);
+  	    query = query.replace(new RegExp('name ?= ?"?StepAction'+j+'"',"g"), funnelSteps[i]);
+  	    query = query.replace(new RegExp('name ?!= ?"StepAction'+j+'"',"g"), " NOT " +funnelSteps[i]);
+  	    query = query.replace(new RegExp('Step'+j+'"',"g"), funnelSteps[i]); //temp until John fixes V5
 	    if(i==funnelSteps.length-1) {
+  	      query = query.replace(new RegExp('StepFunnelLast',"g"), funnelSteps[i]); //for DashboardsV5
   	      query = query.replace(new RegExp('useraction.name ?= ?"LastStep"',"g"), funnelSteps[i]);
   	      query = query.replace(new RegExp('useraction.name ?[iInN]{2} ?\\("LastStep"\\)',"g"), funnelSteps[i]);
-  	      query = query.replace(new RegExp('name ?= ?"LastStep"',"g"), funnelSteps[i]);
   	      query = query.replace(new RegExp('useraction.name ?!= ?"LastStep"',"g"), " NOT "+funnelSteps[i]);
+  	      query = query.replace(new RegExp('name ?= ?"LastStep"',"g"), funnelSteps[i]);
   	      query = query.replace(new RegExp('name ?!= ?"LastStep"',"g"), " NOT "+funnelSteps[i]);
+  	      query = query.replace(new RegExp('LastStep',"g"), funnelSteps[i]); //temp until John fixes V5
 	    }
 	}
 	query = encodeURIComponent(query);

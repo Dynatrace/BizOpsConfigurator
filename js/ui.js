@@ -19,7 +19,9 @@ $(document).ready(function(){
 
     loadInputChangeHandlers();
   });
-
+  
+  // get stuff from GitHub
+  loadDBList();
 });
 
 ////////// Functions ////////////
@@ -421,9 +423,14 @@ function loadStaticHandlers() {
   });
 
   $("#v5test").click(function() {
-     v5test=(v5test?false:true);
-     $("#v5test").text( (v5test?"Back to V4":"V5 Test") );
-     dashboardDir = (v5test?"json/Dynatrace-DashboardV5/":"json/Dynatrace-DashboardsV4/");
+    v5test=(v5test?false:true);
+    $("#v5test").text( (v5test?"Back to V4":"V5 Test") );
+    //dashboardDir = (v5test?"json/Dynatrace-DashboardV5/":"json/Dynatrace-DashboardsV4/");
+    loadDBList( (v5test?1:0) );
+  });
+
+  $("#githubtest").click(function() {
+    testRepo(0);      
   });
 }
 

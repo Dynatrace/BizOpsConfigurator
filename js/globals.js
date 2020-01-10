@@ -1,12 +1,12 @@
 //////// Constants //////////////
 var v5test=false;
 const configDashboard = "json/configDashboard.json";
-var dashboardDir = "json/Dynatrace-DashboardsV4/";
+//var dashboardDir = "json/Dynatrace-DashboardsV4/";
 const dbTO = "TenantOverview.json";
 const dbAO = "AppOverview.json";
 const dbFunnelTrue = "OverviewTrue.json";  
 const dbFunnelFalse = "OverviewFalse.json"; 
-const dbFunnelList = [
+var dbFunnelList = [
 		"AbandonsAnalysisFalse.json",
 		"AbandonsAnalysisTrue.json",
 		"AppOverviewCompare.json",
@@ -248,4 +248,11 @@ function parseKeyActions(result) {
   keyActions.sort();
     //jsonviewer(result,false,"","#jsonviewer2");
   return {goals:keyActions,type:"useraction.name"};
+}
+
+function loadDBList(i=0) {
+    let p1 = getRepoContents(repoList[i]);
+    $.when(p1).done(function(data) {
+        dbFunnelList=parseRepoContents(data);
+    })
 }
