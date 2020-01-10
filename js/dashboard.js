@@ -56,6 +56,7 @@ function generateSwapList(config)
   swaps.push({from:'comparerevenueproperty', to:config.compareRevenue});   
   swaps.push({from:'revenueproperty', to:config.kpi});
   swaps.push({from:'Revenue', to:config.kpiName});
+  swaps.push({from:'FunnelStep', to:config.whereClause});
 
   //add funnel step headers to swaps
   let funnelSteps = config.whereClause.split("AND");
@@ -86,8 +87,6 @@ function listFunnelDB(config) {
 	    return;
     if(config.kpi!="n/a" && db.includes("False"))
 	    return;
-    if(db.includes("Compare") && (config.compareAppName=="None" || config.compareAppName==""))
-	    return; 
     if(db in [dbTO,dbAO,dbFunnelTrue,dbFunnelFalse])
         return;
 
