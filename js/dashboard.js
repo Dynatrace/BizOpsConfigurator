@@ -86,7 +86,7 @@ function listFunnelDB(config) {
 	    return;
     if(config.kpi!="n/a" && db.includes("False"))
 	    return;
-    if(config.compareAppName=="None" || config.compareAppName=="" && db.includes("Compare"))
+    if(db.includes("Compare") && (config.compareAppName=="None" || config.compareAppName==""))
 	    return; 
     if(db in [dbTO,dbAO,dbFunnelTrue,dbFunnelFalse])
         return;
