@@ -9,7 +9,18 @@ function dbFindBottom(db) {
   return(bottom);
 }
 
-function createLinkTile(bounds,re,myID,title="") {
+function findLinkTile(db, marker) {
+  let t = {};
+  for(let i=0; i<db.tiles.length; i++) {
+    t = db.tiles[i];
+    if(t.tileType=="MARKDOWN" && t.markdown.startsWith(marker)) {
+        return(i);
+    }
+  }
+  return(db.tiles.length);  //We need to push a new tile
+}
+
+function createLinkTile(bounds,re,myID,marker) {
   //generate a Markdown tile with links to all dashboards that match a re at certain spot
   let json =    " { \"name\": \"Markdown\", \"tileType\": \"MARKDOWN\", \"configured\": true, \"bounds\": { \"top\": 760, \"left\": 0, \"width\": 266, \"height\": 38 }, \"tileFilter\": { \"timeframe\": null, \"managementZone\": null }, \"markdown\": \"\" }";
   let tile = JSON.parse(json);
@@ -17,15 +28,15 @@ function createLinkTile(bounds,re,myID,title="") {
 
   tile.bounds = bounds;
 
-  if(title.length>0) {
-    tile.markdown = "## "+title+"\n";
+  if(marker.length>0) {
+    tile.markdown = marker;
     minHeight = 38;
   }
 
   DBAdashboards.forEach(function(db) {
     if(re.test(db.id) && db.id != myID) {
       if(tile.markdown.length > 0) tile.markdown += "\n";
-      tile.markdown += "["+db.name+"](#dashboard;id="+db.id+")";
+      tile.markdown += "## ["+db.name+"](#dashboard;id="+db.id+")\n";
       minHeight += 38;
     }
   });
@@ -37,7 +48,7 @@ function createLinkTile(bounds,re,myID,title="") {
 function generateSwapList(config)
 {
   var swaps = [];
-
+  //NOTE: do NOT do any whereClause manipulation as strings, it makes escaping quotes challenging, do it instead in whereClauseSwaps
   swaps.push({from:config.oldTOid, to:config.TOid});
   swaps.push({from:config.oldAOid, to:config.AOid});
   swaps.push({from:config.oldFOid, to:config.FOid});
@@ -56,7 +67,6 @@ function generateSwapList(config)
   swaps.push({from:'comparerevenueproperty', to:config.compareRevenue});   
   swaps.push({from:'revenueproperty', to:config.kpi});
   swaps.push({from:'Revenue', to:config.kpiName});
-  swaps.push({from:'CombinedStep', to:config.whereClause});
 
   //add funnel step headers to swaps
   let funnelSteps = config.whereClause.split("AND");
@@ -125,7 +135,10 @@ function whereClauseSwaps(dbData,config) {
     dbData["tiles"].forEach(function(t) {
       if(t.tileType=="DTAQL") {
   	if(typeof(t.query) === 'undefined'){console.log("DTAQL w/o query");return;}
-    t.query = t.query.replace(new RegExp("FunnelStep",'g'),FunnelStep)
+    //generic swaps here:
+    t.query = t.query.replace(new RegExp("([^t])FunnelStep",'g'),"$1"+FunnelStep);
+    t.query = t.query.replace(new RegExp("CombinedStep",'g'),config.whereClause);
+    //Step specific swaps
 	for(let i=whereSteps.length-1; i>=0; i--) {  //go in reverse because steps are not zero padded
 	    let j=i+1;
   	    t.query = t.query.replace(new RegExp('StepFunnel'+j,"g"), whereSteps[i]); //for DashboardsV5
@@ -136,6 +149,7 @@ function whereClauseSwaps(dbData,config) {
   	    t.query = t.query.replace(new RegExp('Step'+j+'"',"g"), whereSteps[i]); //temp until John fixes V5
 	    if(i==whereSteps.length-1) {
   	      t.query = t.query.replace(new RegExp('StepFunnelLast',"g"), whereSteps[i]); //for DashboardsV5
+  	      t.query = t.query.replace(new RegExp('LastFunnelStep',"g"), whereSteps[i]); //for DashboardsV5
   	      t.query = t.query.replace(new RegExp('useraction.name ?= ?"LastStep"',"g"), whereSteps[i]);
   	      t.query = t.query.replace(new RegExp('useraction.name ?[iInN]{2} ?\\("LastStep"\\)',"g"), whereSteps[i]);
   	      t.query = t.query.replace(new RegExp('useraction.name ?!= ?"?LastStep"',"g"), " NOT "+whereSteps[i]);
@@ -171,4 +185,29 @@ function whereClauseSwaps(dbData,config) {
       }
     });
   //}
+}
+
+function updateLinkTile(db,config,re,marker) {
+    if( typeof(config.linkTile) === 'undefined' || typeof(config.linkTile.index) === 'undefined') { //linkTile not in config
+      let i = findLinkTile(db,marker);
+      if(i < db.tiles.length) { //tile already exists
+        config.linkTile = { //template found, retain it's bounding box
+            bounds: db.tiles[i].bounds
+        };
+        db["tiles"][i] = createLinkTile(config.linkTile.bounds,re,db.id,marker);
+      } else {  //no template tile
+        config.linkTile = { //put it at the bottom-left
+            bounds:  {
+                top:  dbFindBottom(db),
+                left: 0,
+                width: 332,
+                height: 38
+            }
+        };
+      db["tiles"].push(createLinkTile(config.linkTile.bounds,re,db.id,marker));
+      }
+    } else { //linkTile already known
+     let i = config.linkTile.index;
+     db["tiles"][i] = createLinkTile(config.linkTile.bounds,re,db.id,marker);
+    }
 }

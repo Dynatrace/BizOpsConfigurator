@@ -4,8 +4,8 @@ function testConnect() {
   var data="{\"token\":\""+ token +"\"}";
   
   return dtAPIquery(query,{
-	method: "POST",
-	data: data
+    method: "POST",
+    data: data
   });
 }
 
@@ -31,14 +31,14 @@ function getKPIs(appname) {
     kpis=[];
     //replace with API call to /config/v1/applications/web once that endpoint provides USPs
     var query="/api/v1/userSessionQueryLanguage/table?query=SELECT%20usersession.longProperties%2C%20usersession.doubleProperties%2C%20usersession.stringProperties%2C%20usersession.dateProperties%20FROM%20useraction%20WHERE%20application%3D%22"+
-	encodeURIComponent(appname) +"%22%20&explain=false";
+    encodeURIComponent(appname) +"%22%20&explain=false";
     return dtAPIquery(query,{});
 }
 
 function getGoals(appname) {
      goals=[];
      var query="/api/v1/userSessionQueryLanguage/table?query=SELECT%20DISTINCT%20matchingConversionGoals%20FROM%20useraction%20WHERE%20"+
-	"application%3D%22"+ encodeURIComponent(appname) +"%22%20and%20matchingConversionGoals%20IS%20NOT%20NULL&explain=false";
+    "application%3D%22"+ encodeURIComponent(appname) +"%22%20and%20matchingConversionGoals%20IS%20NOT%20NULL&explain=false";
     return dtAPIquery(query,{});
 }
 
@@ -46,7 +46,7 @@ function getKeyActions(appname) {
      keyActions=[];
      let yesterday = Date.now() - 86400000;
      var query="/api/v1/userSessionQueryLanguage/table?query=SELECT%20DISTINCT%20name%20FROM%20useraction%20WHERE%20keyUserAction%20%3D%20true%20and%20" +
-	"application%3D%22"+ encodeURIComponent(appname) +"%22&explain=false&startTimestamp="+yesterday;
+    "application%3D%22"+ encodeURIComponent(appname) +"%22&explain=false&startTimestamp="+yesterday;
     return dtAPIquery(query,{});
 }
 
@@ -55,22 +55,22 @@ function getKeyActions(appname) {
 //// Functions ////
 function dtAPIquery(query, options) {
     let success = (options.hasOwnProperty('success') ? options.success : function(data, textStatus, jqXHR)
-	{console.log("dtAPIQuery success")} );
+    {console.log("dtAPIQuery success")} );
     let method = (options.hasOwnProperty('method') ? options.method : "GET" );
     let data = (options.hasOwnProperty('data') ? options.data : {} );
     let error = (options.hasOwnProperty('error') ? options.error : errorbox);
 
     //Get App list from API as JSON
     return $.ajax({
-	url: url + query, 
-	contentType: "application/json; charset=utf-8",
-	headers: { 'Authorization': "Api-Token " + token },
-	data: data,
-	method: method,
-	dataType: "json",
-	success: success,
-	error: error
-	});
+    url: url + query, 
+    contentType: "application/json; charset=utf-8",
+    headers: { 'Authorization': "Api-Token " + token },
+    data: data,
+    method: method,
+    dataType: "json",
+    success: success,
+    error: error
+    });
 
 }
 
@@ -92,8 +92,8 @@ function uploadTenantOverview(config) {
   dashboardTO["dashboardMetadata"]["owner"]=owner;
   dashboardTO["dashboardMetadata"]["name"]=dashboardTO["dashboardMetadata"]["name"].replace(/Tenant/g,config.TOname+" Tenant");
   dashboardTO["dashboardMetadata"]["dashboardFilter"]["managementZone"]= {
-	"id": config.mz,
-	"name": config.mzname
+    "id": config.mz,
+    "name": config.mzname
   };
   dashboardTO["dashboardMetadata"]["shared"]="true";
   dashboardTO["dashboardMetadata"]["sharingDetails"]["linkShared"]="true";
@@ -119,21 +119,7 @@ function updateTenantOverview(TOid) {
     let dashboardTO = d1[0];
     let config = parseConfigDashboard(d2[0]);
     processDBADashboards(d3[0]);
-    if( typeof(config.linkTile) === 'undefined' || typeof(config.linkTile.index) === 'undefined') {
-      config.linkTile = {
-	bounds:  {
-	  top:  dbFindBottom(dashboardTO),
-	  left: 0,
-	  width: 332,
-	  height: 38
-	}
-     }
-     config.linkTile.index = dashboardTO["tiles"].length; //we'll put a linkTile at the end
-     dashboardTO["tiles"].push(createLinkTile(config.linkTile.bounds,re,TOid,"App Overviews"));
-    } else {
-     let i = config.linkTile.index;
-     dashboardTO["tiles"][i] = createLinkTile(config.linkTile.bounds,re,TOid,"App Overviews");
-    }
+    updateLinkTile(dashboardTO,config,re,"![Application Links1]()");
   var query="/api/config/v1/dashboards/"+TOid;
   var data2=JSON.stringify(dashboardTO);
   //upload
@@ -189,21 +175,7 @@ function updateAppOverview(AOid) {
     let dashboardAO = d1[0];
     let config = parseConfigDashboard(d2[0]);
     processDBADashboards(d3[0]);
-    if( typeof(config.linkTile) === 'undefined' || typeof(config.linkTile.index) === 'undefined') {
-      config.linkTile = {
-	bounds:  {
-	  top:  dbFindBottom(dashboardAO),
-	  left: 0,
-	  width: 332,
-	  height: 38
-	}
-     }
-     config.linkTile.index = dashboardAO["tiles"].length; //we'll put a linkTile at the end
-     dashboardAO["tiles"].push(createLinkTile(config.linkTile.bounds,re,AOid,"Funnel Overviews"));
-    } else {
-     let i = config.linkTile.index;
-     dashboardAO["tiles"][i] = createLinkTile(config.linkTile.bounds,re,AOid,"Funnel Overviews");
-    }
+    updateLinkTile(dashboardAO,config,re,"![Funnel Links1]()");
   var query="/api/config/v1/dashboards/"+AOid;
   var data2=JSON.stringify(dashboardAO);
   //upload
@@ -314,11 +286,11 @@ function uploadFunnelAnalysis(promises,dbsForUpload,swaps) {
   //Once all dbs have been loaded, process swaps, then upload 'em
   $.when.apply($, promises).then(function() {
     dbsForUpload.forEach(function(db) {
-	swaps.forEach(function(swap) {
-	  db.json = db.json.replace(new RegExp(swap.from,"g"), swap.to);   
-	});
-	var query = "/api/config/v1/dashboards/" + db.id;
-	dtAPIquery(query,{method:"PUT",data:db.json});
+    swaps.forEach(function(swap) {
+      db.json = db.json.replace(new RegExp(swap.from,"g"), swap.to);   
+    });
+    var query = "/api/config/v1/dashboards/" + db.id;
+    dtAPIquery(query,{method:"PUT",data:db.json});
     });
   });
 }
@@ -333,7 +305,7 @@ function deleteFunnel(id) {
       query="/api/config/v1/dashboards/"+db.id;
       dtAPIquery(query,{method:"DELETE"});
     } else {
-	//console.log(re.toString()+" does NOT match "+db);
+    //console.log(re.toString()+" does NOT match "+db);
     }
   });
   return $.when(p1);
@@ -410,7 +382,7 @@ function addParentConfig(config,id) {
     let parentConfig = parseConfigDashboard(data);
     Object.keys(parentConfig).forEach(function(attr) {
       if(!config.hasOwnProperty(attr))
-	config[attr]=parentConfig[attr];
+    config[attr]=parentConfig[attr];
     });
     return config;
   });

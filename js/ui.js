@@ -5,11 +5,11 @@ $(document).ready(function(){
   jqueryInit();
   // jQuery methods go here... (main logic)
 
-
   // default page load
   $("div.viewport").load("html/home.html", function(){
     // static link handlers
     loadStaticHandlers();
+    v5handler();
 
     // global button handler
     $("div.viewport").on("click", "input:button", globalButtonHandler);
@@ -422,12 +422,7 @@ function loadStaticHandlers() {
      $("div.viewport").load("html/funnel-v2.html");
   });
 
-  $("#v5test").click(function() {
-    v5test=(v5test?false:true);
-    $("#v5test").text( (v5test?"Back to V4":"V5 Test") );
-    //dashboardDir = (v5test?"json/Dynatrace-DashboardV5/":"json/Dynatrace-DashboardsV4/");
-    loadDBList( (v5test?1:0) );
-  });
+  $("#v5test").click(v5handler);
 
   $("#githubtest").click(function() {
     testRepo(0);      
@@ -739,7 +734,7 @@ function drawFunnelList(AOid) {
 }
 
 function drawMZs() {
-  let options = "<option value=''></option>";
+  let options = "<option value=''>All</option>";
   MZs.forEach(function(mz) {
     options += "<option value='"+mz.id+"'>"+mz.name+"</option>";
   });
@@ -888,4 +883,10 @@ function errorbox(jqXHR, textStatus, errorThrown) {
      $("#errorBox").html(errorMsg);
      $("#errorBox").show();
      console.log(errorMsg);
+}
+
+function v5handler() {
+    v5test=(v5test?false:true);
+    $("#v5test").text( (v5test?"Back to V4":"V5 Test") );
+    loadDBList( (v5test?1:0) );
 }

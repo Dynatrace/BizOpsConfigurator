@@ -1,5 +1,5 @@
 //////// Constants //////////////
-var v5test=false;
+var v5test=true; //opposite of this
 const configDashboard = "json/configDashboard.json";
 //var dashboardDir = "json/Dynatrace-DashboardsV4/";
 const dbTO = "TenantOverview.json";
