@@ -442,7 +442,7 @@ span.goaltype {
   color: #00a1b2;
 }
 
-.campaignActive {
+.campaignActive, .featureAdded {
   display: none;
 }
 

@@ -81,6 +81,12 @@ function generateSwapList(config)
   } else {
     swaps.push({from:'PromHeaderStep', to:"No Active"});
   }
+  //handle new feature
+  if(config.featureAdded) {
+    swaps.push({from:'FeatureHeaderStep', to:config.FeatureHeaderStep});
+  } else {
+    swaps.push({from:'FeatureHeaderStep', to:"No New Feature"});
+  }
   return swaps;
 }
 
@@ -117,7 +123,7 @@ function listFunnelDB(config) {
 
 function whereClauseSwaps(dbData,config) {
   let whereSteps = config.whereClause.split("AND");
-  if(config.campaignActive) { //add campaign entrypoint for Step1 on all DBs, note Step1 also get fully replaced for marketing DBs elsewhere
+  if(config.campaignActive) { //special handling for Marketing campaign: insert into all Step1s but replace completely on Marketing pages
     if(dbData["dashboardMetadata"]["name"].includes("Marketing"))
         whereSteps[0]="(useraction.name=\""+config.campaignStep1+"\") ";
     else
@@ -138,6 +144,8 @@ function whereClauseSwaps(dbData,config) {
     //generic swaps here:
     t.query = t.query.replace(new RegExp("([^t])FunnelStep",'g'),"$1"+FunnelStep);
     t.query = t.query.replace(new RegExp("CombinedStep",'g'),config.whereClause);
+    if(config.featureAdded) 
+        t.query = t.query.replace(new RegExp("StepNewFeature1",'g'),config.StepNewFeature1);
     //Step specific swaps
 	for(let i=whereSteps.length-1; i>=0; i--) {  //go in reverse because steps are not zero padded
 	    let j=i+1;

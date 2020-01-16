@@ -356,6 +356,9 @@ function globalButtonHandler() {
 	   selection.config.campaignStep1=$("#campaignStep1").val();
 	   selection.config.promHeaderStep=$("#promHeaderStep").val();
 	   selection.config.campaignActive=$("#campaignActive").prop('checked');
+	   selection.config.featureAdded=$("#featureAdded").prop('checked');
+	   selection.config.FeatureHeaderStep=$("#FeatureHeaderStep").val();
+	   selection.config.StepNewFeature1=$("#StepNewFeature1 option:selected")[0].dataset['colname']+'="'+$("#StepNewFeature1").val()+'"';
 	   //do upload here
 
 	   let p1 = uploadFunnel(selection.config);
@@ -546,6 +549,7 @@ function fieldsetPainter() {
          if('compareAppID' in selection.config) $("#compareAppList").val(selection.config.compareAppID);
          if('compareTime' in selection.config) $("#compareTimeList").val(selection.config.compareTime);
          if('campaignActive' in selection.config) $("#campaignActive").prop('checked',selection.config.campaignActive);
+         if('featureAdded' in selection.config) $("#featureAdded").prop('checked',selection.config.featureAdded);
 
 	     let p2 = compareAppChangeHandler(); 
 	     $.when(p2).done(function() {
@@ -557,6 +561,11 @@ function fieldsetPainter() {
          $.when(p3).done(function() {
                if('campaignStep1' in selection.config) $("#campaignStep1").val(selection.config.campaignStep1);
                if('promHeaderStep' in selection.config) $("#promHeaderStep").val(selection.config.promHeaderStep);
+         });
+         let p4 = featureChangeHandler();
+         $.when(p4).done(function() {
+               if('StepNewFeature1' in selection.config) $("#StepNewFeature1").val(selection.config.StepNewFeature1);
+               if('FeatureHeaderStep' in selection.config) $("#FeatureHeaderStep").val(selection.config.FeatureHeaderStep);
          });
 	   });
 	   break;
@@ -811,6 +820,7 @@ function loadInputChangeHandlers(){
     $("div.viewport").on("change", "#compareAppList", compareAppChangeHandler);
     $("div.viewport").on("change", "#usplist", uspListChangeHandler);
     $("div.viewport").on("change", "#campaignActive", campaignChangeHandler);
+    $("div.viewport").on("change", "#featureAdded", featureChangeHandler);
 }
 
 function compareAppChangeHandler(e){
@@ -870,6 +880,23 @@ function campaignChangeHandler(e) {
     });
   } else {
 	$(".campaignActive").hide();
+  }
+}
+
+function featureChangeHandler(e) {
+  if($("#featureAdded").prop('checked')==true) {
+    let p1 = getKeyActions(selection.config.appName);
+    return $.when(p1).done(function(d1) {
+        let KAs = parseKeyActions(d1); 
+        let KAlist = "";
+        if(KAs.goals.length>0) KAs.goals.forEach(function(ka) {
+	      KAlist += "<option value='"+ka+"' data-colname='"+KAs.type+"'>"+ka+"</option>";
+        });
+        $("#StepNewFeature1").html(KAlist);
+	    $(".featureAdded").show();
+    });
+  } else {
+	$(".featureAdded").hide();
   }
 }
 
