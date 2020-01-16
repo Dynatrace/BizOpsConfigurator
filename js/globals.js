@@ -1,84 +1,22 @@
 //////// Constants //////////////
-var v5test=true; //opposite of this
 const configDashboard = "json/configDashboard.json";
 //var dashboardDir = "json/Dynatrace-DashboardsV4/";
 const dbTO = "TenantOverview.json";
 const dbAO = "AppOverview.json";
 const dbFunnelTrue = "OverviewTrue.json";  
 const dbFunnelFalse = "OverviewFalse.json"; 
-var dbFunnelList = [
-		"AbandonsAnalysisFalse.json",
-		"AbandonsAnalysisTrue.json",
-		"AppOverviewCompare.json",
-		"ConversionAnalysisFFalse.json",
-		"ConversionAnalysisFTrue.json",
-		"ConversionAnalysisOFalse.json",
-		"ConversionAnalysisOTrue.json",
-		"DuratioinAnalysisFalse.json",
-		"DuratioinAnalysisTrue.json",
-		"ErrorAnalysisFalse.json",
-		"ErrorAnalysisTrue.json",
-		"ExecutiveOverview1False.json",
-		"ExecutiveOverview1True.json",
-		"ExecutiveOverview2False.json",
-		"ExecutiveOverview2True.json",
-		"ExecutiveOverview3True.json",
-		"Funnel10.json",
-		"Funnel11.json",
-		"Funnel12.json",
-		"Funnel3.json",
-		"Funnel4.json",
-		"Funnel5.json",
-		"Funnel6.json",
-		"Funnel7.json",
-		"funnel8.json",
-		"Funnel9.json",
-		"FunnelAnalysisStep10.json",
-		"FunnelAnalysisStep11.json",
-		"FunnelAnalysisStep1.json",
-		"FunnelAnalysisStep2.json",
-		"FunnelAnalysisStep3.json",
-		"FunnelAnalysisStep4.json",
-		"FunnelAnalysisStep5.json",
-		"FunnelAnalysisStep6.json",
-		"FunnelAnalysisStep7.json",
-		"FunnelAnalysisStep8.json",
-		"FunnelAnalysisStep9.json",
-		"FunnelOverviewFalseCompare.json",
-		"FunnelOverviewTrueCompare.json",
-		"KeyStore.json",
-		"LostRevenueAnalysis.json",
-		"MarketingOverview1False.json",
-		"MarketingOverview1True.json",
-		"MarketingOverview2False.json",
-		"MarketingOverview2True.json",
-		"MarketingOverview3True.json",
-		"Member Analysis.json",
-		"NonEngagedAnalysisFalse.json",
-		"NonEngagedAnalysisTrue.json",
-		"RageAnalysisFalse.json",
-		"RageAnalysisTrue.json",
-		"RevenueAnalysis.json",
-		"RevenueCompare.json",
-		"RiskRevenueAnalysis.json"
-	];
 
 //////// Global Vars ////////////
 var url="";
 var token="";
 var owner="";
-//var apps={};
-//var appname="";
-//var kpis=[];
-//var goals=[];
-//var keyActions=[];
-//var funnel=[];
-//var kpi="";
+var version = "";
+var dbFunnelList = [];
 var DBAdashboards=[];
-//var numDBADashboards=0;
 var tenantID="";
 var selection={};
 var funnelData=[];
+var v5test=true; //opposite of this
 
 ///////// Functions for manipulating global vars //////////
 
@@ -255,4 +193,16 @@ function loadDBList(i=0) {
     $.when(p1).done(function(data) {
         dbFunnelList=parseRepoContents(data);
     })
+}
+
+function processVersion(p) {
+   $.when(p).done(function(data) {
+        version = parseInt(data.version.split(".")[1]);
+        if(version >= 183)
+            v5test=true;
+        else
+            v5test=false;
+        
+        loadDBList( (v5test?1:0) );
+    }); 
 }

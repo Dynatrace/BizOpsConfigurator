@@ -14,6 +14,11 @@ function getDBAdashboards() {
   return dtAPIquery(query,{});
 }
 
+function getVersion() {
+  var query="/api/v1/config/clusterversion";
+  return dtAPIquery(query,{});
+}
+
 function getMZs() {
   var query="/api/config/v1/managementZones";
   return dtAPIquery(query,{});

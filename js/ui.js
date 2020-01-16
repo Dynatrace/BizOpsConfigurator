@@ -9,7 +9,6 @@ $(document).ready(function(){
   $("div.viewport").load("html/home.html", function(){
     // static link handlers
     loadStaticHandlers();
-    v5handler();
 
     // global button handler
     $("div.viewport").on("click", "input:button", globalButtonHandler);
@@ -130,8 +129,9 @@ function globalButtonHandler() {
 	   let p_connect = testConnect();
 
 	   $.when(p_connect).done(function(data) {
-	     processTestConnect(data);
-	     $("div.viewport").load("html/configurator/main.html",fieldsetPainter); 
+	      processTestConnect(data);
+	      $("div.viewport").load("html/configurator/main.html",fieldsetPainter); 
+          processVersion(getVersion());
 	   });
 	   $.when(p_connect).fail(errorbox);
 	   break;
