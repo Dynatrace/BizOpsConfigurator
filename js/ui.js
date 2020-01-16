@@ -358,7 +358,8 @@ function globalButtonHandler() {
 	   selection.config.campaignActive=$("#campaignActive").prop('checked');
 	   selection.config.featureAdded=$("#featureAdded").prop('checked');
 	   selection.config.FeatureHeaderStep=$("#FeatureHeaderStep").val();
-	   selection.config.StepNewFeature1=$("#StepNewFeature1 option:selected")[0].dataset['colname']+'="'+$("#StepNewFeature1").val()+'"';
+	   selection.config.StepNewFeature=$("#StepNewFeature").val();
+	   selection.config.StepNewFeature1=$("#StepNewFeature option:selected")[0].dataset['colname']+'="'+$("#StepNewFeature").val()+'"';
 	   //do upload here
 
 	   let p1 = uploadFunnel(selection.config);
@@ -564,7 +565,7 @@ function fieldsetPainter() {
          });
          let p4 = featureChangeHandler();
          $.when(p4).done(function() {
-               if('StepNewFeature1' in selection.config) $("#StepNewFeature1").val(selection.config.StepNewFeature1);
+               if('StepNewFeature' in selection.config) $("#StepNewFeature").val(selection.config.StepNewFeature);
                if('FeatureHeaderStep' in selection.config) $("#FeatureHeaderStep").val(selection.config.FeatureHeaderStep);
          });
 	   });
@@ -892,7 +893,7 @@ function featureChangeHandler(e) {
         if(KAs.goals.length>0) KAs.goals.forEach(function(ka) {
 	      KAlist += "<option value='"+ka+"' data-colname='"+KAs.type+"'>"+ka+"</option>";
         });
-        $("#StepNewFeature1").html(KAlist);
+        $("#StepNewFeature").html(KAlist);
 	    $(".featureAdded").show();
     });
   } else {
