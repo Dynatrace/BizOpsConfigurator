@@ -60,7 +60,8 @@ function getKeyActions(appname) {
 //// Functions ////
 function dtAPIquery(query, options) {
     let success = (options.hasOwnProperty('success') ? options.success : function(data, textStatus, jqXHR)
-    {console.log("dtAPIQuery success")} );
+    {//console.log("dtAPIQuery success")
+    } );
     let method = (options.hasOwnProperty('method') ? options.method : "GET" );
     let data = (options.hasOwnProperty('data') ? options.data : {} );
     let error = (options.hasOwnProperty('error') ? options.error : errorbox);

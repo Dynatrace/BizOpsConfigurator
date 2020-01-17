@@ -62,8 +62,8 @@ function generateSwapList(config)
   swaps.push({from:'MyCompareTime', to:config.compareTime});
   swaps.push({from:'MyApp', to:config.appName});
   swaps.push({from:'MyCompareApp', to:config.compareAppName});
-  swaps.push({from:'CompareStep1', to:config.compareFirstStep});
-  swaps.push({from:'CompareLastStep', to:config.compareLastStep});
+  //swaps.push({from:'CompareStep1', to:config.compareFirstStep});
+  //swaps.push({from:'CompareLastStep', to:config.compareLastStep});
   swaps.push({from:'comparerevenueproperty', to:config.compareRevenue});   
   swaps.push({from:'revenueproperty', to:config.kpi});
   swaps.push({from:'Revenue', to:config.kpiName});
@@ -125,9 +125,9 @@ function whereClauseSwaps(dbData,config) {
   let whereSteps = config.whereClause.split("AND");
   if(config.campaignActive) { //special handling for Marketing campaign: insert into all Step1s but replace completely on Marketing pages
     if(dbData["dashboardMetadata"]["name"].includes("Marketing"))
-        whereSteps[0]="(useraction.name=\""+config.campaignStep1+"\") ";
+        whereSteps[0]="("+config.campaignStep1.colname+"=\""+config.campaignStep1.name+"\") ";
     else
-        whereSteps[0]=whereSteps[0].replace(/\) ?$/, " OR useraction.name=\"" + config.campaignStep1 + "\") ");
+        whereSteps[0]=whereSteps[0].replace(/\) ?$/, " OR "+config.campaignStep1.colname+"=\""+config.campaignStep1.name+"\") ");
   }
 
   //build FunnelStep
@@ -145,7 +145,16 @@ function whereClauseSwaps(dbData,config) {
     t.query = t.query.replace(new RegExp("([^t])FunnelStep",'g'),"$1"+FunnelStep);
     t.query = t.query.replace(new RegExp("CombinedStep",'g'),config.whereClause);
     if(config.featureAdded) 
-        t.query = t.query.replace(new RegExp("StepNewFeature1",'g'),config.StepNewFeature1);
+        t.query = t.query.replace(new RegExp("StepNewFeature1",'g'),
+            config.StepNewFeature1.colname+'=\"'+config.StepNewFeature1.name+'\"');
+    if("compareAppName" in config && config.compareAppName!="") {
+        t.query = t.query.replace(new RegExp("CompareStepFunnel1",'g'),
+            config.compareFirstStep.colname+'=\"'+config.compareFirstStep.name+'\"');//V5
+        t.query = t.query.replace(new RegExp("CompareStepAction1",'g'),config.compareFirstStep.name);//V4
+        t.query = t.query.replace(new RegExp("CompareLastFunnelStep",'g'),
+            config.compareLastStep.colname+'=\"'+config.compareLastStep.name+'\"');//V5
+        t.query = t.query.replace(new RegExp("CompareLastStep",'g'),config.compareLastStep.name);//V4
+    }
     //Step specific swaps
 	for(let i=whereSteps.length-1; i>=0; i--) {  //go in reverse because steps are not zero padded
 	    let j=i+1;

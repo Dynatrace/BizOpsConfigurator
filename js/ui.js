@@ -349,19 +349,22 @@ function globalButtonHandler() {
 	   selection.config.compareFunnel=$("#compareFunnel").val();
 	   selection.config.compareAppID=$("#compareAppList").val();
 	   selection.config.compareAppName=$("#compareAppList option:selected").text();
-	   selection.config.compareFirstStep=$("#compareFirstStep option:selected").text();
-	   selection.config.compareLastStep=$("#compareLastStep option:selected").text();
+	   selection.config.compareFirstStep = {'colname': $("#compareFirstStep option:selected")[0].dataset['colname'],
+            'name': $("#compareFirstStep option:selected").text()};
+	   selection.config.compareLastStep = {'colname': $("#compareLastStep option:selected")[0].dataset['colname'],
+            'name': $("#compareLastStep option:selected").text()};
 	   selection.config.compareRevenue=$("#compareRevenue").val();
 	   selection.config.compareTime=$("#compareTimeList").val();
-	   selection.config.campaignStep1=$("#campaignStep1").val();
+	   selection.config.campaignStep1 = {'colname': $("#campaignStep1 option:selected")[0].dataset['colname'],
+            'name': $("#campaignStep1").val()};
 	   selection.config.promHeaderStep=$("#promHeaderStep").val();
 	   selection.config.campaignActive=$("#campaignActive").prop('checked');
 	   selection.config.featureAdded=$("#featureAdded").prop('checked');
 	   selection.config.FeatureHeaderStep=$("#FeatureHeaderStep").val();
-	   selection.config.StepNewFeature=$("#StepNewFeature").val();
-	   selection.config.StepNewFeature1=$("#StepNewFeature option:selected")[0].dataset['colname']+'="'+$("#StepNewFeature").val()+'"';
-	   //do upload here
+	   selection.config.StepNewFeature1= {'colname': $("#StepNewFeature1 option:selected")[0].dataset['colname'],
+            'name': $("#StepNewFeature1").val()};
 
+	   //do upload here
 	   let p1 = uploadFunnel(selection.config);
 
 	   $.when(p1).done(function(){
@@ -554,18 +557,18 @@ function fieldsetPainter() {
 
 	     let p2 = compareAppChangeHandler(); 
 	     $.when(p2).done(function() {
-               if('compareFirstStep' in selection.config) $("#compareFirstStep").val(selection.config.compareFirstStep);
-               if('compareLastStep' in selection.config) $("#compareLastStep").val(selection.config.compareLastStep);
+               if('compareFirstStep' in selection.config) $("#compareFirstStep").val(selection.config.compareFirstStep.name);
+               if('compareLastStep' in selection.config) $("#compareLastStep").val(selection.config.compareLastStep.name);
                if('compareRevenue' in selection.config) $("#compareRevenue").val(selection.config.compareRevenue);
 	     });
          let p3 = campaignChangeHandler();
          $.when(p3).done(function() {
-               if('campaignStep1' in selection.config) $("#campaignStep1").val(selection.config.campaignStep1);
+               if('campaignStep1' in selection.config) $("#campaignStep1").val(selection.config.campaignStep1.name);
                if('promHeaderStep' in selection.config) $("#promHeaderStep").val(selection.config.promHeaderStep);
          });
          let p4 = featureChangeHandler();
          $.when(p4).done(function() {
-               if('StepNewFeature' in selection.config) $("#StepNewFeature").val(selection.config.StepNewFeature);
+               if('StepNewFeature1' in selection.config) $("#StepNewFeature1").val(selection.config.StepNewFeature1.name);
                if('FeatureHeaderStep' in selection.config) $("#FeatureHeaderStep").val(selection.config.FeatureHeaderStep);
          });
 	   });
@@ -893,7 +896,7 @@ function featureChangeHandler(e) {
         if(KAs.goals.length>0) KAs.goals.forEach(function(ka) {
 	      KAlist += "<option value='"+ka+"' data-colname='"+KAs.type+"'>"+ka+"</option>";
         });
-        $("#StepNewFeature").html(KAlist);
+        $("#StepNewFeature1").html(KAlist);
 	    $(".featureAdded").show();
     });
   } else {
