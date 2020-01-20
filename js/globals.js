@@ -11,7 +11,7 @@ var url="";
 var token="";
 var owner="";
 var version = "";
-var dbFunnelList = [];
+var dbList = [];
 var DBAdashboards=[];
 var tenantID="";
 var selection={};
@@ -188,21 +188,53 @@ function parseKeyActions(result) {
   return {goals:keyActions,type:"useraction.name"};
 }
 
-function loadDBList(i=0) {
-    let p1 = getRepoContents(repoList[i]);
-    $.when(p1).done(function(data) {
-        dbFunnelList=parseRepoContents(data);
-    })
+function loadDBList(p) {
+    let i = p;//(v5test?1:0);
+    return $.when(p).then(function() {
+        let p1 = getRepoContents(repoList[i]);
+        return $.when(p1).then(function(data) {
+            dbList=parseRepoContents(data);
+        });
+    });
 }
 
 function processVersion(p) {
-   $.when(p).done(function(data) {
+   return $.when(p).then(function(data) {
         version = parseInt(data.version.split(".")[1]);
         if(version >= 183)
             v5test=true;
         else
             v5test=false;
         
-        loadDBList( (v5test?1:0) );
+        //loadDBList( (v5test?1:0) );
+        return(v5test?1:0);
     }); 
 }
+
+function downloadDBsFromList() { 
+    let promises = [];
+
+    dbList.forEach(function(file) {
+        let p = $.get(file.download_url)
+            .fail(errorbox)
+            .done(function(d) {
+                file.file = JSON.parse(d);
+            });
+        promises.push(p);
+    });
+    return promises;
+}
+
+function nextDB(id){
+    let s = id.substring(0,24);
+    let re = new RegExp(s+"([0-9]{8})$");
+    let i = parseInt(id.substring(24))+1;
+
+    DBAdashboards.forEach(function(d) {
+        var res = re.exec(d);
+        if(res) i = Math.max(i,parseInt(res[1])+1);
+    });
+
+    return s + i.toString().padStart(12, '0');
+}
+

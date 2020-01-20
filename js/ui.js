@@ -20,7 +20,7 @@ $(document).ready(function(){
   });
   
   // get stuff from GitHub
-  loadDBList();
+  //loadDBList(); //i don't think this is needed
 });
 
 ////////// Functions ////////////
@@ -131,7 +131,10 @@ function globalButtonHandler() {
 	   $.when(p_connect).done(function(data) {
 	      processTestConnect(data);
 	      $("div.viewport").load("html/configurator/main.html",fieldsetPainter); 
-          processVersion(getVersion());
+          getVersion()
+            .then(processVersion)
+            .then(loadDBList)
+            .then(downloadDBsFromList);
 	   });
 	   $.when(p_connect).fail(errorbox);
 	   break;
@@ -349,20 +352,26 @@ function globalButtonHandler() {
 	   selection.config.compareFunnel=$("#compareFunnel").val();
 	   selection.config.compareAppID=$("#compareAppList").val();
 	   selection.config.compareAppName=$("#compareAppList option:selected").text();
-	   selection.config.compareFirstStep = {'colname': $("#compareFirstStep option:selected")[0].dataset['colname'],
+       if(selection.config.compareAppName!="None") {
+          selection.config.compareFirstStep = {'colname': $("#compareFirstStep option:selected")[0].dataset['colname'],
             'name': $("#compareFirstStep option:selected").text()};
-	   selection.config.compareLastStep = {'colname': $("#compareLastStep option:selected")[0].dataset['colname'],
+	      selection.config.compareLastStep = {'colname': $("#compareLastStep option:selected")[0].dataset['colname'],
             'name': $("#compareLastStep option:selected").text()};
-	   selection.config.compareRevenue=$("#compareRevenue").val();
+	      selection.config.compareRevenue=$("#compareRevenue").val();
+       }
 	   selection.config.compareTime=$("#compareTimeList").val();
-	   selection.config.campaignStep1 = {'colname': $("#campaignStep1 option:selected")[0].dataset['colname'],
-            'name': $("#campaignStep1").val()};
-	   selection.config.promHeaderStep=$("#promHeaderStep").val();
 	   selection.config.campaignActive=$("#campaignActive").prop('checked');
+       if(selection.config.campaignActive) {
+	      selection.config.campaignStep1 = {'colname': $("#campaignStep1 option:selected")[0].dataset['colname'],
+            'name': $("#campaignStep1").val()};
+	      selection.config.promHeaderStep=$("#promHeaderStep").val();
+       }
 	   selection.config.featureAdded=$("#featureAdded").prop('checked');
-	   selection.config.FeatureHeaderStep=$("#FeatureHeaderStep").val();
-	   selection.config.StepNewFeature1= {'colname': $("#StepNewFeature1 option:selected")[0].dataset['colname'],
+       if(selection.config.featureAdded) {
+	      selection.config.FeatureHeaderStep=$("#FeatureHeaderStep").val();
+	      selection.config.StepNewFeature1= {'colname': $("#StepNewFeature1 option:selected")[0].dataset['colname'],
             'name': $("#StepNewFeature1").val()};
+        }
 
 	   //do upload here
 	   let p1 = uploadFunnel(selection.config);

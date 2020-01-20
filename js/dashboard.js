@@ -34,9 +34,10 @@ function createLinkTile(bounds,re,myID,marker) {
   }
 
   DBAdashboards.forEach(function(db) {
+    let name = db.name.replace(/^[^ ]* /, ''); //strip emojis in small links
     if(re.test(db.id) && db.id != myID) {
       if(tile.markdown.length > 0) tile.markdown += "\n";
-      tile.markdown += "## ["+db.name+"](#dashboard;id="+db.id+")\n";
+      tile.markdown += "## ["+name+"](#dashboard;id="+db.id+")\n";
       minHeight += 38;
     }
   });
@@ -62,8 +63,6 @@ function generateSwapList(config)
   swaps.push({from:'MyCompareTime', to:config.compareTime});
   swaps.push({from:'MyApp', to:config.appName});
   swaps.push({from:'MyCompareApp', to:config.compareAppName});
-  //swaps.push({from:'CompareStep1', to:config.compareFirstStep});
-  //swaps.push({from:'CompareLastStep', to:config.compareLastStep});
   swaps.push({from:'comparerevenueproperty', to:config.compareRevenue});   
   swaps.push({from:'revenueproperty', to:config.kpi});
   swaps.push({from:'Revenue', to:config.kpiName});
@@ -90,13 +89,13 @@ function generateSwapList(config)
   return swaps;
 }
 
-function listFunnelDB(config) {
+function listFunnelDB(config,subs) {
   let list = [];
   let re1= /[fF]unnel([0-9]{1,2})/;
   let re2= /[fF]unnelAnalysisStepAction([0-9]{1,2})/;
   let steps = config.funnelData.length;
 
-  dbFunnelList.forEach(function(file) {
+  subs.forEach(function(file) {
     let db = file.path;
   //skip unneeded dbs
     if(config.kpi=="n/a" && db.includes("True"))
@@ -115,7 +114,6 @@ function listFunnelDB(config) {
 	return;
 
   //if we're still going, it should be good, add it to the list
-    //list.push(db);
     list.push(file);
   });
   return list;
@@ -147,7 +145,7 @@ function whereClauseSwaps(dbData,config) {
     if(config.featureAdded) 
         t.query = t.query.replace(new RegExp("StepNewFeature1",'g'),
             config.StepNewFeature1.colname+'=\"'+config.StepNewFeature1.name+'\"');
-    if("compareAppName" in config && config.compareAppName!="") {
+    if("compareAppName" in config && config.compareAppName!="None") {
         t.query = t.query.replace(new RegExp("CompareStepFunnel1",'g'),
             config.compareFirstStep.colname+'=\"'+config.compareFirstStep.name+'\"');//V5
         t.query = t.query.replace(new RegExp("CompareStepAction1",'g'),config.compareFirstStep.name);//V4
@@ -227,4 +225,49 @@ function updateLinkTile(db,config,re,marker) {
      let i = config.linkTile.index;
      db["tiles"][i] = createLinkTile(config.linkTile.bounds,re,db.id,marker);
     }
+}
+
+function getStaticSubDBs(db) {
+    let subs=[];
+    db.tiles.forEach(function(t) {
+        if(t.tileType=="MARKDOWN") {
+            let matches = t.markdown.matchAll(/\(#dashboard;id=([^) ]+)/g);
+            for( let m of matches) { 
+                let id = m[1];
+                for( let d of dbList) {
+                    if(d.file.id === id)
+                        subs.push( JSON.parse(JSON.stringify(d))); 
+                }
+            }
+        }
+    });
+    return subs;
+}
+
+function doSwaps(dbS,swaps) {
+    swaps.forEach(function(swap) {
+        dbS = dbS.replace(new RegExp(swap.from,"g"), swap.to);
+    });
+    return dbS;
+}
+
+function transformSubs(subs,dbid,swaps) {
+  let id = dbid;
+  subs.forEach(function(db) {
+    sub = db.file
+    id = nextDB(id);
+    swaps.push({from:sub.id, to:id});
+    sub.id=id;
+    sub["dashboardMetadata"]["owner"]=owner;
+    sub["dashboardMetadata"]["shared"]="true";
+    sub["dashboardMetadata"]["sharingDetails"]["linkShared"]="true";
+    sub["dashboardMetadata"]["sharingDetails"]["published"]="false";
+  });
+
+  for(let i=0; i<subs.length; i++) {
+    let s = JSON.stringify(subs[i].file);
+    subs[i].file = JSON.parse(doSwaps(s,swaps));
+  }
+
+  return swaps; //give back the swap list to transform the main db
 }

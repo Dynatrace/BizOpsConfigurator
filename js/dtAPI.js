@@ -82,13 +82,7 @@ function dtAPIquery(query, options) {
 
 function uploadTenantOverview(config) {
   //get dashboard JSON
-  var dashboardTO;
-  let filename=dbFunnelList.find( ({ name }) => name === dbTO ).download_url;
-  //var p = $.get(dashboardDir+dbTO)
-  var p = $.get(filename)
-      .fail(errorbox);
-  return p.then(function(data) {
-    dashboardTO = JSON.parse(data);
+  var dashboardTO = JSON.parse(JSON.stringify(dbList.find( ({ name }) => name === dbTO ).file));
 
   //transform
   var id=nextTO();
@@ -107,10 +101,18 @@ function uploadTenantOverview(config) {
 
   var query="/api/config/v1/dashboards/"+id;
   var data=JSON.stringify(dashboardTO);
+
+  //sub-dashboards
+  let subs = getStaticSubDBs(dashboardTO);
+  let swaps = [ {from:config.oldTOid, to:id} ];
+  swaps = transformSubs(subs,config.TOid,swaps);
+  data = doSwaps(data, swaps);
+  
   //upload
   saveConfigDashboard(configID(id),config);
+  uploadSubs(subs);
   return dtAPIquery(query,{method:"PUT",data:data});
-  });
+  //});
 }
 
 function updateTenantOverview(TOid) {
@@ -137,13 +139,9 @@ function updateTenantOverview(TOid) {
 function uploadAppOverview(config) {
   //get dashboard JSON
   var dashboardAO;
-  let filename=dbFunnelList.find( ({ name }) => name === dbAO ).download_url;
-  //var p1 = $.get(dashboardDir+dbAO)
-  var p1 = $.get(filename)
-      .fail(errorbox);
+  dashboardAO = JSON.parse(JSON.stringify(dbList.find( ({ name }) => name === dbAO ).file));
   let p2 = addParentConfig(config,config.TOid);
-  return $.when(p1,p2).then(function(data1,data2) {
-   dashboardAO = JSON.parse(data1[0]);
+  return $.when(p2).then(function(data2) {
 
   //transform
   var id=nextAO(config.TOid);
@@ -160,10 +158,18 @@ function uploadAppOverview(config) {
   var query="/api/config/v1/dashboards/"+id;
   var data2=JSON.stringify(dashboardAO);
   //string based transforms
-  data2 = data2.replace(new RegExp(config.oldTOid,"g"), config.TOid);
-  data2 = data2.replace(/MyApp/g,config.appName);
-  data2 = data2.replace(/InternalAppID/g,config.appID);
+  let swaps = [ 
+    {from:config.oldTOid, to:config.TOid},
+    {from:config.oldAOid, to:config.AOid},
+    {from:"MyApp", to:config.appName},
+    {from:"InternalAppID", to:config.appID} ];
+  //sub-dashboards
+  let subs = getStaticSubDBs(dashboardAO);
+  swaps = transformSubs(subs,config.AOid,swaps);
+  data2 = doSwaps(data2, swaps);
+  
   //upload
+  uploadSubs(subs);
   return dtAPIquery(query,{method:"PUT",data:data2});
   });
 }
@@ -196,16 +202,11 @@ function uploadFunnel(config) {
   var filename="";
 
   if(config.kpi=="n/a")
-    //filename=dashboardDir+dbFunnelFalse; //move this logic to github urls
-    filename=dbFunnelList.find( ({ name }) => name === dbFunnelFalse ).download_url;
+    dashboardFO = JSON.parse(JSON.stringify(dbList.find( ({ name }) => name === dbFunnelFalse ).file));
   else
-    //filename=dashboardDir+dbFunnelTrue;
-    filename=dbFunnelList.find( ({ name }) => name === dbFunnelTrue ).download_url;
-  var p1 = $.get(filename)
-      .fail(errorbox);
+    dashboardFO = JSON.parse(JSON.stringify(dbList.find( ({ name }) => name === dbFunnelTrue ).file));
   let p2 = addParentConfig(config,config.AOid);
-  return $.when(p1,p2).then(function(data1,data2) {
-    dashboardFO = JSON.parse(data1[0]);
+  return $.when(p2).then(function(data2) {
   
     //transform
     if(typeof(config.FOid)==="undefined")
@@ -225,80 +226,26 @@ function uploadFunnel(config) {
     var query="/api/config/v1/dashboards/"+config.FOid;
     var data2=JSON.stringify(dashboardFO);
     //string based transforms
-    let dbs = loadFunnelAnalysis(config);
-    return $.when.apply($, dbs.promises).then(function() { 
-       dbs.swaps.forEach(function(swap) {
-         data2 = data2.replace(new RegExp(swap.from,"g"), swap.to);   
-       });
-      //upload
-      uploadFunnelAnalysis(dbs.promises,dbs.dbsForUpload,dbs.swaps);
-      return dtAPIquery(query,{method:"PUT",data:data2});
-    });
-  });
-}
-
-function loadFunnelAnalysis(config) {
-  var filename="";
-  var idx=1;
-  var dbsForUpload=[];
-  var swaps=generateSwapList(config);
-  var promises=[];
-
-  //use an array of promises for synchronization
-  promises[0]=$.Deferred();  //use the first one to wait until other promises are loaded
-  listFunnelDB(config).forEach(function(db) {
-    //get dashboard JSON
-    //filename=dashboardDir+db;
-    filename=db.download_url;
-    let p = $.get(filename)
-      .fail(errorbox);
-    promises.push(p);
-    p.then(function(data) {
-      let p2 = $.Deferred();
-      promises.push(p2.promise());
-      let dbData = JSON.parse(data);
-  
-      //transform
-      let id=config.FOid.substring(0,24) + idx.toString().padStart(12, '0'); idx++;
-      let oldID=dbData["id"];
-      swaps.push({from:oldID, to:id});
-      dbData["id"]=id;
-      dbData["dashboardMetadata"]["owner"]=owner;
-      dbData["dashboardMetadata"]["name"]=dbData["dashboardMetadata"]["name"].replace(/MyFunnel/g,config.funnelName);
-      dbData["dashboardMetadata"]["shared"]="true";
-      dbData["dashboardMetadata"]["sharingDetails"]["linkShared"]="true";
-      dbData["dashboardMetadata"]["sharingDetails"]["published"]="false";
-
-      whereClauseSwaps(dbData,config);  
-
-      var data2=JSON.stringify(dbData);
-      //string based transforms
-      //queue for upload
+      //sub-dashboards
+      let subs = getStaticSubDBs(dashboardFO);
+      subs = listFunnelDB(config,subs);
+      subs.forEach(function(db) {let sub=db.file; whereClauseSwaps(sub,config);});  
+      var swaps=generateSwapList(config);
+      swaps = transformSubs(subs,config.FOid,swaps);
+      data2 = doSwaps(data2, swaps);
       
-      dbsForUpload.push({id: id, json: data2});
-      p2.resolve();
-    });
+      //upload
+      uploadSubs(subs);
+      return dtAPIquery(query,{method:"PUT",data:data2});
   });
-  promises[0].resolve();
-
-  return {
-    promises: promises,
-    dbsForUpload: dbsForUpload,
-    swaps: swaps
-  };
 }
 
-function uploadFunnelAnalysis(promises,dbsForUpload,swaps) {
-  //Once all dbs have been loaded, process swaps, then upload 'em
-  $.when.apply($, promises).then(function() {
-    dbsForUpload.forEach(function(db) {
-    swaps.forEach(function(swap) {
-      db.json = db.json.replace(new RegExp(swap.from,"g"), swap.to);   
+function uploadSubs(subs) {
+    subs.forEach(function(db) {
+        let json = JSON.stringify(db.file);
+        var query = "/api/config/v1/dashboards/" + db.file.id;
+        dtAPIquery(query,{method:"PUT",data:json});
     });
-    var query = "/api/config/v1/dashboards/" + db.id;
-    dtAPIquery(query,{method:"PUT",data:db.json});
-    });
-  });
 }
 
 function deleteFunnel(id) {
