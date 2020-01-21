@@ -177,6 +177,9 @@ function whereClauseSwaps(dbData,config) {
 	let query = t.markdown.match(/sessionquery=([^&]*)&?/)[1];
 	query = decodeURIComponent(query);
 	let whereSteps = config.whereClause.split("AND");
+    query = query.replace(new RegExp('comparerevenueproperty','g'), config.compareRevenue);   
+    query = query.replace(new RegExp('revenueproperty','g'), config.kpi);
+    query = query.replace(new RegExp('Revenue','g'), config.kpiName);
 	for(let i=whereSteps.length-1; i>=0; i--) {  //go in reverse because steps are not zero padded
 	    let j=i+1;
   	    query = query.replace(new RegExp('StepFunnel'+j,"g"), whereSteps[i]); //for DashboardsV5
