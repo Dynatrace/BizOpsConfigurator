@@ -60,9 +60,9 @@ function generateSwapList(config)
   swaps.push({from:'MyFunnel', to:config.funnelName});
   swaps.push({from:'MyCompareFunnel', to:config.compareFunnel});   
   swaps.push({from:'MyTime', to:"2"});                          //What's this for?
-  swaps.push({from:'MyCompareTime', to:config.compareTime});
+  swaps.push({from:'MyCompareTime', to:(typeof(config.compareTime)=="undefined"?"2h":config.compareTime)});
   swaps.push({from:'MyApp', to:config.appName});
-  swaps.push({from:'MyCompareApp', to:config.compareAppName});
+  swaps.push({from:'MyCompareApp', to:(typeof(config.compareAppName)=="undefined"?config.appName:config.compareAppName)});
   swaps.push({from:'comparerevenueproperty', to:config.compareRevenue});   
   swaps.push({from:'revenueproperty', to:config.kpi});
   swaps.push({from:'Revenue', to:config.kpiName});
