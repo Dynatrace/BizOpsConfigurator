@@ -468,3 +468,7 @@ div.license a, div.license a:visited {
 div.license a:hover {
   color: #ff944d;
 }
+
+#deployApp #compareApp {
+  display: none;
+}
