@@ -316,18 +316,17 @@ function globalButtonHandler() {
 	   $("div.viewport").load("html/configurator/listTenant.html",fieldsetPainter);
 	   break;
 	case "uploadApp": {
-  	   $("input#uploadApp").val("Uploading...");
-  	   $("input#uploadApp").prop('disabled', true);
-	   let TOid =$("#TOid").text(); 
-	   selection.config.compareAppID=$("#compareAppList").val();
-	   selection.config.compareAppName=$("#compareAppList option:selected").text();
-	   let p1 = uploadAppOverview({
-	     AOname: $("#appName").val(),
-	     appID: $("#applist").val(), 
-	     appName: $("#applist option:selected").text(),
-	     TOid: TOid, 
-	     TOname: $("#TOname").text()
-	   });
+  	    $("input#uploadApp").val("Uploading...");
+  	    $("input#uploadApp").prop('disabled', true);
+	    let TOid =$("#TOid").text(); 
+	    selection.config.compareAppID=$("#compareAppList").val();
+	    selection.config.compareAppName=$("#compareAppList option:selected").text();
+        selection.config.AOname=$("#appName").val();
+	    selection.config.appID=$("#applist").val(); 
+	    selection.config.appName=$("#applist option:selected").text();
+	    selection.config.TOid=TOid; 
+	    selection.config.TOname=$("#TOname").text();
+	   let p1 = uploadAppOverview(selection.config);
 	   $.when(p1) .done(function(){
   	     $("input#uploadApp").val("Uploaded");
 	     $("div.viewport").load("html/configurator/listApp.html",fieldsetPainter);
