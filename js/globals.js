@@ -216,9 +216,14 @@ function downloadDBsFromList() {
 
     dbList.forEach(function(file) {
         let p = $.get(file.download_url)
-            .fail(errorbox)
+            .fail(errorboxJQXHR)
             .done(function(d) {
-                file.file = JSON.parse(d);
+                try {
+                  file.file = JSON.parse(d);
+                } catch(e) {
+                  let emsg = "JSON Error on file "+file.path+". "+e.name+": "+e.message;
+                  errorbox(emsg);
+                }
             });
         promises.push(p);
     });

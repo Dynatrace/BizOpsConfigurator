@@ -64,7 +64,7 @@ function dtAPIquery(query, options) {
     } );
     let method = (options.hasOwnProperty('method') ? options.method : "GET" );
     let data = (options.hasOwnProperty('data') ? options.data : {} );
-    let error = (options.hasOwnProperty('error') ? options.error : errorbox);
+    let error = (options.hasOwnProperty('error') ? options.error : errorboxJQXHR);
 
     //Get App list from API as JSON
     return $.ajax({
@@ -162,7 +162,8 @@ function uploadAppOverview(config) {
     {from:config.oldTOid, to:config.TOid},
     {from:config.oldAOid, to:config.AOid},
     {from:"MyApp", to:config.appName},
-    {from:"InternalAppID", to:config.appID} ];
+    {from:"InternalAppID", to:config.appID},
+    {from:"MyCompareApp", to:config.compareAppName} ];
   //sub-dashboards
   let subs = getStaticSubDBs(dashboardAO);
   swaps = transformSubs(subs,config.AOid,swaps);
@@ -295,7 +296,7 @@ function deleteApp(id) {
 function saveConfigDashboard(id,config) {
   var dashboard;
   var p = $.get(configDashboard)
-      .fail(errorbox);
+      .fail(errorboxJQXHR);
   return p.then(function(data) {
     dashboard = data;
 

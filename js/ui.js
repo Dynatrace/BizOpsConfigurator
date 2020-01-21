@@ -136,7 +136,7 @@ function globalButtonHandler() {
             .then(loadDBList)
             .then(downloadDBsFromList);
 	   });
-	   $.when(p_connect).fail(errorbox);
+	   $.when(p_connect).fail(errorboxJQXHR);
 	   break;
 	case "deleteApp": {
   	   $(this).val("Deleting...");
@@ -319,6 +319,8 @@ function globalButtonHandler() {
   	   $("input#uploadApp").val("Uploading...");
   	   $("input#uploadApp").prop('disabled', true);
 	   let TOid =$("#TOid").text(); 
+	   selection.config.compareAppID=$("#compareAppList").val();
+	   selection.config.compareAppName=$("#compareAppList option:selected").text();
 	   let p1 = uploadAppOverview({
 	     AOname: $("#appName").val(),
 	     appID: $("#applist").val(), 
@@ -493,8 +495,9 @@ function fieldsetPainter() {
 	     selection.config = parseConfigDashboard(d1);
 	     let p1 = getApps(selection.config.mz);
 	     $.when(p1).done(function(data) {
-		jsonviewer(data);
-		drawApps(data);
+            jsonviewer(data);
+            drawApps(data);
+            drawCompareApps(data);
 	     });
 	   });
 	   break;
@@ -913,7 +916,7 @@ function featureChangeHandler(e) {
   }
 }
 
-function errorbox(jqXHR, textStatus, errorThrown) {
+function errorboxJQXHR(jqXHR, textStatus, errorThrown) {
      let errorMsg = "dtAPIQuery failed ("+jqXHR.status+"): "+this.url;
      let responseText = "<pre>"+jqXHR.responseText.replace(/<([^>]*)>/g,"&lt$1&gt")+"</pre>";
      responseText = responseText.replace(/\n/g,"");
@@ -923,6 +926,17 @@ function errorbox(jqXHR, textStatus, errorThrown) {
      $("#errorBox").html(errorMsg);
      $("#errorBox").show();
      console.log(errorMsg);
+}
+
+function errorbox(e) {
+    var errorMsg =""
+    if(e instanceof Error)
+        errorMsg = "ERROR! "+e.name+": "+e.message;
+    if(typeof e == "string")
+        errorMsg = e;
+    $("#errorBox").html(errorMsg);
+    $("#errorBox").show();
+    console.log(errorMsg);
 }
 
 function v5handler() {

@@ -229,14 +229,18 @@ function updateLinkTile(db,config,re,marker) {
 
 function getStaticSubDBs(db) {
     let subs=[];
+    var subsubs=[];
     db.tiles.forEach(function(t) {
         if(t.tileType=="MARKDOWN") {
             let matches = t.markdown.matchAll(/\(#dashboard;id=([^) ]+)/g);
             for( let m of matches) { 
                 let id = m[1];
                 for( let d of dbList) {
-                    if(d.file.id === id)
+                    if(d.file.id === id) {
                         subs.push( JSON.parse(JSON.stringify(d))); 
+                        subsubs=getStaticSubDBs(d.file);
+                        subs = subs.concat(subsubs);
+                    }
                 }
             }
         }

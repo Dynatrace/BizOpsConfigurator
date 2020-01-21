@@ -11,7 +11,7 @@ function getRepoContents(repo) {
     method: 'GET',
     dataType: "json"
     })
-    .fail(errorbox);
+    .fail(errorboxJQXHR);
     
 }
 
@@ -31,7 +31,7 @@ function getDBJSON(list) {
 
     list.forEach(function(file) {
         let p = $.get(file.download_url)
-            .fail(errorbox);
+            .fail(errorboxJQXHR);
         promises.push(p);
     });
 
