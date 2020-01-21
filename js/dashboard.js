@@ -238,8 +238,8 @@ function getStaticSubDBs(db) {
                 for( let d of dbList) {
                     if(d.file.id === id) {
                         subs.push( JSON.parse(JSON.stringify(d))); 
-                        subsubs=getStaticSubDBs(d.file);
-                        subs = subs.concat(subsubs);
+                        //subsubs=getStaticSubDBs(d.file);
+                        //subs = subs.concat(subsubs);
                     }
                 }
             }

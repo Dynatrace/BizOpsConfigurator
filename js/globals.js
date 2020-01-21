@@ -214,7 +214,7 @@ function processVersion(p) {
 function downloadDBsFromList() { 
     let promises = [];
 
-    dbList.forEach(function(file) {
+    dbList.forEach(function(file,index,arr) {
         let p = $.get(file.download_url)
             .fail(errorboxJQXHR)
             .done(function(d) {
@@ -223,6 +223,7 @@ function downloadDBsFromList() {
                 } catch(e) {
                   let emsg = "JSON Error on file "+file.path+". "+e.name+": "+e.message;
                   errorbox(emsg);
+                  arr.splice(index,1);
                 }
             });
         promises.push(p);
