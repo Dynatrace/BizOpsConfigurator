@@ -187,6 +187,8 @@ function whereClauseSwaps(dbData,config) {
   	    query = query.replace(new RegExp('Step'+j+'"',"g"), whereSteps[i]); //temp until John fixes V5
 	    if(i==whereSteps.length-1) {
   	      query = query.replace(new RegExp('StepFunnelLast',"g"), whereSteps[i]); //for DashboardsV5
+  	      query = query.replace(new RegExp('LastFunnelStep',"g"), whereSteps[i]); //for DashboardsV5
+  	      query = query.replace(new RegExp('LastURLStep',"g"), whereSteps[i]); //for DashboardsV5
   	      query = query.replace(new RegExp('useraction.name ?= ?"LastStep"',"g"), whereSteps[i]);
   	      query = query.replace(new RegExp('useraction.name ?[iInN]{2} ?\\("LastStep"\\)',"g"), whereSteps[i]);
   	      query = query.replace(new RegExp('useraction.name ?!= ?"LastStep"',"g"), " NOT "+whereSteps[i]);
