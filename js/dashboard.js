@@ -227,19 +227,20 @@ function updateLinkTile(db,config,re,marker) {
     }
 }
 
-function getStaticSubDBs(db) {
-    let subs=[];
-    var subsubs=[];
+function getStaticSubDBs(db,parentids=[""],subs=[]) {
+    console.log("getStaticSubDBs from: "+db.id+" (oldid:"+parentids+")");
     db.tiles.forEach(function(t) {
         if(t.tileType=="MARKDOWN") {
             let matches = t.markdown.matchAll(/\(#dashboard;id=([^) ]+)/g);
             for( let m of matches) { 
                 let id = m[1];
-                for( let d of dbList) {
-                    if(d.file.id === id) {
+                if(id != db.id && !parentids.includes(id)) for( let d of dbList) {
+                    if(d.file.id === id &&
+                       typeof(subs.find( x => x.name === d.name)) == "undefined" ) { //ensure it's not already in the array, note: ids are not unique
+                        console.log("getStaticSubDBs: "+id+" => "+d.file.dashboardMetadata.name);
                         subs.push( JSON.parse(JSON.stringify(d))); 
-                        //subsubs=getStaticSubDBs(d.file);
-                        //subs = subs.concat(subsubs);
+                        //parentids.push(id);
+                        getStaticSubDBs(d.file,parentids,subs);
                     }
                 }
             }

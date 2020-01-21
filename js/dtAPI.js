@@ -103,7 +103,7 @@ function uploadTenantOverview(config) {
   var data=JSON.stringify(dashboardTO);
 
   //sub-dashboards
-  let subs = getStaticSubDBs(dashboardTO);
+  let subs = getStaticSubDBs(dashboardTO,[config.oldTOid]);
   let swaps = [ {from:config.oldTOid, to:id} ];
   swaps = transformSubs(subs,config.TOid,swaps);
   data = doSwaps(data, swaps);
@@ -165,7 +165,7 @@ function uploadAppOverview(config) {
     {from:"InternalAppID", to:config.appID},
     {from:"MyCompareApp", to:config.compareAppName} ];
   //sub-dashboards
-  let subs = getStaticSubDBs(dashboardAO);
+  let subs = getStaticSubDBs(dashboardAO,[config.oldTOid,config.oldAOid]);
   swaps = transformSubs(subs,config.AOid,swaps);
   data2 = doSwaps(data2, swaps);
   
@@ -228,7 +228,7 @@ function uploadFunnel(config) {
     var data2=JSON.stringify(dashboardFO);
     //string based transforms
       //sub-dashboards
-      let subs = getStaticSubDBs(dashboardFO);
+      let subs = getStaticSubDBs(dashboardFO,[config.oldTOid,config.oldAOid,config.oldFOid]);
       subs = listFunnelDB(config,subs);
       subs.forEach(function(db) {let sub=db.file; whereClauseSwaps(sub,config);});  
       var swaps=generateSwapList(config);
