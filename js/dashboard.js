@@ -60,12 +60,13 @@ function generateSwapList(config)
   swaps.push({from:'MyFunnel', to:config.funnelName});
   swaps.push({from:'MyCompareFunnel', to:config.compareFunnel});   
   swaps.push({from:'MyTime', to:"2"});                          //What's this for?
-  swaps.push({from:'MyCompareTime', to:(typeof(config.compareTime)=="undefined"?"2h":config.compareTime)});
+  swaps.push({from:'MyCompareTime', to:(config.compareTime=="none"?"2h":config.compareTime)});
   swaps.push({from:'MyApp', to:config.appName});
-  swaps.push({from:'MyCompareApp', to:(typeof(config.compareAppName)=="undefined"?config.appName:config.compareAppName)});
-  swaps.push({from:'comparerevenueproperty', to:config.compareRevenue});   
-  swaps.push({from:'revenueproperty', to:config.kpi});
+  swaps.push({from:'MyCompareApp', to:(config.compareAppName=="None"?config.appName:config.compareAppName)});
   swaps.push({from:'Revenue', to:config.kpiName});
+  swaps.push({from:'comparerevenueproperty', to:(typeof config.compareRevenue == "undefined"?
+        config.kpi:config.compareRevenue)});   
+  swaps.push({from:'revenueproperty', to:config.kpi});
 
   //add funnel step headers to swaps
   let funnelSteps = config.whereClause.split("AND");
@@ -152,6 +153,11 @@ function whereClauseSwaps(dbData,config) {
         t.query = t.query.replace(new RegExp("CompareLastFunnelStep",'g'),
             config.compareLastStep.colname+'=\"'+config.compareLastStep.name+'\"');//V5
         t.query = t.query.replace(new RegExp("CompareLastStep",'g'),config.compareLastStep.name);//V4
+    } else { //no compare app, default stuff out per Shady
+        t.query = t.query.replace(new RegExp("CompareStepFunnel1",'g'), whereSteps[0]);
+        t.query = t.query.replace(new RegExp("CompareStepAction1",'g'), whereSteps[0]);
+        t.query = t.query.replace(new RegExp("CompareLastFunnelStep",'g'), whereSteps[whereSteps.length-1]);
+        t.query = t.query.replace(new RegExp("CompareLastStep",'g'), whereSteps[whereSteps.length-1]);
     }
     //Step specific swaps
 	for(let i=whereSteps.length-1; i>=0; i--) {  //go in reverse because steps are not zero padded
@@ -177,7 +183,8 @@ function whereClauseSwaps(dbData,config) {
 	let query = t.markdown.match(/sessionquery=([^&]*)&?/)[1];
 	query = decodeURIComponent(query);
 	let whereSteps = config.whereClause.split("AND");
-    query = query.replace(new RegExp('comparerevenueproperty','g'), config.compareRevenue);   
+    query = query.replace(new RegExp('comparerevenueproperty','g'), (typeof config.compareRevenue == "undefined"?
+        config.kpi:config.compareRevenue));   
     query = query.replace(new RegExp('revenueproperty','g'), config.kpi);
     query = query.replace(new RegExp('Revenue','g'), config.kpiName);
 	for(let i=whereSteps.length-1; i>=0; i--) {  //go in reverse because steps are not zero padded
