@@ -126,6 +126,8 @@ function globalButtonHandler() {
 	   if(url.length>1 && url.charAt(url.length-1)=="/")
 		url = url.substring(0,url.length-1);
 	   token=$("input#token").val();
+       githubuser=$("#githubuser").val();
+       githubpat=$("#githubpat").val();
 	   let p_connect = testConnect();
 
 	   $.when(p_connect).done(function(data) {
@@ -443,6 +445,10 @@ function loadStaticHandlers() {
 
   $("#githubtest").click(function() {
     testRepo(0);      
+  });
+
+  $("#faq").click(function() {
+     $("div.viewport").load("html/faq.html");
   });
 }
 
@@ -836,6 +842,7 @@ function loadInputChangeHandlers(){
     $("div.viewport").on("change", "#usplist", uspListChangeHandler);
     $("div.viewport").on("change", "#campaignActive", campaignChangeHandler);
     $("div.viewport").on("change", "#featureAdded", featureChangeHandler);
+    $("div.viewport").on("change", "#authgithub", authgithubChangeHandler);
 }
 
 function compareAppChangeHandler(e){
@@ -942,4 +949,12 @@ function v5handler() {
     v5test=(v5test?false:true);
     $("#v5test").text( (v5test?"Back to V4":"V5 Test") );
     loadDBList( (v5test?1:0) );
+}
+
+function authgithubChangeHandler() {
+  if($("#authgithub").prop('checked')==true) {
+    $("tr.github").show();
+  } else {
+    $("tr.github").hide();
+  }
 }

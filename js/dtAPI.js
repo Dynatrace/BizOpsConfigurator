@@ -163,7 +163,7 @@ function uploadAppOverview(config) {
     {from:config.oldAOid, to:config.AOid},
     {from:"MyApp", to:config.appName},
     {from:"InternalAppID", to:config.appID},
-    {from:"MyCompareApp", to:(typeof(config.compareAppName)=="undefined"?config.appName:config.compareAppName)},
+    {from:"MyCompareApp", to:(config.compareAppName=="None"?config.appName:config.compareAppName)},
     {from: "MyTime", to:"2"} ];
   //sub-dashboards
   let subs = getStaticSubDBs(dashboardAO,[config.oldTOid,config.oldAOid]);

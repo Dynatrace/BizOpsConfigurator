@@ -112,7 +112,7 @@ fieldset input.api {
   width: 300px;
 }
 
-ol.prereqs li img {
+img.screenshot {
   width: 60%;
 }
 
@@ -480,3 +480,10 @@ div.license a:hover {
   padding: 0px 5px 5px 5px;
 }
 
+tr.github {
+  display: none;
+}
+
+#faq b {
+  color: #00b9cc;
+}

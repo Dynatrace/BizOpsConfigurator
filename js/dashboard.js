@@ -141,8 +141,6 @@ function whereClauseSwaps(dbData,config) {
       if(t.tileType=="DTAQL") {
   	if(typeof(t.query) === 'undefined'){console.log("DTAQL w/o query");return;}
     //generic swaps here:
-    t.query = t.query.replace(new RegExp("([^t])FunnelStep",'g'),"$1"+FunnelStep);
-    t.query = t.query.replace(new RegExp("CombinedStep",'g'),config.whereClause);
     if(config.featureAdded) 
         t.query = t.query.replace(new RegExp("StepNewFeature1",'g'),
             config.StepNewFeature1.colname+'=\"'+config.StepNewFeature1.name+'\"');
@@ -153,12 +151,19 @@ function whereClauseSwaps(dbData,config) {
         t.query = t.query.replace(new RegExp("CompareLastFunnelStep",'g'),
             config.compareLastStep.colname+'=\"'+config.compareLastStep.name+'\"');//V5
         t.query = t.query.replace(new RegExp("CompareLastStep",'g'),config.compareLastStep.name);//V4
+        t.query = t.query.replace(new RegExp("CompareCombinedStep",'g'),
+            "("+config.compareFirstStep.colname+"=\""+config.compareFirstStep.name+"\" AND " +
+            +config.compareLastStep.colname+"=\""+config.compareLastStep.name+"\") "
+            ); 
     } else { //no compare app, default stuff out per Shady
         t.query = t.query.replace(new RegExp("CompareStepFunnel1",'g'), whereSteps[0]);
         t.query = t.query.replace(new RegExp("CompareStepAction1",'g'), whereSteps[0]);
         t.query = t.query.replace(new RegExp("CompareLastFunnelStep",'g'), whereSteps[whereSteps.length-1]);
         t.query = t.query.replace(new RegExp("CompareLastStep",'g'), whereSteps[whereSteps.length-1]);
+        t.query = t.query.replace(new RegExp("CompareCombinedStep",'g'),config.whereClause);
     }
+    t.query = t.query.replace(new RegExp("([^t])FunnelStep",'g'),"$1"+FunnelStep);
+    t.query = t.query.replace(new RegExp("CombinedStep",'g'),config.whereClause);
     //Step specific swaps
 	for(let i=whereSteps.length-1; i>=0; i--) {  //go in reverse because steps are not zero padded
 	    let j=i+1;

@@ -1,15 +1,22 @@
+var githubuser="";
+var githubpat="";
 var repoList = [ 
     {'owner':'TechShady','repo':'Dynatrace-DashboardsV4'},
     {'owner':'TechShady','repo':'Dynatrace-DashboardV5'}
     ];
 
 function getRepoContents(repo) {
+    let headers = {};
+    if(githubuser!="" && githubpat!="")
+        headers.Authorization = "Basic " + btoa(githubuser+":"+githubpat);
+
     //Get App list from API as JSON
     return $.ajax({
     url: "https://api.github.com/repos/"+repo.owner+"/"+repo.repo+"/contents",
     contentType: "application/json; charset=utf-8",
     method: 'GET',
-    dataType: "json"
+    dataType: "json",
+    headers: headers
     })
     .fail(errorboxJQXHR);
     
