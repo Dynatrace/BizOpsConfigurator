@@ -925,10 +925,14 @@ function featureChangeHandler(e) {
 
 function errorboxJQXHR(jqXHR, textStatus, errorThrown) {
      let errorMsg = "dtAPIQuery failed ("+jqXHR.status+"): "+this.url;
-     let responseText = "<pre>"+jqXHR.responseText.replace(/<([^>]*)>/g,"&lt$1&gt")+"</pre>";
-     responseText = responseText.replace(/\n/g,"");
+     if(this.url.includes('v1/dashboards'))
+        errorMsg += " (" +this.data.match(/dashboardMetadata[^}]*(name"?:"[^"]*")/)[1] +")";
      if(errorThrown.length>0) errorMsg+="\nError: "+errorThrown;
-     if(typeof(jqXHR.responseText)!=="undefined") errorMsg+="\nResponse: "+responseText;
+     if(typeof(jqXHR.responseText)!=="undefined") {
+        let responseText = "<pre>"+jqXHR.responseText.replace(/<([^>]*)>/g,"&lt$1&gt")+"</pre>";
+        responseText = responseText.replace(/\n/g,"");
+        errorMsg+="\nResponse: "+responseText;
+     }
      if(jqXHR.status==0) errorMsg+="\nPossible CORS failure, check Browser Console (F12)";
      $("#errorBox").html(errorMsg);
      $("#errorBox").show();
