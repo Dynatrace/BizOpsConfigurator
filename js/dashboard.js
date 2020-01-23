@@ -59,8 +59,12 @@ function generateSwapList(config)
   swaps.push({from:'MyEmail', to:owner});
   swaps.push({from:'MyFunnel', to:config.funnelName});
   swaps.push({from:'MyCompareFunnel', to:config.compareFunnel});   
-  swaps.push({from:'MyTime', to:"2"});                          //What's this for?
-  swaps.push({from:'MyCompareTime', to:(config.compareTime=="none"?"2h":config.compareTime)});
+  swaps.push({from:'-MyCompareTimeh to -MyTimeh', to:config.compareTime});
+  swaps.push({from:'Previous MyTime Hours', to:config.compareTime});
+  swaps.push({from:'-MyTimeh', to:config.MyTime});
+  swaps.push({from:'Last MyTime Hours', to:config.MyTime});
+  //swaps.push({from:'MyTime', to:"2"});                          //What's this for?
+  //swaps.push({from:'MyCompareTime', to:(config.compareTime=="none"?"2h":config.compareTime)});
   swaps.push({from:'MyApp', to:config.appName});
   swaps.push({from:'MyCompareApp', to:(config.compareAppName=="None"?config.appName:config.compareAppName)});
   swaps.push({from:'Revenue', to:config.kpiName});
@@ -153,7 +157,7 @@ function whereClauseSwaps(dbData,config) {
         t.query = t.query.replace(new RegExp("CompareLastStep",'g'),config.compareLastStep.name);//V4
         t.query = t.query.replace(new RegExp("CompareCombinedStep",'g'),
             "("+config.compareFirstStep.colname+"=\""+config.compareFirstStep.name+"\" AND " +
-            +config.compareLastStep.colname+"=\""+config.compareLastStep.name+"\") "
+            config.compareLastStep.colname+"=\""+config.compareLastStep.name+"\") "
             ); 
     } else { //no compare app, default stuff out per Shady
         t.query = t.query.replace(new RegExp("CompareStepFunnel1",'g'), whereSteps[0]);

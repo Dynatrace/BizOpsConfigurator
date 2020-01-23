@@ -5,7 +5,15 @@ const dbTO = "TenantOverview.json";
 const dbAO = "AppOverview.json";
 const dbFunnelTrue = "OverviewTrue.json";  
 const dbFunnelFalse = "OverviewFalse.json"; 
-
+const timeTable = [
+    {MyTime: "Last 30 minutes", MyCompareTimes: ["Last 30 minutes", "-60m to -30m", "-2h30m to -2h", "-24h-30m to -24h", "-7d-30m to -7d"]},
+    {MyTime: "Last 2 hours", MyCompareTimes: ["Last 2 hours","-4h to -2h", "-24h-2h to -24h", "-7d-2h to -7d"]},
+    {MyTime: "Today", MyCompareTimes: ["Today","Yesterday","now/d-7d to now-7d"]},
+    {MyTime: "Yesterday", MyCompareTimes: ["Yesterday","now/d-8d to now/d-7d"]},
+    {MyTime: "Last 24 hours", MyCompareTimes: ["Last 24 hours", "-48h to -24h", "-8d to -7d"]},
+    {MyTime: "Last 72 hours", MyCompareTimes: ["Last 72 hours", "-144h to -72h", "-7d-72h to -7d"]},
+    {Mytime: "Last 7 days", MyCompareTimes: ["Last 7 days", "-14d to -7d"]}
+    ];
 //////// Global Vars ////////////
 var url="";
 var token="";

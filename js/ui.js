@@ -24,6 +24,14 @@ $(document).ready(function(){
 });
 
 ////////// Functions ////////////
+function loadInputChangeHandlers(){
+    $("div.viewport").on("change", "#compareAppList", compareAppChangeHandler);
+    $("div.viewport").on("change", "#usplist", uspListChangeHandler);
+    $("div.viewport").on("change", "#campaignActive", campaignChangeHandler);
+    $("div.viewport").on("change", "#featureAdded", featureChangeHandler);
+    $("div.viewport").on("change", "#authgithub", authgithubChangeHandler);
+    $("div.viewport").on("change", "#MyTime", MyTimeChangeHandler);
+}
 
 function pencilToggle(on) {
   if(on===true || $("#whereClause").attr('readonly') ) {
@@ -561,6 +569,7 @@ function fieldsetPainter() {
 	   $("#appName").text(selection.config.appName);
 	   $("#appID").text(selection.config.appID);
 	   $("#kpi").text(selection.config.kpiName);
+       drawTimeInterval( ("MyTime" in selection.config)?selection.config.MyTime:"Last 2 hours" );
 
 	   let p1 = getApps();
 	   $.when(p1).done(function(data) {
@@ -569,7 +578,6 @@ function fieldsetPainter() {
 
 	     if('compareFunnel' in selection.config) $("#compareFunnel").val(selection.config.compareFunnel);
          if('compareAppID' in selection.config) $("#compareAppList").val(selection.config.compareAppID);
-         if('compareTime' in selection.config) $("#compareTimeList").val(selection.config.compareTime);
          if('campaignActive' in selection.config) $("#campaignActive").prop('checked',selection.config.campaignActive);
          if('featureAdded' in selection.config) $("#featureAdded").prop('checked',selection.config.featureAdded);
 
@@ -838,14 +846,6 @@ function jsonviewer(result,show=false,name="",selector="#jsonviewer") {
   });
 }
     
-function loadInputChangeHandlers(){
-    $("div.viewport").on("change", "#compareAppList", compareAppChangeHandler);
-    $("div.viewport").on("change", "#usplist", uspListChangeHandler);
-    $("div.viewport").on("change", "#campaignActive", campaignChangeHandler);
-    $("div.viewport").on("change", "#featureAdded", featureChangeHandler);
-    $("div.viewport").on("change", "#authgithub", authgithubChangeHandler);
-}
-
 function compareAppChangeHandler(e){
   $("#compareFirstStep").html("");
   $("#compareLastStep").html("");
@@ -958,4 +958,34 @@ function authgithubChangeHandler() {
   } else {
     $("tr.github").hide();
   }
+}
+
+function MyTimeChangeHandler() {
+  selection.config.MyTime = $("#MyTime").val();
+  let compareTimeList = "";
+  
+  timeTable.forEach(function(t) {
+    if(t.MyTime == selection.config.MyTime) {
+        t.MyCompareTimes.forEach(function(ct) {
+            compareTimeList += "<option value='"+ct+"'>"+ct+"</option>";
+        });
+    }
+  });
+  $("#compareTimeList").html(compareTimeList);
+  if(compareTime in selection.config && selection.config.compareTime > "")
+    $("#compareTimeList").val(selection.config.compareTime);
+  else
+    $("#compareTimeList option:first").attr('selected','selected');
+}
+
+function drawTimeInterval(v) {
+  let timeList = "";
+  
+  timeTable.forEach(function(t) {
+    if(typeof t.MyTime !== "undefined")
+     timeList += "<option value='"+t.MyTime+"'>"+t.MyTime+"</option>";
+  });
+  $("#MyTime").html(timeList);
+  $("#MyTime").val(v);
+  MyTimeChangeHandler();
 }
