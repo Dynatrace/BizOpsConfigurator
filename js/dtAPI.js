@@ -35,8 +35,8 @@ function getApps(mz=null) {
 function getKPIs(appname) {
     kpis=[];
     //replace with API call to /config/v1/applications/web once that endpoint provides USPs
-    var query="/api/v1/userSessionQueryLanguage/table?query=SELECT%20usersession.longProperties%2C%20usersession.doubleProperties%2C%20usersession.stringProperties%2C%20usersession.dateProperties%20FROM%20useraction%20WHERE%20application%3D%22"+
-    encodeURIComponent(appname) +"%22%20&explain=false";
+    let usql = "SELECT usersession.longProperties, usersession.doubleProperties, usersession.stringProperties, usersession.dateProperties FROM useraction WHERE application=\""+appname+"\" LIMIT 5000";
+    var query="/api/v1/userSessionQueryLanguage/table?query="+encodeURIComponent(usql)+"&explain=false";
     return dtAPIquery(query,{});
 }
 
