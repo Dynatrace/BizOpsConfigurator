@@ -131,12 +131,13 @@ function globalButtonHandler() {
 	   let p_connect = testConnect();
 
 	   $.when(p_connect).done(function(data) {
-	      processTestConnect(data);
-	      $("div.viewport").load("html/configurator/main.html",fieldsetPainter); 
-          getVersion()
-            .then(processVersion)
-            .then(loadDBList)
-            .then(downloadDBsFromList);
+	      if(processTestConnect(data)) {
+              $("div.viewport").load("html/configurator/main.html",fieldsetPainter); 
+              getVersion()
+                .then(processVersion)
+                .then(loadDBList)
+                .then(downloadDBsFromList);
+          }
 	   });
 	   $.when(p_connect).fail(errorboxJQXHR);
 	   break;

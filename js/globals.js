@@ -49,12 +49,30 @@ function calcTenantID(url) {
 function processTestConnect(result) {
   owner=result["userId"];
   tenantID=calcTenantID(url);
+  let res = true;
+  let e = "Missing DT API token scopes: ";
+  let missingScopes = [];
 
-  if(!result["scopes"].includes("DTAQLAccess")) alert("Missing DTAQLAccess token scope");
-  if(!result["scopes"].includes("WriteConfig")) alert("Missing WriteConfig token scope");
-  if(!result["scopes"].includes("ReadConfig")) alert("Missing ReadConfig token scope");
-  if(!result["scopes"].includes("DataExport")) alert("Missing DataExport token scope");
+  if(!result["scopes"].includes("DTAQLAccess")){
+    res=false;
+    missingScopes.push("User Sessions");
+  }
+  if(!result["scopes"].includes("WriteConfig")){
+    res=false;
+    missingScopes.push("Write Configuration");
+  }
+  if(!result["scopes"].includes("ReadConfig")){
+    res=false;
+    missingScopes.push("Write Configuration");
+  }
+  if(!result["scopes"].includes("DataExport")){
+    res=false;
+    missingScopes.push("Access problem, event, metric, topo...");
+  }
 
+  if(!res)
+    errorbox(e + missingScopes.join(', '));
+  return res;
 }
 
 function processMZs(result) {
