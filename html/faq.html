@@ -11,7 +11,12 @@
             target='_blank'>GitHub Help <img src='images/link.svg'></a>. 
             Be sure to add "public_repo" scope to your PAT.<br>
         <img class='screenshot' src='images/pat.png'></li>
-        <li><b></b><br>
-          </li>
+        <li><b>Why don't I see my [UserSessionProperty, KeyUserAction, etc] in the list?</b><br>
+            Certain data points, such as USPs, KUAs, etc are not queriable via the Dynatrace /config endpoint yet. Instead the
+            configurator relies on USQL queries to determine which are in your environment. This means that if the USP/KUA/etc 
+            wasn't seen in the past 5000 User Sessions, it won't show up in the list. This can be challenging in low traffic 
+            environments, but unfortunately there isn't another way to query these. If there's demand for it, we could add
+            a manual text box where you could type in the USP etc, but we'd like to avoid the Human Error risk this presents.
+            A better alternative is to simply execute a few test transactions against your application to populate the values.</li>
     </ol>
 </div>

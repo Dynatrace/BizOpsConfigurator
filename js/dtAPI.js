@@ -42,16 +42,16 @@ function getKPIs(appname) {
 
 function getGoals(appname) {
      goals=[];
-     var query="/api/v1/userSessionQueryLanguage/table?query=SELECT%20DISTINCT%20matchingConversionGoals%20FROM%20useraction%20WHERE%20"+
-    "application%3D%22"+ encodeURIComponent(appname) +"%22%20and%20matchingConversionGoals%20IS%20NOT%20NULL&explain=false";
+     let usql = "SELECT DISTINCT matchingConversionGoals FROM useraction WHERE application=\""+appname+"\" and matchingConversionGoals IS NOT NULL LIMIT 5000";
+     var query="/api/v1/userSessionQueryLanguage/table?query="+encodeURIComponent(usql)+"&explain=false";
     return dtAPIquery(query,{});
 }
 
 function getKeyActions(appname) {
      keyActions=[];
      let yesterday = Date.now() - 86400000;
-     var query="/api/v1/userSessionQueryLanguage/table?query=SELECT%20DISTINCT%20name%20FROM%20useraction%20WHERE%20keyUserAction%20%3D%20true%20and%20" +
-    "application%3D%22"+ encodeURIComponent(appname) +"%22&explain=false&startTimestamp="+yesterday;
+     let usql = "SELECT DISTINCT name FROM useraction WHERE keyUserAction = true and application=\""+appname+"\" LIMIT 5000";
+     var query="/api/v1/userSessionQueryLanguage/table?query="+encodeURIComponent(usql)+" &explain=false&startTimestamp="+yesterday;
     return dtAPIquery(query,{});
 }
 
