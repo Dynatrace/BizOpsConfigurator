@@ -60,6 +60,7 @@ function generateAppSwapList(config) {
     {from:'Previous MyTime Hours', to:config.compareTime},
     {from:'-MyTimeh', to:config.MyTime},
     {from:'Last MyTime Hours', to:config.MyTime},
+    {from:'MyFilter', to:""},
     ];
   return swaps;
 }
@@ -88,6 +89,7 @@ function generateFunnelSwapList(config)
     {from:'comparerevenueproperty', to:(typeof config.compareRevenue == "undefined"?
         config.kpi:config.compareRevenue)},
     {from:'revenueproperty', to:config.kpi},
+    {from:'MyFilter', to:""},
   ];
 
   //add funnel step headers to swaps
