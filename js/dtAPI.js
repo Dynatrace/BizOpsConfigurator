@@ -164,6 +164,9 @@ function uploadAppOverview(config) {
   swaps = transformSubs(subs,config.AOid,swaps);
   data2 = doSwaps(data2, swaps);
   
+  //validate
+  data2 = validateDB(data2);
+
   //upload
   uploadSubs(subs);
   return dtAPIquery(query,{method:"PUT",data:data2});
@@ -229,7 +232,10 @@ function uploadFunnel(config) {
       var swaps=generateFunnelSwapList(config);
       swaps = transformSubs(subs,config.FOid,swaps);
       data2 = doSwaps(data2, swaps);
-      
+     
+      //validate
+      data2 = validateDB(data2);
+ 
       //upload
       uploadSubs(subs);
       return dtAPIquery(query,{method:"PUT",data:data2});

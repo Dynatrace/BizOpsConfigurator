@@ -315,3 +315,28 @@ function transformSubs(subs,dbid,swaps) {
 
   return swaps; //give back the swap list to transform the main db
 }
+
+function validateDB(input) {
+  let db = {};
+  if(typeof input == "string")
+    db = JSON.parse(input);
+  else if(typeof input == "object")
+    db = input;
+  let e = "";
+
+  //trunc any MARKDOWNs that are too long
+  db.tiles.forEach(function(t,index,arr) {
+    if(t.tileType=='MARKDOWN' && t.markdown.length > 1000) {
+        t.markdown = t.markdown.substring(0,1000);
+        e += "Trunc MARKDOWN on \""+db.dashboardMetadata.name+"\" Tile["+index+"] ";
+    }
+  });
+  if(e.length>0)
+    errorbox(e);
+
+
+  if(typeof input == "string")
+    return(JSON.stringify(db));
+  else if(typeof input == "object")
+    return(db);
+}

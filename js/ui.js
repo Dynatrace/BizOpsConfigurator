@@ -942,6 +942,7 @@ function errorboxJQXHR(jqXHR, textStatus, errorThrown) {
      $("#errorBox").html(errorMsg);
      $("#errorBox").show();
      console.log(errorMsg);
+    if(typeof dtrum !== "undefined") dtrum.reportError(errorMsg);
 }
 
 function errorbox(e) {
@@ -953,6 +954,7 @@ function errorbox(e) {
     $("#errorBox").html(errorMsg);
     $("#errorBox").show();
     console.log(errorMsg);
+    if(typeof dtrum !== "undefined") dtrum.reportError(errorMsg);
 }
 
 function v5handler() {
