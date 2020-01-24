@@ -77,6 +77,7 @@ function linkHandler(e) {
     if ($(this)[0].nodeName == 'A') {
       let a = $(this)[0];
       let id = a.id;
+      if(typeof dtrum !== "undefined") dtrum.actionName("linkHandler("+id+")");
       if(a.classList.contains("newTab"))return e; //don't handle popups with jQuery
       switch(id) {
 	case "bc-connect":
@@ -128,6 +129,7 @@ function globalButtonHandler() {
     //handle buttons
     if ($(this)[0].nodeName == 'INPUT') {
       let id = $(this)[0].id;
+      if(typeof dtrum !== "undefined") dtrum.actionName("globalButtonHandler("+id+")");
       switch(id) {
 	case "connect": 
 	   url=$("input#url").val();
