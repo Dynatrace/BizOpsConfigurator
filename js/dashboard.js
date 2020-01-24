@@ -50,6 +50,7 @@ function generateAppSwapList(config) {
   let swaps = [
     {from:config.oldTOid, to:config.TOid},
     {from:config.oldAOid, to:config.AOid},
+    {from:'https://MyTenant', to:url},
     {from:"MyApp", to:config.appName},
     {from:"InternalAppID", to:config.appID},
     {from:'InternalCompareAppID', to:config.compareAppID},
@@ -64,27 +65,28 @@ function generateAppSwapList(config) {
 
 function generateFunnelSwapList(config)
 {
-  var swaps = [];
+  var swaps = [
   //NOTE: do NOT do any whereClause manipulation as strings, it makes escaping quotes challenging, do it instead in whereClauseSwaps
-  swaps.push({from:config.oldTOid, to:config.TOid});
-  swaps.push({from:config.oldAOid, to:config.AOid});
-  swaps.push({from:config.oldFOid, to:config.FOid});
-  swaps.push({from:'InternalAppID', to:config.appID});
-  swaps.push({from:'InternalCompareAppID', to:config.compareAppID});
-  swaps.push({from:'https://MyTenant', to:url});
-  swaps.push({from:'MyEmail', to:owner});
-  swaps.push({from:'MyFunnel', to:config.funnelName});
-  swaps.push({from:'MyCompareFunnel', to:config.compareFunnel});   
-  swaps.push({from:'-MyCompareTimeh to -MyTimeh', to:config.compareTime});
-  swaps.push({from:'Previous MyTime Hours', to:config.compareTime});
-  swaps.push({from:'-MyTimeh', to:config.MyTime});
-  swaps.push({from:'Last MyTime Hours', to:config.MyTime});
-  swaps.push({from:'MyApp', to:config.appName});
-  swaps.push({from:'MyCompareApp', to:(config.compareAppName=="None"?config.appName:config.compareAppName)});
-  swaps.push({from:'Revenue', to:config.kpiName});
-  swaps.push({from:'comparerevenueproperty', to:(typeof config.compareRevenue == "undefined"?
-        config.kpi:config.compareRevenue)});   
-  swaps.push({from:'revenueproperty', to:config.kpi});
+    {from:config.oldTOid, to:config.TOid},
+    {from:config.oldAOid, to:config.AOid},
+    {from:config.oldFOid, to:config.FOid},
+    {from:'InternalAppID', to:config.appID},
+    {from:'InternalCompareAppID', to:config.compareAppID},
+    {from:'https://MyTenant', to:url},
+    {from:'MyEmail', to:owner},
+    {from:'MyFunnel', to:config.funnelName},
+    {from:'MyCompareFunnel', to:config.compareFunnel},
+    {from:'-MyCompareTimeh to -MyTimeh', to:config.compareTime},
+    {from:'Previous MyTime Hours', to:config.compareTime},
+    {from:'-MyTimeh', to:config.MyTime},
+    {from:'Last MyTime Hours', to:config.MyTime},
+    {from:'MyApp', to:config.appName},
+    {from:'MyCompareApp', to:(config.compareAppName=="None"?config.appName:config.compareAppName)},
+    {from:'Revenue', to:config.kpiName},
+    {from:'comparerevenueproperty', to:(typeof config.compareRevenue == "undefined"?
+        config.kpi:config.compareRevenue)},
+    {from:'revenueproperty', to:config.kpi},
+  ];
 
   //add funnel step headers to swaps
   let funnelSteps = config.whereClause.split("AND");
