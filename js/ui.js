@@ -332,6 +332,8 @@ function globalButtonHandler() {
 	    let TOid =$("#TOid").text(); 
 	    selection.config.compareAppID=$("#compareAppList").val();
 	    selection.config.compareAppName=$("#compareAppList option:selected").text();
+	    selection.config.MyTime=$("#MyTime").val();
+	    selection.config.compareTime=$("#compareTimeList").val();
         selection.config.AOname=$("#appName").val();
 	    selection.config.appID=$("#applist").val(); 
 	    selection.config.appName=$("#applist option:selected").text();
@@ -384,6 +386,8 @@ function globalButtonHandler() {
 	      selection.config.StepNewFeature1= {'colname': $("#StepNewFeature1 option:selected")[0].dataset['colname'],
             'name': $("#StepNewFeature1").val()};
         }
+	    selection.config.MyTime=$("#MyTime").val();
+	    selection.config.compareTime=$("#compareTimeList").val();
 
 	   //do upload here
 	   let p1 = uploadFunnel(selection.config);
@@ -503,6 +507,7 @@ function fieldsetPainter() {
 	   $("#bc-connect").text(tenantID);
 	   $("#TOid").text(selection.TOid);
 	   $("#TOname").text(DBAdashboards.find(x => x.id === selection.TOid).name);
+       drawTimeInterval( ("MyTime" in selection.config)?selection.config.MyTime:"Last 2 hours" );
 
 	   let p0 = loadDashboard(configID(selection.TOid));
 	   $.when(p0).done(function(d1) {

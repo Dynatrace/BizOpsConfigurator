@@ -46,7 +46,23 @@ function createLinkTile(bounds,re,myID,marker) {
  return tile;
 }
 
-function generateSwapList(config)
+function generateAppSwapList(config) {
+  let swaps = [
+    {from:config.oldTOid, to:config.TOid},
+    {from:config.oldAOid, to:config.AOid},
+    {from:"MyApp", to:config.appName},
+    {from:"InternalAppID", to:config.appID},
+    {from:'InternalCompareAppID', to:config.compareAppID},
+    {from:"MyCompareApp", to:(config.compareAppName=="None"?config.appName:config.compareAppName)},
+    {from:'-MyCompareTimeh to -MyTimeh', to:config.compareTime},
+    {from:'Previous MyTime Hours', to:config.compareTime},
+    {from:'-MyTimeh', to:config.MyTime},
+    {from:'Last MyTime Hours', to:config.MyTime},
+    ];
+  return swaps;
+}
+
+function generateFunnelSwapList(config)
 {
   var swaps = [];
   //NOTE: do NOT do any whereClause manipulation as strings, it makes escaping quotes challenging, do it instead in whereClauseSwaps
@@ -63,8 +79,6 @@ function generateSwapList(config)
   swaps.push({from:'Previous MyTime Hours', to:config.compareTime});
   swaps.push({from:'-MyTimeh', to:config.MyTime});
   swaps.push({from:'Last MyTime Hours', to:config.MyTime});
-  //swaps.push({from:'MyTime', to:"2"});                          //What's this for?
-  //swaps.push({from:'MyCompareTime', to:(config.compareTime=="none"?"2h":config.compareTime)});
   swaps.push({from:'MyApp', to:config.appName});
   swaps.push({from:'MyCompareApp', to:(config.compareAppName=="None"?config.appName:config.compareAppName)});
   swaps.push({from:'Revenue', to:config.kpiName});

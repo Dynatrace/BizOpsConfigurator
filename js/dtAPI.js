@@ -158,13 +158,7 @@ function uploadAppOverview(config) {
   var query="/api/config/v1/dashboards/"+id;
   var data2=JSON.stringify(dashboardAO);
   //string based transforms
-  let swaps = [ 
-    {from:config.oldTOid, to:config.TOid},
-    {from:config.oldAOid, to:config.AOid},
-    {from:"MyApp", to:config.appName},
-    {from:"InternalAppID", to:config.appID},
-    {from:"MyCompareApp", to:(config.compareAppName=="None"?config.appName:config.compareAppName)},
-    {from: "MyTime", to:"2"} ];
+  let swaps = generateAppSwapList(config); 
   //sub-dashboards
   let subs = getStaticSubDBs(dashboardAO,[config.oldTOid,config.oldAOid]);
   swaps = transformSubs(subs,config.AOid,swaps);
@@ -232,7 +226,7 @@ function uploadFunnel(config) {
       let subs = getStaticSubDBs(dashboardFO,[config.oldTOid,config.oldAOid,config.oldFOid]);
       subs = listFunnelDB(config,subs);
       subs.forEach(function(db) {let sub=db.file; whereClauseSwaps(sub,config);});  
-      var swaps=generateSwapList(config);
+      var swaps=generateFunnelSwapList(config);
       swaps = transformSubs(subs,config.FOid,swaps);
       data2 = doSwaps(data2, swaps);
       

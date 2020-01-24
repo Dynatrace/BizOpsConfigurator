@@ -23,6 +23,7 @@ var dbList = [];
 var DBAdashboards=[];
 var tenantID="";
 var selection={};
+    selection.config={};
 var funnelData=[];
 var v5test=true; //opposite of this
 

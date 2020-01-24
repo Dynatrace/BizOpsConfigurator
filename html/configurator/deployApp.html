@@ -22,6 +22,25 @@
       </select>
       <input id="compareFunnel" placeholder="Friendly Name"><br>
     </div>
+    <div id="compareTime">
+      <h3>Time Comparison</h3>
+      Default time interval:
+      <select id="MyTime">
+        <option value="-30m">Last 30 minutes</option>
+        <option value="-2h">Last 2 hours</option>
+        <option value="Today">Today</option>
+        <option value="-24h to now">Last 24 hours</option>
+        <option value="-72h to now">Last 72 hours</option>
+        <option value="-7d to now">Last 7 days</option>
+      </select><br>
+      Comparison interval:
+      <select id="compareTimeList">
+        <option value="Same">Same Interval</option>
+        <option value="2h prior">2 Hours prior</option>
+        <option value="Yesterday">Same time yesterday</option>
+        <option value="Last Week">Same time last week</option>
+      </select>
+    </div>
   </div>
   <input type="button" id="uploadApp" value="Upload">
 </fieldset>
