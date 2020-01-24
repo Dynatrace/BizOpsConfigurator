@@ -82,7 +82,7 @@ function generateFunnelSwapList(config)
     {from:'-MyTimeh', to:config.MyTime},
     {from:'Last MyTime Hours', to:config.MyTime},
     {from:'MyApp', to:config.appName},
-    {from:"MyURLApp", to:codeURIComponent(config.appName)},
+    {from:"MyURLApp", to:encodeURIComponent(config.appName)},
     {from:'MyCompareApp', to:(config.compareAppName=="None"?config.appName:config.compareAppName)},
     {from:'Revenue', to:config.kpiName},
     {from:'comparerevenueproperty', to:(typeof config.compareRevenue == "undefined"?

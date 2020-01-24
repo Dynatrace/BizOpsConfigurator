@@ -130,6 +130,7 @@ function updateTenantOverview(TOid) {
     updateLinkTile(dashboardTO,config,re,"![Application Links1]()");
   var query="/api/config/v1/dashboards/"+TOid;
   var data2=JSON.stringify(dashboardTO);
+      data2 = validateDB(data2);
   //upload
   saveConfigDashboard(configID(TOid),config);
   return dtAPIquery(query,{method:"PUT",data:data2});
@@ -244,6 +245,7 @@ function uploadFunnel(config) {
 
 function uploadSubs(subs) {
     subs.forEach(function(db) {
+        db.file = validateDB(db.file);
         let json = JSON.stringify(db.file);
         var query = "/api/config/v1/dashboards/" + db.file.id;
         dtAPIquery(query,{method:"PUT",data:json});
