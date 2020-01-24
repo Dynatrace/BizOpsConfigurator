@@ -37,7 +37,7 @@ function createLinkTile(bounds,re,myID,marker) {
     let name = db.name.replace(/^[^ ]* /, ''); //strip emojis in small links
     if(re.test(db.id) && db.id != myID) {
       if(tile.markdown.length > 0) tile.markdown += "\n";
-      tile.markdown += "## ["+name+"](#dashboard;id="+db.id+")\n";
+      tile.markdown += "## ["+name+"](#dashboard;id="+db.id+")\n![]()\n";
       minHeight += 38;
     }
   });
@@ -52,7 +52,7 @@ function generateAppSwapList(config) {
     {from:config.oldAOid, to:config.AOid},
     {from:'https://MyTenant', to:url},
     {from:"MyApp", to:config.appName},
-    {from:"MyURLApp", to:encodeURIcomponent(config.appName)},
+    {from:"MyURLApp", to:encodeURIComponent(config.appName)},
     {from:"InternalAppID", to:config.appID},
     {from:'InternalCompareAppID', to:config.compareAppID},
     {from:"MyCompareApp", to:(config.compareAppName=="None"?config.appName:config.compareAppName)},
@@ -82,7 +82,7 @@ function generateFunnelSwapList(config)
     {from:'-MyTimeh', to:config.MyTime},
     {from:'Last MyTime Hours', to:config.MyTime},
     {from:'MyApp', to:config.appName},
-    {from:"MyURLApp", to:encodeURIcomponent(config.appName)},
+    {from:"MyURLApp", to:codeURIComponent(config.appName)},
     {from:'MyCompareApp', to:(config.compareAppName=="None"?config.appName:config.compareAppName)},
     {from:'Revenue', to:config.kpiName},
     {from:'comparerevenueproperty', to:(typeof config.compareRevenue == "undefined"?
