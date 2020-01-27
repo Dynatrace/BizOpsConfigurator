@@ -49,7 +49,7 @@ div.searchbar a#home svg{
     height: 20px;
 }
 
-div.viewport {
+#viewport {
   position: absolute;
   left: 236px;
   top: 44px;
@@ -486,4 +486,27 @@ tr.github {
 
 #faq b {
   color: #00b9cc;
+}
+
+#popup {
+  background-color: #525252;
+  border: 1px solid #00b9cc;
+  border-radius: 3px;
+  position: fixed;
+  width: 300px;
+  height: 175px;
+  top: 50%;
+  left: 50%;
+  color: white;
+  padding: 5px 5px 5px 5px;
+}
+
+#popup span {
+  color: #00b9cc;
+  font-size: larger;
+}
+
+#popup table {
+  width: 100%;
+  height: 100%;
 }

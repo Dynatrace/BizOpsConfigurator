@@ -26,6 +26,7 @@ var selection={};
     selection.config={};
 var funnelData=[];
 var v5test=true; //opposite of this
+var popup_p={};
 
 ///////// Functions for manipulating global vars //////////
 

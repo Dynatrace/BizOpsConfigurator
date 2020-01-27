@@ -297,12 +297,14 @@ function doSwaps(dbS,swaps) {
     return dbS;
 }
 
-function transformSubs(subs,dbid,swaps) {
+function transformSubs(subs,dbid,swaps,config) {
   let id = dbid;
+  config.subids=[];
   subs.forEach(function(db) {
     sub = db.file
     id = nextDB(id);
     swaps.push({from:sub.id, to:id});
+    config.subids.push({from:sub.id, to:id});
     sub.id=id;
     sub["dashboardMetadata"]["owner"]=owner;
     sub["dashboardMetadata"]["shared"]="true";
@@ -333,10 +335,15 @@ function validateDB(input) {
         e += "Trunc MARKDOWN on \""+db.dashboardMetadata.name+"\" Tile["+index+"] ";
     }
   });
+
+  //check for untransformed dashboard
+  var re = /^bbbbbbbb-/;
+  if(!re.test(db.id)) e += "Untransformed dashboard: "+db.id;
+
+
+  //alert and return the DB
   if(e.length>0)
     errorbox(e);
-
-
   if(typeof input == "string")
     return(JSON.stringify(db));
   else if(typeof input == "object")

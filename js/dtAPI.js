@@ -105,7 +105,7 @@ function uploadTenantOverview(config) {
   //sub-dashboards
   let subs = getStaticSubDBs(dashboardTO,[config.oldTOid]);
   let swaps = [ {from:config.oldTOid, to:id} ];
-  swaps = transformSubs(subs,config.TOid,swaps);
+  swaps = transformSubs(subs,config.TOid,swaps,config);
   data = doSwaps(data, swaps);
   
   //upload
@@ -148,7 +148,6 @@ function uploadAppOverview(config) {
   var id=nextAO(config.TOid);
   config.AOid=id;
   config.oldAOid=dashboardAO["id"];
-  saveConfigDashboard(configID(id),config);
   dashboardAO["id"]=id;
   dashboardAO["dashboardMetadata"]["owner"]=owner;
   dashboardAO["dashboardMetadata"]["name"]=dashboardAO["dashboardMetadata"]["name"].replace(/MyApp/g,config.AOname+" App");
@@ -162,13 +161,14 @@ function uploadAppOverview(config) {
   let swaps = generateAppSwapList(config); 
   //sub-dashboards
   let subs = getStaticSubDBs(dashboardAO,[config.oldTOid,config.oldAOid]);
-  swaps = transformSubs(subs,config.AOid,swaps);
+  swaps = transformSubs(subs,config.AOid,swaps,config);
   data2 = doSwaps(data2, swaps);
   
   //validate
   data2 = validateDB(data2);
 
   //upload
+  saveConfigDashboard(configID(id),config);
   uploadSubs(subs);
   return dtAPIquery(query,{method:"PUT",data:data2});
   });
@@ -212,7 +212,6 @@ function uploadFunnel(config) {
     if(typeof(config.FOid)==="undefined")
       config.FOid=nextFO(config.AOid);
     config.oldFOid=dashboardFO["id"];
-    saveConfigDashboard(configID(config.FOid),config);
     dashboardFO["id"]=config.FOid;
     dashboardFO["dashboardMetadata"]["owner"]=owner;
     dashboardFO["dashboardMetadata"]["name"]=dashboardFO["dashboardMetadata"]["name"].replace(/MyFunnel/g,config.funnelName);
@@ -231,25 +230,28 @@ function uploadFunnel(config) {
       subs = listFunnelDB(config,subs);
       subs.forEach(function(db) {let sub=db.file; whereClauseSwaps(sub,config);});  
       var swaps=generateFunnelSwapList(config);
-      swaps = transformSubs(subs,config.FOid,swaps);
+      swaps = transformSubs(subs,config.FOid,swaps,config);
       data2 = doSwaps(data2, swaps);
      
       //validate
       data2 = validateDB(data2);
  
       //upload
+      saveConfigDashboard(configID(config.FOid),config);
       uploadSubs(subs);
       return dtAPIquery(query,{method:"PUT",data:data2});
   });
 }
 
 function uploadSubs(subs) {
+    let deferreds = [];
     subs.forEach(function(db) {
         db.file = validateDB(db.file);
         let json = JSON.stringify(db.file);
         var query = "/api/config/v1/dashboards/" + db.file.id;
-        dtAPIquery(query,{method:"PUT",data:json});
+        deferreds.push(dtAPIquery(query,{method:"PUT",data:json}));
     });
+    return deferreds;
 }
 
 function deleteFunnel(id) {

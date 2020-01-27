@@ -6,15 +6,15 @@ $(document).ready(function(){
   // jQuery methods go here... (main logic)
 
   // default page load
-  $("div.viewport").load("html/home.html", function(){
+  $("#viewport").load("html/home.html", function(){
     // static link handlers
     loadStaticHandlers();
 
     // global button handler
-    $("div.viewport").on("click", "input:button", globalButtonHandler);
+    $("#viewport").on("click", "input:button", globalButtonHandler);
 
     //handle breadcrumb navigation
-    $("div.viewport").on("click", "a", linkHandler);
+    $("#viewport").on("click", "a", linkHandler);
 
     loadInputChangeHandlers();
   });
@@ -24,13 +24,50 @@ $(document).ready(function(){
 });
 
 ////////// Functions ////////////
+function loadStaticHandlers() {
+  $("a#prerequisites").click(function() {
+     $("#viewport").load("html/prerequisites-1.html");
+  });
+
+  $("a#begin").click(function() {
+     $("#viewport").load("html/configurator/connect.html",fieldsetPainter);
+  });
+
+  $("a#overview").click(function() {
+     $("#viewport").load("html/overview.html");
+  });
+
+  $("a#home").click(function() {
+     $("#viewport").load("html/home.html");
+  });
+
+  $("a#logo").click(function() {
+     $("#viewport").load("html/home.html");
+  });
+
+  $("a#funneltest").click(function() {
+     $("#viewport").load("html/funnel-v2.html");
+  });
+
+  $("#v5test").click(v5handler);
+
+  $("#githubtest").click(function() {
+    testRepo(0);      
+  });
+
+  $("#faq").click(function() {
+     $("#viewport").load("html/faq.html");
+  });
+
+}
+
 function loadInputChangeHandlers(){
-    $("div.viewport").on("change", "#compareAppList", compareAppChangeHandler);
-    $("div.viewport").on("change", "#usplist", uspListChangeHandler);
-    $("div.viewport").on("change", "#campaignActive", campaignChangeHandler);
-    $("div.viewport").on("change", "#featureAdded", featureChangeHandler);
-    $("div.viewport").on("change", "#authgithub", authgithubChangeHandler);
-    $("div.viewport").on("change", "#MyTime", MyTimeChangeHandler);
+    $("#viewport").on("change", "#compareAppList", compareAppChangeHandler);
+    $("#viewport").on("change", "#usplist", uspListChangeHandler);
+    $("#viewport").on("change", "#campaignActive", campaignChangeHandler);
+    $("#viewport").on("change", "#featureAdded", featureChangeHandler);
+    $("#viewport").on("change", "#authgithub", authgithubChangeHandler);
+    $("#viewport").on("change", "#MyTime", MyTimeChangeHandler);
 }
 
 function pencilToggle(on) {
@@ -78,37 +115,37 @@ function linkHandler(e) {
       let a = $(this)[0];
       let id = a.id;
       if(typeof dtrum !== "undefined") dtrum.actionName("linkHandler("+id+")");
-      if(a.classList.contains("newTab"))return e; //don't handle popups with jQuery
+      if(a.classList.contains("newTab"))return e; //don't handle new tabs with jQuery
       switch(id) {
 	case "bc-connect":
-	   $("div.viewport").load("html/configurator/connect.html",fieldsetPainter);
+	   $("#viewport").load("html/configurator/connect.html",fieldsetPainter);
 	   break;
 	case "bc-deployApp":
-	   $("div.viewport").load("html/configurator/deployApp.html",fieldsetPainter);
+	   $("#viewport").load("html/configurator/deployApp.html",fieldsetPainter);
 	   break;
 	case "bc-deployFunnel-name":
-	   $("div.viewport").load("html/configurator/deployFunnel-name.html",fieldsetPainter);
+	   $("#viewport").load("html/configurator/deployFunnel-name.html",fieldsetPainter);
 	   break;
 	case "bc-deployFunnel-kpi":
-	   $("div.viewport").load("html/configurator/deployFunnel-kpi.html",fieldsetPainter);
+	   $("#viewport").load("html/configurator/deployFunnel-kpi.html",fieldsetPainter);
 	   break;
 	case "bc-deployFunnel-compare":
-	   $("div.viewport").load("html/configurator/deployFunnel-compare.html",fieldsetPainter);
+	   $("#viewport").load("html/configurator/deployFunnel-compare.html",fieldsetPainter);
 	   break;
 	case "bc-deployFunnel-funnel":
-	   $("div.viewport").load("html/configurator/deployFunnel-funnel.html",fieldsetPainter);
+	   $("#viewport").load("html/configurator/deployFunnel-funnel.html",fieldsetPainter);
 	   break;
 	case "bc-deployTenant":
-	   $("div.viewport").load("html/configurator/deployTenant.html",fieldsetPainter);
+	   $("#viewport").load("html/configurator/deployTenant.html",fieldsetPainter);
 	   break;
 	case "bc-listApp":
-	   $("div.viewport").load("html/configurator/listApp.html",fieldsetPainter);
+	   $("#viewport").load("html/configurator/listApp.html",fieldsetPainter);
 	   break;
 	case "bc-listFunnel":
-	   $("div.viewport").load("html/configurator/listFunnel.html",fieldsetPainter);
+	   $("#viewport").load("html/configurator/listFunnel.html",fieldsetPainter);
 	   break;
 	case "bc-listTenant":
-	   $("div.viewport").load("html/configurator/listTenant.html",fieldsetPainter);
+	   $("#viewport").load("html/configurator/listTenant.html",fieldsetPainter);
 	   break;
 	case "pencil":
 	   pencilToggle();
@@ -142,7 +179,7 @@ function globalButtonHandler() {
 
 	   $.when(p_connect).done(function(data) {
 	      if(processTestConnect(data)) {
-              $("div.viewport").load("html/configurator/main.html",fieldsetPainter); 
+              $("#viewport").load("html/configurator/main.html",fieldsetPainter); 
               getVersion()
                 .then(processVersion)
                 .then(loadDBList)
@@ -170,7 +207,7 @@ function globalButtonHandler() {
 
 	     $.when(p1).done(function(){
   	       $(this).val("Deleted");
-	       $("div.viewport").load("html/configurator/listApp.html",fieldsetPainter);
+	       $("#viewport").load("html/configurator/listApp.html",fieldsetPainter);
 	       updateTenantOverview(TOid);
 	     });
 	   } else {
@@ -198,7 +235,7 @@ function globalButtonHandler() {
 
 	     $.when(p1).done(function(){
   	       $(this).val("Deleted");
-	       $("div.viewport").load("html/configurator/listFunnel.html",fieldsetPainter);
+	       $("#viewport").load("html/configurator/listFunnel.html",fieldsetPainter);
 	       updateAppOverview(AOid);
 	     });
 	   } else {
@@ -225,7 +262,7 @@ function globalButtonHandler() {
 
 	     $.when(p1).done(function(){
   	       $(this).val("Deleted");
-	       $("div.viewport").load("html/configurator/listTenant.html",fieldsetPainter);
+	       $("#viewport").load("html/configurator/listTenant.html",fieldsetPainter);
 	     });
 	   } else {
   	     $(this).val("Delete");
@@ -235,70 +272,129 @@ function globalButtonHandler() {
 	}
 	case "deployApp":
 	   selection.TOid=$(this)[0].parentNode.id;
-	   $("div.viewport").load("html/configurator/deployApp.html",fieldsetPainter);
+	   $("#viewport").load("html/configurator/deployApp.html",fieldsetPainter);
 	   break;
 	case "deployAnotherApp":
 	   selection.TOid=$("#TOid").text();
-	   $("div.viewport").load("html/configurator/deployApp.html",fieldsetPainter);
+	   $("#viewport").load("html/configurator/deployApp.html",fieldsetPainter);
 	   break;
 	case "deployAnotherFunnel":
 	   selection.AOid=$("#AOid").text();
 	   selection.funnelLoaded=false;
-	   $("div.viewport").load("html/configurator/deployFunnel-name.html",fieldsetPainter);
+	   $("#viewport").load("html/configurator/deployFunnel-name.html",fieldsetPainter);
 	   break;
 	case "deployFunnel":
 	   selection.AOid=$(this)[0].parentNode.id;
 	   selection.funnelLoaded=false;
-	   $("div.viewport").load("html/configurator/deployFunnel-name.html",fieldsetPainter);
+	   $("#viewport").load("html/configurator/deployFunnel-name.html",fieldsetPainter);
 	   break;
 	case "deployFunnel-name-next":
 	   selection.config.funnelName=$("#funnelName").val();
-	   $("div.viewport").load("html/configurator/deployFunnel-kpi.html",fieldsetPainter);
+	   $("#viewport").load("html/configurator/deployFunnel-kpi.html",fieldsetPainter);
 	   break;
 	case "deployFunnel-kpi-next":
 	   selection.config.kpi=$("#usplist").val();
 	   selection.config.kpiName=$("#kpiName").val();
-	   $("div.viewport").load("html/configurator/deployFunnel-funnel.html",fieldsetPainter);
+	   $("#viewport").load("html/configurator/deployFunnel-funnel.html",fieldsetPainter);
 	   break;
 	case "deployFunnel-funnel-next":
 	   selection.config.whereClause=$("#whereClause").val();
 	   selection.config.funnelData=funnelData;
-	   $("div.viewport").load("html/configurator/deployFunnel-compare.html",fieldsetPainter);
+	   $("#viewport").load("html/configurator/deployFunnel-compare.html",fieldsetPainter);
 	   break;
 	case "deployTenant": 
 	   let p_mz = getMZs();
 	   $.when(p_mz).done(function(data1) {
 	     processMZs(data1);
-	     $("div.viewport").load("html/configurator/deployTenant.html",fieldsetPainter);
+	     $("#viewport").load("html/configurator/deployTenant.html",fieldsetPainter);
 	   });
 	   break;
-	case "editFunnel":
-	   selection.FOid = $(this)[0].parentNode.id;
-	   let p1 = loadDashboard(configID(selection.FOid));
+	case "editFunnel": {
+           selection.FOid = $(this)[0].parentNode.id;
+           let p1 = loadDashboard(configID(selection.FOid));
 
-	   $.when(p1).done(function(data) {
-	       selection.config = parseConfigDashboard(data);
-	       selection.funnelLoaded=true;
-	       $("div.viewport").load("html/configurator/deployFunnel-name.html",fieldsetPainter);
-	   }); 
+           $.when(p1).done(function(data) {
+               selection.config = parseConfigDashboard(data);
+               selection.funnelLoaded=true;
+               $("#viewport").load("html/configurator/deployFunnel-name.html",fieldsetPainter);
+           }); 
+        }
 	   break;
+    case "updateFunnelForecast": {
+        let button = $(this);
+        let originalText = button.text();
+        $(this).text('Updating...');
+        let ov = $(this)[0].parentNode.id;
+        let p1 = loadDashboard(configID(ov));
+
+        //get some vals from a popup
+        let popupHeader = "Enter expected traffic factor";
+        let inputs = [{name:'tfactor', value:'100%'}];
+        popup_p = popup(inputs,popupHeader);
+
+        $.when(p1,popup_p).done(function(data,data2) {
+            selection.config = parseConfigDashboard(data[0]);
+            selection.config.tfactor = data2[0].val.replace('%','');
+            let p2 = generateFunnelForecast(selection.config);
+
+            if(typeof selection.config.subids == "undefined")
+                errorbox("Sorry, Funnel data is too old, please edit and re-upload, then try again.");
+            else $.when(p2).done(function(revs) {
+                let deferreds = updateFunnelForecast(selection.config,ov,revs);
+
+                $.when.apply(deferreds).done(function() {
+                    button.text(originalText);
+                });
+            });
+        }); 
+      }
+      break;
+    case "updateAppForecast": {
+        let button = $(this);
+        let originalText = button.text();
+        $(this).text('Updating...');
+        let ov = $(this)[0].parentNode.id;
+        let p1 = loadDashboard(configID(ov));
+
+        //get some vals from a popup
+        let popupHeader = "Enter expected traffic factor";
+        let inputs = [{name:'tfactor', value:'100%'}];
+        popup_p = popup(inputs,popupHeader);
+
+        $.when(p1,popup_p).done(function(data,data2) {
+            selection.config = parseConfigDashboard(data[0]);
+            selection.config.tfactor = data2[0].val.replace('%','');
+            let p2 = generateAppForecast(selection.config);
+            let p3 = "";
+            if(typeof selection.config.subids == "undefined")
+                errorbox("Sorry, AppOverview data is too old, please edit and re-upload, then try again.");
+            else $.when(p2).done(function(revs) {
+                let deferreds = updateAppForecast(selection.config,ov,revs);
+
+                $.when.apply(deferreds).done(function() {
+                    button.text(originalText);
+                });
+            });
+        }); 
+      }
+      break;
 	case "json":
 	   $("#jsonviewer").toggle();
 	   break;
 	case "listApp": 
 	   selection.TOid=$(this)[0].parentNode.id;
-	   $("div.viewport").load("html/configurator/listApp.html",fieldsetPainter);
+	   $("#viewport").load("html/configurator/listApp.html",fieldsetPainter);
 	   break;
 	case "returnListFunnel":
 	   selection.config={};
-	   $("div.viewport").load("html/configurator/listFunnel.html",fieldsetPainter);
+	   $("#viewport").load("html/configurator/listFunnel.html",fieldsetPainter);
 	   break;
 	case "listFunnel":
 	   selection.AOid=$(this)[0].parentNode.id;
-	   $("div.viewport").load("html/configurator/listFunnel.html",fieldsetPainter);
+	   $("#viewport").load("html/configurator/listFunnel.html",fieldsetPainter);
 	   break;
 	case "listTenant":
-	   $("div.viewport").load("html/configurator/listTenant.html",fieldsetPainter);
+	   $("#viewport").load("html/configurator/listTenant.html",fieldsetPainter);
 	   break;
 	case "minus":
 	   if( $("input#whereClause").attr('readonly') ) { //do nothing if in pencil mode
@@ -326,7 +422,7 @@ function globalButtonHandler() {
 	   updateWhere(funnelData);
 	   break;
 	case "upgradeTenant":
-	   $("div.viewport").load("html/configurator/listTenant.html",fieldsetPainter);
+	   $("#viewport").load("html/configurator/listTenant.html",fieldsetPainter);
 	   break;
 	case "uploadApp": {
   	    $("input#uploadApp").val("Uploading...");
@@ -344,7 +440,7 @@ function globalButtonHandler() {
 	   let p1 = uploadAppOverview(selection.config);
 	   $.when(p1) .done(function(){
   	     $("input#uploadApp").val("Uploaded");
-	     $("div.viewport").load("html/configurator/listApp.html",fieldsetPainter);
+	     $("#viewport").load("html/configurator/listApp.html",fieldsetPainter);
 	     updateTenantOverview(TOid);
 	   });
 	   break;
@@ -360,7 +456,7 @@ function globalButtonHandler() {
 
 	   $.when(p1).done(function(){
   	     $("input#uploadTenant").val("Uploaded");
-	     $("div.viewport").load("html/configurator/listTenant.html",fieldsetPainter);
+	     $("#viewport").load("html/configurator/listTenant.html",fieldsetPainter);
 	   });
 	   break;
 	}
@@ -395,7 +491,7 @@ function globalButtonHandler() {
 	   let p1 = uploadFunnel(selection.config);
 
 	   $.when(p1).done(function(){
-	     $("div.viewport").load("html/configurator/deployFunnel-finish.html",fieldsetPainter);
+	     $("#viewport").load("html/configurator/deployFunnel-finish.html",fieldsetPainter);
 	     updateAppOverview(selection.AOid);
 	   });
 	   break;
@@ -429,42 +525,6 @@ function globalButtonHandler() {
 	   console.log($(this));
     }
     } else console.log($(this));
-}
-
-function loadStaticHandlers() {
-  $("a#prerequisites").click(function() {
-     $("div.viewport").load("html/prerequisites-1.html");
-  });
-
-  $("a#begin").click(function() {
-     $("div.viewport").load("html/configurator/connect.html",fieldsetPainter);
-  });
-
-  $("a#overview").click(function() {
-     $("div.viewport").load("html/overview.html");
-  });
-
-  $("a#home").click(function() {
-     $("div.viewport").load("html/home.html");
-  });
-
-  $("a#logo").click(function() {
-     $("div.viewport").load("html/home.html");
-  });
-
-  $("a#funneltest").click(function() {
-     $("div.viewport").load("html/funnel-v2.html");
-  });
-
-  $("#v5test").click(v5handler);
-
-  $("#githubtest").click(function() {
-    testRepo(0);      
-  });
-
-  $("#faq").click(function() {
-     $("div.viewport").load("html/faq.html");
-  });
 }
 
 function jqueryInit() {
@@ -684,6 +744,8 @@ function fieldsetPainter() {
 	     processDBADashboards(data);
 	     drawAppOverviewList(selection.TOid);
 	     jsonviewer(DBAdashboards); //do NOT display raw dashboard list
+         if(version < 183) $("#updateAppForecast").hide();
+         else $("#updateAppForecast").show();
 	   });
 	   break;
 	}
@@ -700,6 +762,8 @@ function fieldsetPainter() {
 	     processDBADashboards(data);
 	     drawFunnelList(selection.AOid);
 	     jsonviewer(DBAdashboards); //do NOT display raw dashboard list
+         if(version < 183) $("#updateFunnelForecast").hide();
+         else $("#updateFunnelForecast").show();
 	   });
 	   break;
 	}
@@ -750,8 +814,9 @@ function drawAppOverviewList(TOid) {
 	let dt = "<dt><a target='_blank' href='"+url+"/#dashboard;id="+dashboard.id+"' class='newTab'>"+
 	  dashboard.name+" <img src='images/link.svg'></a> ("+dashboard.owner+")</dt>";
 	let dd = "<dd id='"+dashboard.id+"'>"+
-	  "<input type='button' id='listFunnel' value='List Funnels'>"+
+	      "<input type='button' id='listFunnel' value='List Funnels'>"+
           "<input type='button' id='deployFunnel' value='Deploy Funnel'>"+
+          "<input type='button' id='updateAppForecast' value='Update Forecast'>"+
           "<input type='button' id='deleteApp' value='Delete'>"+
 		"</dd>";
 	$("#appList dl").append(dt+dd);
@@ -771,6 +836,7 @@ function drawFunnelList(AOid) {
 	let dt = "<dt><a target='_blank' href='"+url+"/#dashboard;id="+dashboard.id+"' class='newTab'>"+
 	  dashboard.name+" <img src='images/link.svg'></a> ("+dashboard.owner+")</dt>";
 	let dd = "<dd id='"+dashboard.id+"'>"+
+          "<input type='button' id='updateFunnelForecast' value='Update Forecast'>"+
           "<input type='button' id='editFunnel' value='Edit'>"+
           "<input type='button' id='deleteFunnel' value='Delete'>"+
 		"</dd>";
@@ -1001,4 +1067,35 @@ function drawTimeInterval(v) {
   $("#MyTime").html(timeList);
   $("#MyTime").val(v);
   MyTimeChangeHandler();
+}
+
+function popup(inputs,popupHeader) {
+  let deferred = new $.Deferred();
+  let html = "<div id='popup'>" +
+    "<span>"+popupHeader+"</span>" +
+    "<table>";
+
+  inputs.forEach(function(i) {
+    html += "<tr><td>"+i.name+": </td>";
+    html += "<td><input name='"+i.name+"' value='"+i.value+"'></td></tr>";
+  });
+
+  html += "<tr><td></td><td><input type='button' name='ok' value='Ok' id='popup_ok'></td></tr></table></div>";
+  $("#viewport").append(html);
+  $("#popup_ok").on("click", function() { popout(deferred); });
+
+  return deferred;
+}
+
+function popout(popup_p) {
+  let outputs=[];
+  $("#popup input").each(function() { 
+    let output= {
+        name:$(this).attr('name'),
+        val:$(this).val() };
+    outputs.push(output);
+  });
+  $("#popup").remove();
+
+  popup_p.resolve(outputs);
 }
