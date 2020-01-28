@@ -25,16 +25,16 @@ function generateFunnelForecast(config) {
         queries.push('select sum('+revenue+') as "rev'+i+'", avg('+revenue+') as "acv'+i+'" from usersession where useraction.application="'+appname+'" and '+laststep+' and startTime between '+startdate+' and '+enddate);
 
         //Risk Revenue
-        queries.push('select sum('+revenue+') as "riskrev'+i+'" from usersession where useraction.application="'+appname+'" and userExperienceScore!="SATISFIED" and '+laststep+' and startTime between '+startdate+' and '+enddate);
+        queries.push('select sum('+revenue+') as "riskrev'+i+'", avg('+revenue+') as "arcv'+i+'" from usersession where useraction.application="'+appname+'" and userExperienceScore!="SATISFIED" and '+laststep+' and startTime between '+startdate+' and '+enddate);
 
         //Average Risk Cart Value
-        queries.push('select avg('+revenue+') as "arcv'+i+'" from usersession where useraction.application="'+appname+'" and userExperienceScore!="SATISFIED" and '+laststep+' and startTime between '+startdate+' and '+enddate);
+        //queries.push('select avg('+revenue+') as "arcv'+i+'" from usersession where useraction.application="'+appname+'" and userExperienceScore!="SATISFIED" and '+laststep+' and startTime between '+startdate+' and '+enddate);
 
         //Lost Revenue
-        queries.push('select sum('+revenue+') as "lostrev'+i+'" from usersession where useraction.application="'+appname+'" and not '+laststep+' and startTime between '+startdate+' and '+enddate);
+        queries.push('select sum('+revenue+') as "lostrev'+i+'", avg('+revenue+') as "alcv'+i+'" from usersession where useraction.application="'+appname+'" and not '+laststep+' and startTime between '+startdate+' and '+enddate);
 
         //Average Lost Cart Value
-        queries.push('select avg('+revenue+') as "alcv'+i+'" from usersession where useraction.application="'+appname+'" and not '+laststep+' and startTime between '+startdate+' and '+enddate);
+        //queries.push('select avg('+revenue+') as "alcv'+i+'" from usersession where useraction.application="'+appname+'" and not '+laststep+' and startTime between '+startdate+' and '+enddate);
 
         //Funnel Forecasting
         //Conversions
@@ -136,7 +136,6 @@ function generateAppForecast(config) {
     var revs = [];
     var date = new Date();
     var appname = config.appName;
-    var firststep = 'useraction.name <> ""';
     var deferreds = [];
     var deferred = {};
     var dateTemp = new Date();
@@ -160,9 +159,9 @@ function generateAppForecast(config) {
         // Number of Frustrated Users
         queries.push('select count(usersessionid) as "anofu'+i+'" from usersession where useraction.application="'+appname+'" and userExperienceScore="FRUSTRATED" and startTime between '+startdate+' and '+enddate);
         // Action Duration
-        queries.push('select avg(useraction.duration) as "appdur'+i+'" from usersession where useraction.application="'+appname+'" and '+firststep+' and startTime between '+startdate+' and '+enddate);
+        queries.push('select avg(useraction.duration) as "appdur'+i+'", count(useraction.errorCount) as "apperr'+i+'" from usersession where useraction.application="'+appname+'" and startTime between '+startdate+' and '+enddate);
         // Action Errors
-        queries.push('select count(useraction.errorCount) as "apperr'+i+'" from usersession where useraction.application="'+appname+'" and '+firststep+' and startTime between '+startdate+' and '+enddate);
+        //queries.push('select count(useraction.errorCount) as "apperr'+i+'" from usersession where useraction.application="'+appname+'" and startTime between '+startdate+' and '+enddate);
 
         queries.forEach(function(usql) {
 //console.log(usql);

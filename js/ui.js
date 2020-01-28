@@ -330,7 +330,8 @@ function globalButtonHandler() {
         //get some vals from a popup
         let popupHeader = "Enter expected traffic factor";
         let inputs = [{name:'tfactor', value:'100%'}];
-        popup_p = popup(inputs,popupHeader);
+        let desc = "Allows you to adjust for expected traffic changes, ie 110% is a 10% increase, eg to account for an advertising spot. Keep at 100% normally.";
+        popup_p = popup(inputs,popupHeader,desc);
 
         $.when(p1,popup_p).done(function(data,data2) {
             selection.config = parseConfigDashboard(data[0]);
@@ -359,7 +360,8 @@ function globalButtonHandler() {
         //get some vals from a popup
         let popupHeader = "Enter expected traffic factor";
         let inputs = [{name:'tfactor', value:'100%'}];
-        popup_p = popup(inputs,popupHeader);
+        let desc = "Allows you to adjust for expected traffic changes, ie 110% is a 10% increase, eg to account for an advertising spot. Keep at 100% normally.";
+        popup_p = popup(inputs,popupHeader,desc);
 
         $.when(p1,popup_p).done(function(data,data2) {
             selection.config = parseConfigDashboard(data[0]);
@@ -1069,10 +1071,10 @@ function drawTimeInterval(v) {
   MyTimeChangeHandler();
 }
 
-function popup(inputs,popupHeader) {
+function popup(inputs,popupHeader,desc) {
   let deferred = new $.Deferred();
   let html = "<div id='popup'>" +
-    "<span>"+popupHeader+"</span>" +
+    "<span class='header'>"+popupHeader+"</span>" +
     "<table>";
 
   inputs.forEach(function(i) {
@@ -1080,7 +1082,8 @@ function popup(inputs,popupHeader) {
     html += "<td><input name='"+i.name+"' value='"+i.value+"'></td></tr>";
   });
 
-  html += "<tr><td></td><td><input type='button' name='ok' value='Ok' id='popup_ok'></td></tr></table></div>";
+  html += "<tr><td colspan=2 class='desc'>"+desc+"</td></tr>";
+  html += "<tr><td colspan=2><input type='button' name='ok' value='Ok' id='popup_ok'></td></tr></table></div>";
   $("#viewport").append(html);
   $("#popup_ok").on("click", function() { popout(deferred); });
 

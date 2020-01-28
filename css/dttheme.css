@@ -495,15 +495,22 @@ tr.github {
   position: fixed;
   width: 300px;
   height: 175px;
-  top: 50%;
-  left: 50%;
+  top: calc(50% - 175px/2);
+  left: calc(50% - 300px/2);
   color: white;
   padding: 5px 5px 5px 5px;
+  text-align: center;
 }
 
-#popup span {
+#popup span.header {
   color: #00b9cc;
   font-size: larger;
+}
+
+#popup td.desc {
+  color: white;
+  font-size: smaller;
+  text-align: left;
 }
 
 #popup table {
