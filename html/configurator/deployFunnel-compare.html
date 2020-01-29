@@ -1,5 +1,5 @@
 <fieldset id="deployFunnel-compare">
-  <legend>Deploy Funnel</legend>
+  <legend>Deploy Journey</legend>
   <span class="configHeader">Tenant Overview:</span> <span id="TOname">My Tenant Overview</span><br>
   <span class="configHeader">ID:</span> <span id="TOid">bbbbbb-xxxx-0000-00000000</span><br>
   <span class="configHeader">App Overview:</span> <span id="AOname">My App Overview</span><br>
@@ -17,13 +17,13 @@
         <option value="App-456">My Other App</option>
       </select>
       <input id="compareFunnel" placeholder="Friendly Name"><br>
-      1st Step:
+      <span class='compareApp'>1st Step:</span>
       <select id="compareFirstStep">
       </select><br>
-      Last Step:
+      <span class='compareApp'>Last Step:</span>
       <select id="compareLastStep">
       </select><br>
-      KPI:
+      <span class='compareApp'>KPI:</span>
       <select id="compareRevenue">
       </select>
     </div>
@@ -69,8 +69,8 @@
   <a class="bc bc-first" id="bc-connect">tenantID</a>
   <a href="#configurator" class="bc" id="bc-listTenant">Tenant Overviews</a>
   <a href="#configurator" class="bc" id="bc-listApp">App Overviews</a>
-  <a href="#configurator" class="bc" id="bc-listFunnel">Funnels</a>
-  <a href="#configurator" class="bc" id="bc-deployFunnel-name">Funnel Name</a>
+  <a href="#configurator" class="bc" id="bc-listFunnel">Journeys</a>
+  <a href="#configurator" class="bc" id="bc-deployFunnel-name">Journey Name</a>
   <a href="#configurator" class="bc" id="bc-deployFunnel-kpi">KPI</a>
   <a href="#configurator" class="bc" id="bc-deployFunnel-funnel">Funnel</a>
   <a href="#configurator" class="bc" id="bc-deployFunnel-compare">Comparisons</a>

@@ -118,7 +118,8 @@ function linkHandler(e) {
       if(a.classList.contains("newTab"))return e; //don't handle new tabs with jQuery
       switch(id) {
 	case "bc-connect":
-	   $("#viewport").load("html/configurator/connect.html",fieldsetPainter);
+	   //$("#viewport").load("html/configurator/connect.html",fieldsetPainter);
+	   $("#viewport").load("html/configurator/main.html",fieldsetPainter);
 	   break;
 	case "bc-deployApp":
 	   $("#viewport").load("html/configurator/deployApp.html",fieldsetPainter);
@@ -339,7 +340,7 @@ function globalButtonHandler() {
             let p2 = generateFunnelForecast(selection.config);
 
             if(typeof selection.config.subids == "undefined")
-                errorbox("Sorry, Funnel data is too old, please edit and re-upload, then try again.");
+                errorbox("Sorry, journey data is too old, please edit and re-upload, then try again.");
             else $.when(p2).done(function(revs) {
                 let deferreds = updateFunnelForecast(selection.config,ov,revs);
 
@@ -730,12 +731,6 @@ function fieldsetPainter() {
 	   $("#bc-connect").text(tenantID);
 	   drawMZs();
 	   break;
-	case "funnelbuttons":
-	   alert("funnelbuttons");
-	   break;
-	case "json":
-	   alert("json");
-	   break;
 	case "listApp": {
 	   let p_DBA = getDBAdashboards();
 	   $("#bc-connect").text(tenantID);
@@ -816,8 +811,8 @@ function drawAppOverviewList(TOid) {
 	let dt = "<dt><a target='_blank' href='"+url+"/#dashboard;id="+dashboard.id+"' class='newTab'>"+
 	  dashboard.name+" <img src='images/link.svg'></a> ("+dashboard.owner+")</dt>";
 	let dd = "<dd id='"+dashboard.id+"'>"+
-	      "<input type='button' id='listFunnel' value='List Funnels'>"+
-          "<input type='button' id='deployFunnel' value='Deploy Funnel'>"+
+	      "<input type='button' id='listFunnel' value='List Journeys'>"+
+          "<input type='button' id='deployFunnel' value='Deploy Journey'>"+
           "<input type='button' id='updateAppForecast' value='Update Forecast'>"+
           "<input type='button' id='deleteApp' value='Delete'>"+
 		"</dd>";
@@ -949,11 +944,13 @@ function compareAppChangeHandler(e){
       $("#compareFirstStep").show();
       $("#compareLastStep").show();
       $("#compareRevenue").show();
+      $("span.compareApp").show();
     });
   } else {
     $("#compareFirstStep").hide();
     $("#compareLastStep").hide();
     $("#compareRevenue").hide();
+    $("span.compareApp").hide();
   }
 }
 
