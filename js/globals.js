@@ -193,7 +193,7 @@ function parseGoals(result) {
   //parse goals
 	result["values"].forEach(function(val) {
 	  val.forEach(function(val2) {
-		  val2 = val2.replace( /([^"])"([^"])/g, "$1\"\"$2"); //escape janky doublequotes
+		  val2 = val2.replace( /([^"])"([^"])?/g, "$1\"\"$2"); //escape janky doublequotes
 		  //console.log("key: "+ val[0][0]["key"]);
 		  if(goals.indexOf(val2) == -1) goals.push(val2);
 	    });
@@ -207,7 +207,7 @@ function parseKeyActions(result) {
   //parse keyActions
 	result["values"].forEach(function(val) {
 	  val.forEach(function(val2) {
-		  val2 = val2.replace( /([^"])"([^"])/g, "$1\"\"$2"); //escape janky doublequotes
+		  val2 = val2.replace( /([^"])"([^"])?/g, "$1\"\"$2"); //escape janky doublequotes
 		  if(keyActions.indexOf(val2) == -1) keyActions.push(val2);
 	    });
 	  });

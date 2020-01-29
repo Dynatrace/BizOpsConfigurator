@@ -18,6 +18,7 @@ input[type=button], input[type=button].default:hover, input[type=button]:visited
   color: #fff;
   min-width: 100px;
   margin: 10px 5px 5px 5px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 input[type=button]:hover, input[type=button].default, input[type=button]:active {
@@ -106,6 +107,7 @@ fieldset {
   border-radius: 3px;
   margin-bottom: 10px;
   margin-top: 20px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 fieldset input.api {
@@ -500,6 +502,7 @@ tr.github {
   color: white;
   padding: 5px 5px 5px 5px;
   text-align: center;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 #popup span.header {
