@@ -649,6 +649,8 @@ function fieldsetPainter() {
         let p1 = getUSPs(selection.config.appName);
         let p2 = getRegions(selection.config.appName);
         
+	   $("#bc-connect").text(tenantID);
+	   $("#bc-deployFunnel-name").text(selection.config.funnelName);
         $("#TOid").text(selection.TOid);
         $("#TOname").text(DBAdashboards.find(x => x.id === selection.TOid).name);
         $("#AOid").text(selection.AOid);
