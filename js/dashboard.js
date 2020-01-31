@@ -60,7 +60,7 @@ function generateAppSwapList(config) {
     {from:'Previous MyTime Hours', to:config.compareTime},
     {from:'-MyTimeh', to:config.MyTime},
     {from:'Last MyTime Hours', to:config.MyTime},
-    {from:'MyFilter', to:""},
+    //{from:'MyFilter', to:config.filterClause},
     ];
   return swaps;
 }
@@ -89,7 +89,7 @@ function generateFunnelSwapList(config)
     {from:'comparerevenueproperty', to:(typeof config.compareRevenue == "undefined"?
         config.kpi:config.compareRevenue)},
     {from:'revenueproperty', to:config.kpi},
-    {from:'MyFilter', to:""},
+    //{from:'MyFilter', to:config.filterClause},
   ];
 
   //add funnel step headers to swaps
@@ -187,6 +187,7 @@ function whereClauseSwaps(dbData,config) {
         t.query = t.query.replace(new RegExp("CompareCombinedStep",'g'),config.whereClause);
     }
     t.query = t.query.replace(new RegExp("([^t])FunnelStep",'g'),"$1"+FunnelStep);
+    t.query = t.query.replace(new RegExp("MyFilter",'g'),config.filterClause);
     t.query = t.query.replace(new RegExp("CombinedStep",'g'),config.whereClause);
     //Step specific swaps
 	for(let i=whereSteps.length-1; i>=0; i--) {  //go in reverse because steps are not zero padded

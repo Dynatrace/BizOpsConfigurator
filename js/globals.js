@@ -27,6 +27,7 @@ var selection={};
 var funnelData=[];
 var v5test=true; //opposite of this
 var popup_p={};
+var Regions=[];
 
 ///////// Functions for manipulating global vars //////////
 
@@ -186,6 +187,41 @@ function parseKPIs(result) {
     }
   });
   return kpis;
+}
+
+function parseUSPFilter(result) {
+  USPs={}; //eg {typeA: {key1: ['val1','val2'], key2: ['val1','val2']}}
+
+  for(let col=0; col<result["columnNames"].length; col++) { //build types first
+    let colname = result["columnNames"][col];
+    USPs[colname] = {};
+  }
+  result["values"].forEach(function(i) {
+    for(let col=0; col<result["columnNames"].length; col++) {
+        if(typeof(i[col][0])=="undefined")continue; //skip blanks
+        let colname = result["columnNames"][col];
+        let key = i[col][0].key;
+        let value = i[col][0].value;
+        if(! (key in USPs[colname])) USPs[colname][key]=[value]; //new key
+        else if(USPs[colname][key].indexOf(value)<0) USPs[colname][key].push(value); //add only new values
+    }
+  });
+  return USPs;
+}
+
+function parseRegions(result) {
+  Regions = [];
+
+  result["values"].forEach(function(val) {
+    let region={};
+    let colname = "";
+    for(let col=0; col<result["columnNames"].length; col++) {
+        colname = result["columnNames"][col];
+        region[colname] = val[col];
+    }
+    Regions.push(region);
+  });
+  return Regions;
 }
 
 function parseGoals(result) {

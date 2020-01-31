@@ -1,0 +1,64 @@
+<fieldset id="deployFunnel-filters">
+  <legend>Deploy Journey</legend>
+  <span class="configHeader">Tenant Overview:</span> <span id="TOname">My Tenant Overview</span><br>
+  <span class="configHeader">ID:</span> <span id="TOid">bbbbbb-xxxx-0000-00000000</span><br>
+  <span class="configHeader">App Overview:</span> <span id="AOname">My App Overview</span><br>
+  <span class="configHeader">ID:</span> <span id="AOid">bbbbbb-xxxx-xxxx-00000000</span><br>
+  <span class="configHeader">App:</span> <span id="appName">My Web Application</span><br>
+  <span class="configHeader">KPI:</span> <span id="kpi">Revenue</span><br>
+  <br>
+  <div id="filters">
+    <div id="uspFilter">
+      <h3>User Session Properties</h3>
+      Keys:
+      <select id="uspKey" class='uspFilter'>
+        <option value="" data-colname=''></option>
+        <option value="" data-colname='test'>Loyalty</option>
+        <option value="" data-colname='test'>Coupon Code</option>
+      </select>
+      USP Values:
+      <select id="uspVal" class='uspFilter'>
+        <option value=""></option>
+        <option value="App-123">Gold</option>
+        <option value="App-456">Silver</option>
+      </select>
+    </div>
+    <div id="locationFilter">
+      <h3>Location</h3>
+      Country:
+      <select id="countryList" class='regionFilter'>
+        <option value=""></option>
+        <option value="App-123">US</option>
+        <option value="App-456">MX</option>
+      </select><br>
+      Region:
+      <select id="regionList" class='regionFilter'>
+        <option value=""></option>
+        <option value="App-123">MO</option>
+        <option value="App-456">MI</option>
+      </select><br>
+      City:
+      <select id="cityList" class='regionFilter'>
+        <option value=""></option>
+        <option value="App-123">St. Louis</option>
+        <option value="App-456">Detroit</option>
+      </select><br>
+    </div>
+  </div>
+  <input type="button" id="deployFunnel-filters-next" value="Next">
+  Filter clause: <input id="filterClause">
+</fieldset>
+
+
+<input type="button" id="json" value="JSON">
+<div id="jsonviewer"></div>
+<div class="bc">
+  <a class="bc bc-first" id="bc-connect">tenantID</a>
+  <a href="#configurator" class="bc" id="bc-listTenant">Tenant Overviews</a>
+  <a href="#configurator" class="bc" id="bc-listApp">App Overviews</a>
+  <a href="#configurator" class="bc" id="bc-listFunnel">Journeys</a>
+  <a href="#configurator" class="bc" id="bc-deployFunnel-name">Journey Name</a>
+  <a href="#configurator" class="bc" id="bc-deployFunnel-kpi">KPI</a>
+  <a href="#configurator" class="bc" id="bc-deployFunnel-funnel">Funnel</a>
+  <a href="#configurator" class="bc" id="bc-deployFunnel-filters">Filters</a>
+</div>

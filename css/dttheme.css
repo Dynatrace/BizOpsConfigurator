@@ -298,15 +298,15 @@ a.bc:hover::after {
   background: #CCCCCC;
 }
 
-#comparisons {
+#comparisons, #filters {
   display: flex;
 }
 
-#comparisons h3 {
+#comparisons h3, #filters h3 {
   color: #00B9CB;
 }
 
-#comparisons > div {
+#comparisons > div, #filters > div {
   margin: 0px 10px 0px 10px;
   border: 1px solid #606060;
   border-radius: 3px;
@@ -519,4 +519,8 @@ tr.github {
 #popup table {
   width: 100%;
   height: 100%;
+}
+
+#filterClause {
+  width: 80%;
 }

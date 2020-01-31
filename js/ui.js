@@ -68,6 +68,8 @@ function loadInputChangeHandlers(){
     $("#viewport").on("change", "#featureAdded", featureChangeHandler);
     $("#viewport").on("change", "#authgithub", authgithubChangeHandler);
     $("#viewport").on("change", "#MyTime", MyTimeChangeHandler);
+    $("#viewport").on("change", ".uspFilter", uspFilterChangeHandler);
+    $("#viewport").on("change", ".regionFilter", regionsChangeHandler);
 }
 
 function pencilToggle(on) {
@@ -132,6 +134,9 @@ function linkHandler(e) {
 	   break;
 	case "bc-deployFunnel-compare":
 	   $("#viewport").load("html/configurator/deployFunnel-compare.html",fieldsetPainter);
+	   break;
+	case "bc-deployFunnel-filters":
+	   $("#viewport").load("html/configurator/deployFunnel-filters.html",fieldsetPainter);
 	   break;
 	case "bc-deployFunnel-funnel":
 	   $("#viewport").load("html/configurator/deployFunnel-funnel.html",fieldsetPainter);
@@ -301,6 +306,18 @@ function globalButtonHandler() {
 	case "deployFunnel-funnel-next":
 	   selection.config.whereClause=$("#whereClause").val();
 	   selection.config.funnelData=funnelData;
+	   $("#viewport").load("html/configurator/deployFunnel-filters.html",fieldsetPainter);
+	   break;
+	case "deployFunnel-filters-next":
+	   selection.config.filterClause=$("#filterClause").val();
+	   selection.config.filterData={
+        country: $("#countryList").val(),
+        region: $("#regionList").val(),
+        city: $("#cityList").val(),
+        key: $("#uspKey").val(),
+        type: $("#uspKey option:selected")[0].dataset['colname'],
+        val: $("#uspVal").val()
+       }
 	   $("#viewport").load("html/configurator/deployFunnel-compare.html",fieldsetPainter);
 	   break;
 	case "deployTenant": 
@@ -330,7 +347,7 @@ function globalButtonHandler() {
 
         //get some vals from a popup
         let popupHeader = "Enter expected traffic factor";
-        let inputs = [{name:'tfactor', value:'100%'}];
+        let inputs = [{name:'tfactor', value:'100%', label:"Traffic Factor"}];
         let desc = "Allows you to adjust for expected traffic changes, ie 110% is a 10% increase, eg to account for an advertising spot. Keep at 100% normally.";
         popup_p = popup(inputs,popupHeader,desc);
 
@@ -360,7 +377,7 @@ function globalButtonHandler() {
 
         //get some vals from a popup
         let popupHeader = "Enter expected traffic factor";
-        let inputs = [{name:'tfactor', value:'100%'}];
+        let inputs = [{name:'tfactor', value:'100%', label:"Traffic Factor"}];
         let desc = "Allows you to adjust for expected traffic changes, ie 110% is a 10% increase, eg to account for an advertising spot. Keep at 100% normally.";
         popup_p = popup(inputs,popupHeader,desc);
 
@@ -628,6 +645,31 @@ function fieldsetPainter() {
 	   });
 	   break;
 	}
+    case "deployFunnel-filters": {
+        let p1 = getUSPs(selection.config.appName);
+        let p2 = getRegions(selection.config.appName);
+        
+        $("#TOid").text(selection.TOid);
+        $("#TOname").text(DBAdashboards.find(x => x.id === selection.TOid).name);
+        $("#AOid").text(selection.AOid);
+        $("#AOname").text(DBAdashboards.find(x => x.id === selection.AOid).name);
+        $("#appName").text(selection.config.appName);
+        $("#appID").text(selection.config.appID);
+        $("#kpi").text(selection.config.kpiName);
+        
+        $.when(p1,p2).done(function(d1,d2) {
+            let usps = d1[0];
+            let regions = d2[0];
+            jsonviewer([usps,regions]);
+            parseUSPFilter(usps);
+            parseRegions(regions);
+            regionsChangeHandler();
+            uspFilterChangeHandler();
+            if("filterClause" in selection.config)
+                $("#filterClause").val(selection.config.filterClause);
+        });
+        break;
+    }
 	case "deployFunnel-compare": {
 	   $("#bc-connect").text(tenantID);
 	   $("#bc-deployFunnel-name").text(selection.config.funnelName);
@@ -1075,7 +1117,7 @@ function popup(inputs,popupHeader,desc) {
     "<table>";
 
   inputs.forEach(function(i) {
-    html += "<tr><td>"+i.name+": </td>";
+    html += "<tr><td>"+i.label+": </td>";
     html += "<td><input name='"+i.name+"' value='"+i.value+"'></td></tr>";
   });
 
@@ -1098,4 +1140,128 @@ function popout(popup_p) {
   $("#popup").remove();
 
   popup_p.resolve(outputs);
+}
+
+function drawUSPs(usps) {
+}
+
+function regionsChangeHandler() {
+  let countryOs = "<option value''></option>";
+  let regionOs = "<option value''></option>";
+  let cityOs = "<option value''></option>";
+  let country = $("#countryList").val();
+  let region = $("#regionList").val();
+  let city = $("#cityList").val();
+
+  if(typeof selection.config.filterData!="undefined") {
+    if(country=="") country=selection.config.filterData.country;
+    if(region=="") region=selection.config.filterData.region;
+    if(city=="") city=selection.config.filterData.city;
+  }
+  
+  let countries = [...new Set(Regions.map(x => x.country))];
+  countries.forEach(function(c) {
+    countryOs += "<option value='"+c+"'>"+c+"</option>";
+  });
+  $("#countryList").html(countryOs);
+
+  //determine regions
+  if(country != '') {
+    $("#countryList").val(country);
+    let map = new Map();
+    for(let i of Regions){
+        if(!map.has(i.region) && i.country==country) {
+            map.set(i.region, true);
+            regionOs += "<option value='"+i.region+"'>"+i.region+"</option>";
+        }
+    }
+    $("#regionList").html(regionOs);
+    $("#regionList").show();
+  } else $("#regionList").hide();
+
+  //determine cities
+  if(region != '') {
+    $("#regionList").val(region);
+    let map = new Map();
+    for(let i of Regions){
+        if(!map.has(i.city) && i.country==country && i.region==region) {
+            map.set(i.city, true);
+            cityOs += "<option value='"+i.city+"'>"+i.city+"</option>";
+        }
+    }
+    $("#cityList").html(cityOs);
+    $("#cityList").show();
+  } else $("#cityList").hide();
+
+  if(city != '') {
+    $("#cityList").val(city);
+  }
+  $("#filterClause").val(buildFilterClause()); 
+}
+
+function uspFilterChangeHandler() {
+  let keyOs = "<option value''></option>";
+  let valOs = "<option value''></option>";
+  let key = $("#uspKey").val();
+  let type = (($("#uspKey option:selected").length>0)?
+    $("#uspKey option:selected")[0].dataset['colname']:
+    undefined);
+  let val = $("#uspVal").val();
+
+  if(typeof key == "undefined" || key=='') { //build out key list if needed
+      Object.keys(USPs).forEach(function(t) {
+        Object.keys(USPs[t]).forEach(function(k) {
+            keyOs += "<option value='"+k+"' data-colname='"+t+"'>"+k+"</option>";
+        });
+      });
+      $("#uspKey").html(keyOs);
+      $("#uspVal").hide();
+  } 
+
+  if(typeof selection.config.filterData!="undefined") { //load config if available
+    if(val=="")val=selection.config.filterData.val;
+    if(type=="")type=selection.config.filterData.type;
+    if(key=="")key=selection.config.filterData.key;
+    if(type != "") $("#uspKey").attr('data-colname',type);
+    if(key != "") $("#uspKey").val(key);
+  }
+
+  if(key != ""){  //if we have the key draw the values
+    if(typeof USPs[type]!="undefined" &&
+      typeof USPs[type][key]!="undefined") 
+      USPs[type][key].forEach(function(v) {
+            valOs += "<option value='"+v+"'>"+v+"</option>";
+    });
+    $("#uspVal").html(valOs);
+    $("#uspVal").show();
+    if(val != '') $("#uspVal").val(val);
+  } 
+   
+  $("#filterClause").val(buildFilterClause()); 
+}
+
+function buildFilterClause() {
+  let country = $("#countryList").val();
+  let region = $("#regionList").val();
+  let city = $("#cityList").val();
+  let key = $("#uspKey").val();
+  let type = (($("#uspKey option:selected").length>0)?
+    $("#uspKey option:selected")[0].dataset['colname']:
+    undefined);
+  let val = $("#uspVal").val();
+  let filterClause = "";
+  let filters = [];
+
+  if(country!='' && country!=null)filters.push('country="'+country+'"');
+  if(region!='' && region!=null)filters.push('region="'+region+'"');
+  if(city!='' && city!=null)filters.push('city="'+city+'"');
+  if(key!='' && type!='' && val!='' &&
+     key!=null && type!=null && val!=null)
+    filters.push(type+'.'+key+'="'+val+'"');
+
+  filterClause = filters.length>0?
+    " AND " + filters.join(" AND "):
+    "";
+
+  return filterClause;
 }

@@ -35,7 +35,23 @@ function getApps(mz=null) {
 function getKPIs(appname) {
     kpis=[];
     //replace with API call to /config/v1/applications/web once that endpoint provides USPs
-    let usql = "SELECT usersession.longProperties, usersession.doubleProperties, usersession.stringProperties, usersession.dateProperties FROM useraction WHERE application=\""+appname+"\" LIMIT 5000";
+    let usql = "SELECT usersession.longProperties, usersession.doubleProperties FROM useraction WHERE application=\""+appname+"\" LIMIT 5000";
+    var query="/api/v1/userSessionQueryLanguage/table?query="+encodeURIComponent(usql)+"&explain=false";
+    return dtAPIquery(query,{});
+}
+
+function getUSPs(appname) {
+    usps=[];
+    //replace with API call to /config/v1/applications/web once that endpoint provides USPs
+    let usql = "SELECT usersession.stringProperties, usersession.dateProperties FROM useraction WHERE application=\""+appname+"\" LIMIT 5000";
+    var query="/api/v1/userSessionQueryLanguage/table?query="+encodeURIComponent(usql)+"&explain=false";
+    return dtAPIquery(query,{});
+}
+
+function getRegions(appname) {
+    regions=[];
+    //replace with API call to /config/v1/applications/web once that endpoint provides USPs
+    let usql = "SELECT DISTINCT country, region, city FROM usersession WHERE useraction.application=\""+appname+"\" ORDER BY country,region,city LIMIT 5000";
     var query="/api/v1/userSessionQueryLanguage/table?query="+encodeURIComponent(usql)+"&explain=false";
     return dtAPIquery(query,{});
 }
