@@ -7,6 +7,7 @@ $(document).ready(function(){
 
   // default page load
   $("#viewport").load("html/home.html", function(){
+    staticCleanup();
     // static link handlers
     loadStaticHandlers();
 
@@ -14,19 +15,18 @@ $(document).ready(function(){
     $("#viewport").on("click", "input:button", globalButtonHandler);
 
     //handle breadcrumb navigation
-    $("#viewport").on("click", "a", linkHandler);
+    $("#bcwrapper, #viewport").on("click", "a", linkHandler);
 
     loadInputChangeHandlers();
   });
   
-  // get stuff from GitHub
-  //loadDBList(); //i don't think this is needed
 });
 
 ////////// Functions ////////////
 function loadStaticHandlers() {
   $("a#prerequisites").click(function() {
      $("#viewport").load("html/prerequisites-1.html");
+     staticCleanup();
   });
 
   $("a#begin").click(function() {
@@ -35,30 +35,40 @@ function loadStaticHandlers() {
 
   $("a#overview").click(function() {
      $("#viewport").load("html/overview.html");
+     staticCleanup();
   });
 
   $("a#home").click(function() {
      $("#viewport").load("html/home.html");
+     staticCleanup();
   });
 
   $("a#logo").click(function() {
      $("#viewport").load("html/home.html");
+     staticCleanup();
   });
 
   $("a#funneltest").click(function() {
      $("#viewport").load("html/funnel-v2.html");
+     staticCleanup();
   });
 
   $("#v5test").click(v5handler);
 
   $("#githubtest").click(function() {
     testRepo(0);      
+     staticCleanup();
   });
 
   $("#faq").click(function() {
      $("#viewport").load("html/faq.html");
+     staticCleanup();
   });
+}
 
+function staticCleanup() {
+    $("#bcwrapper").hide();
+    $("#errorbox").hide();
 }
 
 function loadInputChangeHandlers(){
@@ -537,6 +547,12 @@ function globalButtonHandler() {
            fr.readAsText(file);
 	   break;
 	}
+    case "clearFunnel": {
+        delete selection.config.funnelData;
+        delete selection.config.whereClause;
+	   $("#viewport").load("html/configurator/deployFunnel-funnel.html",fieldsetPainter);
+        break;
+    }
 	case undefined:
 	   console.log("undefined button");
 	   break;
@@ -544,7 +560,7 @@ function globalButtonHandler() {
 	   alert("Unknown Button: " + id);
 	   console.log($(this));
     }
-    } else console.log($(this));
+  } else console.log($(this));
 }
 
 function jqueryInit() {
@@ -568,10 +584,14 @@ function jqueryInit() {
 
 function fieldsetPainter() {
     let id = $("fieldset").attr("id");
+    $("#bcwrapper").show();
+    $("#bcwrapper").empty();
+    $("div.bc").prependTo($("#bcwrapper"));
     switch(id) {
 	case "connect":
 	   $("#url").val(url);
 	   $("#token").val(token);
+        $("div.bc").hide();
 	   break;
 	case "main":
 	   $("#owner").text(owner);
@@ -1040,16 +1060,37 @@ function featureChangeHandler(e) {
 }
 
 function errorboxJQXHR(jqXHR, textStatus, errorThrown) {
-     let errorMsg = "dtAPIQuery failed ("+jqXHR.status+"): "+this.url;
-     if(this.url.includes('v1/dashboards'))
-        errorMsg += " (" +this.data.match(/dashboardMetadata[^}]*(name"?:"[^"]*")/)[1] +")";
-     if(errorThrown.length>0) errorMsg+="\nError: "+errorThrown;
-     if(typeof(jqXHR.responseText)!=="undefined") {
-        let responseText = "<pre>"+jqXHR.responseText.replace(/<([^>]*)>/g,"&lt$1&gt")+"</pre>";
-        responseText = responseText.replace(/\n/g,"");
-        errorMsg+="\nResponse: "+responseText;
+    var errorMsg = "";
+     switch(jqXHR.status) { 
+        case 429: {//rate limiting
+            $("#errorBox").addClass("info"); 
+            let seconds = 0;
+            try {
+                let then = jqXHR.responseText.match(/Reset time:.*\(([0-9]+)\)/)[1];
+                let now = new Date().getTime();
+                seconds = (then - now)/1000;
+            } catch(e) {seconds=60;} //if we didn't capture the reset time, just default to a minute
+            errorMsg = "API Ratelimit Exceeded. Will automatically retry in "+seconds+" seconds...";
+            break;
+        }
+        case 0: { //probably CORS error 
+            $("#errorBox").removeClass("info"); 
+            errorMsg+="Browser blocked XHR call, check Browser Console (F12).\nPossible CORS failure on "+
+                this.url+".";
+            break;
+        }
+        default: {
+         errorMsg = "dtAPIQuery failed ("+jqXHR.status+"): "+this.url;
+         if(this.url.includes('v1/dashboards'))
+            errorMsg += " (" +this.data.match(/dashboardMetadata[^}]*(name"?:"[^"]*")/)[1] +")";
+         if(errorThrown.length>0) errorMsg+="\nError: "+errorThrown;
+         if(typeof(jqXHR.responseText)!=="undefined") {
+            let responseText = "<pre>"+jqXHR.responseText.replace(/<([^>]*)>/g,"&lt$1&gt")+"</pre>";
+            responseText = responseText.replace(/\n/g,"");
+            errorMsg+="\nResponse: "+responseText;
+         }
+        }
      }
-     if(jqXHR.status==0) errorMsg+="\nPossible CORS failure, check Browser Console (F12)";
      $("#errorBox").html(errorMsg);
      $("#errorBox").show();
      console.log(errorMsg);

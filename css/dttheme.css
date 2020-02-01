@@ -6,6 +6,64 @@ body {
   margin: 0;
 }
 
+#everything {
+    display: flex;
+}
+
+#rhs {
+    flex-grow: 1;
+
+    display: flex;
+    flex-direction: column;
+}
+
+#lhs {
+    flex: 0 0 236px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+#lhsv, #rhsv{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+#menubar {
+    flex: 1 0 100vh;
+  background-color: #525252;
+}
+
+#searchbar {
+    flex: 0 0 44px;
+  background: black;
+}
+
+#bcwrapper {
+    flex: 0 0 44px;
+}
+
+#searchbar a#home {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+}
+
+#searchbar a#home svg{
+    fill: white;
+    width: 20px;
+    height: 20px;
+}
+
+#viewport {
+  flex: 1;
+  color: #fff;
+  padding: 20px;
+}
+
 .uitest { visibility: hidden;}
 
 textarea, select, input, button { outline: none; }
@@ -26,51 +84,7 @@ input[type=button]:hover, input[type=button].default, input[type=button]:active 
   color: #fff;
 }
 
-div.searchbar {
-  position: fixed;
-  left: 236px;
-  top: 0;
-  right: 0;
-  height: 44px;
-  background: black;
-  z-index: 1;
-}
-
-div.searchbar a#home {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 44px;
-  height: 44px;
-}
-
-div.searchbar a#home svg{
-    fill: white;
-    width: 20px;
-    height: 20px;
-}
-
-#viewport {
-  position: absolute;
-  left: 236px;
-  top: 44px;
-  right: 0;
-  bottom: 0;
-  color: #fff;
-  padding: 20px;
-}
-
-div.menubar {
-  position: fixed;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 236px;
-  background-color: #525252;
-  z-index: 1;
-}
-
-div.menubar a, div.menubar a:visited {
+#menubar a, #menubar a:visited {
     display: block;
     color: white;
     cursor: pointer;
@@ -80,7 +94,7 @@ div.menubar a, div.menubar a:visited {
     text-decoration: none;
 }
 
-div.menubar a:hover {
+#menubar a:hover {
   background: #242424;
 }
 
@@ -160,9 +174,18 @@ li.BOcollection input ~ ul {
   max-height: 0px;
 }
 
-div#options, div#funnelwrapper {
-  width: 50%;
-  float: left;
+#funnelFlex {
+  display: flex;
+}
+
+#funnelwrapper {
+  flex: 1;
+  order: 2;
+}
+
+#options {
+  flex: 1;
+  order: 1;
 }
 
 div#funnelbuttons {
@@ -216,10 +239,6 @@ div#overviewImages img {
 }
 
 div.bc {
-  position: fixed;
-  top: 44px;
-  left: 236px;
-  width: 100%;
   display: flex;
   flex-direction: row;
   background-color: #4556d7;
@@ -433,11 +452,12 @@ a.newTab img {
 
 #errorBox {
   display: none;
-  position: fixed;
-  top: 44px;
-  left: 236px;
-  width: 100%;
+  flex: 0 0 44px;
   background-color: #ffe11c;
+}
+
+#errorBox.info {
+  background-color: #ececec;
 }
 
 span.goaltype {
@@ -526,6 +546,13 @@ tr.github {
   width: 80%;
 }
 
-svg {
-  /*filter: drop-shadow( 3px 3px 2px rgba(0, 0, 0, .19));*/
+#funnel svg {
+  filter: drop-shadow( 3px 3px 2px rgba(0, 0, 0, .19));
+}
+
+#deployFunnel-funnel-next {
+  background: #00a1b2;
+}
+#deployFunnel-funnel-next:hover {
+  background: none;
 }

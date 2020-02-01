@@ -74,7 +74,7 @@ function getKeyActions(appname) {
 
 
 //// Functions ////
-function dtAPIquery(query, options) {
+function dtAPIquery(query, options, retries=3) {
     let success = (options.hasOwnProperty('success') ? options.success : function(data, textStatus, jqXHR)
     {//console.log("dtAPIQuery success")
     } );
@@ -92,8 +92,24 @@ function dtAPIquery(query, options) {
     dataType: "json",
     success: success,
     error: error
+    })
+    .fail(function(jqXHR,textStatus,errorThrown) {
+        if(jqXHR.status!=429)return; //for now only retry rate limiting
+        if(retries<=0) {
+            errorboxJQXHR(jqXHR,"Retries exhausted.",errorThrown);
+            return;
+        }
+        let seconds = 0;
+        let now = 0;
+        let then = 0;
+        try {
+            then = jqXHR.responseText.match(/Reset time:.*\(([0-9]+)\)/)[1];
+            now = new Date().getTime();
+            seconds = (then - now)/1000 + 1;
+        } catch(e) {seconds=60;} //if we didn't capture the reset time, just default to a minute
+        console.log("Inside Fail: query="+query+" retries="+retries+" seconds="+seconds+" now="+now+" then="+then);
+       return setTimeout(function() {dtAPIquery(query,options,retries-1);},seconds*1000); 
     });
-
 }
 
 function uploadTenantOverview(config) {
