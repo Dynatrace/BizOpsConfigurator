@@ -217,6 +217,9 @@ function whereClauseSwaps(dbData,config) {
         config.kpi:config.compareRevenue));   
     query = query.replace(new RegExp('revenueproperty','g'), config.kpi);
     query = query.replace(new RegExp('Revenue','g'), config.kpiName);
+    query = query.replace(new RegExp("([^t])FunnelStep",'g'),"$1"+FunnelStep);
+    query = query.replace(new RegExp("MyFilter",'g'),config.filterClause);
+    query = query.replace(new RegExp("CombinedStep",'g'),config.whereClause);
 	for(let i=whereSteps.length-1; i>=0; i--) {  //go in reverse because steps are not zero padded
 	    let j=i+1;
   	    query = query.replace(new RegExp('StepFunnel'+j,"g"), whereSteps[i]); //for DashboardsV5
