@@ -587,3 +587,7 @@ tr.github {
 #deployFunnel-funnel-next:hover {
   background: none;
 }
+
+#overviewpage h3 {
+  color: #00b9cc;
+}

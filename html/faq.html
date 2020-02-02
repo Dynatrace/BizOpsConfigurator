@@ -1,12 +1,29 @@
 <div id="faq">
     <ol>
+        <li><b>We have Managed, can we still use this?</b><br>
+          Absolutely! If your browser can hit your Dynatrace API URL, you're good to go.</li>
+        <li><b>I'm getting an error on XHRs to GitHub</b><br>
+          All traffic is over TLS. If you have some sort of SSL interception between you and GitHub, we can't verify that 
+          it's actually GitHub and not some malicious attacker. Talk to your internal IT folks about how to trust their 
+          certs in your browser.</li>
+        <li><b>We're not an ecommerce company. Can we still use it?</b><br>
+          Of course! Ecommerce is an easy example of a user journey that everyone understands, but a user journey can be 
+          anything. 
+          Do your customers sign-up for insurance, apply for loans, configure their future car, watch training videos, 
+          etc etc etc? 
+          Users aren't limited to customers either. Do your employees complete an internal process, etc? 
+          Just mark those actions as Key User Actions and go! If you have a KPI for that user journey, be sure to pick that.
+          Not everything has to be Revenue!</li>
+        <li><b>I don't have any Key User Actions</b><br>
+          Why not? It's just a click of a button. What actions do your users take that important? KUAs are important
+          inside the product too. But here they help you avoid human typing errors.</li>
         <li><b>Do I need a Management Zone configured?</b><br>
           No, you can use "All", but MZs are genarlly recommended.</li>
         <li><b>What is a "GitHub PAT"? Why do I need one?</b><br>
             This tool downloads all of the dashboards with an API call to GitHub. Unauthenticated you can do 50 calls per hour... 
             but this is limited by Public IP address. So if you're in a large organization or at an event (eg Perform), 
-            then you and everyone else could easily hit this limit. With a GitHub Personal Access Token (PAT) this limit jumps up to 5000/hr 
-            for your user alone. See: <a class='newTab' 
+            then you and everyone else could easily hit this limit. With a GitHub Personal Access Token (PAT) this limit 
+            jumps up to 5000/hr for your user alone. See: <a class='newTab' 
             href='https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line' 
             target='_blank'>GitHub Help <img src='images/link.svg'></a>. 
             Be sure to add "public_repo" scope to your PAT.<br>
@@ -17,6 +34,33 @@
             wasn't seen in the past 5000 User Sessions, it won't show up in the list. This can be challenging in low traffic 
             environments, but unfortunately there isn't another way to query these. If there's demand for it, we could add
             a manual text box where you could type in the USP etc, but we'd like to avoid the Human Error risk this presents.
-            A better alternative is to simply execute a few test transactions against your application to populate the values.</li>
+            A better alternative is to simply execute a few test transactions against your application to populate the i
+            values.</li>
+        <li><b>I got a ratelimiting (429) error from the Dynatrace API</b><br>
+            No problem! That's working as expected. Your browser will retry that XHR 3 times and will automatically wait,
+            based on the headers back from the Dynatrace API.</li>
+        <li><b>I got some other error</b><br>
+            Hmm... interesting. We're not sure about that one without taking a look. Please post a screenshot of the error
+            on <a href='https://answers.dynatrace.com' target=_blank>our forum</a> and we'll take a look.</li>
+        <li><b>What's this pencil icon on the funnel screen?</b><br>
+            This enables you to manually edit the Where Clause the configurator generated for you. Some users might have 
+            tricky useraction names and need to modify to use LIKE or NOT in weird cases. You could also manually type
+            in a useraction.name that isn't a KUA.</li>
+        <li><b>My Forecast didn't automatically update</b><br>
+            Today, we don't have a good way of doing this automatically... sorry. But updating the forecast is just one
+            click back in the Configurator.</li>
+        <li><b>What is a Traffic Factor?</b><br>
+            If you expect your traffic to behave inline with past behavior and trends, leave it at 100%. If you expect 
+            some new factor to give you more (or less) traffic, adjust accordingly</li>
+        <li><b>How do I use this for my native Mobile app</b><br>
+            Today, we don't a good template for Mobile. See Contributing back in Overview.</li>
+        <li><b>Please add XYZ feature</b><br>
+            We glad you're using the tool! Please post your feedback on <a href='https://answers.dynatrace.com' 
+            target=_blank>our forum</a>.</li>
+        <li><b>Why isn't this functionality in the product</b><br>
+            This is just a quick example of some of the things that are already possible ijust using the Dynatrace API. 
+            Please see our Product Management team for product features and functions</li>
+        <li><b>There's a lot of dashboards here... What do they all mean?</b><br>
+            We're working to add some more documentation on the dashboards themselves.</li>
     </ol>
 </div>

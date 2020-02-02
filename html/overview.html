@@ -1,49 +1,64 @@
+<div id='overviewpage'>
 <h1>BizOps Configurator Overview</h1>
-<p>This is a Single Page App (SPA) to get inputs from the user and from the Dynatrace API, to transform a stock collection of dashboards, and to upload via the Dynatrace API</p>
+<h3>What the heck is this thing?</h3>
+<p>This is a Single Page App (SPA) to get inputs from the user and from the Dynatrace API, to transform a stock collection of currated dashboards, and to upload via the Dynatrace API</p>
+
+<h3>Why?</h3>
+<p>There's amazing insights that be unlocked just by using stock Dynatrace dashboard tiles. Building dashboards is pretty easy: just drag and drop, populate a few USQL queries, and poof business relevant insights. How can we make it even faster? Share a currated list of dashboards used across our customer base and customize queries with a few clicks and drags. All using the power of the Dynatrace API that's already available.</p>
+
+<h3>Structure</h3>
+<p>We organized dasbhoards into three tiers: tenant/MZ, application, and user journey. </p>
+<p><i>Tenant</i> level overviews and dashboards give you a macro-level view of what's going on in your environment. Your traditional Ops folks probably care about this stuff.</p>
+<p><i>Application</i> overviews and dashboards give a level deeper focusing just on a single application. Your app owners and developers probably care about this stuff.</p>
+<p><i>User Journeys</i> take you yet a level deeper looking at one path through your application; think of what processes are relevant for your application. Your business owners and marketing folks probably care about this stuff.
+Does your user sign-up, check-out, buy something, build something, post something, get detailed info on products and services, watch training videos, etc? 
+User journeys give you a quick way to define that particular path, whether it's a happy path, a particular promotion, or just a workflow that employees churn through a 100 times aday. Understanding metrics about and being able to filter down to individual sessions gives you the power to know when the journey is working well or the insights to improve it.</p>
 
 <h3>BizOps Dashboard IDs</h3>
-For BizOps Dashboards we predefine the dashboard ID to make it easier to track the dashboards as a collection.<br>
-Example: 
+Wait... these dashboard IDs don't look as random as normal Dynatrace dashboard IDs. What's going on here? For BizOps Dashboards we predefine the dashboard ID to make it easier to track the dashboards as a collection. Couldn't that conflict with a dashboards we create the normal way? Yes! but it's only a 1 in 1.2e^24th chance.<br>
+Example: </p>
 <span class="id-1">bbbbbbbb</span>-<span class="id-2">0001</span>-<span class="id-3">0001</span>-<span class="id-4">0001</span>-<span class="id-5">0000000000001</span>
 <ul class="ids">
   <li><span class="id-1">bbbbbbbb</span> - Prefix to denote BizOps Dashboards</li>
   <li><span class="id-2">0001</span> - Tenant Overview</li>
   <li><span class="id-3">0001</span> - Application Overview</li>
-  <li><span class="id-4">0001</span> - Funnel Overview</li>
+  <li><span class="id-4">0001</span> - Journey Overview</li>
   <li><span class="id-5">0000000000001</span> - Dashboard number</li>
 </ul>
-<h4>Reserved Dashboard IDs</h4
+<h4>Reserved Dashboard IDs</h4>
 <ul class="ids">
   <li>bbbbbbbb-<span class="id-2">XXXX</span>-0000-0000-000000000000 - Tenant Overview Dashboard</li>
   <li>bbbbbbbb-<span class="id-2">XXXX-XXXX</span>-0000-000000000000 - App Overview Dashboard</li>
   <li>bbbbbbbb-<span class="id-2">XXXX</span>-0000-0000-<span class="id-5">ffffffffffff</span> - Tenant Overview Config</li>
   <li>bbbbbbbb-<span class="id-2">XXXX-XXXX</span>-0000-<span class="id-5">ffffffffffff</span> - App Overview Config</li>
-  <li>bbbbbbbb-<span class="id-2">XXXX-XXXX-XXXX</span>-<span class="id-5">ffffffffffff</span> - Funnel Config</li>
+  <li>bbbbbbbb-<span class="id-2">XXXX-XXXX-XXXX</span>-<span class="id-5">ffffffffffff</span> - Journey Config</li>
 </ul>
 
-<div id="overviewImages">
-  <h3>What is Digital Business Analytics</h3>
-  <img src="images/What is DBA.png">
-  
-  <h3>Application Flow</h3>
-  <h4>Main</h4>
-  <img src="images/Main.png">
-  
-  <h4>List Tenant</h4>
-  <img src="images/List Tenant.png">
-  
-  <h4>Deploy Tenant</h4>
-  <img src="images/Deploy Tenant.png">
-  
-  <h4>List App</h4>
-  <img src="images/List App.png">
-  
-  <h4>Deploy App</h4>
-  <img src="images/Deploy App.png">
-  
-  <h4>List Funnels</h4>
-  <img src="images/List Funnels.png">
-  
-  <h4>Deploy Funnel</h4>
-  <img src="images/Deploy Funnel.png">
+<h3>GitOps</h3>
+<p>We're using a GitOps approach to maintaining these dashboards. Owners of the dashboards have their own public repos with the JSONs. The configurator just pulls from those repos, transmogrifies, and uploads to your tenant.</p>
+
+<h3>Contributing</h3>
+<p><b>I've got some awesome dashboards everyone would find useful!</b> - That's great! We'd love to see them. We plan to integration additional dashboards at all levels, but in particularly, Tenant and App Overviews for non-Web cases. Who has an awesome native Mobile overview? If you do have some dashboards that could suit a wide range of customers, please post on <a href='https://answers.dynatrace.com' target=_blank>our forum</a>. Please include:</p>
+<ul>
+  <li>a link to your GitHub repo</li>
+  <li>an example screenshot</li>
+  <li>a text description of necessary data to pull from the API and necessary transforms</li>
+  <li>a tag in your post with @Lucas.H, so I know it's out there</li>
+</ul>
+<p> Please note: we may not end up using your dashboard. While it might be great for your team, it may not fit for a wider audience or it may be just too hard to transform automatically.</p>
+
+<h3>Support</h3>
+<p><b><i>THIS IS NOT PART OF THE DYNATRACE PRODUCT</i></b> This was meant to be a demonstration app, but might have some actual utility. It is, however, provide without any representations, warranties, or formal support whatsoever. If you post on <a href='https://answers.dynatrace.com' target=_blank>our forum</a> we will try to answer questions you may have.</p>
+
+<h3>Privacy</h3>
+<p>We use Dynatrace to monitor this application. Here's what we're capturing:</p>
+<ul>
+  <li><b>Session Replay</b> - we are masking your tokens, but capturing everything else so we can understand how you're using the tool and why it may have broken.</li>
+  <li><b>Your tenant URL</b> - this allows us to understand where you're putting the dashboards</li>
+  <li><b>Username</b> - We grab your username from the authentication response using your token</li>
+  <li><b>Number of BizOps Dashboards deployed</b> - We want to know how much you're using the tool</li>
+  <li><b>Your IP / GeoLocation</b> - To understand how your ISP / loction affects performance of the tool</li>
+</ul>
+<p><b>NOTE:</b> If you are sending a <b>DO NOT TRACK</b> cookie, we don't capture any of the above, just anonymous usage. Your use of the tool indicates your consent for this tracking.</p>
+
 </div>
