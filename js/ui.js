@@ -64,6 +64,14 @@ function loadStaticHandlers() {
      $("#viewport").load("html/faq.html");
      staticCleanup();
   });
+  $("#arrow").click(function() {
+        $("#lhs").hide();
+        $("#hamburger").css('display', 'inline-flex');
+  });
+  $("#hamburger").click(function() {
+        $("#lhs").show();
+        $("#hamburger").hide();
+  });
 }
 
 function staticCleanup() {
