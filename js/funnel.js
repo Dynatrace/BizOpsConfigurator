@@ -31,12 +31,13 @@
      if( $("input#whereClause").attr('readonly') ) { //do nothing if in pencil mode
 	$( "#labelForm input:text").val(e.label.raw);
 	$( "#labelForm input#i").val(e.index);
-	//console.log("event:");
-	//console.log(e);
+    let fw = $("#funnelwrapper");
+    let lf = $("#labelForm");
 	let rects = e.node.getClientRects();
-	let y = rects[0].y - 2; //don't know why -2, but seems to work
-	rects = e.node.parentNode.parentNode.getClientRects();
-	let x = rects[0].x;
+	let x =  fw.position().left + fw.width()/2 - lf.width()/2;
+	let y = rects[0].y + rects[0].height/2 - lf.height()/2;
+	console.log( [ fw.position().left, fw.width()/2, lf.width()/2]);
+	console.log([ rects[0].y,  rects[0].height/2, lf.height()/2]);
 	let fill = e.fill.raw;
 	$( "#labelForm" ).css({top: y, left: x, position:'absolute', background:fill});
 	$( "#labelForm" ).show();

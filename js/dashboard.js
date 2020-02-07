@@ -314,6 +314,7 @@ function transformSubs(subs,dbid,swaps,config) {
     sub["dashboardMetadata"]["shared"]="true";
     sub["dashboardMetadata"]["sharingDetails"]["linkShared"]="true";
     sub["dashboardMetadata"]["sharingDetails"]["published"]="false";
+    if("costControlUserSessionPercentage" in config) addCostControlTile(sub,config);
   });
 
   for(let i=0; i<subs.length; i++) {
@@ -352,4 +353,46 @@ function validateDB(input) {
     return(JSON.stringify(db));
   else if(typeof input == "object")
     return(db);
+}
+
+function addCostControlTile(db,config) {
+    if(config.costControlUserSessionPercentage<100) {
+        let bounds = {
+            "height": 38,
+            "width": 152
+        }
+        bounds = findBottomRight(db,bounds);
+        let tile = {
+            "name": "Markdown",
+            "tileType": "MARKDOWN",
+            "configured": true,
+            "bounds": bounds,
+            "tileFilter": {
+                "timeframe": null,
+                "managementZone": null
+            },
+            "markdown": "Sampling rate: [" +
+                config.costControlUserSessionPercentage + "%]" +
+                "(#applicationconfiguration;uemapplicationId=" + config.appID +
+                ")"
+        };
+        db.tiles.push(tile);
+    }
+}
+
+function findBottomRight(db,bounds) {
+    let rightedge=0;
+    let bottomedge=0;
+
+    db.tiles.forEach(function(t) {
+        rightedge=Math.max(rightedge,
+            t.bounds.left + t.bounds.width);
+        bottomedge=Math.max(bottomedge,
+            t.bounds.top + t.bounds.height);
+    });
+
+    bounds.top = bottomedge + 15; //leave a little space
+    bounds.left = rightedge - bounds.width;
+
+    return bounds;
 }

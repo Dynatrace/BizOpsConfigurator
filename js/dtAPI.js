@@ -32,6 +32,11 @@ function getApps(mz=null) {
     return dtAPIquery(query,{});
 }
 
+function getAppDetail(app) {
+    var query="/api/config/v1/applications/web/"+app;
+    return dtAPIquery(query,{});
+}
+
 function getKPIs(appname) {
     kpis=[];
     //replace with API call to /config/v1/applications/web once that endpoint provides USPs
@@ -186,7 +191,7 @@ function uploadAppOverview(config) {
   dashboardAO["dashboardMetadata"]["shared"]="true";
   dashboardAO["dashboardMetadata"]["sharingDetails"]["linkShared"]="true";
   dashboardAO["dashboardMetadata"]["sharingDetails"]["published"]="false";
-
+  if("costControlUserSessionPercentage" in config) addCostControlTile(dashboardAO,config);
   var query="/api/config/v1/dashboards/"+id;
   var data2=JSON.stringify(dashboardAO);
   //string based transforms
@@ -251,7 +256,8 @@ function uploadFunnel(config) {
     dashboardFO["dashboardMetadata"]["shared"]="true";
     dashboardFO["dashboardMetadata"]["sharingDetails"]["linkShared"]="true";
     dashboardFO["dashboardMetadata"]["sharingDetails"]["published"]="false";
-  
+    if("costControlUserSessionPercentage" in config) addCostControlTile(dashboardFO,config);
+
     whereClauseSwaps(dashboardFO,config);  
 
     var query="/api/config/v1/dashboards/"+config.FOid;

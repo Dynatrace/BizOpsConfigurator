@@ -209,6 +209,11 @@ function parseUSPFilter(result) {
   return USPs;
 }
 
+function parseAppDetail(result) {
+  let appdetail = result;
+  return appdetail;
+}
+
 function parseRegions(result) {
   Regions = [];
 

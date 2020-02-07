@@ -102,6 +102,9 @@ function pencilToggle(on) {
       options.label.fill="#000";
       chart.draw(funnelData, options);
     $("#pencil").addClass("pencilMode");
+    $("#plus").prop( "disabled", true );
+    $("#minus").prop( "disabled", true);
+    
   } else if(on===false || confirm("Revert where clause to funnel?")) {
     $("#whereClause").attr('readonly',true);
     $("#whereClause").removeClass("pencilMode");
@@ -113,6 +116,8 @@ function pencilToggle(on) {
     $("#pencil").removeClass("pencilMode");
 
     updateWhere(funnelData);
+    if(selection.config.funnelData.length<=10)$("#plus").prop( "disabled", false );
+    if(selection.config.funnelData.length>=2)$("#minus").prop( "disabled", false );
 
   }
 }
@@ -367,16 +372,17 @@ function globalButtonHandler() {
         let popupHeader = "Enter expected traffic factor";
         let inputs = [{name:'tfactor', value:'100%', label:"Traffic Factor"}];
         let desc = "Allows you to adjust for expected traffic changes, ie 110% is a 10% increase, eg to account for an advertising spot. Keep at 100% normally.";
-        popup_p = popup(inputs,popupHeader,desc);
 
-        $.when(p1,popup_p).done(function(data,data2) {
-            selection.config = parseConfigDashboard(data[0]);
-            selection.config.tfactor = data2[0].val.replace('%','');
+        $.when(p1).done(function(data) {
+            selection.config = parseConfigDashboard(data);
             let p2 = generateFunnelForecast(selection.config);
 
             if(typeof selection.config.subids == "undefined")
                 errorbox("Sorry, journey data is too old, please edit and re-upload, then try again.");
-            else $.when(p2).done(function(revs) {
+            else $.when(p2,popup_p).done(function(r1,r2) {
+                popup_p = popup(inputs,popupHeader,desc);
+                selection.config.tfactor = r2[0].val.replace('%','');
+                let revs=r1;
                 let deferreds = updateFunnelForecast(selection.config,ov,revs);
 
                 $.when.apply(deferreds).done(function() {
@@ -397,16 +403,16 @@ function globalButtonHandler() {
         let popupHeader = "Enter expected traffic factor";
         let inputs = [{name:'tfactor', value:'100%', label:"Traffic Factor"}];
         let desc = "Allows you to adjust for expected traffic changes, ie 110% is a 10% increase, eg to account for an advertising spot. Keep at 100% normally.";
-        popup_p = popup(inputs,popupHeader,desc);
 
-        $.when(p1,popup_p).done(function(data,data2) {
-            selection.config = parseConfigDashboard(data[0]);
-            selection.config.tfactor = data2[0].val.replace('%','');
+        $.when(p1).done(function(data) {
+            selection.config = parseConfigDashboard(data);
+            popup_p = popup(inputs,popupHeader,desc);
             let p2 = generateAppForecast(selection.config);
-            let p3 = "";
             if(typeof selection.config.subids == "undefined")
                 errorbox("Sorry, AppOverview data is too old, please edit and re-upload, then try again.");
-            else $.when(p2).done(function(revs) {
+            else $.when(p2,popup_p).done(function(r1,r2) {
+                selection.config.tfactor = r2[0].val.replace('%','');
+                let revs=r1;
                 let deferreds = updateAppForecast(selection.config,ov,revs);
 
                 $.when.apply(deferreds).done(function() {
@@ -435,21 +441,29 @@ function globalButtonHandler() {
 	   $("#viewport").load("html/configurator/listTenant.html",fieldsetPainter);
 	   break;
 	case "minus":
-	   if( $("input#whereClause").attr('readonly') ) { //do nothing if in pencil mode
+	   if( $("input#whereClause").attr('readonly') &&
+            selection.config.funnelData.length>2) { //do nothing if in pencil mode
 		funnelData.pop();
 		chart.draw(funnelData, options);
 		updateWhere(funnelData);
-	   }
+        $("#plus").prop( "disabled", false );
+	   } else {
+        $("#minus").prop( "disabled", true );
+       }
 	   break;
 	case "other":
 	   alert("other");
 	   break;
 	case "plus":
-	   if( $("input#whereClause").attr('readonly') ) { //do nothing if in pencil mode
+	   if( $("input#whereClause").attr('readonly') &&
+            selection.config.funnelData.length<10) { //do nothing if in pencil mode
 		funnelData.push({ label: 'name', value: '', clauses: [] });
 		chart.draw(funnelData, options);
 		updateWhere(funnelData);
-	   }
+        $("#minus").prop( "disabled", false );
+	   } else {
+        $("#plus").prop( "disabled", true );
+       }
 	   break;
 	case "updateLabel":
 	   let i = $( "#labelForm input#i").val();
@@ -475,12 +489,19 @@ function globalButtonHandler() {
 	    selection.config.appName=$("#applist option:selected").text();
 	    selection.config.TOid=TOid; 
 	    selection.config.TOname=$("#TOname").text();
-	   let p1 = uploadAppOverview(selection.config);
-	   $.when(p1) .done(function(){
-  	     $("input#uploadApp").val("Uploaded");
-	     $("#viewport").load("html/configurator/listApp.html",fieldsetPainter);
-	     updateTenantOverview(TOid);
-	   });
+
+        let p0 = getAppDetail(selection.config.appID);
+        $.when(p0).done(function(d0) {
+            let appDetail = parseAppDetail(d0);
+            selection.config.costControlUserSessionPercentage=appDetail.costControlUserSessionPercentage;
+
+	        let p1 = uploadAppOverview(selection.config);
+	        $.when(p1) .done(function(){
+  	            $("input#uploadApp").val("Uploaded");
+	            $("#viewport").load("html/configurator/listApp.html",fieldsetPainter);
+	            updateTenantOverview(TOid);
+	        });
+        });
 	   break;
 	}
 	case "uploadTenant": {
@@ -525,13 +546,18 @@ function globalButtonHandler() {
 	    selection.config.MyTime=$("#MyTime").val();
 	    selection.config.compareTime=$("#compareTimeList").val();
 
-	   //do upload here
-	   let p1 = uploadFunnel(selection.config);
+        let p0 = getAppDetail(selection.config.appID);
+        $.when(p0).done(function(d0) {
+            let appDetail = parseAppDetail(d0);
+            selection.config.costControlUserSessionPercentage=appDetail.costControlUserSessionPercentage;
 
-	   $.when(p1).done(function(){
-	     $("#viewport").load("html/configurator/deployFunnel-finish.html",fieldsetPainter);
-	     updateAppOverview(selection.AOid);
-	   });
+	        let p1 = uploadFunnel(selection.config);
+
+    	    $.when(p1).done(function(){
+	            $("#viewport").load("html/configurator/deployFunnel-finish.html",fieldsetPainter);
+	            updateAppOverview(selection.AOid);
+	        });
+        });
 	   break;
 	}
 	case "downloadConfig":
@@ -556,8 +582,12 @@ function globalButtonHandler() {
 	   break;
 	}
     case "clearFunnel": {
-        delete selection.config.funnelData;
-        delete selection.config.whereClause;
+        selection.config.funnelData.forEach(function(f,i,a) {
+            a[i].value="";
+            a[i].clauses=[];
+        });
+		updateWhere(selection.config.funnelData);
+        selection.config.whereClause=$( "#whereClause").val();
 	   $("#viewport").load("html/configurator/deployFunnel-funnel.html",fieldsetPainter);
         break;
     }
@@ -588,6 +618,7 @@ function jqueryInit() {
       // hide gif here, eg:
       $("#loaderwrapper").hide();
     });
+
 }
 
 function fieldsetPainter() {
