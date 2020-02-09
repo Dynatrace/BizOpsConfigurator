@@ -56,6 +56,7 @@ function generateAppSwapList(config) {
     {from:"InternalAppID", to:config.appID},
     {from:'InternalCompareAppID', to:(config.compareAppID==""?config.appID:config.compareAppID)},
     {from:"MyCompareApp", to:(config.compareAppName=="None"?config.appName:config.compareAppName)},
+    //{from:"MyCompareApp", to:config.MyCompareApp},//where do I use this??
     {from:'-MyCompareTimeh to -MyTimeh', to:config.compareTime},
     {from:'Previous MyTime Hours', to:config.compareTime},
     {from:'-MyTimeh', to:config.MyTime},

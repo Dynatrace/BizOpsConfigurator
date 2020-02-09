@@ -179,10 +179,10 @@ function uploadAppOverview(config) {
   var dashboardAO;
   dashboardAO = JSON.parse(JSON.stringify(dbList.find( ({ name }) => name === dbAO ).file));
   let p2 = addParentConfig(config,config.TOid);
-  return $.when(p2).then(function(data2) {
+  return $.when(p2).then(function() {
 
   //transform
-  var id=nextAO(config.TOid);
+  var id=("AOid" in config)?config.AOid:nextAO(config.TOid);
   config.AOid=id;
   config.oldAOid=dashboardAO["id"];
   dashboardAO["id"]=id;

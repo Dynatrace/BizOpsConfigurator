@@ -144,6 +144,7 @@ function linkHandler(e) {
       switch(id) {
 	case "bc-connect":
 	   //$("#viewport").load("html/configurator/connect.html",fieldsetPainter);
+        selection.config={};
 	   $("#viewport").load("html/configurator/main.html",fieldsetPainter);
 	   break;
 	case "bc-deployApp":
@@ -168,12 +169,15 @@ function linkHandler(e) {
 	   $("#viewport").load("html/configurator/deployTenant.html",fieldsetPainter);
 	   break;
 	case "bc-listApp":
+        selection.config={};
 	   $("#viewport").load("html/configurator/listApp.html",fieldsetPainter);
 	   break;
 	case "bc-listFunnel":
+        selection.config={};
 	   $("#viewport").load("html/configurator/listFunnel.html",fieldsetPainter);
 	   break;
 	case "bc-listTenant":
+        selection.config={};
 	   $("#viewport").load("html/configurator/listTenant.html",fieldsetPainter);
 	   break;
 	case "pencil":
@@ -301,12 +305,18 @@ function globalButtonHandler() {
 	}
 	case "deployApp":
 	   selection.TOid=$(this)[0].parentNode.id;
+       delete selection.AOid;
 	   $("#viewport").load("html/configurator/deployApp.html",fieldsetPainter);
 	   break;
 	case "deployAnotherApp":
 	   selection.TOid=$("#TOid").text();
+       delete selection.AOid;
 	   $("#viewport").load("html/configurator/deployApp.html",fieldsetPainter);
 	   break;
+	case "editApp": 
+	   selection.AOid = $(this)[0].parentNode.id;
+	   $("#viewport").load("html/configurator/deployApp.html",fieldsetPainter);
+       break;
 	case "deployAnotherFunnel":
 	   selection.AOid=$("#AOid").text();
 	   selection.funnelLoaded=false;
@@ -427,6 +437,7 @@ function globalButtonHandler() {
 	   break;
 	case "listApp": 
 	   selection.TOid=$(this)[0].parentNode.id;
+        selection.config={};
 	   $("#viewport").load("html/configurator/listApp.html",fieldsetPainter);
 	   break;
 	case "returnListFunnel":
@@ -435,9 +446,11 @@ function globalButtonHandler() {
 	   break;
 	case "listFunnel":
 	   selection.AOid=$(this)[0].parentNode.id;
+        selection.config={};
 	   $("#viewport").load("html/configurator/listFunnel.html",fieldsetPainter);
 	   break;
 	case "listTenant":
+        selection.config={};
 	   $("#viewport").load("html/configurator/listTenant.html",fieldsetPainter);
 	   break;
 	case "minus":
@@ -480,6 +493,7 @@ function globalButtonHandler() {
   	    $("input#uploadApp").val("Uploading...");
   	    $("input#uploadApp").prop('disabled', true);
 	    let TOid =$("#TOid").text(); 
+	    selection.config.MyCompareApp=$("#MyCompareApp").val();
 	    selection.config.compareAppID=$("#compareAppList").val();
 	    selection.config.compareAppName=$("#compareAppList option:selected").text();
 	    selection.config.MyTime=$("#MyTime").val();
@@ -643,22 +657,24 @@ function fieldsetPainter() {
 	     jsonviewer(data);
 	   });
 	   break;
-	case "deployAnotherApp": 
 	case "deployApp": {
 	   $("#bc-connect").text(tenantID);
 	   $("#TOid").text(selection.TOid);
 	   $("#TOname").text(DBAdashboards.find(x => x.id === selection.TOid).name);
-       drawTimeInterval( ("MyTime" in selection.config)?selection.config.MyTime:"Last 2 hours" );
 
-	   let p0 = loadDashboard(configID(selection.TOid));
+	   let p0 = loadDashboard(configID("AOid" in selection?selection.AOid:selection.TOid));
 	   $.when(p0).done(function(d1) {
-	     selection.config = parseConfigDashboard(d1);
-	     let p1 = getApps(selection.config.mz);
-	     $.when(p1).done(function(data) {
-            jsonviewer(data);
-            drawApps(data);
-            drawCompareApps(data);
-	     });
+            selection.config = parseConfigDashboard(d1);
+            drawTimeInterval( ("MyTime" in selection.config)?selection.config.MyTime:"Last 2 hours" );
+	        let p1 = getApps(selection.config.mz);
+	        $.when(p1).done(function(data) {
+                jsonviewer(data);
+                drawApps(data,selection.config);
+                drawCompareApps(data,selection.config);
+                MyTimeChangeHandler();
+                if("AOname" in selection.config)$("#appName").val(selection.config.AOname);
+                if("MyCompareApp" in selection.config)$("#MyCompareApp").val(selection.config.MyCompareApp);
+	        });
 	   });
 	   break;
 	}
@@ -917,7 +933,8 @@ function drawAppOverviewList(TOid) {
 	      "<input type='button' id='listFunnel' value='List Journeys'>"+
           "<input type='button' id='deployFunnel' value='Deploy Journey'>"+
           "<input type='button' id='updateAppForecast' value='Update Forecast'>"+
-          "<input type='button' id='deleteApp' value='Delete'>"+
+          "<input type='button' id='editApp' value='Edit App Overview'>"+
+          "<input type='button' id='deleteApp' value='Delete App Overview'>"+
 		"</dd>";
 	$("#appList dl").append(dt+dd);
     } //else console.log(dashboardid+" did not match");
@@ -953,21 +970,26 @@ function drawMZs() {
   $("#mzlist").html(options);
 }
 
-function drawApps(apps) {
+function drawApps(apps,config) {
   apps.sort((a, b) => (a.displayName.toLowerCase() > b.displayName.toLowerCase()) ? 1 : -1);
-  let options = "<option value=''>None</option>";
+  //let options = "<option value=''>None</option>"; //this was for Shady's cross app journey idea
+  let options = "";
   apps.forEach(function(app) {
     options += "<option value='"+app.entityId+"'>"+app.displayName+"</option>";
   });
   $("#applist").html(options);
+
+  if("appID" in config)$("#applist").val(config.appID);
 }
 
-function drawCompareApps(apps) {
+function drawCompareApps(apps,config) {
   let options = "<option value=''>None</option>";
   apps.forEach(function(app) {
     options += "<option value='"+app.entityId+"'>"+app.displayName+"</option>";
   });
   $("#compareAppList").html(options);
+
+  if("compareAppID" in config)$("#compareAppList").val(config.compareAppID);
 }
 
 function drawKPIs(kpis) {
@@ -1174,7 +1196,7 @@ function MyTimeChangeHandler() {
     }
   });
   $("#compareTimeList").html(compareTimeList);
-  if(compareTime in selection.config && selection.config.compareTime > "")
+  if("compareTime" in selection.config && selection.config.compareTime > "")
     $("#compareTimeList").val(selection.config.compareTime);
   else
     $("#compareTimeList option:first").attr('selected','selected');
