@@ -161,6 +161,8 @@ fieldset input.api {
 
 img.screenshot {
   width: 60%;
+  border: 1px solid #8A36D0;
+  border-radius: 3px;
 }
 
 ul.ids li {
@@ -590,4 +592,9 @@ tr.github {
 
 #overviewpage h3 {
   color: #00b9cc;
+}
+
+img.structure {
+  border: 1px solid #8A36D0;
+  border-radius: 30px;
 }
