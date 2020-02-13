@@ -47,28 +47,26 @@
    function updateWhere(data) {
 	let whereA = [];
 	data.forEach(function(d) {
-	   let clauseString = d.clauses.join(" OR ");
-	   whereA.push("(" + clauseString + ")" );
+	    let clauseString = d.clauses.join(" OR ");
+        whereA.push("(" + clauseString + ")" );
 	});
 	let whereS = whereA.join(" AND ");
 
 	$( "#whereClause").val(whereS);
    }
 
-//$( "li" ).draggable();
 $( "#funnel" ).droppable({
   tolerance: "pointer",
   drop: function(event, ui) {
-    //alert( "dropped " + ui.draggable[0].childNodes[0].id );
-    //console.log(event);
-    //console.log(ui);
     ui.draggable.hide();
     let mx = event.clientX;
     let my = event.clientY;
     let id = ui.draggable[0].childNodes[0].id;
     let colname = ui.draggable[0].childNodes[0].dataset.colname;
+    let appname = ui.draggable[0].childNodes[0].dataset.appname;
     let clause = colname + '="' + id + '"';
-    //let val = ui.draggable[0].childNodes[0].value;
+    if("xapp" in selection.config && selection.config.xapp) 
+        clause = '(useraction.application="' + appname + '" and ' + clause + ')';
     //console.log("mouse drop at " + mx + "," + my);
     $("#funnel g").each(function(i) {
       let rect = this.getClientRects();

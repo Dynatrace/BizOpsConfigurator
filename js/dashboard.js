@@ -94,7 +94,8 @@ function generateFunnelSwapList(config)
   ];
 
   //add funnel step headers to swaps
-  let funnelSteps = config.whereClause.split("AND");
+  //let funnelSteps = config.whereClause.split("AND");
+  let funnelSteps = whereSplit(config.whereClause);
   for(let i=funnelSteps.length-1; i>=0; i--) {  //go in reverse because steps are not zero padded
     let j=i+1;
     swaps.push({from:'StepHeader'+j, to:config.funnelData[i].label});
@@ -124,7 +125,7 @@ function listFunnelDB(config,subs) {
   subs.forEach(function(file) {
     let db = file.path;
   //skip unneeded dbs
-    if(config.kpi=="n/a" && db.includes("True"))
+    if(config.kpi=="n/a" && db.includes("True") || db.includes("Revenue"))
 	    return;
     if(config.kpi!="n/a" && db.includes("False"))
 	    return;
@@ -146,7 +147,8 @@ function listFunnelDB(config,subs) {
 }
 
 function whereClauseSwaps(dbData,config) {
-  let whereSteps = config.whereClause.split("AND");
+  //let whereSteps = config.whereClause.split("AND");
+  let whereSteps = whereSplit(config.whereClause);
   if(config.campaignActive) { //special handling for Marketing campaign: insert into all Step1s but replace completely on Marketing pages
     if(dbData["dashboardMetadata"]["name"].includes("Marketing"))
         whereSteps[0]="("+config.campaignStep1.colname+"=\""+config.campaignStep1.name+"\") ";
@@ -213,7 +215,8 @@ function whereClauseSwaps(dbData,config) {
       } else if(t.tileType=="MARKDOWN" && t.markdown.includes("sessionquery")) { //handle URL Encoded queries
 	let query = t.markdown.match(/sessionquery=([^&]*)&?/)[1];
 	query = decodeURIComponent(query);
-	let whereSteps = config.whereClause.split("AND");
+	//let whereSteps = config.whereClause.split("AND");
+	let whereSteps = whereSplit(config.whereClause);
     query = query.replace(new RegExp('comparerevenueproperty','g'), (typeof config.compareRevenue == "undefined"?
         config.kpi:config.compareRevenue));   
     query = query.replace(new RegExp('revenueproperty','g'), config.kpi);
@@ -396,4 +399,18 @@ function findBottomRight(db,bounds) {
     bounds.left = rightedge - bounds.width;
 
     return bounds;
+}
+
+function whereSplit(where) {
+// rely on Steps seperated by "AND", inside step use "and"
+/*    let steps = [];
+    let matches = {};
+    
+    matches = where.matchAll(/\([^)]*\)/g);
+    for(let i of matches) {
+        steps.push(i);
+    }
+*/
+    
+    return where.split(' AND ');
 }

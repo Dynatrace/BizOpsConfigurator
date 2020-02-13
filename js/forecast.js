@@ -80,6 +80,7 @@ function updateFunnelForecast(config,ov,revs) {
 
     dbList.forEach(function(d) { 
         if(d.name.includes("Forecast")) {
+            if(d.name.includes("Revenue") && !("kpi" in config) || (config.kpi=='n/a')) return;
 
             config.subids.forEach(function(i) {
                 if(d.file.id == i.from) {

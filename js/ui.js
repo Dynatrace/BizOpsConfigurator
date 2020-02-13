@@ -88,6 +88,7 @@ function loadInputChangeHandlers(){
     $("#viewport").on("change", "#MyTime", MyTimeChangeHandler);
     $("#viewport").on("change", ".uspFilter", uspFilterChangeHandler);
     $("#viewport").on("change", ".regionFilter", regionsChangeHandler);
+    $("#viewport").on("change", "#xapp", xappChangeHandler);
 }
 
 function pencilToggle(on) {
@@ -329,6 +330,11 @@ function globalButtonHandler() {
 	   break;
 	case "deployFunnel-name-next":
 	   selection.config.funnelName=$("#funnelName").val();
+        selection.config.xapp=$("#xapp").prop('checked');
+        if(selection.config.xapp)
+            selection.config.xapps=$("#xapp_apps").val();
+        else
+            delete selection.config.xapps;
 	   $("#viewport").load("html/configurator/deployFunnel-kpi.html",fieldsetPainter);
 	   break;
 	case "deployFunnel-kpi-next":
@@ -692,13 +698,18 @@ function fieldsetPainter() {
 	       selection.config = parseConfigDashboard(data);
 	     $("#appName").text(selection.config.appName);
 	     $("#appID").text(selection.config.appID);
+         if("xapp" in selection.config)$("#xapp").prop('checked',selection.config.xapp);
+         let p2 = xappChangeHandler();
+         $.when(p2).done(function() {
+            if("xapps" in selection.config)$("#xapp_apps").val(selection.config.xapps);
+         });
 
 	     if('funnelName' in selection.config) $("#funnelName").val(selection.config.funnelName);
 	   });
 	   break;
 	}
 	case "deployFunnel-kpi": {
-	   let p1 = getKPIs(selection.config.appName);
+	   let p1 = getKPIs(selection.config.xapp?selection.config.xapps:selection.config.appName);
 	   $("#bc-connect").text(tenantID);
 	   $("#bc-deployFunnel-name").text(selection.config.funnelName);
 
@@ -721,8 +732,8 @@ function fieldsetPainter() {
 	   break;
 	}
     case "deployFunnel-filters": {
-        let p1 = getUSPs(selection.config.appName);
-        let p2 = getRegions(selection.config.appName);
+        let p1 = getUSPs(selection.config.xapp?selection.config.xapps:selection.config.appName);
+        let p2 = getRegions(selection.config.xapp?selection.config.xapps:selection.config.appName);
         
 	   $("#bc-connect").text(tenantID);
 	   $("#bc-deployFunnel-name").text(selection.config.funnelName);
@@ -763,7 +774,7 @@ function fieldsetPainter() {
 	   let p1 = getApps();
 	   $.when(p1).done(function(data) {
 	     jsonviewer(data);
-	     drawCompareApps(data);
+	     drawCompareApps(data,selection.config);
 
 	     if('compareFunnel' in selection.config) $("#compareFunnel").val(selection.config.compareFunnel);
          if('compareAppID' in selection.config) $("#compareAppList").val(selection.config.compareAppID);
@@ -790,8 +801,8 @@ function fieldsetPainter() {
 	   break;
 	}
 	case "deployFunnel-funnel": {
-	   let p1 = getGoals(selection.config.appName);
-	   let p2 = getKeyActions(selection.config.appName);
+	   let p1 = getGoals(selection.config.xapp?selection.config.xapps:selection.config.appName);
+	   let p2 = getKeyActions(selection.config.xapp?selection.config.xapps:selection.config.appName);
 	   $("#bc-connect").text(tenantID);
 	   $("#bc-deployFunnel-name").text(selection.config.funnelName);
 
@@ -823,8 +834,8 @@ function fieldsetPainter() {
 
 	   //once XHRs are finished, do some stuff
 	   $.when(p1,p2).done(function(data1,data2) {
-		drawGoals(parseKeyActions(data2[0]));
-		drawGoals(parseGoals(data1[0]));
+		drawSteps(parseSteps(data2[0]));
+		drawSteps(parseSteps(data1[0]));
 	        $( "#goallist li" ).draggable();
 		jsonviewer([data1[0],data2[0]]);
 	   });
@@ -1000,11 +1011,11 @@ function drawKPIs(kpis) {
   $("#usplist").html(options);
 }
 
-function drawGoals(goals) {
+function drawSteps(steps) {
   let list = "";
-  goals.goals.forEach(function(goal) {
+  steps.steps.forEach(function(step) {
      let type = "";
-     switch(goals.type) {
+     switch(steps.type) {
      case "useraction.name":
 	type="KUA";
 	break;
@@ -1013,9 +1024,14 @@ function drawGoals(goals) {
 	break;
      }
 
-     list += "<li class='ui-corner-all ui-widget-content'><input id='"+goal+
-	"' data-colname='"+goals.type+"' type='hidden'><span class='goaltype'>"+
-	type+"</span>: "+goal+"</li>";
+     list += "<li class='ui-corner-all ui-widget-content tooltip'><input id='"+step.step+
+	"' data-colname='"+steps.type+"' data-appName='"+step.appName+"' " +
+    "type='hidden'><span class='steptype'>"+
+	type+"</span>: "+step.step+
+    ("xapp" in selection.config && selection.config.xapp ? 
+        "<span class='tooltiptext'>"+step.appName+"</span>"
+    :"")+
+    "</li>";
   });
   $("#goallist").append(list);
 }
@@ -1368,4 +1384,26 @@ function buildFilterClause() {
     "";
 
   return filterClause;
+}
+
+function xappChangeHandler() {
+  var p1 = {};
+  if($("#xapp").prop('checked')) {
+    p1 = getApps();
+    $.when(p1).done(function(d1) {
+        let apps = d1;
+        let apps_html = "";
+        apps.sort((a, b) => (a.displayName.toLowerCase() > b.displayName.toLowerCase()) ? 1 : -1);
+        apps.forEach(function(app) {
+            apps_html += "<option value='"+app.displayName+"' data_id='"+app.entityId+"'>"+app.displayName+"</option>";
+        });
+        $("#xapp_apps").html(apps_html);
+        $(".xapps").show();
+        //if("appID" in config)$("#xapp_apps").val(config.appID); //figure out how to set multiple values
+    });
+  }
+  else
+    $(".xapps").hide();
+
+  return p1;
 }

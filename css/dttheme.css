@@ -100,6 +100,11 @@ input[type=button]:hover, input[type=button].default, input[type=button]:active 
   color: #fff;
 }
 
+select[multiple=multiple] {
+  min-width: 200px;
+  min-height: 150px;
+}
+
 #menubar a, #menubar a:visited {
     display: block;
     color: white;
@@ -351,15 +356,15 @@ a.bc:hover::after {
   background: #CCCCCC;
 }
 
-#comparisons, #filters {
+#comparisons, #filters, div.flexcontainer {
   display: flex;
 }
 
-#comparisons h3, #filters h3 {
+#comparisons h3, #filters h3, div.flexcontainer h3 {
   color: #00B9CB;
 }
 
-#comparisons > div, #filters > div {
+#comparisons > div, #filters > div, div.flexcontainer > div {
   margin: 0px 10px 0px 10px;
   border: 1px solid #606060;
   border-radius: 3px;
@@ -493,7 +498,7 @@ a.newTab img {
   background-color: #ececec;
 }
 
-span.goaltype {
+span.steptype {
   font-size: smaller;
   color: #00a1b2;
 }
@@ -597,4 +602,42 @@ tr.github {
 img.structure {
   border: 1px solid #8A36D0;
   border-radius: 30px;
+}
+
+#xapp_apps {
+  display: none;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 250px;
+  background-color: #00a1b2;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  left: 101%;
+  top: -5px;
+  font-size: smaller;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+.tooltip .tooltiptext::after {
+  content: " ";
+  position: absolute;
+  top: 50%;
+  right: 100%;
+  margin-top: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent #00a1b2 transparent transparent;
+}
+
+.xapps {
+  display: none;
 }

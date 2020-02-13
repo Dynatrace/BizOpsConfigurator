@@ -7,15 +7,24 @@
   <span class="configHeader">App:</span> <span id="appName">My Web Application</span><br>
   <span class="configHeader">ID:</span> <span id="appID">APPLICATION-XXXXXXXX</span><br>
   <br>
-  <div>
-    <a id="folder" href="#loadConfig"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="512px" height="512px" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path d="M239.905 126.64l-14.221-31.287A12.544 12.544 0 00214.264 88H88.544C81.616 88 76 93.616 76 100.543V176h360v-29.464c0-6.927-5.616-12.543-12.544-12.543H251.324a12.544 12.544 0 01-11.419-7.353zM56 196h400v228H56z"></path></svg></a>
-    <div id="loadConfigDiv">Load config: <input type="file" id="funnelConfig" accept=".json,application/json">
-      <input type="button" id="loadConfig" value="Load">
+  <div class='flexcontainer'>
+    <div>
+      <div>
+        <a id="folder" href="#loadConfig"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="512px" height="512px" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path d="M239.905 126.64l-14.221-31.287A12.544 12.544 0 00214.264 88H88.544C81.616 88 76 93.616 76 100.543V176h360v-29.464c0-6.927-5.616-12.543-12.544-12.543H251.324a12.544 12.544 0 01-11.419-7.353zM56 196h400v228H56z"></path></svg></a>
+        <div id="loadConfigDiv">Load config: <input type="file" id="funnelConfig" accept=".json,application/json">
+          <input type="button" id="loadConfig" value="Load">
+        </div>
+      </div>
+      <div>
+        Journey Name: <input id="funnelName" placeholder="Happy Path"><br>
+        <input type="button" id="deployFunnel-name-next" value="Next">
+      </div>
     </div>
-  </div>
-  <div>
-    Journey Name: <input id="funnelName" placeholder="Happy Path"><br>
-    <input type="button" id="deployFunnel-name-next" value="Next">
+    <div>
+        Cross-app Journey: <input type='checkbox' id='xapp'>
+        <select multiple id='xapp_apps' class='xapps'></select><br>
+        <i class='xapps'>Use select or ctrl/command keys to multi-select</i>
+    </div>
   </div>
 </fieldset>
 

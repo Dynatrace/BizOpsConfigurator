@@ -243,7 +243,7 @@ function parseGoals(result) {
   return {goals:goals,type:"useraction.matchingConversionGoals"};          
 }
 
-function parseKeyActions(result) {
+/*function parseKeyActions(result) {
   var keyActions = [];
   //parse keyActions
 	result["values"].forEach(function(val) {
@@ -255,6 +255,25 @@ function parseKeyActions(result) {
   keyActions.sort();
     //jsonviewer(result,false,"","#jsonviewer2");
   return {goals:keyActions,type:"useraction.name"};
+}*/
+
+function parseSteps(result) {
+  var keys = [];
+  var steps = [];
+  var type = 'useraction.' + result.columnNames[1];
+  //parse keyActions
+	result["values"].forEach(function(val) {
+	  //val.forEach(function(val2) {
+		  var val2 = val[1].replace( /([^"])"([^"])?/g, "$1\"\"$2"); //escape janky doublequotes
+		  if(keys.indexOf(val2) == -1) {
+            keys.push(val2);
+            steps.push({'appName':val[0],'step':val2});
+          }
+	  //  });
+	  });
+  steps.sort((a,b) => (a.step.toLowerCase() > b.step.toLowerCase())?1:-1);
+    //jsonviewer(result,false,"","#jsonviewer2");
+  return {'steps':steps,'type':type};
 }
 
 function loadDBList(p) {
