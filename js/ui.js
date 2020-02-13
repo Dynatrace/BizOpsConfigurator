@@ -512,8 +512,10 @@ function globalButtonHandler() {
 
         let p0 = getAppDetail(selection.config.appID);
         $.when(p0).done(function(d0) {
-            let appDetail = parseAppDetail(d0);
-            selection.config.costControlUserSessionPercentage=appDetail.costControlUserSessionPercentage;
+            if(typeof d0 != "undefined") {
+                let appDetail = parseAppDetail(d0);
+                selection.config.costControlUserSessionPercentage=appDetail.costControlUserSessionPercentage;
+            }
 
 	        let p1 = uploadAppOverview(selection.config);
 	        $.when(p1) .done(function(){
@@ -568,8 +570,10 @@ function globalButtonHandler() {
 
         let p0 = getAppDetail(selection.config.appID);
         $.when(p0).done(function(d0) {
-            let appDetail = parseAppDetail(d0);
-            selection.config.costControlUserSessionPercentage=appDetail.costControlUserSessionPercentage;
+            if(typeof d0 != "undefined") {
+                let appDetail = parseAppDetail(d0);
+                selection.config.costControlUserSessionPercentage=appDetail.costControlUserSessionPercentage;
+            }
 
 	        let p1 = uploadFunnel(selection.config);
 
@@ -801,8 +805,9 @@ function fieldsetPainter() {
 	   break;
 	}
 	case "deployFunnel-funnel": {
+        let mobileHack = (selection.config.appName.split('-')[0]=="APPLICATION"?false:true);
 	   let p1 = getGoals(selection.config.xapp?selection.config.xapps:selection.config.appName);
-	   let p2 = getKeyActions(selection.config.xapp?selection.config.xapps:selection.config.appName);
+	   let p2 = getKeyActions(selection.config.xapp?selection.config.xapps:selection.config.appName,mobileHack);
 	   $("#bc-connect").text(tenantID);
 	   $("#bc-deployFunnel-name").text(selection.config.funnelName);
 

@@ -33,6 +33,7 @@ function getApps(mz=null) {
 }
 
 function getAppDetail(app) {
+    if(app.split('-')[0]!="APPLICATION")return;
     var query="/api/config/v1/applications/web/"+app;
     return dtAPIquery(query,{});
 }
@@ -97,16 +98,20 @@ function getGoals(appname) {
     return dtAPIquery(query,{});
 }
 
-function getKeyActions(appname) {
+function getKeyActions(appname,all=false) {
     keyActions=[];
     let yesterday = Date.now() - 86400000;
     if(typeof appname=="string")
-        var usql = "SELECT DISTINCT application, name FROM useraction WHERE keyUserAction = true and application=\""+appname+"\" LIMIT 5000";
+        var usql = "SELECT DISTINCT application, name FROM useraction WHERE " +
+            (!all?"keyUserAction = true and":"" )+
+            " application=\""+appname+"\" LIMIT 5000";
     else if(Array.isArray(appname)) {
         let apps = [];
         appname.forEach(function(o,i,a){ apps.push('"'+o+'"');});
         apps = apps.join(',');
-        var usql = "SELECT DISTINCT application, name FROM useraction WHERE keyUserAction = true and application IN ("+apps+") LIMIT 5000";
+        var usql = "SELECT DISTINCT application, name FROM useraction WHERE "+
+            (!all?"keyUserAction = true and":"" )+
+            " application IN ("+apps+") LIMIT 5000";
     }
      var query="/api/v1/userSessionQueryLanguage/table?query="+encodeURIComponent(usql)+" &explain=false&startTimestamp="+yesterday;
     return dtAPIquery(query,{});
