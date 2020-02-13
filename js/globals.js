@@ -243,7 +243,7 @@ function parseGoals(result) {
   return {goals:goals,type:"useraction.matchingConversionGoals"};          
 }
 
-/*function parseKeyActions(result) {
+function parseKeyActions(result) {
   var keyActions = [];
   //parse keyActions
 	result["values"].forEach(function(val) {
@@ -255,7 +255,7 @@ function parseGoals(result) {
   keyActions.sort();
     //jsonviewer(result,false,"","#jsonviewer2");
   return {goals:keyActions,type:"useraction.name"};
-}*/
+}
 
 function parseSteps(result) {
   var keys = [];
