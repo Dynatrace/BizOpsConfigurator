@@ -345,6 +345,10 @@ function validateDB(input) {
     }
   });
 
+  //validate DT is new enough to support tags
+  if("tags" in db.dashboardMetadata && version < 190)
+    delete db.dashboardMetadata.tags;
+
   //check for untransformed dashboard
   var re = /^bbbbbbbb-/;
   if(!re.test(db.id)) e += "Untransformed dashboard: "+db.id;
