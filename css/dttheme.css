@@ -641,3 +641,14 @@ img.structure {
 .xapps {
   display: none;
 }
+
+#hspacer {
+  flex: 1;
+  order: 3;
+}
+
+#gear svg {
+    flex: 0 0 44px;
+    order: 4;
+    display: none;
+}

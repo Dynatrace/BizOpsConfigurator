@@ -805,7 +805,7 @@ function fieldsetPainter() {
 	   break;
 	}
 	case "deployFunnel-funnel": {
-        let mobileHack = (selection.config.appName.split('-')[0]=="APPLICATION"?false:true);
+       let mobileHack = (selection.config.appID.split('-')[0]=="APPLICATION"?false:true);
 	   let p1 = getGoals(selection.config.xapp?selection.config.xapps:selection.config.appName);
 	   let p2 = getKeyActions(selection.config.xapp?selection.config.xapps:selection.config.appName,mobileHack);
 	   $("#bc-connect").text(tenantID);
