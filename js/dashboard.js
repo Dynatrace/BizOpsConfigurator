@@ -349,6 +349,18 @@ function validateDB(input) {
   if("tags" in db.dashboardMetadata && version < 190)
     delete db.dashboardMetadata.tags;
 
+  //check that bounds are divisible by 38
+  db.tiles.forEach(function(t,index,arr) {
+    if(t.bounds.left % 38 != 0)
+        console.log(db.dashboardMetadata.name + " tile "+index + " left bound not divisible by 38");
+    if(t.bounds.top % 38 != 0)
+        console.log(db.dashboardMetadata.name + " tile "+index + " top bound not divisible by 38");
+    if(t.bounds.width % 38 != 0)
+        console.log(db.dashboardMetadata.name + " tile "+index + " width bound not divisible by 38");
+    if(t.bounds.height % 38 != 0)
+        console.log(db.dashboardMetadata.name + " tile "+index + " height bound not divisible by 38");
+  });
+
   //check for untransformed dashboard
   var re = /^bbbbbbbb-/;
   if(!re.test(db.id)) e += "Untransformed dashboard: "+db.id;

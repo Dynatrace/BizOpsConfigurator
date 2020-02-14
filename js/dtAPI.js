@@ -395,7 +395,8 @@ function saveConfigDashboard(id,config) {
     let markdown = JSON.parse(markdownTemplate);
     markdown["markdown"]=configS.substring(i*999,(i+1)*999);
     //put tiles horizontally 3px apart
-    markdown["bounds"]["left"] = i * markdown["bounds"]["width"] + i * 3;
+    //markdown["bounds"]["left"] = i * markdown["bounds"]["width"] + i * 3;
+    markdown["bounds"]["left"] = i * markdown["bounds"]["width"]; //must snap to grid in 188
     dashboard["tiles"].push(markdown);
   }
 
