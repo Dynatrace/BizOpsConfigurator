@@ -81,6 +81,7 @@ function staticCleanup() {
 
 function loadInputChangeHandlers(){
     $("#viewport").on("change", "#compareAppList", compareAppChangeHandler);
+    $("#viewport").on("change", "#compareAppList1, #compareAppList2", xappCompareAppChangeHandler);
     $("#viewport").on("change", "#usplist", uspListChangeHandler);
     $("#viewport").on("change", "#campaignActive", campaignChangeHandler);
     $("#viewport").on("change", "#featureAdded", featureChangeHandler);
@@ -461,7 +462,7 @@ function globalButtonHandler() {
 	   break;
 	case "minus":
 	   if( $("input#whereClause").attr('readonly') &&
-            selection.config.funnelData.length>2) { //do nothing if in pencil mode
+            funnelData.length>2) { //do nothing if in pencil mode
 		funnelData.pop();
 		chart.draw(funnelData, options);
 		updateWhere(funnelData);
@@ -475,7 +476,7 @@ function globalButtonHandler() {
 	   break;
 	case "plus":
 	   if( $("input#whereClause").attr('readonly') &&
-            selection.config.funnelData.length<10) { //do nothing if in pencil mode
+            funnelData.length<10) { //do nothing if in pencil mode
 		funnelData.push({ label: 'name', value: '', clauses: [] });
 		chart.draw(funnelData, options);
 		updateWhere(funnelData);
@@ -542,15 +543,36 @@ function globalButtonHandler() {
 	   break;
 	}
 	case "uploadFunnel": {
-	   selection.config.compareFunnel=$("#compareFunnel").val();
-	   selection.config.compareAppID=$("#compareAppList").val();
-	   selection.config.compareAppName=$("#compareAppList option:selected").text();
-       if(selection.config.compareAppName!="None") {
-          selection.config.compareFirstStep = {'colname': $("#compareFirstStep option:selected")[0].dataset['colname'],
-            'name': $("#compareFirstStep option:selected").text()};
-	      selection.config.compareLastStep = {'colname': $("#compareLastStep option:selected")[0].dataset['colname'],
-            'name': $("#compareLastStep option:selected").text()};
-	      selection.config.compareRevenue=$("#compareRevenue").val();
+       if('xapp' in selection.config && selection.config.xapp) {
+	        selection.config.compareFunnel=$("#xapp_compareFunnel").val();
+            selection.config.xapp_compareAppID1=$("#compareAppList1").val();
+	        selection.config.xapp_compareAppName1=$("#compareAppList1 option:selected").text();
+            selection.config.xapp_compareAppID2=$("#compareAppList2").val();
+	        selection.config.xapp_compareAppName2=$("#compareAppList2 option:selected").text();
+
+           if(selection.config.xapp_compareAppName1!="None" || selection.config.xapp_compareAppName2!="None") {
+              selection.config.compareFirstStep = {
+                'colname': $("#xapp_compareFirstStep option:selected")[0].dataset['colname'],
+                'name': $("#xapp_compareFirstStep option:selected").text()};
+              selection.config.compareLastStep = {
+                'colname': $("#xapp_compareLastStep option:selected")[0].dataset['colname'],
+                'name': $("#xapp_compareLastStep option:selected").text()};
+              selection.config.compareRevenue=$("#xapp_compareRevenue").val();
+           }
+       } else {
+	        selection.config.compareFunnel=$("#compareFunnel").val();
+	        selection.config.compareAppID=$("#compareAppList").val();
+	        selection.config.compareAppName=$("#compareAppList option:selected").text();
+           if(selection.config.compareAppName!="None" || selection.config.xapp_compareAppName1!="None" ||
+                selection.config.xapp_compareAppName2!="None") {
+              selection.config.compareFirstStep = {
+                'colname': $("#compareFirstStep option:selected")[0].dataset['colname'],
+                'name': $("#compareFirstStep option:selected").text()};
+              selection.config.compareLastStep = {
+                'colname': $("#compareLastStep option:selected")[0].dataset['colname'],
+                'name': $("#compareLastStep option:selected").text()};
+              selection.config.compareRevenue=$("#compareRevenue").val();
+           }
        }
 	   selection.config.compareTime=$("#compareTimeList").val();
 	   selection.config.campaignActive=$("#campaignActive").prop('checked');
@@ -775,6 +797,11 @@ function fieldsetPainter() {
 	   $("#kpi").text(selection.config.kpiName);
        drawTimeInterval( ("MyTime" in selection.config)?selection.config.MyTime:"Last 2 hours" );
 
+        if("xapp" in selection.config && selection.config.xapp) {
+            $("#xapp_compare").show();
+            $("#compareApp").hide();
+        }
+
 	   let p1 = getApps();
 	   $.when(p1).done(function(data) {
 	     jsonviewer(data);
@@ -784,6 +811,11 @@ function fieldsetPainter() {
          if('compareAppID' in selection.config) $("#compareAppList").val(selection.config.compareAppID);
          if('campaignActive' in selection.config) $("#campaignActive").prop('checked',selection.config.campaignActive);
          if('featureAdded' in selection.config) $("#featureAdded").prop('checked',selection.config.featureAdded);
+
+         if('xapp' in selection.config && selection.config.xapp) {
+            if('xapp_compareAppID1' in selection.config) $("#compareAppList1").val(selection.config.xapp_compareAppID1);
+            if('xapp_compareAppID2' in selection.config) $("#compareAppList2").val(selection.config.xapp_compareAppID2);
+         }
 
 	     let p2 = compareAppChangeHandler(); 
 	     $.when(p2).done(function() {
@@ -1004,8 +1036,12 @@ function drawCompareApps(apps,config) {
     options += "<option value='"+app.entityId+"'>"+app.displayName+"</option>";
   });
   $("#compareAppList").html(options);
+  $("#compareAppList1").html(options);
+  $("#compareAppList2").html(options);
 
   if("compareAppID" in config)$("#compareAppList").val(config.compareAppID);
+  if("xapp_compareAppID1" in config)$("#compareAppList1").val(config.compareAppID1);
+  if("xapp_compareAppID2" in config)$("#compareAppList2").val(config.compareAppID2);
 }
 
 function drawKPIs(kpis) {
@@ -1087,16 +1123,49 @@ function compareAppChangeHandler(e){
       $("#compareFirstStep").append(KAlist);
       $("#compareLastStep").append(KAlist);
       $("#compareRevenue").append(KPIlist);
-      $("#compareFirstStep").show();
-      $("#compareLastStep").show();
-      $("#compareRevenue").show();
-      $("span.compareApp").show();
+      $(".compareApp").show();
     });
   } else {
-    $("#compareFirstStep").hide();
-    $("#compareLastStep").hide();
-    $("#compareRevenue").hide();
-    $("span.compareApp").hide();
+    $(".compareApp").hide();
+  }
+}
+
+function xappCompareAppChangeHandler(e){
+  $("#xapp_compareFirstStep").html("");
+  $("#xapp_compareLastStep").html("");
+  $("#xapp_compareRevenue").html("");
+  let compareApp1 = $("#compareAppList1 option:selected").text();
+  let compareApp2 = $("#compareAppList2 option:selected").text();
+
+  if(compareApp1 != "None" && compareApp2 != "None") {
+    let p1 = getKeyActions(compareApp1);
+    let p2 = getKPIs([compareApp1,compareApp2]);
+    let p3 = getKeyActions(compareApp2);
+
+    return $.when(p1,p2,p3).done(function(d1,d2,d3) {
+      let KAs1 = parseSteps(d1[0]);
+      let KAs2 = parseSteps(d3[0]);
+      let kpis = parseKPIs(d2[0]);
+      let KAlist1 = "";
+      let KAlist2 = "";
+      let KPIlist = "";
+
+      if(KAs1.steps.length>0) KAs1.steps.forEach(function(ka) {
+	    KAlist1 += "<option value='"+ka.step+"' data-colname='"+KAs1.type+"'>"+ka.step+"</option>";
+      });
+      if(KAs2.steps.length>0) KAs2.steps.forEach(function(ka) {
+	    KAlist2 += "<option value='"+ka.step+"' data-colname='"+KAs2.type+"'>"+ka.step+"</option>";
+      });
+      if(kpis.length>0) kpis.forEach(function(kpi) {
+        KPIlist  += "<option value='"+kpi.type+"."+kpi.key+"'>"+kpi.key+"</option>";
+      });
+      $("#xapp_compareFirstStep").append(KAlist1);
+      $("#xapp_compareLastStep").append(KAlist2);
+      $("#xapp_compareRevenue").append(KPIlist);
+      $(".xapp_compare").show();
+    });
+  } else {
+    $(".xapp_compare").hide();
   }
 }
 
@@ -1265,9 +1334,6 @@ function popout(popup_p) {
   $("#popup").remove();
 
   popup_p.resolve(outputs);
-}
-
-function drawUSPs(usps) {
 }
 
 function regionsChangeHandler() {

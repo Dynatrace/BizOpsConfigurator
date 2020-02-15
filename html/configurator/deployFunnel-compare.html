@@ -16,15 +16,40 @@
         <option value="App-123">My App</option>
         <option value="App-456">My Other App</option>
       </select>
-      <input id="compareFunnel" placeholder="Friendly Name"><br>
+      <input class='compareApp' id="compareFunnel" placeholder="Friendly Name"><br>
       <span class='compareApp'>1st Step:</span>
-      <select id="compareFirstStep">
+      <select class='compareApp' id="compareFirstStep">
       </select><br>
       <span class='compareApp'>Last Step:</span>
-      <select id="compareLastStep">
+      <select class='compareApp' id="compareLastStep">
       </select><br>
       <span class='compareApp'>KPI:</span>
-      <select id="compareRevenue">
+      <select class='compareApp' id="compareRevenue">
+      </select>
+    </div>
+    <div id="xapp_compare">
+      <h3>A/B Testing / Canary</h3>
+      <input class='xapp_compare' id="xapp_compareFunnel" placeholder="Friendly Name"><br>
+      Comparison Journey Start App:
+      <select id="compareAppList1">
+        <option value="none">None</option>
+        <option value="App-123">My App</option>
+        <option value="App-456">My Other App</option>
+      </select><br>
+      Comparison Journey Finish App:
+      <select id="compareAppList2">
+        <option value="none">None</option>
+        <option value="App-123">My App</option>
+        <option value="App-456">My Other App</option>
+      </select><br>
+      <span class='xapp_compare'>1st Step:</span>
+      <select class='xapp_compare' id="xapp_compareFirstStep">
+      </select><br>
+      <span class='xapp_compare'>Last Step:</span>
+      <select class='xapp_compare' id="xapp_compareLastStep">
+      </select><br>
+      <span class='xapp_compare'>KPI:</span>
+      <select class='xapp_compare' id="xapp_compareRevenue">
       </select>
     </div>
     <div id="compareTime">

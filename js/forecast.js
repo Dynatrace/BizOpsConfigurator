@@ -3,8 +3,8 @@ function generateFunnelForecast(config) {
     var revs = [];
     var date = new Date();
     var revenue = config.kpi;
-    var firststep = config.whereClause.match(/^\([^)]+\)/)[0];
-    var laststep = config.whereClause.match(/\([^(]+\)$/)[0];
+    var firststep = config.whereClause.match(/^\([^()]+\)/)[0];
+    var laststep = config.whereClause.match(/\([^()]+\)$/)[0];
     var appname = config.appName;
     var deferreds = [];
     var deferred = {};

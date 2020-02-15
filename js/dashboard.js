@@ -125,7 +125,7 @@ function listFunnelDB(config,subs) {
   subs.forEach(function(file) {
     let db = file.path;
   //skip unneeded dbs
-    if(config.kpi=="n/a" && db.includes("True") || db.includes("Revenue"))
+    if(config.kpi=="n/a" && (db.includes("True") || db.includes("Revenue")))
 	    return;
     if(config.kpi!="n/a" && db.includes("False"))
 	    return;
@@ -182,6 +182,18 @@ function whereClauseSwaps(dbData,config) {
             "("+config.compareFirstStep.colname+"=\""+config.compareFirstStep.name+"\" AND " +
             config.compareLastStep.colname+"=\""+config.compareLastStep.name+"\") "
             ); 
+    } else if("xapp_compareAppName1" in config && config.xapp_compareAppName1!="None") {
+        t.query = t.query.replace(new RegExp("CompareStepFunnel1",'g'),
+            "(useraction.application=\""+config.xapp_compareAppName1+"\" and "+
+            config.compareFirstStep.colname+'=\"'+config.compareFirstStep.name+'\")');//V5
+        t.query = t.query.replace(new RegExp("CompareLastFunnelStep",'g'),
+            "(useraction.application=\""+config.xapp_compareAppName2+"\" and "+
+            config.compareLastStep.colname+'=\"'+config.compareLastStep.name+'\")');//V5
+        t.query = t.query.replace(new RegExp("CompareCombinedStep",'g'),
+            "((useraction.application=\""+config.xapp_compareAppName1+"\" and "+
+            config.compareFirstStep.colname+'=\"'+config.compareFirstStep.name+'\") AND '+
+            "(useraction.application=\""+config.xapp_compareAppName2+"\" and "+
+            config.compareLastStep.colname+'=\"'+config.compareLastStep.name+'\"))');//V5
     } else { //no compare app, default stuff out per Shady
         t.query = t.query.replace(new RegExp("CompareStepFunnel1",'g'), whereSteps[0]);
         t.query = t.query.replace(new RegExp("CompareStepAction1",'g'), whereSteps[0]);

@@ -60,7 +60,7 @@ body {
     flex: 0 0 44px;
 }
 
-#searchbar a#home {
+#searchbar a#home, #searchbar a#config  {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -68,7 +68,7 @@ body {
   height: 44px;
 }
 
-#searchbar a#home svg{
+#searchbar a#home svg, #searchbar a#config img{
     fill: white;
     width: 20px;
     height: 20px;
@@ -647,8 +647,16 @@ img.structure {
   order: 3;
 }
 
-#gear svg {
+#gear {
     flex: 0 0 44px;
     order: 4;
-    display: none;
+}
+
+#gear img{
+    height: 20px;
+    width: 20px;
+}
+
+#xapp_compare, .xapp_compare {
+  display: none;
 }
