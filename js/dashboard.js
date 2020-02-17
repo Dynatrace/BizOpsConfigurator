@@ -295,12 +295,11 @@ function getStaticSubDBs(db,parentids=[""],subs=[]) {
             let matches = t.markdown.matchAll(/\(#dashboard;id=([^) ]+)/g);
             for( let m of matches) { 
                 let id = m[1];
-                if(id != db.id && !parentids.includes(id)) for( let d of dbList) {
+                if(id != db.id && !parentids.includes(id)) for( let d of dbList) { //skip self and parent links
                     if(d.file.id === id &&
                        typeof(subs.find( x => x.name === d.name)) == "undefined" ) { //ensure it's not already in the array, note: ids are not unique
                         console.log("getStaticSubDBs: "+id+" => "+d.file.dashboardMetadata.name);
                         subs.push( JSON.parse(JSON.stringify(d))); 
-                        //parentids.push(id);
                         getStaticSubDBs(d.file,parentids,subs);
                     }
                 }

@@ -994,13 +994,20 @@ function fieldsetPainter() {
     case "dashboardList": {
       let html = "";
       let list = [dbTO, dbAO, dbFunnelTrue, dbFunnelFalse];
+      let topLevelIDs = [];
+      //get list of topLevelIDs
+      list.forEach(function(dbname) {
+        let i = dbList.findIndex( ({ name }) => name === dbname );
+        if(i > -1) topLevelIDs.push(dbList[i].file.id);
+      });
+      //traverse the list building sub dashboard list
       list.forEach(function(dbname) {
         let i = dbList.findIndex( ({ name }) => name === dbname );
         if(i < 0) {
             html += "<li>"+dbname+"</li>";
         } else {
             html += "<li><a class='dashboardList' href='#json' data-index='"+i+"'>"+dbList[i].name+"</a>:<br><ul>"
-            let subs = getStaticSubDBs(dbList[i].file);
+            let subs = getStaticSubDBs(dbList[i].file,topLevelIDs);
             subs.sort((a, b) => (a.name.toLowerCase() > b.name.toLowerCase()) ? 1 : -1);
             subs.forEach(function(s) {
                 let j = dbList.findIndex( ({ name }) => name === s.name );
