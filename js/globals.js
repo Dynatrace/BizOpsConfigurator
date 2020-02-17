@@ -255,11 +255,11 @@ function parseKeyActions(result) {
   var keyActions = [];
   //parse keyActions
 	result["values"].forEach(function(val) {
-	  val.forEach(function(val2) {
-		  val2 = val2.replace( /([^"])"([^"])?/g, "$1\"\"$2"); //escape janky doublequotes
+	  //val.forEach(function(val2) {
+		  let val2 = val[1].replace( /([^"])"([^"])?/g, "$1\"\"$2"); //escape janky doublequotes
 		  if(keyActions.indexOf(val2) == -1) keyActions.push(val2);
 	    });
-	  });
+	  //});
   keyActions.sort();
     //jsonviewer(result,false,"","#jsonviewer2");
   return {goals:keyActions,type:"useraction.name"};

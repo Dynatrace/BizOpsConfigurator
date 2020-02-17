@@ -1206,13 +1206,13 @@ function compareAppChangeHandler(e){
     let p2 = getKPIs(compareApp);
 
     return $.when(p1,p2).done(function(d1,d2) {
-      let KAs = parseKeyActions(d1[0]);
+      let KAs = parseSteps(d1[0]);
       let kpis = parseKPIs(d2[0]);
       let KAlist = "";
       let KPIlist = "";
 
-      if(KAs.goals.length>0) KAs.goals.forEach(function(ka) {
-	    KAlist += "<option value='"+ka+"' data-colname='"+KAs.type+"'>"+ka+"</option>";
+      if(KAs.steps.length>0) KAs.steps.forEach(function(ka) {
+	    KAlist += "<option value='"+ka.step+"' data-colname='"+KAs.type+"'>"+ka.step+"</option>";
       });
       if(kpis.length>0) kpis.forEach(function(kpi) {
         KPIlist  += "<option value='"+kpi.type+"."+kpi.key+"'>"+kpi.key+"</option>";
