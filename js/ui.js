@@ -12,10 +12,10 @@ $(document).ready(function(){
     loadStaticHandlers();
 
     // global button handler
-    $("#viewport").on("click", "input:button", globalButtonHandler);
+    $("#viewport, #repo_config").on("click", "input:button", globalButtonHandler);
 
     //handle breadcrumb navigation
-    $("#bcwrapper, #viewport").on("click", "a", linkHandler);
+    $("#bcwrapper, #viewport, #repo_config, #dashboard_list").on("click", "a", linkHandler);
 
     loadInputChangeHandlers();
   });
@@ -71,6 +71,14 @@ function loadStaticHandlers() {
   $("#hamburger").click(function() {
         $("#lhs").show();
         $("#hamburger").hide();
+  });
+  $("#gear").click(function() {
+        $("#repo_config").load("html/repo_config.html",fieldsetPainter);
+        $("#repo_config").show();
+  });
+  $("#dbbutton").click(function() {
+        $("#dashboard_list").load("html/dashboard_list.html",fieldsetPainter);
+        $("#dashboard_list").show();
   });
 }
 
@@ -143,6 +151,7 @@ function linkHandler(e) {
       let id = a.id;
       if(typeof dtrum !== "undefined") dtrum.actionName("linkHandler("+id+")");
       if(a.classList.contains("newTab"))return e; //don't handle new tabs with jQuery
+      if(a.classList.contains("dashboardList"))return e; //handled by custom listener
       switch(id) {
 	case "bc-connect":
 	   //$("#viewport").load("html/configurator/connect.html",fieldsetPainter);
@@ -188,8 +197,12 @@ function linkHandler(e) {
 	case "folder":
 	   $("#loadConfigDiv").toggle();
 	   break;
+    case "x_a":
+        $(this).parent().parent().hide();
+        //$("#repo_config").hide();
+        break;
 	default:
-	   alert("Unknown Breadcrumb: " + id);
+	   alert("Unknown Link: " + id);
 	}
     }
 }
@@ -637,6 +650,30 @@ function globalButtonHandler() {
 	   $("#viewport").load("html/configurator/deployFunnel-funnel.html",fieldsetPainter);
         break;
     }
+    case "reloadCSS": {
+        var css = $("#css")[0];
+        var queryString = '?reload=' + new Date().getTime();
+        css.href = css.href.replace(/\?.*|$/, queryString);
+        break;
+    }
+    case "saveRepoConfig": {
+        repoList[1].owner = $("#default_repo_owner").val();
+        repoList[1].repo = $("#default_repo_repo").val();
+        repoList[0].owner = $("#old_repo_owner").val();
+        repoList[0].repo = $("#old_repo_repo").val();
+        oldVersion = parseInt($("#oldVersion").val());
+        dbTagsVersion = parseInt($("#dbTagsVersion").val());
+        dbTO = $("#dbTO").val();
+        dbAO = $("#dbAO").val();
+        dbFunnelTrue = $("#dbFunnelTrue").val();
+        dbFunnelFalse = $("#dbFunnelFalse").val();
+        break;
+    }
+    case "reloadDBs": {
+        loadDBList()
+        .then(downloadDBsFromList);
+        break;
+    }
 	case undefined:
 	   console.log("undefined button");
 	   break;
@@ -668,11 +705,23 @@ function jqueryInit() {
 }
 
 function fieldsetPainter() {
-    let id = $("fieldset").attr("id");
+    let id = $(this).find("fieldset").attr("id");
     $("#bcwrapper").show();
     $("#bcwrapper").empty();
     $("div.bc").prependTo($("#bcwrapper"));
     switch(id) {
+    case "config":
+        $("#default_repo_owner").val(repoList[1].owner);
+        $("#default_repo_repo").val(repoList[1].repo);
+        $("#old_repo_owner").val(repoList[0].owner);
+        $("#old_repo_repo").val(repoList[0].repo);
+        $("#oldVersion").val(oldVersion);
+        $("#dbTagsVersion").val(dbTagsVersion);
+        $("#dbTO").val(dbTO);
+        $("#dbAO").val(dbAO);
+        $("#dbFunnelTrue").val(dbFunnelTrue);
+        $("#dbFunnelFalse").val(dbFunnelFalse);
+        break;
 	case "connect":
 	   $("#url").val(url);
 	   $("#token").val(token);
@@ -942,6 +991,31 @@ function fieldsetPainter() {
 	   });
 	   break;
 	}
+    case "dashboardList": {
+      let html = "";
+      let list = [dbTO, dbAO, dbFunnelTrue, dbFunnelFalse];
+      list.forEach(function(dbname) {
+        let i = dbList.findIndex( ({ name }) => name === dbname );
+        if(i < 0) {
+            html += "<li>"+dbname+"</li>";
+        } else {
+            html += "<li><a class='dashboardList' href='#json' data-index='"+i+"'>"+dbList[i].name+"</a>:<br><ul>"
+            let subs = getStaticSubDBs(dbList[i].file);
+            subs.sort((a, b) => (a.name.toLowerCase() > b.name.toLowerCase()) ? 1 : -1);
+            subs.forEach(function(s) {
+                let j = dbList.findIndex( ({ name }) => name === s.name );
+                html += "<li><a class='dashboardList' href='#json' data-index='"+j+"'>"+s.name+"</a></li>"
+            });
+            html += "</ul></li>";
+        }
+      });
+      $("#dashboardList ul").html(html);
+      $("#dashboardList ul").on("click", "a", function() { 
+        let i = $(this)[0].dataset['index'];
+        jsonviewer(dbList[i].file,true,dbList[i].name,"#popupjsonviewer"); 
+      });
+      break;
+    }
 	case "upgradeTenant":
 	   break;
 	default:

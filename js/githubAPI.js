@@ -1,10 +1,3 @@
-var githubuser="";
-var githubpat="";
-var repoList = [ 
-    {'owner':'TechShady','repo':'Dynatrace-DashboardsV4'},
-    {'owner':'TechShady','repo':'Dynatrace-DashboardV5'}
-    ];
-
 function getRepoContents(repo) {
     let headers = {};
     if(githubuser!="" && githubpat!="")

@@ -1,10 +1,12 @@
 //////// Constants //////////////
-const configDashboard = "json/configDashboard.json";
+var configDashboard = "json/configDashboard.json";
 //var dashboardDir = "json/Dynatrace-DashboardsV4/";
-const dbTO = "TenantOverview.json";
-const dbAO = "AppOverview.json";
-const dbFunnelTrue = "OverviewTrue.json";  
-const dbFunnelFalse = "OverviewFalse.json"; 
+var dbTO = "TenantOverview.json";
+var dbAO = "AppOverview.json";
+var dbFunnelTrue = "OverviewTrue.json";  
+var dbFunnelFalse = "OverviewFalse.json"; 
+var oldVersion=183;
+var dbTagsVersion=190;
 const timeTable = [
     {MyTime: "Last 30 minutes", MyCompareTimes: ["Last 30 minutes", "-60m to -30m", "-2h30m to -2h", "-24h-30m to -24h", "-7d-30m to -7d"]},
     {MyTime: "Last 2 hours", MyCompareTimes: ["Last 2 hours","-4h to -2h", "-24h-2h to -24h", "-7d-2h to -7d"]},
@@ -13,6 +15,12 @@ const timeTable = [
     {MyTime: "Last 24 hours", MyCompareTimes: ["Last 24 hours", "-48h to -24h", "-8d to -7d"]},
     {MyTime: "Last 72 hours", MyCompareTimes: ["Last 72 hours", "-144h to -72h", "-7d-72h to -7d"]},
     {Mytime: "Last 7 days", MyCompareTimes: ["Last 7 days", "-14d to -7d"]}
+    ];
+var githubuser="";
+var githubpat="";
+var repoList = [ 
+    {'owner':'TechShady','repo':'Dynatrace-DashboardsV4'},
+    {'owner':'TechShady','repo':'Dynatrace-DashboardV5'}
     ];
 //////// Global Vars ////////////
 var url="";
@@ -276,7 +284,7 @@ function parseSteps(result) {
   return {'steps':steps,'type':type};
 }
 
-function loadDBList(p) {
+function loadDBList(p=1) {
     let i = p;//(v5test?1:0);
     return $.when(p).then(function() {
         let p1 = getRepoContents(repoList[i]);
@@ -289,7 +297,7 @@ function loadDBList(p) {
 function processVersion(p) {
    return $.when(p).then(function(data) {
         version = parseInt(data.version.split(".")[1]);
-        if(version >= 183)
+        if(version >= oldVersion)
             v5test=true;
         else
             v5test=false;

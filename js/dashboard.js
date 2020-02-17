@@ -358,7 +358,7 @@ function validateDB(input) {
   });
 
   //validate DT is new enough to support tags
-  if("tags" in db.dashboardMetadata && version < 190)
+  if("tags" in db.dashboardMetadata && version < dbTagsVersion)
     delete db.dashboardMetadata.tags;
 
   //check that bounds are divisible by 38
