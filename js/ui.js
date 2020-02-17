@@ -199,7 +199,6 @@ function linkHandler(e) {
 	   break;
     case "x_a":
         $(this).parent().parent().hide();
-        //$("#repo_config").hide();
         break;
 	default:
 	   alert("Unknown Link: " + id);
@@ -721,6 +720,14 @@ function fieldsetPainter() {
         $("#dbAO").val(dbAO);
         $("#dbFunnelTrue").val(dbFunnelTrue);
         $("#dbFunnelFalse").val(dbFunnelFalse);
+
+        for(let i=2; i<repoList.length; i++) {
+            let html = "<tr><td>Repo #"+i+":</td><td><input type='text' class='repo_owner' data-index='"+i+
+                "'> / <input type='text' class='repo_repo' data-index='"+i+
+                "'><input type='button' class='removeRepo' data-index='"+i+
+                "' value='-'></td></tr>";
+            $("#additionalRepos").after(html);
+        }
         break;
 	case "connect":
 	   $("#url").val(url);
@@ -757,6 +764,15 @@ function fieldsetPainter() {
                 if("MyCompareApp" in selection.config)$("#MyCompareApp").val(selection.config.MyCompareApp);
 	        });
 	   });
+        $("#applist").on("change",function(){ //autofill with app name
+            if($("#appName").val()=="")
+                $("#appName").val($("#appList option:selected").text());
+        });
+        $("#compareAppList").on("change",function(){ //autofil with compare app name
+            if($("#MyCompareApp").val()=="")
+                $("#MyCompareApp").val($("#compareAppList option:selected").text());
+        });
+
 	   break;
 	}
 	case "deployFunnel-name": {

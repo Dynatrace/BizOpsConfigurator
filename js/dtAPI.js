@@ -384,27 +384,12 @@ function saveConfigDashboard(id,config) {
   return p.then(function(data) {
     dashboard = data;
 
-  //transform
-  dashboard["id"]=id;
-    //break each 999 characters into a markdown tile 
-  let markdownTemplate = JSON.stringify(dashboard["tiles"][0]);
-  dashboard["tiles"].pop();
-  let configS = JSON.stringify(config);
-  let tiles = Math.ceil(configS.length / 999);
-  for(i=0; i <= tiles; i++) {
-    let markdown = JSON.parse(markdownTemplate);
-    markdown["markdown"]=configS.substring(i*999,(i+1)*999);
-    //put tiles horizontally 3px apart
-    //markdown["bounds"]["left"] = i * markdown["bounds"]["width"] + i * 3;
-    markdown["bounds"]["left"] = i * markdown["bounds"]["width"]; //must snap to grid in 188
-    dashboard["tiles"].push(markdown);
-  }
-
-  var query="/api/config/v1/dashboards/"+id;
-  var data2=JSON.stringify(dashboard);
+    dashboard = buildConfigDashboard(dashboard,id,config);
+    var query="/api/config/v1/dashboards/"+id;
+    var data2=JSON.stringify(dashboard);
   
-  //do not return a promise, run async
-  dtAPIquery(query,{method:"PUT",data:data2});
+    //do not return a promise, run async
+    dtAPIquery(query,{method:"PUT",data:data2});
   });
 }
 

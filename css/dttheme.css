@@ -702,12 +702,37 @@ img.structure {
   text-align: left;
 }
 
-#repo_config input[type=text] {
+#repo_config td.right {
+  display: flex;
+  text-align: justify;
+}
+
+#repo_config td.right input[type=text] {
+  flex: 1;
+}
+
+#repo_config td.right input[type=button] {
+  min-width: 40px;
+  max-width: 40px;
+  margin: 0px 0px 0px 5px;
+}
+
+#repo_config input[type=text]:not(.repo_owner):not(.repo_repo) {
   width: 350px;
 }
 
-#repo_config input[type=text].small {
-  width: 166px;
+#repo_config input[type=text].small, input[type=text].repo_owner, input[type=text].repo_repo {
+  width: 140px;
+}
+
+input.repo_owner {
+  width: 140px;
+  margin-right: 5px;
+}
+
+input.repo_repo {
+  width: 140px;
+  margin-left: 5px;
 }
 
 a.dashboardList {
