@@ -666,6 +666,15 @@ function globalButtonHandler() {
         dbAO = $("#dbAO").val();
         dbFunnelTrue = $("#dbFunnelTrue").val();
         dbFunnelFalse = $("#dbFunnelFalse").val();
+        
+        $("input.repo_owner[data-index]").each(function(index, element) {
+            let i = element.dataset.index;
+            repoList[i].owner = element.value;
+        });
+        $("input.repo_repo[data-index]").each(function(index, element) {
+            let i = element.dataset.index;
+            repoList[i].repo = element.value;
+        });
         break;
     }
     case "reloadDBs": {
@@ -673,6 +682,12 @@ function globalButtonHandler() {
         .then(downloadDBsFromList);
         break;
     }
+    case "addRepo": {
+        repoList.push({'owner': $("#add_repo_owner").val(), 'repo': $("#add_repo_repo").val()});
+        $("#repo_config").load("html/repo_config.html",fieldsetPainter);
+        break;
+    }
+	case "":
 	case undefined:
 	   console.log("undefined button");
 	   break;
@@ -722,12 +737,18 @@ function fieldsetPainter() {
         $("#dbFunnelFalse").val(dbFunnelFalse);
 
         for(let i=2; i<repoList.length; i++) {
-            let html = "<tr><td>Repo #"+i+":</td><td><input type='text' class='repo_owner' data-index='"+i+
-                "'> / <input type='text' class='repo_repo' data-index='"+i+
-                "'><input type='button' class='removeRepo' data-index='"+i+
+            let html = "<tr><td>Repo #"+i+":</td><td class='right'><input type='text' class='repo_owner' data-index='"+i+
+                "' value='"+repoList[i].owner+"'> / <input type='text' class='repo_repo' data-index='"+i+
+                "' value='"+repoList[i].repo+"'><input type='button' class='removeRepo' data-index='"+i+
                 "' value='-'></td></tr>";
             $("#additionalRepos").after(html);
         }
+        $("input.removeRepo").on("click", function() { 
+            let i = $(this)[0].dataset['index'];
+            repoList.splice(i,1);
+            $("#repo_config").load("html/repo_config.html",fieldsetPainter);
+        });
+        
         break;
 	case "connect":
 	   $("#url").val(url);

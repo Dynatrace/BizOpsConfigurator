@@ -286,10 +286,17 @@ function parseSteps(result) {
 
 function loadDBList(p=1) {
     let i = p;//(v5test?1:0);
-    return $.when(p).then(function() {
+    return $.when(p).then(function() {  // we passed in a promise
         let p1 = getRepoContents(repoList[i]);
         return $.when(p1).then(function(data) {
             dbList=parseRepoContents(data);
+            //always get any custom repos (i>1)
+            for(i=2; i<repoList.length; i++) {
+                let p_i = getRepoContents(repoList[i]);
+                return $.when(p_i).done(function(data_i) {
+                    dbList = dbList.concat(parseRepoContents(data_i));
+                });
+            }
         });
     });
 }
