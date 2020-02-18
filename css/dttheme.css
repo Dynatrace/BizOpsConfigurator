@@ -717,20 +717,20 @@ img.structure {
   margin: 0px 0px 0px 5px;
 }
 
-#repo_config input[type=text]:not(.repo_owner):not(.repo_repo) {
+#repo_config input[type=text]:not([class]) {
   width: 350px;
 }
 
-#repo_config input[type=text].small, input[type=text].repo_owner, input[type=text].repo_repo {
+#repo_config input[type=text].small {
   width: 140px;
 }
 
-input.repo_owner {
+input.repo_owner, input.overview_name {
   width: 140px;
   margin-right: 5px;
 }
 
-input.repo_repo {
+input.repo_repo, input.overview_filename {
   width: 140px;
   margin-left: 5px;
 }
@@ -740,5 +740,9 @@ a.dashboardList {
 }
 
 a.dashboardList:hover {
+  color: #00b9cc;
+}
+
+th {
   color: #00b9cc;
 }

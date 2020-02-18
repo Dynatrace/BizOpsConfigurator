@@ -160,7 +160,8 @@ function dtAPIquery(query, options, retries=3) {
 
 function uploadTenantOverview(config) {
   //get dashboard JSON
-  var dashboardTO = JSON.parse(JSON.stringify(dbList.find( ({ name }) => name === dbTO ).file));
+  //var dashboardTO = JSON.parse(JSON.stringify(dbList.find( ({ name }) => name === dbTO ).file));
+  var dashboardTO = JSON.parse(JSON.stringify(dbList.find( ({ name }) => name === config.tenantOverview ).file));
 
   //transform
   var id=nextTO();
@@ -185,6 +186,7 @@ function uploadTenantOverview(config) {
   let swaps = [ {from:config.oldTOid, to:id} ];
   swaps = transformSubs(subs,config.TOid,swaps,config);
   data = doSwaps(data, swaps);
+  data = validateDB(data);
   
   //upload
   saveConfigDashboard(configID(id),config);
@@ -217,8 +219,8 @@ function updateTenantOverview(TOid) {
 
 function uploadAppOverview(config) {
   //get dashboard JSON
-  var dashboardAO;
-  dashboardAO = JSON.parse(JSON.stringify(dbList.find( ({ name }) => name === dbAO ).file));
+  //var dashboardAO = JSON.parse(JSON.stringify(dbList.find( ({ name }) => name === dbAO ).file));
+  var dashboardAO = JSON.parse(JSON.stringify(dbList.find( ({ name }) => name === config.appOverview ).file));
   let p2 = addParentConfig(config,config.TOid);
   return $.when(p2).then(function() {
 
@@ -279,10 +281,11 @@ function uploadFunnel(config) {
   var dashboardFO;
   var filename="";
 
-  if(config.kpi=="n/a")
+  /*if(config.kpi=="n/a")
     dashboardFO = JSON.parse(JSON.stringify(dbList.find( ({ name }) => name === dbFunnelFalse ).file));
   else
-    dashboardFO = JSON.parse(JSON.stringify(dbList.find( ({ name }) => name === dbFunnelTrue ).file));
+    dashboardFO = JSON.parse(JSON.stringify(dbList.find( ({ name }) => name === dbFunnelTrue ).file));*/
+    dashboardFO = JSON.parse(JSON.stringify(dbList.find( ({ name }) => name === config.journeyOverview ).file));
   let p2 = addParentConfig(config,config.AOid);
   return $.when(p2).then(function(data2) {
   

@@ -11,9 +11,34 @@
         <tr><td>App Overview:</td><td class='right'><input type='text' id="dbAO"></td></tr>
         <tr><td>Journey Overview (w/ KPI):</td><td class='right'><input type='text' id="dbFunnelTrue"></td></tr>
         <tr><td>Journey Overview (w/o):</td><td class='right'><input type='text' id="dbFunnelFalse"></td></tr>
-        <tr><td colspan=2></td></tr>
+        <tr><td colspan=2>&nbsp;</td></tr>
         <tr id="additionalRepos"><th colspan=2>Additional Repos</th></tr>
-        <tr><td>Add Repo:</td><td class='right'><input type='text' class='repo_owner' id="add_repo_owner"> / <input type='text' class='repo_repo' id="add_repo_repo"><input type='button' id='addRepo' value='+'></td></tr>
+        <tr><td>Add Repo:</td><td class='right'>
+            <input type='text' class='repo_owner' id="add_repo_owner" placeholder='Owner'> / 
+            <input type='text' class='repo_repo' id="add_repo_repo" placeholder='Repo'>
+            <input type='button' id='addRepo' value='+'></td></tr>
+        <tr><td colspan=2>&nbsp;</td></tr>
+        <tr id="tenantOverviews"><th colspan=2>Tenant Overviews</th></tr>
+        <tr><td>Add Overview:</td><td class='right'>
+            <input type='text' class='overview_name' id="add_tenantOverview_name" placeholder='Friendly Name'>: 
+            <input type='text' class='overview_filename' id="add_tenantOverview_filename" placeholder='File Name'>
+            <input type='button' id='addTenantOverview' value='+'></td></tr>
+        <tr><td colspan=2>&nbsp;</td></tr>
+        <tr id="appOverviews"><th colspan=2>App Overviews</th></tr>
+        <tr><td>Add Overview:</td><td class='right'>
+            <input type='text' class='overview_name' id="add_appOverview_name" placeholder='Friendly Name'>: 
+            <input type='text' class='overview_filename' id="add_appOverview_filename" placeholder='File Name'>
+            <input type='button' id='addAppOverview' value='+'></td></tr>
+        <tr><td colspan=2>&nbsp;</td></tr>
+        <tr id="journeyOverviews"><th colspan=2>Journey Overviews</th></tr>
+        <tr><td>Add Overview:</td><td class='right'>
+            <input type='text' class='overview_name' id="add_journeyOverview_name" placeholder='Friendly Name'>: 
+            <input type='text' class='overview_filename' id="add_journeyOverview_filename" placeholder='File Name'>
+            <input type='button' id='addJourneyOverview' value='+'></td></tr>
+
+
+
+        <tr><td colspan=2>&nbsp;</td></tr>
         <tr><td colspan=2>
             <input type='button' id='saveRepoConfig' value='Save'>
             <input type='button' id='reloadDBs' value='Reload Dashboards'>

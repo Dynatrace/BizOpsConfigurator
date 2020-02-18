@@ -22,6 +22,17 @@ var repoList = [
     {'owner':'TechShady','repo':'Dynatrace-DashboardsV4'},
     {'owner':'TechShady','repo':'Dynatrace-DashboardV5'}
     ];
+var tenantOverviews = [
+    {'name':'BizOps', 'filename':'TenantOverview.json'}
+    ];
+var appOverviews = [
+    {'name':'WebApp', 'filename':'AppOverview.json'}
+    ];
+var journeyOverviews = [
+    {'name':'UserJourney (w/ KPI)', 'filename':'OverviewTrue.json'},
+    {'name':'UserJourney (w/o KPI)', 'filename':'OverviewFalse.json'},
+    ];
+    
 //////// Global Vars ////////////
 var url="";
 var token="";

@@ -342,7 +342,8 @@ function globalButtonHandler() {
 	   $("#viewport").load("html/configurator/deployFunnel-name.html",fieldsetPainter);
 	   break;
 	case "deployFunnel-name-next":
-	   selection.config.funnelName=$("#funnelName").val();
+	    selection.config.funnelName=$("#funnelName").val();
+        selection.config.journeyOverview= $("#journeyOverview").val();
         selection.config.xapp=$("#xapp").prop('checked');
         if(selection.config.xapp)
             selection.config.xapps=$("#xapp_apps").val();
@@ -522,6 +523,7 @@ function globalButtonHandler() {
 	    selection.config.appName=$("#applist option:selected").text();
 	    selection.config.TOid=TOid; 
 	    selection.config.TOname=$("#TOname").text();
+        selection.config.appOverview= $("#appOverview").val();
 
         let p0 = getAppDetail(selection.config.appID);
         $.when(p0).done(function(d0) {
@@ -543,9 +545,10 @@ function globalButtonHandler() {
   	   $("input#uploadTenant").val("Uploading...");
   	   $("input#uploadTenant").prop('disabled', true);
 	   let p1 = uploadTenantOverview({
-	   TOname: $("#TOname").val(),
-	   mz: $("#mzlist").val(),  
-	   mzname: $("#mzlist option:selected").text()
+	        TOname: $("#TOname").val(),
+	        mz: $("#mzlist").val(),  
+	        mzname: $("#mzlist option:selected").text(),
+            tenantOverview: $("#tenantOverview").val()
 	   });  
 
 	   $.when(p1).done(function(){
@@ -562,7 +565,7 @@ function globalButtonHandler() {
             selection.config.xapp_compareAppID2=$("#compareAppList2").val();
 	        selection.config.xapp_compareAppName2=$("#compareAppList2 option:selected").text();
 
-           if(selection.config.xapp_compareAppName1!="None" || selection.config.xapp_compareAppName2!="None") {
+           if(selection.config.xapp_compareAppName1!="None" && selection.config.xapp_compareAppName2!="None") {
               selection.config.compareFirstStep = {
                 'colname': $("#xapp_compareFirstStep option:selected")[0].dataset['colname'],
                 'name': $("#xapp_compareFirstStep option:selected").text()};
@@ -575,8 +578,7 @@ function globalButtonHandler() {
 	        selection.config.compareFunnel=$("#compareFunnel").val();
 	        selection.config.compareAppID=$("#compareAppList").val();
 	        selection.config.compareAppName=$("#compareAppList option:selected").text();
-           if(selection.config.compareAppName!="None" || selection.config.xapp_compareAppName1!="None" ||
-                selection.config.xapp_compareAppName2!="None") {
+           if(selection.config.compareAppName!="None" ) {
               selection.config.compareFirstStep = {
                 'colname': $("#compareFirstStep option:selected")[0].dataset['colname'],
                 'name': $("#compareFirstStep option:selected").text()};
@@ -675,6 +677,30 @@ function globalButtonHandler() {
             let i = element.dataset.index;
             repoList[i].repo = element.value;
         });
+        $("input.tenantOverview_name[data-index]").each(function(index, element) {
+            let i = element.dataset.index;
+            tenantOverview[i].name = element.value;
+        });
+        $("input.tenantOverview_filename[data-index]").each(function(index, element) {
+            let i = element.dataset.index;
+            tenantOverview[i].filename = element.value;
+        });
+        $("input.appOverview_name[data-index]").each(function(index, element) {
+            let i = element.dataset.index;
+            appOverview[i].name = element.value;
+        });
+        $("input.appOverview_filename[data-index]").each(function(index, element) {
+            let i = element.dataset.index;
+            appOverview[i].filename = element.value;
+        });
+        $("input.journeyOverview_name[data-index]").each(function(index, element) {
+            let i = element.dataset.index;
+            journeyOverview[i].name = element.value;
+        });
+        $("input.journeyOverview_filename[data-index]").each(function(index, element) {
+            let i = element.dataset.index;
+            journeyOverview[i].filename = element.value;
+        });
         break;
     }
     case "reloadDBs": {
@@ -684,6 +710,21 @@ function globalButtonHandler() {
     }
     case "addRepo": {
         repoList.push({'owner': $("#add_repo_owner").val(), 'repo': $("#add_repo_repo").val()});
+        $("#repo_config").load("html/repo_config.html",fieldsetPainter);
+        break;
+    }
+    case "addTenantOverview": {
+        tenantOverviews.push({'name': $("#add_tenantOverview_name").val(), 'filename': $("#add_tenantOverview_filename").val()});
+        $("#repo_config").load("html/repo_config.html",fieldsetPainter);
+        break;
+    }
+    case "addAppOverview": {
+        appOverviews.push({'name': $("#add_appOverview_name").val(), 'filename': $("#add_appOverview_filename").val()});
+        $("#repo_config").load("html/repo_config.html",fieldsetPainter);
+        break;
+    }
+    case "addJourneyOverview": {
+        journeyOverviews.push({'name': $("#add_journeyOverview_name").val(), 'filename': $("#add_journeyOverview_filename").val()});
         $("#repo_config").load("html/repo_config.html",fieldsetPainter);
         break;
     }
@@ -749,6 +790,45 @@ function fieldsetPainter() {
             $("#repo_config").load("html/repo_config.html",fieldsetPainter);
         });
         
+        for(let i=0; i<tenantOverviews.length; i++) {
+            let html = "<tr><td>TenantOverview #"+i+":</td><td class='right'><input type='text' class='overview_name' data-index='"+i+
+                "' value='"+tenantOverviews[i].name+"'>: <input type='text' class='overview_filename' data-index='"+i+
+                "' value='"+tenantOverviews[i].filename+"'><input type='button' class='removeTenantOverview' data-index='"+i+
+                "' value='-'></td></tr>";
+            $("#tenantOverviews").after(html);
+        }
+        $("input.removeTenantOverview").on("click", function() { 
+            let i = $(this)[0].dataset['index'];
+            tenantOverviews.splice(i,1);
+            $("#repo_config").load("html/repo_config.html",fieldsetPainter);
+        });
+        
+        for(let i=0; i<appOverviews.length; i++) {
+            let html = "<tr><td>AppOverview #"+i+":</td><td class='right'><input type='text' class='overview_name' data-index='"+i+
+                "' value='"+appOverviews[i].name+"'>: <input type='text' class='overview_filename' data-index='"+i+
+                "' value='"+appOverviews[i].filename+"'><input type='button' class='removeAppOverview' data-index='"+i+
+                "' value='-'></td></tr>";
+            $("#appOverviews").after(html);
+        }
+        $("input.removeAppOverview").on("click", function() { 
+            let i = $(this)[0].dataset['index'];
+            appOverviews.splice(i,1);
+            $("#repo_config").load("html/repo_config.html",fieldsetPainter);
+        });
+        
+        for(let i=0; i<journeyOverviews.length; i++) {
+            let html = "<tr><td>JourneyOverview #"+i+":</td><td class='right'><input type='text' class='overview_name' data-index='"+i+
+                "' value='"+journeyOverviews[i].name+"'>: <input type='text' class='overview_filename' data-index='"+i+
+                "' value='"+journeyOverviews[i].filename+"'><input type='button' class='removeJourneyOverview' data-index='"+i+
+                "' value='-'></td></tr>";
+            $("#journeyOverviews").after(html);
+        }
+        $("input.removeJourneyOverview").on("click", function() { 
+            let i = $(this)[0].dataset['index'];
+            journeyOverviews.splice(i,1);
+            $("#repo_config").load("html/repo_config.html",fieldsetPainter);
+        });
+        
         break;
 	case "connect":
 	   $("#url").val(url);
@@ -775,6 +855,10 @@ function fieldsetPainter() {
 	   $.when(p0).done(function(d1) {
             selection.config = parseConfigDashboard(d1);
             drawTimeInterval( ("MyTime" in selection.config)?selection.config.MyTime:"Last 2 hours" );
+            appOverviews.forEach(function(ov) {
+                $("#appOverview").append("<option value='"+ov.filename+"'>"+ov.name+"</option>");
+            });
+            if("appOverview" in selection.config) $("#appOverview").val(selection.config.appOverview);
 	        let p1 = getApps(selection.config.mz);
 	        $.when(p1).done(function(data) {
                 jsonviewer(data);
@@ -810,6 +894,10 @@ function fieldsetPainter() {
 	       selection.config = parseConfigDashboard(data);
 	     $("#appName").text(selection.config.appName);
 	     $("#appID").text(selection.config.appID);
+         journeyOverviews.forEach(function(ov) {
+                $("#journeyOverview").append("<option value='"+ov.filename+"'>"+ov.name+"</option>");
+         });
+          if("journeyOverview" in selection.config) $("#journeyOverview").val(selection.config.journeyOverview);
          if("xapp" in selection.config)$("#xapp").prop('checked',selection.config.xapp);
          let p2 = xappChangeHandler();
          $.when(p2).done(function() {
@@ -983,6 +1071,11 @@ function fieldsetPainter() {
 	case "deployTenant":
 	   $("#bc-connect").text(tenantID);
 	   drawMZs();
+
+        tenantOverviews.forEach(function(ov) {
+            $("#tenantOverview").append("<option value='"+ov.filename+"'>"+ov.name+"</option>");
+        });
+        if("tenantOverview" in selection.config) $("#tenantOverview").val(selection.config.tenantOverview);
 	   break;
 	case "listApp": {
 	   let p_DBA = getDBAdashboards();
@@ -1030,20 +1123,21 @@ function fieldsetPainter() {
 	}
     case "dashboardList": {
       let html = "";
-      let list = [dbTO, dbAO, dbFunnelTrue, dbFunnelFalse];
+      //let list = [dbTO, dbAO, dbFunnelTrue, dbFunnelFalse];
+      let list = [].concat(tenantOverviews, appOverviews, journeyOverviews);
       let topLevelIDs = [];
       //get list of topLevelIDs
-      list.forEach(function(dbname) {
-        let i = dbList.findIndex( ({ name }) => name === dbname );
+      list.forEach(function(overview) {
+        let i = dbList.findIndex( ({ name }) => name === overview.filename );
         if(i > -1) topLevelIDs.push(dbList[i].file.id);
       });
       //traverse the list building sub dashboard list
-      list.forEach(function(dbname) {
-        let i = dbList.findIndex( ({ name }) => name === dbname );
+      list.forEach(function(overview) {
+        let i = dbList.findIndex( ({ name }) => name === overview.filename );
         if(i < 0) {
-            html += "<li>"+dbname+"</li>";
+            html += "<li>"+overview.name+" ("+overview.filename+")</li>";
         } else {
-            html += "<li><a class='dashboardList' href='#json' data-index='"+i+"'>"+dbList[i].name+"</a>:<br><ul>"
+            html += "<li>"+overview.name+" - (<a class='dashboardList' href='#json' data-index='"+i+"'>"+overview.filename+"</a>):<br><ul>"
             let subs = getStaticSubDBs(dbList[i].file,topLevelIDs);
             subs.sort((a, b) => (a.name.toLowerCase() > b.name.toLowerCase()) ? 1 : -1);
             subs.forEach(function(s) {
