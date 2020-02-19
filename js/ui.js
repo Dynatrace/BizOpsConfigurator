@@ -1123,9 +1123,9 @@ function fieldsetPainter() {
 	}
     case "dashboardList": {
       let html = "";
-      //let list = [dbTO, dbAO, dbFunnelTrue, dbFunnelFalse];
       let list = [].concat(tenantOverviews, appOverviews, journeyOverviews);
       let topLevelIDs = [];
+      let usedIndexes = [];
       //get list of topLevelIDs
       list.forEach(function(overview) {
         let i = dbList.findIndex( ({ name }) => name === overview.filename );
@@ -1134,6 +1134,7 @@ function fieldsetPainter() {
       //traverse the list building sub dashboard list
       list.forEach(function(overview) {
         let i = dbList.findIndex( ({ name }) => name === overview.filename );
+        usedIndexes.push(i);
         if(i < 0) {
             html += "<li>"+overview.name+" ("+overview.filename+")</li>";
         } else {
@@ -1142,11 +1143,24 @@ function fieldsetPainter() {
             subs.sort((a, b) => (a.name.toLowerCase() > b.name.toLowerCase()) ? 1 : -1);
             subs.forEach(function(s) {
                 let j = dbList.findIndex( ({ name }) => name === s.name );
+                usedIndexes.push(j);
                 html += "<li><a class='dashboardList' href='#json' data-index='"+j+"'>"+s.name+"</a></li>"
             });
             html += "</ul></li>";
         }
       });
+      //find a list of orphans
+      let orphanIndexes = [];
+      for(let i of dbList.keys()) {
+        if(!usedIndexes.includes(i)) orphanIndexes.push(i);
+      }
+      if(orphanIndexes.length > 0) {
+        html += "<li>Orphan Dashboards::<br><ul>";
+        orphanIndexes.forEach(function(i) {
+                html += "<li><a class='dashboardList' href='#json' data-index='"+i+"'>"+dbList[i].name+"</a></li>"
+        });
+        html += "</ul></li>";
+      }
       $("#dashboardList ul").html(html);
       $("#dashboardList ul").on("click", "a", function() { 
         let i = $(this)[0].dataset['index'];
