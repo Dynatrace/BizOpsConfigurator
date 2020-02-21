@@ -746,3 +746,7 @@ a.dashboardList:hover {
 th {
   color: #00b9cc;
 }
+
+#citrixAutoTag {
+  display: none;
+}

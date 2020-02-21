@@ -98,6 +98,7 @@ function loadInputChangeHandlers(){
     $("#viewport").on("change", ".uspFilter", uspFilterChangeHandler);
     $("#viewport").on("change", ".regionFilter", regionsChangeHandler);
     $("#viewport").on("change", "#xapp", xappChangeHandler);
+    $("#viewport").on("change", "#appOverview", appOverviewChangeHandler);
 }
 
 function pencilToggle(on) {
@@ -726,6 +727,11 @@ function globalButtonHandler() {
     case "addJourneyOverview": {
         journeyOverviews.push({'name': $("#add_journeyOverview_name").val(), 'filename': $("#add_journeyOverview_filename").val()});
         $("#repo_config").load("html/repo_config.html",fieldsetPainter);
+        break;
+    }
+    case "deployCitrixAutoTag": {
+        let p1 = deployAutoTag("json/autotags/citrix.json");
+        $.when(p1).done(appOverviewChangeHandler);
         break;
     }
 	case "":
@@ -1703,4 +1709,37 @@ function xappChangeHandler() {
     $(".xapps").hide();
 
   return p1;
+}
+
+function appOverviewChangeHandler() {
+    var AO = $("#appOverview").val();
+
+    switch(AO) {
+    case "AppOverview.json": {
+        $("#compareApp").show();
+        $("#compareTime").show();
+        $("#citrixAutoTag").hide();
+        break;
+    }
+    case "CitrixOverview.json": {
+        $("#compareApp").hide();
+        $("#compareTime").hide();
+        $("#citrixAutoTag").show();
+
+        let p1 = getAutoTags();
+        $.when(p1).done(function(data) {
+            parseAutoTags(data);
+
+            if(autoTags.findIndex( ({ name }) => name === "Citrix") < 0)
+            {
+                $("#citrixAutoTag").html("<p>Citrix AutoTag missing!</p><input type='button' id='deployCitrixAutoTag' value='Deploy AutoTag'>");
+            } else {
+                $("#citrixAutoTag").html("<p>✅ Citrix AutoTag in place</p>");
+            }
+        });
+        break;
+    }
+    default:
+        console.log("unexpected value in #appOverview");
+    }
 }

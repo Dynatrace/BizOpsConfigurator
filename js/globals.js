@@ -20,13 +20,15 @@ var githubuser="";
 var githubpat="";
 var repoList = [ 
     {'owner':'TechShady','repo':'Dynatrace-DashboardsV4'},
-    {'owner':'TechShady','repo':'Dynatrace-DashboardV5'}
+    {'owner':'TechShady','repo':'Dynatrace-DashboardV5'},
+    {'owner':'LucasHocker','repo':'CitrixDashboards'}
     ];
 var tenantOverviews = [
     {'name':'BizOps', 'filename':'TenantOverview.json'}
     ];
 var appOverviews = [
-    {'name':'WebApp', 'filename':'AppOverview.json'}
+    {'name':'WebApp', 'filename':'AppOverview.json'},
+    {'name':'Citrix (Preview)', 'filename':'CitrixOverview.json'}
     ];
 var journeyOverviews = [
     {'name':'UserJourney (w/ KPI)', 'filename':'OverviewTrue.json'},
@@ -47,6 +49,7 @@ var funnelData=[];
 var v5test=true; //opposite of this
 var popup_p={};
 var Regions=[];
+var autoTags=[];
 
 ///////// Functions for manipulating global vars //////////
 
@@ -358,3 +361,6 @@ function nextDB(id){
     return s + i.toString().padStart(12, '0');
 }
 
+function parseAutoTags(data) {
+    autoTags = data.values;
+}

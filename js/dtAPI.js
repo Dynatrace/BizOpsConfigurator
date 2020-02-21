@@ -117,7 +117,26 @@ function getKeyActions(appname,all=false) {
     return dtAPIquery(query,{});
 }
 
+function getAutoTags() {
+    var query="/api/config/v1/autoTags";
+    return dtAPIquery(query,{});
+}
 
+function deployAutoTag(file) {
+  var payload = {};
+  var p = $.get(file)
+      .fail(errorboxJQXHR);
+  return p.then(function(data) {
+    payload = data;
+
+    var query="/api/config/v1/autoTags";
+    var options = {
+        'data': JSON.stringify(payload),
+        'method': 'POST'
+    };
+    return dtAPIquery(query,options);
+  });
+}
 
 //// Functions ////
 function dtAPIquery(query, options, retries=3) {

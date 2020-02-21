@@ -1,0 +1,26 @@
+{
+  "name": "Citrix",
+  "rules": [
+    {
+      "type": "PROCESS_GROUP",
+      "enabled": true,
+      "propagationTypes": [
+        "PROCESS_GROUP_TO_HOST", "PROCESS_GROUP_TO_SERVICE"
+      ],
+      "conditions": [
+        {
+          "key": {
+            "attribute": "PROCESS_GROUP_TECHNOLOGY"
+          },
+          "comparisonInfo": {
+            "type": "SIMPLE_TECH",
+            "operator": "EQUALS",
+            "value": {"type":"CITRIX"},
+            "negate": false,
+            "caseSensitive": false
+          }
+        }   
+      ]
+    }
+  ]
+}
