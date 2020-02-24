@@ -21,6 +21,24 @@
           }
         }   
       ]
+    },
+    {
+      "type": "CUSTOM_APPLICATION",
+      "enabled": true,
+      "conditions": [
+        {
+          "key": {
+            "attribute": "CUSTOM_APPLICATION_NAME"
+          },
+          "comparisonInfo": {
+            "type": "STRING",
+            "operator": "EQUALS",
+            "value": "${appname}",
+            "negate": false,
+            "caseSensitive": false
+          }
+        }   
+      ]
     }
   ]
 }

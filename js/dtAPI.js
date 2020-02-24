@@ -122,16 +122,20 @@ function getAutoTags() {
     return dtAPIquery(query,{});
 }
 
-function deployAutoTag(file) {
+function deployAutoTag(file,swaps) {
   var payload = {};
   var p = $.get(file)
       .fail(errorboxJQXHR);
   return p.then(function(data) {
-    payload = data;
+    payload = JSON.stringify(data);
+
+  swaps.forEach(function(swap) {
+    payload = payload.replace(swap.to, swap.from);
+  });
 
     var query="/api/config/v1/autoTags";
     var options = {
-        'data': JSON.stringify(payload),
+        'data': payload,
         'method': 'POST'
     };
     return dtAPIquery(query,options);

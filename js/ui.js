@@ -730,7 +730,9 @@ function globalButtonHandler() {
         break;
     }
     case "deployCitrixAutoTag": {
-        let p1 = deployAutoTag("json/autotags/citrix.json");
+        let appname = $("#applist option:selected").text();
+        let swaps = [{'to': '${appname}', 'from': appname}];
+        let p1 = deployAutoTag("json/autotags/citrix.json",swaps);
         $.when(p1).done(appOverviewChangeHandler);
         break;
     }
@@ -869,6 +871,7 @@ function fieldsetPainter() {
 	        $.when(p1).done(function(data) {
                 jsonviewer(data);
                 drawApps(data,selection.config);
+                appOverviewChangeHandler();
                 drawCompareApps(data,selection.config);
                 MyTimeChangeHandler();
                 if("AOname" in selection.config)$("#appName").val(selection.config.AOname);
