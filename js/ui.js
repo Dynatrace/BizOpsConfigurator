@@ -526,6 +526,15 @@ function globalButtonHandler() {
 	    selection.config.TOname=$("#TOname").text();
         selection.config.appOverview= $("#appOverview").val();
 
+        if(typeof $("#mz").val() != "undefined") {
+            selection.config.mz=$("#mz").val();
+            selection.config.mzname=$("#mzname").val();
+        
+        } else if(typeof $("#mzlist").val() != "undefined") {
+            selection.config.mz=$("#mzlist").val();
+	        selection.config.mzname=$("#mzlist option:selected").text();
+        }
+
         let p0 = getAppDetail(selection.config.appID);
         $.when(p0).done(function(d0) {
             if(typeof d0 != "undefined") {
@@ -732,7 +741,13 @@ function globalButtonHandler() {
     case "deployCitrixAutoTag": {
         let appname = $("#applist option:selected").text();
         let swaps = [{'to': '${appname}', 'from': appname}];
-        let p1 = deployAutoTag("json/autotags/citrix.json",swaps);
+        let p1 = deployAutoTag("json/autoTags/citrix.json",swaps);
+        $.when(p1).done(appOverviewChangeHandler);
+        break;
+    }
+    case "deployCitrixMZ": {
+        let swaps = [];
+        let p1 = deployMZ("json/managementZones/CitrixOverview.json",swaps);
         $.when(p1).done(appOverviewChangeHandler);
         break;
     }
@@ -1319,9 +1334,10 @@ function jsonviewer(result,show=false,name="",selector="#jsonviewer") {
     $(selector+" #jsontitle").append(name);
     let json = JSON.stringify(result);
     if(json.length >10000) {
-	let subjson = json.substring(0,10000);
-	$(selector+" div#results").append("<pre>JSON to large to format!\n"+ subjson + 
-	   "\n... plus " + (json.length - 10000) + " more characters.</pre>");
+	    //let subjson = json.substring(0,10000);
+	    $(selector+" div#results").append("<span class='warning'>JSON too large to pretty format!</span>\n");
+        //$(selector+" div#results").append(subjson + "\n... plus " + (json.length - 10000) + " more characters.</pre>");
+	    $(selector+" div#results").append("<pre>"+JSON.stringify(result,null,2)+"</pre>\n");
     } else {
 	$(selector+" div#results").append(json);
 	$('.jsonFormatter').jsonFormatter();
@@ -1730,15 +1746,29 @@ function appOverviewChangeHandler() {
         $("#citrixAutoTag").show();
 
         let p1 = getAutoTags();
-        $.when(p1).done(function(data) {
-            parseAutoTags(data);
+        let p2 = getMZs();
+        $.when(p1,p2).done(function(d1,d2) {
+            parseAutoTags(d1[0]);
+            processMZs(d2[0]);
 
-            if(autoTags.findIndex( ({ name }) => name === "Citrix") < 0)
-            {
-                $("#citrixAutoTag").html("<p>Citrix AutoTag missing!</p><input type='button' id='deployCitrixAutoTag' value='Deploy AutoTag'>");
+            if(autoTags.findIndex( ({ name }) => name === "Citrix") < 0) {
+                $("#citrixAutoTag").html("<p>❌ Citrix AutoTag missing!</p><input type='button' id='deployCitrixAutoTag' value='Deploy AutoTag'>");
             } else {
                 $("#citrixAutoTag").html("<p>✅ Citrix AutoTag in place</p>");
             }
+
+            if(MZs.findIndex( ({ name }) => name === "Citrix Overview") > -1 ) {
+                let MZ = MZs.find( ({ name }) => name === "Citrix Overview");
+                $("#citrixAutoTag").append("<p>✅ Citrix Overview MZ found, using that</p>" +
+                    "<input type='hidden' id='mz' value='"+MZ.id+"'>"+
+                    "<input type='hidden' id='mzname' value='"+MZ.name+"'>"
+                    );
+            } else {
+                $("#citrixAutoTag").append("<p>❌ Citrix Overview MZ not found!</p>" +
+                    "Pick an existing MZ: <select id='mzlist'></select><br>" +
+                    "or <input type='button' id='deployCitrixMZ' value='Deploy MZ'>");
+                drawMZs();
+            }    
         });
         break;
     }

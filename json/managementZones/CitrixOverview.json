@@ -1,0 +1,52 @@
+{
+  "name": "Citrix Overview",
+  "rules": [
+    {
+      "type": "PROCESS_GROUP",
+      "enabled": true,
+      "propagationTypes": [
+        "PROCESS_GROUP_TO_HOST", "PROCESS_GROUP_TO_SERVICE"
+      ],
+      "conditions": [
+        {
+          "key": {
+            "attribute": "PROCESS_GROUP_TAGS"
+          },
+          "comparisonInfo": {
+            "type": "TAG",
+            "operator": "EQUALS",
+            "value": {
+                "context": "CONTEXTLESS",
+                "key": "Citrix"
+            },
+            "negate": false,
+            "caseSensitive": false
+          }
+        }
+      ]
+    },
+    {
+      "type": "CUSTOM_APPLICATION",
+      "enabled": true,
+      "propagationTypes": [
+      ],
+      "conditions": [
+        {
+          "key": {
+            "attribute": "CUSTOM_APPLICATION_TAGS"
+          },
+          "comparisonInfo": {
+            "type": "TAG",
+            "operator": "EQUALS",
+            "value": {
+                "context": "CONTEXTLESS",
+                "key": "Citrix"
+            },
+            "negate": false,
+            "caseSensitive": false
+          }
+        }
+      ]
+    }
+  ]
+}

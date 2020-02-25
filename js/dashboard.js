@@ -329,6 +329,10 @@ function transformSubs(subs,dbid,swaps,config) {
     sub["dashboardMetadata"]["shared"]="true";
     sub["dashboardMetadata"]["sharingDetails"]["linkShared"]="true";
     sub["dashboardMetadata"]["sharingDetails"]["published"]="false";
+    sub["dashboardMetadata"]["dashboardFilter"]["managementZone"]= {
+      "id": config.mz,
+      "name": config.mzname
+    };
     if("costControlUserSessionPercentage" in config) addCostControlTile(sub,config);
   });
 

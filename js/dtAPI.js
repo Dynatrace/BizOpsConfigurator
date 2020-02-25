@@ -142,6 +142,26 @@ function deployAutoTag(file,swaps) {
   });
 }
 
+function deployMZ(file,swaps) {
+  var payload = {};
+  var p = $.get(file)
+      .fail(errorboxJQXHR);
+  return p.then(function(data) {
+    payload = JSON.stringify(data);
+
+  swaps.forEach(function(swap) {
+    payload = payload.replace(swap.to, swap.from);
+  });
+
+    var query="/api/config/v1//managementZones";
+    var options = {
+        'data': payload,
+        'method': 'POST'
+    };
+    return dtAPIquery(query,options);
+  });
+}
+
 //// Functions ////
 function dtAPIquery(query, options, retries=3) {
     let success = (options.hasOwnProperty('success') ? options.success : function(data, textStatus, jqXHR)
@@ -257,6 +277,10 @@ function uploadAppOverview(config) {
   dashboardAO["dashboardMetadata"]["shared"]="true";
   dashboardAO["dashboardMetadata"]["sharingDetails"]["linkShared"]="true";
   dashboardAO["dashboardMetadata"]["sharingDetails"]["published"]="false";
+  dashboardAO["dashboardMetadata"]["dashboardFilter"]["managementZone"]= {
+    "id": config.mz,
+    "name": config.mzname
+  };
   if("costControlUserSessionPercentage" in config) addCostControlTile(dashboardAO,config);
   var query="/api/config/v1/dashboards/"+id;
   var data2=JSON.stringify(dashboardAO);
