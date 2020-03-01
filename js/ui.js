@@ -714,8 +714,10 @@ function globalButtonHandler() {
         break;
     }
     case "reloadDBs": {
-        loadDBList()
-        .then(downloadDBsFromList);
+        let p = loadDBList();
+        $.when(p).done(function() {
+            downloadDBsFromList();
+        });
         break;
     }
     case "addRepo": {

@@ -18,9 +18,12 @@ function getRepoContents(repo) {
 function parseRepoContents(data) {
     let contents = [];
     data.forEach(function(file) {
-        let re = /\.json$/;
+        //let re = /\.json$/;
+        let re = /(\.json$)|(^[0-9a-f-]{36}$)/;
         if(re.test(file.path))
             contents.push(file);
+        else
+            console.log("parseRepoContents: rejected '"+file.path+"' based on regex");
     });
     return contents;
 }

@@ -21,10 +21,12 @@ var githubpat="";
 var repoList = [ 
     {'owner':'TechShady','repo':'Dynatrace-DashboardsV4'},
     {'owner':'TechShady','repo':'Dynatrace-DashboardV5'},
-    {'owner':'LucasHocker','repo':'CitrixDashboards'}
+    {'owner':'LucasHocker','repo':'CitrixDashboards'},
+    {'owner':'Dynatrace-Dave-Mauney','repo':'DashboardTemplates'}
     ];
 var tenantOverviews = [
-    {'name':'BizOps', 'filename':'TenantOverview.json'}
+    {'name':'BizOps', 'filename':'TenantOverview.json'},
+    {'name':'Daves Dashboards (preview)', 'filename':'00000000-dddd-bbbb-ffff-000000000001'}
     ];
 var appOverviews = [
     {'name':'WebApp', 'filename':'AppOverview.json'},
@@ -300,19 +302,26 @@ function parseSteps(result) {
 
 function loadDBList(p=1) {
     let i = p;//(v5test?1:0);
-    return $.when(p).then(function() {  // we passed in a promise
+    let deferreds = [];
+    let master = $.Deferred();
+    if(p.promise) deferreds.push(p);
+    $.when(p).then(function() {  // we should have been passed a deferred
         let p1 = getRepoContents(repoList[i]);
-        return $.when(p1).then(function(data) {
+        deferreds.push(p1);
+        $.when(p1).then(function(data) {
             dbList=parseRepoContents(data);
             //always get any custom repos (i>1)
             for(i=2; i<repoList.length; i++) {
                 let p_i = getRepoContents(repoList[i]);
-                return $.when(p_i).done(function(data_i) {
+                deferreds.push(p_i);
+                $.when(p_i).done(function(data_i) {
                     dbList = dbList.concat(parseRepoContents(data_i));
                 });
             }
+            $.when.apply($, deferreds).done(function(){ master.resolve(); });
         });
     });
+    return master
 }
 
 function processVersion(p) {

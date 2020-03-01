@@ -213,6 +213,7 @@ function uploadTenantOverview(config) {
   dashboardTO["id"]=id;
   dashboardTO["dashboardMetadata"]["owner"]=owner;
   dashboardTO["dashboardMetadata"]["name"]=dashboardTO["dashboardMetadata"]["name"].replace(/Tenant/g,config.TOname+" Tenant");
+  dashboardTO["dashboardMetadata"]["name"]=dashboardTO["dashboardMetadata"]["name"].replace(/TEMPLATE/g,config.TOname+"");
   dashboardTO["dashboardMetadata"]["dashboardFilter"]["managementZone"]= {
     "id": config.mz,
     "name": config.mzname
@@ -226,7 +227,10 @@ function uploadTenantOverview(config) {
 
   //sub-dashboards
   let subs = getStaticSubDBs(dashboardTO,[config.oldTOid]);
-  let swaps = [ {from:config.oldTOid, to:id} ];
+  let swaps = [ 
+    {'from':config.oldTOid, 'to':id},
+    {'from':"TEMPLATE", 'to':config.TOname}
+  ];
   swaps = transformSubs(subs,config.TOid,swaps,config);
   data = doSwaps(data, swaps);
   data = validateDB(data);
