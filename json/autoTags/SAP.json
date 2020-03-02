@@ -1,0 +1,46 @@
+{
+  "name": "SAP",
+  "rules": [
+    {
+      "type": "PROCESS_GROUP",
+      "enabled": true,
+      "valueFormat": "{ProcessGroup:DetectedName}",
+      "propagationTypes": [
+        "PROCESS_GROUP_TO_HOST", "PROCESS_GROUP_TO_SERVICE"
+      ],
+      "conditions": [
+        {
+          "key": {
+            "attribute": "PROCESS_GROUP_TECHNOLOGY"
+          },
+          "comparisonInfo": {
+            "type": "SIMPLE_TECH",
+            "operator": "EQUALS",
+            "value": {"type":"SAP"},
+            "negate": false,
+            "caseSensitive": false
+          }
+        }   
+      ]
+    },
+    {
+      "type": "CUSTOM_APPLICATION",
+      "enabled": true,
+      "valueFormat": "GUI",
+      "conditions": [
+        {
+          "key": {
+            "attribute": "CUSTOM_APPLICATION_NAME"
+          },
+          "comparisonInfo": {
+            "type": "STRING",
+            "operator": "EQUALS",
+            "value": "${appname}",
+            "negate": false,
+            "caseSensitive": false
+          }
+        }   
+      ]
+    }
+  ]
+}
