@@ -750,3 +750,7 @@ th {
 #citrixAutoTag {
   display: none;
 }
+
+input#dashboardCleanup {
+  display: none;
+}
