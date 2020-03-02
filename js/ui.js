@@ -507,9 +507,9 @@ function globalButtonHandler() {
 	   chart.draw(funnelData, options);
 	   updateWhere(funnelData);
 	   break;
-	case "upgradeTenant":
+	/*case "upgradeTenant":
 	   $("#viewport").load("html/configurator/listTenant.html",fieldsetPainter);
-	   break;
+	   break;*/
 	case "uploadApp": {
   	    $("input#uploadApp").val("Uploading...");
   	    $("input#uploadApp").prop('disabled', true);
@@ -766,6 +766,10 @@ function globalButtonHandler() {
         $.when(p1).done(appOverviewChangeHandler);
         break;
     }
+    case "dashboardCleanup": {
+	    $("#viewport").load("html/dashboardCleanup.html",fieldsetPainter);
+        break;
+    }
 	case "":
 	case undefined:
 	   console.log("undefined button");
@@ -875,7 +879,7 @@ function fieldsetPainter() {
 	   break;
 	case "main":
 	   $("#owner").text(owner);
-	   let p_DBA = getDBAdashboards();
+	   let p_DBA = getAllDashboards();
 	   $("#bc-connect").text(tenantID);
 
 	   $.when(p_DBA).done(function(data) {
@@ -1117,7 +1121,7 @@ function fieldsetPainter() {
         if("tenantOverview" in selection.config) $("#tenantOverview").val(selection.config.tenantOverview);
 	   break;
 	case "listApp": {
-	   let p_DBA = getDBAdashboards();
+	   let p_DBA = getAllDashboards();
 	   $("#bc-connect").text(tenantID);
 	   $("#TOid").text(selection.TOid);
 	   $("#TOname").text(DBAdashboards.find(x => x.id === selection.TOid).name);
@@ -1132,7 +1136,7 @@ function fieldsetPainter() {
 	   break;
 	}
 	case "listFunnel": {
-	   let p_DBA = getDBAdashboards();
+	   let p_DBA = getAllDashboards();
 	   $("#bc-connect").text(tenantID);
 	   $("#TOid").text(selection.TOid);
 	   $("#AOid").text(selection.AOid);
@@ -1150,7 +1154,7 @@ function fieldsetPainter() {
 	   break;
 	}
 	case "listTenant": {
-	   let p_DBA = getDBAdashboards();
+	   let p_DBA = getAllDashboards();
 	   $("#bc-connect").text(tenantID);
 
 	   $.when(p_DBA).done(function(data) {
@@ -1207,8 +1211,43 @@ function fieldsetPainter() {
       });
       break;
     }
-	case "upgradeTenant":
-	   break;
+    case "dashboardCleanup": {
+        let p1 = getAllDashboards();
+
+        $.when(p1).done(function(data) {
+            let allDBs = data["dashboards"];
+            
+            //get owners and number of dashboards
+            let owners = new Map();
+            for(const x of allDBs) {
+                if(!owners.has(x.owner))
+                    owners.set(x.owner, 1);
+                else
+                    owners.set(x.owner, owners.get(x.owner)+1);
+            } 
+
+            //sort
+            owners = new Map(Array
+                .from(owners)
+                .sort((a,b) => b[1] - a[1]));
+
+            //sum 
+            let total = [...owners].reduce((acc,val) => acc + val[1], 0);
+
+            //print out the list of owners and counts
+            let html = "";
+            for(let [owner,count] of owners) {
+                html += "<li>"+owner+": "+count+"</li>";
+            }
+            html += "";
+            $("#dashboardCleanup ul").append(html);
+            $("#total").text(total);
+            $("#owners").text(owners.size);
+        });
+        break;
+    }
+	/*case "upgradeTenant":
+	   break;*/
 	default:
 	   alert("Unknown Fieldset: " + id);
    }

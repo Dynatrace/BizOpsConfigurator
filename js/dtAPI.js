@@ -9,7 +9,7 @@ function testConnect() {
   });
 }
 
-function getDBAdashboards() {
+function getAllDashboards() {
   var query="/api/config/v1/dashboards";
   return dtAPIquery(query,{});
 }
