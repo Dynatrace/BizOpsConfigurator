@@ -245,7 +245,7 @@ function uploadTenantOverview(config) {
 function updateTenantOverview(TOid) {
   let p1 = loadDashboard(TOid);
   let p2 = loadDashboard(configID(TOid));
-  let p3 = getDBAdashboards();
+  let p3 = getAllDashboards();
   //update/create link tile
   let to = TOid.split("-")[1];
   let reS = "bbbbbbbb-"+to+"-[0-9]{4}-0000-000000000000";
@@ -308,7 +308,7 @@ function uploadAppOverview(config) {
 function updateAppOverview(AOid) {
   let p1 = loadDashboard(AOid);
   let p2 = loadDashboard(configID(AOid));
-  let p3 = getDBAdashboards();
+  let p3 = getAllDashboards();
   //update/create link tile
   let to = AOid.split("-")[1];
   let ao = AOid.split("-")[2];
