@@ -20,7 +20,7 @@ function findBottomRight(db,bounds) {
             t.bounds.top + t.bounds.height);
     });
 
-    bounds.top = bottomedge + 15; //leave a little space
+    bounds.top = bottomedge; //leave a little space
     bounds.left = rightedge - bounds.width;
 
     return bounds;
@@ -35,7 +35,7 @@ function findTopRight(db,bounds) {
     });
 
     bounds.top = 0;
-    bounds.left = rightedge + 15; //leave a little space
+    bounds.left = rightedge; //leave a little space
 
     return bounds;
 }
