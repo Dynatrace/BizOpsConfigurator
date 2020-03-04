@@ -23,7 +23,7 @@ function createLinkTile(bounds,re,myID,marker) {
   }
 
   DBAdashboards.forEach(function(db) {
-    let name = db.name.replace(/^[^ ]* /, ''); //strip emojis in small links
+    let name = db.name.replace(/^[^ \w]* /, ''); //strip emojis in small links
     if(re.test(db.id) && db.id != myID) {
       if(tile.markdown.length > 0) tile.markdown += "\n";
       tile.markdown += "## ["+name+"](#dashboard;id="+db.id+")\n![]()\n";
