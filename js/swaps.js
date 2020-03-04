@@ -210,6 +210,7 @@ function transformSubs(subs,dbid,swaps,config) {
       "name": config.mzname
     };
     if("costControlUserSessionPercentage" in config) addCostControlTile(sub,config);
+    addReplaceButton(sub,dbid,"![BackButton]()","⇦",findTopRight);
   });
 
   for(let i=0; i<subs.length; i++) {
