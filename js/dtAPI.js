@@ -286,6 +286,7 @@ function uploadAppOverview(config) {
     "name": config.mzname
   };
   if("costControlUserSessionPercentage" in config) addCostControlTile(dashboardAO,config);
+  addReplaceButton(dashboardAO,config.TOid,"![BackButton]()","⇦",findTopRight);
   var query="/api/config/v1/dashboards/"+id;
   var data2=JSON.stringify(dashboardAO);
   //string based transforms
@@ -352,6 +353,7 @@ function uploadFunnel(config) {
     dashboardFO["dashboardMetadata"]["sharingDetails"]["linkShared"]="true";
     dashboardFO["dashboardMetadata"]["sharingDetails"]["published"]="false";
     if("costControlUserSessionPercentage" in config) addCostControlTile(dashboardFO,config);
+    addReplaceButton(dashboardFO,config.AOid,"![BackButton]()","⇦",findTopRight);
 
     whereClauseSwaps(dashboardFO,config);  
 

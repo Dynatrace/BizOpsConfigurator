@@ -60,3 +60,24 @@ function updateLinkTile(db,config,re,marker) {
     }
 }
 
+function addReplaceButton(db,targetID,marker,button,locator) {
+    let i = findLinkTile(db,marker);
+    
+    let bounds= {
+        top:  0,
+        left: 0,
+        width: 38,
+        height: 38
+    }
+    bounds = locator(db,bounds);
+
+    let tile = { 
+        "name": "Markdown", 
+        "tileType": "MARKDOWN", 
+        "configured": true, 
+        "bounds": bounds,
+        "tileFilter": { "timeframe": null, "managementZone": null }, 
+        "markdown": "## ["+button+"](#dashboard;id="+targetID+")\n"+marker
+    };
+    db.tiles[i]=tile;
+}
