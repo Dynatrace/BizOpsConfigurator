@@ -902,11 +902,14 @@ function fieldsetPainter() {
             });
             if("appOverview" in selection.config) $("#appOverview").val(selection.config.appOverview);
 	        let p1 = getApps(selection.config.mz);
-	        $.when(p1).done(function(data) {
-                jsonviewer(data);
-                drawApps(data,selection.config);
+	        let p2 = getApps();
+	        $.when(p1,p2).done(function(d1,d2) {
+                let appList = d1[0];
+                let compareAppList = d2[0];
+                jsonviewer([appList,compareAppList]);
+                drawApps(appList,selection.config);
                 appOverviewChangeHandler();
-                drawCompareApps(data,selection.config);
+                drawCompareApps(compareAppList,selection.config);
                 MyTimeChangeHandler();
                 if("AOname" in selection.config)$("#appName").val(selection.config.AOname);
                 if("MyCompareApp" in selection.config)$("#MyCompareApp").val(selection.config.MyCompareApp);
@@ -1800,6 +1803,7 @@ function appOverviewChangeHandler() {
     }
     case "CitrixOverview.json": { //TODO: refactor this as a generic function
         $("#citrixAutoTag").show();
+        $("#compareApp").show();
 
         let p1 = getAutoTags();
         let p2 = getMZs();

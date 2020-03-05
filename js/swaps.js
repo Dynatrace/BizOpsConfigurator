@@ -6,6 +6,8 @@ function generateAppSwapList(config) {
     {from:"MyApp", to:config.appName},
     {from:"MyURLApp", to:encodeURIComponent(config.appName)},
     {from:"InternalAppID", to:config.appID},
+    {from:"compareMZid", to:null},
+    {from:"compareMZname", to:null},
     {from:'InternalCompareAppID', to:(config.compareAppID==""?config.appID:config.compareAppID)},
     {from:"MyCompareApp", to:(config.compareAppName=="None"?config.appName:config.compareAppName)},
     //{from:"MyCompareApp", to:config.MyCompareApp},//where do I use this??
