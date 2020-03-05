@@ -127,6 +127,12 @@ function validateDB(input) {
         console.log(db.dashboardMetadata.name + " tile "+index + " height bound not divisible by 38");
   });
 
+  //temporarily remove visualizationConfig due to bugs in 189/190
+  db.tiles.forEach(function(t,index,arr) {
+    if("visualizationConfig" in t)
+        delete t.visualizationConfig;
+  });
+
   //check for untransformed dashboard
   var re = /^bbbbbbbb-/;
   if(!re.test(db.id)) e += "Untransformed dashboard: "+db.id;

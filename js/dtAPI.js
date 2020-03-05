@@ -322,6 +322,8 @@ function updateAppOverview(AOid) {
     updateLinkTile(dashboardAO,config,re,"![Funnel Links1]()");
   var query="/api/config/v1/dashboards/"+AOid;
   var data2=JSON.stringify(dashboardAO);
+  //validate
+  data2 = validateDB(data2);
   //upload
   saveConfigDashboard(configID(AOid),config);
   return dtAPIquery(query,{method:"PUT",data:data2});
