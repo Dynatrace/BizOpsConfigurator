@@ -115,7 +115,7 @@ function validateDB(input) {
   if("tags" in db.dashboardMetadata && version < dbTagsVersion)
     delete db.dashboardMetadata.tags;
 
-  //check that bounds are divisible by 38
+  //check that bounds are divisible by 38 and < 5016
   db.tiles.forEach(function(t,index,arr) {
     if(t.bounds.left % 38 != 0)
         console.log(db.dashboardMetadata.name + " tile "+index + " left bound not divisible by 38");
@@ -125,6 +125,15 @@ function validateDB(input) {
         console.log(db.dashboardMetadata.name + " tile "+index + " width bound not divisible by 38");
     if(t.bounds.height % 38 != 0)
         console.log(db.dashboardMetadata.name + " tile "+index + " height bound not divisible by 38");
+
+    if(t.bounds.left + t.bounds.width > 5016){
+        arr.splice(index,1); //remove tile out of bounds
+        console.log(db.dashboardMetadata.name + " tile "+index + " horizontal out of bounds (5016)");
+    }
+    if(t.bounds.top + t.bounds.height > 5016){
+        arr.splice(index,1); //remove tile out of bounds
+        console.log(db.dashboardMetadata.name + " tile "+index + " vertical out of bounds (5016)");
+    }
   });
 
   //temporarily remove visualizationConfig due to bugs in 189/190
