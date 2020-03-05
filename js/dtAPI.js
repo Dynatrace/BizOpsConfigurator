@@ -153,7 +153,7 @@ function deployMZ(file,swaps) {
     payload = payload.replace(swap.to, swap.from);
   });
 
-    var query="/api/config/v1//managementZones";
+    var query="/api/config/v1/managementZones";
     var options = {
         'data': payload,
         'method': 'POST'
