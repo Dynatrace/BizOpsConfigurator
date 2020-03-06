@@ -406,12 +406,12 @@ function globalButtonHandler() {
 
         $.when(p1).done(function(data) {
             selection.config = parseConfigDashboard(data);
+            let popup_p = popup(inputs,popupHeader,desc);
             let p2 = generateFunnelForecast(selection.config);
 
             if(typeof selection.config.subids == "undefined")
                 errorbox("Sorry, journey data is too old, please edit and re-upload, then try again.");
             else $.when(p2,popup_p).done(function(r1,r2) {
-                popup_p = popup(inputs,popupHeader,desc);
                 selection.config.tfactor = r2[0].val.replace('%','');
                 let revs=r1;
                 let deferreds = updateFunnelForecast(selection.config,ov,revs);
