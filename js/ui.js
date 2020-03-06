@@ -1751,15 +1751,15 @@ function buildFilterClause() {
   let filterClause = "";
   let filters = [];
 
-  if(country!='' && country!=null)filters.push('country="'+country+'"');
-  if(region!='' && region!=null)filters.push('region="'+region+'"');
-  if(city!='' && city!=null)filters.push('city="'+city+'"');
+  if(country!='' && country!=null)filters.push('usersession.country="'+country+'"');
+  if(region!='' && region!=null)filters.push('usersession.region="'+region+'"');
+  if(city!='' && city!=null)filters.push('usersession.city="'+city+'"');
   if(key!='' && type!='' && val!='' &&
      key!=null && type!=null && val!=null)
     filters.push(type+'.'+key+'="'+val+'"');
 
   filterClause = filters.length>0?
-    " AND " + filters.join(" AND "):
+    " AND (" + filters.join(" AND ") + ")":
     "";
 
   return filterClause;
