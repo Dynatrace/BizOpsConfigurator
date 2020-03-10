@@ -61,16 +61,21 @@ function updateLinkTile(db,config,re,marker) {
 }
 
 function addReplaceButton(db,targetID,marker,button,locator) {
+    let bounds = {};
     let i = findLinkTile(db,marker);
     
-    let bounds= {
-        top:  0,
-        left: 0,
-        width: 38,
-        height: 38
+    if(i >= db.tiles.length) {
+        bounds= {
+            top:  0,
+            left: 0,
+            width: 38,
+            height: 38
+        }
+        bounds = locator(db,bounds);
+    } else {
+        bounds = db.tiles[i].bounds;
     }
-    bounds = locator(db,bounds);
-
+    
     let tile = { 
         "name": "Markdown", 
         "tileType": "MARKDOWN", 
