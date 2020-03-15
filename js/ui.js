@@ -1306,12 +1306,12 @@ function drawFunnelList(AOid) {
   });
 }
 
-function drawMZs() {
+function drawMZs(locator="#mzlist") {
   let options = "<option value=''>All</option>";
   MZs.forEach(function(mz) {
     options += "<option value='"+mz.id+"'>"+mz.name+"</option>";
   });
-  $("#mzlist").html(options);
+  $(locator).html(options);
 }
 
 function drawApps(apps,config) {
@@ -1792,6 +1792,8 @@ function appOverviewChangeHandler() {
     case "CitrixOverview.json": { //TODO: refactor this as a generic function
         $("#autoTag").show();
         $("#compareApp").show();
+        $("#compareMZ").show();
+        drawMZs("#compareMZ");
         autoTagBox("Citrix");
         break;
     }
