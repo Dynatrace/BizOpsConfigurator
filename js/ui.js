@@ -1307,11 +1307,15 @@ function drawFunnelList(AOid) {
 }
 
 function drawMZs(locator="#mzlist") {
-  let options = "<option value=''>All</option>";
-  MZs.forEach(function(mz) {
-    options += "<option value='"+mz.id+"'>"+mz.name+"</option>";
+  let p = getMZs();
+  $.when(p).done(function(d) {
+    processMZs(d);
+    let options = "<option value=''>All</option>";
+    MZs.forEach(function(mz) {
+      options += "<option value='"+mz.id+"'>"+mz.name+"</option>";
+    });
+    $(locator).html(options);
   });
-  $(locator).html(options);
 }
 
 function drawApps(apps,config) {
@@ -1809,10 +1813,8 @@ function appOverviewChangeHandler() {
 
 function autoTagBox(tech) {
     let p1 = getAutoTags();
-    let p2 = getMZs();
-    $.when(p1,p2).done(function(d1,d2) {
-        parseAutoTags(d1[0]);
-        processMZs(d2[0]);
+    $.when(p1).done(function(d1) {
+        parseAutoTags(d1);
 
         if(autoTags.findIndex( ({ name }) => name === tech) < 0) {
             $("#tagStatus").html("<p>❌ "+tech+"AutoTag missing!</p><input type='button' id='deployAutoTag' data-tech='"+tech+"' value='Deploy AutoTag'>");
