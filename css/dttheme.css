@@ -754,3 +754,7 @@ th {
 input#dashboardCleanup {
   display: none;
 }
+
+#compareMZ {
+  display: none;
+}

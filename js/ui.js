@@ -740,29 +740,18 @@ function globalButtonHandler() {
         $("#repo_config").load("html/repo_config.html",fieldsetPainter);
         break;
     }
-    case "deployCitrixAutoTag": {
+    case "deployAutoTag": {
+        let tech = $("#deployAutoTag")[0].dataset['tech'];
         let appname = $("#applist option:selected").text();
         let swaps = [{'to': '${appname}', 'from': appname}];
-        let p1 = deployAutoTag("json/autoTags/citrix.json",swaps);
+        let p1 = deployAutoTag("json/autoTags/"+tech+".json",swaps);
         $.when(p1).done(appOverviewChangeHandler);
         break;
     }
-    case "deployCitrixMZ": {
+    case "deployMZ": {
+        let tech = $("#deployAutoTag")[0].dataset['tech'];
         let swaps = [];
-        let p1 = deployMZ("json/managementZones/CitrixOverview.json",swaps);
-        $.when(p1).done(appOverviewChangeHandler);
-        break;
-    }
-    case "deploySAPAutoTag": {
-        let appname = $("#applist option:selected").text();
-        let swaps = [{'to': '${appname}', 'from': appname}];
-        let p1 = deployAutoTag("json/autoTags/SAP.json",swaps);
-        $.when(p1).done(appOverviewChangeHandler);
-        break;
-    }
-    case "deploySAPMZ": {
-        let swaps = [];
-        let p1 = deployMZ("json/managementZones/SAPOverview.json",swaps);
+        let p1 = deployMZ("json/managementZones/"+tech+"Overview.json",swaps);
         $.when(p1).done(appOverviewChangeHandler);
         break;
     }
@@ -1790,8 +1779,7 @@ function xappChangeHandler() {
 function appOverviewChangeHandler() {
     var AO = $("#appOverview").val();
 
-    $("#SAPAutoTag").hide();
-    $("#citrixAutoTag").hide();
+    $("#autoTag").hide();
     $("#compareApp").hide();
     $("#compareTime").hide();
 
@@ -1802,67 +1790,45 @@ function appOverviewChangeHandler() {
         break;
     }
     case "CitrixOverview.json": { //TODO: refactor this as a generic function
-        $("#citrixAutoTag").show();
+        $("#autoTag").show();
         $("#compareApp").show();
-
-        let p1 = getAutoTags();
-        let p2 = getMZs();
-        $.when(p1,p2).done(function(d1,d2) {
-            parseAutoTags(d1[0]);
-            processMZs(d2[0]);
-
-            if(autoTags.findIndex( ({ name }) => name === "Citrix") < 0) {
-                $("#citrixAutoTag").html("<p>❌ Citrix AutoTag missing!</p><input type='button' id='deployCitrixAutoTag' value='Deploy AutoTag'>");
-            } else {
-                $("#citrixAutoTag").html("<p>✅ Citrix AutoTag in place</p>");
-            }
-
-            if(MZs.findIndex( ({ name }) => name === "Citrix Overview") > -1 ) {
-                let MZ = MZs.find( ({ name }) => name === "Citrix Overview");
-                $("#citrixAutoTag").append("<p>✅ Citrix Overview MZ found, using that</p>" +
-                    "<input type='hidden' id='mz' value='"+MZ.id+"'>"+
-                    "<input type='hidden' id='mzname' value='"+MZ.name+"'>"
-                    );
-            } else {
-                $("#citrixAutoTag").append("<p>❌ CitrixOverview MZ not found!</p>" +
-                    "Pick an existing MZ: <select id='mzlist'></select><br>" +
-                    "or <input type='button' id='deployCitrixMZ' value='Deploy MZ'>");
-                drawMZs();
-            }    
-        });
+        autoTagBox("Citrix");
         break;
     }
     case "SAPDigitalCockpit-Main.json": {
-        $("#SAPAutoTag").show();
-
-        let p1 = getAutoTags();
-        let p2 = getMZs();
-        $.when(p1,p2).done(function(d1,d2) {
-            parseAutoTags(d1[0]);
-            processMZs(d2[0]);
-
-            if(autoTags.findIndex( ({ name }) => name === "SAP") < 0) {
-                $("#SAPAutoTag").html("<p>❌ SAP AutoTag missing!</p><input type='button' id='deploySAPAutoTag' value='Deploy AutoTag'>");
-            } else {
-                $("#SAPAutoTag").html("<p>✅ SAP AutoTag in place</p>");
-            }
-
-            if(MZs.findIndex( ({ name }) => name === "SAP") > -1 ) {
-                let MZ = MZs.find( ({ name }) => name === "SAP");
-                $("#SAPAutoTag").append("<p>✅ SAP Overview MZ found, using that</p>" +
-                    "<input type='hidden' id='mz' value='"+MZ.id+"'>"+
-                    "<input type='hidden' id='mzname' value='"+MZ.name+"'>"
-                    );
-            } else {
-                $("#SAPAutoTag").append("<p>❌ SAP Overview MZ not found!</p>" +
-                    "Pick an existing MZ: <select id='mzlist'></select><br>" +
-                    "or <input type='button' id='deploySAPMZ' value='Deploy MZ'>");
-                drawMZs();
-            }    
-        });
+        $("#autoTag").show();
+        autoTagBox("SAP");
         break;
     }
     default:
         console.log("unexpected value in #appOverview");
     }
+}
+
+function autoTagBox(tech) {
+    let p1 = getAutoTags();
+    let p2 = getMZs();
+    $.when(p1,p2).done(function(d1,d2) {
+        parseAutoTags(d1[0]);
+        processMZs(d2[0]);
+
+        if(autoTags.findIndex( ({ name }) => name === tech) < 0) {
+            $("#tagStatus").html("<p>❌ "+tech+"AutoTag missing!</p><input type='button' id='deployAutoTag' data-tech='"+tech+"' value='Deploy AutoTag'>");
+        } else {
+            $("#tagStatus").html("<p>✅ "+tech+"AutoTag in place</p>");
+        }
+
+        if(MZs.findIndex( ({ name }) => name === tech+" Overview") > -1 ) {
+            let MZ = MZs.find( ({ name }) => name === tech+" Overview");
+            $("#MZStatus").html("<p>✅ "+tech+"Overview MZ found, using that</p>" +
+                "<input type='hidden' id='mz' value='"+MZ.id+"'>"+
+                "<input type='hidden' id='mzname' value='"+MZ.name+"'>"
+                );
+        } else {
+            $("#MZStatus").html("<p>❌ "+tech+"verview MZ not found!</p>" +
+                "Pick an existing MZ: <select id='mzlist'></select><br>" +
+                "or <input type='button' id='deployMZ' data-tech='"+tech+"' value='Deploy MZ'>");
+            drawMZs();
+        }    
+    });
 }
