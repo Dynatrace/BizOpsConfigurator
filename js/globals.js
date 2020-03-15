@@ -54,6 +54,7 @@ var v5test=true; //opposite of this
 var popup_p={};
 var Regions=[];
 var autoTags=[];
+var MZs=[];
 
 ///////// Functions for manipulating global vars //////////
 
