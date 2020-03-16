@@ -762,12 +762,12 @@ input#dashboardCleanup {
 #revealToken img {
   display: block;
   box-sizing: border-box;
-  background: url(images/eye-open.svg) no-repeat;
+  background: url(../images/eye-open.svg) no-repeat;
   width: 20px; /* Width of new image */
   height: 20px; /* Height of new image */
   padding-left: 20px; /* Equal to width of new image */
 }
 
 #revealToken img.revealed {
-  background: url(images/eye-open.svg) no-repeat;
+  background: url(../images/eye-open.svg) no-repeat;
 }
