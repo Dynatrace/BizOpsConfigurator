@@ -759,15 +759,20 @@ input#dashboardCleanup {
   display: none;
 }
 
-#revealToken img {
-  display: block;
-  box-sizing: border-box;
+#revealToken {
   background: url(../images/eye-open.svg) no-repeat;
-  width: 20px; /* Width of new image */
-  height: 20px; /* Height of new image */
-  padding-left: 20px; /* Equal to width of new image */
+  background-size: auto 20px;
+  background-position: 10px 14px;
+  position: relative;
+  cursor: pointer;
+  color: white;
+  height: 20px;
+  font-size: 14px;
+  line-height: 49px;
+  flex: 1;
+  white-space: nowrap;
 }
 
-#revealToken img.revealed {
-  background: url(../images/eye-open.svg) no-repeat;
+#revealToken.revealed {
+  background: url(../images/eye-close.svg) no-repeat;
 }

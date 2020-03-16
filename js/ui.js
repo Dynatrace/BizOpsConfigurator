@@ -202,11 +202,11 @@ function linkHandler(e) {
       $(this).parent().parent().hide();
       break;
     case "revealToken":
-      if($("#revealToken img").hasClass("revealed")){
-        $("#revealToken img").removeClass("revealed");
+      if($("#revealToken").hasClass("revealed")){
+        $("#revealToken").removeClass("revealed");
         $("#token").prop('type','password');
       } else {
-        $("#revealToken img").addClass("revealed");
+        $("#revealToken").addClass("revealed");
         $("#token").prop('type','text');
       }
       break;
