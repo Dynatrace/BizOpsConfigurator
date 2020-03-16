@@ -685,7 +685,13 @@ function globalButtonHandler() {
         });
         $("input.repo_repo[data-index]").each(function(index, element) {
             let i = element.dataset.index;
-            repoList[i].repo = element.value;
+            if(element.value.includes('/')){
+              let paths = element.value.split('/');
+              repoList[i].repo = paths.shift();
+              repoList[i].path = paths.join('/');
+            } else {
+              repoList[i].repo = element.value;
+            }
         });
         $("input.tenantOverview_name[data-index]").each(function(index, element) {
             let i = element.dataset.index;

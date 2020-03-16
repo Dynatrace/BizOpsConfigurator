@@ -19,11 +19,11 @@ const timeTable = [
 var githubuser="";
 var githubpat="";
 var repoList = [ 
-    {'owner':'TechShady','repo':'Dynatrace-DashboardsV4'},
-    {'owner':'TechShady','repo':'Dynatrace-DashboardV5'},
-    {'owner':'LucasHocker','repo':'CitrixDashboards'},
-    {'owner':'LucasHocker','repo':'SAP-Analytics-1'},
-    {'owner':'Dynatrace-Dave-Mauney','repo':'DashboardTemplates'}
+    {'owner':'TechShady','repo':'Dynatrace-DashboardsV4','path':''},
+    {'owner':'TechShady','repo':'Dynatrace-DashboardV5','path':''},
+    {'owner':'LucasHocker','repo':'CitrixDashboards','path':''},
+    {'owner':'LucasHocker','repo':'SAP-Analytics-1','path':''},
+    {'owner':'Dynatrace-Dave-Mauney','repo':'DashboardTemplates','path':'v1.188.75'}
     ];
 var tenantOverviews = [
     {'name':'BizOps', 'filename':'TenantOverview.json'},

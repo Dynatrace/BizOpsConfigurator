@@ -2,10 +2,10 @@ function getRepoContents(repo) {
     let headers = {};
     if(githubuser!="" && githubpat!="")
         headers.Authorization = "Basic " + btoa(githubuser+":"+githubpat);
-
+    
     //Get App list from API as JSON
     return $.ajax({
-    url: "https://api.github.com/repos/"+repo.owner+"/"+repo.repo+"/contents",
+    url: "https://api.github.com/repos/"+repo.owner+"/"+repo.repo+"/contents/"+repo.path,
     contentType: "application/json; charset=utf-8",
     method: 'GET',
     dataType: "json",
