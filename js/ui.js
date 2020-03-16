@@ -815,10 +815,7 @@ function fieldsetPainter() {
         $("#dbFunnelFalse").val(dbFunnelFalse);
 
         for(let i=2; i<repoList.length; i++) {
-            let html = "<tr><td>Repo #"+i+":</td><td class='right'><input type='text' class='repo_owner' data-index='"+i+
-                "' value='"+repoList[i].owner+"'> / <input type='text' class='repo_repo' data-index='"+i+
-                "' value='"+repoList[i].repo+"'><input type='button' class='removeRepo' data-index='"+i+
-                "' value='-'></td></tr>";
+            let html = `<tr><td>Repo #${i}:</td><td class='right'><input type='text' class='repo_owner' data-index='${i}' value='${repoList[i].owner}'> / <input type='text' class='repo_repo' data-index='${i}' value='${repoList[i].repo}${repoList[i].path.length > 0 ? "/" + repoList[i].path : ''}'><input type='button' class='removeRepo' data-index='${i}' value='-'></td></tr>`;
             $("#additionalRepos").after(html);
         }
         $("input.removeRepo").on("click", function() { 
@@ -828,10 +825,7 @@ function fieldsetPainter() {
         });
         
         for(let i=0; i<tenantOverviews.length; i++) {
-            let html = "<tr><td>TenantOverview #"+i+":</td><td class='right'><input type='text' class='overview_name' data-index='"+i+
-                "' value='"+tenantOverviews[i].name+"'>: <input type='text' class='overview_filename' data-index='"+i+
-                "' value='"+tenantOverviews[i].filename+"'><input type='button' class='removeTenantOverview' data-index='"+i+
-                "' value='-'></td></tr>";
+            let html = `<tr><td>TenantOverview #${i}:</td><td class='right'><input type='text' class='overview_name' data-index='${i}' value='${tenantOverviews[i].name}'>: <input type='text' class='overview_filename' data-index='${i}' value='${tenantOverviews[i].filename}'><input type='button' class='removeTenantOverview' data-index='${i}' value='-'></td></tr>`;
             $("#tenantOverviews").after(html);
         }
         $("input.removeTenantOverview").on("click", function() { 
@@ -841,10 +835,7 @@ function fieldsetPainter() {
         });
         
         for(let i=0; i<appOverviews.length; i++) {
-            let html = "<tr><td>AppOverview #"+i+":</td><td class='right'><input type='text' class='overview_name' data-index='"+i+
-                "' value='"+appOverviews[i].name+"'>: <input type='text' class='overview_filename' data-index='"+i+
-                "' value='"+appOverviews[i].filename+"'><input type='button' class='removeAppOverview' data-index='"+i+
-                "' value='-'></td></tr>";
+            let html = `<tr><td>AppOverview #${i}:</td><td class='right'><input type='text' class='overview_name' data-index='${i}' value='${appOverviews[i].name}'>: <input type='text' class='overview_filename' data-index='${i}' value='${appOverviews[i].filename}'><input type='button' class='removeAppOverview' data-index='${i}' value='-'></td></tr>`;
             $("#appOverviews").after(html);
         }
         $("input.removeAppOverview").on("click", function() { 
@@ -854,10 +845,7 @@ function fieldsetPainter() {
         });
         
         for(let i=0; i<journeyOverviews.length; i++) {
-            let html = "<tr><td>JourneyOverview #"+i+":</td><td class='right'><input type='text' class='overview_name' data-index='"+i+
-                "' value='"+journeyOverviews[i].name+"'>: <input type='text' class='overview_filename' data-index='"+i+
-                "' value='"+journeyOverviews[i].filename+"'><input type='button' class='removeJourneyOverview' data-index='"+i+
-                "' value='-'></td></tr>";
+            let html = `<tr><td>JourneyOverview #${i}:</td><td class='right'><input type='text' class='overview_name' data-index='${i}' value='${journeyOverviews[i].name}'>: <input type='text' class='overview_filename' data-index='${i}' value='${journeyOverviews[i].filename}'><input type='button' class='removeJourneyOverview' data-index='${i}' value='-'></td></tr>`;
             $("#journeyOverviews").after(html);
         }
         $("input.removeJourneyOverview").on("click", function() { 
