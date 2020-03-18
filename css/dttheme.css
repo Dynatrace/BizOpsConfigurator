@@ -759,9 +759,8 @@ input#dashboardCleanup {
   display: none;
 }
 
-#revealToken img {
+#revealToken {
   display: inline-block;
-  content: url(../images/eye-open.svg) no-repeat;
   cursor: pointer;
   color: white;
   height: 20px;
@@ -769,6 +768,7 @@ input#dashboardCleanup {
   white-space: nowrap;
 }
 
-#revealToken.revealed img {
-  content: url(../images/eye-close.svg) no-repeat;
-}
+#revealToken img.close {display: none;}
+#revealToken img.open {display: inline;}
+#revealToken.revealed img.close {display: inline;}
+#revealToken.revealed img.open {display: none;}

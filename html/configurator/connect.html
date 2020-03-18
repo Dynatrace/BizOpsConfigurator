@@ -2,8 +2,12 @@
 <fieldset id="connect">
   <legend>Dynatrace API Connection</legend>
   <table>
-    <tr><td>Tenant URL:</td><td><input class="api" id="url" autocomplete="username" placeholder="https://<tenant>.live.dynatrace.com"></td></tr>
-    <tr><td>API Token:</td><td><input type="password" class="api" id="token" autocomplete="current-password" placeholder="abcd123"><a href="#revealToken" id="revealToken"><img></a></td></tr>
+    <tr><td>Tenant URL:</td><td><input class="api" id="url" autocomplete="url" placeholder="https://<tenant>.live.dynatrace.com"></td></tr>
+    <tr>
+      <td>API Token:</td>
+      <td><input type="password" class="api" id="token" autocomplete="token" placeholder="abcd123">
+        <a href="#revealToken" id="revealToken"><img class="open" src="images/eye-open.svg"><img class="close" src="images/eye-close.svg"></a>
+      </td></tr>
     <tr><td colspan=2><input type="checkbox" id="authgithub"> Use GitHub PAT</td></tr>
     <tr class='github'><td>GitHub User:</td><td><input class="api" id="githubuser" autocomplete="on" placeholder="JohnSmith"></td></tr>
     <tr class='github'><td>GitHub PAT:</td><td><input class="api" id="githubpat" autocomplete="on" placeholder="abcd123"></td></tr>
