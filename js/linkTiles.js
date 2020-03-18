@@ -48,7 +48,7 @@ function updateLinkTile(db,config,re,marker) {
             bounds:  {
                 top:  dbFindBottom(db),
                 left: 0,
-                width: 332,
+                width: 342,
                 height: 38
             }
         };
