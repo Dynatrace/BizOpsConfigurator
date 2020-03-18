@@ -1800,7 +1800,7 @@ function appOverviewChangeHandler() {
         $("#autoTag").show();
         $("#compareApp").show();
         $("#compareMZ").show();
-        drawMZs("#compareMZ");
+        drawMZs("#compareMZ select");
         autoTagBox("Citrix");
         break;
     }
