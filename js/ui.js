@@ -700,6 +700,7 @@ function globalButtonHandler() {
               repoList[i].path = paths.join('/');
             } else {
               repoList[i].repo = element.value;
+              repoList[i].path = '';
             }
         });
         $("input.tenantOverview_name[data-index]").each(function(index, element) {
