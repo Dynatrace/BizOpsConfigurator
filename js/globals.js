@@ -23,11 +23,13 @@ var repoList = [
     {'owner':'TechShady','repo':'Dynatrace-DashboardV5','path':''},
     {'owner':'LucasHocker','repo':'CitrixDashboards','path':''},
     {'owner':'LucasHocker','repo':'SAP-Analytics-1','path':''},
-    {'owner':'Dynatrace-Dave-Mauney','repo':'DashboardTemplates','path':'v1.188.75'}
+    {'owner':'Dynatrace-Dave-Mauney','repo':'DashboardTemplates','path':'v1.188.75'},
+    {'owner':'TechShady','repo':'Dynatrace-Remote-Employee','path':''}
     ];
 var tenantOverviews = [
     {'name':'BizOps', 'filename':'TenantOverview.json'},
-    {'name':'Dashboard Basics', 'filename':'00000000-dddd-bbbb-ffff-000000000001'}
+    {'name':'Dashboard Basics', 'filename':'00000000-dddd-bbbb-ffff-000000000001'},
+    {'name':'Remote Employee (preview)', 'filename':'RETenantOverview.json'}
     ];
 var appOverviews = [
     {'name':'WebApp', 'filename':'AppOverview.json'},
