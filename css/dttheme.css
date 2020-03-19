@@ -705,6 +705,7 @@ img.structure {
 #repo_config td.right {
   display: flex;
   text-align: justify;
+  min-width: 600px;
 }
 
 #repo_config td.right input[type=text] {
@@ -782,3 +783,7 @@ input#dashboardCleanup {
 }
 #revealToken.revealed img.close {display: inline;}
 #revealToken.revealed img.open {display: none;}
+
+#config table {
+  min-width: 60%;
+}

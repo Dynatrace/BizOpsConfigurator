@@ -846,7 +846,7 @@ function fieldsetPainter() {
         });
         
         for(let i=0; i<tenantOverviews.length; i++) {
-            let html = `<tr><td>TenantOverview #${i}:</td><td class='right'><input type='text' class='overview_name' data-index='${i}' value='${tenantOverviews[i].name}'>: <input type='text' class='overview_filename' data-index='${i}' value='${tenantOverviews[i].filename}'><input type='button' class='removeTenantOverview' data-index='${i}' value='-'></td></tr>`;
+            let html = `<tr><td>TenantOverview #${i}:</td><td class='right'><input type='text' class='tenantOverview_name' data-index='${i}' value='${tenantOverviews[i].name}'>: <input type='text' class='tenantOverview_filename' data-index='${i}' value='${tenantOverviews[i].filename}'><input type='button' class='removeTenantOverview' data-index='${i}' value='-'></td></tr>`;
             $("#tenantOverviews").after(html);
         }
         $("input.removeTenantOverview").on("click", function() { 
@@ -856,7 +856,7 @@ function fieldsetPainter() {
         });
         
         for(let i=0; i<appOverviews.length; i++) {
-            let html = `<tr><td>AppOverview #${i}:</td><td class='right'><input type='text' class='overview_name' data-index='${i}' value='${appOverviews[i].name}'>: <input type='text' class='overview_filename' data-index='${i}' value='${appOverviews[i].filename}'><input type='button' class='removeAppOverview' data-index='${i}' value='-'></td></tr>`;
+            let html = `<tr><td>AppOverview #${i}:</td><td class='right'><input type='text' class='appOverview_name' data-index='${i}' value='${appOverviews[i].name}'>: <input type='text' class='appOverview_filename' data-index='${i}' value='${appOverviews[i].filename}'><input type='button' class='removeAppOverview' data-index='${i}' value='-'></td></tr>`;
             $("#appOverviews").after(html);
         }
         $("input.removeAppOverview").on("click", function() { 
@@ -866,7 +866,7 @@ function fieldsetPainter() {
         });
         
         for(let i=0; i<journeyOverviews.length; i++) {
-            let html = `<tr><td>JourneyOverview #${i}:</td><td class='right'><input type='text' class='overview_name' data-index='${i}' value='${journeyOverviews[i].name}'>: <input type='text' class='overview_filename' data-index='${i}' value='${journeyOverviews[i].filename}'><input type='button' class='removeJourneyOverview' data-index='${i}' value='-'></td></tr>`;
+            let html = `<tr><td>JourneyOverview #${i}:</td><td class='right'><input type='text' class='journeyOverview_name' data-index='${i}' value='${journeyOverviews[i].name}'>: <input type='text' class='journeyOverview_filename' data-index='${i}' value='${journeyOverviews[i].filename}'><input type='button' class='removeJourneyOverview' data-index='${i}' value='-'></td></tr>`;
             $("#journeyOverviews").after(html);
         }
         $("input.removeJourneyOverview").on("click", function() { 
