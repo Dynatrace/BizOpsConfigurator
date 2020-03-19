@@ -737,9 +737,20 @@ function globalButtonHandler() {
         break;
     }
     case "addRepo": {
-        repoList.push({'owner': $("#add_repo_owner").val(), 'repo': $("#add_repo_repo").val()});
-        $("#repo_config").load("html/repo_config.html",fieldsetPainter);
-        break;
+      let owner = $("#add_repo_owner").val();
+      let repo = $("#add_repo_repo").val();
+      let path = "";
+      if(repo.includes('/')){
+        let paths = repo.split('/');
+        repo = paths.shift();
+        path = paths.join('/');
+      } else {
+        repo = repo;
+        path = '';
+      }
+      repoList.push({'owner': owner, 'repo': repo, 'path': path});
+      $("#repo_config").load("html/repo_config.html",fieldsetPainter);
+      break;
     }
     case "addTenantOverview": {
         tenantOverviews.push({'name': $("#add_tenantOverview_name").val(), 'filename': $("#add_tenantOverview_filename").val()});
