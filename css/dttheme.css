@@ -726,12 +726,12 @@ img.structure {
   width: 140px;
 }
 
-input.repo_owner, input.overview_name {
+input.repo_owner, input.appOverview_name, input.tenantOverview_name, input.journeyOverview_name {
   width: 140px;
   margin-right: 5px;
 }
 
-input.repo_repo, input.overview_filename {
+input.repo_repo, input.appOverview_filename, input.tenantOverview_filename, input.journeyOverview_filename {
   width: 140px;
   margin-left: 5px;
 }
