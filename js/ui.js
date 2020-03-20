@@ -705,27 +705,27 @@ function globalButtonHandler() {
         });
         $("input.tenantOverview_name[data-index]").each(function(index, element) {
             let i = element.dataset.index;
-            tenantOverview[i].name = element.value;
+            tenantOverviews[i].name = element.value;
         });
         $("input.tenantOverview_filename[data-index]").each(function(index, element) {
             let i = element.dataset.index;
-            tenantOverview[i].filename = element.value;
+            tenantOverviews[i].filename = element.value;
         });
         $("input.appOverview_name[data-index]").each(function(index, element) {
             let i = element.dataset.index;
-            appOverview[i].name = element.value;
+            appOverviews[i].name = element.value;
         });
         $("input.appOverview_filename[data-index]").each(function(index, element) {
             let i = element.dataset.index;
-            appOverview[i].filename = element.value;
+            appOverviews[i].filename = element.value;
         });
         $("input.journeyOverview_name[data-index]").each(function(index, element) {
             let i = element.dataset.index;
-            journeyOverview[i].name = element.value;
+            journeyOverviews[i].name = element.value;
         });
         $("input.journeyOverview_filename[data-index]").each(function(index, element) {
             let i = element.dataset.index;
-            journeyOverview[i].filename = element.value;
+            journeyOverviews[i].filename = element.value;
         });
         break;
     }
