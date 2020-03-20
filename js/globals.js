@@ -36,7 +36,9 @@ var tenantOverviews = [
 var appOverviews = [
     {'name':'WebApp', 'filename':'AppOverview.json'},
     {'name':'Citrix (Preview)', 'filename':'CitrixOverview.json'},
-    {'name':'SAP (Preview)', 'filename':'SAPDigitalCockpit-Main.json'}
+    {'name':'SAP (Preview)', 'filename':'SAPDigitalCockpit-Main.json'},
+    {'name':'Remote Employee Web (preview)', 'filename':'REAppOverview.json'},
+    {'name':'Remote Employee Mobile (preview)', 'filename':'REAppOverview2.json'}
     ];
 var journeyOverviews = [
     {'name':'UserJourney (w/ KPI)', 'filename':'OverviewTrue.json'},

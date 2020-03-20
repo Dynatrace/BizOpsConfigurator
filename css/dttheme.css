@@ -162,7 +162,7 @@ fieldset {
 }
 
 fieldset input.api {
-  width: 300px;
+  min-width: 450px;
 }
 
 img.screenshot {
