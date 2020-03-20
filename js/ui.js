@@ -529,12 +529,14 @@ function globalButtonHandler() {
 	    selection.config.compareAppName=$("#compareAppList option:selected").text();
 	    selection.config.MyTime=$("#MyTime").val();
 	    selection.config.compareTime=$("#compareTimeList").val();
-        selection.config.AOname=$("#appName").val();
+      selection.config.AOname=$("#appName").val();
 	    selection.config.appID=$("#applist").val(); 
 	    selection.config.appName=$("#applist option:selected").text();
 	    selection.config.TOid=TOid; 
 	    selection.config.TOname=$("#TOname").text();
-        selection.config.appOverview= $("#appOverview").val();
+      selection.config.appOverview= $("#appOverview").val();
+      selection.config.ipUpperBound = $("#ipUpperBound").val();
+      selection.config.ipLowerBound = $("#ipLowerBound").val();
 
         if(typeof $("#mz").val() != "undefined") {
             selection.config.mz=$("#mz").val();
@@ -569,8 +571,6 @@ function globalButtonHandler() {
      config.mz = $("#mzlist").val();
      config.mzname = $("#mzlist option:selected").text();
      config.tenantOverview = $("#tenantOverview").val();
-     config.ipUpperBound = $("#ipUpperBound").val();
-     config.ipLowerBound = $("#ipLowerBound").val();
 
 	   let p1 = uploadTenantOverview(config);  
 
@@ -1825,8 +1825,13 @@ function appOverviewChangeHandler() {
         autoTagBox("SAP");
         break;
     }
+    case "RETenantOverview.json": 
+    case "RETenantOverview2.json": {
+      $("#remoteEmployeeInputs").show();
+      break;
+    }
     default:
-        console.log("unexpected value in #appOverview: "+AO);
+        console.log("No special handling defined for #appOverview: "+AO);
     }
 }
 
@@ -1861,14 +1866,14 @@ function autoTagBox(tech) {
 function tenantOverviewChangeHandler() {
   var TO = $("#tenantOverview").val();
 
-  $("#remoteEmployeeInputs").hide();
+  //$("#remoteEmployeeInputs").hide();
 
   switch(TO) {
   case "RETenantOverview.json": 
   case "RETenantOverview2.json": 
   case "RETenantOverview3.json": 
   {
-      $("#remoteEmployeeInputs").show();
+    //  $("#remoteEmployeeInputs").show();
       break;
   }
   case "00000000-dddd-bbbb-ffff-000000000001":
@@ -1877,6 +1882,6 @@ function tenantOverviewChangeHandler() {
       break;
   }
   default:
-      console.log("unexpected value in #tenantOverview: "+TO);
+      console.log("No special handling defined for #tenantOverview: "+TO);
   }
 }
