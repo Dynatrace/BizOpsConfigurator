@@ -203,7 +203,6 @@ function dtAPIquery(query, options, retries=3) {
 
 function uploadTenantOverview(config) {
   //get dashboard JSON
-  //var dashboardTO = JSON.parse(JSON.stringify(dbList.find( ({ name }) => name === dbTO ).file));
   var dashboardTO = JSON.parse(JSON.stringify(dbList.find( ({ name }) => name === config.tenantOverview ).file));
 
   //transform
@@ -229,7 +228,9 @@ function uploadTenantOverview(config) {
   let subs = getStaticSubDBs(dashboardTO,[config.oldTOid]);
   let swaps = [ 
     {'from':config.oldTOid, 'to':id},
-    {'from':"TEMPLATE", 'to':config.TOname}
+    {'from':"TEMPLATE", 'to':config.TOname},
+    {'from':'IPUpperBound', 'to':config.ipUpperBound},
+    {'from':'IPLowerBound', 'to':config.ipLowerBound}
   ];
   swaps = transformSubs(subs,config.TOid,swaps,config);
   data = doSwaps(data, swaps);

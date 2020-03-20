@@ -1,12 +1,21 @@
 <fieldset id="deployTenant">
   <legend>Deploy Tenant Overview</legend>
-  MZ Filter: <select id="mzlist">
-    <option value="MZ-123">My Mgmt Zone</option>
-    <option value="MZ-456">My Other Zone</option>
-  </select>
-  <input id="TOname" autocomplete="off" placeholder="Overview Name"><br>
-  Overview Template: <select id="tenantOverview"></select><br>
-  <input type="button" id="uploadTenant" value="Upload">
+  <div class="flexcontainer">
+    <div id="deployTenantBox">
+    MZ Filter: <select id="mzlist">
+      <option value="MZ-123">My Mgmt Zone</option>
+      <option value="MZ-456">My Other Zone</option>
+    </select>
+    <input id="TOname" autocomplete="off" placeholder="Overview Name"><br>
+    Overview Template: <select id="tenantOverview"></select><br>
+    <input type="button" id="uploadTenant" value="Upload">
+    </div>
+    <div id="remoteEmployeeInputs">
+      <h3>Remote Employee Segment</h3>
+      IP Address Lower Bound: <input id="ipLowerBound"><br>
+      IP Address Upper Bound: <input id="ipUpperBound">
+    </div>
+  </div>
 </fieldset>
 
 

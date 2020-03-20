@@ -99,6 +99,7 @@ function loadInputChangeHandlers(){
     $("#viewport").on("change", ".regionFilter", regionsChangeHandler);
     $("#viewport").on("change", "#xapp", xappChangeHandler);
     $("#viewport").on("change", "#appOverview", appOverviewChangeHandler);
+    $("#viewport").on("change", "#tenantOverview", tenantOverviewChangeHandler);
 }
 
 function pencilToggle(on) {
@@ -561,14 +562,17 @@ function globalButtonHandler() {
 	   break;
 	}
 	case "uploadTenant": {
-  	   $("input#uploadTenant").val("Uploading...");
-  	   $("input#uploadTenant").prop('disabled', true);
-	   let p1 = uploadTenantOverview({
-	        TOname: $("#TOname").val(),
-	        mz: $("#mzlist").val(),  
-	        mzname: $("#mzlist option:selected").text(),
-            tenantOverview: $("#tenantOverview").val()
-	   });  
+  	 $("input#uploadTenant").val("Uploading...");
+     $("input#uploadTenant").prop('disabled', true);
+     let config = {};
+     config.TOname = $("#TOname").val();
+     config.mz = $("#mzlist").val();
+     config.mzname = $("#mzlist option:selected").text();
+     config.tenantOverview = $("#tenantOverview").val();
+     config.ipUpperBound = $("#ipUpperBound").val();
+     config.ipLowerBound = $("#ipLowerBound").val();
+
+	   let p1 = uploadTenantOverview(config);  
 
 	   $.when(p1).done(function(){
   	     $("input#uploadTenant").val("Uploaded");
@@ -1822,7 +1826,7 @@ function appOverviewChangeHandler() {
         break;
     }
     default:
-        console.log("unexpected value in #appOverview");
+        console.log("unexpected value in #appOverview: "+AO);
     }
 }
 
@@ -1852,4 +1856,27 @@ function autoTagBox(tech) {
             drawMZs();
         }    
     });
+}
+
+function tenantOverviewChangeHandler() {
+  var TO = $("#tenantOverview").val();
+
+  $("#remoteEmployeeInputs").hide();
+
+  switch(TO) {
+  case "RETenantOverview.json": 
+  case "RETenantOverview2.json": 
+  case "RETenantOverview3.json": 
+  {
+      $("#remoteEmployeeInputs").show();
+      break;
+  }
+  case "00000000-dddd-bbbb-ffff-000000000001":
+  case "TenantOverview.json": 
+  { 
+      break;
+  }
+  default:
+      console.log("unexpected value in #tenantOverview: "+TO);
+  }
 }

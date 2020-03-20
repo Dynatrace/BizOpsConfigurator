@@ -246,9 +246,6 @@ div#funnelUpload {
   justify-content: center;
 }
 
-div#funnelNameBox {
-}
-
 div#querybox {
   width: 100%;
   bottom: 0;
@@ -786,4 +783,8 @@ input#dashboardCleanup {
 
 #config table {
   min-width: 60%;
+}
+
+#remoteEmployeeInputs {
+  display: none;
 }
