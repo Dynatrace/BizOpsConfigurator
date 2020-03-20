@@ -229,8 +229,8 @@ function uploadTenantOverview(config) {
   let swaps = [ 
     {'from':config.oldTOid, 'to':id},
     {'from':"TEMPLATE", 'to':config.TOname},
-    {'from':'IPUpperBound', 'to':config.ipUpperBound},
-    {'from':'IPLowerBound', 'to':config.ipLowerBound}
+    {'from':'ipUpperBound', 'to':config.ipUpperBound},
+    {'from':'ipLowerBound', 'to':config.ipLowerBound}
   ];
   swaps = transformSubs(subs,config.TOid,swaps,config);
   data = doSwaps(data, swaps);
