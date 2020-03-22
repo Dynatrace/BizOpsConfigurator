@@ -1825,8 +1825,8 @@ function appOverviewChangeHandler() {
         autoTagBox("SAP");
         break;
     }
-    case "RETenantOverview.json": 
-    case "RETenantOverview2.json": {
+    case "REApplicationOverview.json": 
+    case "REApplicationOverview2.json": {
       $("#remoteEmployeeInputs").show();
       break;
     }
