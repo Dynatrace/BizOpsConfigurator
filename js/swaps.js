@@ -1,6 +1,6 @@
 function generateAppSwapList(config) {
   let ipClause = "";
-  if(config.ipUpperBound.length>0 && config.ipLowerBount.length>0)
+  if(config.ipUpperBound.length>0 && config.ipLowerBound.length>0)
     ipClause = ' ip BETWEEN "'+config.ipUpperBound+'" AND "'+config.ipLowerBound+'"';
 
   let swaps = [
