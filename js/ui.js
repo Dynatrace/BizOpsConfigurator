@@ -1805,6 +1805,7 @@ function appOverviewChangeHandler() {
     $("#autoTag").hide();
     $("#compareApp").hide();
     $("#compareTime").hide();
+    $("#remoteEmployeeInputs").hide();
 
     switch(AO) {
     case "AppOverview.json": {
