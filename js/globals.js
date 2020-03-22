@@ -30,8 +30,7 @@ var tenantOverviews = [
     {'name':'BizOps', 'filename':'TenantOverview.json'},
     {'name':'Dashboard Basics', 'filename':'00000000-dddd-bbbb-ffff-000000000001'},
     {'name':'Remote Employee Web (preview)', 'filename':'RETenantOverview.json'},
-    {'name':'Remote Employee Mobile (preview)', 'filename':'RETenantOverview2.json'},
-    {'name':'Remote Employee Web/Mobile (preview)', 'filename':'RETenantOverview3.json'}
+    {'name':'Remote Employee Mobile (preview)', 'filename':'RETenantOverview2.json'}
     ];
 var appOverviews = [
     {'name':'WebApp', 'filename':'AppOverview.json'},
