@@ -1337,6 +1337,7 @@ function drawMZs(locator="#mzlist") {
     });
     $(locator).html(options);
   });
+  return p;
 }
 
 function drawApps(apps,config) {
@@ -1819,10 +1820,13 @@ function appOverviewChangeHandler() {
         $("#autoTag").show();
         $("#compareApp").show();
         $("#compareMZ").show();
-        drawMZs("#compareMZ select");
+        drawMZs("#compareMZ select")
+        .then(function() {
+          if("compareMZid" in selection.config)
+            $("#compareMZ select").val(selection.config.compareMZid);
+        })
         autoTagBox("Citrix");
-        if("compareMZid" in selection.config)
-          $("#compareMZ select").val(selection.config.compareMZid);
+        
         break;
     }
     case "SAPDigitalCockpit-Main.json": {
@@ -1863,9 +1867,11 @@ function autoTagBox(tech) {
             $("#MZStatus").html("<p>❌ "+tech+"verview MZ not found!</p>" +
                 "Pick an existing MZ: <select id='mzlist'></select><br>" +
                 "or <input type='button' id='deployMZ' data-tech='"+tech+"' value='Deploy MZ'>");
-            drawMZs();
-            if("mz" in selection.config)
-              $("#mzlist").val(selection.config.mz);
+            drawMZs()
+            .then(function() {
+              if("mz" in selection.config)
+                $("#mzlist").val(selection.config.mz);
+            });
         }    
     });
 }
