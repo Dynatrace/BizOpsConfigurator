@@ -1821,7 +1821,7 @@ function appOverviewChangeHandler() {
         $("#compareApp").show();
         $("#compareMZ").show();
         drawMZs("#compareMZ select")
-        .then(function() {
+        .done(function() {
           if("compareMZid" in selection.config)
             $("#compareMZ select").val(selection.config.compareMZid);
         })
@@ -1868,7 +1868,7 @@ function autoTagBox(tech) {
                 "Pick an existing MZ: <select id='mzlist'></select><br>" +
                 "or <input type='button' id='deployMZ' data-tech='"+tech+"' value='Deploy MZ'>");
             drawMZs()
-            .then(function() {
+            .done(function() {
               if("mz" in selection.config)
                 $("#mzlist").val(selection.config.mz);
             });
