@@ -526,7 +526,9 @@ function globalButtonHandler() {
 	    let TOid =$("#TOid").text(); 
 	    selection.config.MyCompareApp=$("#MyCompareApp").val();
 	    selection.config.compareAppID=$("#compareAppList").val();
-	    selection.config.compareAppName=$("#compareAppList option:selected").text();
+      selection.config.compareAppName=$("#compareAppList option:selected").text();
+      selection.config.compareMZid=$("#compareMZ select").val();
+      selection.config.compareMZname=$("#compareMZ select option:selected").text();
 	    selection.config.MyTime=$("#MyTime").val();
 	    selection.config.compareTime=$("#compareTimeList").val();
       selection.config.AOname=$("#appName").val();
@@ -539,11 +541,11 @@ function globalButtonHandler() {
       selection.config.ipLowerBound = $("#ipLowerBound").val();
 
         if(typeof $("#mz").val() != "undefined") {
-            selection.config.mz=$("#mz").val();
-            selection.config.mzname=$("#mzname").val();
+          selection.config.mz=$("#mz").val();
+          selection.config.mzname=$("#mzname").val();
         
         } else if(typeof $("#mzlist").val() != "undefined") {
-            selection.config.mz=$("#mzlist").val();
+          selection.config.mz=$("#mzlist").val();
 	        selection.config.mzname=$("#mzlist option:selected").text();
         }
 

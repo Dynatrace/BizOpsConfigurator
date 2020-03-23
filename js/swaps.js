@@ -14,13 +14,13 @@ function generateAppSwapList(config) {
     {from:"compareMZname", to:null},
     {from:'InternalCompareAppID', to:(config.compareAppID==""?config.appID:config.compareAppID)},
     {from:"MyCompareApp", to:(config.compareAppName=="None"?config.appName:config.compareAppName)},
-    //{from:"MyCompareApp", to:config.MyCompareApp},//where do I use this??
     {from:'-MyCompareTimeh to -MyTimeh', to:config.compareTime},
     {from:'Previous MyTime Hours', to:config.compareTime},
     {from:'-MyTimeh', to:config.MyTime},
     {from:'Last MyTime Hours', to:config.MyTime},
-    {from:'ipClause', to:ipClause}
-    //{from:'MyFilter', to:config.filterClause},
+    {from:'ipClause', to:ipClause},
+    {from:'MZid', to:config.mz},
+    {from:'MZname', to:config.mzname}
     ];
   return swaps;
 }
