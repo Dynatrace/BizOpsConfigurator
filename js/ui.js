@@ -1328,6 +1328,7 @@ function drawFunnelList(AOid) {
 }
 
 function drawMZs(locator="#mzlist") {
+  let p0 = $.deferred();
   let p = (MZs.length<1?getMZs():$.when(false));
   $.when(p).done(function(d) {
     if(d!=false) processMZs(d);
@@ -1336,8 +1337,9 @@ function drawMZs(locator="#mzlist") {
       options += "<option value='"+mz.id+"'>"+mz.name+"</option>";
     });
     $(locator).html(options);
+    p0.resolve();
   });
-  return p;
+  return p0;
 }
 
 function drawApps(apps,config) {
