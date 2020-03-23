@@ -1821,6 +1821,8 @@ function appOverviewChangeHandler() {
         $("#compareMZ").show();
         drawMZs("#compareMZ select");
         autoTagBox("Citrix");
+        if("compareMZid" in selection.config)
+          $("#compareMZ select").val(selection.config.compareMZid);
         break;
     }
     case "SAPDigitalCockpit-Main.json": {
@@ -1862,6 +1864,8 @@ function autoTagBox(tech) {
                 "Pick an existing MZ: <select id='mzlist'></select><br>" +
                 "or <input type='button' id='deployMZ' data-tech='"+tech+"' value='Deploy MZ'>");
             drawMZs();
+            if("mz" in selection.config)
+              $("#mzlist").val(selection.config.mz);
         }    
     });
 }
