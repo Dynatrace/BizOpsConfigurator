@@ -1328,7 +1328,7 @@ function drawFunnelList(AOid) {
 }
 
 function drawMZs(locator="#mzlist") {
-  let p0 = $.deferred();
+  let p0 = $.Deferred();
   let p = (MZs.length<1?getMZs():$.when(false));
   $.when(p).done(function(d) {
     if(d!=false) processMZs(d);
