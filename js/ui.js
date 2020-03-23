@@ -780,7 +780,7 @@ function globalButtonHandler() {
         break;
     }
     case "deployMZ": {
-        let tech = $("#deployAutoTag")[0].dataset['tech'];
+        let tech = $("#deployMZ")[0].dataset['tech'];
         let swaps = [];
         let p1 = deployMZ("json/managementZones/"+tech+"Overview.json",swaps);
         $.when(p1).done(appOverviewChangeHandler);
