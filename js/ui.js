@@ -804,6 +804,14 @@ function globalButtonHandler() {
 }
 
 function jqueryInit() {
+  //test for ES6 support and fail otherwise
+    try {
+      new Function("(a = 0) => a");
+    }
+    catch (err) {
+      alert("Your browser is too old. Please use a modern browser.");
+    }
+
   //prevent caching of XHR loads, consider turning off once production ready
   $.ajaxSetup({
     cache: false,
