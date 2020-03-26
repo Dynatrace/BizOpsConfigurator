@@ -112,34 +112,51 @@ function validateDB(input) {
   });
 
   //validate DT is new enough to support tags
-  if("tags" in db.dashboardMetadata && version < dbTagsVersion)
+  if("tags" in db.dashboardMetadata && version < dbTagsVersion){
     delete db.dashboardMetadata.tags;
+    e += "Tenant too old, removing tags";
+  }
+    
 
   //check that bounds are divisible by 38 and < 5016
   db.tiles.forEach(function(t,index,arr) {
     if(t.bounds.left % 38 != 0)
-        console.log(db.dashboardMetadata.name + " tile "+index + " left bound not divisible by 38");
+      e += db.dashboardMetadata.name + " tile "+index + " left bound not divisible by 38";
     if(t.bounds.top % 38 != 0)
-        console.log(db.dashboardMetadata.name + " tile "+index + " top bound not divisible by 38");
+      e += db.dashboardMetadata.name + " tile "+index + " top bound not divisible by 38";
     if(t.bounds.width % 38 != 0)
-        console.log(db.dashboardMetadata.name + " tile "+index + " width bound not divisible by 38");
+      e += db.dashboardMetadata.name + " tile "+index + " width bound not divisible by 38";
     if(t.bounds.height % 38 != 0)
-        console.log(db.dashboardMetadata.name + " tile "+index + " height bound not divisible by 38");
+      e += db.dashboardMetadata.name + " tile "+index + " height bound not divisible by 38";
 
     if(t.bounds.left + t.bounds.width > 5016){
         arr.splice(index,1); //remove tile out of bounds
-        console.log(db.dashboardMetadata.name + " tile "+index + " horizontal out of bounds (5016)");
+        e += db.dashboardMetadata.name + " tile "+index + " horizontal out of bounds (5016)";
     }
     if(t.bounds.top + t.bounds.height > 5016){
         arr.splice(index,1); //remove tile out of bounds
-        console.log(db.dashboardMetadata.name + " tile "+index + " vertical out of bounds (5016)");
+        e += db.dashboardMetadata.name + " tile "+index + " vertical out of bounds (5016)";
+    }
+  });
+
+  //remove any CTS_PLUGIN_ruxit, which are deprecated
+  db.tiles.forEach(function(t,index,arr){
+    if(t.tileType=="CUSTOM_CHARTING"){
+      t.filterConfig.chartConfig.series.forEach(function(s){
+        if(s.metric.startsWith("CTS")){
+          arr.splice(index,1);
+          e += `Deprecated CTS metric detected in dashboard: ${db.dashboardMetadata.name} tile: ${index}`;
+        }
+      });
     }
   });
 
   //temporarily remove visualizationConfig due to bugs in 189/190
   db.tiles.forEach(function(t,index,arr) {
-    if("visualizationConfig" in t)
-        delete t.visualizationConfig;
+    if("visualizationConfig" in t){
+      delete t.visualizationConfig;
+      e += `Removed visualizationConfig in dashboard: ${db.dashboardMetadata.name} tile: ${index}`;
+    }
   });
 
   //check for untransformed dashboard
@@ -148,8 +165,10 @@ function validateDB(input) {
 
 
   //alert and return the DB
-  if(e.length>0)
-    errorbox(e);
+  if(e.length>0){
+    console.log(e);
+    if(typeof dtrum !== "undefined") dtrum.reportError(e);
+  }
   if(typeof input == "string")
     return(JSON.stringify(db));
   else if(typeof input == "object")
