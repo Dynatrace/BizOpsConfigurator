@@ -155,6 +155,10 @@ function validateDB(input) {
           db.tiles.splice(i,1);
           e += `Deprecated CTS metric detected in dashboard: ${db.dashboardMetadata.name} tile: ${i}`;
         }
+        if(s.metric=="builtin:synthetic.browser.duration"){
+          db.tiles.splice(i,1);
+          e += `Deprecated synthetic metric detected in dashboard: ${db.dashboardMetadata.name} tile: ${i}`;
+        }
       });
     }
   }
