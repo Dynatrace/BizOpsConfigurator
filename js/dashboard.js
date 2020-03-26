@@ -102,6 +102,7 @@ function validateDB(input) {
   else if(typeof input == "object")
     db = input;
   let e = "";
+  var t = {};
 
   //trunc any MARKDOWNs that are too long
   db.tiles.forEach(function(t,index,arr) {
@@ -119,15 +120,21 @@ function validateDB(input) {
     
 
   //check that bounds are divisible by 38 and < 5016
-  db.tiles.forEach(function(t,index,arr) {
-    if(t.bounds.left % 38 != 0)
+  for(let i = db.tiles.length - 1; i >= 0; i--){
+    t = db.tiles[i];
+    
+    if(t.bounds.left % 38 != 0){
       e += db.dashboardMetadata.name + " tile "+index + " left bound not divisible by 38";
-    if(t.bounds.top % 38 != 0)
+    } 
+    if(t.bounds.top % 38 != 0){
       e += db.dashboardMetadata.name + " tile "+index + " top bound not divisible by 38";
-    if(t.bounds.width % 38 != 0)
+    } 
+    if(t.bounds.width % 38 != 0){
       e += db.dashboardMetadata.name + " tile "+index + " width bound not divisible by 38";
-    if(t.bounds.height % 38 != 0)
+    } 
+    if(t.bounds.height % 38 != 0){
       e += db.dashboardMetadata.name + " tile "+index + " height bound not divisible by 38";
+    }
 
     if(t.bounds.left + t.bounds.width > 5016){
         arr.splice(index,1); //remove tile out of bounds
@@ -137,19 +144,20 @@ function validateDB(input) {
         arr.splice(index,1); //remove tile out of bounds
         e += db.dashboardMetadata.name + " tile "+index + " vertical out of bounds (5016)";
     }
-  });
+  }
 
   //remove any CTS_PLUGIN_ruxit, which are deprecated
-  db.tiles.forEach(function(t,index,arr){
+  for(let i = db.tiles.length - 1; i >= 0; i--){
+    t = db.tiles[i];
     if(t.tileType=="CUSTOM_CHARTING"){
       t.filterConfig.chartConfig.series.forEach(function(s){
         if(s.metric.startsWith("CTS")){
-          arr.splice(index,1);
+          db.tiles.splice(i,1);
           e += `Deprecated CTS metric detected in dashboard: ${db.dashboardMetadata.name} tile: ${index}`;
         }
       });
     }
-  });
+  }
 
   //temporarily remove visualizationConfig due to bugs in 189/190
   db.tiles.forEach(function(t,index,arr) {
