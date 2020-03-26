@@ -108,14 +108,14 @@ function validateDB(input) {
   db.tiles.forEach(function(t,index,arr) {
     if(t.tileType=='MARKDOWN' && t.markdown.length > 1000) {
         t.markdown = t.markdown.substring(0,1000);
-        e += "Trunc MARKDOWN on \""+db.dashboardMetadata.name+"\" Tile["+index+"] ";
+        e += " Trunc MARKDOWN on \""+db.dashboardMetadata.name+"\" Tile["+index+"] ";
     }
   });
 
   //validate DT is new enough to support tags
   if("tags" in db.dashboardMetadata && version < dbTagsVersion){
     delete db.dashboardMetadata.tags;
-    e += "Tenant too old, removing tags";
+    e += " Tenant too old, removing tags";
   }
     
 
@@ -124,25 +124,25 @@ function validateDB(input) {
     t = db.tiles[i];
     
     if(t.bounds.left % 38 != 0){
-      e += db.dashboardMetadata.name + " tile "+i + " left bound not divisible by 38";
+      e += ` ${db.dashboardMetadata.name} tile ${i} left bound not divisible by 38`;
     } 
     if(t.bounds.top % 38 != 0){
-      e += db.dashboardMetadata.name + " tile "+i + " top bound not divisible by 38";
+      e += ` ${db.dashboardMetadata.name} tile ${i} top bound not divisible by 38`;
     } 
     if(t.bounds.width % 38 != 0){
-      e += db.dashboardMetadata.name + " tile "+i + " width bound not divisible by 38";
+      e += ` ${db.dashboardMetadata.name} tile ${i} width bound not divisible by 38`;
     } 
     if(t.bounds.height % 38 != 0){
-      e += db.dashboardMetadata.name + " tile "+i + " height bound not divisible by 38";
+      e += ` ${db.dashboardMetadata.name} tile ${i} height bound not divisible by 38`;
     }
 
     if(t.bounds.left + t.bounds.width > 5016){
         arr.splice(i,1); //remove tile out of bounds
-        e += db.dashboardMetadata.name + " tile "+i + " horizontal out of bounds (5016)";
+        e += ` ${db.dashboardMetadata.name} tile ${i} horizontal out of bounds (5016)`;
     }
     if(t.bounds.top + t.bounds.height > 5016){
         arr.splice(i,1); //remove tile out of bounds
-        e += db.dashboardMetadata.name + " tile "+i + " vertical out of bounds (5016)";
+        e += ` ${db.dashboardMetadata.name} tile ${i} vertical out of bounds (5016)`;
     }
   }
 
@@ -153,11 +153,11 @@ function validateDB(input) {
       t.filterConfig.chartConfig.series.forEach(function(s){
         if(s.metric.startsWith("CTS")){
           db.tiles.splice(i,1);
-          e += `Deprecated CTS metric detected in dashboard: ${db.dashboardMetadata.name} tile: ${i}`;
+          e += ` Deprecated CTS metric detected in dashboard: ${db.dashboardMetadata.name} tile: ${i}`;
         }
         if(s.metric=="builtin:synthetic.browser.duration"){
           db.tiles.splice(i,1);
-          e += `Deprecated synthetic metric detected in dashboard: ${db.dashboardMetadata.name} tile: ${i}`;
+          e += ` Deprecated synthetic metric detected in dashboard: ${db.dashboardMetadata.name} tile: ${i}`;
         }
       });
     }
@@ -167,17 +167,18 @@ function validateDB(input) {
   db.tiles.forEach(function(t,index,arr) {
     if("visualizationConfig" in t){
       delete t.visualizationConfig;
-      e += `Removed visualizationConfig in dashboard: ${db.dashboardMetadata.name} tile: ${index}`;
+      e += ` Removed visualizationConfig in dashboard: ${db.dashboardMetadata.name} tile: ${index}`;
     }
   });
 
   //check for untransformed dashboard
   var re = /^bbbbbbbb-/;
-  if(!re.test(db.id)) e += "Untransformed dashboard: "+db.id;
+  if(!re.test(db.id)) e += " Untransformed dashboard: "+db.id;
 
 
   //alert and return the DB
   if(e.length>0){
+    e = "validateDB:"+e;
     console.log(e);
     if(typeof dtrum !== "undefined") dtrum.reportError(e);
   }
