@@ -124,25 +124,25 @@ function validateDB(input) {
     t = db.tiles[i];
     
     if(t.bounds.left % 38 != 0){
-      e += db.dashboardMetadata.name + " tile "+index + " left bound not divisible by 38";
+      e += db.dashboardMetadata.name + " tile "+i + " left bound not divisible by 38";
     } 
     if(t.bounds.top % 38 != 0){
-      e += db.dashboardMetadata.name + " tile "+index + " top bound not divisible by 38";
+      e += db.dashboardMetadata.name + " tile "+i + " top bound not divisible by 38";
     } 
     if(t.bounds.width % 38 != 0){
-      e += db.dashboardMetadata.name + " tile "+index + " width bound not divisible by 38";
+      e += db.dashboardMetadata.name + " tile "+i + " width bound not divisible by 38";
     } 
     if(t.bounds.height % 38 != 0){
-      e += db.dashboardMetadata.name + " tile "+index + " height bound not divisible by 38";
+      e += db.dashboardMetadata.name + " tile "+i + " height bound not divisible by 38";
     }
 
     if(t.bounds.left + t.bounds.width > 5016){
-        arr.splice(index,1); //remove tile out of bounds
-        e += db.dashboardMetadata.name + " tile "+index + " horizontal out of bounds (5016)";
+        arr.splice(i,1); //remove tile out of bounds
+        e += db.dashboardMetadata.name + " tile "+i + " horizontal out of bounds (5016)";
     }
     if(t.bounds.top + t.bounds.height > 5016){
-        arr.splice(index,1); //remove tile out of bounds
-        e += db.dashboardMetadata.name + " tile "+index + " vertical out of bounds (5016)";
+        arr.splice(i,1); //remove tile out of bounds
+        e += db.dashboardMetadata.name + " tile "+i + " vertical out of bounds (5016)";
     }
   }
 
@@ -153,7 +153,7 @@ function validateDB(input) {
       t.filterConfig.chartConfig.series.forEach(function(s){
         if(s.metric.startsWith("CTS")){
           db.tiles.splice(i,1);
-          e += `Deprecated CTS metric detected in dashboard: ${db.dashboardMetadata.name} tile: ${index}`;
+          e += `Deprecated CTS metric detected in dashboard: ${db.dashboardMetadata.name} tile: ${i}`;
         }
       });
     }
