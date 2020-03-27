@@ -1,8 +1,9 @@
 function generateAppSwapList(config) {
   let ipClause = "";
-  if(config.ipUpperBound.length>0 && config.ipLowerBound.length>0)
-    ipClause = 'AND ip BETWEEN \\"'+config.ipLowerBound+'\\" AND \\"'+config.ipUpperBound+'\\"';
-
+  if("ipUpperBound" in config && "ipLowerBound" in config)
+    if(config.ipUpperBound.length>0 && config.ipLowerBound.length>0)
+      ipClause = 'AND ip BETWEEN \\"'+config.ipLowerBound+'\\" AND \\"'+config.ipUpperBound+'\\"';
+    
   let swaps = [
     {from:config.oldTOid, to:config.TOid},
     {from:config.oldAOid, to:config.AOid},
