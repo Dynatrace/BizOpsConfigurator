@@ -1869,12 +1869,12 @@ function autoTagBox(tech) {
 
         if(MZs.findIndex( ({ name }) => name === tech+" Overview") > -1 ) {
             let MZ = MZs.find( ({ name }) => name === tech+" Overview");
-            $("#MZStatus").html("<p>✅ "+tech+"Overview MZ found, using that</p>" +
+            $("#MZStatus").html("<p>✅ "+tech+" Overview MZ found, using that</p>" +
                 "<input type='hidden' id='mz' value='"+MZ.id+"'>"+
                 "<input type='hidden' id='mzname' value='"+MZ.name+"'>"
                 );
         } else {
-            $("#MZStatus").html("<p>❌ "+tech+"verview MZ not found!</p>" +
+            $("#MZStatus").html("<p>❌ "+tech+" Overview MZ not found!</p>" +
                 "Pick an existing MZ: <select id='mzlist'></select><br>" +
                 "or <input type='button' id='deployMZ' data-tech='"+tech+"' value='Deploy MZ'>");
             drawMZs()
