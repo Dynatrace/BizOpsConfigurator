@@ -18,25 +18,21 @@ function generateFunnelForecast(config) {
         let queries=[];
         dateTemp.setTime(date.getTime() - i*week);
         startdate = dateTemp.getTime();
-//console.log("startdate: "+dateTemp.toDateString());
+
         dateTemp.setTime(date.getTime() - (i-1)*week)
         enddate = dateTemp.getTime();
-//console.log("endDate: " + dateTemp.toDateString());
-        //Revenue
-        queries.push('select sum('+revenue+') as "rev'+i+'", avg('+revenue+') as "acv'+i+'" from usersession where useraction.application="'+appname+'" and '+laststep+filterClause+' and startTime between '+startdate+' and '+enddate);
 
-        //Risk Revenue
-        queries.push('select sum('+revenue+') as "riskrev'+i+'", avg('+revenue+') as "arcv'+i+'" from usersession where useraction.application="'+appname+'" and userExperienceScore!="SATISFIED" and '+laststep+filterClause+' and startTime between '+startdate+' and '+enddate);
+        if(revenue!="n/a"){
+            //Revenue
+            queries.push('select sum('+revenue+') as "rev'+i+'", avg('+revenue+') as "acv'+i+'" from usersession where useraction.application="'+appname+'" and '+laststep+filterClause+' and startTime between '+startdate+' and '+enddate);
 
-        //Average Risk Cart Value
-        //queries.push('select avg('+revenue+') as "arcv'+i+'" from usersession where useraction.application="'+appname+'" and userExperienceScore!="SATISFIED" and '+laststep+' and startTime between '+startdate+' and '+enddate);
+            //Risk Revenue
+            queries.push('select sum('+revenue+') as "riskrev'+i+'", avg('+revenue+') as "arcv'+i+'" from usersession where useraction.application="'+appname+'" and userExperienceScore!="SATISFIED" and '+laststep+filterClause+' and startTime between '+startdate+' and '+enddate);
 
-        //Lost Revenue
-        queries.push('select sum('+revenue+') as "lostrev'+i+'", avg('+revenue+') as "alcv'+i+'" from usersession where useraction.application="'+appname+'" and not '+laststep+filterClause+' and startTime between '+startdate+' and '+enddate);
-
-        //Average Lost Cart Value
-        //queries.push('select avg('+revenue+') as "alcv'+i+'" from usersession where useraction.application="'+appname+'" and not '+laststep+' and startTime between '+startdate+' and '+enddate);
-
+            //Lost Revenue
+            queries.push('select sum('+revenue+') as "lostrev'+i+'", avg('+revenue+') as "alcv'+i+'" from usersession where useraction.application="'+appname+'" and not '+laststep+filterClause+' and startTime between '+startdate+' and '+enddate);
+        }
+        
         //Funnel Forecasting
         //Conversions
         queries.push('select count(usersessionid) as "funconv'+i+'" from usersession where useraction.application="'+appname+'" and '+laststep+filterClause+' and startTime between '+startdate+' and '+enddate);
@@ -50,7 +46,6 @@ function generateFunnelForecast(config) {
         queries.push('select avg(duration) as "fundur'+i+'" from usersession where useraction.application="'+appname+'" and '+firststep+filterClause+' and startTime between '+startdate+' and '+enddate);
 
         queries.forEach(function(usql) {
-//console.log(usql);
             var query="/api/v1/userSessionQueryLanguage/table?query="+encodeURIComponent(usql)+"&startTimestamp=1000000000000&explain=false";
             deferred = dtAPIquery(query,{})
                 $.when(deferred).done(function(d) {
