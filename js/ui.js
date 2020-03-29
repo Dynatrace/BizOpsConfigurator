@@ -573,6 +573,7 @@ function globalButtonHandler() {
      selection.config.mz = $("#mzlist").val();
      selection.config.mzname = $("#mzlist option:selected").text();
      selection.config.tenantOverview = $("#tenantOverview").val();
+     selection.config.tenantOverviewName = $("#tenantOverview option:selected").text();
 
 	   let p1 = uploadTenantOverview(selection.config);  
 
