@@ -212,7 +212,7 @@ function uploadTenantOverview(config) {
   dashboardTO["id"]=id;
   dashboardTO["dashboardMetadata"]["owner"]=owner;
   dashboardTO["dashboardMetadata"]["name"]=dashboardTO["dashboardMetadata"]["name"].replace(/MyTenant/g,config.TOname+"");
-  dashboardTO["dashboardMetadata"]["name"]=dashboardTO["dashboardMetadata"]["name"].replace(/TEMPLATE/g,config.TOname+"");
+  dashboardTO["dashboardMetadata"]["name"]=dashboardTO["dashboardMetadata"]["name"].replace(/TEMPLATE:/g,config.TOname+"");
   dashboardTO["dashboardMetadata"]["dashboardFilter"]["managementZone"]= {
     "id": config.mz,
     "name": config.mzname
