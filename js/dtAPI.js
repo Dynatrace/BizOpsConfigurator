@@ -335,11 +335,7 @@ function uploadFunnel(config) {
   var dashboardFO;
   var filename="";
 
-  /*if(config.kpi=="n/a")
-    dashboardFO = JSON.parse(JSON.stringify(dbList.find( ({ name }) => name === dbFunnelFalse ).file));
-  else
-    dashboardFO = JSON.parse(JSON.stringify(dbList.find( ({ name }) => name === dbFunnelTrue ).file));*/
-    dashboardFO = JSON.parse(JSON.stringify(dbList.find( ({ name }) => name === config.journeyOverview ).file));
+  dashboardFO = JSON.parse(JSON.stringify(dbList.find( ({ name }) => name === config.journeyOverview ).file));
   let p2 = addParentConfig(config,config.AOid);
   return $.when(p2).then(function(data2) {
   

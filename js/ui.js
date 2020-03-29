@@ -354,7 +354,8 @@ function globalButtonHandler() {
 	   break;
 	case "deployFunnel-name-next":
 	    selection.config.funnelName=$("#funnelName").val();
-        selection.config.journeyOverview= $("#journeyOverview").val();
+        selection.config.journeyOverview = $("#journeyOverview").val();
+        selection.config.journeyOverviewName = $("#journeyOverview option:selected").text();
         selection.config.xapp=$("#xapp").prop('checked');
         if(selection.config.xapp)
             selection.config.xapps=$("#xapp_apps").val();
@@ -1567,8 +1568,10 @@ function errorboxJQXHR(jqXHR, textStatus, errorThrown) {
         }
         default: {
          errorMsg = "dtAPIQuery failed ("+jqXHR.status+"): "+this.url;
-         if(this.url.includes('v1/dashboards'))
-            errorMsg += " (" +this.data.match(/dashboardMetadata[^}]*(name"?:"[^"]*")/)[1] +")";
+         if(this.url.includes('v1/dashboards')){
+           let name = this.data.match(/dashboardMetadata[^}]*(name"?:"[^"]*")/);
+           if(name!==null && name.length>2) errorMsg += ` (${name[1]})`;
+         }
          if(errorThrown.length>0) errorMsg+="\nError: "+errorThrown;
          if(typeof(jqXHR.responseText)!=="undefined") {
             let responseText = "<pre>"+jqXHR.responseText.replace(/<([^>]*)>/g,"&lt$1&gt")+"</pre>";
