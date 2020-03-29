@@ -537,6 +537,7 @@ function globalButtonHandler() {
 	    selection.config.TOid=TOid; 
 	    selection.config.TOname=$("#TOname").text();
       selection.config.appOverview= $("#appOverview").val();
+      selection.config.appOverviewName= $("#appOverview option:selected").text();
       selection.config.ipUpperBound = $("#ipUpperBound").val();
       selection.config.ipLowerBound = $("#ipLowerBound").val();
 
