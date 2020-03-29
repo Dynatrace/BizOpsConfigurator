@@ -568,13 +568,13 @@ function globalButtonHandler() {
 	case "uploadTenant": {
   	 $("input#uploadTenant").val("Uploading...");
      $("input#uploadTenant").prop('disabled', true);
-     let config = {};
-     config.TOname = $("#TOname").val();
-     config.mz = $("#mzlist").val();
-     config.mzname = $("#mzlist option:selected").text();
-     config.tenantOverview = $("#tenantOverview").val();
+     selection.config = {};
+     selection.config.TOname = $("#TOname").val();
+     selection.config.mz = $("#mzlist").val();
+     selection.config.mzname = $("#mzlist option:selected").text();
+     selection.config.tenantOverview = $("#tenantOverview").val();
 
-	   let p1 = uploadTenantOverview(config);  
+	   let p1 = uploadTenantOverview(selection.config);  
 
 	   $.when(p1).done(function(){
   	     $("input#uploadTenant").val("Uploaded");
