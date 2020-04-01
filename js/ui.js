@@ -227,13 +227,13 @@ function globalButtonHandler() {
       if(typeof dtrum !== "undefined") dtrum.actionName("globalButtonHandler("+id+")");
       switch(id) {
 	case "connect": 
-	   url=$("input#url").val();
-	   if(url.length>1 && url.charAt(url.length-1)=="/")
-		url = url.substring(0,url.length-1);
-	   token=$("input#token").val();
-       githubuser=$("#githubuser").val();
-       githubpat=$("#githubpat").val();
-	   let p_connect = testConnect();
+      url=$("input#url").val();
+      if(url.length>1 && url.charAt(url.length-1)=="/")
+        url = url.substring(0,url.length-1);
+      token=$("input#token").val();
+      githubuser=$("#githubuser").val();
+      githubpat=$("#githubpat").val();
+      let p_connect = testConnect();
 
 	   $.when(p_connect).done(function(data) {
 	      if(processTestConnect(data)) {
