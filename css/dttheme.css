@@ -788,3 +788,11 @@ input#dashboardCleanup {
 #remoteEmployeeInputs {
   display: none;
 }
+
+#ipClause {
+  width: 95%;
+}
+
+#addIpRange {
+  width: 30px;
+}

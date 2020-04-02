@@ -1,8 +1,8 @@
 function generateAppSwapList(config) {
-  let ipClause = "";
+  /*let ipClause = "";
   if("ipUpperBound" in config && "ipLowerBound" in config)
     if(config.ipUpperBound.length>0 && config.ipLowerBound.length>0)
-      ipClause = 'AND ip BETWEEN \\"'+config.ipLowerBound+'\\" AND \\"'+config.ipUpperBound+'\\"';
+      ipClause = 'AND ip BETWEEN \\"'+config.ipLowerBound+'\\" AND \\"'+config.ipUpperBound+'\\"';*/
     
   let swaps = [
     {from:config.oldTOid, to:config.TOid},
@@ -19,7 +19,7 @@ function generateAppSwapList(config) {
     {from:'Previous MyTime Hours', to:config.compareTime},
     {from:'-MyTimeh', to:config.MyTime},
     {from:'Last MyTime Hours', to:config.MyTime},
-    {from:'ipClause', to:ipClause},
+    {from:'ipClause', to:config.ipClause},
     {from:'MZid', to:config.mz},
     {from:'MZname', to:config.mzname}
     ];

@@ -7,7 +7,7 @@ function globalButtonHandler() {
       let id = $(this)[0].id;
       if(typeof dtrum !== "undefined") dtrum.actionName("globalButtonHandler("+id+")");
       switch(id) {
-	case "connect": 
+    case "connect": 
       url=$("input#url").val();
       if(url.length>1 && url.charAt(url.length-1)=="/")
         url = url.substring(0,url.length-1);
@@ -16,125 +16,125 @@ function globalButtonHandler() {
       githubpat=$("#githubpat").val();
       let p_connect = testConnect();
 
-	   $.when(p_connect).done(function(data) {
-	      if(processTestConnect(data)) {
+       $.when(p_connect).done(function(data) {
+          if(processTestConnect(data)) {
               $("#viewport").load("html/configurator/main.html",fieldsetPainter); 
               getVersion()
                 .then(processVersion)
                 .then(loadDBList)
                 .then(downloadDBsFromList);
           }
-	   });
-	   $.when(p_connect).fail(errorboxJQXHR);
-	   break;
-	case "deleteApp": {
-  	   $(this).val("Deleting...");
-  	   $(this).prop('disabled', true);
-	   let TOid = $("#TOid").text();
-	   let AOid = $(this)[0].parentNode.id;
-	   let count = 1;
-	  
-	   let re = new RegExp("^"+AOid.substring(0,19));
-	   DBAdashboards.forEach(function(db) {
-	    if(re.test(db.id) && db.id!=AOid) {
-		count++;
-	     }
-	   });
-
-	   if(window.confirm("DELETE " + count + " dashboards? This cannot be undone...")) {
-	     let p1 = deleteApp(AOid);
-
-	     $.when(p1).done(function(){
-  	       $(this).val("Deleted");
-	       $("#viewport").load("html/configurator/listApp.html",fieldsetPainter);
-	       updateTenantOverview(TOid);
-	     });
-	   } else {
-  	     $(this).val("Delete");
-  	     $(this).prop('disabled', false);
-	   }
-	   break;
-	}
-	case "deleteFunnel": {
-  	   $(this).val("Deleting...");
-  	   $(this).prop('disabled', true);
-	   let AOid = $("#AOid").text();
-	   let FOid = $(this)[0].parentNode.id;
-	   let count = 1;
-	  
-	   let re = new RegExp("^"+FOid.substring(0,24));
-	   DBAdashboards.forEach(function(db) {
-	    if(re.test(db.id) && db.id!=FOid) {
-		count++;
-	     }
-	   });
-
-	   if(window.confirm("DELETE " + count + " dashboards? This cannot be undone...")) {
-	     let p1 = deleteFunnel(FOid);
-
-	     $.when(p1).done(function(){
-  	       $(this).val("Deleted");
-	       $("#viewport").load("html/configurator/listFunnel.html",fieldsetPainter);
-	       updateAppOverview(AOid);
-	     });
-	   } else {
-  	     $(this).val("Delete");
-  	     $(this).prop('disabled', false);
-	   }
-	   break;
-	}
-	case "deleteTenant": {
-  	   $(this).val("Deleting...");
-  	   $(this).prop('disabled', true);
-	   let TOid = $(this)[0].parentNode.id;
-	   let count = 1;
-	  
-	   let re = new RegExp("^"+TOid.substring(0,14));
-	   DBAdashboards.forEach(function(db) {
-	    if(re.test(db.id) && db.id!=TOid) {
-		count++;
-	     }
-	   });
-
-	   if(window.confirm("DELETE " + count + " dashboards? This cannot be undone...")) {
-	     let p1 = deleteTenant(TOid);
-
-	     $.when(p1).done(function(){
-  	       $(this).val("Deleted");
-	       $("#viewport").load("html/configurator/listTenant.html",fieldsetPainter);
-	     });
-	   } else {
-  	     $(this).val("Delete");
-  	     $(this).prop('disabled', false);
-	   }
-	   break;
-	}
-	case "deployApp":
-	   selection.TOid=$(this)[0].parentNode.id;
-       delete selection.AOid;
-	   $("#viewport").load("html/configurator/deployApp.html",fieldsetPainter);
-	   break;
-	case "deployAnotherApp":
-	   selection.TOid=$("#TOid").text();
-       delete selection.AOid;
-	   $("#viewport").load("html/configurator/deployApp.html",fieldsetPainter);
-	   break;
-	case "editApp": 
-	   selection.AOid = $(this)[0].parentNode.id;
-	   $("#viewport").load("html/configurator/deployApp.html",fieldsetPainter);
+       });
+       $.when(p_connect).fail(errorboxJQXHR);
        break;
-	case "deployAnotherFunnel":
-	   selection.AOid=$("#AOid").text();
-	   selection.funnelLoaded=false;
-	   $("#viewport").load("html/configurator/deployFunnel-name.html",fieldsetPainter);
-	   break;
-	case "deployFunnel":
-	   selection.AOid=$(this)[0].parentNode.id;
-	   selection.funnelLoaded=false;
-	   $("#viewport").load("html/configurator/deployFunnel-name.html",fieldsetPainter);
-	   break;
-	case "deployFunnel-name-next":
-	    selection.config.funnelName=$("#funnelName").val();
+    case "deleteApp": {
+         $(this).val("Deleting...");
+         $(this).prop('disabled', true);
+       let TOid = $("#TOid").text();
+       let AOid = $(this)[0].parentNode.id;
+       let count = 1;
+      
+       let re = new RegExp("^"+AOid.substring(0,19));
+       DBAdashboards.forEach(function(db) {
+        if(re.test(db.id) && db.id!=AOid) {
+        count++;
+         }
+       });
+
+       if(window.confirm("DELETE " + count + " dashboards? This cannot be undone...")) {
+         let p1 = deleteApp(AOid);
+
+         $.when(p1).done(function(){
+             $(this).val("Deleted");
+           $("#viewport").load("html/configurator/listApp.html",fieldsetPainter);
+           updateTenantOverview(TOid);
+         });
+       } else {
+           $(this).val("Delete");
+           $(this).prop('disabled', false);
+       }
+       break;
+    }
+    case "deleteFunnel": {
+         $(this).val("Deleting...");
+         $(this).prop('disabled', true);
+       let AOid = $("#AOid").text();
+       let FOid = $(this)[0].parentNode.id;
+       let count = 1;
+      
+       let re = new RegExp("^"+FOid.substring(0,24));
+       DBAdashboards.forEach(function(db) {
+        if(re.test(db.id) && db.id!=FOid) {
+        count++;
+         }
+       });
+
+       if(window.confirm("DELETE " + count + " dashboards? This cannot be undone...")) {
+         let p1 = deleteFunnel(FOid);
+
+         $.when(p1).done(function(){
+             $(this).val("Deleted");
+           $("#viewport").load("html/configurator/listFunnel.html",fieldsetPainter);
+           updateAppOverview(AOid);
+         });
+       } else {
+           $(this).val("Delete");
+           $(this).prop('disabled', false);
+       }
+       break;
+    }
+    case "deleteTenant": {
+         $(this).val("Deleting...");
+         $(this).prop('disabled', true);
+       let TOid = $(this)[0].parentNode.id;
+       let count = 1;
+      
+       let re = new RegExp("^"+TOid.substring(0,14));
+       DBAdashboards.forEach(function(db) {
+        if(re.test(db.id) && db.id!=TOid) {
+        count++;
+         }
+       });
+
+       if(window.confirm("DELETE " + count + " dashboards? This cannot be undone...")) {
+         let p1 = deleteTenant(TOid);
+
+         $.when(p1).done(function(){
+             $(this).val("Deleted");
+           $("#viewport").load("html/configurator/listTenant.html",fieldsetPainter);
+         });
+       } else {
+           $(this).val("Delete");
+           $(this).prop('disabled', false);
+       }
+       break;
+    }
+    case "deployApp":
+       selection.TOid=$(this)[0].parentNode.id;
+       delete selection.AOid;
+       $("#viewport").load("html/configurator/deployApp.html",fieldsetPainter);
+       break;
+    case "deployAnotherApp":
+       selection.TOid=$("#TOid").text();
+       delete selection.AOid;
+       $("#viewport").load("html/configurator/deployApp.html",fieldsetPainter);
+       break;
+    case "editApp": 
+       selection.AOid = $(this)[0].parentNode.id;
+       $("#viewport").load("html/configurator/deployApp.html",fieldsetPainter);
+       break;
+    case "deployAnotherFunnel":
+       selection.AOid=$("#AOid").text();
+       selection.funnelLoaded=false;
+       $("#viewport").load("html/configurator/deployFunnel-name.html",fieldsetPainter);
+       break;
+    case "deployFunnel":
+       selection.AOid=$(this)[0].parentNode.id;
+       selection.funnelLoaded=false;
+       $("#viewport").load("html/configurator/deployFunnel-name.html",fieldsetPainter);
+       break;
+    case "deployFunnel-name-next":
+        selection.config.funnelName=$("#funnelName").val();
         selection.config.journeyOverview = $("#journeyOverview").val();
         selection.config.journeyOverviewName = $("#journeyOverview option:selected").text();
         selection.config.xapp=$("#xapp").prop('checked');
@@ -142,21 +142,21 @@ function globalButtonHandler() {
             selection.config.xapps=$("#xapp_apps").val();
         else
             delete selection.config.xapps;
-	   $("#viewport").load("html/configurator/deployFunnel-kpi.html",fieldsetPainter);
-	   break;
-	case "deployFunnel-kpi-next":
-	   selection.config.kpi=$("#usplist").val();
-	   selection.config.kpiName=$("#kpiName").val();
-	   $("#viewport").load("html/configurator/deployFunnel-funnel.html",fieldsetPainter);
-	   break;
-	case "deployFunnel-funnel-next":
-	   selection.config.whereClause=$("#whereClause").val();
-	   selection.config.funnelData=funnelData;
-	   $("#viewport").load("html/configurator/deployFunnel-filters.html",fieldsetPainter);
-	   break;
-	case "deployFunnel-filters-next":
-	   selection.config.filterClause=$("#filterClause").val();
-	   selection.config.filterData={
+       $("#viewport").load("html/configurator/deployFunnel-kpi.html",fieldsetPainter);
+       break;
+    case "deployFunnel-kpi-next":
+       selection.config.kpi=$("#usplist").val();
+       selection.config.kpiName=$("#kpiName").val();
+       $("#viewport").load("html/configurator/deployFunnel-funnel.html",fieldsetPainter);
+       break;
+    case "deployFunnel-funnel-next":
+       selection.config.whereClause=$("#whereClause").val();
+       selection.config.funnelData=funnelData;
+       $("#viewport").load("html/configurator/deployFunnel-filters.html",fieldsetPainter);
+       break;
+    case "deployFunnel-filters-next":
+       selection.config.filterClause=$("#filterClause").val();
+       selection.config.filterData={
         country: $("#countryList").val(),
         region: $("#regionList").val(),
         city: $("#cityList").val(),
@@ -164,16 +164,16 @@ function globalButtonHandler() {
         type: $("#uspKey option:selected")[0].dataset['colname'],
         val: $("#uspVal").val()
        }
-	   $("#viewport").load("html/configurator/deployFunnel-compare.html",fieldsetPainter);
-	   break;
-	case "deployTenant": 
-	   let p_mz = getMZs();
-	   $.when(p_mz).done(function(data1) {
-	     processMZs(data1);
-	     $("#viewport").load("html/configurator/deployTenant.html",fieldsetPainter);
-	   });
-	   break;
-	case "editFunnel": {
+       $("#viewport").load("html/configurator/deployFunnel-compare.html",fieldsetPainter);
+       break;
+    case "deployTenant": 
+       let p_mz = getMZs();
+       $.when(p_mz).done(function(data1) {
+         processMZs(data1);
+         $("#viewport").load("html/configurator/deployTenant.html",fieldsetPainter);
+       });
+       break;
+    case "editFunnel": {
            selection.FOid = $(this)[0].parentNode.id;
            let p1 = loadDashboard(configID(selection.FOid));
 
@@ -183,7 +183,7 @@ function globalButtonHandler() {
                $("#viewport").load("html/configurator/deployFunnel-name.html",fieldsetPainter);
            }); 
         }
-	   break;
+       break;
     case "updateFunnelForecast": {
         let button = $(this);
         let originalText = button.text();
@@ -245,83 +245,82 @@ function globalButtonHandler() {
         }); 
       }
       break;
-	case "json":
-	   $("#jsonviewer").toggle();
-	   break;
-	case "listApp": 
-	   selection.TOid=$(this)[0].parentNode.id;
+    case "json":
+       $("#jsonviewer").toggle();
+       break;
+    case "listApp": 
+       selection.TOid=$(this)[0].parentNode.id;
         selection.config={};
-	   $("#viewport").load("html/configurator/listApp.html",fieldsetPainter);
-	   break;
-	case "returnListFunnel":
-	   selection.config={};
-	   $("#viewport").load("html/configurator/listFunnel.html",fieldsetPainter);
-	   break;
-	case "listFunnel":
-	   selection.AOid=$(this)[0].parentNode.id;
+       $("#viewport").load("html/configurator/listApp.html",fieldsetPainter);
+       break;
+    case "returnListFunnel":
+       selection.config={};
+       $("#viewport").load("html/configurator/listFunnel.html",fieldsetPainter);
+       break;
+    case "listFunnel":
+       selection.AOid=$(this)[0].parentNode.id;
         selection.config={};
-	   $("#viewport").load("html/configurator/listFunnel.html",fieldsetPainter);
-	   break;
-	case "listTenant":
+       $("#viewport").load("html/configurator/listFunnel.html",fieldsetPainter);
+       break;
+    case "listTenant":
         selection.config={};
-	   $("#viewport").load("html/configurator/listTenant.html",fieldsetPainter);
-	   break;
-	case "minus":
-	   if( $("input#whereClause").attr('readonly') &&
+       $("#viewport").load("html/configurator/listTenant.html",fieldsetPainter);
+       break;
+    case "minus":
+       if( $("input#whereClause").attr('readonly') &&
             funnelData.length>2) { //do nothing if in pencil mode
-		funnelData.pop();
-		chart.draw(funnelData, options);
-		updateWhere(funnelData);
+        funnelData.pop();
+        chart.draw(funnelData, options);
+        updateWhere(funnelData);
         $("#plus").prop( "disabled", false );
-	   } else {
+       } else {
         $("#minus").prop( "disabled", true );
        }
-	   break;
-	case "other":
-	   alert("other");
-	   break;
-	case "plus":
-	   if( $("input#whereClause").attr('readonly') &&
+       break;
+    case "other":
+       alert("other");
+       break;
+    case "plus":
+       if( $("input#whereClause").attr('readonly') &&
             funnelData.length<10) { //do nothing if in pencil mode
-		funnelData.push({ label: 'name', value: '', clauses: [] });
-		chart.draw(funnelData, options);
-		updateWhere(funnelData);
+        funnelData.push({ label: 'name', value: '', clauses: [] });
+        chart.draw(funnelData, options);
+        updateWhere(funnelData);
         $("#minus").prop( "disabled", false );
-	   } else {
+       } else {
         $("#plus").prop( "disabled", true );
        }
-	   break;
-	case "updateLabel":
-	   let i = $( "#labelForm input#i").val();
-	   let label = $( "#labelForm #labelInput").val();
-	   funnelData[i].label=label;
-	   $( "#labelForm" ).hide();
-	   chart.draw(funnelData, options);
-	   updateWhere(funnelData);
-	   break;
-	/*case "upgradeTenant":
-	   $("#viewport").load("html/configurator/listTenant.html",fieldsetPainter);
-	   break;*/
-	case "uploadApp": {
-  	    $("input#uploadApp").val("Uploading...");
-  	    $("input#uploadApp").prop('disabled', true);
-	    let TOid =$("#TOid").text(); 
-	    selection.config.MyCompareApp=$("#MyCompareApp").val();
-	    selection.config.compareAppID=$("#compareAppList").val();
-      selection.config.compareAppName=$("#compareAppList option:selected").text();
-      selection.config.compareMZid=$("#compareMZ select").val();
-      selection.config.compareMZname=$("#compareMZ select option:selected").text();
-	    selection.config.MyTime=$("#MyTime").val();
-	    selection.config.compareTime=$("#compareTimeList").val();
-      selection.config.AOname=$("#appName").val();
-	    selection.config.appID=$("#applist").val(); 
-	    selection.config.appName=$("#applist option:selected").text();
-	    selection.config.TOid=TOid; 
-	    selection.config.TOname=$("#TOname").text();
-      selection.config.appOverview= $("#appOverview").val();
-      selection.config.appOverviewName= $("#appOverview option:selected").text();
-      selection.config.ipUpperBound = $("#ipUpperBound").val();
-      selection.config.ipLowerBound = $("#ipLowerBound").val();
+       break;
+    case "updateLabel":
+       let i = $( "#labelForm input#i").val();
+       let label = $( "#labelForm #labelInput").val();
+       funnelData[i].label=label;
+       $( "#labelForm" ).hide();
+       chart.draw(funnelData, options);
+       updateWhere(funnelData);
+       break;
+    /*case "upgradeTenant":
+       $("#viewport").load("html/configurator/listTenant.html",fieldsetPainter);
+       break;*/
+    case "uploadApp": {
+        $("input#uploadApp").val("Uploading...");
+        $("input#uploadApp").prop('disabled', true);
+        let TOid =$("#TOid").text(); 
+        selection.config.MyCompareApp=$("#MyCompareApp").val();
+        selection.config.compareAppID=$("#compareAppList").val();
+        selection.config.compareAppName=$("#compareAppList option:selected").text();
+        selection.config.compareMZid=$("#compareMZ select").val();
+        selection.config.compareMZname=$("#compareMZ select option:selected").text();
+        selection.config.MyTime=$("#MyTime").val();
+        selection.config.compareTime=$("#compareTimeList").val();
+        selection.config.AOname=$("#appName").val();
+        selection.config.appID=$("#applist").val(); 
+        selection.config.appName=$("#applist option:selected").text();
+        selection.config.TOid=TOid; 
+        selection.config.TOname=$("#TOname").text();
+        selection.config.appOverview= $("#appOverview").val();
+        selection.config.appOverviewName= $("#appOverview option:selected").text();
+        selection.config.ipClause = $("#ipClause").val();
 
         if(typeof $("#mz").val() != "undefined") {
           selection.config.mz=$("#mz").val();
@@ -329,7 +328,7 @@ function globalButtonHandler() {
         
         } else if(typeof $("#mzlist").val() != "undefined") {
           selection.config.mz=$("#mzlist").val();
-	        selection.config.mzname=$("#mzlist option:selected").text();
+            selection.config.mzname=$("#mzlist option:selected").text();
         }
 
         let p0 = getAppDetail(selection.config.appID);
@@ -339,17 +338,17 @@ function globalButtonHandler() {
                 selection.config.costControlUserSessionPercentage=appDetail.costControlUserSessionPercentage;
             }
 
-	        let p1 = uploadAppOverview(selection.config);
-	        $.when(p1) .done(function(){
-  	            $("input#uploadApp").val("Uploaded");
-	            $("#viewport").load("html/configurator/listApp.html",fieldsetPainter);
-	            updateTenantOverview(TOid);
-	        });
+            let p1 = uploadAppOverview(selection.config);
+            $.when(p1) .done(function(){
+                  $("input#uploadApp").val("Uploaded");
+                $("#viewport").load("html/configurator/listApp.html",fieldsetPainter);
+                updateTenantOverview(TOid);
+            });
         });
-	   break;
-	}
-	case "uploadTenant": {
-  	 $("input#uploadTenant").val("Uploading...");
+       break;
+    }
+    case "uploadTenant": {
+       $("input#uploadTenant").val("Uploading...");
      $("input#uploadTenant").prop('disabled', true);
      selection.config = {};
      selection.config.TOname = $("#TOname").val();
@@ -358,21 +357,21 @@ function globalButtonHandler() {
      selection.config.tenantOverview = $("#tenantOverview").val();
      selection.config.tenantOverviewName = $("#tenantOverview option:selected").text();
 
-	   let p1 = uploadTenantOverview(selection.config);  
+       let p1 = uploadTenantOverview(selection.config);  
 
-	   $.when(p1).done(function(){
-  	     $("input#uploadTenant").val("Uploaded");
-	     $("#viewport").load("html/configurator/listTenant.html",fieldsetPainter);
-	   });
-	   break;
-	}
-	case "uploadFunnel": {
+       $.when(p1).done(function(){
+           $("input#uploadTenant").val("Uploaded");
+         $("#viewport").load("html/configurator/listTenant.html",fieldsetPainter);
+       });
+       break;
+    }
+    case "uploadFunnel": {
        if('xapp' in selection.config && selection.config.xapp) {
-	        selection.config.compareFunnel=$("#xapp_compareFunnel").val();
+            selection.config.compareFunnel=$("#xapp_compareFunnel").val();
             selection.config.xapp_compareAppID1=$("#compareAppList1").val();
-	        selection.config.xapp_compareAppName1=$("#compareAppList1 option:selected").text();
+            selection.config.xapp_compareAppName1=$("#compareAppList1 option:selected").text();
             selection.config.xapp_compareAppID2=$("#compareAppList2").val();
-	        selection.config.xapp_compareAppName2=$("#compareAppList2 option:selected").text();
+            selection.config.xapp_compareAppName2=$("#compareAppList2 option:selected").text();
 
            if(selection.config.xapp_compareAppName1!="None" && selection.config.xapp_compareAppName2!="None") {
               selection.config.compareFirstStep = {
@@ -384,9 +383,9 @@ function globalButtonHandler() {
               selection.config.compareRevenue=$("#xapp_compareRevenue").val();
            }
        } else {
-	        selection.config.compareFunnel=$("#compareFunnel").val();
-	        selection.config.compareAppID=$("#compareAppList").val();
-	        selection.config.compareAppName=$("#compareAppList option:selected").text();
+            selection.config.compareFunnel=$("#compareFunnel").val();
+            selection.config.compareAppID=$("#compareAppList").val();
+            selection.config.compareAppName=$("#compareAppList option:selected").text();
            if(selection.config.compareAppName!="None" ) {
               selection.config.compareFirstStep = {
                 'colname': $("#compareFirstStep option:selected")[0].dataset['colname'],
@@ -397,21 +396,21 @@ function globalButtonHandler() {
               selection.config.compareRevenue=$("#compareRevenue").val();
            }
        }
-	   selection.config.compareTime=$("#compareTimeList").val();
-	   selection.config.campaignActive=$("#campaignActive").prop('checked');
+       selection.config.compareTime=$("#compareTimeList").val();
+       selection.config.campaignActive=$("#campaignActive").prop('checked');
        if(selection.config.campaignActive) {
-	      selection.config.campaignStep1 = {'colname': $("#campaignStep1 option:selected")[0].dataset['colname'],
+          selection.config.campaignStep1 = {'colname': $("#campaignStep1 option:selected")[0].dataset['colname'],
             'name': $("#campaignStep1").val()};
-	      selection.config.promHeaderStep=$("#promHeaderStep").val();
+          selection.config.promHeaderStep=$("#promHeaderStep").val();
        }
-	   selection.config.featureAdded=$("#featureAdded").prop('checked');
+       selection.config.featureAdded=$("#featureAdded").prop('checked');
        if(selection.config.featureAdded) {
-	      selection.config.FeatureHeaderStep=$("#FeatureHeaderStep").val();
-	      selection.config.StepNewFeature1= {'colname': $("#StepNewFeature1 option:selected")[0].dataset['colname'],
+          selection.config.FeatureHeaderStep=$("#FeatureHeaderStep").val();
+          selection.config.StepNewFeature1= {'colname': $("#StepNewFeature1 option:selected")[0].dataset['colname'],
             'name': $("#StepNewFeature1").val()};
         }
-	    selection.config.MyTime=$("#MyTime").val();
-	    selection.config.compareTime=$("#compareTimeList").val();
+        selection.config.MyTime=$("#MyTime").val();
+        selection.config.compareTime=$("#compareTimeList").val();
 
         let p0 = getAppDetail(selection.config.appID);
         $.when(p0).done(function(d0) {
@@ -420,44 +419,44 @@ function globalButtonHandler() {
                 selection.config.costControlUserSessionPercentage=appDetail.costControlUserSessionPercentage;
             }
 
-	        let p1 = uploadFunnel(selection.config);
+            let p1 = uploadFunnel(selection.config);
 
-    	    $.when(p1).done(function(){
-	            $("#viewport").load("html/configurator/deployFunnel-finish.html",fieldsetPainter);
-	            updateAppOverview(selection.AOid);
-	        });
+            $.when(p1).done(function(){
+                $("#viewport").load("html/configurator/deployFunnel-finish.html",fieldsetPainter);
+                updateAppOverview(selection.AOid);
+            });
         });
-	   break;
-	}
-	case "downloadConfig":
-	   let filename = selection.config.funnelName + "-" +
-			  Date.now() +
-			  ".json";
-	   download(filename,JSON.stringify( (({config}) => ({config}))(selection)  ));
-	   break;
-	case "loadConfig": {
-	   let file = $("#funnelConfig").prop("files")[0];
+       break;
+    }
+    case "downloadConfig":
+       let filename = selection.config.funnelName + "-" +
+              Date.now() +
+              ".json";
+       download(filename,JSON.stringify( (({config}) => ({config}))(selection)  ));
+       break;
+    case "loadConfig": {
+       let file = $("#funnelConfig").prop("files")[0];
            fr = new FileReader();
            fr.onload = function() {
-		let res = fr.result;
-		let json = JSON.parse(res);
-		if('config' in json) {
-		    selection.funnelLoaded=true;
-		    selection.config = json.config;
-		    fieldsetPainter();
-		}
-	   };
+        let res = fr.result;
+        let json = JSON.parse(res);
+        if('config' in json) {
+            selection.funnelLoaded=true;
+            selection.config = json.config;
+            fieldsetPainter();
+        }
+       };
            fr.readAsText(file);
-	   break;
-	}
+       break;
+    }
     case "clearFunnel": {
         selection.config.funnelData.forEach(function(f,i,a) {
             a[i].value="";
             a[i].clauses=[];
         });
-		updateWhere(selection.config.funnelData);
+        updateWhere(selection.config.funnelData);
         selection.config.whereClause=$( "#whereClause").val();
-	   $("#viewport").load("html/configurator/deployFunnel-funnel.html",fieldsetPainter);
+       $("#viewport").load("html/configurator/deployFunnel-funnel.html",fieldsetPainter);
         break;
     }
     case "reloadCSS": {
@@ -573,7 +572,7 @@ function globalButtonHandler() {
         break;
     }
     case "dashboardCleanup": {
-	    $("#viewport").load("html/dashboardCleanup.html",fieldsetPainter);
+        $("#viewport").load("html/dashboardCleanup.html",fieldsetPainter);
         break;
     }
     case "addIpRange": {
@@ -597,13 +596,13 @@ function globalButtonHandler() {
         $("#ipUpperBound").val("");
         break;
     }
-	case "":
-	case undefined:
-	   console.log("undefined button");
-	   break;
-	default:
-	   alert("Unknown Button: " + id);
-	   console.log($(this));
+    case "":
+    case undefined:
+       console.log("undefined button");
+       break;
+    default:
+       alert("Unknown Button: " + id);
+       console.log($(this));
     }
   } else console.log($(this));
 }
