@@ -590,7 +590,7 @@ function globalButtonHandler() {
         let lower = $("#ipLowerBound");
         let upper = $("#ipUpperBound");
         ipClauses.push(`ip BETWEEN \\"${lower}\\" AND \\"${upper}\\"`);
-        ipClause = ` AND (${ipClaues.join(" OR ")})`;
+        ipClause = ` AND (${ipClauses.join(" OR ")})`;
         $("#ipClause").val(ipClause);
         $("#ipLowerBound").val("");
         $("#ipUpperBound").val("");
