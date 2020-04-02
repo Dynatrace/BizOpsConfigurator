@@ -578,9 +578,19 @@ function globalButtonHandler() {
     }
     case "addIpRange": {
         let ipClause = $("#ipClause").val();
+        let ipClauses = [];
+        try{
+            ipClause = ipClause.match(/\(([.*])\)/)[1];
+            ipClauses = ipClause.split(" OR ");
+        } catch(e) {
+            ipClause = "";
+            ipClauses = [];
+        }
+        
         let lower = $("#ipLowerBound");
         let upper = $("#ipUpperBound");
-        ipClause += ` AND ip BETWEEN \\"${lower}\\" AND \\"${upper}\\"`;
+        ipClauses.push(`ip BETWEEN \\"${lower}\\" AND \\"${upper}\\"`);
+        ipClause = ` AND (${ipClaues.join(" OR ")})`;
         $("#ipClause").val(ipClause);
         $("#ipLowerBound").val("");
         $("#ipUpperBound").val("");

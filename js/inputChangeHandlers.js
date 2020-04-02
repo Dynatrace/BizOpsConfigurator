@@ -339,18 +339,33 @@ function compareAppChangeHandler(e){
   
   function rfc1918ChangeHandler() {
     let ipClause = $("#ipClause").val();
+    let ipClauses = [];
+    try{
+        ipClause = ipClause.match(/\(([.*])\)/)[1];
+        ipClauses = ipClause.split(" OR ");
+    } catch(e) {
+        ipClause = "";
+        ipClauses = [];
+    }
+
     if($("#rfc1918").prop("checked")){
       if(!ipClause.includes("10.0.0.0"))
-        ipClause += ` AND ip BETWEEN \\"10.0.0.0\\" AND \\"10.255.255.255\\"`;
+        ipClauses.push(`ip BETWEEN \\"10.0.0.0\\" AND \\"10.255.255.255\\"`);
       if(!ipClause.includes("172.16.0.0"))
-        ipClause += ` AND ip BETWEEN \\"172.16.0.0\\" AND \\"172.31.255.255\\"`;
+        ipClauses.push(`ip BETWEEN \\"172.16.0.0\\" AND \\"172.31.255.255\\"`);
       if(!ipClause.includes("192.168.0.0"))
-        ipClause += ` AND ip BETWEEN \\"192.168.0.0\\" AND \\"192.168.255.255\\"`;
-        $("#ipClause").val(ipClause);
+        ipClauses.push(`ip BETWEEN \\"192.168.0.0\\" AND \\"192.168.255.255\\"`);
+      ipClause = ` AND (${ipClauses.join(" OR ")})`;
+      $("#ipClause").val(ipClause);
     } else {
-      ipClause = ipClause.replace(` AND ip BETWEEN \\"10.0.0.0\\" AND \\"10.255.255.255\\"`,"");
-      ipClause = ipClause.replace(` AND ip BETWEEN \\"172.16.0.0\\" AND \\"172.31.255.255\\"`);
-      ipClause = ipClause.replace(` AND ip BETWEEN \\"192.168.0.0\\" AND \\"192.168.255.255\\"`);
+      let i = 0;
+      i = ipClauses.indexOf(`ip BETWEEN \\"10.0.0.0\\" AND \\"10.255.255.255\\"`);
+      if(i>-1) ipClauses.splice(i,1);
+      i = ipClauses.indexOf(`ip BETWEEN \\"172.16.0.0\\" AND \\"172.31.255.255\\"`);
+      if(i>-1) ipClauses.splice(i,1);
+      i = ipClauses.indexOf(`ip BETWEEN \\"192.168.0.0\\" AND \\"192.168.255.255\\"`);
+      if(i>-1) ipClauses.splice(i,1);
+      ipClause = ` AND (${ipClauses.join(" OR ")})`;
       $("#ipClause").val(ipClause);
     }
   }
