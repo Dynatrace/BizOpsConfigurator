@@ -580,7 +580,7 @@ function globalButtonHandler() {
         let ipClause = $("#ipClause").val();
         let ipClauses = [];
         try{
-            ipClause = ipClause.match(/\(([.*])\)/)[1];
+            ipClause = ipClause.match(/\((.*)\)/)[1];
             ipClauses = ipClause.split(" OR ");
         } catch(e) {
             ipClause = "";
@@ -590,7 +590,8 @@ function globalButtonHandler() {
         let lower = $("#ipLowerBound");
         let upper = $("#ipUpperBound");
         ipClauses.push(`ip BETWEEN \\"${lower}\\" AND \\"${upper}\\"`);
-        ipClause = ` AND (${ipClauses.join(" OR ")})`;
+        if(ipClauses.length>0) ipClause = ` AND (${ipClauses.join(" OR ")})`;
+        else ipClause = "";
         $("#ipClause").val(ipClause);
         $("#ipLowerBound").val("");
         $("#ipUpperBound").val("");

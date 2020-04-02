@@ -341,7 +341,7 @@ function compareAppChangeHandler(e){
     let ipClause = $("#ipClause").val();
     let ipClauses = [];
     try{
-        ipClause = ipClause.match(/\(([.*])\)/)[1];
+        ipClause = ipClause.match(/\((.*)\)/)[1];
         ipClauses = ipClause.split(" OR ");
     } catch(e) {
         ipClause = "";
@@ -355,7 +355,8 @@ function compareAppChangeHandler(e){
         ipClauses.push(`ip BETWEEN \\"172.16.0.0\\" AND \\"172.31.255.255\\"`);
       if(!ipClause.includes("192.168.0.0"))
         ipClauses.push(`ip BETWEEN \\"192.168.0.0\\" AND \\"192.168.255.255\\"`);
-      ipClause = ` AND (${ipClauses.join(" OR ")})`;
+      if(ipClauses.length>0) ipClause = ` AND (${ipClauses.join(" OR ")})`;
+      else ipClause = "";
       $("#ipClause").val(ipClause);
     } else {
       let i = 0;
@@ -365,7 +366,8 @@ function compareAppChangeHandler(e){
       if(i>-1) ipClauses.splice(i,1);
       i = ipClauses.indexOf(`ip BETWEEN \\"192.168.0.0\\" AND \\"192.168.255.255\\"`);
       if(i>-1) ipClauses.splice(i,1);
-      ipClause = ` AND (${ipClauses.join(" OR ")})`;
+      if(ipClauses.length>0) ipClause = ` AND (${ipClauses.join(" OR ")})`;
+      else ipClause = "";
       $("#ipClause").val(ipClause);
     }
   }
