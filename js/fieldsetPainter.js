@@ -76,7 +76,7 @@ function fieldsetPainter() {
 	case "deployApp": {
 	   $("#bc-connect").text(tenantID);
 	   $("#TOid").text(selection.TOid);
-	   $("#TOname").text(DBAdashboards.find(x => x.id === selection.TOid).name);
+       $("#TOname").text(DBAdashboards.find(x => x.id === selection.TOid).name);
 
 	   let p0 = loadDashboard(configID("AOid" in selection?selection.AOid:selection.TOid));
 	   $.when(p0).done(function(d1) {
@@ -98,6 +98,8 @@ function fieldsetPainter() {
                 MyTimeChangeHandler();
                 if("AOname" in selection.config)$("#appName").val(selection.config.AOname);
                 if("MyCompareApp" in selection.config)$("#MyCompareApp").val(selection.config.MyCompareApp);
+                if("rfc1918" in selection.config && selection.config.rfc1918)$("#rfc1918").prop("checked","checked");
+                if("ipClause" in selection.config) $("$ipClause").val(selection.config.ipClause);
 	        });
 	   });
         $("#applist").on("change",function(){ //autofill with app name

@@ -321,6 +321,7 @@ function globalButtonHandler() {
         selection.config.appOverview= $("#appOverview").val();
         selection.config.appOverviewName= $("#appOverview option:selected").text();
         selection.config.ipClause = $("#ipClause").val();
+        selection.config.rfc1918 = $("#rfc1918").prop("checked");
 
         if(typeof $("#mz").val() != "undefined") {
           selection.config.mz=$("#mz").val();
