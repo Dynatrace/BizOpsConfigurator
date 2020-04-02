@@ -47,8 +47,13 @@
     </div>
     <div id="remoteEmployeeInputs">
       <h3>Remote Employee Segment</h3>
-      IP Address Lower Bound: <input id="ipLowerBound" placeholder="10.0.0.0"><br>
-      IP Address Upper Bound: <input id="ipUpperBound" placeholder="10.255.255.255">
+      RFC1918: <input type="checkbox" id="rfc1918"><br>
+      IP Address Lower Bound: <input id="ipLowerBound" placeholder="10.0.0.0">
+      Upper Bound: <input id="ipUpperBound" placeholder="10.255.255.255">
+      <input type="button" id="addIpRange" value="+">
+      <br>
+      <br>
+      <input id="ipClause">
     </div>
   </div>
   <input type="button" id="uploadApp" value="Upload">
