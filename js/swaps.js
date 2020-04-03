@@ -1,6 +1,6 @@
 function generateTenantSwapList(config) {
   let swaps = [ 
-    {from:config.oldTOid, to:id},
+    {from:config.oldTOid, to:config.TOid},
     {from:"TEMPLATE:", to:config.TOname},
     {from:'MyTenant', to:config.TOname},
     {from:'ipClause', to:config.ipClause}
