@@ -317,20 +317,19 @@ function compareAppChangeHandler(e){
   function tenantOverviewChangeHandler() {
     var TO = $("#tenantOverview").val();
   
-    //$("#remoteEmployeeInputs").hide();
+    $("#remoteEmployeeInputs").hide();
   
     switch(TO) {
     case "RETenantOverview.json": 
     case "RETenantOverview2.json": 
     case "RETenantOverview3.json": 
     {
-      //  $("#remoteEmployeeInputs").show();
+      $("#remoteEmployeeInputs").show();
         break;
     }
     case "00000000-dddd-bbbb-ffff-000000000001":
     case "TenantOverview.json": 
     { 
-      $("#remoteEmployeeInputs").show();
         break;
     }
     default:
