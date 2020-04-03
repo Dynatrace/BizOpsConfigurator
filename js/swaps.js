@@ -1,3 +1,14 @@
+function generateTenantSwapList(config) {
+  let swaps = [ 
+    {from:config.oldTOid, to:id},
+    {from:"TEMPLATE:", to:config.TOname},
+    {from:'MyTenant', to:config.TOname},
+    {from:'ipClause', to:config.ipClause}
+  ];
+
+  return swaps;
+}
+
 function generateAppSwapList(config) {
   /*let ipClause = "";
   if("ipUpperBound" in config && "ipLowerBound" in config)

@@ -330,6 +330,7 @@ function compareAppChangeHandler(e){
     case "00000000-dddd-bbbb-ffff-000000000001":
     case "TenantOverview.json": 
     { 
+      $("#remoteEmployeeInputs").show();
         break;
     }
     default:

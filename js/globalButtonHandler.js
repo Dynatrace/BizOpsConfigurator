@@ -349,22 +349,24 @@ function globalButtonHandler() {
        break;
     }
     case "uploadTenant": {
-       $("input#uploadTenant").val("Uploading...");
-     $("input#uploadTenant").prop('disabled', true);
-     selection.config = {};
-     selection.config.TOname = $("#TOname").val();
-     selection.config.mz = $("#mzlist").val();
-     selection.config.mzname = $("#mzlist option:selected").text();
-     selection.config.tenantOverview = $("#tenantOverview").val();
-     selection.config.tenantOverviewName = $("#tenantOverview option:selected").text();
+        $("input#uploadTenant").val("Uploading...");
+        $("input#uploadTenant").prop('disabled', true);
+        selection.config = {};
+        selection.config.TOname = $("#TOname").val();
+        selection.config.mz = $("#mzlist").val();
+        selection.config.mzname = $("#mzlist option:selected").text();
+        selection.config.tenantOverview = $("#tenantOverview").val();
+        selection.config.tenantOverviewName = $("#tenantOverview option:selected").text();
+        selection.config.ipClause = $("#ipClause").val();
+        selection.config.rfc1918 = $("#rfc1918").prop("checked");
 
-       let p1 = uploadTenantOverview(selection.config);  
+        let p1 = uploadTenantOverview(selection.config);  
 
-       $.when(p1).done(function(){
-           $("input#uploadTenant").val("Uploaded");
-         $("#viewport").load("html/configurator/listTenant.html",fieldsetPainter);
-       });
-       break;
+        $.when(p1).done(function(){
+            $("input#uploadTenant").val("Uploaded");
+            $("#viewport").load("html/configurator/listTenant.html",fieldsetPainter);
+        });
+        break;
     }
     case "uploadFunnel": {
        if('xapp' in selection.config && selection.config.xapp) {

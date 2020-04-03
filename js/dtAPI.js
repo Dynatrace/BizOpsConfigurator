@@ -226,11 +226,7 @@ function uploadTenantOverview(config) {
 
   //sub-dashboards
   let subs = getStaticSubDBs(dashboardTO,[config.oldTOid]);
-  let swaps = [ 
-    {'from':config.oldTOid, 'to':id},
-    {'from':"TEMPLATE:", 'to':config.TOname},
-    {'from':'MyTenant', 'to':config.TOname}
-  ];
+  let swaps = generateTenantSwapList(config);
   swaps = transformSubs(subs,config.TOid,swaps,config);
   data = doSwaps(data, swaps);
   data = validateDB(data);
