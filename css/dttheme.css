@@ -470,13 +470,13 @@ input[type=file] {
   100% { transform: rotate(360deg); }
 }
 
-a.newTab, a.newTab:visited, a.dashboardCleanup, a.dashboardCleanup:visited {
+a.newTab, a.newTab:visited, a.dashboardCleanup-owner, a.dashboardCleanup-owner:visited a.dashboardCleanup-db, a.dashboardCleanup-db:visited{
   color: #00b9cc;
   text-decoration: none;
   cursor: pointer;
 }
 
-a.newTab:hover, a.dashboardCleanup:hover {
+a.newTab:hover, a.dashboardCleanup-owner:hover, a.dashboardCleanup-db:hover {
   text-decoration: underline;
 }
 
