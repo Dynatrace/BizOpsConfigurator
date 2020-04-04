@@ -5,7 +5,8 @@ function linkHandler(e) {
       if(typeof dtrum !== "undefined") dtrum.actionName("linkHandler("+id+")");
       if(a.classList.contains("newTab"))return e; //don't handle new tabs with jQuery
       if(a.classList.contains("dashboardList"))return e; //handled by custom listener
-      if(a.classList.contains("dashboardCleanup"))return e; //handled by custom listener
+      if(a.classList.contains("dashboardCleanup-owner"))return e; //handled by custom listener
+      if(a.classList.contains("dashboardCleanup-db"))return e; //handled by custom listener
       switch(id) {
       case "bc-connect":
         selection.config={};

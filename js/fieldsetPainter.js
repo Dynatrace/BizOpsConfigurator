@@ -428,7 +428,7 @@ function fieldsetPainter() {
             let html = "";
             for(let [owner,count] of owners) {
                 html += `<li><input type="checkbox" data-owner="${owner}">
-                    <a class="dashboardCleanup-owner" data-owner="${owner}">${owner}: ${count}</a></li>`;
+                    <a href="#dashboardCleanup-owner" class="dashboardCleanup-owner" data-owner="${owner}">${owner}: ${count}</a></li>`;
             }
             html += "";
             $("#ownerlist ul").append(html);
@@ -437,7 +437,7 @@ function fieldsetPainter() {
                 let owner = $(this)[0].dataset['owner'];
                 for(let i=0; i < allDBs.length; i++) {
                     if(allDBs[i].owner == owner){
-                        dbhtml += `<li><a class="dashboardCleanup-db" data-owner="${owner}" data-index="${i}">${allDBs[i].name}</a></li>`
+                        dbhtml += `<li><a href="#dashboardCleanup-db" class="dashboardCleanup-db" data-owner="${owner}" data-index="${i}">${allDBs[i].name}</a></li>`
                     }
                 }
                 $("#dashboardlist ul").append(dbhtml);
