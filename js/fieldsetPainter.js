@@ -428,10 +428,28 @@ function fieldsetPainter() {
             let html = "";
             for(let [owner,count] of owners) {
                 html += `<li><input type="checkbox" data-owner="${owner}">
-                    ${owner}: ${count}</li>`;
+                    <a class="dashboardCleanup-owner" data-owner="${owner}">${owner}: ${count}</a></li>`;
             }
             html += "";
-            $("#dashboardCleanup ul").append(html);
+            $("#ownerlist ul").append(html);
+            $("#ownerlist ul").on("click", "a", function() { 
+                let dbhtml = "";
+                let owner = $(this)[0].dataset['owner'];
+                for(let i=0; i < allDBs.length; i++)
+                    if(allDBs[i].owner == owner){
+                        dbhtml += `<li><a class="dashboardCleanup-db" data-owner="${owner} data-index="${i}">${allDBs[i].name}</a></li>`
+                    }
+                });
+                $("#dashboardlist ul").append(dbhtml);
+            });
+            $("#dashboardlist ul").on("click", "a", function() { 
+                let index = $(this)[0].dataset['index'];
+                let p1 = loadDashboard(allDBs[index].id);
+
+                $.when(p1).done(function(data){
+                    jsonviewer(data,true,allDBs[index].name,"#cleanupjsonviewer");
+                });
+            });
             $("#total").text(total);
             $("#owners").text(owners.size);
         });
