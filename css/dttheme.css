@@ -750,7 +750,7 @@ th {
 }
 
 input#dashboardCleanup {
-  display: none;
+  /*display: none;*/
 }
 
 #compareMZ {

@@ -427,7 +427,8 @@ function fieldsetPainter() {
             //print out the list of owners and counts
             let html = "";
             for(let [owner,count] of owners) {
-                html += "<li>"+owner+": "+count+"</li>";
+                html += `<li><input type="checkbox" data-owner="${owner}">
+                    ${owner}: ${count}</li>`;
             }
             html += "";
             $("#dashboardCleanup ul").append(html);
