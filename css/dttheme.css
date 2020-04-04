@@ -812,6 +812,10 @@ input#dashboardCleanup {
   flex: 0 0 30%;
 }
 
+#ownerlist li {
+  list-style-type: none;
+}
+
 #cleanupjsonviewer {
   flex: 1 1 60%;
 }
