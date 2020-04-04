@@ -431,7 +431,7 @@ function fieldsetPainter() {
                     <a href="#dashboardCleanup-owner" class="dashboardCleanup-owner" data-owner="${owner}">${owner}: ${count}</a></li>`;
             }
             html += "";
-            $("#ownerlist ul").append(html);
+            $("#ownerlist ul").html(html);
             $("#ownerlist ul").on("click", "a", function() { 
                 let owner = $(this)[0].dataset['owner'];
                 let dbhtml = `<h3>${owner}</h3>`;
@@ -440,7 +440,7 @@ function fieldsetPainter() {
                         dbhtml += `<li><a href="#dashboardCleanup-db" class="dashboardCleanup-db" data-owner="${owner}" data-index="${i}">${allDBs[i].name}</a></li>`
                     }
                 }
-                $("#dashboardlist ul").append(dbhtml);
+                $("#dashboardlist ul").html(dbhtml);
             });
             $("#dashboardlist ul").on("click", "a", function() { 
                 let index = $(this)[0].dataset['index'];
