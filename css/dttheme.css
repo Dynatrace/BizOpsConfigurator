@@ -811,3 +811,11 @@ input#dashboardCleanup {
 #ownerlist, #dashboardlist {
   flex: 0 0 30%;
 }
+
+#cleanupjsonviewer {
+  flex: 1 1 60%;
+}
+
+#cleanupjsonviewer pre {
+  white-space: pre-wrap;
+}
