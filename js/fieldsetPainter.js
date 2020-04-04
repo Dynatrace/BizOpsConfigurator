@@ -402,6 +402,7 @@ function fieldsetPainter() {
       break;
     }
     case "dashboardCleanup": {
+        $("#bc-connect").text(tenantID);
         let p1 = getAllDashboards();
 
         $.when(p1).done(function(data) {
