@@ -433,8 +433,8 @@ function fieldsetPainter() {
             html += "";
             $("#ownerlist ul").append(html);
             $("#ownerlist ul").on("click", "a", function() { 
-                let dbhtml = "";
                 let owner = $(this)[0].dataset['owner'];
+                let dbhtml = `<h3>${owner}</h3>`;
                 for(let i=0; i < allDBs.length; i++) {
                     if(allDBs[i].owner == owner){
                         dbhtml += `<li><a href="#dashboardCleanup-db" class="dashboardCleanup-db" data-owner="${owner}" data-index="${i}">${allDBs[i].name}</a></li>`
