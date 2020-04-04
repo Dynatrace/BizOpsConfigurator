@@ -435,11 +435,11 @@ function fieldsetPainter() {
             $("#ownerlist ul").on("click", "a", function() { 
                 let dbhtml = "";
                 let owner = $(this)[0].dataset['owner'];
-                for(let i=0; i < allDBs.length; i++)
+                for(let i=0; i < allDBs.length; i++) {
                     if(allDBs[i].owner == owner){
                         dbhtml += `<li><a class="dashboardCleanup-db" data-owner="${owner} data-index="${i}">${allDBs[i].name}</a></li>`
                     }
-                });
+                }
                 $("#dashboardlist ul").append(dbhtml);
             });
             $("#dashboardlist ul").on("click", "a", function() { 
