@@ -486,6 +486,17 @@ a.newTab img {
   color: #00b9cc;
 }
 
+a.dashboardCleanup-owner, a.dashboardCleanup-owner:visited a.dashboardCleanup-db, a.dashboardCleanup-db:visited{
+  color: #00b9cc;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+a.dashboardCleanup-owner:hover, a.dashboardCleanup-db:hover {
+  text-decoration: underline;
+}
+
 #errorBox {
   display: none;
   flex: 0 0 44px;
