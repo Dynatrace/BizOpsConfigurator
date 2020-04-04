@@ -807,3 +807,7 @@ input#dashboardCleanup {
 #addIpRange {
   width: 30px;
 }
+
+#ownerlist, #dashboardlist {
+  flex: 0 0 30%;
+}
