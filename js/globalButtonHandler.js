@@ -484,19 +484,28 @@ function globalButtonHandler() {
           publishDashboard(id,publish);
         });
       }
-      
+
       $("#viewport").load("html/dashboardCleanup.html",fieldsetPainter); //refresh
       break;
     }
     case "deleteDashboards": {
       let list = []; //get from checkboxes
+      let bizops = false; //for checking if selection contains Configurator dbs
       $("#dashboardlist ul li input[type=checkbox]:checked").each(function(index,element){
         list.push(element.dataset.dbid);
       });
       $("#ownerlist ul li input[type=checkbox]:checked").each(function(index,element){
         list = list.concat(JSON.parse(element.dataset.dbids));
       });
-      if(confirm(`DELETE ${list.length} dashboards?`)){
+
+      list.forEach(function(id){
+        if(id.match(/bbbbbbbb-[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9a-f]{12}/))
+          bizops=true;
+      });
+      if(bizops && confirm("Selection contains Configurator managed dashboards! Deleting here will break links etc! Proceed anyway?"))
+        bizops=false;
+
+      if(!bizops && confirm(`DELETE ${list.length} dashboards?`)){
         list.forEach(function(id){
           if(!id.match(/bbbbbbbb-[0-9]{4}-[0-9]{4}-[0-9]{4}-ffffffffffff/) ||
             confirm(`${id} is a config dashboard for Configurator! DELETE anyway?`)){
