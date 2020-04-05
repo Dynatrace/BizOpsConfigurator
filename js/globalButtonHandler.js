@@ -208,7 +208,7 @@ function globalButtonHandler() {
                 let revs=r1;
                 let deferreds = updateFunnelForecast(selection.config,ov,revs);
 
-                $.when.apply(deferreds).done(function() {
+                $.when.apply($,deferreds).done(function() {
                     button.text(originalText);
                 });
             });
@@ -238,7 +238,7 @@ function globalButtonHandler() {
                 let revs=r1;
                 let deferreds = updateAppForecast(selection.config,ov,revs);
 
-                $.when.apply(deferreds).done(function() {
+                $.when.apply($,deferreds).done(function() {
                     button.text(originalText);
                 });
             });
@@ -460,7 +460,7 @@ function globalButtonHandler() {
       });
       deferreds[0].resolve();
 
-      $.when.apply(deferreds).done(function() {
+      $.when.apply($,deferreds).done(function() {
         download(filename,JSON.stringify(filearray));
       });
       break;
