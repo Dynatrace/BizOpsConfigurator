@@ -468,7 +468,7 @@ function publishDashboard(id,publish=false){
   return $.when(p).done(function(data){
     data.dashboardMetadata.sharingDetails.published=publish;
     if(publish)data.dashboardMetadata.shared=true;
-    
+
     let p1 = uploadDashboard(id,data);
     return p1;
   })
@@ -480,4 +480,9 @@ function uploadDashboard(id,json){
   
   let p1 = dtAPIquery(query,{method:"PUT",data:json});
   return p1;
+}
+
+function deleteDashboard(id){
+  query="/api/config/v1/dashboards/"+id;
+  dtAPIquery(query,{method:"DELETE"});
 }

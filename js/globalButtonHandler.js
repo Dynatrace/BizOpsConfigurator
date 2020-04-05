@@ -479,9 +479,27 @@ function globalButtonHandler() {
       $("#ownerlist ul li input[type=checkbox]:checked").each(function(index,element){
         list = list.concat(JSON.parse(element.dataset.dbids));
       });
-      if(confirm(`Set 'published'=false for ${list.length} dashboards?`)){
+      if(confirm(`Set 'published'=${publish} for ${list.length} dashboards?`)){
         list.forEach(function(id){
           publishDashboard(id,publish);
+        });
+      }
+      break;
+    }
+    case "deleteDashboards": {
+      let list = []; //get from checkboxes
+      $("#dashboardlist ul li input[type=checkbox]:checked").each(function(index,element){
+        list.push(element.dataset.dbid);
+      });
+      $("#ownerlist ul li input[type=checkbox]:checked").each(function(index,element){
+        list = list.concat(JSON.parse(element.dataset.dbids));
+      });
+      if(confirm(`DELETE ${list.length} dashboards?`)){
+        list.forEach(function(id){
+          if(!id.match(/bbbbbbbb-[0-9]{4}-[0-9]{4}-[0-9]{4}-ffffffffffff/) ||
+            confirm(`${id} is a config dashboard for Configurator! DELETE anyway?`)){
+              deleteDashboard(id);
+            }
         });
       }
       break;
