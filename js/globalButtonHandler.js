@@ -474,7 +474,7 @@ function globalButtonHandler() {
         list.push(element.dataset.dbid);
       });
       $("#ownerlist ul li input[type=checkbox]:checked").each(function(index,element){
-        list = filelist.concat(JSON.parse(element.dataset.dbids));
+        list = list.concat(JSON.parse(element.dataset.dbids));
       });
       if(confirm(`Set 'published'=false for ${list.length} dashboards?`)){
         list.forEach(function(id){
