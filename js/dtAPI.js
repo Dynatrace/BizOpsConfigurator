@@ -475,7 +475,7 @@ function unpublishDashboard(id){
 
 function uploadDashboard(id,json){
   if(typeof json == "object") json = JSON.stringify(json);
-  var query = "/api/config/v1/dashboards/" + db.file.id;
+  var query = "/api/config/v1/dashboards/" + id;
   
   let p1 = dtAPIquery(query,{method:"PUT",data:json});
   return p1;
