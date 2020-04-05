@@ -426,23 +426,30 @@ function fieldsetPainter() {
             let total = [...owners].reduce((acc,val) => acc + val[1], 0);
 
             //print out the list of owners and counts
-            let html = "<h3>Dashboard Owners</h3>";
+            let html = "";
             for(let [owner,count] of owners) {
                 html += `<li><input type="checkbox" data-owner="${owner}">
                     <a href="#dashboardCleanup-owner" class="dashboardCleanup-owner" data-owner="${owner}">${owner}: ${count}</a></li>`;
             }
-            html += "";
             $("#ownerlist ul").html(html);
+            $("#total").text(total);
+            $("#owners").text(owners.size);
+            
+            //listener
             $("#ownerlist ul").on("click", "a", function() { 
                 let owner = $(this)[0].dataset['owner'];
-                let dbhtml = `<h3>${owner}</h3>`;
+                $("#ownerlist h3").text(owner);
+                let dbhtml = ``;
                 for(let i=0; i < allDBs.length; i++) {
                     if(allDBs[i].owner == owner){
-                        dbhtml += `<li><a href="#dashboardCleanup-db" class="dashboardCleanup-db" data-owner="${owner}" data-index="${i}">${allDBs[i].name}</a></li>`
+                        dbhtml += `<li><input type="checkbox" data-dbid="${allDBs[i].id}">
+                        <a href="#dashboardCleanup-db" class="dashboardCleanup-db" data-owner="${owner}" data-index="${i}">${allDBs[i].name}</a></li>`
                     }
                 }
                 $("#dashboardlist ul").html(dbhtml);
             });
+
+            //listener
             $("#dashboardlist ul").on("click", "a", function() { 
                 let index = $(this)[0].dataset['index'];
                 let p1 = loadDashboard(allDBs[index].id);
@@ -451,8 +458,7 @@ function fieldsetPainter() {
                     jsonviewer(data,true,allDBs[index].name,"#cleanupjsonviewer");
                 });
             });
-            $("#total").text(total);
-            $("#owners").text(owners.size);
+            
         });
         break;
     }

@@ -12,7 +12,7 @@ function loadInputChangeHandlers(){
     $("#viewport").on("change", "#appOverview", appOverviewChangeHandler);
     $("#viewport").on("change", "#tenantOverview", tenantOverviewChangeHandler);
     $("#viewport").on("change", "#rfc1918", rfc1918ChangeHandler);
-    $("#viewport").on("change", "#dashboardCleanupAll", dashboardCleanupAllChangeHandler);
+    $("#viewport").on("change", ".dashboardCleanupAll", dashboardCleanupAllChangeHandler);
 }
 
 
@@ -375,13 +375,14 @@ function compareAppChangeHandler(e){
 
   function dashboardCleanupAllChangeHandler() {
     let checked = $("#dashboardCleanupAll").prop("checked");
+    let parent = $(this).parent();
 
     if(checked){
-      $("#ownerlist ul li input[type=checkbox]").each(function(i){
+      parent.children("ul li input[type=checkbox]").each(function(i){
         $(this).prop("checked",true);
       });
     } else {
-      $("#ownerlist ul li input[type=checkbox]").each(function(i){
+      parent.children("ul li input[type=checkbox]").each(function(i){
         $(this).prop("checked",false);
       });
     }
