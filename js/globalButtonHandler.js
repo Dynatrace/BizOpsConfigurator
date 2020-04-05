@@ -437,6 +437,34 @@ function globalButtonHandler() {
               ".json";
        download(filename,JSON.stringify( (({config}) => ({config}))(selection)  ));
        break;
+    case "downloadDashboards": {
+      let filelist = []; //get from checkboxes
+      $("#dashboardlist ul li input[type=checkbox]:checked").each(function(index,element){
+        filelist.push(element.dataset.dbid);
+      });
+      $("#ownerlist ul li input[type=checkbox]:checked").each(function(index,element){
+        filelist.concat(element.dataset.dbids);
+      });
+
+      let filename = `dashboards-${filelist.length}-${Date.now()}.json`;
+
+      let filearray = []; //get from XHRs
+      let deferreds = [];
+      deferreds[0] = $.Deferred();
+      filelist.forEach(function(f){
+        let p = loadDashboard(f);
+        deferreds.push(p);
+        $.when(p).done(function(d){
+          filearray.push(d);
+        });
+      });
+      deferreds[0].resolve();
+
+      $.when.apply(deferreds).done(function() {
+        download(filename,JSON.stringify(filearray));
+      });
+      break;
+    }
     case "loadConfig": {
        let file = $("#funnelConfig").prop("files")[0];
            fr = new FileReader();

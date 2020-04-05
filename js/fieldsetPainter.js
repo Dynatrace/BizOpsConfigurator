@@ -411,30 +411,37 @@ function fieldsetPainter() {
             //get owners and number of dashboards
             let owners = new Map();
             for(const x of allDBs) {
-                if(!owners.has(x.owner))
-                    owners.set(x.owner, 1);
-                else
-                    owners.set(x.owner, owners.get(x.owner)+1);
+                if(!owners.has(x.owner)){
+                    let data = {count:1,
+                        dbids:[x.id]}
+                    owners.set(x.owner, data);
+                }
+                else {
+                    let data = owners.get(x.owner);
+                    data.count++;
+                    data.dbids.push(x.id);
+                    owners.set(x.owner, data);
+                }
             } 
 
             //sort
             owners = new Map(Array
                 .from(owners)
-                .sort((a,b) => b[1] - a[1]));
+                .sort((a,b) => b[1].count - a[1].count));
 
             //sum 
-            let total = [...owners].reduce((acc,val) => acc + val[1], 0);
+            let total = [...owners].reduce((acc,val) => acc + val[1].count, 0);
 
             //print out the list of owners and counts
             let html = "";
-            for(let [owner,count] of owners) {
-                html += `<li><input type="checkbox" data-owner="${owner}">
-                    <a href="#dashboardCleanup-owner" class="dashboardCleanup-owner" data-owner="${owner}">${owner}: ${count}</a></li>`;
+            for(let [owner,data] of owners) {
+                html += `<li><input type="checkbox" data-owner="${owner}" data-dbids="${data.dbids}">
+                    <a href="#dashboardCleanup-owner" class="dashboardCleanup-owner" data-owner="${owner}">${owner}: ${data.count}</a></li>`;
             }
             $("#ownerlist ul").html(html);
             $("#total").text(total);
             $("#owners").text(owners.size);
-            
+
             //listener
             $("#ownerlist ul").on("click", "a", function() { 
                 let owner = $(this)[0].dataset['owner'];
