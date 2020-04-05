@@ -484,6 +484,8 @@ function globalButtonHandler() {
           publishDashboard(id,publish);
         });
       }
+      
+      $("#viewport").load("html/dashboardCleanup.html",fieldsetPainter); //refresh
       break;
     }
     case "deleteDashboards": {
@@ -502,6 +504,8 @@ function globalButtonHandler() {
             }
         });
       }
+
+      $("#viewport").load("html/dashboardCleanup.html",fieldsetPainter); //refresh
       break;
     }
     case "loadConfig": {

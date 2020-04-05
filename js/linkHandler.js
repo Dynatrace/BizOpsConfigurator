@@ -45,6 +45,10 @@ function linkHandler(e) {
         selection.config={};
         $("#viewport").load("html/configurator/listTenant.html",fieldsetPainter);
         break;
+      case "bc-dashboardCleanup":
+        selection.config={};
+        $("#viewport").load("html/dashboardCleanup.html",fieldsetPainter);
+        break;
       case "pencil":
         pencilToggle();
         break;
