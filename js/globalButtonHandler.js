@@ -483,9 +483,8 @@ function globalButtonHandler() {
         list.forEach(function(id){
           publishDashboard(id,publish);
         });
+        $("#viewport").load("html/dashboardCleanup.html",fieldsetPainter); //refresh
       }
-
-      $("#viewport").load("html/dashboardCleanup.html",fieldsetPainter); //refresh
       break;
     }
     case "deleteDashboards": {
@@ -502,7 +501,7 @@ function globalButtonHandler() {
         if(id.match(/bbbbbbbb-[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9a-f]{12}/))
           bizops=true;
       });
-      if(bizops && confirm("Selection contains Configurator managed dashboards! Deleting here will break links etc! Proceed anyway?"))
+      if(bizops && confirm("Selection contains Configurator managed dashboards! \nDeleting here will break links etc! \nProceed anyway?"))
         bizops=false;
 
       if(!bizops && confirm(`DELETE ${list.length} dashboards?`)){
@@ -512,9 +511,8 @@ function globalButtonHandler() {
               deleteDashboard(id);
             }
         });
+        $("#viewport").load("html/dashboardCleanup.html",fieldsetPainter); //refresh
       }
-
-      $("#viewport").load("html/dashboardCleanup.html",fieldsetPainter); //refresh
       break;
     }
     case "loadConfig": {
