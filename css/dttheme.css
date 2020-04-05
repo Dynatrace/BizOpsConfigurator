@@ -470,13 +470,13 @@ input[type=file] {
   100% { transform: rotate(360deg); }
 }
 
-a.newTab, a.newTab:visited, a.dashboardCleanup-owner, a.dashboardCleanup-owner:visited a.dashboardCleanup-db, a.dashboardCleanup-db:visited{
+a.newTab, a.newTab:visited {
   color: #00b9cc;
   text-decoration: none;
   cursor: pointer;
 }
 
-a.newTab:hover, a.dashboardCleanup-owner:hover, a.dashboardCleanup-db:hover {
+a.newTab:hover {
   text-decoration: underline;
 }
 
@@ -486,7 +486,7 @@ a.newTab img {
   color: #00b9cc;
 }
 
-a.dashboardCleanup-owner, a.dashboardCleanup-owner:visited a.dashboardCleanup-db, a.dashboardCleanup-db:visited{
+a.dashboardCleanup-owner, a.dashboardCleanup-owner:visited, a.dashboardCleanup-db, a.dashboardCleanup-db:visited{
   color: #00b9cc;
   text-decoration: none;
   cursor: pointer;
@@ -812,7 +812,11 @@ input#dashboardCleanup {
   flex: 0 0 20%;
 }
 
-#ownerlist li {
+#ownerlist ul, #dashboardlist ul {
+  padding-inline-start: 10px;
+}
+
+#ownerlist li, #dashboardlist li {
   list-style-type: none;
 }
 
