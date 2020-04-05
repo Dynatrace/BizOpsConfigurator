@@ -452,10 +452,13 @@ function globalButtonHandler() {
       let deferreds = [];
       deferreds[0] = $.Deferred();
       filelist.forEach(function(f){
-        let p = loadDashboard(f);
-        deferreds.push(p);
-        $.when(p).done(function(d){
+        let p0 = $.Deferred();
+        let p1 = loadDashboard(f);
+        deferreds.push(p0);
+        deferreds.push(p1);
+        $.when(p1).done(function(d){
           filearray.push(d);
+          p0.resolve();
         });
       });
       deferreds[0].resolve();
