@@ -426,7 +426,7 @@ function fieldsetPainter() {
             let total = [...owners].reduce((acc,val) => acc + val[1], 0);
 
             //print out the list of owners and counts
-            let html = "";
+            let html = "<h3>Dashboard Owners</h3>";
             for(let [owner,count] of owners) {
                 html += `<li><input type="checkbox" data-owner="${owner}">
                     <a href="#dashboardCleanup-owner" class="dashboardCleanup-owner" data-owner="${owner}">${owner}: ${count}</a></li>`;

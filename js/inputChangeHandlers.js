@@ -12,6 +12,7 @@ function loadInputChangeHandlers(){
     $("#viewport").on("change", "#appOverview", appOverviewChangeHandler);
     $("#viewport").on("change", "#tenantOverview", tenantOverviewChangeHandler);
     $("#viewport").on("change", "#rfc1918", rfc1918ChangeHandler);
+    $("#viewport").on("change", "#dashboardCleanupAll", dashboardCleanupAllChangeHandler);
 }
 
 
@@ -369,5 +370,19 @@ function compareAppChangeHandler(e){
       if(ipClauses.length>0) ipClause = ` AND (${ipClauses.join(" OR ")})`;
       else ipClause = "";
       $("#ipClause").val(ipClause);
+    }
+  }
+
+  function dashboardCleanupAllChangeHandler() {
+    let checked = $("#dashboardCleanupAll").prop("checked");
+
+    if(checked){
+      $("#ownerlist ul li input[type=checkbox]").each(function(c){
+        c.prop("checked",true);
+      });
+    } else {
+      $("#ownerlist ul li input[type=checkbox]").each(function(c){
+        c.prop("checked",false);
+      });
     }
   }
