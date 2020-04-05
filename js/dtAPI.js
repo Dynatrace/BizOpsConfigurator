@@ -465,14 +465,18 @@ function addParentConfig(config,id) {
 function unpublishDashboard(id){
   let p = loadDashboard(id);
 
-  $.when(p).done(function(data){
+  return $.when(p).done(function(data){
     data.dashboardMetadata.sharingDetails.published=false;
-    return uploadDashboard(id,data);
+    
+    let p1 = uploadDashboard(id,data);
+    return p1;
   })
 }
 
 function uploadDashboard(id,json){
   if(typeof json == "object") json = JSON.stringify(json);
   var query = "/api/config/v1/dashboards/" + db.file.id;
-  return dtAPIquery(query,{method:"PUT",data:json});
+  
+  let p1 = dtAPIquery(query,{method:"PUT",data:json});
+  return p1;
 }
