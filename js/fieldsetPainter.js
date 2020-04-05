@@ -435,7 +435,7 @@ function fieldsetPainter() {
             //print out the list of owners and counts
             let html = "";
             for(let [owner,data] of owners) {
-                html += `<li><input type="checkbox" data-owner="${owner}" data-dbids="${data.dbids}">
+                html += `<li><input type="checkbox" data-owner="${owner}" data-dbids="${JSON.stringify(data.dbids)}">
                     <a href="#dashboardCleanup-owner" class="dashboardCleanup-owner" data-owner="${owner}">${owner}: ${data.count}</a></li>`;
             }
             $("#ownerlist ul").html(html);

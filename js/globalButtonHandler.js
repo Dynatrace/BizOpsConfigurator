@@ -443,7 +443,7 @@ function globalButtonHandler() {
         filelist.push(element.dataset.dbid);
       });
       $("#ownerlist ul li input[type=checkbox]:checked").each(function(index,element){
-        filelist = filelist.concat(element.dataset.dbids);
+        filelist = filelist.concat(JSON.parse(element.dataset.dbids));
       });
 
       let filename = `dashboards-${filelist.length}-${Date.now()}.json`;
