@@ -461,3 +461,18 @@ function addParentConfig(config,id) {
     return config;
   });
 }
+
+function unpublishDashboard(id){
+  let p = loadDashboard(id);
+
+  $.when(p).done(function(data){
+    data.dashboardMetadata.sharingDetails.published=false;
+    uploadDashboard(id,data);
+  })
+}
+
+function uploadDashboard(id,json){
+  if(typeof json == "object") json = JSON.stringify(json);
+  var query = "/api/config/v1/dashboards/" + db.file.id;
+  return dtAPIquery(query,{method:"PUT",data:json});
+}

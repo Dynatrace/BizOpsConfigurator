@@ -468,6 +468,21 @@ function globalButtonHandler() {
       });
       break;
     }
+    case "unpublishDashboards":{
+      let list = []; //get from checkboxes
+      $("#dashboardlist ul li input[type=checkbox]:checked").each(function(index,element){
+        list.push(element.dataset.dbid);
+      });
+      $("#ownerlist ul li input[type=checkbox]:checked").each(function(index,element){
+        list = filelist.concat(JSON.parse(element.dataset.dbids));
+      });
+      if(confirm(`Set 'published'=false for ${list.length} dashboards?`)){
+        list.forEach(function(id){
+          unpublishDashboard(id);
+        });
+      }
+      break;
+    }
     case "loadConfig": {
        let file = $("#funnelConfig").prop("files")[0];
            fr = new FileReader();
