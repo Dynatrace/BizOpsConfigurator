@@ -428,6 +428,8 @@ function fieldsetPainter() {
             owners = new Map(Array
                 .from(owners)
                 .sort((a,b) => b[1].count - a[1].count));
+            allDBs.sort((a,b) => (a.name.toLowerCase() > b.name.toLowerCase()) ? 1 : -1);
+            
 
             //sum 
             let total = [...owners].reduce((acc,val) => acc + val[1].count, 0);
