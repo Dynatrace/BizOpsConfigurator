@@ -374,15 +374,15 @@ function compareAppChangeHandler(e){
   }
 
   function dashboardCleanupAllChangeHandler() {
-    let checked = $("#dashboardCleanupAll").prop("checked");
+    let checked = $(this).prop("checked");
     let parent = $(this).parent();
 
     if(checked){
-      parent.children("ul li input[type=checkbox]").each(function(i){
+      parent.find("ul li input[type=checkbox]").each(function(i){
         $(this).prop("checked",true);
       });
     } else {
-      parent.children("ul li input[type=checkbox]").each(function(i){
+      parent.find("ul li input[type=checkbox]").each(function(i){
         $(this).prop("checked",false);
       });
     }
