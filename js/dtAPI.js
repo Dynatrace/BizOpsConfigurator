@@ -467,7 +467,7 @@ function unpublishDashboard(id){
 
   $.when(p).done(function(data){
     data.dashboardMetadata.sharingDetails.published=false;
-    uploadDashboard(id,data);
+    return uploadDashboard(id,data);
   })
 }
 
