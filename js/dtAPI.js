@@ -462,11 +462,12 @@ function addParentConfig(config,id) {
   });
 }
 
-function unpublishDashboard(id){
+function publishDashboard(id,publish=false){
   let p = loadDashboard(id);
 
   return $.when(p).done(function(data){
-    data.dashboardMetadata.sharingDetails.published=false;
+    data.dashboardMetadata.sharingDetails.published=publish;
+    if(publish)data.dashboardMetadata.shared=true;
     
     let p1 = uploadDashboard(id,data);
     return p1;

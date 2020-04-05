@@ -468,7 +468,10 @@ function globalButtonHandler() {
       });
       break;
     }
+    case "publishDashboards":
+      var publish = true;
     case "unpublishDashboards":{
+      var publish = (typeof publish != "undefined" && publish?true:false);
       let list = []; //get from checkboxes
       $("#dashboardlist ul li input[type=checkbox]:checked").each(function(index,element){
         list.push(element.dataset.dbid);
@@ -478,7 +481,7 @@ function globalButtonHandler() {
       });
       if(confirm(`Set 'published'=false for ${list.length} dashboards?`)){
         list.forEach(function(id){
-          unpublishDashboard(id);
+          publishDashboard(id,publish);
         });
       }
       break;
