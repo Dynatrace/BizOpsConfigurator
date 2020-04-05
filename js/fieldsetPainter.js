@@ -447,7 +447,7 @@ function fieldsetPainter() {
             //listener
             $("#ownerlist ul").on("click", "a", function() { 
                 let owner = $(this)[0].dataset['owner'];
-                $("#ownerlist h3").text(owner);
+                $("#dashboardlist h3").text(owner);
                 let dbhtml = ``;
                 for(let i=0; i < allDBs.length; i++) {
                     if(allDBs[i].owner == owner){
