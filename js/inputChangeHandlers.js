@@ -377,12 +377,12 @@ function compareAppChangeHandler(e){
     let checked = $("#dashboardCleanupAll").prop("checked");
 
     if(checked){
-      $("#ownerlist ul li input[type=checkbox]").each(function(c){
-        c.prop("checked",true);
+      $("#ownerlist ul li input[type=checkbox]").each(function(i){
+        $(this).prop("checked",true);
       });
     } else {
-      $("#ownerlist ul li input[type=checkbox]").each(function(c){
-        c.prop("checked",false);
+      $("#ownerlist ul li input[type=checkbox]").each(function(i){
+        $(this).prop("checked",false);
       });
     }
   }
