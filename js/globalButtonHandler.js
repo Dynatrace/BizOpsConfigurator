@@ -669,7 +669,7 @@ function globalButtonHandler() {
         
         let lower = $("#ipLowerBound").val();
         let upper = $("#ipUpperBound").val();
-        ipClauses.push(`ip BETWEEN \\"${lower}\\" AND \\"${upper}\\"`);
+        ipClauses.push(`usersession.ip BETWEEN \\"${lower}\\" AND \\"${upper}\\"`);
         if(ipClauses.length>0) ipClause = ` AND (${ipClauses.join(" OR ")})`;
         else ipClause = "";
         $("#ipClause").val(ipClause);
