@@ -273,7 +273,7 @@ function uploadAppOverview(config) {
   config.oldAOid=dashboardAO["id"];
   dashboardAO["id"]=id;
   dashboardAO["dashboardMetadata"]["owner"]=owner;
-  dashboardAO["dashboardMetadata"]["name"]=dashboardAO["dashboardMetadata"]["name"].replace(/MyApp/g,config.AOname+" App");
+  dashboardAO["dashboardMetadata"]["name"]=dashboardAO["dashboardMetadata"]["name"].replace(/MyApp/g,config.AOname+"");
   dashboardAO["dashboardMetadata"]["shared"]="true";
   dashboardAO["dashboardMetadata"]["sharingDetails"]["linkShared"]="true";
   dashboardAO["dashboardMetadata"]["sharingDetails"]["published"]="false";
