@@ -656,7 +656,7 @@ function globalButtonHandler() {
         $("#viewport").load("html/dashboardCleanup.html",fieldsetPainter);
         break;
     }
-    case "compareIpRange":{
+    case "compareaddIpRange":{
         let ipClause = $("#compareipClause").val();
         let ipClauses = [];
         try{
