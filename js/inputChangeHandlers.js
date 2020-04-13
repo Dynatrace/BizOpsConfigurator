@@ -343,7 +343,7 @@ function compareAppChangeHandler(e){
   }
   
   function rfc1918ChangeHandler() {
-    let ipClauseObj = $(this).parent("div").child(".ipClause");
+    let ipClauseObj = $(this).parent("div").find(".ipClause");
     let ipClause = ipClauseObj.val();
     let ipClauses = [];
     try{
