@@ -339,7 +339,8 @@ function compareAppChangeHandler(e){
   }
   
   function rfc1918ChangeHandler() {
-    let ipClause = $("#ipClause").val();
+    let ipClauseObj = $(this).parent("div").child(".ipClause");
+    let ipClause = ipClauseObj.val();
     let ipClauses = [];
     try{
         ipClause = ipClause.match(/\((.*)\)/)[1];
@@ -349,7 +350,7 @@ function compareAppChangeHandler(e){
         ipClauses = [];
     }
 
-    if($("#rfc1918").prop("checked")){
+    if($(this).prop("checked")){
       if(!ipClause.includes("10.0.0.0"))
         ipClauses.push(`usersession.ip BETWEEN \\"10.0.0.0\\" AND \\"10.255.255.255\\"`);
       if(!ipClause.includes("172.16.0.0"))
@@ -358,7 +359,7 @@ function compareAppChangeHandler(e){
         ipClauses.push(`usersession.ip BETWEEN \\"192.168.0.0\\" AND \\"192.168.255.255\\"`);
       if(ipClauses.length>0) ipClause = ` AND (${ipClauses.join(" OR ")})`;
       else ipClause = "";
-      $("#ipClause").val(ipClause);
+      ipClauseObj.val(ipClause);
     } else {
       let i = 0;
       i = ipClauses.indexOf(`usersession.ip BETWEEN \\"10.0.0.0\\" AND \\"10.255.255.255\\"`);
@@ -369,7 +370,7 @@ function compareAppChangeHandler(e){
       if(i>-1) ipClauses.splice(i,1);
       if(ipClauses.length>0) ipClause = ` AND (${ipClauses.join(" OR ")})`;
       else ipClause = "";
-      $("#ipClause").val(ipClause);
+      ipClauseObj.val(ipClause);
     }
   }
 
