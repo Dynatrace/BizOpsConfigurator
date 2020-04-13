@@ -309,7 +309,7 @@ function compareAppChangeHandler(e){
       case "REApplicationOverview.json": 
       case "REApplicationOverview2.json": {
         $("#remoteEmployeeInputs").show();
-        $("#remoteEmployeeCompare").hide();
+        $("#remoteEmployeeCompare").show();
         break;
       }
       default:
