@@ -321,6 +321,7 @@ function compareAppChangeHandler(e){
     var TO = $("#tenantOverview").val();
   
     $("#remoteEmployeeInputs").hide();
+    $("#remoteEmployeeCompare").hide();
   
     switch(TO) {
     case "RETenantOverview.json": 
@@ -328,6 +329,7 @@ function compareAppChangeHandler(e){
     case "RETenantOverview3.json": 
     {
       $("#remoteEmployeeInputs").show();
+      $("#remoteEmployeeCompare").show();
         break;
     }
     case "00000000-dddd-bbbb-ffff-000000000001":
