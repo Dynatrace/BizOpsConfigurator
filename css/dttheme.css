@@ -796,15 +796,15 @@ input#dashboardCleanup {
   min-width: 60%;
 }
 
-#remoteEmployeeInputs {
+#remoteEmployeeInputs, #remoteEmployeeCompare {
   display: none;
 }
 
-#ipClause {
+#ipClause, #compareipClause {
   width: 95%;
 }
 
-#addIpRange {
+#addIpRange, #compareaddIpRange {
   width: 30px;
 }
 
