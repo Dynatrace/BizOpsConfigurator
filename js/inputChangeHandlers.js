@@ -11,7 +11,7 @@ function loadInputChangeHandlers(){
     $("#viewport").on("change", "#xapp", xappChangeHandler);
     $("#viewport").on("change", "#appOverview", appOverviewChangeHandler);
     $("#viewport").on("change", "#tenantOverview", tenantOverviewChangeHandler);
-    $("#viewport").on("change", "#rfc1918", rfc1918ChangeHandler);
+    $("#viewport").on("change", "#rfc1918, #comparerfc1918", rfc1918ChangeHandler);
     $("#viewport").on("change", ".dashboardCleanupAll", dashboardCleanupAllChangeHandler);
 }
 
