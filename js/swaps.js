@@ -221,7 +221,7 @@ function doSwaps(db,swaps) {
     swaps.forEach(function(swap) {
       dbS = dbS.replace(new RegExp(swap.from,"g"), swap.to);
     });
-    return dbS;
+    return dbS; //always return db as a string
 }
 
 function doEncodedMarkdownTileSwaps(t,swaps) {
@@ -264,8 +264,9 @@ function transformSubs(subs,dbid,swaps,config) {
   });
 
   for(let i=0; i<subs.length; i++) {
-    let s = JSON.stringify(subs[i].file);
-    subs[i].file = JSON.parse(doSwaps(s,swaps));
+    //let s = JSON.stringify(subs[i].file);
+    //subs[i].file = JSON.parse(doSwaps(s,swaps));
+    subs[i].file = JSON.parse(doSwaps(subs[i].file,swaps));
   }
 
   return swaps; //give back the swap list to transform the main db

@@ -222,13 +222,14 @@ function uploadTenantOverview(config) {
   dashboardTO["dashboardMetadata"]["sharingDetails"]["published"]="true";
 
   var query="/api/config/v1/dashboards/"+id;
-  var data=JSON.stringify(dashboardTO);
+  //var data=JSON.stringify(dashboardTO);
 
   //sub-dashboards
   let subs = getStaticSubDBs(dashboardTO,[config.oldTOid]);
   let swaps = generateTenantSwapList(config);
   swaps = transformSubs(subs,config.TOid,swaps,config);
-  data = doSwaps(data, swaps);
+  //data = doSwaps(data, swaps);
+  var data = doSwaps(dashboardTO,swaps);
   data = validateDB(data);
   
   //upload
@@ -284,13 +285,14 @@ function uploadAppOverview(config) {
   if("costControlUserSessionPercentage" in config) addCostControlTile(dashboardAO,config);
   addReplaceButton(dashboardAO,config.TOid,"![BackButton]()","⇦",findTopRight);
   var query="/api/config/v1/dashboards/"+id;
-  var data2=JSON.stringify(dashboardAO);
+  //var data2=JSON.stringify(dashboardAO);
   //string based transforms
   let swaps = generateAppSwapList(config); 
   //sub-dashboards
   let subs = getStaticSubDBs(dashboardAO,[config.oldTOid,config.oldAOid]);
   swaps = transformSubs(subs,config.AOid,swaps,config);
-  data2 = doSwaps(data2, swaps);
+  //data2 = doSwaps(data2, swaps);
+  var data2 = doSwaps(dashboardAO,swaps);
   
   //validate
   data2 = validateDB(data2);
@@ -352,7 +354,7 @@ function uploadFunnel(config) {
     whereClauseSwaps(dashboardFO,config);  
 
     var query="/api/config/v1/dashboards/"+config.FOid;
-    var data2=JSON.stringify(dashboardFO);
+    //var data2=JSON.stringify(dashboardFO);
     //string based transforms
       //sub-dashboards
       let subs = getStaticSubDBs(dashboardFO,[config.oldTOid,config.oldAOid,config.oldFOid]);
@@ -360,7 +362,8 @@ function uploadFunnel(config) {
       subs.forEach(function(db) {let sub=db.file; whereClauseSwaps(sub,config);});  
       var swaps=generateFunnelSwapList(config);
       swaps = transformSubs(subs,config.FOid,swaps,config);
-      data2 = doSwaps(data2, swaps);
+      //data2 = doSwaps(data2, swaps);
+      var data2 = doSwaps(dashboardFO,swaps);
      
       //validate
       data2 = validateDB(data2);
