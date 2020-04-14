@@ -805,6 +805,7 @@ th {
 
 #addIpRange, #compareaddIpRange {
   width: 30px;
+  min-width: 30px;
 }
 
 #ownerlist, #dashboardlist {
