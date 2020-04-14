@@ -24,13 +24,15 @@ var repoList = [
     {'owner':'LucasHocker','repo':'CitrixDashboards','path':''},
     {'owner':'LucasHocker','repo':'SAP-Analytics-1','path':''},
     {'owner':'Dynatrace-Dave-Mauney','repo':'DashboardTemplates','path':'v1.188.75'},
-    {'owner':'TechShady','repo':'Dynatrace-Remote-Employee','path':''}
+    {'owner':'TechShady','repo':'Dynatrace-Remote-Employee','path':''},
+    {'owner':'TechShady','repo':'Dynatrace-Infrastructure','path':''}
     ];
 var tenantOverviews = [
     {'name':'BizOps', 'filename':'TenantOverview.json'},
     {'name':'Dashboard Basics', 'filename':'00000000-dddd-bbbb-ffff-000000000001'},
-    {'name':'Remote Employee Web (preview)', 'filename':'RETenantOverview.json'},
-    {'name':'Remote Employee Mobile (preview)', 'filename':'RETenantOverview2.json'}
+    {'name':'Infrastructure', 'filename':'InfrastructureOverview.json'},
+    {'name':'Remote Employee Web', 'filename':'RETenantOverview.json'},
+    {'name':'Remote Employee Mobile', 'filename':'RETenantOverview2.json'}
     ];
 var appOverviews = [
     {'name':'WebApp', 'filename':'AppOverview.json'},
