@@ -322,6 +322,10 @@ function globalButtonHandler() {
         selection.config.appOverviewName= $("#appOverview option:selected").text();
         selection.config.ipClause = $("#ipClause").val();
         selection.config.rfc1918 = $("#rfc1918").prop("checked");
+        selection.config.compareipClause = $("#compareipClause").val();
+        selection.config.comparerfc1918 = $("#comparerfc1918").prop("checked");
+        selection.config.ipName = $("#ipName").val();
+        selection.config.ipCompareName = $("#ipCompareName").val();
 
         if(typeof $("#mz").val() != "undefined") {
           selection.config.mz=$("#mz").val();
@@ -359,6 +363,10 @@ function globalButtonHandler() {
         selection.config.tenantOverviewName = $("#tenantOverview option:selected").text();
         selection.config.ipClause = $("#ipClause").val();
         selection.config.rfc1918 = $("#rfc1918").prop("checked");
+        selection.config.compareipClause = $("#compareipClause").val();
+        selection.config.comparerfc1918 = $("#comparerfc1918").prop("checked");
+        selection.config.ipName = $("#ipName").val();
+        selection.config.ipCompareName = $("#ipCompareName").val();
 
         let p1 = uploadTenantOverview(selection.config);  
 

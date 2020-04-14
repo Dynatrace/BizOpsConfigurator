@@ -3,18 +3,16 @@ function generateTenantSwapList(config) {
     {from:config.oldTOid, to:config.TOid},
     {from:"TEMPLATE:", to:config.TOname},
     {from:'MyTenant', to:config.TOname},
-    {from:'ipClause', to:config.ipClause}
+    {from:'ipClause', to:config.ipClause},
+    {from:'ipCompareClause', to:config.compareipClause},
+    {from:'ipName', to:config.ipName},
+    {from:'ipCompareName', to:config.ipCompareName}
   ];
 
   return swaps;
 }
 
 function generateAppSwapList(config) {
-  /*let ipClause = "";
-  if("ipUpperBound" in config && "ipLowerBound" in config)
-    if(config.ipUpperBound.length>0 && config.ipLowerBound.length>0)
-      ipClause = 'AND ip BETWEEN \\"'+config.ipLowerBound+'\\" AND \\"'+config.ipUpperBound+'\\"';*/
-    
   let swaps = [
     {from:config.oldTOid, to:config.TOid},
     {from:config.oldAOid, to:config.AOid},
@@ -31,6 +29,9 @@ function generateAppSwapList(config) {
     {from:'-MyTimeh', to:config.MyTime},
     {from:'Last MyTime Hours', to:config.MyTime},
     {from:'ipClause', to:config.ipClause},
+    {from:'ipCompareClause', to:config.compareipClause},
+    {from:'ipName', to:config.ipName},
+    {from:'ipCompareName', to:config.ipCompareName},
     {from:'MZid', to:config.mz},
     {from:'MZname', to:config.mzname}
     ];
@@ -166,6 +167,7 @@ function whereClauseSwaps(dbData,config) {
 	    }
 	}
       } else if(t.tileType=="MARKDOWN" && t.markdown.includes("sessionquery")) { //handle URL Encoded queries
+        //TODO: refactor ugly mess with doEncodedMarkdownTileSwaps
 	let query = t.markdown.match(/sessionquery=([^&]*)&?/)[1];
 	query = decodeURIComponent(query);
 	//let whereSteps = config.whereClause.split("AND");
@@ -204,11 +206,40 @@ function whereClauseSwaps(dbData,config) {
   //}
 }
 
-function doSwaps(dbS,swaps) {
+function doSwaps(db,swaps) {
+  var dbS = "";
+    if(typeof db == "string"){ //already a string, great do the swaps
+      dbS=db;
+    } else if(typeof db == "object"){ //handles url encoded tiles, then stringify, replace again
+        db.tiles.foreEach(function(t){
+          if(t.tileType=="MARKDOWN"){
+            doEncodedMarkdownTileSwaps(t,swaps);
+          }
+        });
+        dbS = JSON.stringify(db);
+    }
     swaps.forEach(function(swap) {
-        dbS = dbS.replace(new RegExp(swap.from,"g"), swap.to);
+      dbS = dbS.replace(new RegExp(swap.from,"g"), swap.to);
     });
     return dbS;
+}
+
+function doEncodedMarkdownTileSwaps(t,swaps) {
+  if(t.tileType=="MARKDOWN"){
+    let match = t.markdown.match(/sessionquery=([^&]*)&?/);
+    if(match){
+      let query = match[1];
+      query = decodeURIComponent(query);
+
+      swaps.forEach(function(swap) {
+        query = query.replace(new RegExp(swap.from,"g"), swap.to);
+      });
+
+      query = encodeURIComponent(query);
+      t.markdown = t.markdown.replace(/sessionquery=[^&]*&/, "sessionquery="+query+"&");
+    }
+  }
+  return; //t passed by ref
 }
 
 function transformSubs(subs,dbid,swaps,config) {
@@ -241,16 +272,7 @@ function transformSubs(subs,dbid,swaps,config) {
 }
 
 function whereSplit(where) {
-// rely on Steps seperated by "AND", inside step use "and"
-/*    let steps = [];
-    let matches = {};
-    
-    matches = where.matchAll(/\([^)]*\)/g);
-    for(let i of matches) {
-        steps.push(i);
-    }
-*/
-    
+// rely on Steps seperated by "AND", inside step use "and"    
     return where.split(' AND ');
 }
 
