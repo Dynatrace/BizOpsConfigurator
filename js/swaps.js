@@ -211,7 +211,7 @@ function doSwaps(db,swaps) {
     if(typeof db == "string"){ //already a string, great do the swaps
       dbS=db;
     } else if(typeof db == "object"){ //handles url encoded tiles, then stringify, replace again
-        db.tiles.foreEach(function(t){
+        db.tiles.forEach(function(t){
           if(t.tileType=="MARKDOWN"){
             doEncodedMarkdownTileSwaps(t,swaps);
           }
