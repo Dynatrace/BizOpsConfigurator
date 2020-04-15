@@ -280,7 +280,7 @@ function compareAppChangeHandler(e){
       $("#compareApp").hide();
       $("#compareTime").hide();
       $("#remoteEmployeeInputs").hide();
-      $("#remoteEmployeeCompare").hide();
+      $(".remoteEmployeeCompare").hide();
   
       switch(AO) {
       case "AppOverview.json": {
@@ -309,7 +309,7 @@ function compareAppChangeHandler(e){
       case "REApplicationOverview.json": 
       case "REApplicationOverview2.json": {
         $("#remoteEmployeeInputs").show();
-        $("#remoteEmployeeCompare").show();
+        $(".remoteEmployeeCompare").show();
         break;
       }
       default:
@@ -321,7 +321,7 @@ function compareAppChangeHandler(e){
     var TO = $("#tenantOverview").val();
   
     $("#remoteEmployeeInputs").hide();
-    $("#remoteEmployeeCompare").hide();
+    $(".remoteEmployeeCompare").hide();
   
     switch(TO) {
     case "RETenantOverview.json": 
@@ -329,7 +329,7 @@ function compareAppChangeHandler(e){
     case "RETenantOverview3.json": 
     {
       $("#remoteEmployeeInputs").show();
-      $("#remoteEmployeeCompare").show();
+      $(".remoteEmployeeCompare").show();
         break;
     }
     case "00000000-dddd-bbbb-ffff-000000000001":
