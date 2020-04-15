@@ -795,15 +795,15 @@ th {
   min-width: 60%;
 }
 
-#remoteEmployeeInputs, #remoteEmployeeCompare {
+#remoteEmployeeInputs, .remoteEmployeeCompare {
   display: none;
 }
 
-#ipClause, #compareipClause {
+#ipClause, #compareipClause, #compareipClause2 {
   width: 95%;
 }
 
-#addIpRange, #compareaddIpRange {
+#addIpRange, #compareaddIpRange, #compareaddIpRange2 {
   width: 30px;
   min-width: 30px;
 }

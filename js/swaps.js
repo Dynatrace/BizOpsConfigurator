@@ -3,10 +3,12 @@ function generateTenantSwapList(config) {
     {from:config.oldTOid, to:config.TOid},
     {from:"TEMPLATE:", to:config.TOname},
     {from:'MyTenant', to:config.TOname},
-    {from:'ipClause', to:config.ipClause},
-    {from:'ipCompareClause', to:config.compareipClause},
     {from:'ipName', to:config.ipName},
-    {from:'ipCompareName', to:config.ipCompareName}
+    {from:'ipClause', to:config.ipClause},
+    {from:'ipCompare1Clause', to:config.compareipClause},
+    {from:'ipCompare1Name', to:config.ipCompareName},
+    {from:'ipCompare2Clause', to:config.compareipClause2},
+    {from:'ipCompare2Name', to:config.ipCompareName2}
   ];
 
   return swaps;
@@ -28,10 +30,12 @@ function generateAppSwapList(config) {
     {from:'Previous MyTime Hours', to:config.compareTime},
     {from:'-MyTimeh', to:config.MyTime},
     {from:'Last MyTime Hours', to:config.MyTime},
-    {from:'ipClause', to:config.ipClause},
-    {from:'ipCompareClause', to:config.compareipClause},
     {from:'ipName', to:config.ipName},
-    {from:'ipCompareName', to:config.ipCompareName},
+    {from:'ipClause', to:config.ipClause},
+    {from:'ipCompare1Clause', to:config.compareipClause},
+    {from:'ipCompare1Name', to:config.ipCompareName},
+    {from:'ipCompare2Clause', to:config.compareipClause2},
+    {from:'ipCompare2Name', to:config.ipCompareName2},
     {from:'MZid', to:config.mz},
     {from:'MZname', to:config.mzname}
     ];

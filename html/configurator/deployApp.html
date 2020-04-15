@@ -56,7 +56,9 @@
       <br>
       <input id="ipClause" class="ipClause">
     </div>
-    <div id="remoteEmployeeCompare">
+  </div>
+  <div class="flexcontainer">
+    <div class="remoteEmployeeCompare">
       <h3>Comparison Segment</h3>
       Segment Name: <input id="ipCompareName" placeholder="Friendly Name"><br>
       RFC1918: <input type="checkbox" id="comparerfc1918"><br>
@@ -67,7 +69,17 @@
       <br>
       <input id="compareipClause" class="ipClause">
     </div>
-  </div>
+    <div class="remoteEmployeeCompare">
+      <h3>Comparison Segment</h3>
+      Segment Name: <input id="ipCompareName2" placeholder="Friendly Name"><br>
+      RFC1918: <input type="checkbox" id="comparerfc19182"><br>
+      IP Address Lower Bound: <input id="compareipLowerBound2" placeholder="10.0.0.0">
+      Upper Bound: <input id="compareipUpperBound2" placeholder="10.255.255.255">
+      <input type="button" id="compareaddIpRange2" value="+">
+      <br>
+      <br>
+      <input id="compareipClause2" class="ipClause">
+    </div>
   <input type="button" id="uploadApp" value="Upload">
 </fieldset>
 
