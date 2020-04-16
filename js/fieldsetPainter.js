@@ -100,10 +100,13 @@ function fieldsetPainter() {
                 if("MyCompareApp" in selection.config)$("#MyCompareApp").val(selection.config.MyCompareApp);
                 if("rfc1918" in selection.config && selection.config.rfc1918)$("#rfc1918").prop("checked","checked");
                 if("ipClause" in selection.config) $("#ipClause").val(selection.config.ipClause);
+                if("ipName" in selection.config) $("#ipName").val(selection.config.ipName);
                 if("comparerfc1918" in selection.config && selection.config.comparerfc1918)$("#comparerfc1918").prop("checked","checked");
                 if("compareipClause" in selection.config) $("#compareipClause").val(selection.config.compareipClause);
-                if("ipName" in selection.config) $("#ipName").val(selection.config.ipName);
                 if("ipCompareName" in selection.config) $("#ipCompareName").val(selection.config.ipCompareName);
+                if("comparerfc19182" in selection.config && selection.config.comparerfc19182)$("#comparerfc19182").prop("checked","checked");
+                if("compareipClause2" in selection.config) $("#compareipClause2").val(selection.config.compareipClause2);
+                if("ipCompareName2" in selection.config) $("#ipCompareName2").val(selection.config.ipCompareName2);
                 appOverviewChangeHandler();
 	        });
 	   });
