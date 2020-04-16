@@ -134,7 +134,11 @@ function linkHandler(e) {
           $("#revealToken").addClass("revealed");
           $("#token").prop('type','text');
         }
+        b
+      case "HUreport": {
+        $("#viewport").load("html/miscTools/HUreport.html",HUreportChangeHandler);
         break;
+      }
       default:
         alert("Unknown Link: " + id);
       }
