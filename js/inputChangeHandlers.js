@@ -406,7 +406,7 @@ function compareAppChangeHandler(e){
       $("#HU-infoblock").val("Please enter a URL and Token first");
     } else {
       switch(report){
-        case "Total":
+        case "Total":{
           $("#HUreport h3").val("HostUnit Totals");
           let html = "<table>";
           html += `<tr><td>Total HU:</td><td></td></tr>`;
@@ -415,7 +415,8 @@ function compareAppChangeHandler(e){
           html += `<tr><td>Delta:</td><td></td></tr>`;
           html += "</table>"
           break;
-        case "HostGroup":
+        }
+        case "HostGroup":{
           $("#HUreport h3").val("HostUnits per HostGroup");
           let data = [
             {hostgroup:"HG-a",today:10,lastweek:9},
@@ -429,7 +430,8 @@ function compareAppChangeHandler(e){
           });
           html += "</table>"
           break;
-        case "ManagementZone":
+        }
+        case "ManagementZone":{
           $("#HUreport h3").val("HostUnit per MZ");
           $("span.infoblock").val("Note: hosts can and are usually in more than one MZ");
           let data = [
@@ -444,6 +446,7 @@ function compareAppChangeHandler(e){
           });
           html += "</table>"
           break;
+        }
       }
     } 
   }
