@@ -1,3 +1,71 @@
+function loadStaticHandlers() {
+  $("a#prerequisites").click(function() {
+     $("#viewport").load("html/prerequisites-1.html");
+     staticCleanup();
+  });
+
+  $("a#begin").click(function() {
+     $("#viewport").load("html/configurator/connect.html",fieldsetPainter);
+  });
+
+  $("a#overview").click(function() {
+     $("#viewport").load("html/overview.html");
+     staticCleanup();
+  });
+
+  $("a#home").click(function() {
+     $("#viewport").load("html/home.html");
+     staticCleanup();
+  });
+
+  $("a#logo").click(function() {
+     $("#viewport").load("html/home.html");
+     staticCleanup();
+  });
+
+  $("a#funneltest").click(function() {
+     $("#viewport").load("html/funnel-v2.html");
+     staticCleanup();
+  });
+
+  $("#v5test").click(v5handler);
+
+  $("#githubtest").click(function() {
+    testRepo(0);      
+     staticCleanup();
+  });
+
+  $("#faq").click(function() {
+     $("#viewport").load("html/faq.html");
+     staticCleanup();
+  });
+  $("#arrow").click(function() {
+        $("#lhs").hide();
+        $("#hamburger").css('display', 'inline-flex');
+  });
+  $("#hamburger").click(function() {
+        $("#lhs").show();
+        $("#hamburger").hide();
+  });
+  $("#gear").click(function() {
+        $("#repo_config").load("html/repo_config.html",fieldsetPainter);
+        $("#repo_config").show();
+  });
+  $("#dbbutton").click(function() {
+        $("#dashboard_list").load("html/dashboard_list.html",fieldsetPainter);
+        $("#dashboard_list").show();
+  });
+  $("#miscTools").click(function(){
+    $("#viewport").load("html/miscTools/toolsList.html");
+    staticCleanup();
+  });
+}
+
+function staticCleanup() {
+    $("#bcwrapper").hide();
+    $("#errorbox").hide();
+}
+
 function linkHandler(e) {
     if ($(this)[0].nodeName == 'A') {
       let a = $(this)[0];

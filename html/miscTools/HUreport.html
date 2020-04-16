@@ -1,0 +1,26 @@
+<fieldset id="HUreport">
+    <legend>HostUnit Report</legend>
+    <div id="HU-Connect">
+        <table>
+            <tr><td>Tenant URL:</td><td><input class="api" id="url" autocomplete="url" placeholder="https://<tenant>.live.dynatrace.com"></td></tr>
+            <tr>
+              <td>API Token:</td>
+              <td><input type="password" class="api" id="token" autocomplete="token" placeholder="abcd123">
+                <a href="#revealToken" id="revealToken"><img class="open" src="images/eye-open.svg"><img class="close" src="images/eye-close.svg"></a>
+              </td></tr>
+          </table>
+    </div>
+    View by: <select id="HU-report">
+        <option>Total</option>
+        <option>HostGroup</option>
+        <option>ManagementZone</option>
+    </select>
+    <h3></h3>
+    <span id="HU-infobox"></span>
+    <div id="HU-total"></div>
+    <div id="HU-HostGroup"></div>
+    <div id="HU-MZ">
+        <h3>HostUnits per ManagementZone</h3>
+        <i>Note: hosts can are usually in more than one MZ</i><br>
+    </div>
+</fieldset>

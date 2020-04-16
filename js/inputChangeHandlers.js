@@ -13,6 +13,7 @@ function loadInputChangeHandlers(){
     $("#viewport").on("change", "#tenantOverview", tenantOverviewChangeHandler);
     $("#viewport").on("change", ".rfc1918", rfc1918ChangeHandler);
     $("#viewport").on("change", ".dashboardCleanupAll", dashboardCleanupAllChangeHandler);
+    $("#viewport").on("change", "#HU-report", HUreportChangeHandler);
 }
 
 
@@ -391,4 +392,58 @@ function compareAppChangeHandler(e){
         $(this).prop("checked",false);
       });
     }
+  }
+
+  function HUreportChangeHandler() {
+    let report = $("#HU-report").val();
+    let urlObj = $("#url");
+    let tokenObj = $("#token");
+    
+    if(urlObj.val()=="" && url!==""){urlObj.val(url);}
+    if(tokenObj.val()=="" && token!==""){tokenObj.val(token);}
+
+    if(urlObj.val()=="" || tokenObj.val()==""){
+      $("#HU-infoblock").val("Please enter a URL and Token first");
+    } else {
+      switch(report){
+        case "Total":
+          $("#HUreport h3").val("HostUnit Totals");
+          let html = "<table>";
+          html += `<tr><td>Total HU:</td><td></td></tr>`;
+          html += `<tr><td>New HU this week:</td><td></td></tr>`;
+          html += `<tr><td>HU removed this week:</td><td></td></tr>`;
+          html += `<tr><td>Delta:</td><td></td></tr>`;
+          html += "</table>"
+          break;
+        case "HostGroup":
+          $("#HUreport h3").val("HostUnits per HostGroup");
+          let data = [
+            {hostgroup:"HG-a",today:10,lastweek:9},
+            {hostgroup:"HG-b",today:49,lastweek:41},
+            {hostgroup:"HG-c",today:3,lastweek:0}
+          ]
+          let html = "<table>";
+          html += `<tr><th>HostGroup</th><th>HU Today</th><th>HU -1w</th></tr>`;
+          data.forEach(function(hg){
+            html += `<tr><td>${hg.hostgroup}</td><td>${hg.today}</td><td>${hg.lastweek}</td></tr>`
+          });
+          html += "</table>"
+          break;
+        case "ManagementZone":
+          $("#HUreport h3").val("HostUnit per MZ");
+          $("span.infoblock").val("Note: hosts can and are usually in more than one MZ");
+          let data = [
+            {mz:"MZ-a",today:10,lastweek:9},
+            {mz:"MZ-b",today:49,lastweek:41},
+            {mz:"MZ-c",today:3,lastweek:0}
+          ]
+          let html = "<table>";
+          html += `<tr><th>MZ</th><th>HU Today</th><th>HU -1w</th></tr>`;
+          data.forEach(function(mz){
+            html += `<tr><td>${mz.hostgroup}</td><td>${mz.today}</td><td>${mz.lastweek}</td></tr>`
+          });
+          html += "</table>"
+          break;
+      }
+    } 
   }
