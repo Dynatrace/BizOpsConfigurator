@@ -409,6 +409,7 @@ function compareAppChangeHandler(e){
       $("#HU-HostGroup").html("");
       $("#HU-MZ").html("");
       $("#HUreport h3").text("");
+      $("#HU-infobox").text("");
 
       switch(report){
         case "Total":{
@@ -440,7 +441,7 @@ function compareAppChangeHandler(e){
         }
         case "ManagementZone":{
           $("#HUreport h3").text("HostUnit per MZ");
-          $("span.infoblock").val("Note: hosts can and are usually in more than one MZ");
+          $("#HU-infobox").text("Note: hosts can and are usually in more than one MZ");
           let data = [
             {mz:"MZ-a",today:10,lastweek:9},
             {mz:"MZ-b",today:49,lastweek:41},
