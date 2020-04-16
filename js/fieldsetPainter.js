@@ -104,6 +104,7 @@ function fieldsetPainter() {
                 if("compareipClause" in selection.config) $("#compareipClause").val(selection.config.compareipClause);
                 if("ipName" in selection.config) $("#ipName").val(selection.config.ipName);
                 if("ipCompareName" in selection.config) $("#ipCompareName").val(selection.config.ipCompareName);
+                appOverviewChangeHandler();
 	        });
 	   });
         $("#applist").on("change",function(){ //autofill with app name
@@ -312,7 +313,10 @@ function fieldsetPainter() {
         tenantOverviews.forEach(function(ov) {
             $("#tenantOverview").append("<option value='"+ov.filename+"'>"+ov.name+"</option>");
         });
-        if("tenantOverview" in selection.config) $("#tenantOverview").val(selection.config.tenantOverview);
+        if("tenantOverview" in selection.config){
+            $("#tenantOverview").val(selection.config.tenantOverview);
+            tenantOverviewChangeHandler();
+        } 
 	   break;
 	case "listApp": {
 	   let p_DBA = getAllDashboards();
