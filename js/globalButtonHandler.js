@@ -670,27 +670,8 @@ function globalButtonHandler() {
         $("#viewport").load("html/dashboardCleanup.html",fieldsetPainter);
         break;
     }
-    case "compareaddIpRange":{
-        let ipClause = $("#compareipClause").val();
-        let ipClauses = [];
-        try{
-            ipClause = ipClause.match(/\((.*)\)/)[1];
-            ipClauses = ipClause.split(" OR ");
-        } catch(e) {
-            ipClause = "";
-            ipClauses = [];
-        }
-        
-        let lower = $("#compareipLowerBound").val();
-        let upper = $("#compareipUpperBound").val();
-        ipClauses.push(`usersession.ip BETWEEN \\"${lower}\\" AND \\"${upper}\\"`);
-        if(ipClauses.length>0) ipClause = ` AND (${ipClauses.join(" OR ")})`;
-        else ipClause = "";
-        $("#compareipClause").val(ipClause);
-        $("#compareipLowerBound").val("");
-        $("#compareipUpperBound").val("");
-        break;
-    }
+    case "compareaddIpRange":
+    case "compareaddIpRange2":
     case "addIpRange": {
         let divObj = $(this).parent("div");
         let ipClauseObj = divObj.find(".ipClause");
