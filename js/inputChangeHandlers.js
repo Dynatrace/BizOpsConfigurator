@@ -405,6 +405,11 @@ function compareAppChangeHandler(e){
     if(urlObj.val()=="" || tokenObj.val()==""){
       $("#HU-infoblock").val("Please enter a URL and Token first");
     } else {
+      $("#HU-total").html("");
+      $("#HU-HostGroup").html("");
+      $("#HUreport h3").val("");
+      $("#HU-MZ").html("");
+
       switch(report){
         case "Total":{
           $("#HUreport h3").val("HostUnit Totals");
@@ -413,7 +418,8 @@ function compareAppChangeHandler(e){
           html += `<tr><td>New HU this week:</td><td></td></tr>`;
           html += `<tr><td>HU removed this week:</td><td></td></tr>`;
           html += `<tr><td>Delta:</td><td></td></tr>`;
-          html += "</table>"
+          html += "</table>";
+          $("#HU-total").html(html);
           break;
         }
         case "HostGroup":{
@@ -428,7 +434,8 @@ function compareAppChangeHandler(e){
           data.forEach(function(hg){
             html += `<tr><td>${hg.hostgroup}</td><td>${hg.today}</td><td>${hg.lastweek}</td></tr>`
           });
-          html += "</table>"
+          html += "</table>";
+          $("#HU-HostGroup").html(html);
           break;
         }
         case "ManagementZone":{
@@ -444,7 +451,8 @@ function compareAppChangeHandler(e){
           data.forEach(function(mz){
             html += `<tr><td>${mz.hostgroup}</td><td>${mz.today}</td><td>${mz.lastweek}</td></tr>`
           });
-          html += "</table>"
+          html += "</table>";
+          $("#HU-MZ").html(html);
           break;
         }
       }
