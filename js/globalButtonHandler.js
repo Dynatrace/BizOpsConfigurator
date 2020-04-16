@@ -697,9 +697,8 @@ function globalButtonHandler() {
         let lowerObj = divObj.find(".ipLowerBound");
         let upperObj = divObj.find(".ipUpperBound");
         let ipClause = ipClauseObj.val();
-
-        let ipClause = $("#ipClause").val();
         let ipClauses = [];
+
         try{
             ipClause = ipClause.match(/\((.*)\)/)[1];
             ipClauses = ipClause.split(" OR ");
@@ -708,14 +707,14 @@ function globalButtonHandler() {
             ipClauses = [];
         }
         
-        let lower = $("#ipLowerBound").val();
-        let upper = $("#ipUpperBound").val();
+        let lower = lowerOjb.val();
+        let upper = upperOjb.val();
         ipClauses.push(`usersession.ip BETWEEN \\"${lower}\\" AND \\"${upper}\\"`);
         if(ipClauses.length>0) ipClause = ` AND (${ipClauses.join(" OR ")})`;
         else ipClause = "";
-        $("#ipClause").val(ipClause);
-        $("#ipLowerBound").val("");
-        $("#ipUpperBound").val("");
+        ipClauseObj.val(ipClause);
+        lowerObj.val("");
+        upperObj.val("");
         break;
     }
     case "":
