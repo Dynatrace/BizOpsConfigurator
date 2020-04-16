@@ -407,23 +407,23 @@ function compareAppChangeHandler(e){
     } else {
       $("#HU-total").html("");
       $("#HU-HostGroup").html("");
-      $("#HUreport h3").val("");
       $("#HU-MZ").html("");
+      $("#HUreport h3").text("");
 
       switch(report){
         case "Total":{
-          $("#HUreport h3").val("HostUnit Totals");
+          $("#HUreport h3").text("HostUnit Totals");
           let html = "<table>";
-          html += `<tr><td>Total HU:</td><td></td></tr>`;
-          html += `<tr><td>New HU this week:</td><td></td></tr>`;
-          html += `<tr><td>HU removed this week:</td><td></td></tr>`;
-          html += `<tr><td>Delta:</td><td></td></tr>`;
+          html += `<tr><td>Total HU:</td><td>1000</td></tr>`;
+          html += `<tr><td>New HU this week:</td><td>10</td></tr>`;
+          html += `<tr><td>HU removed this week:</td><td>5</td></tr>`;
+          html += `<tr><td>Delta:</td><td>+5</td></tr>`;
           html += "</table>";
           $("#HU-total").html(html);
           break;
         }
         case "HostGroup":{
-          $("#HUreport h3").val("HostUnits per HostGroup");
+          $("#HUreport h3").text("HostUnits per HostGroup");
           let data = [
             {hostgroup:"HG-a",today:10,lastweek:9},
             {hostgroup:"HG-b",today:49,lastweek:41},
@@ -439,7 +439,7 @@ function compareAppChangeHandler(e){
           break;
         }
         case "ManagementZone":{
-          $("#HUreport h3").val("HostUnit per MZ");
+          $("#HUreport h3").text("HostUnit per MZ");
           $("span.infoblock").val("Note: hosts can and are usually in more than one MZ");
           let data = [
             {mz:"MZ-a",today:10,lastweek:9},
@@ -449,7 +449,7 @@ function compareAppChangeHandler(e){
           let html = "<table>";
           html += `<tr><th>MZ</th><th>HU Today</th><th>HU -1w</th></tr>`;
           data.forEach(function(mz){
-            html += `<tr><td>${mz.hostgroup}</td><td>${mz.today}</td><td>${mz.lastweek}</td></tr>`
+            html += `<tr><td>${mz.mz}</td><td>${mz.today}</td><td>${mz.lastweek}</td></tr>`
           });
           html += "</table>";
           $("#HU-MZ").html(html);
