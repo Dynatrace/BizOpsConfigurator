@@ -692,6 +692,12 @@ function globalButtonHandler() {
         break;
     }
     case "addIpRange": {
+        let divObj = $(this).parent("div");
+        let ipClauseObj = divObj.find(".ipClause");
+        let lowerObj = divObj.find(".ipLowerBound");
+        let upperObj = divObj.find(".ipUpperBound");
+        let ipClause = ipClauseObj.val();
+
         let ipClause = $("#ipClause").val();
         let ipClauses = [];
         try{
