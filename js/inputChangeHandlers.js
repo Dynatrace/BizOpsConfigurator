@@ -403,9 +403,11 @@ function compareAppChangeHandler(e){
     if(tokenObj.val()=="" && token!==""){tokenObj.val(token);}
 
     if(urlObj.val()=="" || tokenObj.val()==""){
-      $("#HU-infoblock").text("Please enter a URL and Token first");
+      $("#HU-infobox").text("Please enter a URL and Token first");
     } else {
       url=urlObj.val();
+      if(url.length>1 && url.charAt(url.length-1)=="/")
+        url = url.substring(0,url.length-1);
       token=tokenObj.val();
       let p = getHosts();
 
