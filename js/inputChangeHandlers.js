@@ -403,59 +403,74 @@ function compareAppChangeHandler(e){
     if(tokenObj.val()=="" && token!==""){tokenObj.val(token);}
 
     if(urlObj.val()=="" || tokenObj.val()==""){
-      $("#HU-infoblock").val("Please enter a URL and Token first");
+      $("#HU-infoblock").text("Please enter a URL and Token first");
     } else {
-      $("#HU-total").html("");
-      $("#HU-HostGroup").html("");
-      $("#HU-MZ").html("");
-      $("#HUreport h3").text("");
-      $("#HU-infobox").text("");
+      url=urlObj.val();
+      token=tokenObj.val();
+      let p = getHosts();
 
-      switch(report){
-        case "Total":{
-          $("#HUreport h3").text("HostUnit Totals");
-          let html = "<table>";
-          html += `<tr><td>Total HU:</td><td>1000</td></tr>`;
-          html += `<tr><td>New HU this week:</td><td>10</td></tr>`;
-          html += `<tr><td>HU removed this week:</td><td>5</td></tr>`;
-          html += `<tr><td>Delta:</td><td>+5</td></tr>`;
-          html += "</table>";
-          $("#HU-total").html(html);
-          break;
+      $.when(p).done(function(data){
+        $("#HU-total").html("");
+        $("#HU-HostGroup").html("");
+        $("#HU-MZ").html("");
+        $("#HUreport h3").text("");
+        $("#HU-infobox").text("");
+
+        switch(report){
+          case "Total":{
+            let total=data
+              .filter(h => h.lastSeenTimestamp > Date.now()-(1000*60*60)) //seen last hour
+              .reduce((a,cv) => a + cv.consumedHostUnits,0);
+            let addedThisWeek=data
+              .filter(h => h.firstSeenTimestamp > Date.now()-(1000*60*60*24*7))
+              .reduce((a,cv) => a + cv.consumedHostUnits,0);
+            let removedLast72=data
+              .filter(h => h.lastSeenTimestamp < Date.now()-(1000*60*60)) //not seen last hour
+              .reduce((a,cv) => a + cv.consumedHostUnits,0);
+            
+            $("#HUreport h3").text("HostUnit Totals");
+            let html = "<table>";
+            html += `<tr><td>Total HU:</td><td>${total}</td></tr>`;
+            html += `<tr><td>New HU this week:</td><td>${addedThisWeek}</td></tr>`;
+            html += `<tr><td>HU removed last 72h:</td><td>${removedLast72}</td></tr>`;
+            html += "</table>";
+            $("#HU-total").html(html);
+            break;
+          }
+          case "HostGroup":{
+            $("#HUreport h3").text("HostUnits per HostGroup");
+            let data = [
+              {hostgroup:"HG-a",today:10,lastweek:9},
+              {hostgroup:"HG-b",today:49,lastweek:41},
+              {hostgroup:"HG-c",today:3,lastweek:0}
+            ]
+            let html = "<table>";
+            html += `<tr><th>HostGroup</th><th>HU Today</th><th>HU -1w</th></tr>`;
+            data.forEach(function(hg){
+              html += `<tr><td>${hg.hostgroup}</td><td>${hg.today}</td><td>${hg.lastweek}</td></tr>`
+            });
+            html += "</table>";
+            $("#HU-HostGroup").html(html);
+            break;
+          }
+          case "ManagementZone":{
+            $("#HUreport h3").text("HostUnit per MZ");
+            $("#HU-infobox").text("Note: hosts can and are usually in more than one MZ");
+            let data = [
+              {mz:"MZ-a",today:10,lastweek:9},
+              {mz:"MZ-b",today:49,lastweek:41},
+              {mz:"MZ-c",today:3,lastweek:0}
+            ]
+            let html = "<table>";
+            html += `<tr><th>MZ</th><th>HU Today</th><th>HU -1w</th></tr>`;
+            data.forEach(function(mz){
+              html += `<tr><td>${mz.mz}</td><td>${mz.today}</td><td>${mz.lastweek}</td></tr>`
+            });
+            html += "</table>";
+            $("#HU-MZ").html(html);
+            break;
+          }
         }
-        case "HostGroup":{
-          $("#HUreport h3").text("HostUnits per HostGroup");
-          let data = [
-            {hostgroup:"HG-a",today:10,lastweek:9},
-            {hostgroup:"HG-b",today:49,lastweek:41},
-            {hostgroup:"HG-c",today:3,lastweek:0}
-          ]
-          let html = "<table>";
-          html += `<tr><th>HostGroup</th><th>HU Today</th><th>HU -1w</th></tr>`;
-          data.forEach(function(hg){
-            html += `<tr><td>${hg.hostgroup}</td><td>${hg.today}</td><td>${hg.lastweek}</td></tr>`
-          });
-          html += "</table>";
-          $("#HU-HostGroup").html(html);
-          break;
-        }
-        case "ManagementZone":{
-          $("#HUreport h3").text("HostUnit per MZ");
-          $("#HU-infobox").text("Note: hosts can and are usually in more than one MZ");
-          let data = [
-            {mz:"MZ-a",today:10,lastweek:9},
-            {mz:"MZ-b",today:49,lastweek:41},
-            {mz:"MZ-c",today:3,lastweek:0}
-          ]
-          let html = "<table>";
-          html += `<tr><th>MZ</th><th>HU Today</th><th>HU -1w</th></tr>`;
-          data.forEach(function(mz){
-            html += `<tr><td>${mz.mz}</td><td>${mz.today}</td><td>${mz.lastweek}</td></tr>`
-          });
-          html += "</table>";
-          $("#HU-MZ").html(html);
-          break;
-        }
-      }
+      });
     } 
   }
