@@ -118,7 +118,7 @@ function getKeyActions(appname,all=false) {
 }
 
 function getHosts() {
-  var query="/api/v1/entity/infrastructure/hosts?includeDetails=true";
+  var query="/api/v1/entity/infrastructure/hosts?includeDetails=false";
   return dtAPIquery(query,{});
 }
 
