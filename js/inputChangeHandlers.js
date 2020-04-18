@@ -447,7 +447,7 @@ function compareAppChangeHandler(e){
             $("#HUreport h3").text("HostUnits per HostGroup");
             let hostgroups = new Map();
             data.forEach(function(h){
-              let hg="<blank>";
+              let hg="&lt;blank&gt;";
               if("hostGroup" in h)hg=h.hostGroup.name;
               console.log(`first:${h.firstSeenTimestamp},last:${h.lastSeenTimestamp},lasthour:${h.lastSeenTimestamp - (Date.now()-(1000*60*60))},new:${h.firstSeenTimestamp - (Date.now()-(1000*60*60*24*7))},removed:${(Date.now()-(1000*60*60))-h.lastSeenTimestamp}`);
               if(hostgroups.has(hg)){
