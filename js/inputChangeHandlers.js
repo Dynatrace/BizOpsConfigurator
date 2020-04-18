@@ -459,7 +459,7 @@ function compareAppChangeHandler(e){
                   hu.removedLast72HU = hu.removedLast72HU + h.consumedHostUnits;
                 map.set(hg, hu);
               } else {
-                let hu = {todayHU:0,removedLast72HU};
+                let hu = {todayHU:0,newThisWeekHU:0,removedLast72HU:0};
                 if(h.lastSeenTimestamp > Date.now-(1000*60*60))//last hour
                   hu.todayHU = h.consumedHostUnits;
                 if(h.firstSeenTimestamp > Date.now()-(1000*60*60*24*7))
