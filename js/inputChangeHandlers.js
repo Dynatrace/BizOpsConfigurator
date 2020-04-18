@@ -411,46 +411,70 @@ function compareAppChangeHandler(e){
       token=tokenObj.val();
       let p = getHosts();
 
+      $("#HU-total").html("");
+      $("#HU-HostGroup").html("");
+      $("#HU-MZ").html("");
+      $("#HUreport h3").text("");
+      $("#HU-infobox").text("");
+
       $.when(p).done(function(data){
-        $("#HU-total").html("");
-        $("#HU-HostGroup").html("");
-        $("#HU-MZ").html("");
-        $("#HUreport h3").text("");
-        $("#HU-infobox").text("");
+        let today = data
+          .filter(h => h.lastSeenTimestamp > Date.now()-(1000*60*60)); //seen last hour
+        let newThisWeek = data
+          .filter(h => h.firstSeenTimestamp > Date.now()-(1000*60*60*24*7));
+        let removedLast72 = data
+          .filter(h => h.lastSeenTimestamp < Date.now()-(1000*60*60)) //not seen last hour
 
         switch(report){
           case "Total":{
-            let total=data
-              .filter(h => h.lastSeenTimestamp > Date.now()-(1000*60*60)) //seen last hour
+            let todayHU=today
               .reduce((a,cv) => a + cv.consumedHostUnits,0);
-            let addedThisWeek=data
-              .filter(h => h.firstSeenTimestamp > Date.now()-(1000*60*60*24*7))
+            let newThisWeekHU=newThisWeek
               .reduce((a,cv) => a + cv.consumedHostUnits,0);
-            let removedLast72=data
-              .filter(h => h.lastSeenTimestamp < Date.now()-(1000*60*60)) //not seen last hour
+            let removedLast72HU=removedLast72
               .reduce((a,cv) => a + cv.consumedHostUnits,0);
             
             $("#HUreport h3").text("HostUnit Totals");
             let html = "<table>";
-            html += `<tr><td>Total HU:</td><td>${total}</td></tr>`;
-            html += `<tr><td>New HU this week:</td><td>${addedThisWeek}</td></tr>`;
-            html += `<tr><td>HU removed last 72h:</td><td>${removedLast72}</td></tr>`;
+            html += `<tr><td>Total HU:</td><td>${todayHU}</td></tr>`;
+            html += `<tr><td>New HU this week:</td><td>${newThisWeekHU}</td></tr>`;
+            html += `<tr><td>HU removed last 72h:</td><td>${removedLast72HU}</td></tr>`;
             html += "</table>";
             $("#HU-total").html(html);
             break;
           }
           case "HostGroup":{
             $("#HUreport h3").text("HostUnits per HostGroup");
-            let data = [
-              {hostgroup:"HG-a",today:10,lastweek:9},
-              {hostgroup:"HG-b",today:49,lastweek:41},
-              {hostgroup:"HG-c",today:3,lastweek:0}
-            ]
-            let html = "<table>";
-            html += `<tr><th>HostGroup</th><th>HU Today</th><th>HU -1w</th></tr>`;
-            data.forEach(function(hg){
-              html += `<tr><td>${hg.hostgroup}</td><td>${hg.today}</td><td>${hg.lastweek}</td></tr>`
+            let hostgroups = new Map();
+            data.forEach(function(h){
+              let hg="";
+              if("HostGroup" in h)hg=h.HostGroup;
+              if(hostgroups.has(hg)){
+                let hu = map.get(hg);
+                if(h.lastSeenTimestamp > Date.now-(1000*60*60))//last hour
+                  hu.todayHU = hu.todayHU + h.consumedHostUnits;
+                if(h.firstSeenTimestamp > Date.now()-(1000*60*60*24*7))
+                  hu.newThisWeekHU = hu.newThisWeekHU + h.consumedHostUnits;
+                if(h.lastSeenTimestamp < Date.now()-(1000*60*60))//not seen last hour
+                  hu.removedLast72HU = hu.removedLast72HU + h.consumedHostUnits;
+                map.set(hg, hu);
+              } else {
+                let hu = {todayHU:0,removedLast72HU};
+                if(h.lastSeenTimestamp > Date.now-(1000*60*60))//last hour
+                  hu.todayHU = h.consumedHostUnits;
+                if(h.firstSeenTimestamp > Date.now()-(1000*60*60*24*7))
+                  hu.newThisWeekHU = h.consumedHostUnits;
+                if(h.lastSeenTimestamp < Date.now()-(1000*60*60))//not seen last hour
+                  hu.removedLast72HU = h.consumedHostUnits;
+                map.set(hg,hu);
+              }
             });
+            
+            let html = "<table>";
+            html += `<tr><th>HostGroup</th><th>HU Today</th><th>New This Week</th><th>Removed Last 72hr</th></tr>`;
+            for(let [k,v] in hostgroups){
+              html += `<tr><td>${k}</td><td>${v.todayHU}</td><td>${v.newThisWeekHU}</td><td>${v.removedLast72HU}</td></tr>`
+            }
             html += "</table>";
             $("#HU-HostGroup").html(html);
             break;
