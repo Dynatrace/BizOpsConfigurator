@@ -471,6 +471,10 @@ function compareAppChangeHandler(e){
               }
             });
             
+            hostgroups[Symbol.iterator] = function* () {
+              yield* [...this.entries()].sort((a, b) => a[1].todayHU - b[1].todayHU);
+            }
+
             let html = "<table>";
             html += `<tr><th>HostGroup</th><th>HU Today</th><th>New This Week</th><th>Removed Last 72hr</th></tr>`;
             for(let [k,v] of hostgroups) {
