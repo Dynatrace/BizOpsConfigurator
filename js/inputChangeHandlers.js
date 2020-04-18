@@ -473,7 +473,7 @@ function compareAppChangeHandler(e){
             
             let html = "<table>";
             html += `<tr><th>HostGroup</th><th>HU Today</th><th>New This Week</th><th>Removed Last 72hr</th></tr>`;
-            for(let [k,v] in hostgroups){
+            for(let [k,v] of hostgroups){
               html += `<tr><td>${k}</td><td>${v.todayHU}</td><td>${v.newThisWeekHU}</td><td>${v.removedLast72HU}</td></tr>`
             }
             html += "</table>";
