@@ -452,20 +452,20 @@ function compareAppChangeHandler(e){
               console.log(`first:${h.firstSeenTimestamp},last:${h.lastSeenTimestamp},lasthour:${h.lastSeenTimestamp - (Date.now()-(1000*60*60))},new:${h.firstSeenTimestamp - (Date.now()-(1000*60*60*24*7))},removed:${(Date.now()-(1000*60*60))-h.lastSeenTimestamp}`);
               if(hostgroups.has(hg)){
                 let hu = hostgroups.get(hg);
-                if(h.lastSeenTimestamp > Date.now()-(1000*60*60))//last hour
+                if(h.lastSeenTimestamp > (Date.now()-(1000*60*60)))//last hour
                   hu.todayHU = hu.todayHU + h.consumedHostUnits;
-                if(h.firstSeenTimestamp > Date.now()-(1000*60*60*24*7))
+                if(h.firstSeenTimestamp > (Date.now()-(1000*60*60*24*7)))
                   hu.newThisWeekHU = hu.newThisWeekHU + h.consumedHostUnits;
-                if(h.lastSeenTimestamp < Date.now()-(1000*60*60))//not seen last hour
+                if(h.lastSeenTimestamp < (Date.now()-(1000*60*60)))//not seen last hour
                   hu.removedLast72HU = hu.removedLast72HU + h.consumedHostUnits;
                 hostgroups.set(hg, hu);
               } else {
                 let hu = {todayHU:0,newThisWeekHU:0,removedLast72HU:0};
-                if(h.lastSeenTimestamp > Date.now()-(1000*60*60))//last hour
+                if(h.lastSeenTimestamp > (Date.now()-(1000*60*60)))//last hour
                   hu.todayHU = h.consumedHostUnits;
-                if(h.firstSeenTimestamp > Date.now()-(1000*60*60*24*7))
+                if(h.firstSeenTimestamp > (Date.now()-(1000*60*60*24*7)))
                   hu.newThisWeekHU = h.consumedHostUnits;
-                if(h.lastSeenTimestamp < Date.now()-(1000*60*60))//not seen last hour
+                if(h.lastSeenTimestamp < (Date.now()-(1000*60*60)))//not seen last hour
                   hu.removedLast72HU = h.consumedHostUnits;
                 hostgroups.set(hg,hu);
               }
