@@ -449,7 +449,7 @@ function compareAppChangeHandler(e){
             data.forEach(function(h){
               let hg="";
               if("HostGroup" in h)hg=h.hostGroup.name;
-              console.log(`first:${h.firstSeenTimestamp},last:${h.lastSeenTimestamp},lasthour:${Date.now()-(1000*60*60)},new:${Date.now()-(1000*60*60*24*7)},removed:${Date.now()-(1000*60*60)}`);
+              console.log(`first:${h.firstSeenTimestamp},last:${h.lastSeenTimestamp},lasthour:${h.firstSeenTimestamp - (Date.now()-(1000*60*60))},new:${h.firstSeenTimestamp - (Date.now()-(1000*60*60*24*7))},removed:${(Date.now()-(1000*60*60))-h.lastSeenTimestamp}`);
               if(hostgroups.has(hg)){
                 let hu = hostgroups.get(hg);
                 if(h.lastSeenTimestamp > Date.now()-(1000*60*60))//last hour
