@@ -472,15 +472,20 @@ function compareAppChangeHandler(e){
             });
             
             hostgroups[Symbol.iterator] = function* () {
-              yield* [...this.entries()].sort((a, b) => a[1].todayHU - b[1].todayHU);
+              yield* [...this.entries()].sort((a, b) => b[1].todayHU - a[1].todayHU);
             }
 
             let html = "<table>";
             html += `<tr><th>HostGroup</th><th>HU Today</th><th>New This Week</th><th>Removed Last 72hr</th></tr>`;
             for(let [k,v] of hostgroups) {
-              html += `<tr><td>${k}</td><td>${v.todayHU}</td><td>${v.newThisWeekHU}</td><td>${v.removedLast72HU}</td></tr>`
+              html += `<tr><td>${k}</td><td>${v.todayHU}</td><td>${v.newThisWeekHU}</td><td>${v.removedLast72HU}</td></tr>`;
             }
+            let todayHUTotal = hostgroups.reduce((a,cv) => a + cv.todayHU,0);
+            let newThisWeekHUTotal = hostgroups.reduce((a,cv) => a + cv.newThisWeekHU,0);
+            let removedLast72HUTotal = hostgroups.reduce((a,cv) => a + cv.removedLast72HU,0);
+            html += `<tr><th></th><th>${todayHUTotal}</th><th>${newThisWeekHUTotal}</th><th>${removedLast72HUTotal}</th></tr>`;
             html += "</table>";
+            
             $("#HU-HostGroup").html(html);
             break;
           }
