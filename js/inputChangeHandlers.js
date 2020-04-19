@@ -436,9 +436,9 @@ function compareAppChangeHandler(e){
             
             $("#HUreport h3").text("HostUnit Totals");
             let html = "<table class='dataTable'>";
-            html += `<tr><td>Total HU:</td><td>${todayHU}</td></tr>`;
-            html += `<tr><td>New HU this week:</td><td>${newThisWeekHU}</td></tr>`;
-            html += `<tr><td>HU removed last 72h:</td><td>${removedLast72HU}</td></tr>`;
+            html += `<tr><td>Total HU:</td><td>${todayHU.toFixed(2)}</td></tr>`;
+            html += `<tr><td>New HU this week:</td><td>${newThisWeekHU.toFixed(2)}</td></tr>`;
+            html += `<tr><td>HU removed last 72h:</td><td>${removedLast72HU.toFixed(2)}</td></tr>`;
             html += "</table>";
             $("#HU-total").html(html);
             break;
@@ -483,13 +483,13 @@ function compareAppChangeHandler(e){
             let html = "<table class='dataTable'>";
             html += `<thead><tr><td>HostGroup</td><td>HU Today</td><td>New This Week</td><td>Removed Last 72hr</td></tr></thead><tbody>`;
             for(let [k,v] of hostgroups) {
-              html += `<tr><td>${k}</td><td>${v.todayHU}</td><td>${v.newThisWeekHU}</td><td>${v.removedLast72HU}</td></tr>`;
+              html += `<tr><td>${k}</td><td>${v.todayHU.toFixed(2)}</td><td>${v.newThisWeekHU.toFixed(2)}</td><td>${v.removedLast72HU.toFixed(2)}</td></tr>`;
               todayHUTotal += v.todayHU;
               newThisWeekHUTotal += v.newThisWeekHU;
               removedLast72HUTotal += v.removedLast72HU;
             }
             
-            html += `</tbody><tfoot><tr><td>Total:</td><td>${todayHUTotal}</td><td>${newThisWeekHUTotal}</td><td>${removedLast72HUTotal}</td></tr></tfoot>`;
+            html += `</tbody><tfoot><tr><td>Total:</td><td>${todayHUTotal.toFixed(2)}</td><td>${newThisWeekHUTotal.toFixed(2)}</td><td>${removedLast72HUTotal.toFixed(2)}</td></tr></tfoot>`;
             html += "</table>";
 
             $("#HU-HostGroup").html(html);
@@ -498,16 +498,51 @@ function compareAppChangeHandler(e){
           case "ManagementZone":{
             $("#HUreport h3").text("HostUnit per MZ");
             $("#HU-infobox").text("Note: hosts can and are usually in more than one MZ");
-            let data = [
-              {mz:"MZ-a",today:10,lastweek:9},
-              {mz:"MZ-b",today:49,lastweek:41},
-              {mz:"MZ-c",today:3,lastweek:0}
-            ]
-            let html = "<table class='dataTable'>";
-            html += `<tr><th>MZ</th><th>HU Today</th><th>HU -1w</th></tr>`;
-            data.forEach(function(mz){
-              html += `<tr><td>${mz.mz}</td><td>${mz.today}</td><td>${mz.lastweek}</td></tr>`
+            
+            let mzs = new Map();
+            data.forEach(function(h){
+              if("managementZones" in h) h.managementZones.forEach(function(mz){
+                if(mzs.has(mz.name)){
+                  let hu = mzs.get(mz.name);
+                  if(h.lastSeenTimestamp > (Date.now()-(1000*60*60)))//last hour
+                    hu.todayHU = hu.todayHU + h.consumedHostUnits;
+                  if(h.firstSeenTimestamp > (Date.now()-(1000*60*60*24*7)))
+                    hu.newThisWeekHU = hu.newThisWeekHU + h.consumedHostUnits;
+                  if(h.lastSeenTimestamp < (Date.now()-(1000*60*60)))//not seen last hour
+                    hu.removedLast72HU = hu.removedLast72HU + h.consumedHostUnits;
+                  mzs.set(mz.name, hu);
+                }else{
+                  let hu = {todayHU:0,newThisWeekHU:0,removedLast72HU:0};
+                  if(h.lastSeenTimestamp > (Date.now()-(1000*60*60)))//last hour
+                    hu.todayHU = h.consumedHostUnits;
+                  if(h.firstSeenTimestamp > (Date.now()-(1000*60*60*24*7)))
+                    hu.newThisWeekHU = h.consumedHostUnits;
+                  if(h.lastSeenTimestamp < (Date.now()-(1000*60*60)))//not seen last hour
+                    hu.removedLast72HU = h.consumedHostUnits;
+                  mzs.set(mz.name,hu);
+                }
+              });
             });
+
+            //sort descending
+            mzs[Symbol.iterator] = function* () {
+              yield* [...this.entries()].sort((a, b) => b[1].todayHU - a[1].todayHU);
+            }
+
+            let todayHUTotal = 0;
+            let newThisWeekHUTotal = 0;
+            let removedLast72HUTotal = 0;
+
+            let html = "<table class='dataTable'>";
+            html += `<thead><tr><td>ManagementZones</td><td>HU Today</td><td>New This Week</td><td>Removed Last 72hr</td></tr></thead><tbody>`;
+            for(let [k,v] of mzs) {
+              html += `<tr><td>${k}</td><td>${v.todayHU.toFixed(2)}</td><td>${v.newThisWeekHU.toFixed(2)}</td><td>${v.removedLast72HU.toFixed(2)}</td></tr>`;
+              todayHUTotal += v.todayHU;
+              newThisWeekHUTotal += v.newThisWeekHU;
+              removedLast72HUTotal += v.removedLast72HU;
+            }
+            
+            html += `</tbody><tfoot><tr><td>Total:</td><td>${todayHUTotal.toFixed(2)}</td><td>${newThisWeekHUTotal.toFixed(2)}</td><td>${removedLast72HUTotal.toFixed(2)}</td></tr></tfoot>`;
             html += "</table>";
             $("#HU-MZ").html(html);
             break;
