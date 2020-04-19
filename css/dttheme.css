@@ -843,7 +843,7 @@ table.dataTable td{
   text-align: right;
 }
 
-table.dataTable td:nth-child(n){
+table.dataTable td:nth-child(1){
   text-align: left;
 }
 
@@ -852,6 +852,10 @@ table.dataTable tr:nth-child(even) {
   /*border: 1px solid #f8f8f8;*/
 }
 
-table.dataTable thead tr {
+table.dataTable thead td {
   border-bottom: 1px solid #e6e6e6;
+}
+
+table.dataTable tfoot td {
+  border-top: 1px solid #e6e6e6;
 }
