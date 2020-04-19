@@ -435,7 +435,7 @@ function compareAppChangeHandler(e){
               .reduce((a,cv) => a + cv.consumedHostUnits,0);
             
             $("#HUreport h3").text("HostUnit Totals");
-            let html = "<table>";
+            let html = "<table class='dataTable'>";
             html += `<tr><td>Total HU:</td><td>${todayHU}</td></tr>`;
             html += `<tr><td>New HU this week:</td><td>${newThisWeekHU}</td></tr>`;
             html += `<tr><td>HU removed last 72h:</td><td>${removedLast72HU}</td></tr>`;
@@ -480,7 +480,7 @@ function compareAppChangeHandler(e){
             let newThisWeekHUTotal = 0;
             let removedLast72HUTotal = 0;
 
-            let html = "<table>";
+            let html = "<table class='dataTable'>";
             html += `<thead><tr><td>HostGroup</td><td>HU Today</td><td>New This Week</td><td>Removed Last 72hr</td></tr></thead><tbody>`;
             for(let [k,v] of hostgroups) {
               html += `<tr><td>${k}</td><td>${v.todayHU}</td><td>${v.newThisWeekHU}</td><td>${v.removedLast72HU}</td></tr>`;
@@ -503,7 +503,7 @@ function compareAppChangeHandler(e){
               {mz:"MZ-b",today:49,lastweek:41},
               {mz:"MZ-c",today:3,lastweek:0}
             ]
-            let html = "<table>";
+            let html = "<table class='dataTable'>";
             html += `<tr><th>MZ</th><th>HU Today</th><th>HU -1w</th></tr>`;
             data.forEach(function(mz){
               html += `<tr><td>${mz.mz}</td><td>${mz.today}</td><td>${mz.lastweek}</td></tr>`

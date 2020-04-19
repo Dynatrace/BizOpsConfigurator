@@ -849,9 +849,9 @@ table.dataTable td:nth-child(n){
 
 table.dataTable tr:nth-child(even) {
   background-color: #f8f8f8;
-  border: 1px solid #f8f8f8;
+  /*border: 1px solid #f8f8f8;*/
 }
 
-table.dataTable thead {
+table.dataTable thead tr {
   border-bottom: 1px solid #e6e6e6;
 }
