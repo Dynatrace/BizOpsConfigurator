@@ -447,7 +447,7 @@ function compareAppChangeHandler(e){
             $("#HUreport h3").text("HostUnits per HostGroup");
             let hostgroups = new Map();
             data.forEach(function(h){
-              let hg="&lt;blank&gt;";
+              let hg=" ";
               if("hostGroup" in h)hg=h.hostGroup.name;
               console.log(`first:${h.firstSeenTimestamp},last:${h.lastSeenTimestamp},lasthour:${h.lastSeenTimestamp - (Date.now()-(1000*60*60))},new:${h.firstSeenTimestamp - (Date.now()-(1000*60*60*24*7))},removed:${(Date.now()-(1000*60*60))-h.lastSeenTimestamp}`);
               if(hostgroups.has(hg)){
@@ -481,7 +481,7 @@ function compareAppChangeHandler(e){
             let removedLast72HUTotal = 0;
 
             let html = "<table>";
-            html += `<tr><th>HostGroup</th><th>HU Today</th><th>New This Week</th><th>Removed Last 72hr</th></tr>`;
+            html += `<thead><tr><td>HostGroup</td><td>HU Today</td><td>New This Week</td><td>Removed Last 72hr</td></tr></thead><tbody>`;
             for(let [k,v] of hostgroups) {
               html += `<tr><td>${k}</td><td>${v.todayHU}</td><td>${v.newThisWeekHU}</td><td>${v.removedLast72HU}</td></tr>`;
               todayHUTotal += v.todayHU;
@@ -489,7 +489,7 @@ function compareAppChangeHandler(e){
               removedLast72HUTotal += v.removedLast72HU;
             }
             
-            html += `<tr><th></th><th>${todayHUTotal}</th><th>${newThisWeekHUTotal}</th><th>${removedLast72HUTotal}</th></tr>`;
+            html += `</tbody><tfoot><tr><td>Total:</td><td>${todayHUTotal}</td><td>${newThisWeekHUTotal}</td><td>${removedLast72HUTotal}</td></tr></tfoot>`;
             html += "</table>";
 
             $("#HU-HostGroup").html(html);
