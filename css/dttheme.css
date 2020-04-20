@@ -68,7 +68,7 @@ body {
   height: 44px;
 }
 
-#searchbar svg, #searchbar a#config img{
+#searchbar svg, #searchbar a#config img, svg.icon {
     fill: white;
     width: 20px;
     height: 20px;
