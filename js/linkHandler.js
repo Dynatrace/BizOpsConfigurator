@@ -140,8 +140,8 @@ function linkHandler(e) {
         break;
       }
       case "downloadExcel": {
-        let selector = $(this).dataset.tableid;
-        let filename = `${$(this).dataset.filename}-${Date.now()}.xlsx`;
+        let selector = $(this).data("tableid");
+        let filename = `${$(this).data("filename")}-${Date.now()}.xlsx`;
         let worksheet = 'worksheet';
 
         downloadExcel(filename,worksheet,selector);
