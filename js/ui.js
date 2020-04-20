@@ -93,9 +93,9 @@ function download(filename, text) {
 
 function downloadExcel(filename,worksheet,selector){
   let wb = XLSX.utils.table_to_book($(selector).get(0), {sheet:worksheet});
-  let wbout = XLSX.write(wb, {bookType:'xlsx', bookSST:true, type: 'binary'});
+  let wbout = XLSX.writeFile(wb, filename, {bookType:'xlsx', bookSST:true, type: 'binary'});
 
-  let uri = 'data:application/vnd.ms-excel;base64,';
+  /*let uri = 'data:application/vnd.ms-excel;base64,';
   let base64ed = window.btoa(unescape(encodeURIComponent(wbout)));
   let element = document.createElement('a');
   element.setAttribute('href', uri + base64ed);
@@ -103,7 +103,7 @@ function downloadExcel(filename,worksheet,selector){
   element.style.display = 'none';
   document.body.appendChild(element);
   element.click();
-  document.body.removeChild(element);
+  document.body.removeChild(element);*/
 } 
 
 function jqueryInit() {
