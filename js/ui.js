@@ -104,7 +104,7 @@ function downloadExcel(filename,worksheet,selector){
   document.body.appendChild(element);
   element.click();
   document.body.removeChild(element);
-}
+} 
 
 function jqueryInit() {
   //test for ES6 support and fail otherwise
