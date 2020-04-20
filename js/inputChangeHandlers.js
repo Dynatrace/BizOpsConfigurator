@@ -497,7 +497,7 @@ function compareAppChangeHandler(e){
           }
           case "ManagementZone":{
             $("#HUreport h3").text("HostUnit per MZ");
-            $("#HU-infobox").text("Note: hosts can and are usually in more than one MZ");
+            $("#HU-infobox").text("Note: hosts can and usually are in more than one MZ");
             
             let mzs = new Map();
             data.forEach(function(h){
@@ -543,7 +543,7 @@ function compareAppChangeHandler(e){
             }
             
             html += `</tbody><tfoot><tr><td>Total:</td><td>${todayHUTotal.toFixed(2)}</td><td>${newThisWeekHUTotal.toFixed(2)}</td><td>${removedLast72HUTotal.toFixed(2)}</td></tr></tfoot>`;
-            html += "</table>";
+            html += "</table><a href='#downloadExcel' id='downloadExcel' data-tableid='#HU-MZ table' data-filename='HUreport-MZ'><img src='images/folder.svg'></a>";
             $("#HU-MZ").html(html);
             break;
           }
@@ -551,3 +551,5 @@ function compareAppChangeHandler(e){
       });
     } 
   }
+
+  

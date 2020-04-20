@@ -134,9 +134,17 @@ function linkHandler(e) {
           $("#revealToken").addClass("revealed");
           $("#token").prop('type','text');
         }
-        b
+        break;
       case "HUreport": {
         $("#viewport").load("html/miscTools/HUreport.html",HUreportChangeHandler);
+        break;
+      }
+      case "downloadExcel": {
+        let selector = $(this).dataset.tableid;
+        let filename = `${$(this).dataset.filename}-${Date.now()}.xlsx`;
+        let worksheet = 'worksheet';
+
+        downloadExcel(filename,worksheet,selector);
         break;
       }
       default:
