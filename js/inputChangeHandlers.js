@@ -439,7 +439,7 @@ function compareAppChangeHandler(e){
             html += `<tr><td>Total HU:</td><td>${todayHU.toFixed(2)}</td></tr>`;
             html += `<tr><td>New HU this week:</td><td>${newThisWeekHU.toFixed(2)}</td></tr>`;
             html += `<tr><td>HU removed last 72h:</td><td>${removedLast72HU.toFixed(2)}</td></tr>`;
-            html += "</table>";
+            html += "</table><a href='#downloadExcel' id='downloadExcel' data-tableid='#HU-total table' data-filename='HUreport-HU-total'><img src='images/folder.svg'></a>";
             $("#HU-total").html(html);
             break;
           }
@@ -490,7 +490,7 @@ function compareAppChangeHandler(e){
             }
             
             html += `</tbody><tfoot><tr><td>Total:</td><td>${todayHUTotal.toFixed(2)}</td><td>${newThisWeekHUTotal.toFixed(2)}</td><td>${removedLast72HUTotal.toFixed(2)}</td></tr></tfoot>`;
-            html += "</table>";
+            html += "</table><a href='#downloadExcel' id='downloadExcel' data-tableid='#HU-HostGroup table' data-filename='HUreport-HU-HostGroup'><img src='images/folder.svg'></a>";
 
             $("#HU-HostGroup").html(html);
             break;
