@@ -69,7 +69,7 @@ function download(filename, text) {
   document.body.removeChild(element);
 }
 
-function downloadExcel(filename,worksheet,selector){
+/*function downloadExcel(filename,worksheet,selector){
   let uri = 'data:application/vnd.ms-excel;base64,';
   let template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>';
   //let base64 = function (s) { return window.btoa(unescape(encodeURIComponent(s))) };
@@ -88,6 +88,21 @@ function downloadExcel(filename,worksheet,selector){
 
   element.click();
 
+  document.body.removeChild(element);
+}*/
+
+function downloadExcel(filename,worksheet,selector){
+  let wb = XLSX.utils.table_to_book($(selector).get(0), {sheet:worksheet});
+  let wbout = XLSX.write(wb, {bookType:'xlsx', bookSST:true, type: 'binary'});
+
+  let uri = 'data:application/vnd.ms-excel;base64,';
+  let base64ed = window.btoa(unescape(encodeURIComponent(wbout)));
+  let element = document.createElement('a');
+  element.setAttribute('href', uri + base64ed);
+  element.setAttribute('download', filename);
+  element.style.display = 'none';
+  document.body.appendChild(element);
+  element.click();
   document.body.removeChild(element);
 }
 
