@@ -139,6 +139,10 @@ function linkHandler(e) {
         $("#viewport").load("html/miscTools/HUreport.html",HUreportChangeHandler);
         break;
       }
+      case "MassEdit": {
+        $("#viewport").load("html/miscTools/MassEdit.html");
+        break;
+      }
       case "downloadExcel": {
         let selector = $(this).data("tableid");
         let filename = `${$(this).data("filename")}-${Date.now()}.xlsx`;
