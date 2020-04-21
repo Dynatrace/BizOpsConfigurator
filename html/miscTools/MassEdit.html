@@ -1,0 +1,18 @@
+<fieldset>
+    <legend>DT API - MassEdit</legend>
+    <h3>MassEdit Hosts</h3>
+    <table>
+    <tr><td>URL:</td><td><input id="url" style="width: 200px;"></td></tr>
+    <tr><td>Token:</td><td><input id="token" style="width: 200px;"></td></tr>
+    <tr><td>HostGroup:</td><td><input id="hostGroup" style="width: 200px;"></td></tr>
+    <!--<tr><td>Infrastructure Mode:</td><td><input id="infraMode" type="checkbox"></td></tr>-->
+    <tr><td>Dry run:</td><td><input id="dryrun" type="checkbox"></td></tr>
+    </table>
+    <input id="disableAll" type="submit" value="Disable All">
+    <!--<input id="enableAll" type="submit" value="Enable All">--><br>
+    * Note: this requires a Preview feature to be enabled, see: <a href="https://www.dynatrace.com/news/blog/manage-thousands-of-hosts-with-the-new-oneagent-on-a-host-rest-api-preview/">Preview</a><br>
+
+    <div id="hostlist"></div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="js/miscTools/massedit.js"></script>
+</fieldset>
