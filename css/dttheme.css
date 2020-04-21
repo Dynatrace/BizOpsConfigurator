@@ -470,13 +470,13 @@ input[type=file] {
   100% { transform: rotate(360deg); }
 }
 
-a.newTab, a.newTab:visited {
+a.newTab, a.newTab:visited, a.toolsList, a.toolsList:visited {
   color: #00b9cc;
   text-decoration: none;
   cursor: pointer;
 }
 
-a.newTab:hover {
+a.newTab:hover, a.toolsList:hover {
   text-decoration: underline;
 }
 
