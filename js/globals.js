@@ -38,7 +38,7 @@ var tenantOverviews = [
     ];
 var appOverviews = [
     {'name':'WebApp', 'filename':'AppOverview.json'},
-    {'name':'BizOpsLite', 'filename':'AppOverview.json'},
+    {'name':'BizOpsLite', 'filename':'LiteAppOverview.json'},
     {'name':'Citrix (Preview)', 'filename':'CitrixOverview.json'},
     {'name':'SAP (Preview)', 'filename':'SAPDigitalCockpit-Main.json'},
     {'name':'Remote Employee Web (preview)', 'filename':'REApplicationOverview.json'},
