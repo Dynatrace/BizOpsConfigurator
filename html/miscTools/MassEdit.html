@@ -2,11 +2,15 @@
     <legend>DT API - MassEdit</legend>
     <h3>MassEdit Hosts</h3>
     <table>
-    <tr><td>URL:</td><td><input id="url" style="width: 200px;"></td></tr>
-    <tr><td>Token:</td><td><input id="token" style="width: 200px;"></td></tr>
-    <tr><td>HostGroup:</td><td><input id="hostGroup" style="width: 200px;"></td></tr>
-    <!--<tr><td>Infrastructure Mode:</td><td><input id="infraMode" type="checkbox"></td></tr>-->
-    <tr><td>Dry run:</td><td><input id="dryrun" type="checkbox"></td></tr>
+        <tr><td>Tenant URL:</td><td><input class="api" id="url" autocomplete="url" placeholder="https://<tenant>.live.dynatrace.com"></td></tr>
+        <tr>
+            <td>API Token:</td>
+            <td><input type="password" class="api" id="token" autocomplete="token" placeholder="abcd123">
+            <a href="#revealToken" id="revealToken"><img class="open" src="images/eye-open.svg"><img class="close" src="images/eye-close.svg"></a>
+            </td></tr>
+        <tr><td>HostGroup:</td><td><input class="api" id="hostGroup"></td></tr>
+        <!--<tr><td>Infrastructure Mode:</td><td><input id="infraMode" type="checkbox"></td></tr>-->
+        <tr><td>Dry run:</td><td><input id="dryrun" type="checkbox"></td></tr>
     </table>
     <input id="disableAll" type="submit" value="Disable All">
     <!--<input id="enableAll" type="submit" value="Enable All">--><br>
