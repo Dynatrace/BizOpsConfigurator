@@ -859,3 +859,7 @@ table.dataTable thead td {
 table.dataTable tfoot td {
   border-top: 1px solid #e6e6e6;
 }
+
+span.info {
+  font-style: italic;
+}
