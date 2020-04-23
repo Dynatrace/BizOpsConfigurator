@@ -9,11 +9,11 @@
             <a href="#revealToken" id="revealToken"><img class="open" src="images/eye-open.svg"><img class="close" src="images/eye-close.svg"></a>
             </td></tr>
         <tr><td>HostGroup:</td><td><input class="api" id="hostGroup"></td></tr>
-        <!--<tr><td>Infrastructure Mode:</td><td><input id="infraMode" type="checkbox"></td></tr>-->
-        <tr><td>Dry run:</td><td><input id="dryrun" type="checkbox"></td></tr>
+        <tr><td>Monitoring Mode:</td><td><select id="infraMode"><option>no change</option><option>CLOUD_INFRASTRURE</option><option>FULL_STACK</option></select></td></tr>
+        <tr><td>Monitoring Enabled:</td><td><select id="monitoringEnabled"><option>true</option><option>false</option></select></td></tr>
+        <tr><td>Dry run:</td><td><input id="dryrun" type="checkbox" checked="checked"></td></tr>
     </table>
-    <input id="disableAll" type="submit" value="Disable All">
-    <!--<input id="enableAll" type="submit" value="Enable All">--><br>
+    <input id="massedit" type="submit" value="Mass Edit"><br>
     * Note: this requires a Preview feature to be enabled, see: <a href="https://www.dynatrace.com/news/blog/manage-thousands-of-hosts-with-the-new-oneagent-on-a-host-rest-api-preview/">Preview</a><br>
 
     <div id="hostlist"></div>

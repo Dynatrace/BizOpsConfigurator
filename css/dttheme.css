@@ -774,19 +774,16 @@ th {
   height: 20px;
   width: 20px;
   white-space: nowrap;
+  vertical-align: middle;
 }
 
 #revealToken img.close {
   display: none;
   height: 20px;
   width: 20px;
-  margin-bottom: -5px;
 }
 #revealToken img.open {
   display: inline;
-  /*height: 20px;
-  width: 20px;
-  margin-bottom: -5px;*/
 }
 #revealToken.revealed img.close {display: inline;}
 #revealToken.revealed img.open {display: none;}
