@@ -141,8 +141,9 @@ function linkHandler(e) {
       }
       case "MassEdit": {
         $("#viewport").load("html/miscTools/MassEdit.html",function(){
-          $("#disableAll").on("click", "", hostMassEdit);
-          $("#dryrun").on("change","",dryRunHandler);
+          $("#viewport").on("click", "#massedit", hostMassEdit);
+          $("#viewport").on("change","#dryrun",dryRunHandler);
+          dryRunHandler();
         });
         break;
       }

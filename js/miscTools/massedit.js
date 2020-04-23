@@ -1,8 +1,8 @@
 function dryRunHandler(){
     if( $("#dryrun").prop("checked") == true ){
-        $("#disableAll").val("Dry Run");
+        $("#massedit").val("Dry Run");
     } else if( $("#dryrun").prop("checked") == false ){
-        $("#disableAll").val("Disable All");
+        $("#massedit").val("Mass Edit");
     }
 }
 
