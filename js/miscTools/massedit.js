@@ -35,9 +35,9 @@ function hostMassEdit(){
 
         if(!dryrun && confirm(`Disable ${numHosts} hosts?`)){
             data.forEach(function(host){
-                options.data = {
+                options.data = JSON.stringify({
                     "monitoringEnabled": monitoringEnabled,
-                    "monitoringMode": infraMode=="no change"?host.monitoringMode:infraMode};
+                    "monitoringMode": infraMode=="no change"?host.monitoringMode:infraMode});
                 query = `/api/config/v1/hosts/${host.entityId}/monitoring`;
                 dtAPIquery(query,options);
             });
