@@ -19,7 +19,7 @@ function hostMassEdit(){
     if(hostGroup != "")
         query += `&hostGroupName=${hostGroup}`;
 
-    let res = dtAPIquery(query);
+    let res = dtAPIquery(query,{});
     $.when(res).done(function(data){
         let options = {
             "method": "PUT"
