@@ -44,3 +44,9 @@ function hostMassEdit(){
         }
     });
 }
+
+function massEditInit(){
+    $("#viewport").on("click", "#massedit", hostMassEdit);
+    $("#viewport").on("change","#dryrun",dryRunHandler);
+    dryRunHandler();
+}

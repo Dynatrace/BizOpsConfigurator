@@ -140,11 +140,7 @@ function linkHandler(e) {
         break;
       }
       case "MassEdit": {
-        $("#viewport").load("html/miscTools/MassEdit.html",function(){
-          $("#viewport").on("click", "#massedit", hostMassEdit);
-          $("#viewport").on("change","#dryrun",dryRunHandler);
-          dryRunHandler();
-        });
+        $("#viewport").load("html/miscTools/MassEdit.html",massEditInit);
         break;
       }
       case "downloadExcel": {

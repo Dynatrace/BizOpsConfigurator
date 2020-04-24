@@ -5,21 +5,19 @@ $(document).ready(function(){
   jqueryInit();
   // jQuery methods go here... (main logic)
 
-  // default page load
-  $("#viewport").load("html/home.html", function(){
-    staticCleanup();
-    // static link handlers
-    loadStaticHandlers();
+  staticCleanup();
+  // static link handlers
+  loadStaticHandlers();
 
-    // global button handler
-    $("#viewport, #repo_config").on("click", "input:button", globalButtonHandler);
+  // global button handler
+  $("#viewport, #repo_config").on("click", "input:button", globalButtonHandler);
 
-    //anchor handler
-    $("#bcwrapper, #viewport, #repo_config, #dashboard_list").on("click", "a", linkHandler);
+  //anchor handler
+  $("#bcwrapper, #viewport, #repo_config, #dashboard_list").on("click", "a", linkHandler);
 
-    loadInputChangeHandlers();
-  });
-  
+  loadInputChangeHandlers();
+
+  hashHandler(window.location.hash);  
 });
 
 ////////// Functions ////////////
@@ -418,4 +416,33 @@ function autoTagBox(tech) {
             });
         }    
     });
+}
+
+function hashHandler(hash){
+  switch(hash){
+    case "MassEdit":
+      $("#viewport").load("html/miscTools/MassEdit.html",massEditInit);
+      break;
+    case "faq":
+      $("#viewport").load("html/faq.html");
+      break;
+    case "overview":
+      $("#viewport").load("html/overview.html");
+      break;
+    case "begin":
+      $("#viewport").load("html/configurator/connect.html",fieldsetPainter);
+      break;
+    case "prerequisites":
+      $("#viewport").load("html/prerequisites-1.html");
+      break;
+    case "miscTools":
+      $("#viewport").load("html/miscTools/toolsList.html");
+      break;
+    case "HUReport":
+      $("#viewport").load("html/miscTools/HUreport.html",HUreportChangeHandler);
+      break;
+    case "home":
+    default:
+      $("#viewport").load("html/home.html");
+  }
 }
