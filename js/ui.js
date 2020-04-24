@@ -438,7 +438,7 @@ function hashHandler(hash){
     case "#miscTools":
       $("#viewport").load("html/miscTools/toolsList.html");
       break;
-    case "#HUReport":
+    case "#HUreport":
       $("#viewport").load("html/miscTools/HUreport.html",HUreportChangeHandler);
       break;
     case "#home":
