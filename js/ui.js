@@ -420,28 +420,28 @@ function autoTagBox(tech) {
 
 function hashHandler(hash){
   switch(hash){
-    case "MassEdit":
+    case "#MassEdit":
       $("#viewport").load("html/miscTools/MassEdit.html",massEditInit);
       break;
-    case "faq":
+    case "#faq":
       $("#viewport").load("html/faq.html");
       break;
-    case "overview":
+    case "#overview":
       $("#viewport").load("html/overview.html");
       break;
-    case "begin":
+    case "#begin":
       $("#viewport").load("html/configurator/connect.html",fieldsetPainter);
       break;
-    case "prerequisites":
+    case "#prerequisites":
       $("#viewport").load("html/prerequisites-1.html");
       break;
-    case "miscTools":
+    case "#miscTools":
       $("#viewport").load("html/miscTools/toolsList.html");
       break;
-    case "HUReport":
+    case "#HUReport":
       $("#viewport").load("html/miscTools/HUreport.html",HUreportChangeHandler);
       break;
-    case "home":
+    case "#home":
     default:
       $("#viewport").load("html/home.html");
   }
