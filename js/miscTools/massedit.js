@@ -33,7 +33,7 @@ function hostMassEdit(){
         $("#hostlist").html(`<ul>${hostlist.join("\n")}</ul>`);
 
 
-        if(!dryrun && confirm(`Disable ${numHosts} hosts?`)){
+        if(!dryrun && confirm(`Edit ${numHosts} hosts?\nmonitoringEnabled:${monitoringEnabled}\nmonitoringMode:${infraMode}`)){
             data.forEach(function(host){
                 options.data = JSON.stringify({
                     "monitoringEnabled": monitoringEnabled,
