@@ -554,7 +554,7 @@ tr.github {
   display: none;
 }
 
-#faq b {
+#faq b, #devguide b {
   color: #00b9cc;
 }
 
