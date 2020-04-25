@@ -61,7 +61,7 @@ function loadStaticHandlers() {
   });
   $("#devguide").click(function(){
     $("#viewport").load("html/devguide.html");
-    break;
+    staticCleanup();
   });
 }
 
