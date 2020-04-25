@@ -214,6 +214,14 @@ function whereClauseSwaps(dbData,config) {
 
 function doSwaps(db,swaps) {
   var dbS = "";
+  let matches = scanForTokens(db);
+  if(matches.length>0){
+    swaps = JSON.parse(JSON.stringify(swaps)); //copy
+    swaps.forEach(function(s){
+      s.from = "${"+s.from+"}";
+    });
+  } else console.log("Unconvert tokens in "+db.dashboardMetadata.name);
+
     if(typeof db == "string"){ //already a string, great do the swaps
       dbS=db;
     } else if(typeof db == "object"){ //handles url encoded tiles, then stringify, replace again
@@ -284,9 +292,13 @@ function whereSplit(where) {
 }
 
 function scanForTokens(db) {
-  let dbs = JSON.stringify(db);
+  if(typeof db == "string"){ //already a string, great do the swaps
+    dbS=db;
+  } else if(typeof db == "object"){ 
+    let dbs = JSON.stringify(db);
+  }
+  
   let matches = [...dbs.matchAll(/\${[^}]*}/g)];
-
   if(matches.length>0)
     return matches;
   else
