@@ -289,4 +289,6 @@ function scanForTokens(db) {
 
   if(matches.length>0)
     return matches;
+  else
+    return undefined;
 }
