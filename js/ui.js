@@ -70,7 +70,7 @@ function download(filename, text) {
 function downloadExcel(filename,worksheet,selector){
   let wb = XLSX.utils.table_to_book($(selector).get(0), {sheet:worksheet});
   let ws = wb.Sheets[worksheet];
-  ws['!autofilter']={ref:"A1-D1"};
+  ws['!autofilter']={ref:"A1:D1"};
   let wbout = XLSX.writeFile(wb, filename, {bookType:'xlsx', bookSST:true, type: 'binary'});
 } 
 
