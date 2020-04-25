@@ -420,6 +420,7 @@ function compareAppChangeHandler(e){
       $("#HU-infobox").text("");
 
       $.when(p).done(function(data){
+        HUreport.url=url;
         HUreport.data=data; //save for later
 
         let today = data
