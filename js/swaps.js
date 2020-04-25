@@ -1,14 +1,14 @@
 function generateTenantSwapList(config) {
   let swaps = [ 
-    {from:config.oldTOid, to:config.TOid},
-    {from:"TEMPLATE:", to:config.TOname},
-    {from:'MyTenant', to:config.TOname},
-    {from:'ipName', to:config.ipName},
-    {from:'ipClause', to:config.ipClause},
-    {from:'ipCompare1Clause', to:config.compareipClause},
-    {from:'ipCompare1Name', to:config.ipCompareName},
-    {from:'ipCompare2Clause', to:config.compareipClause2},
-    {from:'ipCompare2Name', to:config.ipCompareName2}
+    {from:config.oldTOid, to:config.TOid, wrap:false},
+    {from:"TEMPLATE:", to:config.TOname, wrap:true},
+    {from:'MyTenant', to:config.TOname, wrap:true},
+    {from:'ipName', to:config.ipName, wrap:true},
+    {from:'ipClause', to:config.ipClause, wrap:true},
+    {from:'ipCompare1Clause', to:config.compareipClause, wrap:true},
+    {from:'ipCompare1Name', to:config.ipCompareName, wrap:true},
+    {from:'ipCompare2Clause', to:config.compareipClause2, wrap:true},
+    {from:'ipCompare2Name', to:config.ipCompareName2, wrap:true}
   ];
 
   return swaps;
@@ -16,29 +16,29 @@ function generateTenantSwapList(config) {
 
 function generateAppSwapList(config) {
   let swaps = [
-    {from:config.oldTOid, to:config.TOid},
-    {from:config.oldAOid, to:config.AOid},
-    {from:'https://MyTenant', to:url},
-    {from:"MyApp", to:config.appName},
+    {from:config.oldTOid, to:config.TOid, wrap:false},
+    {from:config.oldAOid, to:config.AOid, wrap:false},
+    {from:'https://MyTenant', to:url, wrap:true},
+    {from:"MyApp", to:config.appName, wrap:true},
     //{from:"MyURLApp", to:encodeURIComponent(config.appName)},
-    {from:"MyURLApp", to:config.appName},
-    {from:"InternalAppID", to:config.appID},
-    {from:"compareMZid", to:config.compareMZid},
-    {from:"compareMZname", to:config.compareMZname},
-    {from:'InternalCompareAppID', to:(config.compareAppID==""?config.appID:config.compareAppID)},
-    {from:"MyCompareApp", to:(config.compareAppName=="None"?config.appName:config.compareAppName)},
-    {from:'-MyCompareTimeh to -MyTimeh', to:config.compareTime},
-    {from:'Previous MyTime Hours', to:config.compareTime},
-    {from:'-MyTimeh', to:config.MyTime},
-    {from:'Last MyTime Hours', to:config.MyTime},
-    {from:'ipName', to:config.ipName},
-    {from:'ipClause', to:config.ipClause},
-    {from:'ipCompare1Clause', to:config.compareipClause},
-    {from:'ipCompare1Name', to:config.ipCompareName},
-    {from:'ipCompare2Clause', to:config.compareipClause2},
-    {from:'ipCompare2Name', to:config.ipCompareName2},
-    {from:'MZid', to:config.mz},
-    {from:'MZname', to:config.mzname}
+    {from:"MyURLApp", to:config.appName, wrap:true},
+    {from:"InternalAppID", to:config.appID, wrap:true},
+    {from:"compareMZid", to:config.compareMZid, wrap:true},
+    {from:"compareMZname", to:config.compareMZname, wrap:true},
+    {from:'InternalCompareAppID', to:(config.compareAppID==""?config.appID:config.compareAppID), wrap:true},
+    {from:"MyCompareApp", to:(config.compareAppName=="None"?config.appName:config.compareAppName), wrap:true},
+    {from:'-MyCompareTimeh to -MyTimeh', to:config.compareTime, wrap:true},
+    {from:'Previous MyTime Hours', to:config.compareTime, wrap:true},
+    {from:'-MyTimeh', to:config.MyTime, wrap:true},
+    {from:'Last MyTime Hours', to:config.MyTime, wrap:true},
+    {from:'ipName', to:config.ipName, wrap:true},
+    {from:'ipClause', to:config.ipClause, wrap:true},
+    {from:'ipCompare1Clause', to:config.compareipClause, wrap:true},
+    {from:'ipCompare1Name', to:config.ipCompareName, wrap:true},
+    {from:'ipCompare2Clause', to:config.compareipClause2, wrap:true},
+    {from:'ipCompare2Name', to:config.ipCompareName2, wrap:true},
+    {from:'MZid', to:config.mz, wrap:true},
+    {from:'MZname', to:config.mzname, wrap:true}
     ];
   return swaps;
 }
@@ -47,27 +47,27 @@ function generateFunnelSwapList(config)
 {
   var swaps = [
   //NOTE: do NOT do any whereClause manipulation as strings, it makes escaping quotes challenging, do it instead in whereClauseSwaps
-    {from:config.oldTOid, to:config.TOid},
-    {from:config.oldAOid, to:config.AOid},
-    {from:config.oldFOid, to:config.FOid},
-    {from:'InternalAppID', to:config.appID},
-    {from:'InternalCompareAppID', to:(config.compareAppID==""?config.appID:config.compareAppID)},
-    {from:'https://MyTenant', to:url},
-    {from:'MyEmail', to:owner},
-    {from:'MyFunnel', to:config.funnelName},
-    {from:'MyCompareFunnel', to:config.compareFunnel},
-    {from:'-MyCompareTimeh to -MyTimeh', to:config.compareTime},
-    {from:'Previous MyTime Hours', to:config.compareTime},
-    {from:'-MyTimeh', to:config.MyTime},
-    {from:'Last MyTime Hours', to:config.MyTime},
-    {from:'MyApp', to:config.appName},
+    {from:config.oldTOid, to:config.TOid, wrap:false},
+    {from:config.oldAOid, to:config.AOid, wrap:false},
+    {from:config.oldFOid, to:config.FOid, wrap:false},
+    {from:'InternalAppID', to:config.appID, wrap:false},
+    {from:'InternalCompareAppID', to:(config.compareAppID==""?config.appID:config.compareAppID), wrap:true},
+    {from:'https://MyTenant', to:url, wrap:true},
+    {from:'MyEmail', to:owner, wrap:true},
+    {from:'MyFunnel', to:config.funnelName, wrap:true},
+    {from:'MyCompareFunnel', to:config.compareFunnel, wrap:true},
+    {from:'-MyCompareTimeh to -MyTimeh', to:config.compareTime, wrap:true},
+    {from:'Previous MyTime Hours', to:config.compareTime, wrap:true},
+    {from:'-MyTimeh', to:config.MyTime, wrap:true},
+    {from:'Last MyTime Hours', to:config.MyTime, wrap:true},
+    {from:'MyApp', to:config.appName, wrap:true},
     //{from:"MyURLApp", to:encodeURIComponent(config.appName)},
-    {from:"MyURLApp", to:config.appName},
-    {from:'MyCompareApp', to:(config.compareAppName=="None"?config.appName:config.compareAppName)},
-    {from:'Revenue', to:config.kpiName},
+    {from:"MyURLApp", to:config.appName, wrap:true},
+    {from:'MyCompareApp', to:(config.compareAppName=="None"?config.appName:config.compareAppName), wrap:true},
+    {from:'Revenue', to:config.kpiName, wrap:true},
     {from:'comparerevenueproperty', to:(typeof config.compareRevenue == "undefined"?
-        config.kpi:config.compareRevenue)},
-    {from:'revenueproperty', to:config.kpi},
+        config.kpi:config.compareRevenue), wrap:true},
+    {from:'revenueproperty', to:config.kpi, wrap:true},
     //{from:'MyFilter', to:config.filterClause},
   ];
 
@@ -76,25 +76,26 @@ function generateFunnelSwapList(config)
   let funnelSteps = whereSplit(config.whereClause);
   for(let i=funnelSteps.length-1; i>=0; i--) {  //go in reverse because steps are not zero padded
     let j=i+1;
-    swaps.push({from:'StepHeader'+j, to:config.funnelData[i].label});
+    swaps.push({from:'StepHeader'+j, to:config.funnelData[i].label, wrap:true});
   }
 
   //handle campaign
   if(config.campaignActive) {
-    swaps.push({from:'PromHeaderStep', to:config.promHeaderStep});
+    swaps.push({from:'PromHeaderStep', to:config.promHeaderStep, wrap:true});
   } else {
-    swaps.push({from:'PromHeaderStep', to:"No Active"});
+    swaps.push({from:'PromHeaderStep', to:"No Active", wrap:true});
   }
   //handle new feature
   if(config.featureAdded) {
-    swaps.push({from:'FeatureHeaderStep', to:config.FeatureHeaderStep});
+    swaps.push({from:'FeatureHeaderStep', to:config.FeatureHeaderStep, wrap:true});
   } else {
-    swaps.push({from:'FeatureHeaderStep', to:"No New Feature"});
+    swaps.push({from:'FeatureHeaderStep', to:"No New Feature", wrap:true});
   }
   return swaps;
 }
 
 function whereClauseSwaps(dbData,config) {
+  //TODO: refactor to use forLoop
   //let whereSteps = config.whereClause.split("AND");
   let whereSteps = whereSplit(config.whereClause);
   if(config.campaignActive) { //special handling for Marketing campaign: insert into all Step1s but replace completely on Marketing pages
@@ -218,7 +219,7 @@ function doSwaps(db,swaps) {
   if(matches.length>0){
     swaps = JSON.parse(JSON.stringify(swaps)); //copy
     swaps.forEach(function(s){
-      s.from = "\\${"+s.from+"}";
+      if(s.wrap) s.from = "\\${"+s.from+"}";
     });
   } else console.log("Unconvert tokens in "+db.dashboardMetadata.name);
 
@@ -262,7 +263,7 @@ function transformSubs(subs,dbid,swaps,config) {
   subs.forEach(function(db) {
     sub = db.file
     id = nextDB(id);
-    swaps.push({from:sub.id, to:id});
+    swaps.push({from:sub.id, to:id, wrap:false});
     config.subids.push({from:sub.id, to:id});
     sub.id=id;
     sub["dashboardMetadata"]["owner"]=owner;
