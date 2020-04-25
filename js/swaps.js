@@ -293,7 +293,7 @@ function whereSplit(where) {
 
 function scanForTokens(db) {
   if(typeof db == "string"){ //already a string, great do the swaps
-    dbS=db;
+    let dbs=db;
   } else if(typeof db == "object"){ 
     let dbs = JSON.stringify(db);
   }
