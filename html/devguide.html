@@ -22,7 +22,15 @@
     <table class="dataTable">
         <thead><tr><td>Overview</td><td>Search</td><td>Replace</td></tr></thead>
         <tbody>
-            <tr><td>Tenant</td><td>Old IDs</td><td>New IDs</td></tr>
+            <tr><td>All</td><td>Old IDs</td><td>New IDs</td></tr>
+            <tr><td>All</td><td>dashboard["dashboardMetadata"]["owner"]</td><td>New IDs</td></tr>
+            <tr><td>All</td><td>dashboard["dashboardMetadata"]["name"]/MyTenant/g</td><td>user input</td></tr>
+            <tr><td>All</td><td>dashboard["dashboardMetadata"]["name"]/TEMPLATE:/g</td><td>same as above</td></tr>
+            <tr><td>All</td><td>dashboard["dashboardMetadata"]["dashboardFilter"]["managementZone"]</td><td>user select</td></tr>
+            <tr><td>All</td><td>dashboard["dashboardMetadata"]["shared"]</td><td>true</td></tr>
+            <tr><td>All</td><td>dashboard["dashboardMetadata"]["sharingDetails"]["linkShared"] </td><td>true</td></tr>
+            <tr><td>All</td><td>dashboard["dashboardMetadata"]["sharingDetails"]["published"]</td><td>true for Overviews, false otherwise</td></tr>
+  
             <tr><td>Tenant</td><td>'${TEMPLATE:}'</td><td>user input</td></tr>
             <tr><td>Tenant</td><td>'${MyTenant}'</td><td>user input</td></tr>
             <tr><td>Tenant</td><td>'${ipName}'</td><td>user input</td></tr>
