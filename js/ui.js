@@ -420,32 +420,3 @@ function autoTagBox(tech) {
         }    
     });
 }
-
-function hashHandler(hash){
-  switch(hash){
-    case "#MassEdit":
-      $("#viewport").load("html/miscTools/MassEdit.html",massEditInit);
-      break;
-    case "#faq":
-      $("#viewport").load("html/faq.html");
-      break;
-    case "#overview":
-      $("#viewport").load("html/overview.html");
-      break;
-    case "#begin":
-      $("#viewport").load("html/configurator/connect.html",fieldsetPainter);
-      break;
-    case "#prerequisites":
-      $("#viewport").load("html/prerequisites-1.html");
-      break;
-    case "#miscTools":
-      $("#viewport").load("html/miscTools/toolsList.html");
-      break;
-    case "#HUreport":
-      $("#viewport").load("html/miscTools/HUreport.html",HUreportChangeHandler);
-      break;
-    case "#home":
-    default:
-      $("#viewport").load("html/home.html");
-  }
-}
