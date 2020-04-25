@@ -287,5 +287,6 @@ function scanForTokens(db) {
   let dbs = JSON.stringify(db);
   let matches = [...dbs.matchAll(/\${[^}]*}/g)];
 
-  return matches;
+  if(matches.length>0)
+    return matches;
 }
