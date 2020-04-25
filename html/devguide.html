@@ -1,25 +1,25 @@
 <div id="devguide">
     <h3>Creating dashboard packs</h3>
-    <p>
-        <b>Step 1 - create some awesome dashboards</b><br>
-        <b>Step 2 - link your dashboards</b><br>
+    <ul>
+        <li><b>Step 1 - create some awesome dashboards</b></li>
+        <li><b>Step 2 - link your dashboards</b><br>
         Ensure that your Overview dashboard contains markdown tiles that contain links to sub-dashboards.
         Don't worry about the IDs themselves, just that they match; the Configurator will swap them later.
         Example: <code>"markdown": "## [🔍](#dashboard;id=38862cbd-8ab4-4e17-81ca-1f43af427ad3)"</code> needs to match:
-        <code>"id": "38862cbd-8ab4-4e17-81ca-1f43af427ad3",</code><br>
-        <b>Step 3 - determine your swaps</b><br>
+        <code>"id": "38862cbd-8ab4-4e17-81ca-1f43af427ad3",</code></li>
+        <li><b>Step 3 - determine your swaps</b><br>
         The Configurator will look for strings to swap. They should be in the format: <code>${MyString}</code>
         See below for a predefined list. If you need new swaps, include them in the template. By default,
         the user will get a prompt for these <i>(coming soon)</i>. If you need custom handling, e.g. a pulldown
         instead of a text input or need choices from the API, note that in your request to add the dashboard pack, and
-        be sure to include example API queries to get the choices.
-        <b>Step 4 - test locally</b><br>
-        Click the gear icon in the top right and add your repo and Overview dashboard. Test a deployment.
-        <b>Step 5 - submit you dashboardpack</b><br>
-        Either submit your pack on our forum or email the maintainers directly.
-    </p>
+        be sure to include example API queries to get the choices.</li>
+        <li><b>Step 4 - test locally</b><br>
+        Click the gear icon in the top right and add your repo and Overview dashboard. Test a deployment.</li>
+        <li><b>Step 5 - submit you dashboardpack</b><br>
+        Either submit your pack on our forum or email the maintainers directly.</li>
+    </ul>
     <h3>Standard swaps</h3>
-    <table>
+    <table class="dataTable">
         <thead><tr><td>Overview</td><td>Search</td><td>Replace</td></tr></thead>
         <tbody>
             <tr><td>Tenant</td><td>Old IDs</td><td>New IDs</td></tr>
