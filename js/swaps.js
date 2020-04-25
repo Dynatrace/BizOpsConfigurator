@@ -292,10 +292,11 @@ function whereSplit(where) {
 }
 
 function scanForTokens(db) {
+  var dbs="";
   if(typeof db == "string"){ //already a string, great do the swaps
-    let dbs=db;
+    dbs=db;
   } else if(typeof db == "object"){ 
-    let dbs = JSON.stringify(db);
+    dbs = JSON.stringify(db);
   }
   
   let matches = [...dbs.matchAll(/\${[^}]*}/g)];
