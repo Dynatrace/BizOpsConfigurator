@@ -59,6 +59,10 @@ function loadStaticHandlers() {
     $("#viewport").load("html/miscTools/toolsList.html");
     staticCleanup();
   });
+  $("#devguide").click(function(){
+    $("#viewport").load("html/devguide.html");
+    break;
+  });
 }
 
 function staticCleanup() {
@@ -141,6 +145,10 @@ function linkHandler(e) {
       }
       case "MassEdit": {
         $("#viewport").load("html/miscTools/MassEdit.html",massEditInit);
+        break;
+      }
+      case "devguide": {
+        $("#viewport").load("html/devguide.html");
         break;
       }
       case "downloadExcel": {
