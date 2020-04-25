@@ -218,7 +218,7 @@ function doSwaps(db,swaps) {
   if(matches.length>0){
     swaps = JSON.parse(JSON.stringify(swaps)); //copy
     swaps.forEach(function(s){
-      s.from = "\${"+s.from+"}";
+      s.from = "\\${"+s.from+"}";
     });
   } else console.log("Unconvert tokens in "+db.dashboardMetadata.name);
 
