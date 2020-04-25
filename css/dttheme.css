@@ -860,3 +860,7 @@ table.dataTable tfoot td {
 span.info {
   font-style: italic;
 }
+
+code {
+  color: #e6e6e6;
+}
