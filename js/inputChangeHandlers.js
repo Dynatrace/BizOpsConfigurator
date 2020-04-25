@@ -409,7 +409,9 @@ function compareAppChangeHandler(e){
       if(url.length>1 && url.charAt(url.length-1)=="/")
         url = url.substring(0,url.length-1);
       token=tokenObj.val();
-      let p = getHosts();
+      let p = $.Deferred();
+      if(HUreport.url==url) p.resolve(HUreport.data);
+      else p = getHosts();
 
       $("#HU-total").html("");
       $("#HU-HostGroup").html("");
@@ -418,6 +420,8 @@ function compareAppChangeHandler(e){
       $("#HU-infobox").text("");
 
       $.when(p).done(function(data){
+        HUreport.data=data; //save for later
+
         let today = data
           .filter(h => h.lastSeenTimestamp > Date.now()-(1000*60*60)); //seen last hour
         let newThisWeek = data
