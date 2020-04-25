@@ -20,7 +20,8 @@ function generateAppSwapList(config) {
     {from:config.oldAOid, to:config.AOid},
     {from:'https://MyTenant', to:url},
     {from:"MyApp", to:config.appName},
-    {from:"MyURLApp", to:encodeURIComponent(config.appName)},
+    //{from:"MyURLApp", to:encodeURIComponent(config.appName)},
+    {from:"MyURLApp", to:config.appName},
     {from:"InternalAppID", to:config.appID},
     {from:"compareMZid", to:config.compareMZid},
     {from:"compareMZname", to:config.compareMZname},
@@ -60,7 +61,8 @@ function generateFunnelSwapList(config)
     {from:'-MyTimeh', to:config.MyTime},
     {from:'Last MyTime Hours', to:config.MyTime},
     {from:'MyApp', to:config.appName},
-    {from:"MyURLApp", to:encodeURIComponent(config.appName)},
+    //{from:"MyURLApp", to:encodeURIComponent(config.appName)},
+    {from:"MyURLApp", to:config.appName},
     {from:'MyCompareApp', to:(config.compareAppName=="None"?config.appName:config.compareAppName)},
     {from:'Revenue', to:config.kpiName},
     {from:'comparerevenueproperty', to:(typeof config.compareRevenue == "undefined"?
@@ -281,3 +283,9 @@ function whereSplit(where) {
     return where.split(' AND ');
 }
 
+function scanForTokens(db) {
+  let dbs = JSON.stringify(db);
+  let matches = [...dbs.matchAll(/\${[^}]*}/g)];
+
+  return matches;
+}

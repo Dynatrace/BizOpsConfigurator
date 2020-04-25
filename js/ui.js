@@ -69,9 +69,9 @@ function download(filename, text) {
 
 function downloadExcel(filename,worksheet,selector){
   let wb = XLSX.utils.table_to_book($(selector).get(0), {sheet:worksheet});
-  let ws = wb.Sheets[worksheet];
+  /*let ws = wb.Sheets[worksheet];
   let ref = ws['!ref'].match(/([A-Z]+)([0-9]+):([A-Z]+)([0-9]+)/);
-  ws['!autofilter']={ref:`${ref[1]+ref[2]}:${ref[3]}${ref[4]-1}`};
+  ws['!autofilter']={ref:`${ref[1]+ref[2]}:${ref[3]}${ref[4]-1}`};*/
   let wbout = XLSX.writeFile(wb, filename, {bookType:'xlsx', bookSST:true, type: 'binary'});
 } 
 

@@ -370,6 +370,7 @@ function fieldsetPainter() {
       let list = [].concat(tenantOverviews, appOverviews, journeyOverviews);
       let topLevelIDs = [];
       let usedIndexes = [];
+      let tokenList = new Set();
       //get list of topLevelIDs
       list.forEach(function(overview) {
         let i = dbList.findIndex( ({ name }) => name === overview.filename );
@@ -384,10 +385,12 @@ function fieldsetPainter() {
         } else {
             html += "<li>"+overview.name+" - (<a class='dashboardList' href='#json' data-index='"+i+"'>"+overview.filename+"</a>):<br><ul>"
             let subs = getStaticSubDBs(dbList[i].file,topLevelIDs);
+            tokenList = new Set([...tokenList,...scanForTokens(dbList[i].file)]);
             subs.sort((a, b) => (a.name.toLowerCase() > b.name.toLowerCase()) ? 1 : -1);
             subs.forEach(function(s) {
                 let j = dbList.findIndex( ({ name }) => name === s.name );
                 usedIndexes.push(j);
+                tokenList = new Set([...tokenList,...scanForTokens(s.file)]);
                 html += "<li><a class='dashboardList' href='#json' data-index='"+j+"'>"+s.name+"</a></li>"
             });
             html += "</ul></li>";
@@ -399,9 +402,16 @@ function fieldsetPainter() {
         if(!usedIndexes.includes(i)) orphanIndexes.push(i);
       }
       if(orphanIndexes.length > 0) {
-        html += "<li>Orphan Dashboards::<br><ul>";
+        html += "<li>Orphan Dashboards:<br><ul>";
         orphanIndexes.forEach(function(i) {
                 html += "<li><a class='dashboardList' href='#json' data-index='"+i+"'>"+dbList[i].name+"</a></li>"
+        });
+        html += "</ul></li>";
+      }
+      if(tokenList.size>0){
+        html += "<li>Token List:<br><ul>";
+        tokenList.forEach(function(t){
+            html += `<li>${t}</li>`;
         });
         html += "</ul></li>";
       }
