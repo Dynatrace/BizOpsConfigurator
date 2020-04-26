@@ -232,6 +232,10 @@ function doSwaps(db,swaps) {
         db.tiles.forEach(function(t){
           if(t.tileType=="MARKDOWN"){
             doEncodedMarkdownTileSwaps(t,swaps);
+          } else if(t.tileType=="DTAQL"){
+            swaps.forEach(function(swap) {
+              t.query = t.query.replace(new RegExp(swap.from,'g'), swap.to);
+            });
           }
         });
         dbS = JSON.stringify(db);
