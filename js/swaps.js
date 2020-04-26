@@ -118,59 +118,59 @@ function whereClauseSwaps(dbData,config) {
   	if(typeof(t.query) === 'undefined'){console.log("DTAQL w/o query");return;}*/
     //generic swaps here:
     if(config.featureAdded) 
-        whereSteps.push({from:"StepNewFeature1", to:
+        whereSwaps.push({from:"StepNewFeature1", to:
             config.StepNewFeature1.colname+'=\"'+config.StepNewFeature1.name+'\"', wrap:true});
     if("compareAppName" in config && config.compareAppName!="None") {
-        whereSteps.push({from:"CompareStepFunnel1",to:
+        whereSwaps.push({from:"CompareStepFunnel1",to:
             config.compareFirstStep.colname+'=\"'+config.compareFirstStep.name+'\"', wrap:true});//V5
-        whereSteps.push({from:"CompareStepAction1",to:config.compareFirstStep.name, wrap:true});//V4
-        whereSteps.push({from:"CompareLastFunnelStep",to:
+        whereSwaps.push({from:"CompareStepAction1",to:config.compareFirstStep.name, wrap:true});//V4
+        whereSwaps.push({from:"CompareLastFunnelStep",to:
             config.compareLastStep.colname+'=\"'+config.compareLastStep.name+'\"', wrap:true});//V5
-        whereSteps.push({from:"CompareLastStep",to:config.compareLastStep.name, wrap:true});//V4
-        whereSteps.push({from:"CompareCombinedStep",to:
+        whereSwaps.push({from:"CompareLastStep",to:config.compareLastStep.name, wrap:true});//V4
+        whereSwaps.push({from:"CompareCombinedStep",to:
             "("+config.compareFirstStep.colname+"=\""+config.compareFirstStep.name+"\" AND " +
             config.compareLastStep.colname+"=\""+config.compareLastStep.name+"\") "
             , wrap:true}); 
     } else if("xapp_compareAppName1" in config && config.xapp_compareAppName1!="None") {
-        whereSteps.push({from:"CompareStepFunnel1",to:
+        whereSwaps.push({from:"CompareStepFunnel1",to:
             "(useraction.application=\""+config.xapp_compareAppName1+"\" and "+
             config.compareFirstStep.colname+'=\"'+config.compareFirstStep.name+'\")', wrap:true});//V5
-        whereSteps.push({from:"CompareLastFunnelStep",to:
+        whereSwaps.push({from:"CompareLastFunnelStep",to:
             "(useraction.application=\""+config.xapp_compareAppName2+"\" and "+
             config.compareLastStep.colname+'=\"'+config.compareLastStep.name+'\")', wrap:true});//V5
-        whereSteps.push({from:"CompareCombinedStep",to:
+        whereSwaps.push({from:"CompareCombinedStep",to:
             "((useraction.application=\""+config.xapp_compareAppName1+"\" and "+
             config.compareFirstStep.colname+'=\"'+config.compareFirstStep.name+'\") AND '+
             "(useraction.application=\""+config.xapp_compareAppName2+"\" and "+
             config.compareLastStep.colname+'=\"'+config.compareLastStep.name+'\"))', wrap:true});//V5
     } else { //no compare app, default stuff out per Shady
-        whereSteps.push({from:"CompareStepFunnel1",to: whereSteps[0], wrap:true});
-        whereSteps.push({from:"CompareStepAction1",to: whereSteps[0], wrap:true});
-        whereSteps.push({from:"CompareLastFunnelStep",to: whereSteps[whereSteps.length-1], wrap:true});
-        whereSteps.push({from:"CompareLastStep",to: whereSteps[whereSteps.length-1], wrap:true});
-        whereSteps.push({from:"CompareCombinedStep",to:config.whereClause, wrap:true});
+        whereSwaps.push({from:"CompareStepFunnel1",to: whereSteps[0], wrap:true});
+        whereSwaps.push({from:"CompareStepAction1",to: whereSteps[0], wrap:true});
+        whereSwaps.push({from:"CompareLastFunnelStep",to: whereSteps[whereSteps.length-1], wrap:true});
+        whereSwaps.push({from:"CompareLastStep",to: whereSteps[whereSteps.length-1], wrap:true});
+        whereSwaps.push({from:"CompareCombinedStep",to:config.whereClause, wrap:true});
     }
-    whereSteps.push({from:"([^t])FunnelStep",to:"$1"+FunnelStep, wrap:true});
-    whereSteps.push({from:"MyFilter",to:config.filterClause, wrap:true});
-    whereSteps.push({from:"CombinedStep",to:config.whereClause, wrap:true});
+    whereSwaps.push({from:"([^t])FunnelStep",to:"$1"+FunnelStep, wrap:true});
+    whereSwaps.push({from:"MyFilter",to:config.filterClause, wrap:true});
+    whereSwaps.push({from:"CombinedStep",to:config.whereClause, wrap:true});
     //Step specific swaps
 	for(let i=whereSteps.length-1; i>=0; i--) {  //go in reverse because steps are not zero padded
 	    let j=i+1;
-  	    whereSteps.push({from:'StepFunnel'+j,to: whereSteps[i], wrap:true}); //for DashboardsV5
-  	    whereSteps.push({from:'useraction.name ?= ?"StepAction'+j+'"',to: whereSteps[i], wrap:true});//V4
-  	    whereSteps.push({from:'useraction.name ?!= ?"StepAction'+j+'"',to: " NOT " +whereSteps[i], wrap:true});
-  	    whereSteps.push({from:'name ?= ?"?StepAction'+j+'"',to: whereSteps[i], wrap:true});
-  	    whereSteps.push({from:'name ?!= ?"StepAction'+j+'"',to: " NOT " +whereSteps[i], wrap:true});
-  	    whereSteps.push({from:'Step'+j+'"',to: whereSteps[i], wrap:true}); //temp until John fixes V5
+  	    whereSwaps.push({from:'StepFunnel'+j,to: whereSteps[i], wrap:true}); //for DashboardsV5
+  	    whereSwaps.push({from:'useraction.name ?= ?"StepAction'+j+'"',to: whereSteps[i], wrap:true});//V4
+  	    whereSwaps.push({from:'useraction.name ?!= ?"StepAction'+j+'"',to: " NOT " +whereSteps[i], wrap:true});
+  	    whereSwaps.push({from:'name ?= ?"?StepAction'+j+'"',to: whereSteps[i], wrap:true});
+  	    whereSwaps.push({from:'name ?!= ?"StepAction'+j+'"',to: " NOT " +whereSteps[i], wrap:true});
+  	    whereSwaps.push({from:'Step'+j+'"',to: whereSteps[i], wrap:true}); //temp until John fixes V5
 	    if(i==whereSteps.length-1) {
-  	      whereSteps.push({from:'StepFunnelLast',to: whereSteps[i], wrap:true}); //for DashboardsV5
-  	      whereSteps.push({from:'LastFunnelStep',to: whereSteps[i], wrap:true}); //for DashboardsV5
-  	      whereSteps.push({from:'useraction.name ?= ?"LastStep"',to: whereSteps[i], wrap:true});
-  	      whereSteps.push({from:'useraction.name ?[iInN]{2} ?\\("LastStep"\\)',to: whereSteps[i], wrap:true});
-  	      whereSteps.push({from:'useraction.name ?!= ?"?LastStep"',to: " NOT "+whereSteps[i], wrap:true});
-  	      whereSteps.push({from:'name ?= ?"?LastStep"',to: whereSteps[i], wrap:true});
-  	      whereSteps.push({from:'name ?!= ?"?LastStep"',to: " NOT "+whereSteps[i], wrap:true});
-  	      whereSteps.push({from:'LastStep',to: whereSteps[i], wrap:true}); //temp until John fixes V5
+  	      whereSwaps.push({from:'StepFunnelLast',to: whereSteps[i], wrap:true}); //for DashboardsV5
+  	      whereSwaps.push({from:'LastFunnelStep',to: whereSteps[i], wrap:true}); //for DashboardsV5
+  	      whereSwaps.push({from:'useraction.name ?= ?"LastStep"',to: whereSteps[i], wrap:true});
+  	      whereSwaps.push({from:'useraction.name ?[iInN]{2} ?\\("LastStep"\\)',to: whereSteps[i], wrap:true});
+  	      whereSwaps.push({from:'useraction.name ?!= ?"?LastStep"',to: " NOT "+whereSteps[i], wrap:true});
+  	      whereSwaps.push({from:'name ?= ?"?LastStep"',to: whereSteps[i], wrap:true});
+  	      whereSwaps.push({from:'name ?!= ?"?LastStep"',to: " NOT "+whereSteps[i], wrap:true});
+  	      whereSwaps.push({from:'LastStep',to: whereSteps[i], wrap:true}); //temp until John fixes V5
 	    }
 	}
       /*} else if(t.tileType=="MARKDOWN" && t.markdown.includes("sessionquery")) { //handle URL Encoded queries
@@ -211,6 +211,7 @@ function whereClauseSwaps(dbData,config) {
       }
     });
   //}*/
+  console.log(whereSwaps);
   dbData = doSwaps(dbData,whereSwaps);
 }
 
