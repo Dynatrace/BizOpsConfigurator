@@ -350,7 +350,7 @@ function uploadFunnel(config) {
     if("costControlUserSessionPercentage" in config) addCostControlTile(dashboardFO,config);
     addReplaceButton(dashboardFO,config.AOid,"![BackButton]()","⇦",findTopRight);
 
-    whereClauseSwaps(dashboardFO,config);  
+    dashboardFO = whereClauseSwaps(dashboardFO,config);  
 
     var query="/api/config/v1/dashboards/"+config.FOid;
     
@@ -358,7 +358,7 @@ function uploadFunnel(config) {
       //sub-dashboards
       let subs = getStaticSubDBs(dashboardFO,[config.oldTOid,config.oldAOid,config.oldFOid]);
       subs = listFunnelDB(config,subs);
-      subs.forEach(function(db) {let sub=db.file; whereClauseSwaps(sub,config);});  
+      subs.forEach(function(sub,idx,arr) { arr[indx] = whereClauseSwaps(sub,config);});  
       var swaps=generateFunnelSwapList(config);
       swaps = transformSubs(subs,config.FOid,swaps,config);
       //data2 = doSwaps(data2, swaps);

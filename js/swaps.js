@@ -213,6 +213,7 @@ function whereClauseSwaps(dbData,config) {
   //}*/
   console.log(whereSwaps);
   dbData = doSwaps(dbData,whereSwaps);
+  return JSON.parse(dbData);
 }
 
 function doSwaps(db,swaps) {
