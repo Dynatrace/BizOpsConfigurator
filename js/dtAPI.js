@@ -358,7 +358,7 @@ function uploadFunnel(config) {
       //sub-dashboards
       let subs = getStaticSubDBs(dashboardFO,[config.oldTOid,config.oldAOid,config.oldFOid]);
       subs = listFunnelDB(config,subs);
-      subs.forEach(function(sub,idx,arr) { arr[indx] = whereClauseSwaps(sub,config);});  
+      subs.forEach(function(sub,idx,arr) { arr[idx] = whereClauseSwaps(sub,config);});  
       var swaps=generateFunnelSwapList(config);
       swaps = transformSubs(subs,config.FOid,swaps,config);
       //data2 = doSwaps(data2, swaps);
