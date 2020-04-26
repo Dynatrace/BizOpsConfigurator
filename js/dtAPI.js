@@ -216,8 +216,8 @@ function uploadTenantOverview(config) {
   config.oldTOid=dashboardTO["id"];
   dashboardTO["id"]=id;
   dashboardTO["dashboardMetadata"]["owner"]=owner;
-  dashboardTO["dashboardMetadata"]["name"]=dashboardTO["dashboardMetadata"]["name"].replace(/MyTenant/g,config.TOname+"");
-  dashboardTO["dashboardMetadata"]["name"]=dashboardTO["dashboardMetadata"]["name"].replace(/TEMPLATE:/g,config.TOname+"");
+  //dashboardTO["dashboardMetadata"]["name"]=dashboardTO["dashboardMetadata"]["name"].replace(/MyTenant/g,config.TOname+"");
+  //dashboardTO["dashboardMetadata"]["name"]=dashboardTO["dashboardMetadata"]["name"].replace(/TEMPLATE:/g,config.TOname+"");
   dashboardTO["dashboardMetadata"]["dashboardFilter"]["managementZone"]= {
     "id": config.mz,
     "name": config.mzname
@@ -227,13 +227,11 @@ function uploadTenantOverview(config) {
   dashboardTO["dashboardMetadata"]["sharingDetails"]["published"]="true";
 
   var query="/api/config/v1/dashboards/"+id;
-  //var data=JSON.stringify(dashboardTO);
 
   //sub-dashboards
   let subs = getStaticSubDBs(dashboardTO,[config.oldTOid]);
   let swaps = generateTenantSwapList(config);
   swaps = transformSubs(subs,config.TOid,swaps,config);
-  //data = doSwaps(data, swaps);
   var data = doSwaps(dashboardTO,swaps);
   data = validateDB(data);
   
@@ -241,7 +239,6 @@ function uploadTenantOverview(config) {
   saveConfigDashboard(configID(id),config);
   uploadSubs(subs);
   return dtAPIquery(query,{method:"PUT",data:data});
-  //});
 }
 
 function updateTenantOverview(TOid) {
@@ -268,7 +265,6 @@ function updateTenantOverview(TOid) {
 
 function uploadAppOverview(config) {
   //get dashboard JSON
-  //var dashboardAO = JSON.parse(JSON.stringify(dbList.find( ({ name }) => name === dbAO ).file));
   var dashboardAO = JSON.parse(JSON.stringify(dbList.find( ({ name }) => name === config.appOverview ).file));
   let p2 = addParentConfig(config,config.TOid);
   return $.when(p2).then(function() {
@@ -279,7 +275,7 @@ function uploadAppOverview(config) {
   config.oldAOid=dashboardAO["id"];
   dashboardAO["id"]=id;
   dashboardAO["dashboardMetadata"]["owner"]=owner;
-  dashboardAO["dashboardMetadata"]["name"]=dashboardAO["dashboardMetadata"]["name"].replace(/MyApp/g,config.AOname+"");
+  //dashboardAO["dashboardMetadata"]["name"]=dashboardAO["dashboardMetadata"]["name"].replace(/MyApp/g,config.AOname+"");
   dashboardAO["dashboardMetadata"]["shared"]="true";
   dashboardAO["dashboardMetadata"]["sharingDetails"]["linkShared"]="true";
   dashboardAO["dashboardMetadata"]["sharingDetails"]["published"]="false";
@@ -290,13 +286,11 @@ function uploadAppOverview(config) {
   if("costControlUserSessionPercentage" in config) addCostControlTile(dashboardAO,config);
   addReplaceButton(dashboardAO,config.TOid,"![BackButton]()","⇦",findTopRight);
   var query="/api/config/v1/dashboards/"+id;
-  //var data2=JSON.stringify(dashboardAO);
   //string based transforms
   let swaps = generateAppSwapList(config); 
   //sub-dashboards
   let subs = getStaticSubDBs(dashboardAO,[config.oldTOid,config.oldAOid]);
   swaps = transformSubs(subs,config.AOid,swaps,config);
-  //data2 = doSwaps(data2, swaps);
   var data2 = doSwaps(dashboardAO,swaps);
   
   //validate
@@ -348,7 +342,7 @@ function uploadFunnel(config) {
     config.oldFOid=dashboardFO["id"];
     dashboardFO["id"]=config.FOid;
     dashboardFO["dashboardMetadata"]["owner"]=owner;
-    dashboardFO["dashboardMetadata"]["name"]=dashboardFO["dashboardMetadata"]["name"].replace(/MyFunnel/g,config.funnelName);
+    //dashboardFO["dashboardMetadata"]["name"]=dashboardFO["dashboardMetadata"]["name"].replace(/MyFunnel/g,config.funnelName);
     config.dashboardName=dashboardFO["dashboardMetadata"]["name"];
     dashboardFO["dashboardMetadata"]["shared"]="true";
     dashboardFO["dashboardMetadata"]["sharingDetails"]["linkShared"]="true";
@@ -359,7 +353,7 @@ function uploadFunnel(config) {
     whereClauseSwaps(dashboardFO,config);  
 
     var query="/api/config/v1/dashboards/"+config.FOid;
-    //var data2=JSON.stringify(dashboardFO);
+    
     //string based transforms
       //sub-dashboards
       let subs = getStaticSubDBs(dashboardFO,[config.oldTOid,config.oldAOid,config.oldFOid]);
