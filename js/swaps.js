@@ -224,7 +224,9 @@ function doSwaps(db,swaps) {
     swaps.forEach(function(s){
       if(s.wrap) s.from = "\\${"+s.from+"}";
     });
-  } else console.log("Unconvert tokens in "+db.dashboardMetadata.name);
+  } else if(typeof db == "object"){
+    console.log("Unconvert tokens in "+db.dashboardMetadata.name);
+  }
 
     if(typeof db == "string"){ //already a string, great do the swaps
       dbS=db;
