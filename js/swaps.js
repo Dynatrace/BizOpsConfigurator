@@ -300,9 +300,7 @@ function scanForTokens(db) {
     dbs = JSON.stringify(db);
   }
   
-  let iter = dbs.matchAll(/\${[^}]*}/g);
-  let matches = new Set();
-  for(let m of iter){ matches.add(m[0]);}
+  let matches = Array.from(dbs.matchAll(/\${[^}]*}/g), m => m[0]);
   if(matches.length>0)
     return matches;
   else
