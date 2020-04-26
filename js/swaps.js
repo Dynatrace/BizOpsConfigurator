@@ -114,8 +114,8 @@ function whereClauseSwaps(dbData,config) {
   FunnelStep=funnelSteps.join(", ");
 
     /*dbData["tiles"].forEach(function(t) {
-      if(t.tileType=="DTAQL") {*/
-  	if(typeof(t.query) === 'undefined'){console.log("DTAQL w/o query");return;}
+      if(t.tileType=="DTAQL") {
+  	if(typeof(t.query) === 'undefined'){console.log("DTAQL w/o query");return;}*/
     //generic swaps here:
     if(config.featureAdded) 
         whereSteps.push({from:"StepNewFeature1", to:
