@@ -355,7 +355,7 @@ function compareAppChangeHandler(e){
         ipClauses = [];
     }
 
-    if($(this).prop("checked")){
+    if($(this).prop("checked")){ 
       if(!ipClause.includes("10.0.0.0"))
         ipClauses.push(`usersession.ip BETWEEN "10.0.0.0" AND "10.255.255.255"`);
       if(!ipClause.includes("172.16.0.0"))
