@@ -357,21 +357,21 @@ function compareAppChangeHandler(e){
 
     if($(this).prop("checked")){
       if(!ipClause.includes("10.0.0.0"))
-        ipClauses.push(`usersession.ip BETWEEN \\"10.0.0.0\\" AND \\"10.255.255.255\\"`);
+        ipClauses.push(`usersession.ip BETWEEN "10.0.0.0" AND "10.255.255.255"`);
       if(!ipClause.includes("172.16.0.0"))
-        ipClauses.push(`usersession.ip BETWEEN \\"172.16.0.0\\" AND \\"172.31.255.255\\"`);
+        ipClauses.push(`usersession.ip BETWEEN "172.16.0.0" AND "172.31.255.255"`);
       if(!ipClause.includes("192.168.0.0"))
-        ipClauses.push(`usersession.ip BETWEEN \\"192.168.0.0\\" AND \\"192.168.255.255\\"`);
+        ipClauses.push(`usersession.ip BETWEEN "192.168.0.0" AND "192.168.255.255"`);
       if(ipClauses.length>0) ipClause = ` AND (${ipClauses.join(" OR ")})`;
       else ipClause = "";
       ipClauseObj.val(ipClause);
     } else {
       let i = 0;
-      i = ipClauses.indexOf(`usersession.ip BETWEEN \\"10.0.0.0\\" AND \\"10.255.255.255\\"`);
+      i = ipClauses.indexOf(`usersession.ip BETWEEN "10.0.0.0" AND "10.255.255.255"`);
       if(i>-1) ipClauses.splice(i,1);
-      i = ipClauses.indexOf(`usersession.ip BETWEEN \\"172.16.0.0\\" AND \\"172.31.255.255\\"`);
+      i = ipClauses.indexOf(`usersession.ip BETWEEN "172.16.0.0" AND "172.31.255.255"`);
       if(i>-1) ipClauses.splice(i,1);
-      i = ipClauses.indexOf(`usersession.ip BETWEEN \\"192.168.0.0\\" AND \\"192.168.255.255\\"`);
+      i = ipClauses.indexOf(`usersession.ip BETWEEN "192.168.0.0" AND "192.168.255.255"`);
       if(i>-1) ipClauses.splice(i,1);
       if(ipClauses.length>0) ipClause = ` AND (${ipClauses.join(" OR ")})`;
       else ipClause = "";

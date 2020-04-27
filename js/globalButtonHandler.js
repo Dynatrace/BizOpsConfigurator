@@ -690,7 +690,7 @@ function globalButtonHandler() {
         
         let lower = lowerObj.val();
         let upper = upperObj.val();
-        ipClauses.push(`usersession.ip BETWEEN \\"${lower}\\" AND \\"${upper}\\"`);
+        ipClauses.push(`usersession.ip BETWEEN "${lower}" AND "${upper}"`);
         if(ipClauses.length>0) ipClause = ` AND (${ipClauses.join(" OR ")})`;
         else ipClause = "";
         ipClauseObj.val(ipClause);
