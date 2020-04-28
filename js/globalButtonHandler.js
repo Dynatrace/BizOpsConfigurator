@@ -464,8 +464,7 @@ function globalButtonHandler() {
         download(filename, JSON.stringify((({ config }) => ({ config }))(selection)));
         break;
       case "downloadOfflinePack": {
-        let filename = OfflinePack + "-" +
-          Date.now() + ".json";
+        let filename = `OfflinePack-${Date.now()}.json`;
         download(filename, JSON.stringify(dbList));
         break;
       }
