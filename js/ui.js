@@ -312,11 +312,11 @@ function errorbox(e) {
     if(typeof dtrum !== "undefined") dtrum.reportError(errorMsg);
 }
 
-function v5handler() {
+/*function v5handler() {
     v5test=(v5test?false:true);
     $("#v5test").text( (v5test?"Back to V4":"V5 Test") );
     loadDBList( (v5test?1:0) );
-}
+}*/
 
 
 function drawTimeInterval(v) {

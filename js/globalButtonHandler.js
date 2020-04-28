@@ -21,8 +21,12 @@ function globalButtonHandler() {
               $("#viewport").load("html/configurator/main.html",fieldsetPainter); 
               getVersion()
                 .then(processVersion)
-                .then(loadDBList)
-                .then(downloadDBsFromList);
+                .then(function(){
+                  if(!dbList.length>0){
+                    loadDBList()
+                    .then(downloadDBsFromList);
+                  }
+                });
           }
        });
        $.when(p_connect).fail(errorboxJQXHR);
