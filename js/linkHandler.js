@@ -50,10 +50,12 @@ function loadStaticHandlers() {
   $("#gear").click(function() {
         $("#repo_config").load("html/repo_config.html",fieldsetPainter);
         $("#repo_config").show();
+        $("#repo_config").css('z-index',++popupZindex);
   });
   $("#dbbutton").click(function() {
         $("#dashboard_list").load("html/dashboard_list.html",fieldsetPainter);
         $("#dashboard_list").show();
+        $("#dashboard_list").css('z-index',++popupZindex);
   });
   $("#miscTools").click(function(){
     $("#viewport").load("html/miscTools/toolsList.html");
@@ -129,6 +131,7 @@ function linkHandler(e) {
         break;
       case "x_a":
         $(this).parent().parent().hide();
+        popupZindex--;
         break;
       case "revealToken":
         if($("#revealToken").hasClass("revealed")){

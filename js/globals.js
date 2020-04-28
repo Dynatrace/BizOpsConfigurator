@@ -68,6 +68,7 @@ var Regions=[];
 var autoTags=[];
 var MZs=[];
 var HUreport={url:"",data:{}};
+var popupZindex=0;
 
 ///////// Functions for manipulating global vars //////////
 

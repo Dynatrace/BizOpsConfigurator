@@ -345,6 +345,7 @@ function popup(inputs, popupHeader, desc) {
   html += "<tr><td colspan=2 class='desc'>" + desc + "</td></tr>";
   html += "<tr><td colspan=2><input type='button' name='ok' value='Ok' id='popup_ok'></td></tr></table></div>";
   $("#viewport").append(html);
+  $("#popup").css('z-index',++popupZindex);
   $("#popup_ok").on("click", function () { popout(deferred); });
 
   return deferred;
@@ -372,6 +373,7 @@ function popout(popup_p) {
   $("#popup").remove();
 
   popup_p.resolve(outputs);
+  popupZindex--;
 }
 
 function buildFilterClause() {
