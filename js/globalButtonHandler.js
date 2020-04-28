@@ -471,7 +471,7 @@ function globalButtonHandler() {
       case "uploadOfflinePack": {
         //get file from a popup
         let popupHeader = "Offline Pack to upload";
-        let inputs = [{ type: 'file', name: 'offlinePack', value: '', label: "JSON file:" }];
+        let inputs = [{ type: 'file', name: 'offlinePack', value: '', label: "JSON&nbsp;file" }];
         let desc = "Downloaded from an online environment.";
 
         let popup_p = popup(inputs, popupHeader, desc);
@@ -488,7 +488,7 @@ function globalButtonHandler() {
             }*/
             dbList = json;
           };
-          fr.readAsText(file);
+          if(typeof file !=="undefined")fr.readAsText(file);
         });
         break;
       }
