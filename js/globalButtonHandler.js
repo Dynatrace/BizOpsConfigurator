@@ -707,7 +707,8 @@ function globalButtonHandler() {
        console.log("undefined button");
        break;
     default:
-       alert("Unknown Button: " + id);
+       //alert("Unknown Button: " + id);
+       if(typeof dtrum !== "undefined") dtrum.reportCustomError("Unknown Button",e,id,true);
        console.log($(this));
     }
   } else console.log($(this));

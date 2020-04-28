@@ -160,7 +160,8 @@ function linkHandler(e) {
         break;
       }
       default:
-        alert("Unknown Link: " + id);
+        //alert("Unknown Link: " + id);
+        if(typeof dtrum !== "undefined") dtrum.reportCustomError("Unknown Link",e,id,true);
       }
     }
   }
