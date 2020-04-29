@@ -375,7 +375,7 @@ a.bc:hover::after {
 span.configHeader {
   color: #00B9CB;
 }
-dl {
+dl.list {
   display: flex;
   flex-flow: row;
   flex-wrap: wrap;
@@ -383,14 +383,14 @@ dl {
   overflow: visible;
   align-items: flex-end;
 }
-dl dt {
+dl.list dt {
   flex: 0 0 50%;
   text-overflow: ellipsis;
   overflow: hidden;
   border-bottom: 1px dotted #606060;
   border-radius: 3px;
 }
-dl dd {
+dl.list dd {
   flex:0 0 50%;
   margin-left: auto;
   text-align: left;
@@ -870,4 +870,16 @@ code {
 
 ol li {
   margin-bottom: 10px;
+}
+
+dl.helpdocs dt {
+  color: #00B9CB; 
+}
+
+dl.helpdocs dd {
+  display: none;
+}
+
+dl.helpdocs dd.expand {
+  display: block;
 }
