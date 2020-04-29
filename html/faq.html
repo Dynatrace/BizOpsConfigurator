@@ -72,7 +72,31 @@
             JSON templates for dashboards are also: <a href='https://github.com/TechShady/Dynatrace-DashboardV5'
             class='newTab' target='_blank'>here<img src='images/link.svg'></a></li>
         <li><b>My organization blocks GitHub. Can I still use the Configurator?</b><br>
-            Today, no. The HTML and JS should work fine hosted on any webserver; however, listing and retrieving the dashboards
-            from a repo would need a different offline mechanism. We'll add this to our backlog.</li>
+            <b>I'm in a completely airgapped environment. Can I?</b><br>
+            Yes! We recently added buttons in the config menu (Gear icon) to Download and Upload Offline Packs.<br> 
+            For <u>"Partial Offline Mode"</u>:
+            <ol>
+                <li>Load the Configurator outside of your protected network, e.g. on a guest wifi</li>
+                <li>Click the config menu (Gear icon)</li>
+                <li>Click "Reload Dashboards", which gets all of the current templates from GitHub</li>
+                <li>Click "Download Offline Pack", which downloads a JSON file with all of the templates packaged up</li>
+                <li>Trasport the JSON file to your protected network via whatever approved means / process your company has</li>
+                <li>Load the Configurator from within your protected network, e.g. able to hit your Dynatrace Managed environment</li>
+                <li>Click the Gear icon again, and then "Upload Offline Pack"</li>
+                <li>Provide the JSON file</li>
+                <li>Click Begin on the menubar, and use the Configurator as per normal</li>
+                <li>To update your Offline Pack, just follow the procedure again to redownload</li>
+            </ol>
+            For <u>"Full Offline Mode" (airgapped)</u>:
+            <ol>
+                <li>Outside your protected network, download the configurator <a href="https://github.com/LucasHocker/LucasHocker.github.io"
+                target="_blank" class="newTab">source <img src='images/link.svg'></a></li>
+                <li>Trasport the source to your protected network via whatever approved means / process your company has</li>
+                <li>Extract the source (/BizOpsConfigurator directory) into a webserver of your choosing<br>
+                Note: the Configurator is 100% static content, so any webserver should be fine</li>
+                <li>Point your browser to your webserver to confirm it's serving the content</li>
+                <li>Follow above process for "Partial Offline"</li>
+            </ol>
+        </li>
     </ol>
 </div>

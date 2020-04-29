@@ -864,3 +864,7 @@ span.info {
 code {
   color: #e6e6e6;
 }
+
+ol li {
+  margin-bottom: 10px;
+}
