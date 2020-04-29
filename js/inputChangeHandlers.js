@@ -14,6 +14,8 @@ function loadInputChangeHandlers(){
     $("#viewport").on("change", ".rfc1918", rfc1918ChangeHandler);
     $("#viewport").on("change", ".dashboardCleanupAll", dashboardCleanupAllChangeHandler);
     $("#viewport").on("change", "#HU-report", HUreportChangeHandler);
+
+    $("#viewport").on("click", "dl.helpdocs dt", helpdocToggler);
 }
 
 
@@ -557,4 +559,7 @@ function compareAppChangeHandler(e){
     } 
   }
 
-  
+  function helpdocToggler(){
+    let dt = $(this);
+    dt.next("dd").toggle();
+  }

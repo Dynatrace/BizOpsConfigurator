@@ -21,8 +21,8 @@ var githubpat="";
 var repoList = [ 
     {'owner':'TechShady','repo':'Dynatrace-DashboardsV4','path':''},
     {'owner':'TechShady','repo':'Dynatrace-DashboardV5','path':''},
-    {'owner':'LucasHocker','repo':'CitrixDashboards','path':''},
-    {'owner':'LucasHocker','repo':'SAP-Analytics-1','path':''},
+    {'owner':'Dynatrace-JasonOstroski','repo':'CitrixDashboardsV1','path':''},
+    {'owner':'jjbologna','repo':'SAP-extension-dashboards','path':''},
     {'owner':'Dynatrace-Dave-Mauney','repo':'DashboardTemplates','path':'v1.188.75'},
     {'owner':'TechShady','repo':'Dynatrace-Remote-Employee','path':''},
     {'owner':'TechShady','repo':'Dynatrace-Infrastructure','path':''},
@@ -39,7 +39,7 @@ var tenantOverviews = [
 var appOverviews = [
     {'name':'WebApp', 'filename':'AppOverview.json'},
     {'name':'BizOpsLite', 'filename':'LiteAppOverview.json'},
-    {'name':'Citrix (Preview)', 'filename':'CitrixOverview.json'},
+    {'name':'Citrix (New)', 'filename':'CitrixOverview.json'},
     {'name':'SAP (Preview)', 'filename':'SAPDigitalCockpit-Main.json'},
     {'name':'Remote Employee Web (preview)', 'filename':'REApplicationOverview.json'},
     {'name':'Remote Employee Mobile (preview)', 'filename':'REApplicationOverview2.json'}
