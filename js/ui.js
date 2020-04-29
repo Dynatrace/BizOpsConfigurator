@@ -104,7 +104,7 @@ function jqueryInit() {
 }
 
 function drawTenantOverviewList() {
-  $("#tenantList").html("<dl></dl>");
+  $("#tenantList").html("<dl class='list'></dl>");
 
   let TO = /bbbbbbbb-[0-9]{4}-0000-0000-000000000000/;
   DBAdashboards.forEach(function (dashboard) {
@@ -122,7 +122,7 @@ function drawTenantOverviewList() {
 }
 
 function drawAppOverviewList(TOid) {
-  $("#appList").html("<dl></dl>");
+  $("#appList").html("<dl class='list'></dl>");
 
   let to = TOid.split("-")[1];
   let reS = "bbbbbbbb-" + to + "-[0-9]{4}-0000-000000000000";
@@ -144,7 +144,7 @@ function drawAppOverviewList(TOid) {
 }
 
 function drawFunnelList(AOid) {
-  $("#funnelList").html("<dl></dl>");
+  $("#funnelList").html("<dl class='list'></dl>");
 
   let to = AOid.split("-")[1];
   let ao = AOid.split("-")[2];
