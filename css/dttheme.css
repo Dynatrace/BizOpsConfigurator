@@ -82,7 +82,10 @@ body {
 
 .uitest { visibility: hidden;}
 
-textarea, select, input, button { outline: none; }
+:focus { 
+  outline-style: inset; 
+  outline-width: 1px;
+}
 
 input[type=button], input[type=button].default:hover, input[type=button]:visited {
   border-radius: 3px;
