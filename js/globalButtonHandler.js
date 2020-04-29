@@ -586,11 +586,11 @@ function globalButtonHandler() {
         break;
       }
       case "clearFunnel": {
-        selection.config.funnelData.forEach(function (f, i, a) {
+        funnelData.forEach(function (f, i, a) {
           a[i].value = "";
           a[i].clauses = [];
         });
-        updateWhere(selection.config.funnelData);
+        updateWhere(funnelData);
         selection.config.whereClause = $("#whereClause").val();
         $("#viewport").load("html/configurator/deployFunnel-funnel.html", fieldsetPainter);
         break;
