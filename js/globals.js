@@ -32,6 +32,7 @@ var tenantOverviews = [
     {'name':'BizOps', 'filename':'TenantOverview.json'},
     {'name':'BizOpsLite', 'filename':'LiteTenantOverview.json'},
     {'name':'Dashboard Basics', 'filename':'00000000-dddd-bbbb-ffff-000000000001'},
+    {'name':'SAP Extension', 'filename':'SAP Application Cockpit.json'},
     {'name':'Remote Employee Web', 'filename':'RETenantOverview.json'},
     {'name':'Remote Employee Mobile', 'filename':'RETenantOverview2.json'},
     {'name':'Infrastructure', 'filename':'InfrastructureOverview.json'}
@@ -40,7 +41,6 @@ var appOverviews = [
     {'name':'WebApp', 'filename':'AppOverview.json'},
     {'name':'BizOpsLite', 'filename':'LiteAppOverview.json'},
     {'name':'Citrix (New)', 'filename':'CitrixOverview.json'},
-    {'name':'SAP (Preview)', 'filename':'SAPDigitalCockpit-Main.json'},
     {'name':'Remote Employee Web (preview)', 'filename':'REApplicationOverview.json'},
     {'name':'Remote Employee Mobile (preview)', 'filename':'REApplicationOverview2.json'}
     ];

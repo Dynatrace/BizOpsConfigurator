@@ -328,11 +328,6 @@ function appOverviewChangeHandler() {
       });
       break;
     }
-    case "SAPDigitalCockpit-Main.json": {
-      $("#autoTag").show();
-      autoTagBox("SAP");
-      break;
-    }
     case "REApplicationOverview.json":
     case "REApplicationOverview2.json": {
       $("#remoteEmployeeInputs").show();
@@ -353,17 +348,18 @@ function tenantOverviewChangeHandler() {
   switch (TO) {
     case "RETenantOverview.json":
     case "RETenantOverview2.json":
-    case "RETenantOverview3.json":
-      {
-        $("#remoteEmployeeInputs").show();
-        $(".remoteEmployeeCompare").show();
-        break;
-      }
+    case "RETenantOverview3.json": {
+      $("#remoteEmployeeInputs").show();
+      $(".remoteEmployeeCompare").show();
+      break;
+    }
     case "00000000-dddd-bbbb-ffff-000000000001":
-    case "TenantOverview.json":
-      {
-        break;
-      }
+    case "TenantOverview.json": {
+      break;
+    }
+    case "SAP Application Cockpit.json": {
+      break;
+    }
     default:
       console.log("No special handling defined for #tenantOverview: " + TO);
   }

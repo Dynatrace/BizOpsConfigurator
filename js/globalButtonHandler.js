@@ -303,36 +303,60 @@ function globalButtonHandler() {
         chart.draw(funnelData, options);
         updateWhere(funnelData);
         break;
-      /*case "upgradeTenant":
-         $("#viewport").load("html/configurator/listTenant.html",fieldsetPainter);
-         break;*/
       case "uploadApp": {
         $("input#uploadApp").val("Uploading...");
         $("input#uploadApp").prop('disabled', true);
         let TOid = $("#TOid").text();
-        selection.config.MyCompareApp = $("#MyCompareApp").val();
-        selection.config.compareAppID = $("#compareAppList").val();
-        selection.config.compareAppName = $("#compareAppList option:selected").text();
-        selection.config.compareMZid = $("#compareMZ select").val();
-        selection.config.compareMZname = $("#compareMZ select option:selected").text();
-        selection.config.MyTime = $("#MyTime").val();
-        selection.config.compareTime = $("#compareTimeList").val();
+        selection.config.appOverview = $("#appOverview").val();
         selection.config.AOname = $("#appName").val();
         selection.config.appID = $("#applist").val();
         selection.config.appName = $("#applist option:selected").text();
         selection.config.TOid = TOid;
         selection.config.TOname = $("#TOname").text();
-        selection.config.appOverview = $("#appOverview").val();
         selection.config.appOverviewName = $("#appOverview option:selected").text();
-        selection.config.ipClause = $("#ipClause").val();
-        selection.config.rfc1918 = $("#rfc1918").prop("checked");
-        selection.config.ipName = $("#ipName").val();
-        selection.config.compareipClause = $("#compareipClause").val();
-        selection.config.comparerfc1918 = $("#comparerfc1918").prop("checked");
-        selection.config.ipCompareName = $("#ipCompareName").val();
-        selection.config.compareipClause2 = $("#compareipClause2").val();
-        selection.config.comparerfc19182 = $("#comparerfc19182").prop("checked");
-        selection.config.ipCompareName2 = $("#ipCompareName2").val();
+
+        switch(selection.config.appOverview){
+          case "AppOverview.json": {
+            selection.config.MyCompareApp = $("#MyCompareApp").val();
+            selection.config.compareAppID = $("#compareAppList").val();
+            selection.config.compareAppName = $("#compareAppList option:selected").text();
+            selection.config.compareMZid = $("#compareMZ select").val();
+            selection.config.compareMZname = $("#compareMZ select option:selected").text();
+            selection.config.MyTime = $("#MyTime").val();
+            selection.config.compareTime = $("#compareTimeList").val();
+            break;
+          }
+          case "CitrixOverview.json": {
+            selection.config.MZid = $("#citrixMZ select").val();
+            selection.config.MZname = $("#citrixMZ select option:selected").text();
+            selection.config.serviceID = $("#storefrontService").val();
+            selection.config.customAppID = $("#citrixRUMApp").val();
+            selection.config.customApp = $("#citrixRUMApp option:selected").text();
+        /*Management ID - ${MZid}
+      Management Zone Name - ${MZname}
+      Citrix Custom App Name - ${CustomApp}
+      Citrix Custom App ID - ${CustomAppID} – Ex: CUSTOM_APPLICATION-37A08489ECBD4F91
+      Storefront App - ${MyApp} -
+      Storefront App ID -  ${InternalAppID} – Ex: APPLICATION-A0F724A4E525A3E3
+      Storefront Service - $[MyServiceID} – Ex: SERVICE-F44399D220DE9101*/
+            break;
+          }
+          case "REApplicationOverview.json":
+          case "REApplicationOverview2.json": {
+            selection.config.ipClause = $("#ipClause").val();
+            selection.config.rfc1918 = $("#rfc1918").prop("checked");
+            selection.config.ipName = $("#ipName").val();
+            selection.config.compareipClause = $("#compareipClause").val();
+            selection.config.comparerfc1918 = $("#comparerfc1918").prop("checked");
+            selection.config.ipCompareName = $("#ipCompareName").val();
+            selection.config.compareipClause2 = $("#compareipClause2").val();
+            selection.config.comparerfc19182 = $("#comparerfc19182").prop("checked");
+            selection.config.ipCompareName2 = $("#ipCompareName2").val();
+            break;
+          }
+          default:
+            console.log("No special handling defined for #appOverview: " + AO);
+        }
 
         if (typeof $("#mz").val() != "undefined") {
           selection.config.mz = $("#mz").val();
