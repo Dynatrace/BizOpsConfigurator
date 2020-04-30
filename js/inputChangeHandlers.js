@@ -284,6 +284,8 @@ function compareAppChangeHandler(e){
       $("#compareTime").hide();
       $("#remoteEmployeeInputs").hide();
       $(".remoteEmployeeCompare").hide();
+      $("#citrixAppTemplate").hide();
+      $("#appPickerLabel").text("App");
   
       switch(AO) {
       case "AppOverview.json": {
@@ -291,7 +293,7 @@ function compareAppChangeHandler(e){
           $("#compareTime").show();
           break;
       }
-      case "CitrixOverview.json": { //TODO: refactor this as a generic function
+      /*case "CitrixOverview.json": { //TODO: refactor this as a generic function
           $("#autoTag").show();
           $("#compareApp").show();
           $("#compareMZ").show();
@@ -303,6 +305,28 @@ function compareAppChangeHandler(e){
           autoTagBox("Citrix");
           
           break;
+      }*/
+      case "CitrixOverview.json": {
+        $("#appPickerLabel").text("StoreFront App");
+        /*Management ID - ${MZid}
+        Management Zone Name - ${MZname}
+        Citrix Custom App Name - ${CustomApp}
+        Citrix Custom App ID - ${CustomAppID} – Ex: CUSTOM_APPLICATION-37A08489ECBD4F91
+        Storefront App - ${MyApp} -
+        Storefront App ID -  ${InternalAppID} – Ex: APPLICATION-A0F724A4E525A3E3
+        Storefront Service - $[MyServiceID} – Ex: SERVICE-F44399D220DE9101*/
+          $("#citrixAppTemplate").show();
+          drawMZs("#citrixMZ");
+          $("#citrixMZ").on("change","",function(){
+            let mzid = $(this).val();
+            getServices(mzid).then(function(services){
+                drawServiceSelect(services,"#storefrontService");
+              });
+            getApps(mzid).then(function(apps){
+              drawApps(apps, selection.config, selector="#citrixRUMApp");
+            });
+          });
+          
       }
       case "SAPDigitalCockpit-Main.json": {
           $("#autoTag").show();

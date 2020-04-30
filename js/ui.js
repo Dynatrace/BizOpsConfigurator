@@ -179,14 +179,14 @@ function drawMZs(locator = "#mzlist") {
   return p0;
 }
 
-function drawApps(apps, config) {
+function drawApps(apps, config, selector="#applist") {
   apps.sort((a, b) => (a.displayName.toLowerCase() > b.displayName.toLowerCase()) ? 1 : -1);
   //let options = "<option value=''>None</option>"; //this was for Shady's cross app journey idea
   let options = "";
   apps.forEach(function (app) {
     options += "<option value='" + app.entityId + "'>" + app.displayName + "</option>";
   });
-  $("#applist").html(options);
+  $(selector).html(options);
 
   if ("appID" in config) $("#applist").val(config.appID);
 }
@@ -432,4 +432,12 @@ function autoTagBox(tech) {
         });
     }
   });
+}
+
+function drawServiceSelect(data,selector){
+  let html = "";
+  data.forEach(function(s){
+    html += `<option value="${s.entityId}">${s.displayName}</option>`;
+  });
+  selector.html(html);
 }

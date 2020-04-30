@@ -127,6 +127,13 @@ function getAutoTags() {
     return dtAPIquery(query,{});
 }
 
+function getServices(mzid=undefined){
+  var query = "api/v1/entity/services?includeDetails=false";
+  if(typeof mzid !== "undefined") query += `&managementZone=${mzid}`;
+
+  return dtAPIquery(query,{});
+}
+
 function deployAutoTag(file,swaps) {
   var payload = {};
   var p = $.get(file)
