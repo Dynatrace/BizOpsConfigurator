@@ -128,7 +128,7 @@ function getAutoTags() {
 }
 
 function getServices(mzid=undefined){
-  var query = "api/v1/entity/services?includeDetails=false";
+  var query = "/api/v1/entity/services?includeDetails=false";
   if(typeof mzid !== "undefined") query += `&managementZone=${mzid}`;
 
   return dtAPIquery(query,{});
