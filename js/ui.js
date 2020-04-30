@@ -439,5 +439,5 @@ function drawServiceSelect(data,selector){
   data.forEach(function(s){
     html += `<option value="${s.entityId}">${s.displayName}</option>`;
   });
-  selector.html(html);
+  $(selector).html(html);
 }
