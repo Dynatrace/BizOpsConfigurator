@@ -392,15 +392,33 @@ function globalButtonHandler() {
         selection.config.mzname = $("#mzlist option:selected").text();
         selection.config.tenantOverview = $("#tenantOverview").val();
         selection.config.tenantOverviewName = $("#tenantOverview option:selected").text();
-        selection.config.ipClause = $("#ipClause").val();
-        selection.config.rfc1918 = $("#rfc1918").prop("checked");
-        selection.config.ipName = $("#ipName").val();
-        selection.config.compareipClause = $("#compareipClause").val();
-        selection.config.comparerfc1918 = $("#comparerfc1918").prop("checked");
-        selection.config.ipCompareName = $("#ipCompareName").val();
-        selection.config.compareipClause2 = $("#compareipClause2").val();
-        selection.config.comparerfc19182 = $("#comparerfc19182").prop("checked");
-        selection.config.ipCompareName2 = $("#ipCompareName2").val();
+        
+        switch(selection.config.tenantOverview){
+          case "TenantOverview.json":
+          case "LiteTenantOverview.json":
+            break;
+          case "00000000-dddd-bbbb-ffff-000000000001":
+            break;
+          case "SAP Application Cockpit.json":
+            selection.config.SAPapps = $("#SAPapps").val();
+            break;
+          case "RETenantOverview.json":
+          case "RETenantOverview2.json":
+            selection.config.ipClause = $("#ipClause").val();
+            selection.config.rfc1918 = $("#rfc1918").prop("checked");
+            selection.config.ipName = $("#ipName").val();
+            selection.config.compareipClause = $("#compareipClause").val();
+            selection.config.comparerfc1918 = $("#comparerfc1918").prop("checked");
+            selection.config.ipCompareName = $("#ipCompareName").val();
+            selection.config.compareipClause2 = $("#compareipClause2").val();
+            selection.config.comparerfc19182 = $("#comparerfc19182").prop("checked");
+            selection.config.ipCompareName2 = $("#ipCompareName2").val();
+            break;
+          case "InfrastructureOverview.json":
+            break;
+          default:
+        }
+
 
         let p1 = uploadTenantOverview(selection.config);
 

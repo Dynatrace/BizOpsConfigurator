@@ -13,7 +13,7 @@
         <input id="appName" name="appName" placeholder="Overview Name"><br>
         Overview Template: <select id="appOverview"></select>
     </div>
-    <div id="compareTime">
+    <div id="compareTime" class="notDefault">
       <h3>Time Comparison</h3>
       Default time interval:
       <select id="MyTime">
@@ -32,11 +32,11 @@
         <option value="Last Week">Same time last week</option>
       </select>
     </div>
-    <div id="autoTag">
+    <div id="autoTag" class="notDefault">
         <span id="tagStatus"></span>
         <span id="MZStatus"></span>
     </div>
-    <div id="compareApp">
+    <div id="compareApp" class="notDefault">
       <h3>Release Validation</h3>
       Comparison App:
       <select id="compareAppList">
@@ -45,7 +45,7 @@
       <input id="MyCompareApp" name="compareAppName" placeholder="Friendly Name"><br>
       <div id="compareMZ">Comparison App's MZ: <select></select></div>
     </div>
-    <div id="remoteEmployeeInputs">
+    <div id="remoteEmployeeInputs" class="notDefault">
       <h3>Remote Employee Segment</h3>
       Segment Name: <input id="ipName" placeholder="Friendly Name"><br>
       RFC1918: <input type="checkbox" id="rfc1918"><br>
@@ -56,7 +56,7 @@
       <br>
       <input id="ipClause" class="ipClause">
     </div>
-    <div id="citrixAppTemplate">
+    <div id="citrixAppTemplate" class="notDefault">
       <h3>Citrix Config</h3>
       Citrix Management Zone: <select id="citrixMZ"></select><br>
       Storefront Service: <select id="storefrontService"></select><br>
@@ -64,7 +64,7 @@
     </div>
   </div>
   <div class="flexcontainer">
-    <div class="remoteEmployeeCompare">
+    <div class="remoteEmployeeCompare" class="notDefault">
       <h3>Comparison Segment A</h3>
       Segment Name: <input id="ipCompareName" placeholder="Friendly Name"><br>
       RFC1918: <input type="checkbox" id="comparerfc1918" class="rfc1918"><br>
@@ -75,7 +75,7 @@
       <br>
       <input id="compareipClause" class="ipClause">
     </div>
-    <div class="remoteEmployeeCompare">
+    <div class="remoteEmployeeCompare" class="notDefault">
       <h3>Comparison Segment B</h3>
       Segment Name: <input id="ipCompareName2" placeholder="Friendly Name"><br>
       RFC1918: <input type="checkbox" id="comparerfc19182" class="rfc1918"><br>

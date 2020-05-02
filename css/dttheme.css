@@ -759,9 +759,9 @@ th {
   color: #00b9cc;
 }
 
-#citrixAutoTag {
+/*#citrixAutoTag {
   display: none;
-}
+}*/
 
 /*input#dashboardCleanup {
 }*/
@@ -795,9 +795,9 @@ th {
   min-width: 60%;
 }
 
-#remoteEmployeeInputs, .remoteEmployeeCompare {
+/*#remoteEmployeeInputs, .remoteEmployeeCompare {
   display: none;
-}
+}*/
 
 #ipClause, #compareipClause, #compareipClause2 {
   width: 95%;
@@ -882,4 +882,8 @@ dl.helpdocs dd {
 
 dl.helpdocs dd.expand {
   display: block;
+}
+
+div.notDefault {
+  display: none;
 }
