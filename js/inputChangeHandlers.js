@@ -358,6 +358,14 @@ function tenantOverviewChangeHandler() {
       break;
     }
     case "SAP Application Cockpit.json": {
+      getApps().then(function(apps){
+        let customapps = apps.filter(app => app.entityId.includes("CUSTOM_APPLICATION"));
+        let html = "";
+        customapps.forEach(function(app){
+          html += `<option value="${app.entityId}">${app.displayName}</option>`;
+        });
+        $("#SAPapps").html(html);
+      });
       break;
     }
     default:
