@@ -238,13 +238,15 @@ function columnList(db,index,list){
   let bounds = db.tiles[index].bounds;
   let tileJSON = JSON.stringify(db.tiles[index]);
 
-  db.tiles.splice(index,1);
-  list.forEach(function(i){
+  list.forEach(function(e,i){
     let t = JSON.parse(tileJSON);
-    t.name = i.displayName;
-    t.assignedEntities[0] = i.entityId;
+    t.name = e.displayName;
+    t.assignedEntities[0] = e.entityId;
     t.bounds = JSON.parse(JSON.stringify(bounds));
-    db.tiles.push(t);
+    if(i===0)
+      db.tiles[index]=t;
+    else
+      db.tiles.push(t);
 
     bounds.top = bounds.top + bounds.height;
   });
@@ -263,5 +265,10 @@ function SAPappList(db,apps){
   let leftIndex = findTileByName(db,"SAP App Left");
   let rightIndex = findTileByName(db,"SAP APP Right");
 
+
   twoColumnList(db,leftIndex,rightIndex,apps);
+  //splice out the template tiles after adding new ones
+  //let first = Math.max(leftIndex,rightIndex);
+  //let second = Math.min(leftIndex,rightIndex);
+  //db.tiles.splice(leftIndex,1);
 }
