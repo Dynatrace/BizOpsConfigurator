@@ -253,8 +253,8 @@ function columnList(db,index,list){
 }
 
 function twoColumnList(db,leftIndex,rightIndex,list){
-  columnList(db,leftIndex,list.filter((a,i) => i%2===0));
-  columnList(db,rightIndex,list.filter((a,i) => i%2===1));
+  columnList(db,leftIndex,list.filter((a,i) => i%2===1));
+  columnList(db,rightIndex,list.filter((a,i) => i%2===0));
 }
 
 function findTileByName(db,findName){
@@ -267,8 +267,4 @@ function SAPappList(db,apps){
 
 
   twoColumnList(db,leftIndex,rightIndex,apps);
-  //splice out the template tiles after adding new ones
-  //let first = Math.max(leftIndex,rightIndex);
-  //let second = Math.min(leftIndex,rightIndex);
-  //db.tiles.splice(leftIndex,1);
 }
