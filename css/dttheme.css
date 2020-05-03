@@ -759,13 +759,6 @@ th {
   color: #00b9cc;
 }
 
-/*#citrixAutoTag {
-  display: none;
-}*/
-
-/*input#dashboardCleanup {
-}*/
-
 #compareMZ {
   display: none;
 }
@@ -794,10 +787,6 @@ th {
 #config table {
   min-width: 60%;
 }
-
-/*#remoteEmployeeInputs, .remoteEmployeeCompare {
-  display: none;
-}*/
 
 #ipClause, #compareipClause, #compareipClause2 {
   width: 95%;
@@ -849,7 +838,6 @@ table.dataTable td:nth-child(1){
 
 table.dataTable tr:nth-child(even) {
   background-color: #f8f8f8;
-  /*border: 1px solid #f8f8f8;*/
 }
 
 table.dataTable thead td {
@@ -886,4 +874,20 @@ dl.helpdocs dd.expand {
 
 div.notDefault {
   display: none;
+}
+
+section article {
+  display: none;
+}
+
+section ::before {
+  background-image: url(images/dropdown-open.svg);
+}
+
+section.expanded article {
+  display: block;
+}
+
+section.expanded ::before {
+  transform: translateY(-50%) rotate(180deg);
 }
