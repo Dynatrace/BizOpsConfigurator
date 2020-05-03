@@ -590,5 +590,6 @@ function HUreportChangeHandler() {
 }
 
 function helpdocToggler() {
-  $(this).toggleClass("expanded");
+  let section = $(this).parent("section");
+  section.toggleClass("expanded");
 }
