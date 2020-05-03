@@ -359,7 +359,7 @@ function tenantOverviewChangeHandler() {
       break;
     }
     case "SAP Application Cockpit.json": {
-      $("#SAPtenant").hide();
+      $("#SAPtenant").show();
       getApps().then(function(apps){
         let customapps = apps.filter(app => app.entityId.includes("CUSTOM_APPLICATION"));
         let html = "";
