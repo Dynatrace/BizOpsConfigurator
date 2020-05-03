@@ -233,6 +233,8 @@ function buildConfigDashboard(dashboard,id,config) {
 }
 
 function columnList(db,index,list){
+  if(index<0)return;
+  
   let bounds = db.tiles[index].bounds;
   let tileJSON = JSON.stringify(db.tiles[index]);
 
