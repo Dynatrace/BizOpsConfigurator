@@ -15,7 +15,7 @@ function loadInputChangeHandlers() {
   $("#viewport").on("change", ".dashboardCleanupAll", dashboardCleanupAllChangeHandler);
   $("#viewport").on("change", "#HU-report", HUreportChangeHandler);
 
-  $("#viewport").on("click", "dl.helpdocs dt", helpdocToggler);
+  $("#viewport").on("click", "section h4", helpdocToggler);
 }
 
 
@@ -590,6 +590,5 @@ function HUreportChangeHandler() {
 }
 
 function helpdocToggler() {
-  let dt = $(this);
-  dt.next("dd").toggle();
+  $(this).toggleClass("expanded");
 }
