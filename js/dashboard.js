@@ -253,8 +253,8 @@ function twoColumnList(db,leftIndex,rightIndex,list){
   columnList(db,rightIndex,list.filter((a,i) => i%2===1));
 }
 
-function findTileByName(db,name){
-  return db.tiles.map(e => e.name).indexOf(name);
+function findTileByName(db,findName){
+  return db.tiles.map(e => e.name).indexOf(findName);
 }
 
 function SAPappList(db,apps){
