@@ -234,7 +234,7 @@ function buildConfigDashboard(dashboard,id,config) {
 
 function columnList(db,index,list){
   if(index<0)return;
-  
+
   let bounds = db.tiles[index].bounds;
   let tileJSON = JSON.stringify(db.tiles[index]);
 
@@ -261,7 +261,7 @@ function findTileByName(db,findName){
 
 function SAPappList(db,apps){
   let leftIndex = findTileByName(db,"SAP App Left");
-  let rightIndex = findTileByName(db,"SAP App Right");
+  let rightIndex = findTileByName(db,"SAP APP Right");
 
   twoColumnList(db,leftIndex,rightIndex,apps);
 }
