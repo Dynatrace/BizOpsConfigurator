@@ -231,3 +231,35 @@ function buildConfigDashboard(dashboard,id,config) {
 
   return dashboard;
 }
+
+function columnList(db,index,list){
+  let bounds = db.tiles[index].bounds;
+  let tileJSON = JSON.stringify(db.tiles[index]);
+
+  db.tiles.splice(index,1);
+  list.forEach(function(i){
+    let t = JSON.parse(tileJSON);
+    t.name = i.displayName;
+    t.assignedEntities[0] = i.entityId;
+    t.bounds = JSON.parse(JSON.stringify(bounds));
+    db.tiles.push(t);
+
+    bounds.top = bounds.top + bounds.height;
+  });
+}
+
+function twoColumnList(db,leftIndex,rightIndex,list){
+  columnList(db,leftIndex,list.filter((a,i) => i%2===0));
+  columnList(db,rightIndex,list.filter((a,i) => i%2===1));
+}
+
+function findTileByName(db,name){
+  return db.tiles.map(e => e.name).indexOf(name);
+}
+
+function SAPappList(db,apps){
+  let leftIndex = findTileByName(db,"SAP App Left");
+  let rightIndex = findTileByName(db,"SAP App Right");
+
+  twoColumnList(db,leftIndex,rightIndex,apps);
+}

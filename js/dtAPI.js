@@ -235,6 +235,24 @@ function uploadTenantOverview(config) {
 
   var query = "/api/config/v1/dashboards/" + id;
 
+  //any template specific changes, e.g. add tiles
+  switch(config.tenantOverview){
+    case "TenantOverview.json":
+    case "LiteTenantOverview.json":
+      break;
+    case "00000000-dddd-bbbb-ffff-000000000001":
+      break;
+    case "SAP Application Cockpit.json":
+      SAPappList(dashboardTO,config.SAPapps);
+      break;
+    case "RETenantOverview.json":
+    case "RETenantOverview2.json":
+      break;
+    case "InfrastructureOverview.json":
+      break;
+    default:
+  }
+
   //sub-dashboards
   let subs = getStaticSubDBs(dashboardTO, [config.oldTOid]);
   let swaps = generateTenantSwapList(config);

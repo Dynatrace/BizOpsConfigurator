@@ -344,6 +344,7 @@ function tenantOverviewChangeHandler() {
 
   $("#remoteEmployeeInputs").hide();
   $(".remoteEmployeeCompare").hide();
+  $("#SAPtenant").hide();
 
   switch (TO) {
     case "RETenantOverview.json":
@@ -358,11 +359,12 @@ function tenantOverviewChangeHandler() {
       break;
     }
     case "SAP Application Cockpit.json": {
+      $("#SAPtenant").hide();
       getApps().then(function(apps){
         let customapps = apps.filter(app => app.entityId.includes("CUSTOM_APPLICATION"));
         let html = "";
         customapps.forEach(function(app){
-          html += `<option value="${app.entityId}">${app.displayName}</option>`;
+          html += `<option value="${JSON.stringify(app)}">${app.displayName}</option>`;
         });
         $("#SAPapps").html(html);
       });
