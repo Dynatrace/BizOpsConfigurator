@@ -880,12 +880,12 @@ section article {
   display: none;
 }
 
-section ::before {
+section h4::before {
   background-image: url(../images/dropdown-open.svg);
   content: " ";
   height: 40px;
   width: 40px;
-  background-size: 1em;
+  background-size: 20px;
   background-repeat: no-repeat;
   background-position: 50%;
   left: 0;
@@ -896,6 +896,6 @@ section.expanded article {
   display: block;
 }
 
-section.expanded ::before {
+section.expanded h4::before {
   transform: translateY(-50%) rotate(180deg);
 }
