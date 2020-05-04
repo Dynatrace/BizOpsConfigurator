@@ -308,6 +308,10 @@ function doEncodedMarkdownTileSwaps(t, swaps) {
       query = encodeURIComponent(query);
       t.markdown = t.markdown.replace(/sessionquery=[^&]*&/, "sessionquery=" + query + "&");
     }
+    else {
+      console.log("MARKDOWN tile did not match regex");
+      console.log(t);
+    }
   }
   return; //t passed by ref
 }
