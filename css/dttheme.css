@@ -880,6 +880,10 @@ section article {
   display: none;
 }
 
+section a:not(.expandable) {
+  padding-left: 40px;
+}
+
 section a.expandable::before {
   display: inline-block;
   background-image: url(../images/dropdown-open.svg);
@@ -888,9 +892,7 @@ section a.expandable::before {
   width: 40px;
   background-size: 20px;
   background-repeat: no-repeat;
-  background-position: 50%;
-  left: 0;
-  top: 50%;
+  background-position: bottom;
 }
 
 section.expanded article {
