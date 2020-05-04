@@ -355,7 +355,7 @@ function globalButtonHandler() {
             break;
           }
           default:
-            console.log("No special handling defined for #appOverview: " + AO);
+            //console.log("No special handling defined for #appOverview: " + AO);
         }
 
         if (typeof $("#mz").val() != "undefined") {
