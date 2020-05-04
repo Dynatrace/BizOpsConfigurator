@@ -81,6 +81,7 @@ function linkHandler(e) {
       if(a.classList.contains("dashboardList"))return e; //handled by custom listener
       if(a.classList.contains("dashboardCleanup-owner"))return e; //handled by custom listener
       if(a.classList.contains("dashboardCleanup-db"))return e; //handled by custom listener
+      if(a.classList.contains("expandable")){helpdocToggler();return e}; //handled by custom listener
       switch(id) {
       case "bc-connect":
         selection.config={};
@@ -203,3 +204,8 @@ function hashHandler(hash){
   }
 }
   
+
+function helpdocToggler() {
+  let section = $(this).parent("section");
+  section.toggleClass("expanded");
+}

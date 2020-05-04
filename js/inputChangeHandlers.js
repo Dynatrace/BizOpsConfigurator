@@ -589,7 +589,3 @@ function HUreportChangeHandler() {
   }
 }
 
-function helpdocToggler() {
-  let section = $(this).parent("section");
-  section.toggleClass("expanded");
-}

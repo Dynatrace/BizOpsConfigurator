@@ -880,7 +880,7 @@ section article {
   display: none;
 }
 
-section h4:not(:last-child)::before {
+section a.expandable::before {
   display: inline-block;
   background-image: url(../images/dropdown-open.svg);
   content: " ";
@@ -897,7 +897,7 @@ section.expanded article {
   display: block;
 }
 
-section.expanded h4:not(:last-child)::before {
+section.expanded a.expandable::before {
   transform: rotate(180deg);
   background-position: top;
 }
