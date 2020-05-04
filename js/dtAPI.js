@@ -369,8 +369,6 @@ function uploadFunnel(config) {
     config.oldFOid = dashboardFO["id"];
     dashboardFO["id"] = config.FOid;
     dashboardFO["dashboardMetadata"]["owner"] = owner;
-    //dashboardFO["dashboardMetadata"]["name"]=dashboardFO["dashboardMetadata"]["name"].replace(/MyFunnel/g,config.funnelName);
-    config.dashboardName = dashboardFO["dashboardMetadata"]["name"];
     dashboardFO["dashboardMetadata"]["shared"] = "true";
     dashboardFO["dashboardMetadata"]["sharingDetails"]["linkShared"] = "true";
     dashboardFO["dashboardMetadata"]["sharingDetails"]["published"] = "false";
@@ -389,6 +387,7 @@ function uploadFunnel(config) {
     var swaps = generateFunnelSwapList(config);
     swaps = transformSubs(subs, config.FOid, swaps, config);
     var dbObj = doSwaps(dashboardFO, swaps);
+    config.dashboardName = dashboardFO["dashboardMetadata"]["name"]; //for fieldsetpainter
 
     //validate
     dbObj = validateDB(dbObj);
