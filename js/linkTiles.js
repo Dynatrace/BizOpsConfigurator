@@ -2,7 +2,7 @@ function findLinkTile(db, marker) {
   let t = {};
   for(let i=0; i<db.tiles.length; i++) {
     t = db.tiles[i];
-    if(t.tileType=="MARKDOWN" && t.markdown.incluces(marker)) {
+    if(t.tileType=="MARKDOWN" && t.markdown.includes(marker)) {
         return(i);
     }
   }
