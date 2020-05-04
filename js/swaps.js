@@ -306,7 +306,7 @@ function doEncodedMarkdownTileSwaps(t, swaps) {
       });
 
       query = encodeURIComponent(query);
-      t.markdown = t.markdown.replace(/sessionquery=[^&]*&/, "sessionquery=" + query + "&");
+      t.markdown = t.markdown.replace(/sessionquery=[^&]*&?/, "sessionquery=" + query + "&");
     }
     else if(t.markdown.includes("sessionquery")){
       console.log("MARKDOWN tile did not match regex");
