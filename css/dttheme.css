@@ -881,7 +881,7 @@ section article {
 }
 
 section ::before {
-  background-image: url(images/dropdown-open.svg);
+  background-image: url(../images/dropdown-open.svg);
   content: " ";
   height: 40px;
   width: 40px;
