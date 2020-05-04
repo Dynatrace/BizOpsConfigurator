@@ -248,18 +248,9 @@ t.markdown = t.markdown.replace(/sessionquery=[^&]*&/, "sessionquery="+query+"&"
   }
 });
 //}*/
-  console.log(dbData);
-  console.log(whereSwaps);
-  dbData = doSwaps(dbData, whereSwaps);
-  console.log(dbData);
-  let dbObj = {};
-  try{
-    dbObj = JSON.parse(dbData);
-  } catch(err){
-    console.log(err);
-  }
   
-  return dbObj;
+  dbData = doSwaps(dbData, whereSwaps);
+  return dbData;
 }
 
 function doSwaps(db, swaps) {
@@ -291,7 +282,16 @@ function doSwaps(db, swaps) {
   swaps.forEach(function (swap) {
     dbS = dbS.replace(new RegExp(swap.from, 'g'), swap.to);
   });
-  return dbS; //always return db as a string
+
+  let dbObj = {};
+  try{
+    dbObj = JSON.parse(dbS);
+  } catch(err){
+    console.log(err);
+    console.log(dbS);
+    console.log(swaps);
+  }
+  return dbObj; //always return db as a new object
 }
 
 function doEncodedMarkdownTileSwaps(t, swaps) {
@@ -338,9 +338,7 @@ function transformSubs(subs, dbid, swaps, config) {
   });
 
   for (let i = 0; i < subs.length; i++) {
-    //let s = JSON.stringify(subs[i].file);
-    //subs[i].file = JSON.parse(doSwaps(s,swaps));
-    subs[i].file = JSON.parse(doSwaps(subs[i].file, swaps));
+    subs[i].file = doSwaps(subs[i].file, swaps);
   }
 
   return swaps; //give back the swap list to transform the main db

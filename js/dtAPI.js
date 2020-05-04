@@ -253,17 +253,18 @@ function uploadTenantOverview(config) {
     default:
   }
 
-  //sub-dashboards
+  //sub-dashboards & swaps
   let subs = getStaticSubDBs(dashboardTO, [config.oldTOid]);
   let swaps = generateTenantSwapList(config);
   swaps = transformSubs(subs, config.TOid, swaps, config);
-  var data = doSwaps(dashboardTO, swaps);
-  data = validateDB(data);
+  var dbObj = doSwaps(dashboardTO, swaps);
+  dbObj = validateDB(dbObj);
 
   //upload
+  let dbS = JSON.stringify(dbObj);
   saveConfigDashboard(configID(id), config);
   uploadSubs(subs);
-  return dtAPIquery(query, { method: "PUT", data: data });
+  return dtAPIquery(query, { method: "PUT", data: dbS });
 }
 
 function updateTenantOverview(TOid) {
@@ -316,15 +317,16 @@ function uploadAppOverview(config) {
     //sub-dashboards
     let subs = getStaticSubDBs(dashboardAO, [config.oldTOid, config.oldAOid]);
     swaps = transformSubs(subs, config.AOid, swaps, config);
-    var data2 = doSwaps(dashboardAO, swaps);
+    var dbObj = doSwaps(dashboardAO, swaps);
 
     //validate
-    data2 = validateDB(data2);
+    dbObj = validateDB(dbObj);
 
     //upload
+    let dbS = JSON.stringify(dbObj);
     saveConfigDashboard(configID(id), config);
     uploadSubs(subs);
-    return dtAPIquery(query, { method: "PUT", data: data2 });
+    return dtAPIquery(query, { method: "PUT", data: dbS });
   });
 }
 
@@ -386,16 +388,16 @@ function uploadFunnel(config) {
     subs.forEach(function (sub, idx, arr) { arr[idx].file = whereClauseSwaps(sub.file, config); });
     var swaps = generateFunnelSwapList(config);
     swaps = transformSubs(subs, config.FOid, swaps, config);
-    //data2 = doSwaps(data2, swaps);
-    var data2 = doSwaps(dashboardFO, swaps);
+    var dbObj = doSwaps(dashboardFO, swaps);
 
     //validate
-    data2 = validateDB(data2);
+    dbObj = validateDB(dbObj);
 
     //upload
+    let dbS = JSON.stringify(dbObj);
     saveConfigDashboard(configID(config.FOid), config);
     uploadSubs(subs);
-    return dtAPIquery(query, { method: "PUT", data: data2 });
+    return dtAPIquery(query, { method: "PUT", data: dbS });
   });
 }
 

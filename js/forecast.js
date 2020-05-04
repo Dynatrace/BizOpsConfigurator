@@ -93,8 +93,8 @@ function updateFunnelForecast(config,ov,revs) {
         s.file["dashboardMetadata"]["sharingDetails"]["published"]="false";
         if("costControlUserSessionPercentage" in config) addCostControlTile(s.file,config);
         addReplaceButton(s.file,config.FOid,"![BackButton]()","⇦",findTopRight);
-        let swapped = doSwaps(JSON.stringify(s.file), swaps);
-        arr[i].file = JSON.parse(swapped);
+        arr[i].file = doSwaps(JSON.stringify(s.file), swaps);
+        //arr[i].file = JSON.parse(swapped);
     });
     return uploadSubs(subs);
 }
@@ -126,8 +126,8 @@ function updateAppForecast(config,ov,revs) {
         s.file["dashboardMetadata"]["sharingDetails"]["published"]="false";
         if("costControlUserSessionPercentage" in config) addCostControlTile(s.file,config);
         addReplaceButton(s.file,config.AOid,"![BackButton]()","⇦",findTopRight);
-        let swapped = doSwaps(JSON.stringify(s.file), swaps);
-        arr[i].file = JSON.parse(swapped);
+        arr[i].file = doSwaps(JSON.stringify(s.file), swaps);
+        //arr[i].file = JSON.parse(swapped);
     });
     return uploadSubs(subs);
 }
