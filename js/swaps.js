@@ -248,9 +248,18 @@ t.markdown = t.markdown.replace(/sessionquery=[^&]*&/, "sessionquery="+query+"&"
   }
 });
 //}*/
+  console.log(dbData);
   console.log(whereSwaps);
   dbData = doSwaps(dbData, whereSwaps);
-  return JSON.parse(dbData);
+  console.log(dbData);
+  let dbObj = {};
+  try{
+    dbObj = JSON.parse(dbData);
+  } catch(err){
+    console.log(err);
+  }
+  
+  return dbObj;
 }
 
 function doSwaps(db, swaps) {
