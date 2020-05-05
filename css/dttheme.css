@@ -904,7 +904,7 @@ section.expanded a.expandable::before {
   background-position: top;
 }
 
-div.teaser {
+#teaser {
   position: fixed;
   bottom: 0px;
   height: 60px;
