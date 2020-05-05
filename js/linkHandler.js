@@ -70,6 +70,7 @@ function loadStaticHandlers() {
 function staticCleanup() {
     $("#bcwrapper").hide();
     $("#errorbox").hide();
+    $("#teaser").hide();
 }
 
 function linkHandler(e) {
