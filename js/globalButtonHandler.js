@@ -461,7 +461,7 @@ function globalButtonHandler() {
           selection.config.compareAppID = $("#compareAppList").val();
           selection.config.compareAppName = $("#compareAppList option:selected").text();
           if (selection.config.compareAppName != "None") {
-            if(!$("#compareFirstStep option:selected")){
+            if(!$("#compareFirstStep option:selected").length){
               alert("Compare First Step cannot be blank with a selected Compare App");
               return;
             } else
@@ -469,7 +469,7 @@ function globalButtonHandler() {
               'colname': $("#compareFirstStep option:selected")[0].dataset['colname'],
               'name': $("#compareFirstStep option:selected").text()
             };
-            if(!$("#compareLastStep option:selected")){
+            if(!$("#compareLastStep option:selected").length){
               alert("Compare Last Step cannot be blank with a selected Compare App");
               return;
             } else
