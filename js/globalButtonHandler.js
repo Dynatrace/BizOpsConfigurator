@@ -461,10 +461,18 @@ function globalButtonHandler() {
           selection.config.compareAppID = $("#compareAppList").val();
           selection.config.compareAppName = $("#compareAppList option:selected").text();
           if (selection.config.compareAppName != "None") {
+            if(!$("#compareFirstStep option:selected")){
+              alert("Compare First Step cannot be blank with a selected Compare App");
+              return;
+            } else
             selection.config.compareFirstStep = {
               'colname': $("#compareFirstStep option:selected")[0].dataset['colname'],
               'name': $("#compareFirstStep option:selected").text()
             };
+            if(!$("#compareLastStep option:selected")){
+              alert("Compare Last Step cannot be blank with a selected Compare App");
+              return;
+            } else
             selection.config.compareLastStep = {
               'colname': $("#compareLastStep option:selected")[0].dataset['colname'],
               'name': $("#compareLastStep option:selected").text()
@@ -492,6 +500,8 @@ function globalButtonHandler() {
         selection.config.MyTime = $("#MyTime").val();
         selection.config.compareTime = $("#compareTimeList").val();
 
+        $("#uploadFunnel").val("Uploading...");
+        $("#uploadFunnel").disable();
         let p0 = getAppDetail(selection.config.appID);
         $.when(p0).done(function (d0) {
           if (typeof d0 != "undefined") {
