@@ -146,17 +146,20 @@ function globalButtonHandler() {
           selection.config.xapps = $("#xapp_apps").val();
         else
           delete selection.config.xapps;
-        $("#viewport").load("html/configurator/deployFunnel-kpi.html", fieldsetPainter);
+        //$("#viewport").load("html/configurator/deployFunnel-kpi.html", fieldsetPainter);
+        userjourneyNextStep(id);
         break;
       case "deployFunnel-kpi-next":
         selection.config.kpi = $("#usplist").val();
         selection.config.kpiName = $("#kpiName").val();
-        $("#viewport").load("html/configurator/deployFunnel-funnel.html", fieldsetPainter);
+        //$("#viewport").load("html/configurator/deployFunnel-funnel.html", fieldsetPainter);
+        userjourneyNextStep(id);
         break;
       case "deployFunnel-funnel-next":
         selection.config.whereClause = $("#whereClause").val();
         selection.config.funnelData = funnelData;
-        $("#viewport").load("html/configurator/deployFunnel-filters.html", fieldsetPainter);
+        //$("#viewport").load("html/configurator/deployFunnel-filters.html", fieldsetPainter);
+        userjourneyNextStep(id);
         break;
       case "deployFunnel-filters-next":
         selection.config.filterClause = $("#filterClause").val();
@@ -168,7 +171,8 @@ function globalButtonHandler() {
           type: $("#uspKey option:selected")[0].dataset['colname'],
           val: $("#uspVal").val()
         }
-        $("#viewport").load("html/configurator/deployFunnel-compare.html", fieldsetPainter);
+        //$("#viewport").load("html/configurator/deployFunnel-compare.html", fieldsetPainter);
+        userjourneyNextStep(id);
         break;
       case "deployTenant":
         let p_mz = getMZs();
@@ -315,7 +319,7 @@ function globalButtonHandler() {
         selection.config.TOname = $("#TOname").text();
         selection.config.appOverviewName = $("#appOverview option:selected").text();
 
-        switch(selection.config.appOverview){
+        switch (selection.config.appOverview) {
           case "AppOverview.json": {
             selection.config.MyCompareApp = $("#MyCompareApp").val();
             selection.config.compareAppID = $("#compareAppList").val();
@@ -332,13 +336,13 @@ function globalButtonHandler() {
             selection.config.serviceID = $("#storefrontService").val();
             selection.config.customAppID = $("#citrixRUMApp").val();
             selection.config.customApp = $("#citrixRUMApp option:selected").text();
-        /*Management ID - ${MZid}
-      Management Zone Name - ${MZname}
-      Citrix Custom App Name - ${CustomApp}
-      Citrix Custom App ID - ${CustomAppID} – Ex: CUSTOM_APPLICATION-37A08489ECBD4F91
-      Storefront App - ${MyApp} -
-      Storefront App ID -  ${InternalAppID} – Ex: APPLICATION-A0F724A4E525A3E3
-      Storefront Service - $[MyServiceID} – Ex: SERVICE-F44399D220DE9101*/
+            /*Management ID - ${MZid}
+          Management Zone Name - ${MZname}
+          Citrix Custom App Name - ${CustomApp}
+          Citrix Custom App ID - ${CustomAppID} – Ex: CUSTOM_APPLICATION-37A08489ECBD4F91
+          Storefront App - ${MyApp} -
+          Storefront App ID -  ${InternalAppID} – Ex: APPLICATION-A0F724A4E525A3E3
+          Storefront Service - $[MyServiceID} – Ex: SERVICE-F44399D220DE9101*/
             break;
           }
           case "REApplicationOverview.json":
@@ -355,7 +359,7 @@ function globalButtonHandler() {
             break;
           }
           default:
-            //console.log("No special handling defined for #appOverview: " + AO);
+          //console.log("No special handling defined for #appOverview: " + AO);
         }
 
         if (typeof $("#mz").val() != "undefined") {
@@ -392,8 +396,8 @@ function globalButtonHandler() {
         selection.config.mzname = $("#mzlist option:selected").text();
         selection.config.tenantOverview = $("#tenantOverview").val();
         selection.config.tenantOverviewName = $("#tenantOverview option:selected").text();
-        
-        switch(selection.config.tenantOverview){
+
+        switch (selection.config.tenantOverview) {
           case "TenantOverview.json":
           case "LiteTenantOverview.json":
             break;
@@ -401,11 +405,11 @@ function globalButtonHandler() {
             break;
           case "SAP Application Cockpit.json":
             let arr = $("#SAPapps").val();
-            arr.forEach(function(e,i,a){
+            arr.forEach(function (e, i, a) {
               a[i] = JSON.parse(e);
             });
             selection.config.SAPapps = arr;
-            
+
             break;
           case "RETenantOverview.json":
           case "RETenantOverview2.json":
@@ -535,7 +539,7 @@ function globalButtonHandler() {
             }*/
             dbList = json;
           };
-          if(typeof file !=="undefined")fr.readAsText(file);
+          if (typeof file !== "undefined") fr.readAsText(file);
         });
         break;
       }
@@ -796,4 +800,28 @@ function globalButtonHandler() {
         console.log($(this));
     }
   } else console.log($(this));
+}
+
+function userjourneyNextStep(id) {
+  switch (id) {
+    case "deployFunnel-name-next":
+      switch (selection.config.journeyOverview) {
+        case 'OverviewFalse.json':
+        case 'LiteOverviewFalse.json':
+          $("#viewport").load("html/configurator/deployFunnel-funnel.html", fieldsetPainter);
+          break;
+        default:
+          $("#viewport").load("html/configurator/deployFunnel-kpi.html", fieldsetPainter);
+      }
+      break;
+    case "deployFunnel-kpi-next":
+      $("#viewport").load("html/configurator/deployFunnel-funnel.html", fieldsetPainter);
+      break;
+    case "deployFunnel-funnel-next":
+      $("#viewport").load("html/configurator/deployFunnel-filters.html", fieldsetPainter);
+      break;
+    case "deployFunnel-filters-next":
+      $("#viewport").load("html/configurator/deployFunnel-compare.html", fieldsetPainter);
+      break;
+  }
 }
