@@ -170,9 +170,6 @@ function fieldsetPainter() {
                     let desc = "Please configure some User Session Properties ";
                     desc += `<a href="${url}/#applicationconfigurationsessionuseractionproperties;uemapplicationId=${selection.config.appID}"`
                         + ' class="newTab" target="_blank">here <img src="images/link.svg"></a>';
-                    desc += '. Do you use Adobe Analytics, Google Analytics / Web properties, or Intercom? '
-                        + 'You can easily import properties from those platforms using <a href="https://www.dynatrace.com/support/help/shortlink/user-session-properties#property-packs"'
-                        + ' target="_blank" class="newTab">Property Packs</a>.';
                     popup([],popheader,desc);
                 }
 

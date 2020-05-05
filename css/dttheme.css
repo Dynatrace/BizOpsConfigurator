@@ -566,10 +566,10 @@ tr.github {
   border: 1px solid #00b9cc;
   border-radius: 3px;
   position: fixed;
-  width: 400px;
-  height: 250px;
-  top: calc(50% - 250px/2);
-  left: calc(50% - 400px/2);
+  width: 300px;
+  height: 175px;
+  top: calc(50% - 175px/2);
+  left: calc(50% - 300px/2);
   color: white;
   padding: 5px 5px 5px 5px;
   text-align: center;
@@ -911,4 +911,5 @@ div.teaser {
   background: #525252;
   width: 100%;
   margin-left: -20px;
+  padding-left: 20%;
 }
