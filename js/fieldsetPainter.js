@@ -162,6 +162,13 @@ function fieldsetPainter() {
             $("#appID").text(selection.config.appID);
 
             $.when(p1).done(function (data) {
+                if (data.values.length == 0) {
+                    let popheader="No User Session Properties (long/double)";
+                    let desc = "Please configure some User Session Properties ";
+                    desc += `<a href="${url}/#applicationconfigurationsessionuseractionproperties;uemapplicationId=${selection.config.appID}"`
+                        + ' class="newTab" target="_blank">here <img src="images/link.svg"></a>';
+                    popup([],popheader,desc);
+                }
                 jsonviewer(data);
                 let kpis = parseKPIs(data);
                 drawKPIs(kpis);
@@ -290,7 +297,7 @@ function fieldsetPainter() {
                     let popheader="No Key User Actions or Conversion Goals";
                     let desc = "Please configure some Key User Actions and/or Conversion Goals ";
                     desc += `<a href="${url}/#uemapplications/performanceanalysis;uemapplicationId=${selection.config.appID}"`
-                        + ' class="newTab" target="_blank">here</a>';
+                        + ' class="newTab" target="_blank">here <img src="images/link.svg"></a>';
                     popup([],popheader,desc);
                 }
                 drawSteps(parseSteps(data2[0]));
