@@ -915,3 +915,7 @@ section.expanded a.expandable::before {
   align-items: center;
   justify-content: center;
 }
+
+.hidden {
+  display:none;
+}

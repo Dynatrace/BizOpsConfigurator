@@ -1,6 +1,7 @@
 function globalButtonHandler() {
   //a little cleanup first
-  $("#errorBox, #teaser").hide();
+  $("#errorBox").hide();
+  $("#teaser").addClass("hidden");
   $("#errorBox, #teaser").html("");
   //handle buttons
   if ($(this)[0].nodeName == 'INPUT') {
