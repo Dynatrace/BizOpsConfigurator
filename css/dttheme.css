@@ -910,6 +910,8 @@ section.expanded a.expandable::before {
   height: 60px;
   background: #525252;
   width: 100%;
-  margin-left: -20px;
-  padding-left: 20%;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
