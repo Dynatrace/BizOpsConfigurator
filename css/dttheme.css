@@ -908,4 +908,7 @@ div.teaser {
   position: fixed;
   bottom: 0px;
   height: 60px;
+  background: #525252;
+  width: 100%;
+  margin-left: -20px;
 }
