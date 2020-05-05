@@ -501,7 +501,7 @@ function globalButtonHandler() {
         selection.config.compareTime = $("#compareTimeList").val();
 
         $("#uploadFunnel").val("Uploading...");
-        $("#uploadFunnel").disable();
+        $("#uploadFunnel").prop("disabled",true);
         let p0 = getAppDetail(selection.config.appID);
         $.when(p0).done(function (d0) {
           if (typeof d0 != "undefined") {
