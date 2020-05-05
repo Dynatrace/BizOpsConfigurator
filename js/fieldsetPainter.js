@@ -150,6 +150,14 @@ function fieldsetPainter() {
             break;
         }
         case "deployFunnel-kpi": {
+            let teaser = `<img src="images/light-bulb-yellow_300.svg">
+            Do you use Adobe Analytics, Google Analytics / Web properties, or Intercom?
+            You can easily import properties from those platforms using 
+            <a href="https://www.dynatrace.com/support/help/shortlink/user-session-properties#property-packs" target="_blank" class="newTab">
+            Property Packs</a>.`;
+            $("#teaser").html(teaser);
+            $("#teaser").show();
+            
             let p1 = getKPIs(selection.config.xapp ? selection.config.xapps : selection.config.appName);
             $("#bc-connect").text(tenantID);
             $("#bc-deployFunnel-name").text(selection.config.funnelName);
