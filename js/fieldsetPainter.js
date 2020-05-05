@@ -162,16 +162,19 @@ function fieldsetPainter() {
             $("#appID").text(selection.config.appID);
 
             $.when(p1).done(function (data) {
-                if (data.values.length == 0) {
+                jsonviewer(data);
+                let kpis = parseKPIs(data);
+                drawKPIs(kpis);
+                if (kpis.length == 0) {
                     let popheader="No User Session Properties (long/double)";
                     let desc = "Please configure some User Session Properties ";
                     desc += `<a href="${url}/#applicationconfigurationsessionuseractionproperties;uemapplicationId=${selection.config.appID}"`
                         + ' class="newTab" target="_blank">here <img src="images/link.svg"></a>';
+                    desc += '. Do you use Adobe Analytics, Google Analytics / Web properties, or Intercom? '
+                        + 'You can easily import properties from those platforms using <a href="https://www.dynatrace.com/support/help/shortlink/user-session-properties#property-packs"'
+                        + ' target="_blank" class="newTab">Property Packs</a>.';
                     popup([],popheader,desc);
                 }
-                jsonviewer(data);
-                let kpis = parseKPIs(data);
-                drawKPIs(kpis);
 
                 if ('kpi' in selection.config) $("#usplist").val(selection.config.kpi);
                 if ('kpiName' in selection.config) $("#kpiName").val(selection.config.kpiName);

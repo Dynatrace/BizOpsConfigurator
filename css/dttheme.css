@@ -903,3 +903,9 @@ section.expanded a.expandable::before {
   transform: rotate(180deg);
   background-position: top;
 }
+
+div.teaser {
+  position: fixed;
+  bottom: 0px;
+  height: 60px;
+}
