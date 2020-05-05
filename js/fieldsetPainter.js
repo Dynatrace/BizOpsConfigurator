@@ -286,7 +286,7 @@ function fieldsetPainter() {
 
             //once XHRs are finished, do some stuff
             $.when(p1, p2).done(function (data1, data2) {
-                if (data1[0].length == 0 && data2[0].length == 0) {
+                if (data1[0].values.length == 0 && data2[0].values.length == 0) {
                     let popheader="No Key User Actions or Conversion Goals";
                     let desc = "Please configure some Key User Actions and/or Conversion Goals ";
                     desc += `<a href="${url}/#uemapplications/performanceanalysis;uemapplicationId=${selection.config.appID}"`
