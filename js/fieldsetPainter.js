@@ -152,7 +152,7 @@ function fieldsetPainter() {
         case "deployFunnel-kpi": {
             let teaser = `<img src="images/light-bulb-yellow_300.svg">
             Do you use Adobe Analytics, Google Analytics / Web properties, or Intercom?
-            You can easily import properties from those platforms using <a
+            You can easily import properties from those platforms using &nbsp;<a
             href="https://www.dynatrace.com/support/help/shortlink/user-session-properties#property-packs" target="_blank" class="newTab">
             Property Packs <img src="images/link.svg"></a>.`;
             $("#teaser").html(teaser);
