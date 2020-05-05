@@ -156,7 +156,7 @@ function fieldsetPainter() {
             <a href="https://www.dynatrace.com/support/help/shortlink/user-session-properties#property-packs" target="_blank" class="newTab">
             Property Packs <img src="images/link.svg"></a>.`;
             $("#teaser").html(teaser);
-            $("#teaser").removeClass("hidden");
+            $("#teaser").show();
 
             let p1 = getKPIs(selection.config.xapp ? selection.config.xapps : selection.config.appName);
             $("#bc-connect").text(tenantID);
