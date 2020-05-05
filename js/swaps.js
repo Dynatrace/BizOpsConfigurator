@@ -128,6 +128,10 @@ function whereClauseSwaps(dbData, config) {
       whereSteps[0] = whereSteps[0].replace(/\) ?$/, " OR " + config.campaignStep1.colname + "=\"" + config.campaignStep1.name + "\") ");
   }
 
+  //OR'd set of steps
+  let FunnelORClause = whereSteps.join(" OR ");
+  whereSwaps.push({from: "FunnelORClause", to:FunnelORClause, wrap: true});
+
   //build FunnelStep
   let FunnelStep = "";
   let funnelSteps = [];
@@ -136,9 +140,6 @@ function whereClauseSwaps(dbData, config) {
   }
   FunnelStep = funnelSteps.join(", ");
 
-  /*dbData["tiles"].forEach(function(t) {
-    if(t.tileType=="DTAQL") {
-  if(typeof(t.query) === 'undefined'){console.log("DTAQL w/o query");return;}*/
   //generic swaps here:
   if (config.featureAdded)
     whereSwaps.push({
