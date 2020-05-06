@@ -878,6 +878,11 @@ div.notDefault {
 
 section article {
   display: none;
+  margin: 10px 20px 0px 40px;
+}
+
+section article img {
+  max-width: 60%;
 }
 
 section a:not(.expandable) {
