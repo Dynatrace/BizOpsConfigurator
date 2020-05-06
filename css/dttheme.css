@@ -882,7 +882,7 @@ section article {
 }
 
 section article img {
-  max-width: 60%;
+  max-width: 80%;
 }
 
 section a:not(.expandable) {
