@@ -51,7 +51,7 @@ function listFunnelDB(config,subs) {
   //skip unneeded dbs
     if((typeof config.kpi =="undefined" || config.kpi=="n/a") && (db.includes("True") || db.includes("Revenue")))
 	    return;
-    if((typeof config.kpi =="undefined" || config.kpi!="n/a") && db.includes("False"))
+    if((typeof config.kpi !="undefined" && config.kpi!="n/a") && db.includes("False"))
 	    return;
     if(db in [dbTO,dbAO,dbFunnelTrue,dbFunnelFalse])
         return;
