@@ -49,9 +49,9 @@ function listFunnelDB(config,subs) {
   subs.forEach(function(file) {
     let db = file.path;
   //skip unneeded dbs
-    if(config.kpi=="n/a" && (db.includes("True") || db.includes("Revenue")))
+    if((typeof config.kpi =="undefined" || config.kpi=="n/a") && (db.includes("True") || db.includes("Revenue")))
 	    return;
-    if(config.kpi!="n/a" && db.includes("False"))
+    if((typeof config.kpi =="undefined" || config.kpi!="n/a") && db.includes("False"))
 	    return;
     if(db in [dbTO,dbAO,dbFunnelTrue,dbFunnelFalse])
         return;
