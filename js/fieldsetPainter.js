@@ -5,19 +5,24 @@ function fieldsetPainter() {
     $("div.bc").prependTo($("#bcwrapper"));
     switch (id) {
         case "config":
-            $("#default_repo_owner").val(repoList[1].owner);
+            /*$("#default_repo_owner").val(repoList[1].owner);
             $("#default_repo_repo").val(repoList[1].repo);
             $("#old_repo_owner").val(repoList[0].owner);
             $("#old_repo_repo").val(repoList[0].repo);
-            $("#oldVersion").val(oldVersion);
+            $("#dbFunnelTrue").val(dbFunnelTrue);
+            $("#dbFunnelFalse").val(dbFunnelFalse);
+            $("#oldVersion").val(oldVersion);*/
             $("#dbTagsVersion").val(dbTagsVersion);
             $("#dbTO").val(dbTO);
             $("#dbAO").val(dbAO);
-            $("#dbFunnelTrue").val(dbFunnelTrue);
-            $("#dbFunnelFalse").val(dbFunnelFalse);
+            
 
-            for (let i = 2; i < repoList.length; i++) {
-                let html = `<tr><td>Repo #${i}:</td><td class='right'><input type='text' class='repo_owner' data-index='${i}' value='${repoList[i].owner}'> / <input type='text' class='repo_repo' data-index='${i}' value='${repoList[i].repo}${repoList[i].path.length > 0 ? "/" + repoList[i].path : ''}'><input type='button' class='removeRepo' data-index='${i}' value='-'></td></tr>`;
+            //for (let i = 2; i < repoList.length; i++) {
+            for (let i = 0; i < repoList.length; i++) {
+                let html = `<tr><td>Repo #${i}:</td>
+                <td class='right'><input type='text' class='repo_owner' data-index='${i}' value='${repoList[i].owner}'>
+                 / <input type='text' class='repo_repo' data-index='${i}' value='${repoList[i].repo}${repoList[i].path.length > 0 ? "/" + repoList[i].path : ''}'>
+                 <input type='button' class='removeRepo' data-index='${i}' value='-'></td></tr>`;
                 $("#additionalRepos").after(html);
             }
             $("input.removeRepo").on("click", function () {
