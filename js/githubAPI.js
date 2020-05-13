@@ -15,12 +15,15 @@ function getRepoContents(repo) {
     
 }
 
-function parseRepoContents(data) {
+function parseRepoContents(data,repo) {
     let contents = [];
+    let readmes = [];
     data.forEach(function(file) {
-        //let re = /\.json$/;
+        file.repo=repo;
         let re = /(\.json$)|(^[0-9a-f-]{36}$)/;
         if(re.test(file.name))
+            contents.push(file);
+        else if(file.name=="README.md")
             contents.push(file);
         else
             console.log("parseRepoContents: rejected '"+file.path+"' based on regex");
@@ -50,7 +53,7 @@ function testRepo(i=0) {
     let p1 = getRepoContents(repoList[i]);
 
     $.when(p1).done(function(data) {
-        let repos = parseRepoContents(data);
+        let repos = parseRepoContents(data,repoList[i]);
 
         let p2 = getDBJSON(repos);
         $.when(p2).done(function(d2) {

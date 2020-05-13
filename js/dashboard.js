@@ -35,8 +35,7 @@ function findTopRight(db,bounds) {
     });
 
     bounds.top = 0;
-    bounds.left = rightedge; //leave a little space
-
+    bounds.left = rightedge;
     return bounds;
 }
 

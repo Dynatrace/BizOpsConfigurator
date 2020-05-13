@@ -19,7 +19,7 @@ const timeTable = [
 var githubuser="";
 var githubpat="";
 var repoList = [ 
-    {'owner':'TechShady','repo':'Dynatrace-DashboardsV4','path':''},
+    //{'owner':'TechShady','repo':'Dynatrace-DashboardsV4','path':''},
     {'owner':'TechShady','repo':'Dynatrace-DashboardV5','path':''},
     {'owner':'Dynatrace-JasonOstroski','repo':'CitrixDashboardsV1','path':''},
     {'owner':'jjbologna','repo':'SAP-extension-dashboards','path':''},
@@ -323,20 +323,21 @@ function loadDBList(p=1) {
     let master = $.Deferred();
     if(p.promise) deferreds.push(p);
     $.when(p).then(function() {  // we should have been passed a deferred
-        let p1 = getRepoContents(repoList[i]);
-        deferreds.push(p1);
-        $.when(p1).then(function(data) {
-            dbList=parseRepoContents(data);
+        //let p1 = getRepoContents(repoList[i]);
+        //deferreds.push(p1);
+        //$.when(p1).then(function(data) {
+            //dbList=parseRepoContents(data,repoList[i]);
             //always get any custom repos (i>1)
-            for(i=2; i<repoList.length; i++) {
+            //for(i=2; i<repoList.length; i++) {
+            for(i=0; i<repoList.length; i++) {
                 let p_i = getRepoContents(repoList[i]);
                 deferreds.push(p_i);
                 $.when(p_i).done(function(data_i) {
-                    dbList = dbList.concat(parseRepoContents(data_i));
+                    dbList = dbList.concat(parseRepoContents(data_i,repoList[i]));
                 });
             }
             $.when.apply($, deferreds).done(function(){ master.resolve(); });
-        });
+        //});
     });
     return master
 }
