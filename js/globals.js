@@ -411,12 +411,14 @@ function downloadDBsFromList() {
       promises.push(p);
     } else if (file.name == "README.md") {
       let p = $.get({
-        'url':file.download_url,
-        'accepts': {'html':'application/vnd.github.v3.html'}
+        'url':`https://api.github.com/repos/${file.repo.owner}/${file.repo.repo}/readme`
+        'accepts': {'html':'Accept: application/vnd.github.v3.html'}
       })
         .fail(errorboxJQXHR)
         .done(function (d) {
-          file.html = "";    
+          let html = d.replace(/<img ([^>]*)src="(?!http)([^"]+)"([^>]*)>/g,
+          `<img $1src="https://github.com/${file.repo.owner}/${file.repo.repo}/raw/master/$2"$3>`);
+          file.html = html;    
         });
       promises.push(p);
     }
