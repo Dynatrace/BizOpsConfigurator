@@ -920,3 +920,14 @@ section.expanded a.expandable::before {
   align-items: center;
   justify-content: center;
 }
+
+#readmeIcon, #readmeIcon:visited {
+  font-weight: bold;
+  color: #ffee7c;
+  text-decoration: none;
+  display: none;
+}
+
+#readmeIcon:hover{
+  color:  #f5d30f;
+}

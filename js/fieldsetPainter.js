@@ -341,7 +341,7 @@ function fieldsetPainter() {
             drawMZs();
 
             tenantOverviews.forEach(function (ov) {
-                $("#tenantOverview").append("<option value='" + ov.filename + "'>" + ov.name + "</option>");
+                $("#tenantOverview").append(`<option value="${ov.filename}" >${ov.name}</option>`);
             });
             if ("tenantOverview" in selection.config) {
                 $("#tenantOverview").val(selection.config.tenantOverview);

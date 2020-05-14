@@ -2,12 +2,9 @@
   <legend>Deploy Tenant Overview</legend>
   <div class="flexcontainer">
     <div id="deployTenantBox">
-    MZ Filter: <select id="mzlist">
-      <option value="MZ-123">My Mgmt Zone</option>
-      <option value="MZ-456">My Other Zone</option>
-    </select>
-    <input id="TOname" autocomplete="off" placeholder="Overview Name"><br>
-    Overview Template: <select id="tenantOverview"></select><br>
+      Overview Template: <select id="tenantOverview"></select><a id="readmeIcon" name="README">?</a><br>
+      <input id="TOname" autocomplete="off" placeholder="Overview Name"><br>
+      MZ Filter: <select id="mzlist"></select>
     </div>
     <div id="remoteEmployeeInputs" class="notDefault">
       <h3>Remote Employee Segment</h3>
@@ -37,10 +34,10 @@
       <br>
       <input id="compareipClause" class="ipClause">
     </div>
-    <div class="remoteEmployeeCompare notDefault" >
+    <div class="remoteEmployeeCompare notDefault">
       <h3>Comparison Segment B</h3>
       Segment Name: <input id="ipCompareName2" placeholder="Friendly Name"><br>
-      RFC1918: <input type="checkbox" id="comparerfc19182"  class="rfc1918"><br>
+      RFC1918: <input type="checkbox" id="comparerfc19182" class="rfc1918"><br>
       IP Address Lower Bound: <input id="compareipLowerBound2" placeholder="10.0.0.0" class="ipLowerBound">
       Upper Bound: <input id="compareipUpperBound2" placeholder="10.255.255.255" class="ipUpperBound">
       <input type="button" id="compareaddIpRange2" value="+">
