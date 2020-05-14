@@ -294,6 +294,7 @@ function appOverviewChangeHandler() {
       break;
     }
     case "CitrixOverview.json": {
+      $("#readmeIcon").show();
       $("#appPickerLabel").text("StoreFront App");
       $("#citrixAppTemplate").show();
       drawMZs("#citrixMZ");

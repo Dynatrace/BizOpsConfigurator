@@ -362,7 +362,8 @@ a.bc:hover::after {
 }
 
 #comparisons h3, #filters h3, div.flexcontainer h3 {
-  color: #00B9CB;
+  /*color: #00B9CB;*/
+  color: white;
 }
 
 #comparisons > div, #filters > div, div.flexcontainer > div {

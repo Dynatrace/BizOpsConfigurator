@@ -6,12 +6,12 @@
   <div id="deployAppOverviewBox">
     <div id="appPicker">
         <h3>App Overview</h3>
-        <span id="appPickerLabel">App</span>: <select id="applist">
-            <option value="App-123">My App</option>
-            <option value="App-456">My Other App</option>
-        </select>
-        <input id="appName" name="appName" placeholder="Overview Name"><br>
-        Overview Template: <select id="appOverview"></select>
+        <div class="inputHeader">Overview Template: <a id="readmeIcon" href="#readme" name="README">?</a></div> 
+        <div class="userInput"><select id="appOverview"></select></div>
+        <div class="inputHeader">App:</div>
+        <div class="userInput"><select id="applist"></select></div>
+        <div class="inputHeader">Overview Name:</div>
+        <div class="userInput"><input id="appName" name="appName" placeholder="Friendly Name"></div>
     </div>
     <div id="compareTime" class="notDefault">
       <h3>Time Comparison</h3>
