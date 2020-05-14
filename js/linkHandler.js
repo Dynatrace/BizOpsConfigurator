@@ -165,6 +165,15 @@ function linkHandler(e) {
         downloadExcel(filename,worksheet,selector);
         break;
       }
+      case "readmeIcon": {
+        let overview = $(this).next("select").val();
+        let overviewRepo = dbList.find(({ name }) => name === overview).repo; //get the repo directly from the select in next iteration
+        let readmes = dbList.filter(({name}) => name === "README.md");
+        let readme = readmes.find(({ repo }) => repo.owner === overviewRepo.owner &&
+          repo.repo === overviewRepo.repo);
+
+        popupHTML(readme.html);
+      }
       default:
         //alert("Unknown Link: " + id);
         if(typeof dtrum !== "undefined") dtrum.reportCustomError("Unknown Link",e,id,true);
