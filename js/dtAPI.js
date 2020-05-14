@@ -71,7 +71,6 @@ function getUSPs(appname) {
 
 function getRegions(appname) {
   regions = [];
-  //replace with API call to /config/v1/applications/web once that endpoint provides USPs
   if (typeof appname == "string")
     var usql = "SELECT DISTINCT country, region, city FROM usersession WHERE useraction.application=\"" + appname + "\" ORDER BY country,region,city LIMIT 5000";
   else if (Array.isArray(appname)) {

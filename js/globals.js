@@ -364,6 +364,7 @@ function loadDBList(p = 1) {
     //dbList=parseRepoContents(data,repoList[i]);
     //always get any custom repos (i>1)
     //for(i=2; i<repoList.length; i++) {
+    dbList=[];
     for (i = 0; i < repoList.length; i++) {
       let p_i = getRepoContents(repoList[i]);
       deferreds.push(p_i);
