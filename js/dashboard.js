@@ -81,7 +81,7 @@ function getStaticSubDBs(db,parentids=[""],subs=[]) {
             for( let m of matches) { 
                 let id = m[2];
                 if(id != db.id && !parentids.includes(id)) for( let d of dbList) { //skip self and parent links
-                    if("id" in d.file && d.file.id === id &&
+                    if("file" in d && d.file.id === id &&
                        typeof(subs.find( x => x.name === d.name)) == "undefined" ) { //ensure it's not already in the array, note: ids are not unique
                         console.log("getStaticSubDBs: "+id+" => "+d.file.dashboardMetadata.name);
                         subs.push( JSON.parse(JSON.stringify(d))); 
