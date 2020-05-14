@@ -351,6 +351,16 @@ function popup(inputs, popupHeader, desc) {
   return deferred;
 }
 
+function popupHTML(content) {
+  let html = `<div class='popupHTML'>
+    <div class='x_box'><a id='x_a'>x</a></div>
+    <span class='header'>${popupHeader}</span>
+    ${content}
+    </div>`;
+  $("#viewport").append(html);
+  $(".popupHTML").css('z-index',++popupZindex);
+}
+
 function popout(popup_p) {
   let outputs = [];
   $("#popup input").each(function () {

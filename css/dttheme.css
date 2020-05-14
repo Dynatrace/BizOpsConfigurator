@@ -692,7 +692,7 @@ img.structure {
   background-color: #525252;
 }
 
-#repo_config, #dashboard_list {
+#repo_config, #dashboard_list, .popupHTML {
   position: fixed;
   left: 10%;
   width: 80%;

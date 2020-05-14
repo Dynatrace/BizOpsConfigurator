@@ -293,28 +293,8 @@ function appOverviewChangeHandler() {
       $("#compareTime").show();
       break;
     }
-    /*case "CitrixOverview.json": { //TODO: refactor this as a generic function
-        $("#autoTag").show();
-        $("#compareApp").show();
-        $("#compareMZ").show();
-        drawMZs("#compareMZ select")
-        .done(function() {
-          if("compareMZid" in selection.config)
-            $("#compareMZ select").val(selection.config.compareMZid);
-        })
-        autoTagBox("Citrix");
-        
-        break;
-    }*/
     case "CitrixOverview.json": {
       $("#appPickerLabel").text("StoreFront App");
-      /*Management ID - ${MZid}
-      Management Zone Name - ${MZname}
-      Citrix Custom App Name - ${CustomApp}
-      Citrix Custom App ID - ${CustomAppID} – Ex: CUSTOM_APPLICATION-37A08489ECBD4F91
-      Storefront App - ${MyApp} -
-      Storefront App ID -  ${InternalAppID} – Ex: APPLICATION-A0F724A4E525A3E3
-      Storefront Service - $[MyServiceID} – Ex: SERVICE-F44399D220DE9101*/
       $("#citrixAppTemplate").show();
       drawMZs("#citrixMZ");
       $("#citrixMZ").on("change", "", function () {
@@ -345,6 +325,7 @@ function tenantOverviewChangeHandler() {
   $("#remoteEmployeeInputs").hide();
   $(".remoteEmployeeCompare").hide();
   $("#SAPtenant").hide();
+  $("#readmeIcon").hide();
 
   switch (TO) {
     case "RETenantOverview.json":

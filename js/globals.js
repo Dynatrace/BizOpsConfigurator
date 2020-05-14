@@ -272,14 +272,16 @@ function parseUSPFilter(result) {
     let colname = result["columnNames"][col];
     USPs[colname] = {};
   }
-  result["values"].forEach(function (i) {
+  result["values"].forEach(function (row) {
     for (let col = 0; col < result["columnNames"].length; col++) {
-      if (typeof (i[col][0]) == "undefined") continue; //skip blanks
+      if (typeof (row[col][0]) == "undefined") continue; //skip blanks
       let colname = result["columnNames"][col];
-      let key = i[col][0].key;
-      let value = i[col][0].value;
-      if (!(key in USPs[colname])) USPs[colname][key] = [value]; //new key
-      else if (USPs[colname][key].indexOf(value) < 0) USPs[colname][key].push(value); //add only new values
+      for(let keyIdx=0; keyIdx<row[col].length; keyIdx++){
+        let key = row[col][keyIdx].key;
+        let value = row[col][keyIdx].value;
+        if (!(key in USPs[colname])) USPs[colname][key] = [value]; //new key
+        else if (USPs[colname][key].indexOf(value) < 0) USPs[colname][key].push(value); //add only new values
+      }
     }
   });
   return USPs;
