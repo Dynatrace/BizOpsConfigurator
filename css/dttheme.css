@@ -369,7 +369,7 @@ a.bc:hover::after {
   margin: 0px 10px 0px 10px;
   border: 1px solid #606060;
   border-radius: 3px;
-  padding: 0px 5px 5px 5px;
+  padding: 5px 5px 5px 5px;
 }
 
 span.configHeader {
@@ -930,4 +930,12 @@ section.expanded a.expandable::before {
 
 #readmeIcon:hover{
   color:  #f5d30f;
+}
+
+div.inputHeader {
+  margin-top: 10px;
+}
+
+div.userInput {
+  margin-top: 0px;
 }
