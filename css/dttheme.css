@@ -939,3 +939,7 @@ div.inputHeader {
 div.userInput {
   margin-top: 0px;
 }
+
+div.userInput input {
+  width: 100%;
+}
