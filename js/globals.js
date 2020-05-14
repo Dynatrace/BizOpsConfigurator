@@ -412,7 +412,7 @@ function downloadDBsFromList() {
     } else if (file.name == "README.md") {
       let p = $.get({
         'url':`https://api.github.com/repos/${file.repo.owner}/${file.repo.repo}/readme`,
-        'accepts': {'html':'application/vnd.github.v3.html'}
+        'headers': {'Accept':'application/vnd.github.v3.html'}
       })
         .fail(errorboxJQXHR)
         .done(function (d) {
