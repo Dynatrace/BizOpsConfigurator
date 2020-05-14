@@ -366,10 +366,11 @@ function loadDBList(p = 1) {
     //for(i=2; i<repoList.length; i++) {
     dbList=[];
     for (i = 0; i < repoList.length; i++) {
-      let p_i = getRepoContents(repoList[i]);
+      let repo = repoList[i];
+      let p_i = getRepoContents(repo);
       deferreds.push(p_i);
       $.when(p_i).done(function (data_i) {
-        dbList = dbList.concat(parseRepoContents(data_i, repoList[i]));
+        dbList = dbList.concat(parseRepoContents(data_i, repo));
       });
     }
     $.when.apply($, deferreds).done(function () { master.resolve(); });
