@@ -282,7 +282,7 @@ function parseUSPFilter(result) {
         if (!(key in USPs[colname])) USPs[colname][key] = [value]; //new key
         else if (USPs[colname][key].indexOf(value) < 0) USPs[colname][key].push(value); //add only new values
       }
-    }
+    } 
   });
   return USPs;
 }
