@@ -362,7 +362,19 @@ function downloadDBsFromList() {
   let promises = [];
 
   dbList.forEach(function (file, index, arr) {
-    if (file.name.includes(".json")) {
+    if (file.name == "README.md") {
+      let p = $.get({
+        'url':`https://api.github.com/repos/${file.repo.owner}/${file.repo.repo}/readme`,
+        'headers': {'Accept':'application/vnd.github.v3.html'}
+      })
+        .fail(errorboxJQXHR)
+        .done(function (d) {
+          let html = d.replace(/<img ([^>]*)src="(?!http)([^"]+)"([^>]*)>/g,
+          `<img $1src="https://github.com/${file.repo.owner}/${file.repo.repo}/raw/master/$2"$3>`);
+          file.html = html;    
+        });
+      promises.push(p);
+    } else { //we already filtered list to JSON or README in parseRepoContents
       let p = $.get(file.download_url)
         .fail(errorboxJQXHR)
         .done(function (d) {
@@ -373,18 +385,6 @@ function downloadDBsFromList() {
             errorbox(emsg);
             arr.splice(index, 1);
           }
-        });
-      promises.push(p);
-    } else if (file.name == "README.md") {
-      let p = $.get({
-        'url':`https://api.github.com/repos/${file.repo.owner}/${file.repo.repo}/readme`,
-        'headers': {'Accept':'application/vnd.github.v3.html'}
-      })
-        .fail(errorboxJQXHR)
-        .done(function (d) {
-          let html = d.replace(/<img ([^>]*)src="(?!http)([^"]+)"([^>]*)>/g,
-          `<img $1src="https://github.com/${file.repo.owner}/${file.repo.repo}/raw/master/$2"$3>`);
-          file.html = html;    
         });
       promises.push(p);
     }
