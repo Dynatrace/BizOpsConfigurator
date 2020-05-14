@@ -359,6 +359,7 @@ function popupHTML(popupHeader,content) {
     </div>`;
   $("#viewport").append(html);
   $(".popupHTML").css('z-index',++popupZindex);
+  $(".popupHTML").show();
 }
 
 function popout(popup_p) {
