@@ -351,7 +351,7 @@ function popup(inputs, popupHeader, desc) {
   return deferred;
 }
 
-function popupHTML(content) {
+function popupHTML(popupHeader,content) {
   let html = `<div class='popupHTML'>
     <div class='x_box'><a id='x_a'>x</a></div>
     <span class='header'>${popupHeader}</span>

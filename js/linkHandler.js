@@ -172,7 +172,7 @@ function linkHandler(e) {
         let readme = readmes.find(({ repo }) => repo.owner === overviewRepo.owner &&
           repo.repo === overviewRepo.repo);
 
-        popupHTML(readme.html);
+        popupHTML(readme.name,readme.html);
       }
       default:
         //alert("Unknown Link: " + id);
