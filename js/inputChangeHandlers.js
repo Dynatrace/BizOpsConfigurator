@@ -287,6 +287,10 @@ function appOverviewChangeHandler() {
   $("#citrixAppTemplate").hide();
   $("#appPickerLabel").text("App");
 
+  let readme = findOverviewREADME(AO);
+  if(typeof readme !="undefined")$("#readmeIcon").show();
+  else $("#readmeIcon").hide();
+
   switch (AO) {
     case "AppOverview.json": {
       $("#compareApp").show();
@@ -294,7 +298,6 @@ function appOverviewChangeHandler() {
       break;
     }
     case "CitrixOverview.json": {
-      $("#readmeIcon").show();
       $("#appPickerLabel").text("StoreFront App");
       $("#citrixAppTemplate").show();
       drawMZs("#citrixMZ");
@@ -326,7 +329,10 @@ function tenantOverviewChangeHandler() {
   $("#remoteEmployeeInputs").hide();
   $(".remoteEmployeeCompare").hide();
   $("#SAPtenant").hide();
-  $("#readmeIcon").hide();
+
+  let readme = findOverviewREADME(TO);
+  if(typeof readme !="undefined")$("#readmeIcon").show();
+  else $("#readmeIcon").hide();
 
   switch (TO) {
     case "RETenantOverview.json":
@@ -342,7 +348,6 @@ function tenantOverviewChangeHandler() {
     }
     case "SAP Application Cockpit.json": {
       $("#SAPtenant").show();
-      $("#readmeIcon").show();
       getApps().then(function(apps){
         let customapps = apps.filter(app => app.entityId.includes("CUSTOM_APPLICATION"));
         let html = "";

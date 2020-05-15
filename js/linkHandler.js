@@ -167,10 +167,7 @@ function linkHandler(e) {
       }
       case "readmeIcon": {
         let overview = $(this).parent().next().children("select").val();
-        let overviewRepo = dbList.find(({ name }) => name === overview).repo; //get the repo directly from the select in next iteration
-        let readmes = dbList.filter(({name}) => name === "README.md");
-        let readme = readmes.find(({ repo }) => repo.owner === overviewRepo.owner &&
-          repo.repo === overviewRepo.repo);
+        let readme = findOverviewREADME(overview);
 
         popupHTML(readme.name,readme.html);
       }

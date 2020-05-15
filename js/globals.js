@@ -418,3 +418,12 @@ function nextDB(id) {
 function parseAutoTags(data) {
   autoTags = data.values;
 }
+
+function findOverviewREADME(overview){
+  let overviewRepo = dbList.find(({ name }) => name === overview).repo; //get the repo directly from the select in next iteration
+  let readmes = dbList.filter(({name}) => name === "README.md");
+  let readme = readmes.find(({ repo }) => repo.owner === overviewRepo.owner &&
+    repo.repo === overviewRepo.repo);
+
+  return readme;
+}
