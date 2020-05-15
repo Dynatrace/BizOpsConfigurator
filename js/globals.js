@@ -374,7 +374,9 @@ function downloadDBsFromList() {
         .done(function (d) {
           try {
             var converter = new showdown.Converter();
-            file.html  = converter.makeHtml(d);
+            let html  = converter.makeHtml(d);
+            file.html = html.replace(/<img ([^>]*)src="(?!http)([^"]+)"([^>]*)>/g,
+          `<img $1src="https://github.com/${file.repo.owner}/${file.repo.repo}/raw/master/$2"$3>`);
           } catch (e) {
             let emsg = "Showdown Error on file " + file.path + ". " + e.name + ": " + e.message;
             errorbox(emsg);
