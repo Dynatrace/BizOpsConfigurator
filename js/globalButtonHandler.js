@@ -756,7 +756,7 @@ function globalButtonHandler() {
       case "addTenantOverview": {
         tenantOverviews.push({ 'name': $("#add_tenantOverview_name").val(), 
           'filename': $("#add_tenantOverview_filename").val(),
-          'repo': JSON.parse($("#add_tenantOverview_repo option:selected").dataset.repo)
+          'repo': JSON.parse($("#add_tenantOverview_repo option:selected")[0].dataset.repo)
        });
         $("#repo_config").load("html/repo_config.html", fieldsetPainter);
         break;
@@ -764,7 +764,7 @@ function globalButtonHandler() {
       case "addAppOverview": {
         appOverviews.push({ 'name': $("#add_appOverview_name").val(), 
           'filename': $("#add_appOverview_filename").val(),
-          'repo': JSON.parse($("#add_appOverview_repo option:selected").dataset.repo)
+          'repo': JSON.parse($("#add_appOverview_repo option:selected")[0].dataset.repo)
          });
         $("#repo_config").load("html/repo_config.html", fieldsetPainter);
         break;
@@ -772,7 +772,7 @@ function globalButtonHandler() {
       case "addJourneyOverview": {
         journeyOverviews.push({ 'name': $("#add_journeyOverview_name").val(), 
           'filename': $("#add_journeyOverview_filename").val(), 
-          'repo': JSON.parse($("#add_journeyOverview_repo option:selected").dataset.repo)
+          'repo': JSON.parse($("#add_journeyOverview_repo option:selected")[0].dataset.repo)
         });
         $("#repo_config").load("html/repo_config.html", fieldsetPainter);
         break;
