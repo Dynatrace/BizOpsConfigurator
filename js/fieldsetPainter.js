@@ -445,7 +445,8 @@ function fieldsetPainter() {
             $("#dashboardList ul").html(html);
             $("#dashboardList ul").on("click", "a", function () {
                 let i = $(this)[0].dataset['index'];
-                jsonviewer(dbList[i].file, true, dbList[i].name, "#popupjsonviewer");
+                jsonviewer(`${dbList[i].owner}/${dbList[i].repo}/${dbList[i].file}`,
+                    true, dbList[i].name, "#popupjsonviewer");
             });
             break;
         }
