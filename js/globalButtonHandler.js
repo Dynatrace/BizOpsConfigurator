@@ -689,6 +689,11 @@ function globalButtonHandler() {
             repoList[i].path = '';
           }
         });
+        $("select.tenantOverview_repo[data-index]").each(function (index, element) {
+          let i = element.dataset.index;
+          let selected = element.children("option:selected");
+          tenantOverviews[i].repo = JSON.parse(selected.dataset.repo);
+        });
         $("input.tenantOverview_name[data-index]").each(function (index, element) {
           let i = element.dataset.index;
           tenantOverviews[i].name = element.value;
@@ -697,6 +702,11 @@ function globalButtonHandler() {
           let i = element.dataset.index;
           tenantOverviews[i].filename = element.value;
         });
+        $("select.appOverview_repo[data-index]").each(function (index, element) {
+          let i = element.dataset.index;
+          let selected = element.children("option:selected");
+          appOverviews[i].repo = JSON.parse(selected.dataset.repo);
+        });
         $("input.appOverview_name[data-index]").each(function (index, element) {
           let i = element.dataset.index;
           appOverviews[i].name = element.value;
@@ -704,6 +714,11 @@ function globalButtonHandler() {
         $("input.appOverview_filename[data-index]").each(function (index, element) {
           let i = element.dataset.index;
           appOverviews[i].filename = element.value;
+        });
+        $("select.journeyOverview_repo[data-index]").each(function (index, element) {
+          let i = element.dataset.index;
+          let selected = element.children("option:selected");
+          journeyOverviews[i].repo = JSON.parse(selected.dataset.repo);
         });
         $("input.journeyOverview_name[data-index]").each(function (index, element) {
           let i = element.dataset.index;
@@ -739,17 +754,26 @@ function globalButtonHandler() {
         break;
       }
       case "addTenantOverview": {
-        tenantOverviews.push({ 'name': $("#add_tenantOverview_name").val(), 'filename': $("#add_tenantOverview_filename").val() });
+        tenantOverviews.push({ 'name': $("#add_tenantOverview_name").val(), 
+          'filename': $("#add_tenantOverview_filename").val(),
+          'repo': JSON.parse($("#add_tenantOverview_repo option:selected").dataset.repo)
+       });
         $("#repo_config").load("html/repo_config.html", fieldsetPainter);
         break;
       }
       case "addAppOverview": {
-        appOverviews.push({ 'name': $("#add_appOverview_name").val(), 'filename': $("#add_appOverview_filename").val() });
+        appOverviews.push({ 'name': $("#add_appOverview_name").val(), 
+          'filename': $("#add_appOverview_filename").val(),
+          'repo': JSON.parse($("#add_appOverview_repo option:selected").dataset.repo)
+         });
         $("#repo_config").load("html/repo_config.html", fieldsetPainter);
         break;
       }
       case "addJourneyOverview": {
-        journeyOverviews.push({ 'name': $("#add_journeyOverview_name").val(), 'filename': $("#add_journeyOverview_filename").val() });
+        journeyOverviews.push({ 'name': $("#add_journeyOverview_name").val(), 
+          'filename': $("#add_journeyOverview_filename").val(), 
+          'repo': JSON.parse($("#add_journeyOverview_repo option:selected").dataset.repo)
+        });
         $("#repo_config").load("html/repo_config.html", fieldsetPainter);
         break;
       }
