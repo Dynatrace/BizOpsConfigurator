@@ -173,7 +173,9 @@ function linkHandler(e) {
         let overview = $(this).parent().next().children("select").val();
         let readme = findOverviewREADME(overview);
 
-        popupHTML(readme.name,readme.html);
+        popupHTML(
+          `${readme.repo.owner}/${readme.repo.repo}/${readme.repo.path}/${readme.name}`,
+          readme.html);
       }
       default:
         //alert("Unknown Link: " + id);
