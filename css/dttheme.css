@@ -929,7 +929,6 @@ section.expanded a.expandable::before {
   font-weight: bold;
   color: #f5d30f;
   text-decoration: none;
-  display: none;
   border: 1px #f5d30f solid;
   border-radius: 3px;
   margin: 3px;
