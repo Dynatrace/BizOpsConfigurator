@@ -362,7 +362,7 @@ function uploadFunnel(config) {
   var dashboardFO;
   var filename = "";
 
-  dashboardFO = JSON.parse(JSON.stringify(dbList.find(x => x.name === config.journeyOverview &&
+dashboardFO = JSON.parse(JSON.stringify(dbList.find(x => x.name === config.journeyOverview &&
     x.repo.owner === config.repo.owner && x.repo.repo === config.repo.repo && 
     x.repo.path === config.repo.path).file));
   let p2 = addParentConfig(config, config.AOid);
