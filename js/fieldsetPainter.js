@@ -16,14 +16,17 @@ function fieldsetPainter() {
             $("#dbTO").val(dbTO);
             $("#dbAO").val(dbAO);
             
+            let repoOptions = "";
 
             //for (let i = 2; i < repoList.length; i++) {
             for (let i = 0; i < repoList.length; i++) {
+                let r = repoList[i];
                 let html = `<tr><td>Repo #${i}:</td>
-                <td class='right'><input type='text' class='repo_owner' data-index='${i}' value='${repoList[i].owner}'>
-                 / <input type='text' class='repo_repo' data-index='${i}' value='${repoList[i].repo}${repoList[i].path.length > 0 ? "/" + repoList[i].path : ''}'>
+                <td class='right'><input type='text' class='repo_owner' data-index='${i}' value='${r.owner}'>
+                 / <input type='text' class='repo_repo' data-index='${i}' value='${r.repo}${r.path.length > 0 ? "/" + r.path : ''}'>
                  <input type='button' class='removeRepo' data-index='${i}' value='-'></td></tr>`;
                 $("#additionalRepos").after(html);
+                repoOptions += `<option data-repo='${JSON.stringify(r)}'>${r.owner}/${r.repo}/${r.path}</option>`;
             }
             $("input.removeRepo").on("click", function () {
                 let i = $(this)[0].dataset['index'];
@@ -37,6 +40,7 @@ function fieldsetPainter() {
                 <td class='right'>
                     <select class='overview_repo' id="add_journeyOverview_repo">
                         <option data-repo='${JSON.stringify(TO.repo)}' selected>${TO.repo.owner}/${TO.repo.repo}/${TO.repo.path}</option>
+                        ${repoOptions}
                     </select>
                     <input type='text' class='tenantOverview_name' data-index='${i}' value='${TO.name}'>:
                     <input type='text' class='tenantOverview_filename' data-index='${i}' value='${TO.filename}'>
@@ -44,6 +48,7 @@ function fieldsetPainter() {
                 </td></tr>`;
                 $("#tenantOverviews").after(html);
             }
+            $("#add_tenantOverview_repo").html(repoOptions);
             $("input.removeTenantOverview").on("click", function () {
                 let i = $(this)[0].dataset['index'];
                 tenantOverviews.splice(i, 1);
@@ -56,6 +61,7 @@ function fieldsetPainter() {
                 <td class='right'>
                     <select class='overview_repo' id="add_appOverview_repo">
                         <option data-repo='${JSON.stringify(AO.repo)}' selected>${AO.repo.owner}/${AO.repo.repo}/${AO.repo.path}</option>
+                        ${repoOptions}
                     </select>
                     <input type='text' class='appOverview_name' data-index='${i}' value='${AO.name}'>: 
                     <input type='text' class='appOverview_filename' data-index='${i}' value='${AO.filename}'>
@@ -63,6 +69,7 @@ function fieldsetPainter() {
                 </td></tr>`;
                 $("#appOverviews").after(html);
             }
+            $("#add_appOverview_repo").html(repoOptions);
             $("input.removeAppOverview").on("click", function () {
                 let i = $(this)[0].dataset['index'];
                 appOverviews.splice(i, 1);
@@ -75,6 +82,7 @@ function fieldsetPainter() {
                 <td class='right'>
                     <select class='overview_repo' id="add_appOverview_repo">
                         <option data-repo='${JSON.stringify(JO.repo)}' selected>${JO.repo.owner}/${JO.repo.repo}/${JO.repo.path}</option>
+                        ${repoOptions}
                     </select>
                     <input type='text' class='journeyOverview_name' data-index='${i}' value='${JO.name}'>: 
                     <input type='text' class='journeyOverview_filename' data-index='${i}' value='${JO.filename}'>
@@ -82,6 +90,7 @@ function fieldsetPainter() {
                 </td></tr>`;
                 $("#journeyOverviews").after(html);
             }
+            $("#add_journeyOverview_repo").html(repoOptions);
             $("input.removeJourneyOverview").on("click", function () {
                 let i = $(this)[0].dataset['index'];
                 journeyOverviews.splice(i, 1);
