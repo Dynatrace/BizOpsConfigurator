@@ -12,7 +12,19 @@ function getRepoContents(repo) {
     headers: headers
     })
     .fail(errorboxJQXHR);
-    
+}
+
+function getREADME(repo){
+    let headers = {'Accept':'application/vnd.github.v3.html'};
+    if(githubuser!="" && githubpat!="")
+        headers.Authorization = "Basic " + btoa(githubuser+":"+githubpat);
+
+    //Get README.md as HTML
+    return $.get({
+    url: `https://api.github.com/repos/${repo.owner}/${repo.repo}/readme`,
+    headers: headers
+    })
+    .fail(errorboxJQXHR);
 }
 
 function parseRepoContents(data,repo) {
