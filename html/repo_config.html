@@ -1,5 +1,5 @@
 <div class='x_box'><a id='x_a'>x</a></div>
-<fieldset id='config'>
+<fieldset id='repoconfig'>
     <legend>Configurator Config</legend>
     <table>
         <tr><th colspan=2>Basic Config</th></tr>
@@ -20,18 +20,21 @@
         <tr><td colspan=2>&nbsp;</td></tr>
         <tr id="tenantOverviews"><th colspan=2>Tenant Overviews</th></tr>
         <tr><td>Add Overview:</td><td class='right'>
+            <select class='overview_repo' id="add_tenantOverview_repo"></select>
             <input type='text' class='overview_name' id="add_tenantOverview_name" placeholder='Friendly Name'>: 
             <input type='text' class='overview_filename' id="add_tenantOverview_filename" placeholder='File Name'>
             <input type='button' id='addTenantOverview' value='+'></td></tr>
         <tr><td colspan=2>&nbsp;</td></tr>
         <tr id="appOverviews"><th colspan=2>App Overviews</th></tr>
         <tr><td>Add Overview:</td><td class='right'>
+            <select class='overview_repo' id="add_appOverview_repo"></select>
             <input type='text' class='overview_name' id="add_appOverview_name" placeholder='Friendly Name'>: 
             <input type='text' class='overview_filename' id="add_appOverview_filename" placeholder='File Name'>
             <input type='button' id='addAppOverview' value='+'></td></tr>
         <tr><td colspan=2>&nbsp;</td></tr>
         <tr id="journeyOverviews"><th colspan=2>Journey Overviews</th></tr>
         <tr><td>Add Overview:</td><td class='right'>
+            <select class='overview_repo' id="add_journeyOverview_repo"></select>
             <input type='text' class='overview_name' id="add_journeyOverview_name" placeholder='Friendly Name'>: 
             <input type='text' class='overview_filename' id="add_journeyOverview_filename" placeholder='File Name'>
             <input type='button' id='addJourneyOverview' value='+'></td></tr>

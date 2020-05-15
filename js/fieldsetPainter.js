@@ -4,7 +4,7 @@ function fieldsetPainter() {
     $("#bcwrapper").empty();
     $("div.bc").prependTo($("#bcwrapper"));
     switch (id) {
-        case "config":
+        case "repoconfig":
             /*$("#default_repo_owner").val(repoList[1].owner);
             $("#default_repo_repo").val(repoList[1].repo);
             $("#old_repo_owner").val(repoList[0].owner);
@@ -32,7 +32,16 @@ function fieldsetPainter() {
             });
 
             for (let i = 0; i < tenantOverviews.length; i++) {
-                let html = `<tr><td>TenantOverview #${i}:</td><td class='right'><input type='text' class='tenantOverview_name' data-index='${i}' value='${tenantOverviews[i].name}'>: <input type='text' class='tenantOverview_filename' data-index='${i}' value='${tenantOverviews[i].filename}'><input type='button' class='removeTenantOverview' data-index='${i}' value='-'></td></tr>`;
+                let TO = tenantOverviews[i];
+                let html = `<tr><td>TenantOverview #${i}:</td>
+                <td class='right'>
+                    <select class='overview_repo' id="add_journeyOverview_repo">
+                        <option data-repo='${JSON.stringify(TO.repo)}' selected>${TO.repo.owner}/${TO.repo.repo}/${TO.repo.path}</option>
+                    </select>
+                    <input type='text' class='tenantOverview_name' data-index='${i}' value='${TO.name}'>:
+                    <input type='text' class='tenantOverview_filename' data-index='${i}' value='${TO.filename}'>
+                    <input type='button' class='removeTenantOverview' data-index='${i}' value='-'>
+                </td></tr>`;
                 $("#tenantOverviews").after(html);
             }
             $("input.removeTenantOverview").on("click", function () {
@@ -42,7 +51,16 @@ function fieldsetPainter() {
             });
 
             for (let i = 0; i < appOverviews.length; i++) {
-                let html = `<tr><td>AppOverview #${i}:</td><td class='right'><input type='text' class='appOverview_name' data-index='${i}' value='${appOverviews[i].name}'>: <input type='text' class='appOverview_filename' data-index='${i}' value='${appOverviews[i].filename}'><input type='button' class='removeAppOverview' data-index='${i}' value='-'></td></tr>`;
+                let AO = appOverviews[i];
+                let html = `<tr><td>AppOverview #${i}:</td>
+                <td class='right'>
+                    <select class='overview_repo' id="add_appOverview_repo">
+                        <option data-repo='${JSON.stringify(AO.repo)}' selected>${AO.repo.owner}/${AO.repo.repo}/${AO.repo.path}</option>
+                    </select>
+                    <input type='text' class='appOverview_name' data-index='${i}' value='${AO.name}'>: 
+                    <input type='text' class='appOverview_filename' data-index='${i}' value='${AO.filename}'>
+                    <input type='button' class='removeAppOverview' data-index='${i}' value='-'>
+                </td></tr>`;
                 $("#appOverviews").after(html);
             }
             $("input.removeAppOverview").on("click", function () {
@@ -52,7 +70,16 @@ function fieldsetPainter() {
             });
 
             for (let i = 0; i < journeyOverviews.length; i++) {
-                let html = `<tr><td>JourneyOverview #${i}:</td><td class='right'><input type='text' class='journeyOverview_name' data-index='${i}' value='${journeyOverviews[i].name}'>: <input type='text' class='journeyOverview_filename' data-index='${i}' value='${journeyOverviews[i].filename}'><input type='button' class='removeJourneyOverview' data-index='${i}' value='-'></td></tr>`;
+                let JO = journeyOverviews[i];
+                let html = `<tr><td>JourneyOverview #${i}:</td>
+                <td class='right'>
+                    <select class='overview_repo' id="add_appOverview_repo">
+                        <option data-repo='${JSON.stringify(JO.repo)}' selected>${JO.repo.owner}/${JO.repo.repo}/${JO.repo.path}</option>
+                    </select>
+                    <input type='text' class='journeyOverview_name' data-index='${i}' value='${JO.name}'>: 
+                    <input type='text' class='journeyOverview_filename' data-index='${i}' value='${JO.filename}'>
+                    <input type='button' class='removeJourneyOverview' data-index='${i}' value='-'>
+                </td></tr>`;
                 $("#journeyOverviews").after(html);
             }
             $("input.removeJourneyOverview").on("click", function () {

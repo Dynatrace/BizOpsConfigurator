@@ -28,26 +28,26 @@ var repoList = [
   {'owner': 'TechShady', 'repo': 'BizOpsLite', 'path': ''}
 ];
 var tenantOverviews = [
-  { name: 'BizOps', filename: 'TenantOverview.json'},
-  { name: 'BizOpsLite', filename: 'LiteTenantOverview.json' },
-  { name: 'Dashboard Basics', filename: '00000000-dddd-bbbb-ffff-000000000001' },
-  { name: 'SAP Extension', filename: 'SAP Application Cockpit.json' },
-  { name: 'Remote Employee Web', filename: 'RETenantOverview.json' },
-  { name: 'Remote Employee Mobile', filename: 'RETenantOverview2.json' },
-  { name: 'Infrastructure', filename: 'InfrastructureOverview.json' }
+  { name: 'BizOps', filename: 'TenantOverview.json', repo:{'owner': 'TechShady', 'repo': 'Dynatrace-DashboardV5', 'path': ''}},
+  { name: 'BizOpsLite', filename: 'LiteTenantOverview.json', repo:{'owner': 'TechShady', 'repo': 'BizOpsLite', 'path': ''} },
+  { name: 'Dashboard Basics', filename: '00000000-dddd-bbbb-ffff-000000000001', repo:{'owner': 'Dynatrace-Dave-Mauney', 'repo': 'DashboardTemplates', 'path': 'v1.192.96'} },
+  { name: 'SAP Extension', filename: 'SAP Application Cockpit.json', repo:{'owner': 'jjbologna', 'repo': 'SAP-extension-dashboards', 'path': ''} },
+  { name: 'Remote Employee Web', filename: 'RETenantOverview.json', repo:{'owner': 'TechShady', 'repo': 'Dynatrace-Remote-Employee', 'path': ''} },
+  { name: 'Remote Employee Mobile', filename: 'RETenantOverview2.json', repo:{'owner': 'TechShady', 'repo': 'Dynatrace-Remote-Employee', 'path': ''} },
+  { name: 'Infrastructure', filename: 'InfrastructureOverview.json', repo:{'owner': 'TechShady', 'repo': 'BizOpsLite', 'path': ''} }
 ];
 var appOverviews = [
-  { name: 'WebApp', filename: 'AppOverview.json' },
-  { name: 'BizOpsLite', filename: 'LiteAppOverview.json' },
-  { name: 'Citrix (New)', filename: 'CitrixOverview.json' },
-  { name: 'Remote Employee Web (preview)', filename: 'REApplicationOverview.json' },
-  { name: 'Remote Employee Mobile (preview)', filename: 'REApplicationOverview2.json' }
+  { name: 'WebApp', filename: 'AppOverview.json', repo:{'owner': 'TechShady', 'repo': 'Dynatrace-DashboardV5', 'path': ''} },
+  { name: 'BizOpsLite', filename: 'LiteAppOverview.json', repo:{'owner': 'TechShady', 'repo': 'BizOpsLite', 'path': ''} },
+  { name: 'Citrix (New)', filename: 'CitrixOverview.json', repo: {'owner': 'Dynatrace-JasonOstroski', 'repo': 'CitrixDashboardsV1', 'path': ''}},
+  { name: 'Remote Employee Web (preview)', filename: 'REApplicationOverview.json', repo:{'owner': 'TechShady', 'repo': 'Dynatrace-Remote-Employee', 'path': ''} },
+  { name: 'Remote Employee Mobile (preview)', filename: 'REApplicationOverview2.json', repo:{'owner': 'TechShady', 'repo': 'Dynatrace-Remote-Employee', 'path': ''} }
 ];
 var journeyOverviews = [
-  { name: 'UserJourney (w/ KPI)', filename: 'OverviewTrue.json' },
-  { name: 'UserJourney (w/o KPI)', filename: 'OverviewFalse.json' },
-  { name: 'LiteUserJourney (w/ KPI)', filename: 'LiteOverviewTrue.json' },
-  { name: 'LiteUserJourney (w/o KPI)', filename: 'LiteOverviewFalse.json' }
+  { name: 'UserJourney (w/ KPI)', filename: 'OverviewTrue.json', repo:{'owner': 'TechShady', 'repo': 'Dynatrace-DashboardV5', 'path': ''} },
+  { name: 'UserJourney (w/o KPI)', filename: 'OverviewFalse.json', repo:{'owner': 'TechShady', 'repo': 'Dynatrace-DashboardV5', 'path': ''} },
+  { name: 'LiteUserJourney (w/ KPI)', filename: 'LiteOverviewTrue.json', repo:{'owner': 'TechShady', 'repo': 'BizOpsLite', 'path': ''} },
+  { name: 'LiteUserJourney (w/o KPI)', filename: 'LiteOverviewFalse.json', repo:{'owner': 'TechShady', 'repo': 'BizOpsLite', 'path': ''} }
 ];
 
 //////// Global Vars ////////////
