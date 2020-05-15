@@ -447,7 +447,7 @@ function fieldsetPainter() {
                 let i = $(this)[0].dataset['index'];
                 jsonviewer(dbList[i].file,
                     true, 
-                    `${dbList[i].owner}/${dbList[i].repo}/${dbList[i].file}`, "#popupjsonviewer");
+                    `${dbList[i].repo.owner}/${dbList[i].repo.repo}/${dbList[i].name}`, "#popupjsonviewer");
             });
             break;
         }
