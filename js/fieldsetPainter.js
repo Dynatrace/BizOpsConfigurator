@@ -38,7 +38,7 @@ function fieldsetPainter() {
                 let TO = tenantOverviews[i];
                 let html = `<tr><td>TenantOverview #${i}:</td>
                 <td class='right'>
-                    <select class='overview_repo' id="add_journeyOverview_repo">
+                    <select class='overview_repo' class="tenantOverview_repo" data-index='${i}'>
                         <option data-repo='${JSON.stringify(TO.repo)}' selected>${TO.repo.owner}/${TO.repo.repo}/${TO.repo.path}</option>
                         ${repoOptions}
                     </select>
@@ -59,7 +59,7 @@ function fieldsetPainter() {
                 let AO = appOverviews[i];
                 let html = `<tr><td>AppOverview #${i}:</td>
                 <td class='right'>
-                    <select class='overview_repo' id="add_appOverview_repo">
+                    <select class='overview_repo' class="appOverview_repo" data-index='${i}'>
                         <option data-repo='${JSON.stringify(AO.repo)}' selected>${AO.repo.owner}/${AO.repo.repo}/${AO.repo.path}</option>
                         ${repoOptions}
                     </select>
@@ -80,7 +80,7 @@ function fieldsetPainter() {
                 let JO = journeyOverviews[i];
                 let html = `<tr><td>JourneyOverview #${i}:</td>
                 <td class='right'>
-                    <select class='overview_repo' id="add_appOverview_repo">
+                    <select class='overview_repo' class="journeyOverview_repo" data-index='${i}'>
                         <option data-repo='${JSON.stringify(JO.repo)}' selected>${JO.repo.owner}/${JO.repo.repo}/${JO.repo.path}</option>
                         ${repoOptions}
                     </select>
