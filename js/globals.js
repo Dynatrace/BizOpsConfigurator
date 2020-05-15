@@ -22,7 +22,7 @@ var repoList = [
   {'owner': 'TechShady', 'repo': 'Dynatrace-DashboardV5', 'path': ''},
   {'owner': 'Dynatrace-JasonOstroski', 'repo': 'CitrixDashboardsV1', 'path': ''},
   {'owner': 'jjbologna', 'repo': 'SAP-extension-dashboards', 'path': ''},
-  {'owner': 'Dynatrace-Dave-Mauney', 'repo': 'DashboardTemplates', 'path': 'v1.188.75'},
+  {'owner': 'Dynatrace-Dave-Mauney', 'repo': 'DashboardTemplates', 'path': 'v1.192.96'},
   {'owner': 'TechShady', 'repo': 'Dynatrace-Remote-Employee', 'path': ''},
   {'owner': 'TechShady', 'repo': 'Dynatrace-Infrastructure', 'path': ''},
   {'owner': 'TechShady', 'repo': 'BizOpsLite', 'path': ''}

@@ -354,7 +354,7 @@ function popup(inputs, popupHeader, desc) {
 function popupHTML(popupHeader,content) {
   let html = `<div class='popupHTML'>
     <div class='x_box'><a id='x_c'>x</a></div>
-    <span class='header'>${popupHeader}</span>
+    <h3>${popupHeader}</h3>
     ${content}
     </div>`;
   $("#viewport").append(html);
