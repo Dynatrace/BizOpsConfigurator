@@ -124,7 +124,8 @@ function fieldsetPainter() {
                 selection.config = parseConfigDashboard(d1);
                 drawTimeInterval(("MyTime" in selection.config) ? selection.config.MyTime : "Last 2 hours");
                 appOverviews.forEach(function (ov) {
-                    $("#appOverview").append("<option value='" + ov.filename + "'>" + ov.name + "</option>");
+                    $("#appOverview").append(
+                        `<option value='${ov.filename}' data-repo='${JSON.stringify(ov.repo)}'>${ov.name}</option>`);
                 });
                 if ("appOverview" in selection.config) $("#appOverview").val(selection.config.appOverview);
                 let p1 = getApps(selection.config.mz);
@@ -177,7 +178,8 @@ function fieldsetPainter() {
                 $("#appName").text(selection.config.appName);
                 $("#appID").text(selection.config.appID);
                 journeyOverviews.forEach(function (ov) {
-                    $("#journeyOverview").append("<option value='" + ov.filename + "'>" + ov.name + "</option>");
+                    $("#journeyOverview").append(
+                        `<option value='${ov.filename}' data-repo='${JSON.stringify(ov.repo)}'>${ov.name}</option>`);
                 });
                 if ("journeyOverview" in selection.config) $("#journeyOverview").val(selection.config.journeyOverview);
                 if ("xapp" in selection.config) $("#xapp").prop('checked', selection.config.xapp);
@@ -377,7 +379,8 @@ function fieldsetPainter() {
             drawMZs();
 
             tenantOverviews.forEach(function (ov) {
-                $("#tenantOverview").append(`<option value="${ov.filename}" >${ov.name}</option>`);
+                $("#tenantOverview").append(
+                    `<option value="${ov.filename}" data-repo='${JSON.stringify(ov.repo)}'>${ov.name}</option>`);
             });
             if ("tenantOverview" in selection.config) {
                 $("#tenantOverview").val(selection.config.tenantOverview);

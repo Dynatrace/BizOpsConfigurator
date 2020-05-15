@@ -214,7 +214,9 @@ function dtAPIquery(query, options, retries = 3) {
 
 function uploadTenantOverview(config) {
   //get dashboard JSON
-  var dashboardTO = JSON.parse(JSON.stringify(dbList.find(({ name }) => name === config.tenantOverview).file));
+  var dashboardTO = JSON.parse(JSON.stringify(dbList.find(x => x.name === config.tenantOverview &&
+    x.repo.owner === config.repo.owner && x.repo.repo === config.repo.repo && 
+    x.repo.path === config.repo.path).file));
 
   //transform
   var id = nextTO();
@@ -290,7 +292,9 @@ function updateTenantOverview(TOid) {
 
 function uploadAppOverview(config) {
   //get dashboard JSON
-  var dashboardAO = JSON.parse(JSON.stringify(dbList.find(({ name }) => name === config.appOverview).file));
+  var dashboardAO = JSON.parse(JSON.stringify(dbList.find(x => x.name === config.appOverview &&
+    x.repo.owner === config.repo.owner && x.repo.repo === config.repo.repo && 
+    x.repo.path === config.repo.path).file));
   let p2 = addParentConfig(config, config.TOid);
   return $.when(p2).then(function () {
 
@@ -358,7 +362,9 @@ function uploadFunnel(config) {
   var dashboardFO;
   var filename = "";
 
-  dashboardFO = JSON.parse(JSON.stringify(dbList.find(({ name }) => name === config.journeyOverview).file));
+  dashboardFO = JSON.parse(JSON.stringify(dbList.find(x => x.name === config.journeyOverview &&
+    x.repo.owner === config.repo.owner && x.repo.repo === config.repo.repo && 
+    x.repo.path === config.repo.path).file));
   let p2 = addParentConfig(config, config.AOid);
   return $.when(p2).then(function (data2) {
 

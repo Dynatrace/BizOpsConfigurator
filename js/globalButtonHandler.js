@@ -141,6 +141,7 @@ function globalButtonHandler() {
         selection.config.funnelName = $("#funnelName").val();
         selection.config.journeyOverview = $("#journeyOverview").val();
         selection.config.journeyOverviewName = $("#journeyOverview option:selected").text();
+        selection.config.repo = JSON.parse($("#journeyOverview option:selected")[0].dataset.repo);
         selection.config.xapp = $("#xapp").prop('checked');
         if (selection.config.xapp)
           selection.config.xapps = $("#xapp_apps").val();
@@ -318,6 +319,7 @@ function globalButtonHandler() {
         selection.config.TOid = TOid;
         selection.config.TOname = $("#TOname").text();
         selection.config.appOverviewName = $("#appOverview option:selected").text();
+        selection.config.repo = JSON.parse($("#appOverview option:selected")[0].dataset.repo);
 
         switch (selection.config.appOverview) {
           case "AppOverview.json": {
@@ -396,6 +398,7 @@ function globalButtonHandler() {
         selection.config.mzname = $("#mzlist option:selected").text();
         selection.config.tenantOverview = $("#tenantOverview").val();
         selection.config.tenantOverviewName = $("#tenantOverview option:selected").text();
+        selection.config.repo = JSON.parse($("#tenantOverview option:selected")[0].dataset.repo);
 
         switch (selection.config.tenantOverview) {
           case "TenantOverview.json":
