@@ -738,7 +738,7 @@ img.structure {
   width: 140px;
 }
 
-input.repo_owner, input.appOverview_name, input.tenantOverview_name, input.journeyOverview_name, input.overview_name {
+input.repo_owner, input.appOverview_name, input.tenantOverview_name, input.journeyOverview_name, input.overview_name, select.overview_repo {
   width: 140px;
   margin-right: 5px;
 }
