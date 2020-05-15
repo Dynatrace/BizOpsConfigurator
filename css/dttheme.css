@@ -678,7 +678,7 @@ img.structure {
   text-align: right;
 }
 
-#x_a {
+#x_a, #x_c {
   color: white;
   padding: 5px 5px 5px 5px;
   background: #242424;
@@ -687,7 +687,7 @@ img.structure {
   margin-right: -5px;
 }
 
-#x_a:hover {
+#x_a:hover, #x_c:hover {
   color: #00a1b2;  
   cursor: pointer;
   background-color: #525252;

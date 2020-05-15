@@ -353,7 +353,7 @@ function popup(inputs, popupHeader, desc) {
 
 function popupHTML(popupHeader,content) {
   let html = `<div class='popupHTML'>
-    <div class='x_box'><a id='x_a'>x</a></div>
+    <div class='x_box'><a id='x_c'>x</a></div>
     <span class='header'>${popupHeader}</span>
     ${content}
     </div>`;

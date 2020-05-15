@@ -136,6 +136,10 @@ function linkHandler(e) {
         $(this).parent().parent().hide();
         popupZindex--;
         break;
+      case "x_c":
+        $(this).parent().parent().remove();
+        popupZindex--;
+        break;
       case "revealToken":
         if($("#revealToken").hasClass("revealed")){
           $("#revealToken").removeClass("revealed");
