@@ -345,8 +345,8 @@ function fieldsetPainter() {
             });
             if ("tenantOverview" in selection.config) {
                 $("#tenantOverview").val(selection.config.tenantOverview);
-                tenantOverviewChangeHandler();
             }
+            tenantOverviewChangeHandler();
             break;
         case "listApp": {
             let p_DBA = getAllDashboards();
