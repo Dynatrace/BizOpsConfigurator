@@ -672,6 +672,7 @@ function globalButtonHandler() {
         repoList[0].repo = $("#old_repo_repo").val();
         oldVersion = parseInt($("#oldVersion").val());
         dbTagsVersion = parseInt($("#dbTagsVersion").val());
+        personaFlow = $("#personaFlow").prop('checked');;
         dbTO = $("#dbTO").val();
         dbAO = $("#dbAO").val();
         dbFunnelTrue = $("#dbFunnelTrue").val();
@@ -825,6 +826,19 @@ function globalButtonHandler() {
         ipClauseObj.val(ipClause);
         lowerObj.val("");
         upperObj.val("");
+        break;
+      }
+      
+      case "persona_list": {
+        $("#viewport").load("html/personaFlow/persona_list.html", fieldsetPainter);
+        break;
+      }
+      case "persona_deploy": {
+        $("#viewport").load("html/personaFlow/persona_usecase.html", fieldsetPainter);
+        break;
+      }
+      case "persona_usecase_next":{
+        $("#viewport").load("html/personaFlow/persona_userInputs.html", fieldsetPainter);
         break;
       }
       case "":

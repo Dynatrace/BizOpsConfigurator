@@ -361,12 +361,17 @@ a.bc:hover::after {
   display: flex;
 }
 
-#comparisons h3, #filters h3, div.flexcontainer h3 {
+.flexwrap {
+  flex: 1;
+  flex-wrap: wrap;
+}
+
+#comparisons h3, #filters h3, div.flexcontainer h3, .flexwrap h3 {
   /*color: #00B9CB;*/
   color: white;
 }
 
-#comparisons > div, #filters > div, div.flexcontainer > div {
+#comparisons > div, #filters > div, div.flexcontainer > div, .flexwrap > div {
   margin: 0px 10px 0px 10px;
   border: 1px solid #606060;
   border-radius: 3px;

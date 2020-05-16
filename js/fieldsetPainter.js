@@ -107,6 +107,8 @@ function fieldsetPainter() {
             $("#owner").text(owner);
             let p_DBA = getAllDashboards();
             $("#bc-connect").text(tenantID);
+            if(personaFlow)$("#persona_list").hide();
+            else $("#persona_list").show();
 
             $.when(p_DBA).done(function (data) {
                 processDBADashboards(data);
@@ -564,6 +566,8 @@ function fieldsetPainter() {
         }
         /*case "upgradeTenant":
            break;*/
+        case "persona_usecase_next":
+            break;
         default:
             alert("Unknown Fieldset: " + id);
     }
