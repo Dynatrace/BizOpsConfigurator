@@ -570,7 +570,7 @@ function fieldsetPainter() {
     }
 }
 
-function bdHandler() {
+function bcHandler() {
     $("#bcwrapper").show();
     $("#bcwrapper").empty();
     $("div.bc").prependTo($("#bcwrapper"));
