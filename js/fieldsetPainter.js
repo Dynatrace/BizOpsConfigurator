@@ -15,7 +15,7 @@ function fieldsetPainter() {
             $("#dbTagsVersion").val(dbTagsVersion);
             $("#dbTO").val(dbTO);
             $("#dbAO").val(dbAO);
-            
+
             let repoOptions = "";
 
             //for (let i = 2; i < repoList.length; i++) {
@@ -107,7 +107,7 @@ function fieldsetPainter() {
             $("#owner").text(owner);
             let p_DBA = getAllDashboards();
             $("#bc-connect").text(tenantID);
-            if(personaFlow)$("#persona_list").hide();
+            if (personaFlow) $("#persona_list").hide();
             else $("#persona_list").show();
 
             $.when(p_DBA).done(function (data) {
@@ -219,11 +219,11 @@ function fieldsetPainter() {
                 let kpis = parseKPIs(data);
                 drawKPIs(kpis);
                 if (kpis.length == 0) {
-                    let popheader="No User Session Properties (long/double)";
+                    let popheader = "No User Session Properties (long/double)";
                     let desc = "Please configure some User Session Properties ";
                     desc += `<a href="${url}/#applicationconfigurationsessionuseractionproperties;uemapplicationId=${selection.config.appID}"`
                         + ' class="newTab" target="_blank">here <img src="images/link.svg"></a>';
-                    popup([],popheader,desc);
+                    popup([], popheader, desc);
                 }
 
                 if ('kpi' in selection.config) $("#usplist").val(selection.config.kpi);
@@ -347,11 +347,11 @@ function fieldsetPainter() {
             //once XHRs are finished, do some stuff
             $.when(p1, p2).done(function (data1, data2) {
                 if (data1[0].values.length == 0 && data2[0].values.length == 0) {
-                    let popheader="No Key User Actions or Conversion Goals";
+                    let popheader = "No Key User Actions or Conversion Goals";
                     let desc = "Please configure some Key User Actions and/or Conversion Goals ";
                     desc += `<a href="${url}/#uemapplications/performanceanalysis;uemapplicationId=${selection.config.appID}"`
                         + ' class="newTab" target="_blank">here <img src="images/link.svg"></a>';
-                    popup([],popheader,desc);
+                    popup([], popheader, desc);
                 }
                 drawSteps(parseSteps(data2[0]));
                 drawSteps(parseSteps(data1[0]));
@@ -487,7 +487,7 @@ function fieldsetPainter() {
             $("#dashboardList ul").on("click", "a", function () {
                 let i = $(this)[0].dataset['index'];
                 jsonviewer(dbList[i].file,
-                    true, 
+                    true,
                     `${dbList[i].repo.owner}/${dbList[i].repo.repo}/${dbList[i].name}`, "#popupjsonviewer");
             });
             break;
@@ -566,7 +566,11 @@ function fieldsetPainter() {
         }
         /*case "upgradeTenant":
            break;*/
-        case "persona_usecase_next":
+        case "persona_usecase_selection":
+            break;
+        case "persona_user_inputs":
+            break;
+        case "persona_list":
             break;
         default:
             alert("Unknown Fieldset: " + id);
