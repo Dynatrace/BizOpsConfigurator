@@ -144,10 +144,12 @@ function linkHandler(e) {
       case "x_a":
         $(this).parent().parent().hide();
         popupZindex--;
+        fieldsetPainter();
         break;
       case "x_c":
         $(this).parent().parent().remove();
         popupZindex--;
+        fieldsetPainter();
         break;
       case "revealToken":
         if($("#revealToken").hasClass("revealed")){
