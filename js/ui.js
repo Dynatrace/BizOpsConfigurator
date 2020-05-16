@@ -332,6 +332,7 @@ function drawTimeInterval(v) {
 }
 
 function popup(inputs, popupHeader, desc) {
+  bcBuffer = $("#bcwrapper").html();
   let deferred = new $.Deferred();
   let html = "<div id='popup'>" +
     "<span class='header'>" + popupHeader + "</span>" +
@@ -352,6 +353,7 @@ function popup(inputs, popupHeader, desc) {
 }
 
 function popupHTML(popupHeader,content) {
+  bcBuffer = $("#bcwrapper").html();
   let html = `<div class='popupHTML'>
     <div class='x_box'><a id='x_c'>x</a></div>
     <h3>${popupHeader}</h3>

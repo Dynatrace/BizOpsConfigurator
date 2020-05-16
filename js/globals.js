@@ -69,6 +69,7 @@ var autoTags = [];
 var MZs = [];
 var HUreport = { url: "", data: {} };
 var popupZindex = 0;
+var bcBuffer = "";
 
 ///////// Functions for manipulating global vars //////////
 

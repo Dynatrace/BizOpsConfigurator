@@ -1,10 +1,7 @@
 function fieldsetPainter() {
     let id = $(this).find("fieldset").attr("id");
     if(typeof id==="undefined") id = $("#viewport").find("fieldset").attr("id");
-    $("#bcwrapper").show();
-    $("#bcwrapper").empty();
-    $("div.bc").prependTo($("#bcwrapper"));
-    $("#bc-connect").text(tenantID);
+    bcHandler();
     switch (id) {
         case "repoconfig":
             /*$("#default_repo_owner").val(repoList[1].owner);
@@ -571,4 +568,11 @@ function fieldsetPainter() {
         default:
             alert("Unknown Fieldset: " + id);
     }
+}
+
+function bdHandler() {
+    $("#bcwrapper").show();
+    $("#bcwrapper").empty();
+    $("div.bc").prependTo($("#bcwrapper"));
+    $("#bc-connect").text(tenantID);
 }
