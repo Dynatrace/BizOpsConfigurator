@@ -1,5 +1,6 @@
 function fieldsetPainter() {
-    let id = $(this).find("fieldset").attr("id");
+    //let id = $(this).find("fieldset").attr("id");
+    let id = $("#viewport").find("fieldset").attr("id");
     $("#bcwrapper").show();
     $("#bcwrapper").empty();
     $("div.bc").prependTo($("#bcwrapper"));
