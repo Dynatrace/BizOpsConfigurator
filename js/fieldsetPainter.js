@@ -3,6 +3,7 @@ function fieldsetPainter() {
     $("#bcwrapper").show();
     $("#bcwrapper").empty();
     $("div.bc").prependTo($("#bcwrapper"));
+    $("#bc-connect").text(tenantID);
     switch (id) {
         case "repoconfig":
             /*$("#default_repo_owner").val(repoList[1].owner);
@@ -106,9 +107,8 @@ function fieldsetPainter() {
         case "main":
             $("#owner").text(owner);
             let p_DBA = getAllDashboards();
-            $("#bc-connect").text(tenantID);
-            if (personaFlow) $("#persona_list").hide();
-            else $("#persona_list").show();
+            if (personaFlow) $("#persona_list").show();
+            else $("#persona_list").hide();
 
             $.when(p_DBA).done(function (data) {
                 processDBADashboards(data);
@@ -117,7 +117,6 @@ function fieldsetPainter() {
             });
             break;
         case "deployApp": {
-            $("#bc-connect").text(tenantID);
             $("#TOid").text(selection.TOid);
             $("#TOname").text(DBAdashboards.find(x => x.id === selection.TOid).name);
 
@@ -167,7 +166,6 @@ function fieldsetPainter() {
         }
         case "deployFunnel-name": {
             let p1 = (!selection.funnelLoaded ? loadDashboard(configID(selection.AOid)) : null);
-            $("#bc-connect").text(tenantID);
             $("#TOid").text(selection.TOid);
             $("#TOname").text(DBAdashboards.find(x => x.id === selection.TOid).name);
             $("#AOid").text(selection.AOid);
@@ -204,7 +202,6 @@ function fieldsetPainter() {
             $("#teaser").show();
 
             let p1 = getKPIs(selection.config.xapp ? selection.config.xapps : selection.config.appName);
-            $("#bc-connect").text(tenantID);
             $("#bc-deployFunnel-name").text(selection.config.funnelName);
 
             $("#TOid").text(selection.TOid);
@@ -233,10 +230,16 @@ function fieldsetPainter() {
             break;
         }
         case "deployFunnel-filters": {
+            let teaser = `<img src="images/light-bulb-yellow_300.svg">
+            Do you use Adobe Analytics, Google Analytics / Web properties, or Intercom?
+            You can easily import properties from those platforms using &nbsp;<a
+            href="https://www.dynatrace.com/support/help/shortlink/user-session-properties#property-packs" target="_blank" class="newTab">
+            Property Packs <img src="images/link.svg"></a>.`;
+            $("#teaser").html(teaser);
+            $("#teaser").show();
             let p1 = getUSPs(selection.config.xapp ? selection.config.xapps : selection.config.appName);
             let p2 = getRegions(selection.config.xapp ? selection.config.xapps : selection.config.appName);
 
-            $("#bc-connect").text(tenantID);
             $("#bc-deployFunnel-name").text(selection.config.funnelName);
             $("#TOid").text(selection.TOid);
             $("#TOname").text(DBAdashboards.find(x => x.id === selection.TOid).name);
@@ -260,7 +263,6 @@ function fieldsetPainter() {
             break;
         }
         case "deployFunnel-compare": {
-            $("#bc-connect").text(tenantID);
             $("#bc-deployFunnel-name").text(selection.config.funnelName);
 
             $("#TOid").text(selection.TOid);
@@ -315,7 +317,6 @@ function fieldsetPainter() {
             let mobileHack = (selection.config.appID.split('-')[0] == "APPLICATION" ? false : true);
             let p1 = getGoals(selection.config.xapp ? selection.config.xapps : selection.config.appName);
             let p2 = getKeyActions(selection.config.xapp ? selection.config.xapps : selection.config.appName, mobileHack);
-            $("#bc-connect").text(tenantID);
             $("#bc-deployFunnel-name").text(selection.config.funnelName);
 
             //paint info we already have
@@ -361,7 +362,6 @@ function fieldsetPainter() {
             break;
         }
         case "deployFunnel-finish":
-            $("#bc-connect").text(tenantID);
             $("#bc-deployFunnel-name").text(selection.config.funnelName);
 
             $("#TOid").text(selection.TOid);
@@ -377,7 +377,6 @@ function fieldsetPainter() {
                 selection.config.dashboardName + " <img src='images/link.svg'></a>");
             break;
         case "deployTenant":
-            $("#bc-connect").text(tenantID);
             drawMZs();
 
             tenantOverviews.forEach(function (ov) {
@@ -391,7 +390,6 @@ function fieldsetPainter() {
             break;
         case "listApp": {
             let p_DBA = getAllDashboards();
-            $("#bc-connect").text(tenantID);
             $("#TOid").text(selection.TOid);
             $("#TOname").text(DBAdashboards.find(x => x.id === selection.TOid).name);
 
@@ -406,7 +404,6 @@ function fieldsetPainter() {
         }
         case "listFunnel": {
             let p_DBA = getAllDashboards();
-            $("#bc-connect").text(tenantID);
             $("#TOid").text(selection.TOid);
             $("#AOid").text(selection.AOid);
             $("#TOname").text(DBAdashboards.find(x => x.id === selection.TOid).name);
@@ -424,7 +421,6 @@ function fieldsetPainter() {
         }
         case "listTenant": {
             let p_DBA = getAllDashboards();
-            $("#bc-connect").text(tenantID);
 
             $.when(p_DBA).done(function (data) {
                 processDBADashboards(data);
@@ -493,7 +489,6 @@ function fieldsetPainter() {
             break;
         }
         case "dashboardCleanup": {
-            $("#bc-connect").text(tenantID);
             let p1 = getAllDashboards();
 
             $.when(p1).done(function (data) {
