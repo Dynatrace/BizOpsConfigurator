@@ -126,6 +126,15 @@ function linkHandler(e) {
         selection.config={};
         $("#viewport").load("html/dashboardCleanup.html",fieldsetPainter);
         break;
+      case "bc-persona_list":
+        $("#viewport").load("html/personaFlow/persona_list.html",fieldsetPainter);
+        break;
+      case "bc-person_usecase":
+        $("#viewport").load("html/personaFlow/persona_usecase.html",fieldsetPainter);
+        break;
+      case "bc-person_inputs":
+        $("#viewport").load("html/personaFlow/persona_userInputs.html",fieldsetPainter);
+        break;
       case "pencil":
         pencilToggle();
         break;
