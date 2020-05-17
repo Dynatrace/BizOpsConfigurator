@@ -565,8 +565,10 @@ function fieldsetPainter() {
             break;
         case "persona_list":
             break;
+        case undefined:
+            break;
         default:
-            alert("Unknown Fieldset: " + id);
+            console.log("Unknown Fieldset: " + id);
     }
 }
 
