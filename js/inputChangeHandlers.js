@@ -18,16 +18,16 @@ function loadInputChangeHandlers() {
   $("#viewport").on("click", "section h4", helpdocToggler);
 
   $("#viewport").on("focus", ".workflowSection", function () {
-    $(this).children(".workflowSectionPopup").show();
+    $(this).find(".workflowSectionPopup").show();
   });
   $("#viewport").on("blur", ".workflowSection", function () {
-    $(this).children(".workflowSectionPopup").hide();
+    $(this).find(".workflowSectionPopup").hide();
   });
   $("#viewport").on("focus", ".workflowInput", function () {
-    $(this).children(".workflowInputPopup").show();
+    $(this).find(".workflowInputPopup").show();
   });
   $("#viewport").on("blur", ".workflowInput", function () {
-    $(this).children(".workflowInputPopup").hide();
+    $(this).find(".workflowInputPopup").hide();
   });
 }
 
