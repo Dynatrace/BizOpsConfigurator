@@ -11,14 +11,6 @@ function Section() {
         </div>
         <h3 contenteditable="true">Title</h3>
     </div>`;
-    this.setHandler = function () {
-        $(this).focusin(function () {
-            $(this).children(".workflowSectionPopup").show();
-        });
-        $(this).focusout(function () {
-            $(this).children(".workflowSectionPopup").hide();
-        });
-    }
 }
 
 function Input(type) {
@@ -52,12 +44,4 @@ function Input(type) {
         </div>
         <div class="userInput">${input}</div>
     </div>`
-    this.setHandler = function () {
-        $(this).focusin(function () {
-            $(this).children(".workflowInputPopup").show();
-        });
-        $(this).focusout(function () {
-            $(this).children(".workflowInputPopup").hide();
-        });
-    }
 }

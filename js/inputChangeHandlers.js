@@ -16,6 +16,19 @@ function loadInputChangeHandlers() {
   $("#viewport").on("change", "#HU-report", HUreportChangeHandler);
 
   $("#viewport").on("click", "section h4", helpdocToggler);
+
+  $("#viewport").on("focus", ".workflowSection", function () {
+    $(this).children(".workflowSectionPopup").show();
+  });
+  $("#viewport").on("blur", ".workflowSection", function () {
+    $(this).children(".workflowSectionPopup").hide();
+  });
+  $("#viewport").on("focus", ".workflowInput", function () {
+    $(this).children(".workflowInputPopup").show();
+  });
+  $("#viewport").on("blur", ".workflowInput", function () {
+    $(this).children(".workflowInputPopup").hide();
+  });
 }
 
 
@@ -288,7 +301,7 @@ function appOverviewChangeHandler() {
   $("#appPickerLabel").text("App");
 
   let readme = findOverviewREADME(AO);
-  if(typeof readme !="undefined")$("#readmeIcon").show();
+  if (typeof readme != "undefined") $("#readmeIcon").show();
   else $("#readmeIcon").hide();
 
   switch (AO) {
@@ -331,7 +344,7 @@ function tenantOverviewChangeHandler() {
   $("#SAPtenant").hide();
 
   let readme = findOverviewREADME(TO);
-  if(typeof readme !="undefined")$("#readmeIcon").show();
+  if (typeof readme != "undefined") $("#readmeIcon").show();
   else $("#readmeIcon").hide();
 
   switch (TO) {
@@ -348,10 +361,10 @@ function tenantOverviewChangeHandler() {
     }
     case "SAP Application Cockpit.json": {
       $("#SAPtenant").show();
-      getApps().then(function(apps){
+      getApps().then(function (apps) {
         let customapps = apps.filter(app => app.entityId.includes("CUSTOM_APPLICATION"));
         let html = "";
-        customapps.forEach(function(app){
+        customapps.forEach(function (app) {
           html += `<option value='${JSON.stringify(app)}'>${app.displayName}</option>`;
         });
         $("#SAPapps").html(html);
