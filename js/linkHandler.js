@@ -199,6 +199,23 @@ function linkHandler(e) {
         $("#viewport").load("html/personaFlow/workflowBuilder.html", fieldsetPainter);
         break;
       }
+//workflow links
+      case "workflowAddSection":{
+        let sections = $("#workflowSections");
+        let newSection = new Section();
+        sections.append(newSection.html);
+        newSection.setHandler();
+        break;
+      }
+      case "workflowSectionAddInput":{
+        let section = $(this).parents(".workflowSection");
+        let newInput = new Input("input");
+        section.append(newInput.html);
+        newInput.setHandler();
+        break;
+      }
+
+//end workflow links
       default:
         //alert("Unknown Link: " + id);
         if (typeof dtrum !== "undefined") dtrum.reportCustomError("Unknown Link", e, id, true);

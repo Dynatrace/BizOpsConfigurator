@@ -375,7 +375,7 @@ a.bc:hover::after {
   color: white;
 }
 
-#comparisons>div, #filters>div, div.flexcontainer>div, .flexwrap>div, #workflowSections>div {
+#comparisons>div, #filters>div, div.flexcontainer>div, .flexwrap>div {
   margin: 0px 10px 0px 10px;
   border: 1px solid #606060;
   border-radius: 3px;
@@ -992,6 +992,7 @@ div.userInput input, div.userInput select {
   display: flex;
   flex-direction: row;
   background: black;
+  margin: -10px -10px 10px -10px;
 }
 
 #workflowButtonRow > div {
@@ -1002,12 +1003,13 @@ div.userInput input, div.userInput select {
   flex: 1;
 }
 
-#workflowButtonRow a {
+#workflowButtonRow a, #workflowButtonRow a:visited {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 44px;
   height: 44px;
+  color: white;
 }
 
 #workflowButtonRow a:hover {
@@ -1028,4 +1030,11 @@ div.userInput input, div.userInput select {
 #workflowSections {
   display: flex;
   flex-wrap: wrap;
+}
+
+#workflowSections>div {
+  margin: 10px 10px 10px 10px;
+  border: 1px solid #606060;
+  border-radius: 3px;
+  padding: 5px 5px 5px 5px;
 }

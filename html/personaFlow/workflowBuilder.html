@@ -15,26 +15,28 @@
     </div>
 
     <div id="workflowSections">
-        <div>
+        <div class="workflowSection">
             <div class="workflowSectionPopup">
-                <input type="button" class="workflowSectionAddInput" data-index="0" value="+">
-                <input type="button" class="workflowSectionDelete" data-index="0" value="❌">
-                <input type="button" class="workflowSectionUp" data-index="0" value="🔼">
-                <input type="button" class="workflowSectionDown" data-index="0" value="🔽">
+                <input type="button" class="workflowSectionAddInput" value="+">
+                <input type="button" class="workflowSectionDelete" value="❌">
+                <input type="button" class="workflowSectionUp" value="🔼">
+                <input type="button" class="workflowSectionDown" value="🔽">
             </div>
             <h3 contenteditable="true">Title</h3>
-            <div class="inputHeader" contenteditable="true">Input 1:
-                <div class="workflowInputPopup">
-                    <input type="button" class="workflowInputDelete" data-index="0" value="❌">
-                    <input type="button" class="workflowInputUp" data-index="0" value="🔼">
-                    <input type="button" class="workflowInputDown" data-index="0" value="🔽">
+            <div class="workflowInput">
+                <div class="inputHeader" contenteditable="true">Input 1:
+                    <div class="workflowInputPopup">
+                        <input type="button" class="workflowInputDelete" value="❌">
+                        <input type="button" class="workflowInputUp" value="🔼">
+                        <input type="button" class="workflowInputDown" value="🔽">
+                    </div>
                 </div>
+                <div class="userInput"><select id="appOverview" disabled></select></div>
             </div>
-            <div class="userInput"><select id="appOverview"></select></div>
             <div class="inputHeader" contenteditable="true"><span id="appPickerLabel">Input 2:</span></div>
-            <div class="userInput"><select id="applist"></select></div>
+            <div class="userInput"><select id="applist" disabled></select></div>
             <div class="inputHeader" contenteditable="true">Input 3:</div>
-            <div class="userInput"><input id="appName" name="appName" placeholder="Friendly Name"></div>
+            <div class="userInput"><input id="appName" name="appName" placeholder="Friendly Name" disabled></div>
         </div>
     </div>
 </fieldset>
