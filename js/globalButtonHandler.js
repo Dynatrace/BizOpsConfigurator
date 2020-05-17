@@ -841,10 +841,6 @@ function globalButtonHandler() {
         $("#viewport").load("html/personaFlow/persona_userInputs.html", fieldsetPainter);
         break;
       }
-      case "workflowGenerator":{
-        $("#viewport").load("html/personaFlow/workflowBuilder.html", fieldsetPainter);
-        break;
-      }
       case "":
       case undefined:
         console.log("undefined button");

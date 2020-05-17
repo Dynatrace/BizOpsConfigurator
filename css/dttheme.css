@@ -991,9 +991,10 @@ div.userInput input, div.userInput select {
 #workflowButtonRow {
   display: flex;
   flex-direction: row;
+  background: black;
 }
 
-#workflowButtonRow>div {
+#workflowButtonRow > div {
   flex: 0 0 44px;
 }
 
