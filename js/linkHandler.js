@@ -195,7 +195,7 @@ function linkHandler(e) {
           `${readme.repo.owner}/${readme.repo.repo}/${readme.repo.path}/${readme.name}`,
           readme.html);
       }
-      case "#workflowBuilder":{
+      case "workflowBuilder":{
         $("#viewport").load("html/personaFlow/workflowBuilder.html", fieldsetPainter);
         break;
       }
@@ -234,7 +234,7 @@ function hashHandler(hash) {
       $("#viewport").load("html/devguide.html");
       break;
     }
-    case "workflowBuilder":{
+    case "#workflowBuilder":{
       $("#viewport").load("html/personaFlow/workflowBuilder.html", fieldsetPainter);
       break;
     }
