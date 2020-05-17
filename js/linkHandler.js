@@ -89,6 +89,7 @@ function linkHandler(e) {
     if (a.classList.contains("dashboardCleanup-owner")) return e; //handled by custom listener
     if (a.classList.contains("dashboardCleanup-db")) return e; //handled by custom listener
     if (a.classList.contains("expandable")) { helpdocToggler(jqobj); return e }; //handled by custom listener
+    if (a.classList.contains("workflow")) { workflowLinkHandler(jqobj); return e }; //handled by custom listener
     switch (id) {
       case "bc-connect":
         selection.config = {};
@@ -199,23 +200,6 @@ function linkHandler(e) {
         $("#viewport").load("html/personaFlow/workflowBuilder.html", fieldsetPainter);
         break;
       }
-//workflow links
-      case "workflowAddSection":{
-        let sections = $("#workflowSections");
-        let newSection = new Section();
-        sections.append(newSection.html);
-        newSection.setHandler();
-        break;
-      }
-      case "workflowSectionAddInput":{
-        let section = $(this).parents(".workflowSection");
-        let newInput = new Input("input");
-        section.append(newInput.html);
-        newInput.setHandler();
-        break;
-      }
-
-//end workflow links
       default:
         //alert("Unknown Link: " + id);
         if (typeof dtrum !== "undefined") dtrum.reportCustomError("Unknown Link", e, id, true);
@@ -265,4 +249,10 @@ function hashHandler(hash) {
 function helpdocToggler(jqobj) {
   let section = jqobj.parent("section");
   section.toggleClass("expanded");
+}
+
+function workflowLinkHandler(jqobj) {
+  let a = jqobj[0];
+
+
 }

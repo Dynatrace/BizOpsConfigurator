@@ -16,19 +16,6 @@ function loadInputChangeHandlers() {
   $("#viewport").on("change", "#HU-report", HUreportChangeHandler);
 
   $("#viewport").on("click", "section h4", helpdocToggler);
-
-  $("#viewport").on("focus", ".workflowSection", function () {
-    $(this).find(".workflowSectionPopup").show();
-  });
-  $("#viewport").on("blur", ".workflowSection", function () {
-    $(this).find(".workflowSectionPopup").hide();
-  });
-  $("#viewport").on("focus", ".workflowInput", function () {
-    $(this).find(".workflowInputPopup").show();
-  });
-  $("#viewport").on("blur", ".workflowInput", function () {
-    $(this).find(".workflowInputPopup").hide();
-  });
 }
 
 

@@ -1,4 +1,23 @@
 //functions & defaults for workflowBuilder
+$("#viewport").on("focus", ".workflowSection", function () { $(this).find(".workflowSectionPopup").show(); });
+$("#viewport").on("blur", ".workflowSection", function () { $(this).find(".workflowSectionPopup").hide(); });
+$("#viewport").on("focus", ".workflowInput", function () { $(this).find(".workflowInputPopup").show(); });
+$("#viewport").on("blur", ".workflowInput", function () { $(this).find(".workflowInputPopup").hide(); });
+$("#viewport").on("click", ".workflowAddSection", workflowAddSection);
+$("#viewport").on("click", ".workflowSectionAddInput", workflowSectionAddInput);
+
+function workflowAddSection() {
+    let sections = $("#workflowSections");
+    let newSection = new Section();
+    sections.append(newSection.html);
+    break;
+}
+function workflowSectionAddInput() {
+    let section = $(this).parents(".workflowSection");
+    let newInput = new Input("input");
+    section.append(newInput.html);
+    break;
+}
 
 function Section() {
     this.html = `
