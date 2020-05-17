@@ -906,11 +906,11 @@ section a.expandable::before {
   background-position: bottom;
 }
 
-section.expanded article {
+section.expanded > article {
   display: block;
 }
 
-section.expanded a.expandable::before {
+section.expanded > a.expandable::before {
   transform: rotate(180deg);
   background-position: top;
 }
