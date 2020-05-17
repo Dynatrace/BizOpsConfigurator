@@ -1010,6 +1010,7 @@ div.userInput input, div.userInput select {
   width: 44px;
   height: 44px;
   color: white;
+  text-decoration: none;
 }
 
 #workflowButtonRow a:hover {
