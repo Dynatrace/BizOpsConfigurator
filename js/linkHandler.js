@@ -64,7 +64,10 @@ function loadStaticHandlers() {
     staticCleanup();
   });
   $("#devguide").click(function () {
-    $("#viewport").load("html/devguide.html");
+    $("#viewport").load("html/devguide.html",function(){
+      if(personaFlow)$("#devguide_persona").show();
+      else $("#devguide_persona").hide();
+    });
     staticCleanup();
   });
 }
