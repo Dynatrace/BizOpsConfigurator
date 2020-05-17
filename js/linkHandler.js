@@ -146,11 +146,13 @@ function linkHandler(e) {
       case "x_a":
         $(this).parent().parent().hide();
         popupZindex--;
+        fieldsetPainter();
         $("#bcwrapper").html(bcBuffer);
         break;
       case "x_c":
         $(this).parent().parent().remove();
         popupZindex--;
+        fieldsetPainter();
         $("#bcwrapper").html(bcBuffer);
         break;
       case "revealToken":
