@@ -1,31 +1,56 @@
 //functions & defaults for workflowBuilder
 function workflowBuilderHandlers() {
+    //menubar links
+    $("#viewport").on("click", "#workflowAddSection", workflowAddSection);
+    $("#viewport").on("click", "#workflowConfig", function (e) { });
+    $("#viewport").on("click", "#workflowTest", function (e) { });
+    $("#viewport").on("click", "#workflowDownload", function (e) { });
+    $("#viewport").on("click", "#workflowPageDown", function (e) { });
+    $("#viewport").on("click", "#workflowPageNum", function (e) { });
+    $("#viewport").on("click", "#workflowPageUp", function (e) { });
+    $("#viewport").on("click", "#workflowPageAdd", function (e) { });
+    $("#viewport").on("click", "#workflowPageDelete", function (e) { });
+
+    //show/hide popups
     $("#viewport").on("focus", ".workflowSection", function () {
         $(this).find(".workflowSectionPopup").show();
     });
     $("#viewport").on("blur", ".workflowSection, .workflowSectionPopup", function (e) {
-        let from = $(this);
-        let to = e.relatedTarget;
-        if(from.has(to).length>0){
-            return e; //still within
-        } else {
-            $(this).find(".workflowSectionPopup").delay(500).hide(); //outside, let's go
-        }   
+        closeIfFocusedElsewhere(e, ".workflowSectionPopup");
     });
     $("#viewport").on("focus", ".workflowInput", function (e) {
         $(this).find(".workflowInputPopup").show();
     });
     $("#viewport").on("blur", ".workflowInput, .workflowInputPopup", function (e) {
-        let from = $(this);
-        let to = e.relatedTarget;
-        if(from.has(to).length>0){
-            return e; //still within
-        } else {
-            $(this).find(".workflowInputPopup").delay(500).hide(); //outside, let's go
-        }
+        closeIfFocusedElsewhere(e, ".workflowInputPopup");
     });
-    $("#viewport").on("click", "#workflowAddSection", workflowAddSection);
+
+    //sectionpopup links
     $("#viewport").on("click", ".workflowSectionAddInput", workflowSectionAddInput);
+    $("#viewport").on("click", ".workflowSectionDelete", function (e) {
+        $(this).parents(".workflowSection").remove();
+    });
+    $("#viewport").on("click", ".workflowSectionUp", function (e) {
+        let el = $(this);
+        el.prev().insertAfter(el);
+    });
+    $("#viewport").on("click", ".workflowSectionDown", function (e) {
+        let el = $(this);
+        el.next().insertBefore(el);
+    });
+
+    //inputpopup links
+    $("#viewport").on("click", ".workflowInputDelete", function (e) {
+        $(this).parents(".workflowInput").remove();
+    });
+    $("#viewport").on("click", ".workflowInputUp", function (e) {
+        let el = $(this);
+        el.prev().insertAfter(el);
+    });
+    $("#viewport").on("click", ".workflowInputDown", function (e) {
+        let el = $(this);
+        el.next().insertBefore(el);
+    });
 }
 
 function workflowAddSection() {
@@ -40,6 +65,16 @@ function workflowSectionAddInput() {
     let newInput = new Input("input");
     section.append(newInput.html);
     $(".workflowSectionPopup, .workflowInputPopup").hide();
+}
+
+function closeIfFocusedElsewhere(e, selector) {
+    let from = $(this);
+    let to = e.relatedTarget;
+    if (from.has(to).length > 0) {
+        return e; //still within
+    } else {
+        $(this).find(selector).delay(500).hide(); //outside, let's go
+    }
 }
 
 function Section() {
@@ -84,5 +119,6 @@ function Input(type) {
         </div>
         <div class="inputHeader" contenteditable="true">New Header</div>
         <div class="userInput">${input}</div>
+        <div class="transform">&dollar;{<span contenteditable="true">MyString</span>}</div>
     </div>`
 }
