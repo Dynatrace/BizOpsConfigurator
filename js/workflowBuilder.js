@@ -32,11 +32,11 @@ function workflowBuilderHandlers() {
     });
     $("#viewport").on("click", ".workflowSectionUp", function (e) {
         let el = $(this).parents(".workflowSection");
-        el.prev().insertAfter(el);
+        el.prev(".workflowSection").insertAfter(el);
     });
     $("#viewport").on("click", ".workflowSectionDown", function (e) {
         let el = $(this).parents(".workflowSection");
-        el.next().insertBefore(el);
+        el.next(".workflowSection").insertBefore(el);
     });
 
     //inputpopup links
@@ -45,11 +45,11 @@ function workflowBuilderHandlers() {
     });
     $("#viewport").on("click", ".workflowInputUp", function (e) {
         let el = $(this).parents(".workflowInput");
-        el.prev().insertAfter(el);
+        el.prev(".workflowInput").insertAfter(el);
     });
     $("#viewport").on("click", ".workflowInputDown", function (e) {
         let el = $(this).parents(".workflowInput");
-        el.next().insertBefore(el);
+        el.next(".workflowInput").insertBefore(el);
     });
 }
 
