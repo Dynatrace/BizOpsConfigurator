@@ -89,7 +89,7 @@ function linkHandler(e) {
     if (a.classList.contains("dashboardCleanup-owner")) return e; //handled by custom listener
     if (a.classList.contains("dashboardCleanup-db")) return e; //handled by custom listener
     if (a.classList.contains("expandable")) { helpdocToggler(jqobj); return e }; //handled by custom listener
-    if (a.classList.contains("workflow")) { workflowLinkHandler(jqobj); return e }; //handled by custom listener
+    if (a.classList.contains("workflow")) { return e }; //handled by custom listener
     switch (id) {
       case "bc-connect":
         selection.config = {};
@@ -249,10 +249,4 @@ function hashHandler(hash) {
 function helpdocToggler(jqobj) {
   let section = jqobj.parent("section");
   section.toggleClass("expanded");
-}
-
-function workflowLinkHandler(jqobj) {
-  let a = jqobj[0];
-
-
 }

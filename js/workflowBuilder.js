@@ -12,7 +12,7 @@ function workflowBuilderHandlers() {
     $("#viewport").on("blur", ".workflowInput", function () {
         $(this).find(".workflowInputPopup").delay(500).hide();
     });
-    $("#viewport").on("click", ".workflowAddSection", workflowAddSection);
+    $("#viewport").on("click", "#workflowAddSection", workflowAddSection);
     $("#viewport").on("click", ".workflowSectionAddInput", workflowSectionAddInput);
 }
 
