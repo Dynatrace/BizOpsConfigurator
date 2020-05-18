@@ -90,7 +90,7 @@ function Section() {
     </div>`;
 }
 
-function Input(type) {
+function Input() {
     let content = `
     <div>Input Type:</div>
     <div><select id="inputType">
@@ -102,35 +102,41 @@ function Input(type) {
     </select></div>
     <div><input id="apiQuery" placeholder="/api/v1/entity/applications?includeDetails=false"></div>
     `;
-    popupHTML("New Input",content);
-    let input = "";
-    switch (type) {
-        case "input":
-            input = `<input class="workflowInput" placeholder="Friendly Name" disabled>`;
-            break;
-        case "select":
-            input = `<select class="workflowSelect" disabled></select>`;
-            break;
-        case "multiselect":
-            input = `<select class="workflowSelect" disabled multiple></select>`;
-            break;
-        case "funnel":
-            input = `<h1>Giant funnel graphic here</h1>`;
-            break;
-        case "checkboxes":
-            input = `<input class="workflowCheck" type="checkbox" placeholder="Friendly Name" disabled>`;
-            break;
-    }
+    let p = popupHTMLDeferred("New Input", content);
 
-    this.html = `
-    <div class="workflowInput" tabindex="0">
-        <div class="workflowInputPopup">
-            <div><a href="#workflowBuilder" class="workflowInputDelete">❌</a></div>
-            <div><a href="#workflowBuilder" class="workflowInputUp">🔼</a></div>
-            <div><a href="#workflowBuilder" class="workflowInputDown">🔽</a></div>
-        </div>
-        <div class="inputHeader" contenteditable="true">New Header</div>
-        <div class="userInput">${input}</div>
-        <div class="transform">&dollar;{<span contenteditable="true">MyString</span>}</div>
-    </div>`
+    $.when(p).done(function (data) {
+        let input = "";
+        switch (data.inputType) {
+            case "input":
+                input = `<input class="workflowInput" placeholder="Friendly Name" disabled>`;
+                break;
+            case "select":
+                input = `<select class="workflowSelect" disabled></select>
+                    <input type="hidden" class="apiQuery" value="${data.apiQuery}">`;
+                break;
+            case "multiselect":
+                input = `<select class="workflowSelect" disabled multiple></select>
+                    <input type="hidden" class="apiQuery" value="${data.apiQuery}">`;
+                break;
+            case "funnel":
+                input = `<h1>Giant funnel graphic here</h1>`;
+                break;
+            case "checkboxes":
+                input = `<input class="workflowCheck" type="checkbox" placeholder="Friendly Name" disabled>
+                    <input type="hidden" class="apiQuery" value="${data.apiQuery}">`;
+                break;
+        }
+
+        this.html = `
+        <div class="workflowInput" tabindex="0">
+            <div class="workflowInputPopup">
+                <div><a href="#workflowBuilder" class="workflowInputDelete">❌</a></div>
+                <div><a href="#workflowBuilder" class="workflowInputUp">🔼</a></div>
+                <div><a href="#workflowBuilder" class="workflowInputDown">🔽</a></div>
+            </div>
+            <div class="inputHeader" contenteditable="true">New Header</div>
+            <div class="userInput">${input}</div>
+            <div class="transform">&dollar;{<span contenteditable="true">MyString</span>}</div>
+        </div>`
+    });
 }

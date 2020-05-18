@@ -354,7 +354,7 @@ function popup(inputs, popupHeader, desc) {
 }
 
 function popupHTML(popupHeader,content) {
-  bcBuffer = $("#bcwrapper").html();
+  bcBuffer = $("#bcwrapper").html(); //why?
   let html = `<div class='popupHTML'>
     <div class='x_box'><a id='x_c'>x</a></div>
     <h3>${popupHeader}</h3>
@@ -363,6 +363,26 @@ function popupHTML(popupHeader,content) {
   $("#viewport").append(html);
   $(".popupHTML").css('z-index',++popupZindex);
   $(".popupHTML").show();
+}
+
+function popupHTMLDeferred(popupHeader,content) {
+  let p = $.Deferred();
+  //bcBuffer = $("#bcwrapper").html();
+  let html = `<div class='popupHTML'>
+    <!--<div class='x_box'><a id='x_c'>x</a></div>-->
+    <h3>${popupHeader}</h3>
+    ${content}
+    <div class="doneBar"><input type="button" id="done" value="Done"></div>
+    </div>`;
+  $("#viewport").append(html);
+  $(".popupHTML").css('z-index',++popupZindex);
+  $(".popupHTML").show();
+  $("#done").on("click",function(e){
+    $(this).parents(".popupHTML").remove();
+    popupZindex--;
+    p.resolve(e.data);
+  })
+  return p;
 }
 
 function popout(popup_p) {
