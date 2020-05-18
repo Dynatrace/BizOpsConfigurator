@@ -107,21 +107,21 @@ function Input() {
     $.when(p).done(function (data) {
         let input = "";
         switch (data.inputType) {
-            case "input":
+            case "Text Input":
                 input = `<input class="workflowInput" placeholder="Friendly Name" disabled>`;
                 break;
-            case "select":
+            case "Select":
                 input = `<select class="workflowSelect" disabled></select>
                     <input type="hidden" class="apiQuery" value="${data.apiQuery}">`;
                 break;
-            case "multiselect":
+            case "Multi-Select":
                 input = `<select class="workflowSelect" disabled multiple></select>
                     <input type="hidden" class="apiQuery" value="${data.apiQuery}">`;
                 break;
-            case "funnel":
+            case "Funnel":
                 input = `<h1>Giant funnel graphic here</h1>`;
                 break;
-            case "checkboxes":
+            case "Checkboxes":
                 input = `<input class="workflowCheck" type="checkbox" placeholder="Friendly Name" disabled>
                     <input type="hidden" class="apiQuery" value="${data.apiQuery}">`;
                 break;
