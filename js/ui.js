@@ -378,9 +378,11 @@ function popupHTMLDeferred(popupHeader,content) {
   $(".popupHTML").css('z-index',++popupZindex);
   $(".popupHTML").show();
   $("#done").on("click",function(e){
+    let data = {};
+    $(this).parents(".popupHTML").find("input,select").map((i,e)=>data[e.id]=e.value);
     $(this).parents(".popupHTML").remove();
     popupZindex--;
-    p.resolve(e.data);
+    p.resolve(data);
   })
   return p;
 }
