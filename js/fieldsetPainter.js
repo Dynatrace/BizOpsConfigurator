@@ -576,8 +576,10 @@ function fieldsetPainter() {
 }
 
 function bcHandler() {
-    $("#bcwrapper").show();
+    
     $("#bcwrapper").empty();
     $("div.bc").prependTo($("#bcwrapper"));
     $("#bc-connect").text(tenantID);
+    if($("#bcwrapper").children().length) $("#bcwrapper").show();
+    else $("#bcwrapper").hide();
 }
