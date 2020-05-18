@@ -91,6 +91,18 @@ function Section() {
 }
 
 function Input(type) {
+    let content = `
+    <div>Input Type:</div>
+    <div><select id="inputType">
+        <option>Text Input</option>
+        <option>Select</option>
+        <option>Multi-Select</option>
+        <option>Checkboxes</option>
+        <option>Funnel</option>
+    </select></div>
+    <div><input id="apiQuery" placeholder="/api/v1/entity/applications?includeDetails=false"></div>
+    `;
+    popupHTML("New Input",content);
     let input = "";
     switch (type) {
         case "input":
