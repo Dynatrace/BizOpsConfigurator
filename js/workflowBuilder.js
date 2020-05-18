@@ -31,11 +31,11 @@ function workflowBuilderHandlers() {
         $(this).parents(".workflowSection").remove();
     });
     $("#viewport").on("click", ".workflowSectionUp", function (e) {
-        let el = $(this);
+        let el = $(this).parents(".workflowSection");
         el.prev().insertAfter(el);
     });
     $("#viewport").on("click", ".workflowSectionDown", function (e) {
-        let el = $(this);
+        let el = $(this).parents(".workflowSection");
         el.next().insertBefore(el);
     });
 
@@ -44,11 +44,11 @@ function workflowBuilderHandlers() {
         $(this).parents(".workflowInput").remove();
     });
     $("#viewport").on("click", ".workflowInputUp", function (e) {
-        let el = $(this);
+        let el = $(this).parents(".workflowInput");
         el.prev().insertAfter(el);
     });
     $("#viewport").on("click", ".workflowInputDown", function (e) {
-        let el = $(this);
+        let el = $(this).parents(".workflowInput");
         el.next().insertBefore(el);
     });
 }
