@@ -16,6 +16,7 @@ $(document).ready(function () {
   $("#bcwrapper, #viewport, #repo_config, #dashboard_list").on("click", "a", linkHandler);
 
   loadInputChangeHandlers();
+  workflowBuilderHandlers();
 
   hashHandler(window.location.hash);
 });

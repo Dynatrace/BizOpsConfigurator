@@ -1,14 +1,20 @@
 //functions & defaults for workflowBuilder
-$("#viewport").on("focus", ".workflowSection", function () { 
-    $(this).find(".workflowSectionPopup").show(); });
-$("#viewport").on("blur", ".workflowSection", function () { 
-    $(this).find(".workflowSectionPopup").delay(500).hide(); });
-$("#viewport").on("focus", ".workflowInput", function () { 
-    $(this).find(".workflowInputPopup").show(); });
-$("#viewport").on("blur", ".workflowInput", function () { 
-    $(this).find(".workflowInputPopup").delay(500).hide(); });
-$("#viewport").on("click", ".workflowAddSection", workflowAddSection);
-$("#viewport").on("click", ".workflowSectionAddInput", workflowSectionAddInput);
+function workflowBuilderHandlers() {
+    $("#viewport").on("focus", ".workflowSection", function () {
+        $(this).find(".workflowSectionPopup").show();
+    });
+    $("#viewport").on("blur", ".workflowSection", function () {
+        $(this).find(".workflowSectionPopup").delay(500).hide();
+    });
+    $("#viewport").on("focus", ".workflowInput", function () {
+        $(this).find(".workflowInputPopup").show();
+    });
+    $("#viewport").on("blur", ".workflowInput", function () {
+        $(this).find(".workflowInputPopup").delay(500).hide();
+    });
+    $("#viewport").on("click", ".workflowAddSection", workflowAddSection);
+    $("#viewport").on("click", ".workflowSectionAddInput", workflowSectionAddInput);
+}
 
 function workflowAddSection() {
     let sections = $("#workflowSections");
