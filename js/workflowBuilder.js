@@ -3,14 +3,26 @@ function workflowBuilderHandlers() {
     $("#viewport").on("focus", ".workflowSection", function () {
         $(this).find(".workflowSectionPopup").show();
     });
-    $("#viewport").on("blur", ".workflowSection", function () {
-        $(this).find(".workflowSectionPopup").delay(500).hide();
+    $("#viewport").on("blur", ".workflowSection, .workflowSectionPopup", function (e) {
+        let from = $(this);
+        let to = e.relatedTarget;
+        if(from.has(to).length>0){
+            return e; //still within
+        } else {
+            $(this).find(".workflowSectionPopup").delay(500).hide(); //outside, let's go
+        }   
     });
-    $("#viewport").on("focus", ".workflowInput", function () {
+    $("#viewport").on("focus", ".workflowInput", function (e) {
         $(this).find(".workflowInputPopup").show();
     });
-    $("#viewport").on("blur", ".workflowInput", function () {
-        $(this).find(".workflowInputPopup").delay(500).hide();
+    $("#viewport").on("blur", ".workflowInput, .workflowInputPopup", function (e) {
+        let from = $(this);
+        let to = e.relatedTarget;
+        if(from.has(to).length>0){
+            return e; //still within
+        } else {
+            $(this).find(".workflowInputPopup").delay(500).hide(); //outside, let's go
+        }
     });
     $("#viewport").on("click", "#workflowAddSection", workflowAddSection);
     $("#viewport").on("click", ".workflowSectionAddInput", workflowSectionAddInput);
