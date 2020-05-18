@@ -1021,14 +1021,24 @@ div.userInput input, div.userInput select {
 .workflowSectionPopup {
   display: flex;
   flex-direction: row;
+  align-items: center;
   background: black;
   margin: -5px -5px 5px -5px;
 }
 
 .workflowSectionPopup>div {
-  flex: 0 0 44px;
+  flex: 0 0 20px;
 }
 
+#workflowSectionPopup a, #workflowSectionPopup a:visited {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  color: white;
+  text-decoration: none;
+}
 .workflowInputPopup {
   display: flex;
   flex-direction: row;
@@ -1037,9 +1047,17 @@ div.userInput input, div.userInput select {
 }
 
 .workflowInputPopup>div {
-  flex: 0 0 44px;
+  flex: 0 0 20px;
 }
-
+#workflowInputPopup a, #workflowInputPopup a:visited {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  color: white;
+  text-decoration: none;
+}
 #workflowSections {
   display: flex;
   flex-wrap: wrap;
