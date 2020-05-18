@@ -20,12 +20,14 @@ function workflowAddSection() {
     let sections = $("#workflowSections");
     let newSection = new Section();
     sections.append(newSection.html);
+    $(".workflowSectionPopup, .workflowInputPopup").hide();
 }
 
 function workflowSectionAddInput() {
     let section = $(this).parents(".workflowSection");
     let newInput = new Input("input");
     section.append(newInput.html);
+    $(".workflowSectionPopup, .workflowInputPopup").hide();
 }
 
 function Section() {
