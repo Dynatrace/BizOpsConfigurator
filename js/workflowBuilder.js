@@ -73,7 +73,7 @@ function closeIfFocusedElsewhere(e, selector) {
     if (from.has(to).length > 0) {
         return e; //still within
     } else {
-        $(this).find(selector).delay(500).hide(); //outside, let's go
+        from.find(selector).delay(500).hide(); //outside, let's go
     }
 }
 
