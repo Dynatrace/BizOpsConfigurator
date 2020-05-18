@@ -1019,7 +1019,6 @@ div.userInput input, div.userInput select {
 }
 
 .workflowSectionPopup {
-  display: none;
   display: flex;
   flex-direction: row;
   background: black;
@@ -1031,7 +1030,6 @@ div.userInput input, div.userInput select {
 }
 
 .workflowInputPopup {
-  display: none;
   display: flex;
   flex-direction: row;
   background: black;
