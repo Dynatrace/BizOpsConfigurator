@@ -1,7 +1,5 @@
 //functions & defaults for workflowBuilder
 function workflowBuilderHandlers() {
-    $(".workflowSectionPopup, .workflowInputPopup").hide();
-    
     $("#viewport").on("focus", ".workflowSection", function () {
         $(this).find(".workflowSectionPopup").show();
     });
