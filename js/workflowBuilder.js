@@ -32,10 +32,10 @@ function Section() {
     this.html = `
     <div class="workflowSection" tabindex="0">
         <div class="workflowSectionPopup">
-            <input type="button" class="workflowSectionAddInput" value="+">
-            <input type="button" class="workflowSectionDelete" value="❌">
-            <input type="button" class="workflowSectionUp" value="🔼">
-            <input type="button" class="workflowSectionDown" value="🔽">
+            <div><a href="#workflowBuilder" class="workflowSectionAddInput">+</a></div>
+            <div><a href="#workflowBuilder" class="workflowSectionDelete">❌</a></div>
+            <div><a href="#workflowBuilder" class="workflowSectionUp">🔼</a></div>
+            <div><a href="#workflowBuilder" class="workflowSectionDown">🔽</a></div>
         </div>
         <h3 contenteditable="true">Title</h3>
     </div>`;
@@ -65,9 +65,9 @@ function Input(type) {
     <div class="workflowInput" tabindex="0">
         <div class="inputHeader" contenteditable="true">New Header
             <div class="workflowInputPopup">
-                <input type="button" class="workflowInputDelete" value="❌">
-                <input type="button" class="workflowInputUp" value="🔼">
-                <input type="button" class="workflowInputDown" value="🔽">
+            <div><a href="#workflowBuilder" class="workflowInputDelete">❌</a></div>
+            <div><a href="#workflowBuilder" class="workflowInputUp">🔼</a></div>
+            <div><a href="#workflowBuilder" class="workflowInputDown">🔽</a></div>
             </div>
         </div>
         <div class="userInput">${input}</div>

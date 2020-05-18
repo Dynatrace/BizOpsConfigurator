@@ -1019,13 +1019,27 @@ div.userInput input, div.userInput select {
 }
 
 .workflowSectionPopup {
-  margin-top: -44px;
   display: none;
+  display: flex;
+  flex-direction: row;
+  background: black;
+  margin: -5px -5px 5px -5px;
+}
+
+.workflowSectionPopup>div {
+  flex: 0 0 44px;
 }
 
 .workflowInputPopup {
-  margin-top: -44px;
   display: none;
+  display: flex;
+  flex-direction: row;
+  background: black;
+  margin: -5px -5px 5px -5px;
+}
+
+.workflowInputPopup>div {
+  flex: 0 0 44px;
 }
 
 #workflowSections {
