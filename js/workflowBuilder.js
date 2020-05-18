@@ -77,13 +77,12 @@ function Input(type) {
 
     this.html = `
     <div class="workflowInput" tabindex="0">
-        <div class="inputHeader" contenteditable="true">New Header
-            <div class="workflowInputPopup">
+        <div class="workflowInputPopup">
             <div><a href="#workflowBuilder" class="workflowInputDelete">❌</a></div>
             <div><a href="#workflowBuilder" class="workflowInputUp">🔼</a></div>
             <div><a href="#workflowBuilder" class="workflowInputDown">🔽</a></div>
-            </div>
         </div>
+        <div class="inputHeader" contenteditable="true">New Header</div>
         <div class="userInput">${input}</div>
     </div>`
 }

@@ -1046,7 +1046,7 @@ div.userInput input, div.userInput select {
   align-items: center;
   justify-content: space-evenly;
   background: black;
-  margin: -5px -5px 5px -5px;
+  margin: 5px -5px 0px -5px;
 }
 
 .workflowInputPopup>div {
