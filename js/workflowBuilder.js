@@ -68,7 +68,7 @@ function workflowSectionAddInput() {
 }
 
 function closeIfFocusedElsewhere(e, selector) {
-    let from = $(this);
+    let from = $(e.currentTarget);
     let to = e.relatedTarget;
     if (from.has(to).length > 0) {
         return e; //still within
