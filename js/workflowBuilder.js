@@ -63,7 +63,7 @@ function workflowAddSection() {
 function workflowSectionAddInput() {
     let section = $(this).parents(".workflowSection");
     let newInput = new Input();
-    let p = newInput.propmpt();
+    let p = newInput.prompt();
     $.when(newInput).done(function(newInput){
         section.append(newInput.html);
         $(".workflowSectionPopup, .workflowInputPopup").hide();
