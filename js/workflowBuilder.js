@@ -108,9 +108,9 @@ function Input() {
                 <option>Funnel</option>
             </select></div>
             <div class="inputHeader">API Query for possible values:</div>
-            <div class="userInput"><input id="apiQuery" placeholder="/api/v1/entity/applications?includeDetails=false"></div>
+            <div class="userInput"><input id="apiQuery" placeholder="/api/v1/entity/applications?includeDetails=false" required pattern="^\/api\/[^ ]+"></div>
             <div class="inputHeader">Dashboard placeholder to search/replace:</div>
-            <div class="userInput">&dollar;{&nbsp;<input id="transform" placeholder="MyString">&nbsp;}</div>
+            <div class="userInput">&dollar;{&nbsp;<input id="transform" placeholder="MyString" required>&nbsp;}</div>
         </div>
         `;
         let p2 = popupHTMLDeferred("New Input", content);

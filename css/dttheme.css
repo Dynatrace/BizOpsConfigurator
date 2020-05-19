@@ -1081,5 +1081,11 @@ div.userInput input, div.userInput select {
   border: 1px solid #606060;
   border-radius: 3px;
   padding: 5px 5px 5px 5px;
-  min-width: 400px;
+  width: 400px;
+}
+
+:invalid {
+  outline-style: dashed;
+  outline-color: red;
+  outline-width: 2px;
 }
