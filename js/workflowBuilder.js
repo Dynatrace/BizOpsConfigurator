@@ -62,9 +62,12 @@ function workflowAddSection() {
 
 function workflowSectionAddInput() {
     let section = $(this).parents(".workflowSection");
-    let newInput = new Input("input");
-    section.append(newInput.html);
-    $(".workflowSectionPopup, .workflowInputPopup").hide();
+    let newInput = new Input();
+    let p = newInput.propmpt();
+    $.when(newInput).done(function(newInput){
+        section.append(newInput.html);
+        $(".workflowSectionPopup, .workflowInputPopup").hide();
+    });
 }
 
 function closeIfFocusedElsewhere(e, selector) {
@@ -91,52 +94,58 @@ function Section() {
 }
 
 function Input() {
-    let content = `
-    <div>Input Type:</div>
-    <div><select id="inputType">
-        <option>Text Input</option>
-        <option>Select</option>
-        <option>Multi-Select</option>
-        <option>Checkboxes</option>
-        <option>Funnel</option>
-    </select></div>
-    <div><input id="apiQuery" placeholder="/api/v1/entity/applications?includeDetails=false"></div>
-    `;
-    let p = popupHTMLDeferred("New Input", content);
+    this.html = "";
 
-    $.when(p).done(function (data) {
-        let input = "";
-        switch (data.inputType) {
-            case "Text Input":
-                input = `<input class="workflowInput" placeholder="Friendly Name" disabled>`;
-                break;
-            case "Select":
-                input = `<select class="workflowSelect" disabled></select>
-                    <input type="hidden" class="apiQuery" value="${data.apiQuery}">`;
-                break;
-            case "Multi-Select":
-                input = `<select class="workflowSelect" disabled multiple></select>
-                    <input type="hidden" class="apiQuery" value="${data.apiQuery}">`;
-                break;
-            case "Funnel":
-                input = `<h1>Giant funnel graphic here</h1>`;
-                break;
-            case "Checkboxes":
-                input = `<input class="workflowCheck" type="checkbox" placeholder="Friendly Name" disabled>
-                    <input type="hidden" class="apiQuery" value="${data.apiQuery}">`;
-                break;
-        }
+    this.prompt = function() {
+        let content = `
+        <div>Input Type:</div>
+        <div><select id="inputType">
+            <option>Text Input</option>
+            <option>Select</option>
+            <option>Multi-Select</option>
+            <option>Checkboxes</option>
+            <option>Funnel</option>
+        </select></div>
+        <div><input id="apiQuery" placeholder="/api/v1/entity/applications?includeDetails=false"></div>
+        <div>&dollar;{<input id="transform" placeholder="MyString">}</div>
+        `;
+        let p = popupHTMLDeferred("New Input", content);
 
-        this.html = `
-        <div class="workflowInput" tabindex="0">
-            <div class="workflowInputPopup">
-                <div><a href="#workflowBuilder" class="workflowInputDelete">❌</a></div>
-                <div><a href="#workflowBuilder" class="workflowInputUp">🔼</a></div>
-                <div><a href="#workflowBuilder" class="workflowInputDown">🔽</a></div>
-            </div>
-            <div class="inputHeader" contenteditable="true">New Header</div>
-            <div class="userInput">${input}</div>
-            <div class="transform">&dollar;{<span contenteditable="true">MyString</span>}</div>
-        </div>`
-    });
+        return $.when(p).done(function (data) {
+            let input = "";
+            switch (data.inputType) {
+                case "Text Input":
+                    input = `<input class="workflowInput" placeholder="Friendly Name" disabled>`;
+                    break;
+                case "Select":
+                    input = `<select class="workflowSelect" disabled></select>
+                        <input type="hidden" class="apiQuery" value="${data.apiQuery}">`;
+                    break;
+                case "Multi-Select":
+                    input = `<select class="workflowSelect" disabled multiple></select>
+                        <input type="hidden" class="apiQuery" value="${data.apiQuery}">`;
+                    break;
+                case "Funnel":
+                    input = `<h1>Giant funnel graphic here</h1>`;
+                    break;
+                case "Checkboxes":
+                    input = `<input class="workflowCheck" type="checkbox" placeholder="Friendly Name" disabled>
+                        <input type="hidden" class="apiQuery" value="${data.apiQuery}">`;
+                    break;
+            }
+
+            this.html = `
+            <div class="workflowInput" tabindex="0">
+                <div class="workflowInputPopup">
+                    <div><a href="#workflowBuilder" class="workflowInputDelete">❌</a></div>
+                    <div><a href="#workflowBuilder" class="workflowInputUp">🔼</a></div>
+                    <div><a href="#workflowBuilder" class="workflowInputDown">🔽</a></div>
+                </div>
+                <div class="inputHeader" contenteditable="true">New Header</div>
+                <div class="userInput">${input}</div>
+                <div class="transform">&dollar;{<span contenteditable="true">${data.transform}</span>}</div>
+            </div>`
+            return this.html;
+        });
+    }
 }
