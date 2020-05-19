@@ -978,6 +978,8 @@ div.inputHeader {
 
 div.userInput {
   margin-top: 0px;
+  white-space: nowrap;
+  display: flex;
 }
 
 div.userInput input, div.userInput select {
@@ -1079,5 +1081,5 @@ div.userInput input, div.userInput select {
   border: 1px solid #606060;
   border-radius: 3px;
   padding: 5px 5px 5px 5px;
-  min-width: 500px;
+  min-width: 400px;
 }
