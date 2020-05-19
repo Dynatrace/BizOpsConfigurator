@@ -97,6 +97,7 @@ function Input() {
     this.html = "";
 
     this.prompt = function() {
+        let p1 = $.Deferred();
         let content = `
         <div>Input Type:</div>
         <div><select id="inputType">
@@ -109,9 +110,9 @@ function Input() {
         <div><input id="apiQuery" placeholder="/api/v1/entity/applications?includeDetails=false"></div>
         <div>&dollar;{<input id="transform" placeholder="MyString">}</div>
         `;
-        let p = popupHTMLDeferred("New Input", content);
+        let p2 = popupHTMLDeferred("New Input", content);
 
-        return $.when(p).done(function (data) {
+        $.when(p2).done(function (data) {
             let input = "";
             switch (data.inputType) {
                 case "Text Input":
@@ -145,7 +146,8 @@ function Input() {
                 <div class="userInput">${input}</div>
                 <div class="transform">&dollar;{<span contenteditable="true">${data.transform}</span>}</div>
             </div>`
-            return this.html;
+            p1.resolve(this.html);
         });
+        return p1;
     }
 }
