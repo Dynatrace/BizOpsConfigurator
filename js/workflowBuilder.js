@@ -98,17 +98,20 @@ function Input() {
 
     this.prompt = function() {
         let p1 = $.Deferred();
-        let content = `
-        <div>Input Type:</div>
-        <div><select id="inputType">
-            <option>Text Input</option>
-            <option>Select</option>
-            <option>Multi-Select</option>
-            <option>Checkboxes</option>
-            <option>Funnel</option>
-        </select></div>
-        <div><input id="apiQuery" placeholder="/api/v1/entity/applications?includeDetails=false"></div>
-        <div>&dollar;{<input id="transform" placeholder="MyString">}</div>
+        let content = `<div id="newInputPrompt">
+            <div class="inputHeader">Input Type:</div>
+            <div class="userInput"><select id="inputType">
+                <option>Text Input</option>
+                <option>Select</option>
+                <option>Multi-Select</option>
+                <option>Checkboxes</option>
+                <option>Funnel</option>
+            </select></div>
+            <div class="inputHeader">API Query for possible values:</div>
+            <div class="userInput"><input id="apiQuery" placeholder="/api/v1/entity/applications?includeDetails=false"></div>
+            <div class="inputHeader">Dashboard placeholder to search/replace:</div>
+            <div class="userInput">&dollar;{<input id="transform" placeholder="MyString">}</div>
+        </div>
         `;
         let p2 = popupHTMLDeferred("New Input", content);
 

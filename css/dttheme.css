@@ -1073,3 +1073,11 @@ div.userInput input, div.userInput select {
   padding: 5px 5px 5px 5px;
   min-width: 300px;
 }
+
+#newInputPrompt {
+  margin: 10px 10px 10px 10px;
+  border: 1px solid #606060;
+  border-radius: 3px;
+  padding: 5px 5px 5px 5px;
+  min-width: 500px;
+}
