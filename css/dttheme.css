@@ -1085,7 +1085,5 @@ div.userInput input, div.userInput select {
 }
 
 :invalid {
-  outline-style: dashed;
-  outline-color: red;
-  outline-width: 2px;
+  border-bottom: 3px solid red;
 }
