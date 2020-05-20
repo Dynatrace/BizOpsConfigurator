@@ -64,7 +64,8 @@ function workflowBuilderHandlers() {
         $.when(p).done(function(data){
             jsonviewer(data,true,query,"#apiResult");
             let parsedResults = [];
-            switch($("#apiResultSlicer").val()){
+            let apiResultSlicer = $("#apiResultSlicer").val();
+            switch(apiResultSlicer){
                 case "{entityId:displayName}":
                     data.forEach(function(item){
                         parsedResults.push({id:item.entityId,value:item.displayName});
@@ -72,7 +73,8 @@ function workflowBuilderHandlers() {
                     break;
             }
             let previewHTML = "";
-            switch($("#inputType").value()){
+            let inputType = $("#inputType").value();
+            switch(inputType){
                 case "Select":
                     previewHTML = `<select>`;
                     parsedResults.forEach(function(i){
