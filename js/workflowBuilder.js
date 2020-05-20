@@ -53,27 +53,7 @@ function workflowBuilderHandlers() {
     });
 
     //newInput buttons
-    $("#viewport").on("change", "#inputType", function (e) {
-        $("#apiQueryBox").hide();
-        $("#usqlQueryBox").hide();
-        switch($("#inputType").val()){
-            case "Text Input":
-                break;
-            case "Select":
-                $("#apiQueryBox").show();
-                break;
-            case "Select (USQL)":
-                $("#usqlQueryBox").show();
-                break;
-            case "Multi-Select":
-                $("#apiQueryBox").show();
-                break;
-            case "Checkboxes":
-                break;
-            case "Funnel":
-                break;
-        }
-    });
+    $("#viewport").on("change", "#inputType", inputTypeChangeHandler);
     $("#viewport").on("click", "#testAPI", function (e) {
         if(url==""||token==""){
             alert("Please connect to a tenant with Begin first.");
@@ -147,6 +127,7 @@ function Input() {
         let p1 = $.get("html/personaFlow/workflowBuilder-newInput.html");
         $.when(p1).done(function (content) {
             let p2 = popupHTMLDeferred("New Input", content);
+            inputTypeChangeHandler();
 
             $.when(p2).done(function (data) {
                 let input = "";
@@ -186,5 +167,27 @@ function Input() {
             }); 
         });
         return p0;
+    }
+}
+
+function inputTypeChangeHandler() {
+    $("#apiQueryBox").hide();
+    $("#usqlQueryBox").hide();
+    switch($("#inputType").val()){
+        case "Text Input":
+            break;
+        case "Select":
+            $("#apiQueryBox").show();
+            break;
+        case "Select (USQL)":
+            $("#usqlQueryBox").show();
+            break;
+        case "Multi-Select":
+            $("#apiQueryBox").show();
+            break;
+        case "Checkboxes":
+            break;
+        case "Funnel":
+            break;
     }
 }
