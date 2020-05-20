@@ -54,6 +54,10 @@ function workflowBuilderHandlers() {
 
     //newInput buttons
     $("#viewport").on("click", "#testAPI", function (e) {
+        if(url==""||token==""){
+            alert("Please connect to a tenant with Begin first.");
+            return;
+        }
         let query = $("#apiQuery").val();
         let p = dtAPIquery(query);
         $.when(p).done(function(data){
