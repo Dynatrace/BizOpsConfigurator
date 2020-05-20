@@ -991,6 +991,10 @@ div.userInput input[type="text"], div.userInput input:not([type]), div.userInput
   flex: 1;
 }
 
+div.userInput input[type="button"] {
+  margin: 0px 5px 0px 5px;
+}
+
 .popupHTML img {
   max-width: 100%;
 }
