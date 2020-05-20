@@ -63,6 +63,32 @@ function workflowBuilderHandlers() {
         let p = dtAPIquery(query);
         $.when(p).done(function(data){
             jsonviewer(data,true,query,"#apiResult");
+            let parsedResults = [];
+            switch($("#apiResultSlicer").val()){
+                case "{entityId:displayName}":
+                    data.forEach(function(item){
+                        parsedResults.push({id:item.entityId,value:item.displayName});
+                    });
+                    break;
+            }
+            let previewHTML = "";
+            switch($("#inputType").value()){
+                case "Select":
+                    previewHTML = `<select>`;
+                    parsedResults.forEach(function(i){
+                        previewHTML += `<option id="${i.id}">${i.value}</option>`;
+                    });
+                    previewHTML += `</select>`;
+                    break;
+                case "Multi-Select":
+                    previewHTML = `<select multiple>`;
+                    parsedResults.forEach(function(i){
+                        previewHTML += `<option id="${i.id}">${i.value}</option>`;
+                    });
+                    previewHTML += `</select>`;
+                    break;
+            }
+            $("#preview").html(previewHTML);
         });
     });
     $("#viewport").on("click", "#testUSQL", function (e) {
