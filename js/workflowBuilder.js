@@ -73,7 +73,7 @@ function workflowBuilderHandlers() {
                     break;
             }
             let previewHTML = "";
-            let inputType = $("#inputType").value();
+            let inputType = $("#inputType").val();
             switch(inputType){
                 case "Select":
                     previewHTML = `<select>`;
