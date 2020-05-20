@@ -982,13 +982,13 @@ div.userInput {
   display: flex;
 }
 
+div.userInput input {
+  flex: 0;
+}
+
 div.userInput input[type="text"], div.userInput input:not([type]), div.userInput select {
   /*width: 100%;*/
   flex: 1;
-}
-
-div.userInput input:not([type="text"]) {
-  flex: 0;
 }
 
 .popupHTML img {
