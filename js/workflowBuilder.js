@@ -62,7 +62,8 @@ function workflowBuilderHandlers() {
         let query = $("#apiQuery").val();
         let p = dtAPIquery(query);
         $.when(p).done(function(data){
-            jsonviewer(data,true,query,"#apiResult");
+            jsonviewer(data,true,"","#apiResult");
+            $("#apiQueryHeader").text(query);
             let parsedResults = [];
             let apiResultSlicer = $("#apiResultSlicer").val();
             switch(apiResultSlicer){
@@ -201,6 +202,9 @@ function Input() {
 function inputTypeChangeHandler() {
     $("#apiQueryBox").hide();
     $("#usqlQueryBox").hide();
+    $("#apiQueryHeader").text();
+    $("#preview").html();
+    
     switch($("#inputType").val()){
         case "Text Input":
             break;
