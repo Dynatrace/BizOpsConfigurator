@@ -4,16 +4,26 @@
         <div class="userInput"><select id="inputType">
                 <option>Text Input</option>
                 <option>Select</option>
+                <option>Select (USQL)</option>
                 <option>Multi-Select</option>
                 <option>Checkboxes</option>
                 <option>Funnel</option>
             </select></div>
-        <div class="inputHeader">API Query for possible values:</div>
-        <div class="userInput"><input id="apiQuery" placeholder="/api/v1/entity/applications?includeDetails=false"
-                required pattern="^\/api\/[^ ]+">
-            <input type="button" id="testAPI" value="Test"></div>
+        <div id="apiQueryBox">
+            <div class="inputHeader">API Query for possible values:</div>
+            <div class="userInput"><input id="apiQuery" placeholder="/api/v1/entity/applications?includeDetails=false"
+                    required pattern="^\/api\/[^ ]+">
+                <input type="button" id="testAPI" value="Test"></div>
+        </div>
+        <div id="usqlQueryBox">
+            <div class="inputHeader">USQL for possible values:</div>
+            <div class="userInput"><input id="usqlQuery" placeholder="SELECT usersession.stringProperties, usersession.dateProperties FROM useraction LIMIT 5000"
+                    required>
+                <input type="button" id="testUSQL" value="Test"></div>
+        </div>
         <div class="inputHeader">Dashboard placeholder to search/replace:</div>
         <div class="userInput">&dollar;{&nbsp;<input id="transform" placeholder="MyString" required>&nbsp;}</div>
     </div>
     <div id="apiResult"></div>
+    <div id="preview"></div>
 </div>

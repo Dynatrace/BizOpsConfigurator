@@ -53,12 +53,45 @@ function workflowBuilderHandlers() {
     });
 
     //newInput buttons
+    $("#viewport").on("change", "#inputType", function (e) {
+        $("#apiQueryBox").hide();
+        $("#usqlQueryBox").hide();
+        switch($("#inputType").val()){
+            case "Text Input":
+                break;
+            case "Select":
+                $("#apiQueryBox").show();
+                break;
+            case "Select (USQL)":
+                $("#usqlQueryBox").show();
+                break;
+            case "Multi-Select":
+                $("#apiQueryBox").show();
+                break;
+            case "Checkboxes":
+                break;
+            case "Funnel":
+                break;
+        }
+    });
     $("#viewport").on("click", "#testAPI", function (e) {
         if(url==""||token==""){
             alert("Please connect to a tenant with Begin first.");
             return;
         }
         let query = $("#apiQuery").val();
+        let p = dtAPIquery(query);
+        $.when(p).done(function(data){
+            jsonviewer(data,true,query,"#apiResult");
+        });
+    });
+    $("#viewport").on("click", "#testUSQL", function (e) {
+        if(url==""||token==""){
+            alert("Please connect to a tenant with Begin first.");
+            return;
+        }
+        let usql = $("#usqlQuery").val();
+        let query = "/api/v1/userSessionQueryLanguage/table?query=" + encodeURIComponent(usql) + "&explain=false";
         let p = dtAPIquery(query);
         $.when(p).done(function(data){
             jsonviewer(data,true,query,"#apiResult");
