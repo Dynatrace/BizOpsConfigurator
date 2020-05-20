@@ -175,7 +175,7 @@ function deployMZ(file, swaps) {
 }
 
 //// Functions ////
-function dtAPIquery(query, options, retries = 3) {
+function dtAPIquery(query, options={}, retries = 3) {
   let success = (options.hasOwnProperty('success') ? options.success : function (data, textStatus, jqXHR) {//console.log("dtAPIQuery success")
   });
   let method = (options.hasOwnProperty('method') ? options.method : "GET");
