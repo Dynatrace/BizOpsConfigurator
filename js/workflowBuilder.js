@@ -114,7 +114,7 @@ function workflowBuilderHandlers() {
                 let previewHTML = "";
                 let inputType = $("#inputType").val();
                 switch (inputType) {
-                    case "Select":
+                    case "Select (USQL)":
                         previewHTML = drawKPIs(parsedResults);
                         break;
                     case "Multi-Select":
