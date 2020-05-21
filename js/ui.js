@@ -372,15 +372,15 @@ function popupHTMLDeferred(popupHeader, content) {
     <!--<div class='x_box'><a id='x_c'>x</a></div>-->
     <h3>${popupHeader}</h3>
     ${content}
-    <div class="doneBar"><input type="button" id="done" value="Done"></div>
+    <div class="doneBar"><input type="button" class="done" value="Done"></div>
     </div>`;
-  $("#viewport").append(html);
-  $(".popupHTML").css('z-index', ++popupZindex);
-  $(".popupHTML").show();
-  $("#done").on("click", function (e) {
+  let popup = $("#viewport").append(html);
+  popup.css('z-index', ++popupZindex);
+  popup.show();
+  popup.find("input.done").on("click", function (e) {
     let data = {};
-    $(this).parents(".popupHTML").find("input,select").map((i, e) => data[e.id] = e.value);
-    $(this).parents(".popupHTML").remove();
+    popup.find("input,select").map((i, e) => data[e.id] = e.value);
+    popup.remove();
     popupZindex--;
     p.resolve(data);
   })
