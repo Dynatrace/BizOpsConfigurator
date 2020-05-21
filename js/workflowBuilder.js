@@ -105,7 +105,7 @@ function workflowBuilderHandlers() {
                 jsonviewer(data, true, "", "#apiResult");
                 $("#apiQueryHeader").text(query);
                 let parsedResults = [];
-                let apiResultSlicer = $("#apiResultSlicer").val();
+                let apiResultSlicer = $("#usqlResultSlicer").val();
                 switch (apiResultSlicer) {
                     case 'parseUSPFilter':
                         parsedResults = parseUSPFilter(data);
