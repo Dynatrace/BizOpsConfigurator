@@ -479,17 +479,20 @@ function drawServiceSelect(data, selector) {
 }
 
 function getConnectInfo() {
+  let p0 = $.Deferred();
   if (url == "" || token == "") {
     let p1 = $.get("html/connect.html");
-    return $.when(p1).done(function (content) {
+    $.when(p1).done(function (content) {
       let p2 = popupHTMLDeferred("New Input", content);
 
-      return $.when(p2).done(function (inputs) {
+      $.when(p2).done(function (inputs) {
         url = inputs.url;
         token = inputs.token;
         githubuser = inputs.githubuser;
         githubpat = inputs.githubpat;
+        p0.resolve();
       });
     });
   }
+  return p0;
 }
