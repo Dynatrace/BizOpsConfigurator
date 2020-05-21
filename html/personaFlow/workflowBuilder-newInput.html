@@ -16,14 +16,18 @@
                 <input type="button" id="testAPI" value="Test"></div>
             <div class="inputHeader">Slicer:</div>
             <div class="userInput"><select id="apiResultSlicer">
-                <option>{entityId:displayName}</option>
-            </select></div>
+                    <option>{entityId:displayName}</option>
+                </select></div>
         </div>
         <div id="usqlQueryBox">
             <div class="inputHeader">USQL for possible values:</div>
-            <div class="userInput"><input id="usqlQuery" placeholder="SELECT usersession.stringProperties, usersession.dateProperties FROM useraction LIMIT 5000"
+            <div class="userInput"><input id="usqlQuery"
+                    placeholder="SELECT usersession.stringProperties, usersession.dateProperties FROM useraction LIMIT 5000"
                     required>
                 <input type="button" id="testUSQL" value="Test"></div>
+            <div class="userInput"><select id="usqlResultSlicer">
+                    <option>{entityId:displayName}</option>
+                </select></div>
         </div>
         <div class="inputHeader">Dashboard placeholder to search/replace:</div>
         <div class="userInput">&dollar;{&nbsp;<input id="transform" value="MyString" required>&nbsp;}</div>

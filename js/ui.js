@@ -180,7 +180,7 @@ function drawMZs(locator = "#mzlist") {
   return p0;
 }
 
-function drawApps(apps, config, selector="#applist") {
+function drawApps(apps, config, selector = "#applist") {
   apps.sort((a, b) => (a.displayName.toLowerCase() > b.displayName.toLowerCase()) ? 1 : -1);
   //let options = "<option value=''>None</option>"; //this was for Shady's cross app journey idea
   let options = "";
@@ -347,13 +347,13 @@ function popup(inputs, popupHeader, desc) {
   html += "<tr><td colspan=2 class='desc'>" + desc + "</td></tr>";
   html += "<tr><td colspan=2><input type='button' name='ok' value='Ok' id='popup_ok'></td></tr></table></div>";
   $("#viewport").append(html);
-  $("#popup").css('z-index',++popupZindex);
+  $("#popup").css('z-index', ++popupZindex);
   $("#popup_ok").on("click", function () { popout(deferred); });
 
   return deferred;
 }
 
-function popupHTML(popupHeader,content) {
+function popupHTML(popupHeader, content) {
   bcBuffer = $("#bcwrapper").html(); //why?
   let html = `<div class='popupHTML'>
     <div class='x_box'><a id='x_c'>x</a></div>
@@ -361,11 +361,11 @@ function popupHTML(popupHeader,content) {
     ${content}
     </div>`;
   $("#viewport").append(html);
-  $(".popupHTML").css('z-index',++popupZindex);
+  $(".popupHTML").css('z-index', ++popupZindex);
   $(".popupHTML").show();
 }
 
-function popupHTMLDeferred(popupHeader,content) {
+function popupHTMLDeferred(popupHeader, content) {
   let p = $.Deferred();
   //bcBuffer = $("#bcwrapper").html();
   let html = `<div class='popupHTML'>
@@ -375,11 +375,11 @@ function popupHTMLDeferred(popupHeader,content) {
     <div class="doneBar"><input type="button" id="done" value="Done"></div>
     </div>`;
   $("#viewport").append(html);
-  $(".popupHTML").css('z-index',++popupZindex);
+  $(".popupHTML").css('z-index', ++popupZindex);
   $(".popupHTML").show();
-  $("#done").on("click",function(e){
+  $("#done").on("click", function (e) {
     let data = {};
-    $(this).parents(".popupHTML").find("input,select").map((i,e)=>data[e.id]=e.value);
+    $(this).parents(".popupHTML").find("input,select").map((i, e) => data[e.id] = e.value);
     $(this).parents(".popupHTML").remove();
     popupZindex--;
     p.resolve(data);
@@ -470,10 +470,26 @@ function autoTagBox(tech) {
   });
 }
 
-function drawServiceSelect(data,selector){
+function drawServiceSelect(data, selector) {
   let html = "";
-  data.forEach(function(s){
+  data.forEach(function (s) {
     html += `<option value="${s.entityId}">${s.displayName}</option>`;
   });
   $(selector).html(html);
+}
+
+function getConnectInfo() {
+  if (url == "" || token == "") {
+    let p1 = $.get("html/connect.html");
+    return $.when(p1).done(function (content) {
+      let p2 = popupHTMLDeferred("New Input", content);
+
+      return $.when(p2).done(function (inputs) {
+        url = inputs.url;
+        token = inputs.token;
+        githubuser = inputs.githubuser;
+        githubpat = inputs.githubpat;
+      });
+    });
+  }
 }

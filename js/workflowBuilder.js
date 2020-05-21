@@ -55,55 +55,55 @@ function workflowBuilderHandlers() {
     //newInput buttons
     $("#viewport").on("change", "#inputType", inputTypeChangeHandler);
     $("#viewport").on("click", "#testAPI", function (e) {
-        if(url==""||token==""){
-            alert("Please connect to a tenant with Begin first.");
-            return;
-        }
-        let query = $("#apiQuery").val();
-        let p = dtAPIquery(query);
-        $.when(p).done(function(data){
-            jsonviewer(data,true,"","#apiResult");
-            $("#apiQueryHeader").text(query);
-            let parsedResults = [];
-            let apiResultSlicer = $("#apiResultSlicer").val();
-            switch(apiResultSlicer){
-                case "{entityId:displayName}":
-                    data.forEach(function(item){
-                        parsedResults.push({id:item.entityId,value:item.displayName});
-                    });
-                    break;
-            }
-            let previewHTML = "";
-            let inputType = $("#inputType").val();
-            switch(inputType){
-                case "Select":
-                    previewHTML = `<select>`;
-                    parsedResults.forEach(function(i){
-                        previewHTML += `<option id="${i.id}">${i.value}</option>`;
-                    });
-                    previewHTML += `</select>`;
-                    break;
-                case "Multi-Select":
-                    previewHTML = `<select multiple>`;
-                    parsedResults.forEach(function(i){
-                        previewHTML += `<option id="${i.id}">${i.value}</option>`;
-                    });
-                    previewHTML += `</select>`;
-                    break;
-            }
-            $("#preview").html(previewHTML);
+        let p0 = getConnectInfo();
+
+        $.when(p0).done(function () {
+            let query = $("#apiQuery").val();
+            let p = dtAPIquery(query);
+            $.when(p).done(function (data) {
+                jsonviewer(data, true, "", "#apiResult");
+                $("#apiQueryHeader").text(query);
+                let parsedResults = [];
+                let apiResultSlicer = $("#apiResultSlicer").val();
+                switch (apiResultSlicer) {
+                    case "{entityId:displayName}":
+                        data.forEach(function (item) {
+                            parsedResults.push({ id: item.entityId, value: item.displayName });
+                        });
+                        break;
+                }
+                let previewHTML = "";
+                let inputType = $("#inputType").val();
+                switch (inputType) {
+                    case "Select":
+                        previewHTML = `<select>`;
+                        parsedResults.forEach(function (i) {
+                            previewHTML += `<option id="${i.id}">${i.value}</option>`;
+                        });
+                        previewHTML += `</select>`;
+                        break;
+                    case "Multi-Select":
+                        previewHTML = `<select multiple>`;
+                        parsedResults.forEach(function (i) {
+                            previewHTML += `<option id="${i.id}">${i.value}</option>`;
+                        });
+                        previewHTML += `</select>`;
+                        break;
+                }
+                $("#preview").html(previewHTML);
+            });
         });
     });
     $("#viewport").on("click", "#testUSQL", function (e) {
-        if(url==""||token==""){
-            alert("Please connect to a tenant with Begin first.");
-            return;
-        }
-        let usql = $("#usqlQuery").val();
-        let query = "/api/v1/userSessionQueryLanguage/table?query=" + encodeURIComponent(usql) + "&explain=false";
-        let p = dtAPIquery(query);
-        $.when(p).done(function(data){
-            jsonviewer(data,true,query,"#apiResult");
+        let p0 = getConnectInfo();
+
+        $.when(p0).done(function () {
+            let usql = $("#usqlQuery").val();
+            let query = "/api/v1/userSessionQueryLanguage/table?query=" + encodeURIComponent(usql) + "&explain=false";
+            let p = dtAPIquery(query);
+            $.when(p).done(function (data) {
+                jsonviewer(data, true, query, "#apiResult");
+            });
         });
     });
 }
@@ -193,7 +193,7 @@ function Input() {
                     <div class="transform">&dollar;{<span contenteditable="true">${data.transform}</span>}</div>
                 </div>`
                 p0.resolve(this.html);
-            }); 
+            });
         });
         return p0;
     }
@@ -204,8 +204,8 @@ function inputTypeChangeHandler() {
     $("#usqlQueryBox").hide();
     $("#apiQueryHeader").text();
     $("#preview").html();
-    
-    switch($("#inputType").val()){
+
+    switch ($("#inputType").val()) {
         case "Text Input":
             break;
         case "Select":
