@@ -374,7 +374,7 @@ function popupHTMLDeferred(popupHeader, content) {
     ${content}
     <div class="doneBar"><input type="button" class="done" value="Done"></div>
     </div>`;
-  let popup = $("#viewport").append(html);
+  let popup = $(html).appendTo("#viewport");
   popup.css('z-index', ++popupZindex);
   popup.show();
   popup.find("input.done").on("click", function (e) {
