@@ -102,13 +102,13 @@ function workflowBuilderHandlers() {
             let query = "/api/v1/userSessionQueryLanguage/table?query=" + encodeURIComponent(usql) + "&explain=false";
             let p = dtAPIquery(query);
             $.when(p).done(function (data) {
-                jsonviewer(data, true, query, "#apiResult");
+                jsonviewer(data, true, "", "#apiResult");
                 $("#apiQueryHeader").text(query);
                 let parsedResults = [];
                 let apiResultSlicer = $("#apiResultSlicer").val();
                 switch (apiResultSlicer) {
                     case 'parseUSPFilter':
-                        parsedResults = parseUSPFilter();
+                        parsedResults = parseUSPFilter(data);
                         break;
                 }
                 let previewHTML = "";
