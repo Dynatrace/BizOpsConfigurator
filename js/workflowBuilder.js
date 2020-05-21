@@ -90,7 +90,6 @@ function workflowBuilderHandlers() {
                         previewHTML += `</select>`;
                         break;
                 }
-                console.log(previewHTML);
                 $("#preview").html(previewHTML);
             });
         });
@@ -123,6 +122,7 @@ function workflowBuilderHandlers() {
                         previewHTML = $(previewHTML).find("select").prop("multiple",true);
                         break;
                 }
+                console.log(previewHTML);
                 $("#preview").html(previewHTML);
             });
         });
