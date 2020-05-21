@@ -12,7 +12,7 @@
         <div id="apiQueryBox">
             <div class="inputHeader">API Query for possible values:</div>
             <div class="userInput"><input id="apiQuery" placeholder="/api/v1/entity/applications?includeDetails=false"
-                    required pattern="^\/api\/[^ ]+">
+                    required pattern="^\/api\/[^ ]+" name="query">
                 <input type="button" id="testAPI" value="Test"></div>
             <div class="inputHeader">Slicer:</div>
             <div class="userInput"><select id="apiResultSlicer">
@@ -23,10 +23,10 @@
             <div class="inputHeader">USQL for possible values:</div>
             <div class="userInput"><input id="usqlQuery"
                     placeholder="SELECT usersession.stringProperties, usersession.dateProperties FROM useraction LIMIT 5000"
-                    required>
+                    required name="usql">
                 <input type="button" id="testUSQL" value="Test"></div>
             <div class="userInput"><select id="usqlResultSlicer">
-                    <option>{entityId:displayName}</option>
+                    <option>parseUSPFilter</option>
                 </select></div>
         </div>
         <div class="inputHeader">Dashboard placeholder to search/replace:</div>

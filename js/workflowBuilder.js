@@ -103,6 +103,26 @@ function workflowBuilderHandlers() {
             let p = dtAPIquery(query);
             $.when(p).done(function (data) {
                 jsonviewer(data, true, query, "#apiResult");
+                $("#apiQueryHeader").text(query);
+                let parsedResults = [];
+                let apiResultSlicer = $("#apiResultSlicer").val();
+                switch (apiResultSlicer) {
+                    case 'parseUSPFilter':
+                        parsedResults = parseUSPFilter();
+                        break;
+                }
+                let previewHTML = "";
+                let inputType = $("#inputType").val();
+                switch (inputType) {
+                    case "Select":
+                        previewHTML = drawKPIs(parsedResults);
+                        break;
+                    case "Multi-Select":
+                        previewHTML = drawKPIs(parsedResults);
+                        previewHTML = $(previewHTML).find("select").prop("multiple",true);
+                        break;
+                }
+                $("#preview").html(previewHTML);
             });
         });
     });

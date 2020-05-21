@@ -212,7 +212,7 @@ function fieldsetPainter() {
             $.when(p1).done(function (data) {
                 jsonviewer(data);
                 let kpis = parseKPIs(data);
-                drawKPIs(kpis);
+                $("#usplist").html(drawKPIs(kpis));
                 if (kpis.length == 0) {
                     let popheader = "No User Session Properties (long/double)";
                     let desc = "Please configure some User Session Properties ";

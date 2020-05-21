@@ -211,7 +211,8 @@ function drawKPIs(kpis) {
   kpis.forEach(function (kpi) {
     options += "<option value='" + kpi.type + "." + kpi.key + "'>" + kpi.key + "</option>";
   });
-  $("#usplist").html(options);
+  //$("#usplist").html(options);
+  return options;
 }
 
 function drawSteps(steps) {
