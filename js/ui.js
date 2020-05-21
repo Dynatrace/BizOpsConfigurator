@@ -493,6 +493,8 @@ function getConnectInfo() {
         p0.resolve();
       });
     });
+  } else {
+    p0.resolve();
   }
   return p0;
 }
