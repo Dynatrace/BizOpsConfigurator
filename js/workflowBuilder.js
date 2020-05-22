@@ -113,9 +113,9 @@ function workflowBuilderHandlers() {
                 }
                 let previewHTML = `
                     <div class="inputHeader">Keys:</div>
-                    <div class="userInput"><select id="uspKey"></select></div>
+                    <div class="userInput"><select id="uspKey" class="uspFilter"></select></div>
                     <div class="inputHeader">Values:</div>
-                    <div class="userInput"><select id="uspVal"></select>
+                    <div class="userInput"><select id="uspVal" class="uspFilter"></select>
                 `;
                 $("#preview").html(previewHTML);
                 uspFilterChangeHandler();
