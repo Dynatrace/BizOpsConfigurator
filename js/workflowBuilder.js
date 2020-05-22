@@ -54,6 +54,7 @@ function workflowBuilderHandlers() {
 
     //newInput buttons
     $("#viewport").on("change", "#inputType", inputTypeChangeHandler);
+    $("#viewport").on("change", "#commonQueries", commonQueryChangeHandler);
     $("#viewport").on("click", "#testAPI", function (e) {
         let p0 = getConnectInfo();
 
@@ -74,16 +75,10 @@ function workflowBuilderHandlers() {
                 }
                 let previewHTML = "";
                 let inputType = $("#inputType").val();
+                let multiple = $("#multiple").prop("checked")?"multiple":"";
                 switch (inputType) {
                     case "Select":
-                        previewHTML = `<select>`;
-                        parsedResults.forEach(function (i) {
-                            previewHTML += `<option id="${i.id}">${i.value}</option>`;
-                        });
-                        previewHTML += `</select>`;
-                        break;
-                    case "Multi-Select":
-                        previewHTML = `<select multiple>`;
+                        previewHTML = `<select ${multiple}>`;
                         parsedResults.forEach(function (i) {
                             previewHTML += `<option id="${i.id}">${i.value}</option>`;
                         });
@@ -237,5 +232,28 @@ function inputTypeChangeHandler() {
             break;
         case "Funnel":
             break;
+    }
+}
+
+function commonQueryChangeHandler() {
+    let commonQueries = $("#commonQueries").val();
+
+    switch (commonQueries){
+        case "Apps":
+            $("#apiQuery").val("/api/v1/entity/applications?includeDetails=false");
+            break;
+        case "MZs":
+            $("#apiQuery").val("/api/config/v1/managementZones");
+            break;
+        case "Hosts":
+            $("#apiQuery").val("/api/v1/entity/infrastructure/hosts?includeDetails=true");
+            break;
+        case "Autotags":
+            $("#apiQuery").val("/api/config/v1/autoTags");
+            break;
+        case "Services":
+            $("#apiQuery").val("/api/v1/entity/services?includeDetails=false");
+            break;
+        
     }
 }

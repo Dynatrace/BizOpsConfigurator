@@ -10,6 +10,14 @@
                 <option>Funnel</option>
             </select></div>
         <div id="apiQueryBox">
+            <div class="inputHeader">Common queries:</div>
+            <div class="userInput"><select id="commonQueries">
+                    <option>Apps</option>
+                    <option>MZs</option>
+                    <option>Autotags</option>
+                    <option>Hosts</option>
+                    <option>Services</option>
+                </select></div>
             <div class="inputHeader">API Query for possible values:</div>
             <div class="userInput"><input id="apiQuery" placeholder="/api/v1/entity/applications?includeDetails=false"
                     required pattern="^\/api\/[^ ]+" name="query">
@@ -18,6 +26,8 @@
             <div class="userInput"><select id="apiResultSlicer">
                     <option>{entityId:displayName}</option>
                 </select></div>
+            <div class="inputHeader">Multi-select:</div>
+            <div class="userInput"><input type="checkbox" id="multiple"></div>
         </div>
         <div id="usqlQueryBox">
             <div class="inputHeader">USQL for possible values:</div>
