@@ -222,7 +222,7 @@ function uspFilterChangeHandler() {
     undefined);
   let val = $("#uspVal").val();
 
-  if (typeof key == "undefined" || key == '') { //build out key list if needed
+  if (typeof key == "undefined" || key == null || key == '') { //build out key list if needed
     Object.keys(USPs).forEach(function (t) {
       Object.keys(USPs[t]).forEach(function (k) {
         keyOs += "<option value='" + k + "' data-colname='" + t + "'>" + k + "</option>";
