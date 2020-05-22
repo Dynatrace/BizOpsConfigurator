@@ -111,19 +111,14 @@ function workflowBuilderHandlers() {
                         parsedResults = parseUSPFilter(data);
                         break;
                 }
-                let previewHTML = "";
-                let inputType = $("#inputType").val();
-                switch (inputType) {
-                    case "Select (USQL)":
-                        previewHTML = drawKPIs(parsedResults);
-                        break;
-                    case "Multi-Select":
-                        previewHTML = drawKPIs(parsedResults);
-                        previewHTML = $(previewHTML).find("select").prop("multiple",true);
-                        break;
-                }
-                console.log(previewHTML);
+                let previewHTML = `
+                    <div class="inputHeader">Keys:</div>
+                    <div class="userInput"><select id="uspKey"></select></div>
+                    <div class="inputHeader">Values:</div>
+                    <div class="userInput"><select id="uspVal"></select>
+                `;
                 $("#preview").html(previewHTML);
+                uspFilterChangeHandler();
             });
         });
     });

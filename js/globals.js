@@ -64,6 +64,7 @@ selection.config = {};
 var funnelData = [];
 var v5test = true; //opposite of this
 var popup_p = {};
+var USPs = {};
 var Regions = [];
 var autoTags = [];
 var MZs = [];
@@ -250,7 +251,7 @@ function parseUSPFilter(result) {
       }
     } 
   });
-  return USPs;
+  return USPs; //also Global
 }
 
 function parseAppDetail(result) {
