@@ -66,14 +66,14 @@ function workflowBuilderHandlers() {
                 $("#apiQueryHeader").text(query);
                 let parsedResults = [];
                 let apiResultSlicer = $("#apiResultSlicer").val();
-                if(data.length>0) switch (apiResultSlicer) {
+                switch (apiResultSlicer) {
                     case "{entityId:displayName}":
                         data.forEach(function (item) {
                             parsedResults.push({ id: item.entityId, value: item.displayName });
                         });
                         break;
-                    case "{id:name}":
-                        data.forEach(function (item) {
+                    case "values:{id:name}":
+                        data.values.forEach(function (item) {
                             parsedResults.push({ id: item.id, value: item.name });
                         });
                         break;
