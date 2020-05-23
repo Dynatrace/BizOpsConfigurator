@@ -66,17 +66,22 @@ function workflowBuilderHandlers() {
                 $("#apiQueryHeader").text(query);
                 let parsedResults = [];
                 let apiResultSlicer = $("#apiResultSlicer").val();
-                switch (apiResultSlicer) {
+                if(data.length>0) switch (apiResultSlicer) {
                     case "{entityId:displayName}":
                         data.forEach(function (item) {
                             parsedResults.push({ id: item.entityId, value: item.displayName });
+                        });
+                        break;
+                    case "{id:name}":
+                        data.forEach(function (item) {
+                            parsedResults.push({ id: item.id, value: item.name });
                         });
                         break;
                 }
                 let previewHTML = "";
                 let inputType = $("#inputType").val();
                 let multiple = $("#multiple").prop("checked")?"multiple":"";
-                switch (inputType) {
+                if(parsedResults.length>0) switch (inputType) {
                     case "Select":
                         previewHTML = `<select ${multiple}>`;
                         parsedResults.forEach(function (i) {
