@@ -205,13 +205,13 @@ function usqlCommonQueryChangeHandler() {
 
     switch (commonQueries) {
         case "Double/Long USPs":
-            $("#usqlQuery").val("/api/v1/entity/applications?includeDetails=false");
+            $("#usqlQuery").val("SELECT usersession.longProperties, usersession.doubleProperties FROM useraction WHERE useraction.application IN ( ) LIMIT 5000");
             break;
         case "String/Date USPs":
-            $("#usqlQuery").val("/api/config/v1/managementZones");
+            $("#usqlQuery").val("SELECT usersession.stringProperties, usersession.dateProperties FROM useraction WHERE useraction.application IN ( ) LIMIT 5000");
             break;
         case "Regions":
-            $("#usqlQuery").val("/api/v1/entity/infrastructure/hosts?includeDetails=true");
+            $("#usqlQuery").val("SELECT DISTINCT country, region, city FROM usersession WHERE useraction.application IN ( ) ORDER BY country,region,city LIMIT 5000");
             break;
     }
 }
