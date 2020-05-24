@@ -55,73 +55,10 @@ function workflowBuilderHandlers() {
     //newInput buttons
     $("#viewport").on("change", "#inputType", inputTypeChangeHandler);
     $("#viewport").on("change", "#commonQueries", commonQueryChangeHandler);
-    $("#viewport").on("click", "#testAPI", function (e) {
-        let p0 = getConnectInfo();
+    $("#viewport").on("change", "#usqlCommonQueries", usqlCommonQueryChangeHandler);
+    $("#viewport").on("click", "#testAPI", testAPIhandler);
+    $("#viewport").on("click", "#testUSQL", testUSQLhandler);
 
-        $.when(p0).done(function () {
-            let query = $("#apiQuery").val();
-            let p = dtAPIquery(query);
-            $.when(p).done(function (data) {
-                jsonviewer(data, true, "", "#apiResult");
-                $("#apiQueryHeader").text(query);
-                let parsedResults = [];
-                let apiResultSlicer = $("#apiResultSlicer").val();
-                switch (apiResultSlicer) {
-                    case "{entityId:displayName}":
-                        data.forEach(function (item) {
-                            parsedResults.push({ id: item.entityId, value: item.displayName });
-                        });
-                        break;
-                    case "values:{id:name}":
-                        data.values.forEach(function (item) {
-                            parsedResults.push({ id: item.id, value: item.name });
-                        });
-                        break;
-                }
-                let previewHTML = "";
-                let inputType = $("#inputType").val();
-                let multiple = $("#multiple").prop("checked")?"multiple":"";
-                if(parsedResults.length>0) switch (inputType) {
-                    case "Select":
-                        previewHTML = `<select ${multiple}>`;
-                        parsedResults.forEach(function (i) {
-                            previewHTML += `<option id="${i.id}">${i.value}</option>`;
-                        });
-                        previewHTML += `</select>`;
-                        break;
-                }
-                $("#preview").html(previewHTML);
-            });
-        });
-    });
-    $("#viewport").on("click", "#testUSQL", function (e) {
-        let p0 = getConnectInfo();
-
-        $.when(p0).done(function () {
-            let usql = $("#usqlQuery").val();
-            let query = "/api/v1/userSessionQueryLanguage/table?query=" + encodeURIComponent(usql) + "&explain=false";
-            let p = dtAPIquery(query);
-            $.when(p).done(function (data) {
-                jsonviewer(data, true, "", "#apiResult");
-                $("#apiQueryHeader").text(query);
-                let parsedResults = [];
-                let apiResultSlicer = $("#usqlResultSlicer").val();
-                switch (apiResultSlicer) {
-                    case 'parseUSPFilter':
-                        parsedResults = parseUSPFilter(data);
-                        break;
-                }
-                let previewHTML = `
-                    <div class="inputHeader">Keys:</div>
-                    <div class="userInput"><select id="uspKey" class="uspFilter"></select></div>
-                    <div class="inputHeader">Values:</div>
-                    <div class="userInput"><select id="uspVal" class="uspFilter"></select>
-                `;
-                $("#preview").html(previewHTML);
-                uspFilterChangeHandler();
-            });
-        });
-    });
 }
 
 function workflowAddSection() {
@@ -243,7 +180,7 @@ function inputTypeChangeHandler() {
 function commonQueryChangeHandler() {
     let commonQueries = $("#commonQueries").val();
 
-    switch (commonQueries){
+    switch (commonQueries) {
         case "Apps":
             $("#apiQuery").val("/api/v1/entity/applications?includeDetails=false");
             break;
@@ -259,6 +196,91 @@ function commonQueryChangeHandler() {
         case "Services":
             $("#apiQuery").val("/api/v1/entity/services?includeDetails=false");
             break;
-        
+
     }
+}
+
+function usqlCommonQueryChangeHandler() {
+    let commonQueries = $("#usqlCommonQueries").val();
+
+    switch (commonQueries) {
+        case "Double/Long USPs":
+            $("#usqlQuery").val("/api/v1/entity/applications?includeDetails=false");
+            break;
+        case "String/Date USPs":
+            $("#usqlQuery").val("/api/config/v1/managementZones");
+            break;
+        case "Regions":
+            $("#usqlQuery").val("/api/v1/entity/infrastructure/hosts?includeDetails=true");
+            break;
+    }
+}
+
+function testAPIhandler() {
+    let p0 = getConnectInfo();
+
+    $.when(p0).done(function () {
+        let query = $("#apiQuery").val();
+        let p = dtAPIquery(query);
+        $.when(p).done(function (data) {
+            jsonviewer(data, true, "", "#apiResult");
+            $("#apiQueryHeader").text(query);
+            let parsedResults = [];
+            let apiResultSlicer = $("#apiResultSlicer").val();
+            switch (apiResultSlicer) {
+                case "{entityId:displayName}":
+                    if (data.length > 0) data.forEach(function (item) {
+                        parsedResults.push({ id: item.entityId, value: item.displayName });
+                    });
+                    break;
+                case "values:{id:name}":
+                    if (typeof data.values != "undefined") data.values.forEach(function (item) {
+                        parsedResults.push({ id: item.id, value: item.name });
+                    });
+                    break;
+            }
+            let previewHTML = "";
+            let inputType = $("#inputType").val();
+            let multiple = $("#multiple").prop("checked") ? "multiple" : "";
+            if (parsedResults.length > 0) switch (inputType) {
+                case "Select":
+                    previewHTML = `<select ${multiple}>`;
+                    parsedResults.forEach(function (i) {
+                        previewHTML += `<option id="${i.id}">${i.value}</option>`;
+                    });
+                    previewHTML += `</select>`;
+                    break;
+            }
+            $("#preview").html(previewHTML);
+        });
+    });
+}
+
+function testUSQLhandler() {
+    let p0 = getConnectInfo();
+
+    $.when(p0).done(function () {
+        let usql = $("#usqlQuery").val();
+        let query = "/api/v1/userSessionQueryLanguage/table?query=" + encodeURIComponent(usql) + "&explain=false";
+        let p = dtAPIquery(query);
+        $.when(p).done(function (data) {
+            jsonviewer(data, true, "", "#apiResult");
+            $("#apiQueryHeader").text(query);
+            let parsedResults = [];
+            let apiResultSlicer = $("#usqlResultSlicer").val();
+            switch (apiResultSlicer) {
+                case 'parseUSPFilter':
+                    parsedResults = parseUSPFilter(data);
+                    break;
+            }
+            let previewHTML = `
+                    <div class="inputHeader">Keys:</div>
+                    <div class="userInput"><select id="uspKey" class="uspFilter"></select></div>
+                    <div class="inputHeader">Values:</div>
+                    <div class="userInput"><select id="uspVal" class="uspFilter"></select>
+                `;
+            $("#preview").html(previewHTML);
+            uspFilterChangeHandler();
+        });
+    });
 }

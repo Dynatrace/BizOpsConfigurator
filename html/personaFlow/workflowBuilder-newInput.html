@@ -5,7 +5,6 @@
                 <option>Text Input</option>
                 <option>Select</option>
                 <option>Select (USQL)</option>
-                <option>Multi-Select</option>
                 <option>Checkboxes</option>
                 <option>Funnel</option>
             </select></div>
@@ -32,6 +31,13 @@
             <div class="userInput"><input type="checkbox" id="multiple"></div>
         </div>
         <div id="usqlQueryBox">
+            <div class="inputHeader">Common queries:</div>
+            <div class="userInput"><select id="usqlCommonQueries">
+                    <option></option>
+                    <option>Double/Long USPs</option>
+                    <option>String/Date USPs</option>
+                    <option>Regions</option>
+                </select></div>
             <div class="inputHeader">USQL for possible values:</div>
             <div class="userInput"><input id="usqlQuery"
                     placeholder="SELECT usersession.stringProperties, usersession.dateProperties FROM useraction LIMIT 5000"
@@ -39,7 +45,8 @@
                 <input type="button" id="testUSQL" value="Test"></div>
             <div class="inputHeader">Slicer:</div>
             <div class="userInput"><select id="usqlResultSlicer">
-                    <option>parseUSPFilter</option>
+                    <option>Keys/Values</option>
+                    <option>Keys</option>
                 </select></div>
         </div>
         <div class="inputHeader">Dashboard placeholder to search/replace:</div>
