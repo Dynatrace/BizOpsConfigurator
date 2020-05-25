@@ -56,6 +56,7 @@ function workflowBuilderHandlers() {
     $("#viewport").on("change", "#inputType", inputTypeChangeHandler);
     $("#viewport").on("change", "#commonQueries", commonQueryChangeHandler);
     $("#viewport").on("change", "#usqlCommonQueries", usqlCommonQueryChangeHandler);
+    $("#viewport").on("change", "#multiple", multipleHandler);
     $("#viewport").on("click", "#testAPI", testAPIhandler);
     $("#viewport").on("click", "#testUSQL", testUSQLhandler);
     $("#viewport").on("click", "#staticBoxAdd", staticBoxAddHandler);
@@ -359,4 +360,9 @@ function staticBoxAddHandler() {
     newOption[key]=val;
     staticOptions.push(newOption);
     $("#staticOptions").val(JSON.stringify(staticOptions));
+}
+
+function multipleHandler() {
+    let multiple = $("#multiple").prop("checked") ? "multiple" : "";
+    $("#multiple").val(multiple);
 }
