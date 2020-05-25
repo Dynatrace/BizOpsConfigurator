@@ -186,18 +186,23 @@ function commonQueryChangeHandler() {
     switch (commonQueries) {
         case "Apps":
             $("#apiQuery").val("/api/v1/entity/applications?includeDetails=false");
+            $("#apiResultSlicer").val("{entityId:displayName}");
             break;
         case "MZs":
             $("#apiQuery").val("/api/config/v1/managementZones");
+            $("#apiResultSlicer").val("values:{id:name}");
             break;
         case "Hosts":
             $("#apiQuery").val("/api/v1/entity/infrastructure/hosts?includeDetails=true");
+            $("#apiResultSlicer").val("{entityId:displayName}");
             break;
         case "Autotags":
             $("#apiQuery").val("/api/config/v1/autoTags");
+            $("#apiResultSlicer").val("values:{id:name}");
             break;
         case "Services":
             $("#apiQuery").val("/api/v1/entity/services?includeDetails=false");
+            $("#apiResultSlicer").val("{entityId:displayName}");
             break;
 
     }
@@ -209,12 +214,15 @@ function usqlCommonQueryChangeHandler() {
     switch (commonQueries) {
         case "Double/Long USPs":
             $("#usqlQuery").val('SELECT usersession.longProperties, usersession.doubleProperties FROM useraction WHERE useraction.application = "${app}" LIMIT 5000');
+            $("#usqlResultSlicer").val("Keys");
             break;
         case "String/Date USPs":
             $("#usqlQuery").val('SELECT usersession.stringProperties, usersession.dateProperties FROM useraction WHERE useraction.application = "${app}" LIMIT 5000');
+            $("#usqlResultSlicer").val("Keys/Values");
             break;
         case "Regions":
             $("#usqlQuery").val('SELECT DISTINCT country, region, city FROM usersession WHERE useraction.application = "${app}" ORDER BY country,region,city LIMIT 5000');
+            $("#usqlResultSlicer").val("ValX3");
             break;
     }
 }
@@ -237,7 +245,7 @@ function testAPIhandler() {
                     });
                     break;
                 case "values:{id:name}":
-                    if (typeof data.values != "undefined") data.values.forEach(function (item) {
+                    if (typeof data.values == "object") data.values.forEach(function (item) {
                         parsedResults.push({ id: item.id, value: item.name });
                     });
                     break;
@@ -304,11 +312,11 @@ function testUSQLhandler() {
                         parsedResults = parseRegions(data);
                         previewHTML = `
                         <div class="inputHeader">Values:</div>
-                        <div class="userInput"><select id="countryList" class="uspFilter"></select></div>
+                        <div class="userInput"><select id="countryList" class="regionFilter"></select></div>
                         <div class="inputHeader">Values:</div>
-                        <div class="userInput"><select id="regionList" class="uspFilter"></select></div>
+                        <div class="userInput"><select id="regionList" class="regionFilter"></select></div>
                         <div class="inputHeader">Values:</div>
-                        <div class="userInput"><select id="cityList" class="uspFilter"></select></div>
+                        <div class="userInput"><select id="cityList" class="regionFilter"></select></div>
                         `;
                         $("#preview").html(previewHTML);
                         regionsChangeHandler();
