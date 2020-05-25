@@ -165,6 +165,7 @@ function inputTypeChangeHandler() {
     $("#usqlQueryBox").hide();
     $("#newInputResult").hide();
     $("#newInputPreview").hide();
+    $("#staticBox").hide();
     $("#apiQueryHeader").text();
     $("#preview").html();
 
@@ -346,5 +347,5 @@ function staticBoxAddHandler() {
     let val = $("#staticBoxValue").val();
 
     let el = $(`<option value="${val}">${key}</option>`);
-    el.appendTo()
+    el.appendTo("#staticPreview");
 }
