@@ -58,7 +58,7 @@ function workflowBuilderHandlers() {
     $("#viewport").on("change", "#usqlCommonQueries", usqlCommonQueryChangeHandler);
     $("#viewport").on("click", "#testAPI", testAPIhandler);
     $("#viewport").on("click", "#testUSQL", testUSQLhandler);
-
+    $("#viewport").on("click", "#staticBoxAdd", staticBoxAddHandler);
 }
 
 function workflowAddSection() {
@@ -171,7 +171,7 @@ function inputTypeChangeHandler() {
     switch ($("#inputType").val()) {
         case "Text Input":
             break;
-        case "Select":
+        case "Select (API)":
             $("#apiQueryBox").show();
             $("#newInputResult").show();
             $("#newInputPreview").show();
@@ -179,6 +179,12 @@ function inputTypeChangeHandler() {
         case "Select (USQL)":
             $("#usqlQueryBox").show();
             $("#newInputResult").show();
+            $("#newInputPreview").show();
+            break;
+        case "Select (static)":
+            $("#staticBox").show();
+            let html = `<select id="staticPreview"></select>`;
+            $("#newInputPreview").html(html);
             $("#newInputPreview").show();
             break;
         case "Checkboxes":
@@ -330,9 +336,15 @@ function testUSQLhandler() {
                         regionsChangeHandler();
                         break;
                 }
-
-
             });
         });
     });
+}
+
+function staticBoxAddHandler() {
+    let key = $("#staticBoxLabel").val();
+    let val = $("#staticBoxValue").val();
+
+    let el = $(`<option value="${val}">${key}</option>`);
+    el.appendTo()
 }
