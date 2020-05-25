@@ -721,10 +721,10 @@ img.structure {
 
 #repo_config, #dashboard_list, .popupHTML {
   position: fixed;
-  left: 10%;
-  width: 80%;
-  top: 10%;
-  height: 80%;
+  left: 5%;
+  width: 90%;
+  top: 5%;
+  height: 90%;
   display: none;
   background-color: #525252;
   border: 1px solid #00b9cc;
@@ -1085,7 +1085,7 @@ div.userInput input[type="button"] {
   min-width: 300px;
 }
 
-#newInputPrompt {
+#newInputPrompt, #newInputPreview {
   border: 1px solid #606060;
   border-radius: 3px;
   padding: 5px 5px 5px 5px;
@@ -1094,4 +1094,10 @@ div.userInput input[type="button"] {
 
 :invalid {
   border-bottom: 3px solid red;
+}
+
+#apiQueryHeader {
+  word-wrap: break-word;
+  width: 500px;
+  display: inline-block;
 }

@@ -205,13 +205,13 @@ function usqlCommonQueryChangeHandler() {
 
     switch (commonQueries) {
         case "Double/Long USPs":
-            $("#usqlQuery").val("SELECT usersession.longProperties, usersession.doubleProperties FROM useraction WHERE useraction.application IN ( ) LIMIT 5000");
+            $("#usqlQuery").val('SELECT usersession.longProperties, usersession.doubleProperties FROM useraction WHERE useraction.application = "${app}" LIMIT 5000');
             break;
         case "String/Date USPs":
-            $("#usqlQuery").val("SELECT usersession.stringProperties, usersession.dateProperties FROM useraction WHERE useraction.application IN ( ) LIMIT 5000");
+            $("#usqlQuery").val('SELECT usersession.stringProperties, usersession.dateProperties FROM useraction WHERE useraction.application = "${app}" LIMIT 5000');
             break;
         case "Regions":
-            $("#usqlQuery").val("SELECT DISTINCT country, region, city FROM usersession WHERE useraction.application IN ( ) ORDER BY country,region,city LIMIT 5000");
+            $("#usqlQuery").val('SELECT DISTINCT country, region, city FROM usersession WHERE useraction.application = "${app}" ORDER BY country,region,city LIMIT 5000');
             break;
     }
 }
@@ -260,27 +260,36 @@ function testUSQLhandler() {
     let p0 = getConnectInfo();
 
     $.when(p0).done(function () {
-        let usql = $("#usqlQuery").val();
-        let query = "/api/v1/userSessionQueryLanguage/table?query=" + encodeURIComponent(usql) + "&explain=false";
-        let p = dtAPIquery(query);
-        $.when(p).done(function (data) {
-            jsonviewer(data, true, "", "#apiResult");
-            $("#apiQueryHeader").text(query);
-            let parsedResults = [];
-            let apiResultSlicer = $("#usqlResultSlicer").val();
-            switch (apiResultSlicer) {
-                case 'parseUSPFilter':
-                    parsedResults = parseUSPFilter(data);
-                    break;
-            }
-            let previewHTML = `
-                    <div class="inputHeader">Keys:</div>
-                    <div class="userInput"><select id="uspKey" class="uspFilter"></select></div>
-                    <div class="inputHeader">Values:</div>
-                    <div class="userInput"><select id="uspVal" class="uspFilter"></select>
-                `;
-            $("#preview").html(previewHTML);
-            uspFilterChangeHandler();
+        let p1 = getTestApp();
+
+        $.when(p1).done(function (appName) {
+            let usql = $("#usqlQuery").val();
+            usql.replace("${app}",appName);
+            let query = "/api/v1/userSessionQueryLanguage/table?query=" + encodeURIComponent(usql) + "&explain=false";
+            let p2 = dtAPIquery(query);
+            $.when(p2).done(function (data) {
+                jsonviewer(data, true, "", "#apiResult");
+                $("#apiQueryHeader").text(query);
+                let parsedResults = [];
+                let apiResultSlicer = $("#usqlResultSlicer").val();
+                switch (apiResultSlicer) {
+                    case 'parseUSPFilter':
+                        parsedResults = parseUSPFilter(data);
+                        break;
+                }
+                let previewHTML = `
+                        <div class="inputHeader">Keys:</div>
+                        <div class="userInput"><select id="uspKey" class="uspFilter"></select></div>
+                        <div class="inputHeader">Values:</div>
+                        <div class="userInput"><select id="uspVal" class="uspFilter"></select>
+                    `;
+                $("#preview").html(previewHTML);
+                uspFilterChangeHandler();
+            });
         });
     });
+}
+
+function getTestApp() {
+
 }

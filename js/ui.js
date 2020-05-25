@@ -182,7 +182,6 @@ function drawMZs(locator = "#mzlist") {
 
 function drawApps(apps, config, selector = "#applist") {
   apps.sort((a, b) => (a.displayName.toLowerCase() > b.displayName.toLowerCase()) ? 1 : -1);
-  //let options = "<option value=''>None</option>"; //this was for Shady's cross app journey idea
   let options = "";
   apps.forEach(function (app) {
     options += "<option value='" + app.entityId + "'>" + app.displayName + "</option>";
@@ -497,5 +496,24 @@ function getConnectInfo() {
   } else {
     p0.resolve();
   }
+  return p0;
+}
+
+function getTestApp() {
+  let p0 = $.Deferred();
+  let content = `
+  <div class="inputHeader">App to test against:</div>
+  <div class="userInput"><select id="testApp"></select></div>
+  `;
+
+  let p1 = getApps();
+  $.when(p1).done(function(apps){
+    let p2 = popupHTMLDeferred("Test App", content);
+    drawApps(apps, {}, "#testApp");
+    $.when(p2).done(function (inputs) {
+      let appName = $("#testApp option:selected").text();
+      p0.resolve(appName);
+    });
+  });
   return p0;
 }
