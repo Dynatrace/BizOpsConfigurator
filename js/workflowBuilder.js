@@ -275,13 +275,14 @@ function testUSQLhandler() {
                 $("#apiQueryHeader").text(query);
                 let parsedResults = [];
                 let apiResultSlicer = $("#usqlResultSlicer").val();
+                let previewHTML = "";
                 switch (apiResultSlicer) {
                     case 'parseUSPFilter':
                         parsedResults = parseUSPFilter(data);
                         break;
                     case 'Keys/Values':
                         parsedResults = parseUSPFilter(data);
-                        let previewHTML = `
+                        previewHTML = `
                         <div class="inputHeader">Keys:</div>
                         <div class="userInput"><select id="uspKey" class="uspFilter"></select></div>
                         <div class="inputHeader">Values:</div>
@@ -290,14 +291,14 @@ function testUSQLhandler() {
                         break;
                     case 'Keys':
                         parsedResults = parseUSPFilter(data);
-                        let previewHTML = `
+                        previewHTML = `
                         <div class="inputHeader">Keys:</div>
                         <div class="userInput"><select id="uspKey" class="uspFilter"></select></div>
                         `;
                         break;
                     case 'ValX3':
                         parsedResults = parseUSPFilter(data);
-                        let previewHTML = `
+                        previewHTML = `
                         <div class="inputHeader">Values:</div>
                         <div class="userInput"><select id="uspVal1" class="uspFilter"></select></div>
                         <div class="inputHeader">Values:</div>
