@@ -130,7 +130,7 @@ function Input() {
                         `;
                         break;
                     case "Select (static)":
-                        input = `<select class="workflowSelect" disabled ${data.multiple}>${data.staticOptions}</select>
+                        input = `<select class="workflowSelect" data-options='${data.staticOptions}' disabled ${data.multiple}></select>
                         `;
                         break;
                     case "Funnel":
@@ -349,6 +349,8 @@ function staticBoxAddHandler() {
     let el = $(`<option value="${val}">${key}</option>`);
     el.appendTo("#staticPreview");
     $("#staticPreview").val(val);
+    $("#staticBoxLabel").val("");
+    $("#staticBoxValue").val("");
 
     let vals = $("#staticOptions").val();
     if(vals.length<1) vals="[]";
