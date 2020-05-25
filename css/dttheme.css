@@ -736,6 +736,10 @@ img.structure {
   overflow: auto;
 }
 
+.popupHTML .flexcontainer {
+  max-height: 90%;
+}
+
 #repo_config td {
   text-align: left;
 }
@@ -1101,4 +1105,8 @@ div.userInput input[type="button"] {
   max-width: 600px;
   display: inline-block;
   font-size: smaller;
+}
+
+#newInputResult {
+  overflow: auto;
 }

@@ -117,13 +117,21 @@ function Input() {
                     case "Text Input":
                         input = `<input class="workflowInput" placeholder="${data.placeholder}" value="${data.defaultvalue}" disabled>`;
                         break;
-                    case "Select":
-                        input = `<select class="workflowSelect" disabled></select>
-                        <input type="hidden" class="apiQuery" value="${data.apiQuery}">`;
+                    case "Select (API)":
+                        input = `<select class="workflowSelect" disabled ${data.multiple}></select>
+                        <input type="hidden" class="apiQuery" value="${data.apiQuery}">
+                        <input type="hidden" class="apiResultSlicer" value="${data.apiResultSlicer}">
+                        `;
                         break;
-                    case "Multi-Select":
-                        input = `<select class="workflowSelect" disabled multiple></select>
-                        <input type="hidden" class="apiQuery" value="${data.apiQuery}">`;
+                    case "Select (USQL)":
+                        input = `<select class="workflowSelect" disabled ${data.multiple}></select>
+                        <input type="hidden" class="usqlQuery" value="${data.usqlQuery}">
+                        <input type="hidden" class="usqlResultSlicer" value="${data.usqlResultSlicer}">
+                        `;
+                        break;
+                    case "Select (static)":
+                        input = `<select class="workflowSelect" disabled ${data.multiple}>${data.options}</select>
+                        `;
                         break;
                     case "Funnel":
                         input = `<h1>Giant funnel graphic here</h1>`;
@@ -254,7 +262,7 @@ function testAPIhandler() {
             let inputType = $("#inputType").val();
             let multiple = $("#multiple").prop("checked") ? "multiple" : "";
             if (parsedResults.length > 0) switch (inputType) {
-                case "Select":
+                case "Select (API)":
                     previewHTML = `<select ${multiple}>`;
                     parsedResults.forEach(function (i) {
                         previewHTML += `<option id="${i.id}">${i.value}</option>`;
@@ -275,7 +283,7 @@ function testUSQLhandler() {
 
         $.when(p1).done(function (appName) {
             let usql = $("#usqlQuery").val();
-            usql = usql.replace("${app}",appName);
+            usql = usql.replace("${app}", appName);
             let query = "/api/v1/userSessionQueryLanguage/table?query=" + encodeURIComponent(usql) + "&explain=false";
             let p2 = dtAPIquery(query);
             $.when(p2).done(function (data) {
@@ -322,8 +330,8 @@ function testUSQLhandler() {
                         regionsChangeHandler();
                         break;
                 }
-                
-                
+
+
             });
         });
     });
