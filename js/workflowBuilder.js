@@ -155,6 +155,8 @@ function Input() {
 function inputTypeChangeHandler() {
     $("#apiQueryBox").hide();
     $("#usqlQueryBox").hide();
+    $("#newInputResult").hide();
+    $("#newInputPreview").hide();
     $("#apiQueryHeader").text();
     $("#preview").html();
 
@@ -163,16 +165,17 @@ function inputTypeChangeHandler() {
             break;
         case "Select":
             $("#apiQueryBox").show();
+            $("#newInputResult").show();
+            $("#newInputPreview").show();
             break;
         case "Select (USQL)":
             $("#usqlQueryBox").show();
-            break;
-        case "Multi-Select":
-            $("#apiQueryBox").show();
+            $("#newInputResult").show();
+            $("#newInputPreview").show();
             break;
         case "Checkboxes":
             break;
-        case "Funnel":
+        case "KUA Funnel":
             break;
     }
 }

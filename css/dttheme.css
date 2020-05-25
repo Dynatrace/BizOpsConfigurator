@@ -1085,7 +1085,7 @@ div.userInput input[type="button"] {
   min-width: 300px;
 }
 
-#newInputPrompt, #newInputPreview, #connect, #testAppDiv {
+#newInputPrompt, #newInputPreview, #testAppDiv {
   border: 1px solid #606060;
   border-radius: 3px;
   padding: 5px 5px 5px 5px;

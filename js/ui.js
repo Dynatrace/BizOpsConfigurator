@@ -503,15 +503,15 @@ function getTestApp() {
   let p0 = $.Deferred();
   let content = `<div id="testAppDiv">
   <div class="inputHeader">App to test against:</div>
-  <div class="userInput"><select id="testAppID"></select></div>
+  <div class="userInput"><select id="testAppId"></select></div>
   </div>`;
 
   let p1 = getApps();
   $.when(p1).done(function(apps){
     let p2 = popupHTMLDeferred("Test App", content);
-    drawApps(apps, {}, "#testAppID");
+    drawApps(apps, {}, "#testAppId");
     $.when(p2).done(function (inputs) {
-      let appName = apps.find(x => x.entityID == inputs.testAppID).displayName;
+      let appName = apps.find(x => x.entityId == inputs.testAppId).displayName;
       p0.resolve(appName);
     });
   });
