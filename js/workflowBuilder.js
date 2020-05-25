@@ -267,7 +267,7 @@ function testUSQLhandler() {
 
         $.when(p1).done(function (appName) {
             let usql = $("#usqlQuery").val();
-            usql.replace("${app}",appName);
+            usql = usql.replace("${app}",appName);
             let query = "/api/v1/userSessionQueryLanguage/table?query=" + encodeURIComponent(usql) + "&explain=false";
             let p2 = dtAPIquery(query);
             $.when(p2).done(function (data) {
