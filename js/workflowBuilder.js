@@ -279,13 +279,35 @@ function testUSQLhandler() {
                     case 'parseUSPFilter':
                         parsedResults = parseUSPFilter(data);
                         break;
-                }
-                let previewHTML = `
+                    case 'Keys/Values':
+                        parsedResults = parseUSPFilter(data);
+                        let previewHTML = `
                         <div class="inputHeader">Keys:</div>
                         <div class="userInput"><select id="uspKey" class="uspFilter"></select></div>
                         <div class="inputHeader">Values:</div>
                         <div class="userInput"><select id="uspVal" class="uspFilter"></select>
-                    `;
+                        `;
+                        break;
+                    case 'Keys':
+                        parsedResults = parseUSPFilter(data);
+                        let previewHTML = `
+                        <div class="inputHeader">Keys:</div>
+                        <div class="userInput"><select id="uspKey" class="uspFilter"></select></div>
+                        `;
+                        break;
+                    case 'ValX3':
+                        parsedResults = parseUSPFilter(data);
+                        let previewHTML = `
+                        <div class="inputHeader">Values:</div>
+                        <div class="userInput"><select id="uspVal1" class="uspFilter"></select></div>
+                        <div class="inputHeader">Values:</div>
+                        <div class="userInput"><select id="uspVal2" class="uspFilter"></select></div>
+                        <div class="inputHeader">Values:</div>
+                        <div class="userInput"><select id="uspVal3" class="uspFilter"></select></div>
+                        `;
+                        break;
+                }
+                
                 $("#preview").html(previewHTML);
                 uspFilterChangeHandler();
             });
