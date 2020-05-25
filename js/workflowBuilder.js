@@ -130,7 +130,7 @@ function Input() {
                         `;
                         break;
                     case "Select (static)":
-                        input = `<select class="workflowSelect" disabled ${data.multiple}>${data.options}</select>
+                        input = `<select class="workflowSelect" disabled ${data.multiple}>${data.staticOptions}</select>
                         `;
                         break;
                     case "Funnel":
