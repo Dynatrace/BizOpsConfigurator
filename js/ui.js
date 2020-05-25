@@ -501,17 +501,17 @@ function getConnectInfo() {
 
 function getTestApp() {
   let p0 = $.Deferred();
-  let content = `
+  let content = `<div id="testAppDiv">
   <div class="inputHeader">App to test against:</div>
-  <div class="userInput"><select id="testApp"></select></div>
-  `;
+  <div class="userInput"><select id="testAppID"></select></div>
+  </div>`;
 
   let p1 = getApps();
   $.when(p1).done(function(apps){
     let p2 = popupHTMLDeferred("Test App", content);
-    drawApps(apps, {}, "#testApp");
+    drawApps(apps, {}, "#testAppID");
     $.when(p2).done(function (inputs) {
-      let appName = $("#testApp option:selected").text();
+      let appName = apps.find(x => x.entityID == inputs.testAppID).displayName;
       p0.resolve(appName);
     });
   });

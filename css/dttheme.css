@@ -1085,7 +1085,7 @@ div.userInput input[type="button"] {
   min-width: 300px;
 }
 
-#newInputPrompt, #newInputPreview {
+#newInputPrompt, #newInputPreview, #connect, #testAppDiv {
   border: 1px solid #606060;
   border-radius: 3px;
   padding: 5px 5px 5px 5px;
@@ -1098,6 +1098,7 @@ div.userInput input[type="button"] {
 
 #apiQueryHeader {
   word-wrap: break-word;
-  width: 500px;
+  max-width: 600px;
   display: inline-block;
+  font-size: smaller;
 }
