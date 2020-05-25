@@ -348,4 +348,13 @@ function staticBoxAddHandler() {
 
     let el = $(`<option value="${val}">${key}</option>`);
     el.appendTo("#staticPreview");
+    $("#staticPreview").val(val);
+
+    let vals = $("#staticOptions").val();
+    if(vals.length<1) vals="[]";
+    let staticOptions = JSON.parse(vals);
+    let newOption = {};
+    newOption[key]=val;
+    staticOptions.push(newOption);
+    $("#staticOptions").val(JSON.stringify(staticOptions));
 }
