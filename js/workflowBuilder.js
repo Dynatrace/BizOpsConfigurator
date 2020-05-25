@@ -288,6 +288,8 @@ function testUSQLhandler() {
                         <div class="inputHeader">Values:</div>
                         <div class="userInput"><select id="uspVal" class="uspFilter"></select>
                         `;
+                        $("#preview").html(previewHTML);
+                        uspFilterChangeHandler();
                         break;
                     case 'Keys':
                         parsedResults = parseUSPFilter(data);
@@ -295,22 +297,25 @@ function testUSQLhandler() {
                         <div class="inputHeader">Keys:</div>
                         <div class="userInput"><select id="uspKey" class="uspFilter"></select></div>
                         `;
+                        $("#preview").html(previewHTML);
+                        uspFilterChangeHandler();
                         break;
                     case 'ValX3':
-                        parsedResults = parseUSPFilter(data);
+                        parsedResults = parseRegions(data);
                         previewHTML = `
                         <div class="inputHeader">Values:</div>
-                        <div class="userInput"><select id="uspVal1" class="uspFilter"></select></div>
+                        <div class="userInput"><select id="countryList" class="uspFilter"></select></div>
                         <div class="inputHeader">Values:</div>
-                        <div class="userInput"><select id="uspVal2" class="uspFilter"></select></div>
+                        <div class="userInput"><select id="regionList" class="uspFilter"></select></div>
                         <div class="inputHeader">Values:</div>
-                        <div class="userInput"><select id="uspVal3" class="uspFilter"></select></div>
+                        <div class="userInput"><select id="cityList" class="uspFilter"></select></div>
                         `;
+                        $("#preview").html(previewHTML);
+                        regionsChangeHandler();
                         break;
                 }
                 
-                $("#preview").html(previewHTML);
-                uspFilterChangeHandler();
+                
             });
         });
     });
