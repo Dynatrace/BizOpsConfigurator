@@ -289,7 +289,3 @@ function testUSQLhandler() {
         });
     });
 }
-
-function getTestApp() {
-
-}
