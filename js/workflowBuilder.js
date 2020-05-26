@@ -60,6 +60,7 @@ function workflowBuilderHandlers() {
     $("#viewport").on("click", "#testAPI", testAPIhandler);
     $("#viewport").on("click", "#testUSQL", testUSQLhandler);
     $("#viewport").on("click", "#staticBoxAdd", staticBoxAddHandler);
+    $("#viewport").on("click", "#workflowDownload", workflowDownloader);
 }
 
 function workflowAddSection() {
@@ -167,6 +168,7 @@ function inputTypeChangeHandler() {
     $("#newInputResult").hide();
     $("#newInputPreview").hide();
     $("#staticBox").hide();
+    $("#multiBox").hide();
     $("#apiQueryHeader").text();
     $("#preview").html();
 
@@ -177,17 +179,20 @@ function inputTypeChangeHandler() {
             $("#apiQueryBox").show();
             $("#newInputResult").show();
             $("#newInputPreview").show();
+            $("#multiBox").show();
             break;
         case "Select (USQL)":
             $("#usqlQueryBox").show();
             $("#newInputResult").show();
             $("#newInputPreview").show();
+            $("#multiBox").show();
             break;
         case "Select (static)":
             $("#staticBox").show();
             let html = `<select id="staticPreview"></select>`;
             $("#newInputPreview").html(html);
             $("#newInputPreview").show();
+            $("#multiBox").show();
             break;
         case "Checkboxes":
             break;
@@ -365,4 +370,12 @@ function staticBoxAddHandler() {
 function multipleHandler() {
     let multiple = $("#multiple").prop("checked") ? "multiple" : "";
     $("#multiple").val(multiple);
+}
+
+function workflowDownloader() {
+    let workflow = $("#workflowPages").html();
+    let filename = `workflowname.cwf.json`;
+    let text = JSON.stringify(workflow);
+    
+    download(filename, text);
 }
