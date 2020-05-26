@@ -373,7 +373,7 @@ function multipleHandler() {
 
 function workflowDownloader() {
     let workflow = {};
-    workflow[html] = $("#workflowPages").prop("outerHTML");
+    workflow['html'] = $("#workflowPages").prop("outerHTML");
     let filename = `workflowname.cwf.json`;
     let text = JSON.stringify(workflow);
 
