@@ -568,6 +568,20 @@ function fieldsetPainter() {
         case "workflowBuilder":
             $(".workflowSectionPopup, .workflowInputPopup").hide();
             break;
+        case "workflowConfig": {
+            let html = "";
+            personas.forEach(function(e){
+                html += `<option>${e}</option>`;
+            })
+            $("#persona").html(html);
+
+            html = "";
+            usecases.forEach(function(e){
+                html += `<option>${e.name}</option>`;
+            });
+            $("#usecase").html(html);
+            break;
+        }
         case undefined:
             break;
         default:
