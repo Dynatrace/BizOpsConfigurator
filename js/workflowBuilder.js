@@ -2,9 +2,9 @@
 function workflowBuilderHandlers() {
     //menubar links
     $("#viewport").on("click", "#workflowAddSection", workflowAddSection);
-    $("#viewport").on("click", "#workflowConfig", workflowConfiguration);
-    $("#viewport").on("click", "#workflowTest", function (e) { });
-    $("#viewport").on("click", "#workflowDownload", workflowDownloader);
+    $("#viewport").on("click", "#workflowConfigButton", workflowConfiguration);
+    $("#viewport").on("click", "#workflowTestButton", function (e) { });
+    $("#viewport").on("click", "#workflowDownloadButton", workflowDownloader);
     $("#viewport").on("click", "#workflowPageDown", function (e) { });
     $("#viewport").on("click", "#workflowPageNum", function (e) { });
     $("#viewport").on("click", "#workflowPageUp", function (e) { });
