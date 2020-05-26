@@ -385,5 +385,17 @@ function workflowConfiguration() {
     let p1 = $.get("html/personaFlow/workflowBuilder-config.html");
     $.when(p1).done(function (content) {
         let p2 = popupHTMLDeferred("Workflow Configuration", content);
+        let html = "";
+        personas.forEach(function (e) {
+            html += `<option>${e}</option>`;
+        })
+        $("#persona").html(html);
+
+        html = "";
+        usecases.forEach(function (e) {
+            html += `<option>${e.name}</option>`;
+        });
+        $("#usecase").html(html);
+        break;
     });
 }
