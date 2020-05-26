@@ -5,6 +5,7 @@ function workflowBuilderHandlers() {
     $("#viewport").on("click", "#workflowConfigButton", workflowConfiguration);
     $("#viewport").on("click", "#workflowTestButton", function (e) { });
     $("#viewport").on("click", "#workflowDownloadButton", workflowDownloader);
+    $("#viewport").on("click", "#workflowUploadButton", workflowUploader);
     $("#viewport").on("click", "#workflowPageDown", function (e) { });
     $("#viewport").on("click", "#workflowPageNum", function (e) { });
     $("#viewport").on("click", "#workflowPageUp", function (e) { });
@@ -409,6 +410,21 @@ function workflowConfiguration() {
             }
         }
 
+        $.when(p2).done(function(data){
+            let newConfig = JSON.stringify(data);
+            $("#workflowConfigJSON").val(newConfig);
+            p0.resolve();
+        })
+    });
+}
+
+function workflowUploader() {
+    let p0 = $.Deferred();
+
+    let p1 = $.get("html/personaFlow/workflowBuilder-upload.html");
+    $.when(p1).done(function (content) {
+        let p2 = popupHTMLDeferred("Workflow Configuration", content);
+        
         $.when(p2).done(function(data){
             let newConfig = JSON.stringify(data);
             $("#workflowConfigJSON").val(newConfig);

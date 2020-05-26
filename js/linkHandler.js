@@ -195,6 +195,7 @@ function linkHandler(e) {
         popupHTML(
           `${readme.repo.owner}/${readme.repo.repo}/${readme.repo.path}/${readme.name}`,
           readme.html);
+          break;
       }
       case "workflowBuilder":{
         $("#viewport").load("html/personaFlow/workflowBuilder.html", fieldsetPainter);
