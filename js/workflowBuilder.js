@@ -396,6 +396,5 @@ function workflowConfiguration() {
             html += `<option>${e.name}</option>`;
         });
         $("#usecase").html(html);
-        break;
     });
 }

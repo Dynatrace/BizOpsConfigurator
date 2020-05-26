@@ -569,7 +569,7 @@ function fieldsetPainter() {
             $(".workflowSectionPopup, .workflowInputPopup").hide();
             break;
         case "workflowConfig": {
-            
+            break;
         }
         case undefined:
             break;
