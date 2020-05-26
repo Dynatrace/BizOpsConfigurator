@@ -50,7 +50,25 @@ var journeyOverviews = [
   { name: 'LiteUserJourney (w/ KPI)', filename: 'LiteOverviewTrue.json', repo:{'owner': 'TechShady', 'repo': 'BizOpsLite', 'path': ''} },
   { name: 'LiteUserJourney (w/o KPI)', filename: 'LiteOverviewFalse.json', repo:{'owner': 'TechShady', 'repo': 'BizOpsLite', 'path': ''} }
 ];
-
+var personas = [
+  "Ops",
+  "Dev",
+  "App Owner",
+  "IT Exec"
+];
+var usecases = [
+  {name:"User Journey", bizAnalytics:true},
+  {name:"Release Validation", bizAnalytics:true},
+  {name:"Marketing Analysis", bizAnalytics:true},
+  {name:"Search Overview", bizAnalytics:true},
+  {name:"A/B Testing", bizAnalytics:true},
+  {name:"Incident Response", bizAnalytics:false},
+  {name:"Citrix Overview", bizAnalytics:false},
+  {name:"SAP Overview", bizAnalytics:false},
+  {name:"Remote Employee Overview", bizAnalytics:false},
+  {name:"Capacity Management", bizAnalytics:false},
+  {name:"Billing Analysis", bizAnalytics:false}
+];
 //////// Global Vars ////////////
 var url = "";
 var token = "";

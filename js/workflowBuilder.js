@@ -2,9 +2,9 @@
 function workflowBuilderHandlers() {
     //menubar links
     $("#viewport").on("click", "#workflowAddSection", workflowAddSection);
-    $("#viewport").on("click", "#workflowConfig", function (e) { });
+    $("#viewport").on("click", "#workflowConfig", workflowConfiguration);
     $("#viewport").on("click", "#workflowTest", function (e) { });
-    $("#viewport").on("click", "#workflowDownload", function (e) { });
+    $("#viewport").on("click", "#workflowDownload", workflowDownloader);
     $("#viewport").on("click", "#workflowPageDown", function (e) { });
     $("#viewport").on("click", "#workflowPageNum", function (e) { });
     $("#viewport").on("click", "#workflowPageUp", function (e) { });
@@ -60,7 +60,6 @@ function workflowBuilderHandlers() {
     $("#viewport").on("click", "#testAPI", testAPIhandler);
     $("#viewport").on("click", "#testUSQL", testUSQLhandler);
     $("#viewport").on("click", "#staticBoxAdd", staticBoxAddHandler);
-    $("#viewport").on("click", "#workflowDownload", workflowDownloader);
 }
 
 function workflowAddSection() {
@@ -359,10 +358,10 @@ function staticBoxAddHandler() {
     $("#staticBoxValue").val("");
 
     let vals = $("#staticOptions").val();
-    if(vals.length<1) vals="[]";
+    if (vals.length < 1) vals = "[]";
     let staticOptions = JSON.parse(vals);
     let newOption = {};
-    newOption[key]=val;
+    newOption[key] = val;
     staticOptions.push(newOption);
     $("#staticOptions").val(JSON.stringify(staticOptions));
 }
@@ -373,9 +372,18 @@ function multipleHandler() {
 }
 
 function workflowDownloader() {
-    let workflow = $("#workflowPages").html();
+    let workflow = {};
+    workflow[html] = $("#workflowPages").prop("outerHTML");
     let filename = `workflowname.cwf.json`;
     let text = JSON.stringify(workflow);
-    
+
     download(filename, text);
+}
+
+function workflowConfiguration() {
+    let p0 = $.Deferred();
+    let p1 = $.get("html/personaFlow/workflowBuilder-config.html");
+    $.when(p1).done(function (content) {
+        let p2 = popupHTMLDeferred("Workflow Configuration", content);
+    });
 }
