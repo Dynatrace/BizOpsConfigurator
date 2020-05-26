@@ -401,6 +401,12 @@ function workflowConfiguration() {
         });
         $("#usecase").html(html);
 
+        for(const prop in oldConfig) {
+            if(prop.length>0) { //handle empty string props
+                $(`#${prop}`).val(oldConfig[prop]);
+            }
+        }
+
         $.when(p2).done(function(data){
             let newConfig = JSON.stringify(data);
             $("#workflowConfigJSON").val(newConfig);
