@@ -365,7 +365,7 @@ function popupHTML(popupHeader, content) {
   $(".popupHTML").show();
 }
 
-function popupHTMLDeferred(popupHeader, content) {
+function popupHTMLDeferred(popupHeader, content, resultFunction=getAllInputData) {
   let p = $.Deferred();
   //bcBuffer = $("#bcwrapper").html();
   let html = `<div class='popupHTML'>
@@ -378,8 +378,8 @@ function popupHTMLDeferred(popupHeader, content) {
   popup.css('z-index', ++popupZindex);
   popup.show();
   popup.find("input.done").on("click", function (e) {
-    let data = {};
-    popup.find("input,select").each(function(i,e) { data[e.id] = $(this).val() });
+    let data = resultFunction(popup);
+    //popup.find("input,select").each(function(i,e) { data[e.id] = $(this).val() });
     popup.remove();
     popupZindex--;
     p.resolve(data);
@@ -516,4 +516,10 @@ function getTestApp() {
     });
   });
   return p0;
+}
+
+function getAllInputData(popup){
+  let data = {};
+  popup.find("input,select").each(function(i,e) { data[e.id] = $(this).val() });
+  return data;
 }
