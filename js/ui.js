@@ -379,7 +379,7 @@ function popupHTMLDeferred(popupHeader, content) {
   popup.show();
   popup.find("input.done").on("click", function (e) {
     let data = {};
-    popup.find("input,select").map((i, e) => data[e.id] = e.value);
+    popup.find("input,select").each(function(i,e) { data[e.id] = $(this).val() });
     popup.remove();
     popupZindex--;
     p.resolve(data);
