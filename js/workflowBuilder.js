@@ -382,6 +382,10 @@ function workflowDownloader() {
 
 function workflowConfiguration() {
     let p0 = $.Deferred();
+    let oldConfigVal = $("#workflowConfigJSON").val();
+    let oldConfig = {};
+    if(oldConfigVal.length>0) oldConfig = JSON.parse(oldConfigVal);
+
     let p1 = $.get("html/personaFlow/workflowBuilder-config.html");
     $.when(p1).done(function (content) {
         let p2 = popupHTMLDeferred("Workflow Configuration", content);
@@ -396,5 +400,11 @@ function workflowConfiguration() {
             html += `<option>${e.name}</option>`;
         });
         $("#usecase").html(html);
+
+        $.when(p2).done(function(data){
+            let newConfig = JSON.stringify(data);
+            $("#workflowConfigJSON").val(newConfig);
+            p0.resolve();
+        })
     });
 }
