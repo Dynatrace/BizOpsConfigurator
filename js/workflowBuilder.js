@@ -64,7 +64,7 @@ function workflowBuilderHandlers() {
 }
 
 function workflowAddSection() {
-    let sections = $("#workflowSections");
+    let sections = $(".activePage .workflowSections");
     let newSection = new Section();
     sections.append(newSection.html);
     $(".workflowSectionPopup, .workflowInputPopup").hide();
@@ -92,7 +92,7 @@ function closeIfFocusedElsewhere(e, selector) {
 
 function WorkflowPage() {
     this.html = `
-    <div class="workflowPage"><div id="workflowSections"></div></div>
+    <div class="workflowPage"><div class="workflowSections"></div></div>
     `;
 }
 
