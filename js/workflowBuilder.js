@@ -441,8 +441,7 @@ function workflowUploader() {
             let json = JSON.parse(res);
             let html = sanitizer.sanitize(json.html);
             $("#workflow").html(html);
-            setFirstPageActive();
-            updatePageListing();
+            workflowSetFirstPageActive();
           };
           if (typeof file !== "undefined") fr.readAsText(file);
         });
