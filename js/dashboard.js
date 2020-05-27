@@ -263,7 +263,10 @@ function findTileByName(db,findName){
 function SAPappList(db,apps){
   let leftIndex = findTileByName(db,"SAP App Left");
   let rightIndex = findTileByName(db,"SAP APP Right");
-
-
-  twoColumnList(db,leftIndex,rightIndex,apps);
+  if(apps.length=1){
+    columnList(db,leftIndex,apps);
+    db.tiles.slice(rightIndex,1);
+  } else if(apps.length>1){
+    twoColumnList(db,leftIndex,rightIndex,apps);
+  }
 }
