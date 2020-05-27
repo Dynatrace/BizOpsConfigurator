@@ -450,8 +450,8 @@ function workflowUploader() {
 
 function updatePageListing() {
     let pages = $("#workflow").find(".workflowPage").length;
-    let active = $("#workflow").find(".workflowPage.activePage").index();
-    $("#workflowPageNum").text(`${active} / ${pages}`);
+    let activePageNum = $("#workflow").find(".workflowPage.activePage").index();
+    $("#workflowPageNum").text(`${activePageNum} / ${pages}`);
 }
 
 function workflowAddPage() {
@@ -479,8 +479,9 @@ function workflowSetFirstPageActive() {
 
 function workflowNextPage() {
     let pages = $("#workflow").find(".workflowPage").length;
-    let active = $("#workflow").find(".workflowPage.activePage").index();
-    let newPageNum = Math.min(active+1,pages);
+    let active = $("#workflow").find(".workflowPage.activePage");
+    let activePageNum = active.index();
+    let newPageNum = Math.min(activePageNum+1,pages);
     let newPage = $(`#workflow:nth-child(${newPageNum})`);
 
     active.removeClass("activePage");
@@ -488,8 +489,9 @@ function workflowNextPage() {
 }
 
 function workflowPrevPage() {
-    let active = $("#workflow").find(".workflowPage.activePage").index();
-    let newPageNum = Math.max(active-1,1);
+    let active = $("#workflow").find(".workflowPage.activePage");
+    let activePageNum = active.index();
+    let newPageNum = Math.max(activePageNum-1,1);
     let newPage = $(`#workflow:nth-child(${newPageNum})`);
 
     active.removeClass("activePage");
