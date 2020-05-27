@@ -513,6 +513,7 @@ function renderWorkflow(el) {
     el.find(".workflowSectionPopup").remove();
     el.find(":disabled").removeAttr("disabled");
     el.find("[contenteditable]").removeAttr("contenteditable");
+    el.find(".transform").hide();
     let html = sanitizer.sanitize(el.html());
     return html;
 }
