@@ -265,7 +265,7 @@ function SAPappList(db,apps){
   let rightIndex = findTileByName(db,"SAP App Left");
   if(apps.length=1){
     columnList(db,leftIndex,apps);
-    db.tiles.slice(rightIndex,1);
+    db.tiles.splice(rightIndex,1);
   } else if(apps.length>1){
     twoColumnList(db,leftIndex,rightIndex,apps);
   }
