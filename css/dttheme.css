@@ -370,7 +370,7 @@ a.bc:hover::after {
   flex-wrap: wrap;
 }
 
-#comparisons h3, #filters h3, div.flexcontainer h3, .flexwrap h3, #workflowSections h3 {
+#comparisons h3, #filters h3, div.flexcontainer h3, .flexwrap h3, .workflowSections h3 {
   /*color: #00B9CB;*/
   color: white;
 }
@@ -1076,12 +1076,12 @@ div.userInput input[type="button"] {
   color: white;
   text-decoration: none;
 }
-#workflowSections {
+.workflowSections {
   display: flex;
   flex-wrap: wrap;
 }
 
-#workflowSections>div {
+.workflowSections>div {
   margin: 10px 10px 10px 10px;
   border: 1px solid #606060;
   border-radius: 3px;

@@ -458,12 +458,11 @@ function workflowAddPage() {
     let workflow = $("#workflow");
     let newPage = new WorkflowPage();
     workflow.append(newPage.html);
-    updatePageListing();
     workflowNextPage();
+    updatePageListing();
 }
 
 function workflowDeletePage() {
-    let workflow = $("#workflow");
     let active = $("#workflow").find(".workflowPage.activePage").index();
     workflowPrevPage();
     $(`#workflow:nth-child(${active})`).remove();
