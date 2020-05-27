@@ -473,8 +473,8 @@ function workflowDeletePage() {
 }
 
 function workflowSetFirstPageActive() {
-    $("#workflow").find(".workflowPage").removeCSS("activePage");
-    $("#workflow").find(".workflowPage:first-of-type").addCSS("activePage");
+    $("#workflow").find(".workflowPage").removeClass("activePage");
+    $("#workflow").find(".workflowPage:first-of-type").addClass("activePage");
 }
 
 function workflowNextPage() {
@@ -483,8 +483,8 @@ function workflowNextPage() {
     let newPageNum = Math.min(active+1,pages);
     let newPage = $(`#workflow:nth-child(${newPageNum})`);
 
-    active.removeCSS("activePage");
-    newPage.addCSS("activePage");
+    active.removeClass("activePage");
+    newPage.addClass("activePage");
 }
 
 function workflowPrevPage() {
@@ -493,6 +493,6 @@ function workflowPrevPage() {
     let newPageNum = Math.max(active-1,1);
     let newPage = $(`#workflow:nth-child(${newPageNum})`);
 
-    active.removeCSS("activePage");
-    newPage.addCSS("activePage");
+    active.removeClass("activePage");
+    newPage.addClass("activePage");
 }
