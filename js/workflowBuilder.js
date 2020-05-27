@@ -432,7 +432,7 @@ function workflowUploader() {
         //get file from a popup
         let popupHeader = "Workflow to upload";
         let inputs = [{ type: 'file', name: 'workflowFile', value: '', label: "JSON&nbsp;file" }];
-        let desc = "Downloaded from an online environment.";
+        let desc = "Previously downloaded .cwf.json file";
 
         let popup_p = popup(inputs, popupHeader, desc);
         $.when(popup_p).done(function (data) {
