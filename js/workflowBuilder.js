@@ -175,11 +175,13 @@ function inputTypeChangeHandler() {
     $("#newInputPreview").hide();
     $("#staticBox").hide();
     $("#multiBox").hide();
+    $("#textInputBox").hide();
     $("#apiQueryHeader").text();
     $("#preview").html();
 
     switch ($("#inputType").val()) {
         case "Text Input":
+            $("#textInputBox").show();
             break;
         case "Select (API)":
             $("#apiQueryBox").show();
