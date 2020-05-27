@@ -435,7 +435,14 @@ function workflowUploader() {
             let json = JSON.parse(res);
             let html = sanitizer.sanitize(json.html);
             $("#workflow").html(html);
+            updatePageListing();
           };
           if (typeof file !== "undefined") fr.readAsText(file);
         });
+}
+
+function updatePageListing() {
+    let pages = $("#workflow").find(".workflowPage").length;
+    let active = $("#workflow").find(".workflowPage .active").index() + 1;
+    $("#workflowPageNum").text(`${active}/${pages}`);
 }

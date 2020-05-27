@@ -567,10 +567,8 @@ function fieldsetPainter() {
             break;
         case "workflowBuilder":
             $(".workflowSectionPopup, .workflowInputPopup").hide();
+            updatePageListing();
             break;
-        case "workflowConfig": {
-            break;
-        }
         case undefined:
             break;
         default:
