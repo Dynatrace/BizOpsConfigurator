@@ -3,7 +3,7 @@ function workflowBuilderHandlers() {
     //menubar links
     $("#viewport").on("click", "#workflowAddSection", workflowAddSection);
     $("#viewport").on("click", "#workflowConfigButton", workflowConfiguration);
-    $("#viewport").on("click", "#workflowTestButton", function (e) { });
+    $("#viewport").on("click", "#workflowTestButton", workflowTest);
     $("#viewport").on("click", "#workflowDownloadButton", workflowDownloader);
     $("#viewport").on("click", "#workflowUploadButton", workflowUploader);
     $("#viewport").on("click", "#workflowPageDown", workflowPrevPage);
@@ -499,4 +499,18 @@ function workflowPrevPage() {
     active.removeClass("activePage");
     newPage.addClass("activePage");
     updatePageListing();
+}
+
+function workflowTest() {
+    let renderedHTML = renderWorkflow($("#workflow"));
+    popupHTML("Testing Workflow", renderedHTML);
+}
+
+function renderWorkflow(el) {
+    el = el.clone();
+
+    el.find(":disabled").removeAttr("disabled");
+    el.find("[contenteditable]").removeAttr("contenteditable");
+    let html = sanitizer.sanitize(el.html());
+    return html;
 }
