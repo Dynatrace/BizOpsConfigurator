@@ -456,7 +456,7 @@ function updatePageListing() {
 
 function workflowAddPage() {
     let workflow = $("#workflow");
-    let newPage = new workflowPage();
+    let newPage = new WorkflowPage();
     workflow.append(newPage.html);
     updatePageListing();
     nextPage();
