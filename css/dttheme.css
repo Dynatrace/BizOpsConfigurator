@@ -1110,3 +1110,11 @@ div.userInput input[type="button"] {
 #newInputResult {
   overflow: auto;
 }
+
+.workflowPage {
+  display: none;
+}
+
+.workflowPage.activePage {
+  display: block;
+}

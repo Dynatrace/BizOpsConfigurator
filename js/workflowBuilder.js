@@ -6,11 +6,11 @@ function workflowBuilderHandlers() {
     $("#viewport").on("click", "#workflowTestButton", function (e) { });
     $("#viewport").on("click", "#workflowDownloadButton", workflowDownloader);
     $("#viewport").on("click", "#workflowUploadButton", workflowUploader);
-    $("#viewport").on("click", "#workflowPageDown", function (e) { });
+    $("#viewport").on("click", "#workflowPageDown", workflowPrevPage);
     $("#viewport").on("click", "#workflowPageNum", function (e) { });
-    $("#viewport").on("click", "#workflowPageUp", function (e) { });
-    $("#viewport").on("click", "#workflowPageAdd", function (e) { });
-    $("#viewport").on("click", "#workflowPageDelete", function (e) { });
+    $("#viewport").on("click", "#workflowPageUp", workflowNextPage);
+    $("#viewport").on("click", "#workflowPageAdd", workflowAddPage);
+    $("#viewport").on("click", "#workflowPageDelete", workflowDeletePage);
 
     //show/hide popups
     $("#viewport").on("focus", ".workflowSection", function () {
@@ -88,6 +88,12 @@ function closeIfFocusedElsewhere(e, selector) {
     } else {
         from.find(selector).delay(500).hide(); //outside, let's go
     }
+}
+
+function WorkflowPage() {
+    this.html = `
+    <div class="workflowPage"><div id="workflowSections"></div></div>
+    `;
 }
 
 function Section() {
@@ -435,6 +441,7 @@ function workflowUploader() {
             let json = JSON.parse(res);
             let html = sanitizer.sanitize(json.html);
             $("#workflow").html(html);
+            setFirstPageActive();
             updatePageListing();
           };
           if (typeof file !== "undefined") fr.readAsText(file);
@@ -443,6 +450,49 @@ function workflowUploader() {
 
 function updatePageListing() {
     let pages = $("#workflow").find(".workflowPage").length;
-    let active = $("#workflow").find(".workflowPage .active").index() + 1;
-    $("#workflowPageNum").text(`${active}/${pages}`);
+    let active = $("#workflow").find(".workflowPage .activePage").index() + 1;
+    $("#workflowPageNum").text(`${active} / ${pages}`);
+}
+
+function workflowAddPage() {
+    let workflow = $("#workflow");
+    let newPage = new workflowPage();
+    workflow.append(newPage.html);
+    updatePageListing();
+    nextPage();
+}
+
+function workflowDeletePage() {
+    let workflow = $("#workflow");
+    let active = $("#workflow").find(".workflowPage .activePage").index() + 1;
+    prevPage();
+    $(`#workflow:nth-child(${active})`).remove();
+    let pages = $("#workflow").find(".workflowPage").length;
+    if(pages<1)workflowAddPage();
+    updatePageListing();
+}
+
+function workflowSetFirstPageActive() {
+    $("#workflow").find(".workflowPage").removeCSS("activePage");
+    $("#workflow").find(".workflowPage:first-of-type").addCSS("activePage");
+}
+
+function workflowNextPage() {
+    let pages = $("#workflow").find(".workflowPage").length;
+    let active = $("#workflow").find(".workflowPage .activePage").index() + 1;
+    let newPageNum = Math.min(active+1,pages);
+    let newPage = $(`#workflow:nth-child(${newPageNum})`);
+
+    active.removeCSS("activePage");
+    newPage.addCSS("activePage");
+}
+
+function workflowPrevPage() {
+    let pages = $("#workflow").find(".workflowPage").length;
+    let active = $("#workflow").find(".workflowPage .activePage").index() + 1;
+    let newPageNum = Math.max(active-1,1);
+    let newPage = $(`#workflow:nth-child(${newPageNum})`);
+
+    active.removeCSS("activePage");
+    newPage.addCSS("activePage");
 }
