@@ -20,35 +20,35 @@ const timeTable = [
 var githubuser = "";
 var githubpat = "";
 var repoList = [
-  {'owner': 'TechShady', 'repo': 'Dynatrace-DashboardV5', 'path': ''},
-  {'owner': 'Dynatrace-JasonOstroski', 'repo': 'CitrixDashboardsV1', 'path': ''},
-  {'owner': 'jjbologna', 'repo': 'SAP-extension-dashboards', 'path': ''},
-  {'owner': 'Dynatrace-Dave-Mauney', 'repo': 'DashboardTemplates', 'path': 'v1.192.96'},
-  {'owner': 'TechShady', 'repo': 'Dynatrace-Remote-Employee', 'path': ''},
-  {'owner': 'TechShady', 'repo': 'Dynatrace-Infrastructure', 'path': ''},
-  {'owner': 'TechShady', 'repo': 'BizOpsLite', 'path': ''}
+  { 'owner': 'TechShady', 'repo': 'Dynatrace-DashboardV5', 'path': '' },
+  { 'owner': 'Dynatrace-JasonOstroski', 'repo': 'CitrixDashboardsV1', 'path': '' },
+  { 'owner': 'jjbologna', 'repo': 'SAP-extension-dashboards', 'path': '' },
+  { 'owner': 'Dynatrace-Dave-Mauney', 'repo': 'DashboardTemplates', 'path': 'v1.192.96' },
+  { 'owner': 'TechShady', 'repo': 'Dynatrace-Remote-Employee', 'path': '' },
+  { 'owner': 'TechShady', 'repo': 'Dynatrace-Infrastructure', 'path': '' },
+  { 'owner': 'TechShady', 'repo': 'BizOpsLite', 'path': '' }
 ];
 var tenantOverviews = [
-  { name: 'BizOps', filename: 'TenantOverview.json', repo:{'owner': 'TechShady', 'repo': 'Dynatrace-DashboardV5', 'path': ''}},
-  { name: 'BizOpsLite', filename: 'LiteTenantOverview.json', repo:{'owner': 'TechShady', 'repo': 'BizOpsLite', 'path': ''} },
-  { name: 'Dashboard Basics', filename: '00000000-dddd-bbbb-ffff-000000000001', repo:{'owner': 'Dynatrace-Dave-Mauney', 'repo': 'DashboardTemplates', 'path': 'v1.192.96'} },
-  { name: 'SAP Extension', filename: 'SAP Application Cockpit.json', repo:{'owner': 'jjbologna', 'repo': 'SAP-extension-dashboards', 'path': ''} },
-  { name: 'Remote Employee Web', filename: 'RETenantOverview.json', repo:{'owner': 'TechShady', 'repo': 'Dynatrace-Remote-Employee', 'path': ''} },
-  { name: 'Remote Employee Mobile', filename: 'RETenantOverview2.json', repo:{'owner': 'TechShady', 'repo': 'Dynatrace-Remote-Employee', 'path': ''} },
-  { name: 'Infrastructure', filename: 'InfrastructureOverview.json', repo:{'owner': 'TechShady', 'repo': 'Dynatrace-Infrastructure', 'path': ''} }
+  { name: 'BizOps', filename: 'TenantOverview.json', repo: { 'owner': 'TechShady', 'repo': 'Dynatrace-DashboardV5', 'path': '' } },
+  { name: 'BizOpsLite', filename: 'LiteTenantOverview.json', repo: { 'owner': 'TechShady', 'repo': 'BizOpsLite', 'path': '' } },
+  { name: 'Dashboard Basics', filename: '00000000-dddd-bbbb-ffff-000000000001', repo: { 'owner': 'Dynatrace-Dave-Mauney', 'repo': 'DashboardTemplates', 'path': 'v1.192.96' } },
+  { name: 'SAP Extension', filename: 'SAP Application Cockpit.json', repo: { 'owner': 'jjbologna', 'repo': 'SAP-extension-dashboards', 'path': '' } },
+  { name: 'Remote Employee Web', filename: 'RETenantOverview.json', repo: { 'owner': 'TechShady', 'repo': 'Dynatrace-Remote-Employee', 'path': '' } },
+  { name: 'Remote Employee Mobile', filename: 'RETenantOverview2.json', repo: { 'owner': 'TechShady', 'repo': 'Dynatrace-Remote-Employee', 'path': '' } },
+  { name: 'Infrastructure', filename: 'InfrastructureOverview.json', repo: { 'owner': 'TechShady', 'repo': 'Dynatrace-Infrastructure', 'path': '' } }
 ];
 var appOverviews = [
-  { name: 'WebApp', filename: 'AppOverview.json', repo:{'owner': 'TechShady', 'repo': 'Dynatrace-DashboardV5', 'path': ''} },
-  { name: 'BizOpsLite', filename: 'LiteAppOverview.json', repo:{'owner': 'TechShady', 'repo': 'BizOpsLite', 'path': ''} },
-  { name: 'Citrix (New)', filename: 'CitrixOverview.json', repo: {'owner': 'Dynatrace-JasonOstroski', 'repo': 'CitrixDashboardsV1', 'path': ''}},
-  { name: 'Remote Employee Web (preview)', filename: 'REApplicationOverview.json', repo:{'owner': 'TechShady', 'repo': 'Dynatrace-Remote-Employee', 'path': ''} },
-  { name: 'Remote Employee Mobile (preview)', filename: 'REApplicationOverview2.json', repo:{'owner': 'TechShady', 'repo': 'Dynatrace-Remote-Employee', 'path': ''} }
+  { name: 'WebApp', filename: 'AppOverview.json', repo: { 'owner': 'TechShady', 'repo': 'Dynatrace-DashboardV5', 'path': '' } },
+  { name: 'BizOpsLite', filename: 'LiteAppOverview.json', repo: { 'owner': 'TechShady', 'repo': 'BizOpsLite', 'path': '' } },
+  { name: 'Citrix (New)', filename: 'CitrixOverview.json', repo: { 'owner': 'Dynatrace-JasonOstroski', 'repo': 'CitrixDashboardsV1', 'path': '' } },
+  { name: 'Remote Employee Web (preview)', filename: 'REApplicationOverview.json', repo: { 'owner': 'TechShady', 'repo': 'Dynatrace-Remote-Employee', 'path': '' } },
+  { name: 'Remote Employee Mobile (preview)', filename: 'REApplicationOverview2.json', repo: { 'owner': 'TechShady', 'repo': 'Dynatrace-Remote-Employee', 'path': '' } }
 ];
 var journeyOverviews = [
-  { name: 'UserJourney (w/ KPI)', filename: 'OverviewTrue.json', repo:{'owner': 'TechShady', 'repo': 'Dynatrace-DashboardV5', 'path': ''} },
-  { name: 'UserJourney (w/o KPI)', filename: 'OverviewFalse.json', repo:{'owner': 'TechShady', 'repo': 'Dynatrace-DashboardV5', 'path': ''} },
-  { name: 'LiteUserJourney (w/ KPI)', filename: 'LiteOverviewTrue.json', repo:{'owner': 'TechShady', 'repo': 'BizOpsLite', 'path': ''} },
-  { name: 'LiteUserJourney (w/o KPI)', filename: 'LiteOverviewFalse.json', repo:{'owner': 'TechShady', 'repo': 'BizOpsLite', 'path': ''} }
+  { name: 'UserJourney (w/ KPI)', filename: 'OverviewTrue.json', repo: { 'owner': 'TechShady', 'repo': 'Dynatrace-DashboardV5', 'path': '' } },
+  { name: 'UserJourney (w/o KPI)', filename: 'OverviewFalse.json', repo: { 'owner': 'TechShady', 'repo': 'Dynatrace-DashboardV5', 'path': '' } },
+  { name: 'LiteUserJourney (w/ KPI)', filename: 'LiteOverviewTrue.json', repo: { 'owner': 'TechShady', 'repo': 'BizOpsLite', 'path': '' } },
+  { name: 'LiteUserJourney (w/o KPI)', filename: 'LiteOverviewFalse.json', repo: { 'owner': 'TechShady', 'repo': 'BizOpsLite', 'path': '' } }
 ];
 var personas = [
   "Ops",
@@ -57,17 +57,17 @@ var personas = [
   "IT Exec"
 ];
 var usecases = [
-  {name:"User Journey", bizAnalytics:true},
-  {name:"Release Validation", bizAnalytics:true},
-  {name:"Marketing Analysis", bizAnalytics:true},
-  {name:"Search Overview", bizAnalytics:true},
-  {name:"A/B Testing", bizAnalytics:true},
-  {name:"Incident Response", bizAnalytics:false},
-  {name:"Citrix Overview", bizAnalytics:false},
-  {name:"SAP Overview", bizAnalytics:false},
-  {name:"Remote Employee Overview", bizAnalytics:false},
-  {name:"Capacity Management", bizAnalytics:false},
-  {name:"Billing Analysis", bizAnalytics:false}
+  { name: "User Journey", bizAnalytics: true },
+  { name: "Release Validation", bizAnalytics: true },
+  { name: "Marketing Analysis", bizAnalytics: true },
+  { name: "Search Overview", bizAnalytics: true },
+  { name: "A/B Testing", bizAnalytics: true },
+  { name: "Incident Response", bizAnalytics: false },
+  { name: "Citrix Overview", bizAnalytics: false },
+  { name: "SAP Overview", bizAnalytics: false },
+  { name: "Remote Employee Overview", bizAnalytics: false },
+  { name: "Capacity Management", bizAnalytics: false },
+  { name: "Billing Analysis", bizAnalytics: false }
 ];
 //////// Global Vars ////////////
 var url = "";
@@ -261,13 +261,13 @@ function parseUSPFilter(result) {
     for (let col = 0; col < result["columnNames"].length; col++) {
       if (typeof (row[col][0]) == "undefined") continue; //skip blanks
       let colname = result["columnNames"][col];
-      for(let keyIdx=0; keyIdx<row[col].length; keyIdx++){
+      for (let keyIdx = 0; keyIdx < row[col].length; keyIdx++) {
         let key = row[col][keyIdx].key;
         let value = row[col][keyIdx].value;
         if (!(key in USPs[colname])) USPs[colname][key] = [value]; //new key
         else if (USPs[colname][key].indexOf(value) < 0) USPs[colname][key].push(value); //add only new values
       }
-    } 
+    }
   });
   return USPs; //also Global
 }
@@ -351,7 +351,7 @@ function loadDBList(p = 1) {
     //dbList=parseRepoContents(data,repoList[i]);
     //always get any custom repos (i>1)
     //for(i=2; i<repoList.length; i++) {
-    dbList=[];
+    dbList = [];
     for (i = 0; i < repoList.length; i++) {
       let repo = repoList[i];
       let p_i = getRepoContents(repo);
@@ -390,14 +390,14 @@ function downloadDBsFromList() {
           `<img $1src="https://github.com/${file.repo.owner}/${file.repo.repo}/raw/master/$2"$3>`);
           file.html = html;    
         });*/
-        let p = $.get(file.download_url)
+      let p = $.get(file.download_url)
         .fail(errorboxJQXHR)
         .done(function (d) {
           try {
             var converter = new showdown.Converter();
-            let html  = converter.makeHtml(d);
+            let html = converter.makeHtml(d);
             file.html = html.replace(/<img ([^>]*)src="(?!http)([^"]+)"([^>]*)>/g,
-          `<img $1src="https://github.com/${file.repo.owner}/${file.repo.repo}/raw/master/$2"$3>`);
+              `<img $1src="https://github.com/${file.repo.owner}/${file.repo.repo}/raw/master/$2"$3>`);
           } catch (e) {
             let emsg = "Showdown Error on file " + file.path + ". " + e.name + ": " + e.message;
             errorbox(emsg);
@@ -440,11 +440,34 @@ function parseAutoTags(data) {
   autoTags = data.values;
 }
 
-function findOverviewREADME(overview){
+function findOverviewREADME(overview) {
   let overviewRepo = dbList.find(({ name }) => name === overview).repo; //get the repo directly from the select in next iteration
-  let readmes = dbList.filter(({name}) => name === "README.md");
+  let readmes = dbList.filter(({ name }) => name === "README.md");
   let readme = readmes.find(({ repo }) => repo.owner === overviewRepo.owner &&
     repo.repo === overviewRepo.repo);
 
   return readme;
 }
+
+var sanitizer = {};
+(function ($) {
+  function trimAttributes(node) {
+    $.each(node.attributes, function () {
+      var attrName = this.name;
+      var attrValue = this.value;
+
+      if (attrName.indexOf('on') == 0 || attrValue.indexOf('javascript:') == 0) {
+        $(node).removeAttr(attrName);
+      }
+    });
+  }
+
+  function sanitize(html) {
+    var output = $($.parseHTML('<div>' + html + '</div>', null, false));
+    output.find('*').each(function () {
+      trimAttributes(this);
+    });
+    return output.html();
+  }
+  sanitizer.sanitize = sanitize;
+})(jQuery);

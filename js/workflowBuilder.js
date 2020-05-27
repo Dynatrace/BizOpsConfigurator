@@ -421,16 +421,6 @@ function workflowConfiguration() {
 function workflowUploader() {
     let p0 = $.Deferred();
 
-    /*let p1 = $.get("html/personaFlow/workflowBuilder-upload.html");
-    $.when(p1).done(function (content) {
-        let p2 = popupHTMLDeferred("Workflow Upload", content, uploadFileGetter);
-        
-        $.when(p2).done(function(data){
-            let newConfig = JSON.stringify(data);
-            $("#workflowConfigJSON").val(newConfig);
-            p0.resolve();
-        })
-    });*/
         //get file from a popup
         let popupHeader = "Workflow to upload";
         let inputs = [{ type: 'file', name: 'workflowFile', value: '', label: "JSON&nbsp;file" }];
@@ -443,7 +433,8 @@ function workflowUploader() {
           fr.onload = function () {
             let res = fr.result;
             let json = JSON.parse(res);
-
+            let html = sanitizer.sanitize(json.html);
+            $("#workflow").html(html);
           };
           if (typeof file !== "undefined") fr.readAsText(file);
         });
