@@ -474,6 +474,7 @@ function workflowDeletePage() {
 function workflowSetFirstPageActive() {
     $("#workflow").find(".workflowPage").removeClass("activePage");
     $("#workflow").find(".workflowPage:first-of-type").addClass("activePage");
+    updatePageListing();
 }
 
 function workflowNextPage() {
@@ -485,6 +486,7 @@ function workflowNextPage() {
 
     active.removeClass("activePage");
     newPage.addClass("activePage");
+    updatePageListing();
 }
 
 function workflowPrevPage() {
@@ -495,4 +497,5 @@ function workflowPrevPage() {
 
     active.removeClass("activePage");
     newPage.addClass("activePage");
+    updatePageListing();
 }
