@@ -509,6 +509,8 @@ function workflowTest() {
 function renderWorkflow(el) {
     el = el.clone();
 
+    el.find(".workflowInputPopup").remove();
+    el.find(".workflowSectionPopup").remove();
     el.find(":disabled").removeAttr("disabled");
     el.find("[contenteditable]").removeAttr("contenteditable");
     let html = sanitizer.sanitize(el.html());
