@@ -566,7 +566,7 @@ function fieldsetPainter() {
         case "persona_list":
             break;
         case "workflowBuilder":
-            $(".workflowSectionPopup, .workflowInputPopup").hide();
+            $(".workflowSectionPopup, .workflowInputPopup").addClass("hidden");
             workflowSetFirstPageActive();
             break;
         case undefined:
