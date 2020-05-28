@@ -32,12 +32,12 @@ function workflowBuilderHandlers() {
         $(this).parents(".workflowSection").remove();
     });
     $("#viewport").on("click", ".workflowSectionUp", function (e) {
-        let el = $(this).parents(".workflowSection");
-        el.prev(".workflowSection").insertAfter(el);
+        let clonedEl = $(this).parents(".workflowSection");
+        clonedEl.prev(".workflowSection").insertAfter(clonedEl);
     });
     $("#viewport").on("click", ".workflowSectionDown", function (e) {
-        let el = $(this).parents(".workflowSection");
-        el.next(".workflowSection").insertBefore(el);
+        let clonedEl = $(this).parents(".workflowSection");
+        clonedEl.next(".workflowSection").insertBefore(clonedEl);
     });
 
     //inputpopup links
@@ -45,12 +45,12 @@ function workflowBuilderHandlers() {
         $(this).parents(".workflowInput").remove();
     });
     $("#viewport").on("click", ".workflowInputUp", function (e) {
-        let el = $(this).parents(".workflowInput");
-        el.prev(".workflowInput").insertAfter(el);
+        let clonedEl = $(this).parents(".workflowInput");
+        clonedEl.prev(".workflowInput").insertAfter(clonedEl);
     });
     $("#viewport").on("click", ".workflowInputDown", function (e) {
-        let el = $(this).parents(".workflowInput");
-        el.next(".workflowInput").insertBefore(el);
+        let clonedEl = $(this).parents(".workflowInput");
+        clonedEl.next(".workflowInput").insertBefore(clonedEl);
     });
 
     //newInput buttons
@@ -298,8 +298,8 @@ function staticBoxAddHandler() {
     let key = $("#staticBoxLabel").val();
     let val = $("#staticBoxValue").val();
 
-    let el = $(`<option value="${val}">${key}</option>`);
-    el.appendTo("#staticPreview");
+    let clonedEl = $(`<option value="${val}">${key}</option>`);
+    clonedEl.appendTo("#staticPreview");
     $("#staticPreview").val(val);
     $("#staticBoxLabel").val("");
     $("#staticBoxValue").val("");
@@ -444,21 +444,21 @@ function workflowTest() {
     popupHTML("Testing Workflow", renderedHTML);
 }
 
-function renderWorkflow(el) {
-    el = el.clone();
+function renderWorkflow(clonedEl) {
+    clonedEl = clonedEl.clone();
 
-    el.find(".workflowInputPopup").remove();
-    el.find(".workflowSectionPopup").remove();
-    el.find("input[type=text]:disabled, input:not([type]):disabled").removeAttr("disabled");
-    el.find("[contenteditable]").removeAttr("contenteditable");
-    el.find(".transform").hide();
+    clonedEl.find(".workflowInputPopup").remove();
+    clonedEl.find(".workflowSectionPopup").remove();
+    clonedEl.find("input[type=text]:disabled, input:not([type]):disabled").removeAttr("disabled");
+    clonedEl.find("[contenteditable]").removeAttr("contenteditable");
+    clonedEl.find(".transform").hide();
     //TODO: execute API queries here, then enable
-    el.find(".apiQuery").each(loadApiQuery);
-    el.find(".usqlQuery").each(loadUsqlQuery);
+    clonedEl.find(".apiQuery").each(loadApiQuery);
+    clonedEl.find(".usqlQuery").each(loadUsqlQuery);
     //TODO: add page handling
 
 
-    let html = sanitizer.sanitize(el.html());
+    let html = sanitizer.sanitize(clonedEl.html());
     return html;
 }
 
@@ -488,6 +488,7 @@ function loadUsqlQuery() {
 
 function loadApiQueryOptions(query, slicer, target) {
     let $target = $(target);
+    $target.attr("insideLoadApiQueryOption",true);
     let p = dtAPIquery(query);
     return $.when(p).done(function (data) {
         jsonviewer(data);
