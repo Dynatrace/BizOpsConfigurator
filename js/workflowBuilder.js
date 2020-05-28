@@ -456,6 +456,8 @@ function renderWorkflow(el) {
     el.find(".apiQuery").each(loadApiQuery);
     el.find(".usqlQuery").each(loadUsqlQuery);
     //TODO: add page handling
+
+    
     let html = sanitizer.sanitize(el.html());
     return html;
 }
