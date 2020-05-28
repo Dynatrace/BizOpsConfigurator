@@ -456,7 +456,8 @@ var sanitizer = {};
       var attrName = this.name;
       var attrValue = this.value;
 
-      if (attrName.indexOf('on') == 0 || attrValue.indexOf('javascript:') == 0) {
+      if (attrName=="" ||
+        attrName.indexOf('on') == 0 || attrValue.indexOf('javascript:') == 0) {
         $(node).removeAttr(attrName);
       }
     });
