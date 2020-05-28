@@ -504,8 +504,8 @@ function loadApiQueryOptions(query, slicer, target) {
     promises.push(p);
     let $target = $(target);
     $target.attr("insideLoadApiQueryOption",true);
-    let p = dtAPIquery(query);
-    return $.when(p).done(function (data) {
+    let p1 = dtAPIquery(query);
+    return $.when(p1).done(function (data) {
         jsonviewer(data);
         let parsedResults = sliceAPIdata(slicer, data);
         let optionsHTML = "";
