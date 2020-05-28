@@ -440,11 +440,16 @@ function workflowPrevPage() {
 }
 
 function workflowTest() {
-    let renderedHTML = renderWorkflow($("#workflow"));
-    popupHTML("Testing Workflow", renderedHTML);
+    let p = renderWorkflow($("#workflow"));
+    $.when(p).done(function(renderedHTML){
+        popupHTML("Testing Workflow", renderedHTML);
+    });
 }
 
 function renderWorkflow(clonedEl) {
+    let p = new $.Deferred();
+    let promises = [];
+
     clonedEl = clonedEl.clone();
 
     clonedEl.find(".workflowInputPopup").remove();
@@ -457,12 +462,18 @@ function renderWorkflow(clonedEl) {
     clonedEl.find(".usqlQuery").each(loadUsqlQuery);
     //TODO: add page handling
 
-
-    let html = sanitizer.sanitize(clonedEl.html());
-    return html;
+    //make sure any XHRs are finished before we return the html
+    $.when.apply($,promises).done(function(){
+        let html = sanitizer.sanitize(clonedEl.html());
+        p.resolve(html);
+    })
+    
+    return p;
 }
 
 function loadApiQuery() {
+    let p = new $.Deferred();
+    promises.push(p);
     let $query = $(this);
     let query = $query.val();
     let slicer = $query.siblings(".apiResultSlicer").val();
@@ -472,7 +483,8 @@ function loadApiQuery() {
         console.log(`invalid api query: ${query}`);
         return;
     }
-    loadApiQueryOptions(query, slicer, $target);
+    let p1 = loadApiQueryOptions(query, slicer, $target);
+    $.when(p1).done(function(){p.resolve();});
 }
 
 function loadUsqlQuery() {
@@ -488,6 +500,8 @@ function loadUsqlQuery() {
 }
 
 function loadApiQueryOptions(query, slicer, target) {
+    let p = new $.Deferred();
+    promises.push(p);
     let $target = $(target);
     $target.attr("insideLoadApiQueryOption",true);
     let p = dtAPIquery(query);
@@ -502,6 +516,7 @@ function loadApiQueryOptions(query, slicer, target) {
         }
         $target.html(optionsHTML);
         $target.removeAttr("disabled");
+        p.resolve();
     });
 }
 
