@@ -477,8 +477,8 @@ function renderWorkflow(clonedEl) {
     return p;
 }
 
-function loadApiQuery(query) {
-    let $query = $(query);
+function loadApiQuery($query) {
+    $query = $($query);
     let query = $query.val();
     let slicer = $query.siblings(".apiResultSlicer").val();
     let $target = $query.siblings(".workflowSelect");
@@ -491,8 +491,8 @@ function loadApiQuery(query) {
     $.when(p1).done(function(){p.resolve();});
 }
 
-function loadUsqlQuery(query) {
-    let $query = $(query);
+function loadUsqlQuery($query) {
+    $query = $($query);
     let query = $query.val();
     let slicer = $query.siblings(".usqlResultSlicer").val();
     let $target = $query.siblings(".workflowSelect");
