@@ -1118,3 +1118,7 @@ div.userInput input[type="button"] {
 .workflowPage.activePage {
   display: block;
 }
+
+.hidden {
+  visibility: hidden;
+}

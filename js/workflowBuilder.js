@@ -14,13 +14,13 @@ function workflowBuilderHandlers() {
 
     //show/hide popups
     $("#viewport").on("focus", ".workflowSection", function () {
-        $(this).find(".workflowSectionPopup").show();
+        $(this).find(".workflowSectionPopup").removeClass("hidden");
     });
     $("#viewport").on("blur", ".workflowSection, .workflowSectionPopup", function (e) {
         closeIfFocusedElsewhere(e, ".workflowSectionPopup");
     });
     $("#viewport").on("focus", ".workflowInput", function (e) {
-        $(this).find(".workflowInputPopup").show();
+        $(this).find(".workflowInputPopup").removeClass("hidden");
     });
     $("#viewport").on("blur", ".workflowInput, .workflowInputPopup", function (e) {
         closeIfFocusedElsewhere(e, ".workflowInputPopup");
@@ -67,7 +67,7 @@ function workflowAddSection() {
     let sections = $(".activePage .workflowSections");
     let newSection = new Section();
     sections.append(newSection.html);
-    $(".workflowSectionPopup, .workflowInputPopup").hide();
+    $(".workflowSectionPopup, .workflowInputPopup").addClass("hidden");
 }
 
 function workflowSectionAddInput() {
@@ -76,7 +76,7 @@ function workflowSectionAddInput() {
     let p = newInput.prompt();
     $.when(p).done(function (newInput) {
         section.append(newInput);
-        $(".workflowSectionPopup, .workflowInputPopup").hide();
+        $(".workflowSectionPopup, .workflowInputPopup").addClass("hidden");
     });
 }
 
@@ -86,7 +86,7 @@ function closeIfFocusedElsewhere(e, selector) {
     if (from.has(to).length > 0) {
         return e; //still within
     } else {
-        from.find(selector).delay(500).hide(); //outside, let's go
+        from.find(selector).delay(500).addClass("hidden"); //outside, let's go
     }
 }
 
@@ -261,37 +261,12 @@ function testAPIhandler() {
 
     $.when(p0).done(function () {
         let query = $("#apiQuery").val();
-        let p = dtAPIquery(query);
+        $("#apiQueryHeader").text(query);
+        let multiple = $("#multiple").prop("checked") ? "multiple" : "";
+        $("#preview").html(`<select ${multiple}></select>`);
+        let p = loadApiQueryOptions(query, slicer, $target);
         $.when(p).done(function (data) {
             jsonviewer(data, true, "", "#apiResult");
-            $("#apiQueryHeader").text(query);
-            let parsedResults = [];
-            let apiResultSlicer = $("#apiResultSlicer").val();
-            switch (apiResultSlicer) {
-                case "{entityId:displayName}":
-                    if (data.length > 0) data.forEach(function (item) {
-                        parsedResults.push({ id: item.entityId, value: item.displayName });
-                    });
-                    break;
-                case "values:{id:name}":
-                    if (typeof data.values == "object") data.values.forEach(function (item) {
-                        parsedResults.push({ id: item.id, value: item.name });
-                    });
-                    break;
-            }
-            let previewHTML = "";
-            let inputType = $("#inputType").val();
-            let multiple = $("#multiple").prop("checked") ? "multiple" : "";
-            if (parsedResults.length > 0) switch (inputType) {
-                case "Select (API)":
-                    previewHTML = `<select ${multiple}>`;
-                    parsedResults.forEach(function (i) {
-                        previewHTML += `<option id="${i.id}">${i.value}</option>`;
-                    });
-                    previewHTML += `</select>`;
-                    break;
-            }
-            $("#preview").html(previewHTML);
         });
     });
 }
@@ -306,51 +281,12 @@ function testUSQLhandler() {
             let usql = $("#usqlQuery").val();
             usql = usql.replace("${app}", appName);
             let query = "/api/v1/userSessionQueryLanguage/table?query=" + encodeURIComponent(usql) + "&explain=false";
-            let p2 = dtAPIquery(query);
+            let slicer = $("#usqlResultSlicer").val();
+            let $target = $("#preview");
+            $("#apiQueryHeader").text(query);
+            let p2 = loadUsqlQueryOptions(query, slicer, $target)
             $.when(p2).done(function (data) {
                 jsonviewer(data, true, "", "#apiResult");
-                $("#apiQueryHeader").text(query);
-                let parsedResults = [];
-                let apiResultSlicer = $("#usqlResultSlicer").val();
-                let previewHTML = "";
-                switch (apiResultSlicer) {
-                    case 'parseUSPFilter':
-                        parsedResults = parseUSPFilter(data);
-                        break;
-                    case 'Keys/Values':
-                        parsedResults = parseUSPFilter(data);
-                        previewHTML = `
-                        <div class="inputHeader">Keys:</div>
-                        <div class="userInput"><select id="uspKey" class="uspFilter"></select></div>
-                        <div class="inputHeader">Values:</div>
-                        <div class="userInput"><select id="uspVal" class="uspFilter"></select>
-                        `;
-                        $("#preview").html(previewHTML);
-                        uspFilterChangeHandler();
-                        break;
-                    case 'Keys':
-                        parsedResults = parseUSPFilter(data);
-                        previewHTML = `
-                        <div class="inputHeader">Keys:</div>
-                        <div class="userInput"><select id="uspKey" class="uspFilter"></select></div>
-                        `;
-                        $("#preview").html(previewHTML);
-                        uspFilterChangeHandler();
-                        break;
-                    case 'ValX3':
-                        parsedResults = parseRegions(data);
-                        previewHTML = `
-                        <div class="inputHeader">Values:</div>
-                        <div class="userInput"><select id="countryList" class="regionFilter"></select></div>
-                        <div class="inputHeader">Values:</div>
-                        <div class="userInput"><select id="regionList" class="regionFilter"></select></div>
-                        <div class="inputHeader">Values:</div>
-                        <div class="userInput"><select id="cityList" class="regionFilter"></select></div>
-                        `;
-                        $("#preview").html(previewHTML);
-                        regionsChangeHandler();
-                        break;
-                }
             });
         });
     });
@@ -384,7 +320,7 @@ function workflowDownloader() {
     let workflow = {};
     workflow['html'] = $("#workflow").prop("outerHTML");
     let config = $("#workflowConfigJSON").val();
-    if(config.length>0) workflow['config'] = JSON.parse(config);
+    if (config.length > 0) workflow['config'] = JSON.parse(config);
     let filename = `workflowname.cwf.json`;
     let text = JSON.stringify(workflow);
 
@@ -395,7 +331,7 @@ function workflowConfiguration() {
     let p0 = $.Deferred();
     let oldConfigVal = $("#workflowConfigJSON").val();
     let oldConfig = {};
-    if(oldConfigVal.length>0) oldConfig = JSON.parse(oldConfigVal);
+    if (oldConfigVal.length > 0) oldConfig = JSON.parse(oldConfigVal);
 
     let p1 = $.get("html/personaFlow/workflowBuilder-config.html");
     $.when(p1).done(function (content) {
@@ -412,13 +348,13 @@ function workflowConfiguration() {
         });
         $("#usecase").html(html);
 
-        for(const prop in oldConfig) {
-            if(prop.length>0) { //handle empty string props
+        for (const prop in oldConfig) {
+            if (prop.length > 0) { //handle empty string props
                 $(`#${prop}`).val(oldConfig[prop]);
             }
         }
 
-        $.when(p2).done(function(data){
+        $.when(p2).done(function (data) {
             let newConfig = JSON.stringify(data);
             $("#workflowConfigJSON").val(newConfig);
             p0.resolve();
@@ -429,24 +365,24 @@ function workflowConfiguration() {
 function workflowUploader() {
     let p0 = $.Deferred();
 
-        //get file from a popup
-        let popupHeader = "Workflow to upload";
-        let inputs = [{ type: 'file', name: 'workflowFile', value: '', label: "JSON&nbsp;file" }];
-        let desc = "Previously downloaded .cwf.json file";
+    //get file from a popup
+    let popupHeader = "Workflow to upload";
+    let inputs = [{ type: 'file', name: 'workflowFile', value: '', label: "JSON&nbsp;file" }];
+    let desc = "Previously downloaded .cwf.json file";
 
-        let popup_p = popup(inputs, popupHeader, desc);
-        $.when(popup_p).done(function (data) {
-          let file = data.find(obj => obj.name == "workflowFile").file;
-          fr = new FileReader();
-          fr.onload = function () {
+    let popup_p = popup(inputs, popupHeader, desc);
+    $.when(popup_p).done(function (data) {
+        let file = data.find(obj => obj.name == "workflowFile").file;
+        fr = new FileReader();
+        fr.onload = function () {
             let res = fr.result;
             let json = JSON.parse(res);
             let html = sanitizer.sanitize(json.html);
             $("#workflow").html(html);
             workflowSetFirstPageActive();
-          };
-          if (typeof file !== "undefined") fr.readAsText(file);
-        });
+        };
+        if (typeof file !== "undefined") fr.readAsText(file);
+    });
 }
 
 function updatePageListing() {
@@ -468,7 +404,7 @@ function workflowDeletePage() {
     workflowPrevPage();
     $(`#workflow .workflowPage:nth-of-type(${active})`).remove();
     let pages = $("#workflow").find(".workflowPage").length;
-    if(pages<1)workflowAddPage();
+    if (pages < 1) workflowAddPage();
     updatePageListing();
 }
 
@@ -482,7 +418,7 @@ function workflowNextPage() {
     let pages = $("#workflow").find(".workflowPage").length;
     let active = $("#workflow").find(".workflowPage.activePage");
     let activePageNum = active.index();
-    let newPageNum = Math.min(activePageNum+1,pages);
+    let newPageNum = Math.min(activePageNum + 1, pages);
     let newPage = $(`#workflow .workflowPage:nth-of-type(${newPageNum})`);
 
     active.removeClass("activePage");
@@ -493,7 +429,7 @@ function workflowNextPage() {
 function workflowPrevPage() {
     let active = $("#workflow").find(".workflowPage.activePage");
     let activePageNum = active.index();
-    let newPageNum = Math.max(activePageNum-1,1);
+    let newPageNum = Math.max(activePageNum - 1, 1);
     let newPage = $(`#workflow .workflowPage:nth-of-type(${newPageNum})`);
 
     active.removeClass("activePage");
@@ -511,9 +447,125 @@ function renderWorkflow(el) {
 
     el.find(".workflowInputPopup").remove();
     el.find(".workflowSectionPopup").remove();
-    el.find(":disabled").removeAttr("disabled");
+    el.find("input[type=text]:disabled, input:not([type]):disabled").removeAttr("disabled");
     el.find("[contenteditable]").removeAttr("contenteditable");
     el.find(".transform").hide();
     let html = sanitizer.sanitize(el.html());
+    //TODO: execute API queries here, then enable
+    el.find(".apiQuery").each(loadApiQuery);
+    el.find(".usqlQuery").each(loadUsqlQuery);
+    //TODO: add page handling
     return html;
+}
+
+function loadApiQuery() {
+    let $query = $(this);
+    let query = $query.val();
+    let slicer = $query.siblings(".apiResultSlicer").val();
+    let $target = $query.siblings(".workflowSelect");
+    if (!query.match(/^\/api\//)) {
+        console.log(`invalid api query: ${query}`);
+        return;
+    }
+    loadApiQueryOptions(query, slicer, $target);
+}
+
+function loadUsqlQuery() {
+    let $query = $(this);
+    let query = $query.val();
+    let slicer = $query.siblings(".usqlResultSlicer").val();
+    let $target = $query.siblings(".workflowSelect");
+    if (!query.match(/^\/SELECT\//i)) {
+        console.log(`invalid usql query: ${query}`);
+        return;
+    }
+    loadUsqlQueryOptions(query, slicer, $target);
+}
+
+function loadApiQueryOptions(query, slicer, $target) {
+    let p = dtAPIquery(query);
+    return $.when(p).done(function (data) {
+        jsonviewer(data);
+        let parsedResults = sliceAPIdata(slicer, data);
+        let optionsHTML = "";
+        if (parsedResults.length > 0) {
+            parsedResults.forEach(function (i) {
+                optionsHTML += `<option id="${i.id}">${i.value}</option>`;
+            });
+        }
+        $target.html(optionsHTML);
+        $target.removeAttr("disabled");
+    });
+}
+
+function loadUsqlQueryOptions(query, slicer, $target) {
+    let p = dtAPIquery(query);
+    return $.when(p).done(function (data) {
+        jsonviewer(data);
+        let parsedResults = sliceUSQLdata(slicer, data, $target);
+        $target.html(optionsHTML);
+        $target.removeAttr("disabled");
+    });
+}
+
+function sliceAPIdata(slicer, data) {
+    let parsedResults = [];
+    switch (slicer) {
+        case "{entityId:displayName}":
+            if (data.length > 0) data.forEach(function (item) {
+                parsedResults.push({ id: item.entityId, value: item.displayName });
+            });
+            break;
+        case "values:{id:name}":
+            if (typeof data.values == "object") data.values.forEach(function (item) {
+                parsedResults.push({ id: item.id, value: item.name });
+            });
+            break;
+    }
+    return parsedResults;
+}
+
+function sliceUSQLdata(slicer, data, $target) {
+    let parsedResults = [];
+
+    let previewHTML = "";
+    switch (slicer) {
+        case 'parseUSPFilter':
+            parsedResults = parseUSPFilter(data);
+            break;
+        case 'Keys/Values':
+            parsedResults = parseUSPFilter(data);
+            previewHTML = `
+                        <div class="inputHeader">Keys:</div>
+                        <div class="userInput"><select id="uspKey" class="uspFilter"></select></div>
+                        <div class="inputHeader">Values:</div>
+                        <div class="userInput"><select id="uspVal" class="uspFilter"></select>
+                        `;
+            $target.html(previewHTML);
+            uspFilterChangeHandler();
+            break;
+        case 'Keys':
+            parsedResults = parseUSPFilter(data);
+            previewHTML = `
+                        <div class="inputHeader">Keys:</div>
+                        <div class="userInput"><select id="uspKey" class="uspFilter"></select></div>
+                        `;
+            $target.html(previewHTML);
+            uspFilterChangeHandler();
+            break;
+        case 'ValX3':
+            parsedResults = parseRegions(data);
+            previewHTML = `
+                        <div class="inputHeader">Values:</div>
+                        <div class="userInput"><select id="countryList" class="regionFilter"></select></div>
+                        <div class="inputHeader">Values:</div>
+                        <div class="userInput"><select id="regionList" class="regionFilter"></select></div>
+                        <div class="inputHeader">Values:</div>
+                        <div class="userInput"><select id="cityList" class="regionFilter"></select></div>
+                        `;
+            $target.html(previewHTML);
+            regionsChangeHandler();
+            break;
+    }
+    return parsedResults;
 }
