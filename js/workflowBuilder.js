@@ -488,7 +488,7 @@ function loadApiQuery($query) {
         return;
     }
     let p1 = loadApiQueryOptions(query, slicer, $target);
-    $.when(p1).done(function(){p.resolve();});
+    return $.when(p1).done(function(){});
 }
 
 function loadUsqlQuery($query) {
@@ -500,7 +500,8 @@ function loadUsqlQuery($query) {
         console.log(`invalid usql query: ${query}`);
         return;
     }
-    loadUsqlQueryOptions(query, slicer, $target);
+    let p1 = loadUsqlQueryOptions(query, slicer, $target);
+    return $.when(p1).done(function(){});
 }
 
 function loadApiQueryOptions(query, slicer, target) {
