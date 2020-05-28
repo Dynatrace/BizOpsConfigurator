@@ -467,6 +467,7 @@ function loadApiQuery() {
     let query = $query.val();
     let slicer = $query.siblings(".apiResultSlicer").val();
     let $target = $query.siblings(".workflowSelect");
+    $target.attr("insideLoadApiQuery",true);
     if (!query.match(/^\/api\//)) {
         console.log(`invalid api query: ${query}`);
         return;
