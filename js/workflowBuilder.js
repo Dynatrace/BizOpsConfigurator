@@ -459,11 +459,11 @@ function renderWorkflow(clonedEl) {
     clonedEl.find(".transform").hide();
     //TODO: execute API queries here, then enable
     clonedEl.find(".apiQuery").each(function(){
-        let p1 = loadApiQuery();
+        let p1 = loadApiQuery($(this));
         promises.push(p1);
     });
     clonedEl.find(".usqlQuery").each(function(){
-        let p1 = loadUsqlQuery();
+        let p1 = loadUsqlQuery($(this));
         promises.push(p1);
     });
     //TODO: add page handling
@@ -477,8 +477,8 @@ function renderWorkflow(clonedEl) {
     return p;
 }
 
-function loadApiQuery() {
-    let $query = $(this);
+function loadApiQuery(query) {
+    let $query = $(query);
     let query = $query.val();
     let slicer = $query.siblings(".apiResultSlicer").val();
     let $target = $query.siblings(".workflowSelect");
@@ -491,8 +491,8 @@ function loadApiQuery() {
     $.when(p1).done(function(){p.resolve();});
 }
 
-function loadUsqlQuery() {
-    let $query = $(this);
+function loadUsqlQuery(query) {
+    let $query = $(query);
     let query = $query.val();
     let slicer = $query.siblings(".usqlResultSlicer").val();
     let $target = $query.siblings(".workflowSelect");
