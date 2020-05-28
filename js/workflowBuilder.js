@@ -265,7 +265,7 @@ function testAPIhandler() {
         let multiple = $("#multiple").prop("checked") ? "multiple" : "";
         $("#preview").html(`<select ${multiple}></select>`);
         let $target = $("#preview select");
-        let slicer = $("#apiResultsSlicer").val();
+        let slicer = $("#apiResultSlicer").val();
         let p = loadApiQueryOptions(query, slicer, $target);
         $.when(p).done(function (data) {
             jsonviewer(data, true, "", "#apiResult");
