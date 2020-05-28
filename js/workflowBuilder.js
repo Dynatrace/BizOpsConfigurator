@@ -457,7 +457,7 @@ function renderWorkflow(el) {
     el.find(".usqlQuery").each(loadUsqlQuery);
     //TODO: add page handling
 
-    
+
     let html = sanitizer.sanitize(el.html());
     return html;
 }
@@ -486,7 +486,8 @@ function loadUsqlQuery() {
     loadUsqlQueryOptions(query, slicer, $target);
 }
 
-function loadApiQueryOptions(query, slicer, $target) {
+function loadApiQueryOptions(query, slicer, target) {
+    let $target = $(target);
     let p = dtAPIquery(query);
     return $.when(p).done(function (data) {
         jsonviewer(data);
@@ -502,7 +503,8 @@ function loadApiQueryOptions(query, slicer, $target) {
     });
 }
 
-function loadUsqlQueryOptions(query, slicer, $target) {
+function loadUsqlQueryOptions(query, slicer, target) {
+    let $target = $(target);
     let p = dtAPIquery(query);
     return $.when(p).done(function (data) {
         jsonviewer(data);
@@ -529,7 +531,8 @@ function sliceAPIdata(slicer, data) {
     return parsedResults;
 }
 
-function sliceUSQLdata(slicer, data, $target) {
+function sliceUSQLdata(slicer, data, target) {
+    let $target = $(target);
     let parsedResults = [];
 
     let previewHTML = "";
