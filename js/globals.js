@@ -54,7 +54,8 @@ var personas = [
   "Ops",
   "Dev",
   "App Owner",
-  "IT Exec"
+  "IT Exec",
+  "Dynatrace Admin"
 ];
 var usecases = [
   { name: "User Journey", bizAnalytics: true },

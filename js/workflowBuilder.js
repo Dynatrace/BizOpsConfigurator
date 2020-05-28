@@ -458,8 +458,14 @@ function renderWorkflow(clonedEl) {
     clonedEl.find("[contenteditable]").removeAttr("contenteditable");
     clonedEl.find(".transform").hide();
     //TODO: execute API queries here, then enable
-    clonedEl.find(".apiQuery").each(loadApiQuery);
-    clonedEl.find(".usqlQuery").each(loadUsqlQuery);
+    clonedEl.find(".apiQuery").each(function(){
+        let p1 = loadApiQuery();
+        promises.push(p1);
+    });
+    clonedEl.find(".usqlQuery").each(function(){
+        let p1 = loadUsqlQuery();
+        promises.push(p1);
+    });
     //TODO: add page handling
 
     //make sure any XHRs are finished before we return the html
@@ -472,8 +478,6 @@ function renderWorkflow(clonedEl) {
 }
 
 function loadApiQuery() {
-    let p = new $.Deferred();
-    promises.push(p);
     let $query = $(this);
     let query = $query.val();
     let slicer = $query.siblings(".apiResultSlicer").val();
@@ -500,8 +504,6 @@ function loadUsqlQuery() {
 }
 
 function loadApiQueryOptions(query, slicer, target) {
-    let p = new $.Deferred();
-    promises.push(p);
     let $target = $(target);
     $target.attr("insideLoadApiQueryOption",true);
     let p1 = dtAPIquery(query);
@@ -516,7 +518,6 @@ function loadApiQueryOptions(query, slicer, target) {
         }
         $target.html(optionsHTML);
         $target.removeAttr("disabled");
-        p.resolve();
     });
 }
 
