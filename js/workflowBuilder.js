@@ -452,11 +452,11 @@ function renderWorkflow(el) {
     el.find("input[type=text]:disabled, input:not([type]):disabled").removeAttr("disabled");
     el.find("[contenteditable]").removeAttr("contenteditable");
     el.find(".transform").hide();
-    let html = sanitizer.sanitize(el.html());
     //TODO: execute API queries here, then enable
     el.find(".apiQuery").each(loadApiQuery);
     el.find(".usqlQuery").each(loadUsqlQuery);
     //TODO: add page handling
+    let html = sanitizer.sanitize(el.html());
     return html;
 }
 
