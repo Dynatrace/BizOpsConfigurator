@@ -76,12 +76,15 @@ var token = "";
 var owner = "";
 var version = "";
 var dbList = [];
+var workflowList = [
+  {name:"Test Workflow", repo:{ 'owner': 'TechShady', 'repo': 'Dynatrace-DashboardV5', 'path': '' }}
+];
 var DBAdashboards = [];
 var tenantID = "";
 var selection = {};
 selection.config = {};
 var funnelData = [];
-var v5test = true; //opposite of this
+var v5test = true; //mark for deletion
 var popup_p = {};
 var USPs = {};
 var Regions = [];

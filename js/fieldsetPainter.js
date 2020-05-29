@@ -557,9 +557,24 @@ function fieldsetPainter() {
             });
             break;
         }
-        /*case "upgradeTenant":
-           break;*/
         case "persona_usecase_selection":
+            let personaOptions = "";
+            personas.forEach(function(v){
+                personaOptions += `<option>${v}</option>`;
+            });
+            $("#persona").html(personaOptions);
+            //FUTURE: only show usecases where we have workflows for selected persona
+            let usecaseOptions = "";
+            usecases.forEach(function(v){
+                usecaseOptions += `<option>${v}</option>`;
+            });
+            $("#usecase").html(usecaseOptions);
+            //FUTURE: only show workflows within a usecase
+            let workflowOptions = "";
+            workflows.forEach(function(v,i){
+                workflowOptions += `<option data-workflowIndex="${i}">${v.name}</option>`;
+            });
+            $("#workflow").html(workflowOptions);
             break;
         case "persona_user_inputs":
             break;
