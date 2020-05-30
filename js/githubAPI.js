@@ -14,7 +14,7 @@ function getRepoContents(repo) {
     .fail(errorboxJQXHR);
 }
 
-function getREADME(repo){
+function getREADME(repo){ //not used anymore
     let headers = {'Accept':'application/vnd.github.v3.html'};
     if(githubuser!="" && githubpat!="")
         headers.Authorization = "Basic " + btoa(githubuser+":"+githubpat);
@@ -28,19 +28,24 @@ function getREADME(repo){
 }
 
 function parseRepoContents(data,repo) {
-    let contents = [];
-    let readmes = [];
+    let dbListTemp = [];
+    let workflowsTemp = [];
+    let readmesTemp = [];
     data.forEach(function(file) {
         file.repo=repo;
-        let re = /(\.json$)|(^[0-9a-f-]{36}$)/;
-        if(re.test(file.name))
-            contents.push(file);
-        else if(file.name=="README.md")
-            contents.push(file);
-        else
+        let reWorkflow = /(\.cwf\.json$)/;
+        let reDB = /(\.json$)|(^[0-9a-f-]{36}$)/;
+        if(reWorkflow.test(file.name)){
+            workflowsTemp.push(file);
+        } else if(reDB.test(file.name)) {
+            dbListTemp.push(file);
+        } else if(file.name=="README.md") {
+            readmesTemp.push(file);
+        } else {
             console.log("parseRepoContents: rejected '"+file.path+"' based on regex");
+        }
     });
-    return contents;
+    return {dbList:dbListTemp, workflowList: workflowsTemp, readmeList: readmesTemp};
 }
 
 function getDBJSON(list) {

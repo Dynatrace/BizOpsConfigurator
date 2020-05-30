@@ -24,6 +24,8 @@ function globalButtonHandler() {
               .then(function () {
                 if (!dbList.length > 0) {
                   loadDBList()
+                    .then(downloadWorkflowsFromList)
+                    .then(downloadReadmesFromList)
                     .then(downloadDBsFromList);
                 }
               });
@@ -464,22 +466,22 @@ function globalButtonHandler() {
           selection.config.compareAppID = $("#compareAppList").val();
           selection.config.compareAppName = $("#compareAppList option:selected").text();
           if (selection.config.compareAppName != "None") {
-            if(!$("#compareFirstStep option:selected").length){
+            if (!$("#compareFirstStep option:selected").length) {
               alert("Compare First Step cannot be blank with a selected Compare App");
               return;
             } else
-            selection.config.compareFirstStep = {
-              'colname': $("#compareFirstStep option:selected")[0].dataset['colname'],
-              'name': $("#compareFirstStep option:selected").text()
-            };
-            if(!$("#compareLastStep option:selected").length){
+              selection.config.compareFirstStep = {
+                'colname': $("#compareFirstStep option:selected")[0].dataset['colname'],
+                'name': $("#compareFirstStep option:selected").text()
+              };
+            if (!$("#compareLastStep option:selected").length) {
               alert("Compare Last Step cannot be blank with a selected Compare App");
               return;
             } else
-            selection.config.compareLastStep = {
-              'colname': $("#compareLastStep option:selected")[0].dataset['colname'],
-              'name': $("#compareLastStep option:selected").text()
-            };
+              selection.config.compareLastStep = {
+                'colname': $("#compareLastStep option:selected")[0].dataset['colname'],
+                'name': $("#compareLastStep option:selected").text()
+              };
             selection.config.compareRevenue = $("#compareRevenue").val();
           }
         }
@@ -504,7 +506,7 @@ function globalButtonHandler() {
         selection.config.compareTime = $("#compareTimeList").val();
 
         $("#uploadFunnel").val("Uploading...");
-        $("#uploadFunnel").prop("disabled",true);
+        $("#uploadFunnel").prop("disabled", true);
         let p0 = getAppDetail(selection.config.appID);
         $.when(p0).done(function (d0) {
           if (typeof d0 != "undefined") {
@@ -737,6 +739,8 @@ function globalButtonHandler() {
       case "reloadDBs": {
         let p = loadDBList();
         $.when(p).done(function () {
+          downloadWorkflowsFromList();
+          downloadReadmesFromList();
           downloadDBsFromList();
         });
         break;
@@ -758,24 +762,27 @@ function globalButtonHandler() {
         break;
       }
       case "addTenantOverview": {
-        tenantOverviews.push({ 'name': $("#add_tenantOverview_name").val(), 
+        tenantOverviews.push({
+          'name': $("#add_tenantOverview_name").val(),
           'filename': $("#add_tenantOverview_filename").val(),
           'repo': JSON.parse($("#add_tenantOverview_repo option:selected")[0].dataset.repo)
-       });
+        });
         $("#repo_config").load("html/repo_config.html", fieldsetPainter);
         break;
       }
       case "addAppOverview": {
-        appOverviews.push({ 'name': $("#add_appOverview_name").val(), 
+        appOverviews.push({
+          'name': $("#add_appOverview_name").val(),
           'filename': $("#add_appOverview_filename").val(),
           'repo': JSON.parse($("#add_appOverview_repo option:selected")[0].dataset.repo)
-         });
+        });
         $("#repo_config").load("html/repo_config.html", fieldsetPainter);
         break;
       }
       case "addJourneyOverview": {
-        journeyOverviews.push({ 'name': $("#add_journeyOverview_name").val(), 
-          'filename': $("#add_journeyOverview_filename").val(), 
+        journeyOverviews.push({
+          'name': $("#add_journeyOverview_name").val(),
+          'filename': $("#add_journeyOverview_filename").val(),
           'repo': JSON.parse($("#add_journeyOverview_repo option:selected")[0].dataset.repo)
         });
         $("#repo_config").load("html/repo_config.html", fieldsetPainter);
@@ -828,7 +835,7 @@ function globalButtonHandler() {
         upperObj.val("");
         break;
       }
-      
+
       case "persona_list": {
         $("#viewport").load("html/personaFlow/persona_list.html", fieldsetPainter);
         break;
@@ -837,7 +844,7 @@ function globalButtonHandler() {
         $("#viewport").load("html/personaFlow/persona_usecase.html", fieldsetPainter);
         break;
       }
-      case "persona_usecase_next":{
+      case "persona_usecase_next": {
         $("#viewport").load("html/personaFlow/persona_userInputs.html", fieldsetPainter);
         break;
       }

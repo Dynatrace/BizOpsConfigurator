@@ -563,18 +563,7 @@ function fieldsetPainter() {
                 personaOptions += `<option>${v}</option>`;
             });
             $("#persona").html(personaOptions);
-            //FUTURE: only show usecases where we have workflows for selected persona
-            let usecaseOptions = "";
-            usecases.forEach(function(v,i){
-                usecaseOptions += `<option data-usecaseIndex="${i}">${v.name}</option>`;
-            });
-            $("#usecase").html(usecaseOptions);
-            //FUTURE: only show workflows within a usecase
-            let workflowOptions = "";
-            workflowList.forEach(function(v,i){
-                workflowOptions += `<option data-workflowIndex="${i}">${v.name}</option>`;
-            });
-            $("#workflow").html(workflowOptions);
+            workflowPickerChangeHandler();
             break;
         case "persona_user_inputs":
             break;

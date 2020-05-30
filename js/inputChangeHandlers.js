@@ -14,6 +14,7 @@ function loadInputChangeHandlers() {
   $("#viewport").on("change", ".rfc1918", rfc1918ChangeHandler);
   $("#viewport").on("change", ".dashboardCleanupAll", dashboardCleanupAllChangeHandler);
   $("#viewport").on("change", "#HU-report", HUreportChangeHandler);
+  $("#viewport").on("change", ".workflowPicker", workflowPickerChangeHandler);
 
   $("#viewport").on("click", "section h4", helpdocToggler);
 }
@@ -577,3 +578,32 @@ function HUreportChangeHandler() {
   }
 }
 
+function workflowPickerChangeHandler(e){
+  let el = $(this);
+  let id = el.attr('id');
+  //FUTURE: only show usecases where we have workflows for selected persona
+  switch(id){
+    case "persona":
+      let usecaseOptions = "";
+      usecases.forEach(function(v,i){
+          usecaseOptions += `<option data-usecaseIndex="${i}">${v.name}</option>`;
+      });
+      $("#usecase").html(usecaseOptions);
+      //do not break
+    case "usecase":
+      let workflowOptions = "";
+      workflowList.forEach(function(v,i){
+          workflowOptions += `<option data-workflowIndex="${i}">${v.name}</option>`;
+      });
+      $("#workflow").html(workflowOptions);
+      //do not break
+    default:
+      let workflowName = $("#workflow").val();
+      let workflow = workflowList.find(({name}) => name == workflowName);
+      let readme = findWorkflowReadme(workflow);
+      $("#readme").html(readme.html);
+  }
+  
+  //FUTURE: only show workflows within a usecase
+  
+}

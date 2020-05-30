@@ -76,8 +76,9 @@ var token = "";
 var owner = "";
 var version = "";
 var dbList = [];
+var readmeList = [];
 var workflowList = [
-  {name:"Test Workflow", repo:{ 'owner': 'TechShady', 'repo': 'Dynatrace-DashboardV5', 'path': '' }}
+  { name: "Test Workflow", repo: { 'owner': 'TechShady', 'repo': 'Dynatrace-DashboardV5', 'path': '' } }
 ];
 var DBAdashboards = [];
 var tenantID = "";
@@ -356,12 +357,17 @@ function loadDBList(p = 1) {
     //always get any custom repos (i>1)
     //for(i=2; i<repoList.length; i++) {
     dbList = [];
+    readmeList = [];
+    workflowList = [];
     for (i = 0; i < repoList.length; i++) {
       let repo = repoList[i];
       let p_i = getRepoContents(repo);
       deferreds.push(p_i);
       $.when(p_i).done(function (data_i) {
-        dbList = dbList.concat(parseRepoContents(data_i, repo));
+        let result = parseRepoContents(data_i, repo)
+        dbList = dbList.concat(result.dbList);
+        readmeList = readmeList.concat(result.readmeList);
+        workflowList = workflowList.concat(result.workflowList);
       });
     }
     $.when.apply($, deferreds).done(function () { master.resolve(); });
@@ -387,44 +393,61 @@ function downloadDBsFromList() {
   let promises = [];
 
   dbList.forEach(function (file, index, arr) {
-    if (file.name == "README.md") {
-      /*let p = getREADME(file.repo)
-        .done(function (d) {
-          let html = d.replace(/<img ([^>]*)src="(?!http)([^"]+)"([^>]*)>/g,
-          `<img $1src="https://github.com/${file.repo.owner}/${file.repo.repo}/raw/master/$2"$3>`);
-          file.html = html;    
-        });*/
-      let p = $.get(file.download_url)
-        .fail(errorboxJQXHR)
-        .done(function (d) {
-          try {
-            var converter = new showdown.Converter();
-            let html = converter.makeHtml(d);
-            file.html = html.replace(/<img ([^>]*)src="(?!http)([^"]+)"([^>]*)>/g,
-              `<img $1src="https://github.com/${file.repo.owner}/${file.repo.repo}/raw/master/$2"$3>`);
-          } catch (e) {
-            let emsg = "Showdown Error on file " + file.path + ". " + e.name + ": " + e.message;
-            errorbox(emsg);
-            arr.splice(index, 1);
-          }
-        });
-      promises.push(p);
-    } else { //we already filtered list to JSON or README in parseRepoContents
-      let p = $.get(file.download_url)
-        .fail(errorboxJQXHR)
-        .done(function (d) {
-          try {
-            file.file = JSON.parse(d);
-          } catch (e) {
-            let emsg = "JSON Error on file " + file.path + ". " + e.name + ": " + e.message;
-            errorbox(emsg);
-            arr.splice(index, 1);
-          }
-        });
-      promises.push(p);
-    }
+    let p = $.get(file.download_url)
+      .fail(errorboxJQXHR)
+      .done(function (d) {
+        try {
+          file.file = JSON.parse(d);
+        } catch (e) {
+          let emsg = "JSON Error on file " + file.path + ". " + e.name + ": " + e.message;
+          errorbox(emsg);
+          arr.splice(index, 1);
+        }
+      });
+    promises.push(p);
   });
   return promises;
+}
+
+function downloadReadmesFromList() {
+  let promises = [];
+
+  readmeList.forEach(function (file, index, arr) {
+    let p = $.get(file.download_url)
+      .fail(errorboxJQXHR)
+      .done(function (d) {
+        try {
+          var converter = new showdown.Converter();
+          let html = converter.makeHtml(d);
+          file.html = html.replace(/<img ([^>]*)src="(?!http)([^"]+)"([^>]*)>/g,
+            `<img $1src="https://github.com/${file.repo.owner}/${file.repo.repo}/raw/master/$2"$3>`);
+        } catch (e) {
+          let emsg = "Showdown Error on file " + file.path + ". " + e.name + ": " + e.message;
+          errorbox(emsg);
+          arr.splice(index, 1);
+        }
+      });
+    promises.push(p);
+  });
+}
+
+function downloadWorkflowsFromList() {
+  let promises = [];
+
+  workflowList.forEach(function (file, index, arr) {
+    let p = $.get(file.download_url)
+      .fail(errorboxJQXHR)
+      .done(function (d) {
+        try {
+          file.file = JSON.parse(d);
+        } catch (e) {
+          let emsg = "JSON Error on file " + file.path + ". " + e.name + ": " + e.message;
+          errorbox(emsg);
+          arr.splice(index, 1);
+        }
+      });
+    promises.push(p);
+  });
 }
 
 function nextDB(id) {
@@ -446,9 +469,17 @@ function parseAutoTags(data) {
 
 function findOverviewREADME(overview) {
   let overviewRepo = dbList.find(({ name }) => name === overview).repo; //get the repo directly from the select in next iteration
-  let readmes = dbList.filter(({ name }) => name === "README.md");
-  let readme = readmes.find(({ repo }) => repo.owner === overviewRepo.owner &&
+  //let readmes = workflowList.filter(({ name }) => name === "README.md");
+  let readme = readmeList.find(({ repo }) => repo.owner === overviewRepo.owner &&
     repo.repo === overviewRepo.repo);
+
+  return readme;
+}
+
+function findWorkflowReadme(workflow) {
+  let config = workflow.config;
+  let readme = readmeList.find(({ repo }) => repo.owner === overviewRepo.owner &&
+    repo.repo === overviewRepo.repo).find(({path}) => config.readme);
 
   return readme;
 }
@@ -460,7 +491,7 @@ var sanitizer = {};
       var attrName = this.name;
       var attrValue = this.value;
 
-      if (attrName=="" ||
+      if (attrName == "" ||
         attrName.indexOf('on') == 0 || attrValue.indexOf('javascript:') == 0) {
         $(node).removeAttr(attrName);
       }
