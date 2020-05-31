@@ -599,7 +599,7 @@ function workflowPickerChangeHandler(e){
       //do not break
     default:
       let workflowName = $("#workflow").val();
-      let workflow = workflowList.find(({name}) => name == workflowName);
+      let workflow = workflowList.find(({file}) => file.config.workflowName == workflowName);
       let readme = findWorkflowReadme(workflow);
       $("#readme").html(readme.html);
   }

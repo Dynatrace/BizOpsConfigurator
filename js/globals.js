@@ -478,9 +478,9 @@ function findOverviewREADME(overview) {
 }
 
 function findWorkflowReadme(workflow) {
-  let config = workflow.config;
+  let config = workflow.file.config;
   let readme = readmeList.find(({ repo }) => repo.owner === overviewRepo.owner &&
-    repo.repo === overviewRepo.repo).find(({path}) => config.readme);
+    repo.repo === overviewRepo.repo).find(({path}) => path == config.readme);
 
   return readme;
 }
