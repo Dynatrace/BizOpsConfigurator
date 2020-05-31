@@ -519,3 +519,40 @@ function deleteDashboard(id) {
   query = "/api/config/v1/dashboards/" + id;
   dtAPIquery(query, { method: "DELETE" });
 }
+
+function uploadWorkflow(workflow) {
+  let config = workflow.config;
+  let overviewName = config.overview;
+
+  //get dashboard JSON
+  let overview = JSON.parse(JSON.stringify(dbList.find(x => x.name === overviewName &&
+    x.repo.owner === config.githubUser && x.repo.repo === config.githubRepo && 
+    x.repo.path === config.githubPath).file));
+
+  //transform
+  let personaPrefix = personas.find( ({name}) => name === selection.persona).prefix;
+  let usecasePrefix = usecases.find( ({name}) => name === selection.usecase).prefix;
+  let id = nextWorkflowOverview(personaPrefix,usecasePrefix);
+  config.id = id;
+  config.oldId = overview["id"];
+  overview["id"] = id;
+  overview["dashboardMetadata"]["owner"] = owner;
+  overview["dashboardMetadata"]["shared"] = "true"; //always shared
+  overview["dashboardMetadata"]["sharingDetails"]["linkShared"] = "true"; //always shared
+  overview["dashboardMetadata"]["sharingDetails"]["published"] = "true"; //only overviews published
+
+  var query = "/api/config/v1/dashboards/" + id;
+
+  //sub-dashboards & swaps
+  let subs = getStaticSubDBs(overview, [config.oldId]);
+  let swaps = generateWorkflowSwapList(workflow);
+  swaps = transformSubs(subs, config.id, swaps, config, nextWorkflowDBID);
+  var dbObj = doSwaps(overview, swaps);
+  dbObj = validateDB(dbObj);
+
+  //upload
+  let dbS = JSON.stringify(dbObj);
+  saveConfigDashboard(workflowConfigID(id), config);
+  uploadSubs(subs);
+  return dtAPIquery(query, { method: "PUT", data: dbS });
+}

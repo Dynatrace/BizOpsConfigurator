@@ -854,6 +854,13 @@ function globalButtonHandler() {
         $("#viewport").load("html/personaFlow/persona_userInputs.html", fieldsetPainter);
         break;
       }
+      case "workflowButton": {
+        let button = $("#workflowButton");
+        if(button.val()=="Next") workflowNextPage();
+        else if(button.val()=="Done"){
+          uploadWorkflow($("#workflow"));
+        }
+      }
       case "":
       case undefined:
         console.log("undefined button");

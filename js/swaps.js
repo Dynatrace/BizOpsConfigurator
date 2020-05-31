@@ -317,12 +317,12 @@ function doEncodedMarkdownTileSwaps(t, swaps) {
   return; //t passed by ref
 }
 
-function transformSubs(subs, dbid, swaps, config) {
+function transformSubs(subs, dbid, swaps, config, nextID=nextDB) {
   let id = dbid;
   config.subids = [];
   subs.forEach(function (db) {
     sub = db.file
-    id = nextDB(id);
+    id = nextID(id);
     swaps.push({ from: sub.id, to: id, wrap: false });
     config.subids.push({ from: sub.id, to: id });
     sub.id = id;

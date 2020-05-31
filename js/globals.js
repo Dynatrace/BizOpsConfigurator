@@ -1,5 +1,8 @@
 //////// Constants //////////////
 var configDashboard = "json/configDashboard.json";
+const REpersonaWorkflow = /^bbbbbbbb-a[0-9]{3}-[0-9]{4}-[0-9]{4}-[0-9]{12}$/;
+const unique = (value, index, self) => self.indexOf(value) === index;
+
 //var dashboardDir = "json/Dynatrace-DashboardsV4/";
 var dbTO = "TenantOverview.json";
 var dbAO = "AppOverview.json";
@@ -52,24 +55,24 @@ var journeyOverviews = [
   { name: 'LiteUserJourney (w/o KPI)', filename: 'LiteOverviewFalse.json', repo: { 'owner': 'TechShady', 'repo': 'BizOpsLite', 'path': '' } }
 ];
 var personas = [
-  "Ops",
-  "Dev",
-  "App Owner",
-  "IT Exec",
-  "Dynatrace Admin"
+  {name:"Ops", prefix: "a001"},
+  {name:"Dev", prefix: "a002"},
+  {name:"App Owner", prefix: "a003"},
+  {name:"IT Exec", prefix: "a004"},
+  {name:"Dynatrace Admin", prefix: "a005"}
 ];
 var usecases = [
-  { name: "User Journey", bizAnalytics: true },
-  { name: "Release Validation", bizAnalytics: true },
-  { name: "Marketing Analysis", bizAnalytics: true },
-  { name: "Search Overview", bizAnalytics: true },
-  { name: "A/B Testing", bizAnalytics: true },
-  { name: "Incident Response", bizAnalytics: false },
-  { name: "Citrix Overview", bizAnalytics: false },
-  { name: "SAP Overview", bizAnalytics: false },
-  { name: "Remote Employee Overview", bizAnalytics: false },
-  { name: "Capacity Management", bizAnalytics: false },
-  { name: "Billing Analysis", bizAnalytics: false }
+  { name: "User Journey", bizAnalytics: true, prefix: "001" },
+  { name: "Release Validation", bizAnalytics: true, prefix: "002" },
+  { name: "Marketing Analysis", bizAnalytics: true, prefix: "003" },
+  { name: "Search Overview", bizAnalytics: true, prefix: "004" },
+  { name: "A/B Testing", bizAnalytics: true, prefix: "005" },
+  { name: "Incident Response", bizAnalytics: false, prefix: "006" },
+  { name: "Citrix Overview", bizAnalytics: false, prefix: "007" },
+  { name: "SAP Overview", bizAnalytics: false, prefix: "008" },
+  { name: "Remote Employee Overview", bizAnalytics: false, prefix: "009" },
+  { name: "Capacity Management", bizAnalytics: false, prefix: "010" },
+  { name: "Billing Analysis", bizAnalytics: false, prefix: "011" }
 ];
 //////// Global Vars ////////////
 var url = "";
@@ -82,6 +85,7 @@ var workflowList = [
   { name: "Test Workflow", repo: { 'owner': 'TechShady', 'repo': 'Dynatrace-DashboardV5', 'path': '' } }
 ];
 var DBAdashboards = [];
+var personaDBs = [];
 var tenantID = "";
 var selection = {};
 selection.config = {};
@@ -100,14 +104,22 @@ var bcBuffer = "";
 
 function processDBADashboards(result) {
   let dbs = [];
+  let pDBs = [];
   result["dashboards"].forEach(function (dashboard) {
-    if (dashboard["id"].substring(0, 8) == "bbbbbbbb") {
+    if (dashboard["id"].substring(0, 8) == "bbbbbbbb") { //old style DBs
       dbs.push(dashboard);
+    }
+    if(dashboard['id'].match(REpersonaWorkflow)) { //new persona style DBs
+      pDBs.push(dashboard);
     }
   });
 
   dbs.sort((a, b) => (a.name.toLowerCase() > b.name.toLowerCase()) ? 1 : -1);
   DBAdashboards = dbs;
+
+  pDBs.sort((a, b) => (a.name.toLowerCase() > b.name.toLowerCase()) ? 1 : -1);
+  personaDBs = pDBs;
+
   return DBAdashboards;
 }
 
@@ -508,3 +520,36 @@ var sanitizer = {};
   }
   sanitizer.sanitize = sanitize;
 })(jQuery);
+
+function nextWorkflowOverview(persona,usecase){
+  //"bbbbbbbb-a463-0001-0000-ffffffffffff"
+  //bbbbbbbb - Configurator dashboard
+  //aXXX - persona prefix
+  //0001 - usecase prefix
+  //0000 - dashboard number 0000 for overview, ffff for config
+  //0000000000000 - deployment number
+
+  const reducer = (acc, val) => Math.max(acc, val);
+  let maxDeployment = DBAdashboards
+    .map(el => el.id)
+    .filter((id) => id.match(REpersonaWorkflow))
+    .map(id => id.slice(-12))
+    .reduce(reducer,0);
+
+  let newDeployment = (maxDeployment+1).toString().padStart(12,"0");
+  let newID = `bbbbbbbb-${persona}-${usecase}-0000-${newDeployment}`;
+  return newID;
+}
+
+function nextWorkflowDBID(id){
+  let parts = id.split("-");
+  let newID = parseInt(parts[3])+1;
+  parts[3] = newID.toString.padStart(4,"0");
+  return parts.join("-");
+}
+
+function workflowConfigID(id){
+  let parts = id.split("-");
+  parts[3] = "ffff";
+  return parts.join("-");
+}

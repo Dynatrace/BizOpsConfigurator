@@ -576,6 +576,36 @@ function fieldsetPainter() {
             break;
         }
         case "persona_list":
+            let deployedPersonas = personaDBs.map(({ id }) => id.split("-")[1]).filter(unique);
+            let html = "";
+
+            deployedPersonas.forEach(function (personaPrefix) {
+                let persona = personas.find(({ prefix }) => prefix === personaPrefix);
+                let startPersonaHtml = `<section><a class="expandable">${persona.name}</a><article>`;
+                let endPersonaHtml = `</article></section>`;
+
+                let filteredDBs = personaDBs.filter(db => db.id.split("-")[1] === personaPrefix);
+                let deployedUsecases = filteredDBs.map(({ id }) => id.split("-")[2]).filter(unique);
+                deployedUsecases.forEach(function (usecasePrefix) {
+                    let usecase = usecases.find(({ prefix }) => prefix === usecasePrefix);
+                    let startUsecaseHtml = `<section><a class="expandable">${usecase.name}</a><article><div id="tenantList"><dl class="list">`;
+                    let endUsecaseHtml = `</dl></div></article></section>`;
+
+                    let filteredDBs2 = filteredDBs.filter(db => db.id.split("-")[2] === personaPrefix);
+                    filteredDBs2.forEach(function(db){
+                        let dbHtml = `
+                        <dt id="${db.id}">${db.name} (${db.owner})</dt>
+                        <dd>
+                            <input type="button" id="edit" value="Edit">
+                            <input type="button" id="delete" value="Delete">
+                        </dd>`;
+                        startUsecaseHtml += dbHtml;
+                    })
+                    startPersonaHtml += startUsecaseHtml + endUsecaseHtml;
+                });
+                html += startPersonaHtml + endPersonaHtml;
+            });
+            $("#personaDeployedList").html();
             break;
         case "workflowBuilder":
             $(".workflowSectionPopup, .workflowInputPopup").addClass("hidden");
