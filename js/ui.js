@@ -523,3 +523,18 @@ function getAllInputData(popup){
   popup.find("input,select").each(function(i,e) { data[e.id] = $(this).val() });
   return data;
 }
+
+function drawWorkflowPagerButton(workflowSelector="#workflow"){
+  let workflow = $(workflowSelector);
+  let pages = workflow.find(".workflowPage").length;
+  let activePageNum = workflow.find(".workflowPage.activePage").index();
+  let button = $("#workflowButton");
+  let html = `<input type="button" id="workflowButton" value="${activePageNum<pages?
+    "Next":"Done"}">`;
+
+  if(button.length<1){
+    workflow.append(html);
+  } else {
+    button.replaceWith(html);
+  }
+}

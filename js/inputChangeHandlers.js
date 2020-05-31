@@ -603,7 +603,7 @@ function workflowPickerChangeHandler(e){
       let i = $("#workflow :selected").attr('data-workflowIndex');
       let workflow = workflowList[i];
       let readme = findWorkflowReadme(workflow);
-      $("#readme").html(readme.html);
+      $("#readmeViewer").html(readme.html);
   }
   
   //FUTURE: only show workflows within a usecase

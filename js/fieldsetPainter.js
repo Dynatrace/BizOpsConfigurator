@@ -557,7 +557,7 @@ function fieldsetPainter() {
             });
             break;
         }
-        case "persona_usecase_selection":
+        case "persona_usecase_selection": {
             let personaOptions = "";
             personas.forEach(function(v){
                 personaOptions += `<option>${v}</option>`;
@@ -565,8 +565,16 @@ function fieldsetPainter() {
             $("#persona").html(personaOptions);
             workflowPickerChangeHandler();
             break;
-        case "persona_user_inputs":
+        }
+        case "persona_user_inputs":{
+            let p = renderWorkflow(selection.workflow);
+            $.when(p).done(function(html){
+                $("fieldset#persona_user_inputs").append(html);
+            });
+            workflowSetFirstPageActive();
+            drawWorkflowPagerButton();
             break;
+        }
         case "persona_list":
             break;
         case "workflowBuilder":

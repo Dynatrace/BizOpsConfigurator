@@ -845,6 +845,12 @@ function globalButtonHandler() {
         break;
       }
       case "persona_usecase_next": {
+        selection.persona = $("#persona").val();
+        selection.usecase = $("#usecase").val();
+        let usecaseI = $("#usecase :selected").attr('data-usecaseIndex');
+        selection.usecase = usecases[usecaseI];
+        let workflowI = $("#workflow :selected").attr('data-workflowIndex');
+        selection.workflow = workflowList[workflowI];
         $("#viewport").load("html/personaFlow/persona_userInputs.html", fieldsetPainter);
         break;
       }

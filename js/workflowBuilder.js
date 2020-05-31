@@ -447,11 +447,11 @@ function workflowTest() {
     });
 }
 
-function renderWorkflow(clonedEl) {
+function renderWorkflow(el) {
     let p = new $.Deferred();
     let promises = [];
 
-    clonedEl = clonedEl.clone();
+    clonedEl = el.clone();
 
     clonedEl.find(".workflowInputPopup").remove();
     clonedEl.find(".workflowSectionPopup").remove();
