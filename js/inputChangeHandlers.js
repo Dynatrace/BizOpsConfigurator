@@ -594,13 +594,13 @@ function workflowPickerChangeHandler(e){
     case "usecase":
       let workflowOptions = "";
       workflowList.forEach(function(v,i){
-          let name = v.file.config.name;
+          let name = v.file.config.workflowName;
           workflowOptions += `<option data-workflowIndex="${i}">${name}</option>`;
       });
       $("#workflow").html(workflowOptions);
       //do not break
     default:
-      let i = $("#workflow").attr('data-workflowIndex');
+      let i = $("#workflow :selected").attr('data-workflowIndex');
       let workflow = workflowList[i];
       let readme = findWorkflowReadme(workflow);
       $("#readme").html(readme.html);
