@@ -845,8 +845,8 @@ function globalButtonHandler() {
         break;
       }
       case "persona_usecase_next": {
-        selection.persona = $("#persona").val();
-        selection.usecase = $("#usecase").val();
+        let personaI = $("#persona :selected").attr('data-usecaseIndex');
+        selection.persona = personas[personaI];
         let usecaseI = $("#usecase :selected").attr('data-usecaseIndex');
         selection.usecase = usecases[usecaseI];
         let workflowI = $("#workflow :selected").attr('data-workflowIndex');

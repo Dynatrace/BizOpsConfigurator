@@ -578,34 +578,39 @@ function HUreportChangeHandler() {
   }
 }
 
-function workflowPickerChangeHandler(e){
+function workflowPickerChangeHandler(e) {
   let el = $(this);
   let id = el.attr('id');
   //FUTURE: only show usecases where we have workflows for selected persona
-  switch(id){
+  switch (id) {
     case undefined:
+      let personaOptions = "";
+      personas.forEach(function (v, i) {
+        personaOptions += `<option data-usecaseIndex="${i}">${v.name}</option>`;
+      });
+      $("#persona").html(personaOptions);
     case "persona":
       let usecaseOptions = "";
-      usecases.forEach(function(v,i){
-          usecaseOptions += `<option data-usecaseIndex="${i}">${v.name}</option>`;
+      usecases.forEach(function (v, i) {
+        usecaseOptions += `<option data-usecaseIndex="${i}">${v.name}</option>`;
       });
       $("#usecase").html(usecaseOptions);
-      //do not break
+    //do not break
     case "usecase":
       let workflowOptions = "";
-      workflowList.forEach(function(v,i){
-          let name = v.file.config.workflowName;
-          workflowOptions += `<option data-workflowIndex="${i}">${name}</option>`;
+      workflowList.forEach(function (v, i) {
+        let name = v.file.config.workflowName;
+        workflowOptions += `<option data-workflowIndex="${i}">${name}</option>`;
       });
       $("#workflow").html(workflowOptions);
-      //do not break
+    //do not break
     default:
       let i = $("#workflow :selected").attr('data-workflowIndex');
       let workflow = workflowList[i];
       let readme = findWorkflowReadme(workflow);
       $("#readmeViewer").html(readme.html);
   }
-  
+
   //FUTURE: only show workflows within a usecase
-  
+
 }

@@ -558,11 +558,6 @@ function fieldsetPainter() {
             break;
         }
         case "persona_usecase_selection": {
-            let personaOptions = "";
-            personas.forEach(function (v) {
-                personaOptions += `<option>${v}</option>`;
-            });
-            $("#persona").html(personaOptions);
             workflowPickerChangeHandler();
             break;
         }
