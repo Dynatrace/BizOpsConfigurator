@@ -583,6 +583,7 @@ function workflowPickerChangeHandler(e){
   let id = el.attr('id');
   //FUTURE: only show usecases where we have workflows for selected persona
   switch(id){
+    case undefined:
     case "persona":
       let usecaseOptions = "";
       usecases.forEach(function(v,i){
