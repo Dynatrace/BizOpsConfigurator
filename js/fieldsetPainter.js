@@ -1,6 +1,6 @@
 function fieldsetPainter() {
     let id = $(this).find("fieldset").attr("id");
-    if(typeof id==="undefined") id = $("#viewport").find("fieldset").attr("id");
+    if (typeof id === "undefined") id = $("#viewport").find("fieldset").attr("id");
     bcHandler();
     switch (id) {
         case "repoconfig":
@@ -559,20 +559,20 @@ function fieldsetPainter() {
         }
         case "persona_usecase_selection": {
             let personaOptions = "";
-            personas.forEach(function(v){
+            personas.forEach(function (v) {
                 personaOptions += `<option>${v}</option>`;
             });
             $("#persona").html(personaOptions);
             workflowPickerChangeHandler();
             break;
         }
-        case "persona_user_inputs":{
-            let p = renderWorkflow(selection.workflow);
-            $.when(p).done(function(html){
-                $("fieldset#persona_user_inputs").append(html);
+        case "persona_user_inputs": {
+            let p = renderWorkflow($(selection.workflow.file.html));
+            $.when(p).done(function (html) {
+                $("#workflow").html(html);
+                workflowSetFirstPageActive();
+                drawWorkflowPagerButton();
             });
-            workflowSetFirstPageActive();
-            drawWorkflowPagerButton();
             break;
         }
         case "persona_list":
@@ -589,10 +589,10 @@ function fieldsetPainter() {
 }
 
 function bcHandler() {
-    
+
     $("#bcwrapper").empty();
     $("div.bc").prependTo($("#bcwrapper"));
     $("#bc-connect").text(tenantID);
-    if($("#bcwrapper").children().length) $("#bcwrapper").show();
+    if ($("#bcwrapper").children().length) $("#bcwrapper").show();
     else $("#bcwrapper").hide();
 }
