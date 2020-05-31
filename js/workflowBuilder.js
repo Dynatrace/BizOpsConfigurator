@@ -323,7 +323,8 @@ function workflowDownloader() {
     workflow['html'] = $("#workflow").prop("outerHTML");
     let config = $("#workflowConfigJSON").val();
     if (config.length > 0) workflow['config'] = JSON.parse(config);
-    let filename = `workflowname.cwf.json`;
+    let name = workflow.config.workflowName;
+    let filename = `${name}.cwf.json`;
     let text = JSON.stringify(workflow);
 
     download(filename, text);
