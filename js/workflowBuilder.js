@@ -58,8 +58,7 @@ function workflowBuilderHandlers() {
     $("#viewport").on("change", "#commonQueries", commonQueryChangeHandler);
     $("#viewport").on("change", "#usqlCommonQueries", usqlCommonQueryChangeHandler);
     $("#viewport").on("change", "#multiple", multipleHandler);
-    $("#viewport").on("click", "#testAPI", testAPIhandler);
-    $("#viewport").on("click", "#testUSQL", testUSQLhandler);
+    $("#viewport").on("click", "#test", testHandler);
     $("#viewport").on("click", "#staticBoxAdd", staticBoxAddHandler);
 
     //prevent rich text paste
@@ -245,17 +244,29 @@ function usqlCommonQueryChangeHandler() {
 
     switch (commonQueries) {
         case "Double/Long USPs":
-            $("#usqlQuery").val('SELECT usersession.longProperties, usersession.doubleProperties FROM useraction WHERE useraction.application = "${app}" LIMIT 5000');
+            $("#usqlQuery").val('SELECT usersession.longProperties, usersession.doubleProperties FROM useraction WHERE useraction.application = "${appname}" LIMIT 5000');
             $("#usqlResultSlicer").val("Keys");
             break;
         case "String/Date USPs":
-            $("#usqlQuery").val('SELECT usersession.stringProperties, usersession.dateProperties FROM useraction WHERE useraction.application = "${app}" LIMIT 5000');
+            $("#usqlQuery").val('SELECT usersession.stringProperties, usersession.dateProperties FROM useraction WHERE useraction.application = "${appname}" LIMIT 5000');
             $("#usqlResultSlicer").val("Keys/Values");
             break;
         case "Regions":
-            $("#usqlQuery").val('SELECT DISTINCT country, region, city FROM usersession WHERE useraction.application = "${app}" ORDER BY country,region,city LIMIT 5000');
+            $("#usqlQuery").val('SELECT DISTINCT country, region, city FROM usersession WHERE useraction.application = "${appname}" ORDER BY country,region,city LIMIT 5000');
             $("#usqlResultSlicer").val("ValX3");
             break;
+    }
+}
+
+function testHandler() {
+    let inputType = $("#inputType").val();
+    switch(inputType){
+        case "Select (API)":
+            testAPIhandler();
+        break;
+        case "Select (USQL)":
+            testUSQLhandler();
+        break;
     }
 }
 
@@ -468,6 +479,7 @@ function renderWorkflow(el) {
         promises.push(p1);
     });
     clonedEl.find(".usqlQuery").each(function(){
+        //TODO: bind change handler based on match ${token}
         let p1 = loadUsqlQuery($(this));
         promises.push(p1);
     });
@@ -524,6 +536,13 @@ function loadApiQueryOptions(query, slicer, target) {
         }
         $target.html(optionsHTML);
         $target.removeAttr("disabled");
+        $target.on("change", function(){
+            let to = $(this).val();
+            let from = "${"+$("#transform").val()+"}";
+            
+            let xform = `from:${from}, to:${to}`;
+            $("#swaps").text(xform);
+        });
     });
 }
 
@@ -570,9 +589,25 @@ function sliceUSQLdata(slicer, data, target) {
                         <div class="inputHeader">Keys:</div>
                         <div class="userInput"><select id="uspKey" class="uspFilter"></select></div>
                         <div class="inputHeader">Values:</div>
-                        <div class="userInput"><select id="uspVal" class="uspFilter"></select>
+                        <div class="userInput"><select id="uspVal" class="uspFilter"></select></div>
                         `;
             $target.html(previewHTML);
+            /*$target.find("select").on("change", function(){
+                let uspKey = $target.find("#uspKey").val();
+                let uspVal = $target.find("#uspVal").val();
+                let fromKey = "${"+$("#transform").val()+".key}";
+                let fromVal = "${"+$("#transform").val()+".val}";
+                
+                let xform = `
+                from:${fromKey}, to:${uspKey}<br>\n
+                from:${fromVal}, to:${uspVal}
+                `;
+                $("#swaps").text(xform);
+            });*/
+            $("#swaps").html(`
+                <div class="inputHeader">Values:</div>
+                <div class="userInput"><input id="filterClause"></div>
+            `);
             uspFilterChangeHandler();
             break;
         case 'Keys':
@@ -582,6 +617,10 @@ function sliceUSQLdata(slicer, data, target) {
                         <div class="userInput"><select id="uspKey" class="uspFilter"></select></div>
                         `;
             $target.html(previewHTML);
+            $("#swaps").html(`
+                <div class="inputHeader">Values:</div>
+                <div class="userInput"><input id="filterClause"></div>
+            `);
             uspFilterChangeHandler();
             break;
         case 'ValX3':
@@ -595,6 +634,10 @@ function sliceUSQLdata(slicer, data, target) {
                         <div class="userInput"><select id="cityList" class="regionFilter"></select></div>
                         `;
             $target.html(previewHTML);
+            $("#swaps").html(`
+                <div class="inputHeader">Values:</div>
+                <div class="userInput"><input id="filterClause"></div>
+            `);
             regionsChangeHandler();
             break;
     }
