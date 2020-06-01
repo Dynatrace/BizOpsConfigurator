@@ -734,6 +734,7 @@ function globalButtonHandler() {
           let i = element.dataset.index;
           journeyOverviews[i].filename = element.value;
         });
+        $("#x_a").trigger("click");
         break;
       }
       case "reloadDBs": {
