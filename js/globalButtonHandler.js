@@ -867,6 +867,7 @@ function globalButtonHandler() {
             });
           });
         }
+        break;
       }
       case "personaDelete": {
         $(this).val("Deleting...");

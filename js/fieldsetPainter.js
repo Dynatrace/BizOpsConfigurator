@@ -586,7 +586,7 @@ function fieldsetPainter() {
                     let startUsecaseHtml = `<section><a class="expandable">${usecase.name}</a><article><div id="tenantList"><dl class="list">`;
                     let endUsecaseHtml = `</dl></div></article></section>`;
 
-                    let filteredDBs2 = filteredDBs.filter(db => db.id.split("-")[2] === personaPrefix);
+                    let filteredDBs2 = filteredDBs.filter(db => db.id.split("-")[2] === usecasePrefix);
                     filteredDBs2.forEach(function(db){
                         let dbHtml = `
                         <dt><a target='_blank' href='${url}/#dashboard;id=${db.id}' class='newTab'>
