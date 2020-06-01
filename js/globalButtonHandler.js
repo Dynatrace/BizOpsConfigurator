@@ -875,7 +875,7 @@ function globalButtonHandler() {
         let count = 1;
 
         let parts = id.split("-");
-        let re = new RegExp(`${parts[0]}-${parts[1]}-${parts[2]}-[0-9]{4}-${parts[4]}-`);
+        let re = new RegExp(`${parts[0]}-${parts[1]}-${parts[2]}-[a-f0-9]{4}-${parts[4]}`);
         DBAdashboards.forEach(function (db) {
           if (re.test(db.id) && db.id != id) {
             count++;
