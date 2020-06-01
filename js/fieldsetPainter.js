@@ -589,7 +589,8 @@ function fieldsetPainter() {
                     let filteredDBs2 = filteredDBs.filter(db => db.id.split("-")[2] === personaPrefix);
                     filteredDBs2.forEach(function(db){
                         let dbHtml = `
-                        <dt id="${db.id}">${db.name} (${db.owner})</dt>
+                        <dt id="${db.id}"><a target='_blank' href='${url}/#dashboard;id=${db.id}' class='newTab'>
+                        ${db.name} <img src='images/link.svg'></a> (${db.owner})</dt>
                         <dd>
                             <input type="button" id="personaEdit" value="Edit">
                             <input type="button" id="personaDelete" value="Delete">

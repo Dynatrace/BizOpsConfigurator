@@ -856,10 +856,10 @@ function globalButtonHandler() {
       }
       case "workflowButton": {
         let button = $("#workflowButton");
-        if(button.val()=="Next") workflowNextPage();
-        else if(button.val()=="Done"){
+        if (button.val() == "Next") workflowNextPage();
+        else if (button.val() == "Done") {
           let p = uploadWorkflow($("#workflow"));
-          $.when(p).done(function(){
+          $.when(p).done(function () {
             let p_DBA = getAllDashboards();
             $.when(p_DBA).done(function (data) {
               processDBADashboards(data);
@@ -867,6 +867,34 @@ function globalButtonHandler() {
             });
           });
         }
+      }
+      case "personaDelete": {
+        $(this).val("Deleting...");
+        $(this).prop('disabled', true);
+        let id = $(this)[0].parentNode.id;
+        let count = 1;
+
+        let parts = id.split("-");
+        let re = new RegExp(`${parts[0]}-${parts[1]}-${parts[2]}-[0-9]{4}-${parts[4]}-`);
+        DBAdashboards.forEach(function (db) {
+          if (re.test(db.id) && db.id != id) {
+            count++;
+          }
+        });
+
+        if (window.confirm("DELETE " + count + " dashboards? This cannot be undone...")) {
+          deleteDashboards(re);
+          let p_DBA = getAllDashboards();
+            $.when(p_DBA).done(function (data) {
+              processDBADashboards(data);
+              $(this).val("Deleted");
+              $("#viewport").load("html/personaFlow/persona_list.html", fieldsetPainter);
+            });
+        } else {
+          $(this).val("Delete");
+          $(this).prop('disabled', false);
+        }
+        break;
       }
       case "":
       case undefined:

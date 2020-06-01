@@ -562,3 +562,11 @@ function uploadWorkflow(workflow) {
   uploadSubs(subs);
   return dtAPIquery(query, { method: "PUT", data: dbS });
 }
+
+function deleteDashboards(re) {
+  DBAdashboards.forEach(function (db) {
+    if (re.test(db.id)) {
+      deleteDashboard(db.id)
+    }
+  });
+}

@@ -1,6 +1,6 @@
 //////// Constants //////////////
 var configDashboard = "json/configDashboard.json";
-const REpersonaWorkflow = /^bbbbbbbb-a[0-9]{3}-a[0-9]{3}-[0-9]{4}-[0-9]{12}$/;
+const REpersonaWorkflow = /^bbbbbbbb-a[0-9]{3}-a[0-9]{3}-[0]{4}-[0-9]{12}$/;
 const unique = (value, index, self) => self.indexOf(value) === index;
 
 //var dashboardDir = "json/Dynatrace-DashboardsV4/";
