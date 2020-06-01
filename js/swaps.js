@@ -130,7 +130,7 @@ function whereClauseSwaps(dbData, config) {
 
   //OR'd set of steps
   let FunnelORClause = whereSteps.join(" OR ");
-  whereSwaps.push({from: "FunnelORClause", to:FunnelORClause, wrap: true});
+  whereSwaps.push({ from: "FunnelORClause", to: FunnelORClause, wrap: true });
 
   //build FunnelStep
   let FunnelStep = "";
@@ -249,7 +249,7 @@ t.markdown = t.markdown.replace(/sessionquery=[^&]*&/, "sessionquery="+query+"&"
   }
 });
 //}*/
-  
+
   dbData = doSwaps(dbData, whereSwaps);
   return dbData;
 }
@@ -285,9 +285,9 @@ function doSwaps(db, swaps) {
   });
 
   let dbObj = {};
-  try{
+  try {
     dbObj = JSON.parse(dbS);
-  } catch(err){
+  } catch (err) {
     console.log(err);
     console.log(dbS);
     console.log(swaps);
@@ -309,7 +309,7 @@ function doEncodedMarkdownTileSwaps(t, swaps) {
       query = encodeURIComponent(query);
       t.markdown = t.markdown.replace(/sessionquery=[^&]*&?/, "sessionquery=" + query + "&");
     }
-    else if(t.markdown.includes("sessionquery")){
+    else if (t.markdown.includes("sessionquery")) {
       console.log("MARKDOWN tile did not match regex");
       console.log(t);
     }
@@ -317,7 +317,7 @@ function doEncodedMarkdownTileSwaps(t, swaps) {
   return; //t passed by ref
 }
 
-function transformSubs(subs, dbid, swaps, config, nextID=nextDB) {
+function transformSubs(subs, dbid, swaps, config, nextID = nextDB) {
   let id = dbid;
   config.subids = [];
   subs.forEach(function (db) {
@@ -330,10 +330,12 @@ function transformSubs(subs, dbid, swaps, config, nextID=nextDB) {
     sub["dashboardMetadata"]["shared"] = "true";
     sub["dashboardMetadata"]["sharingDetails"]["linkShared"] = "true";
     sub["dashboardMetadata"]["sharingDetails"]["published"] = "false";
-    sub["dashboardMetadata"]["dashboardFilter"]["managementZone"] = {
-      "id": config.mz,
-      "name": config.mzname
-    };
+    if (typeof config.mz == "string")
+      sub["dashboardMetadata"]["dashboardFilter"]["managementZone"] = {
+        "id": config.mz,
+        "name": config.mzname
+      };
+    else sub["dashboardMetadata"]["dashboardFilter"]["managementZone"] = null;
     if ("costControlUserSessionPercentage" in config) addCostControlTile(sub, config);
     addReplaceButton(sub, dbid, "![BackButton]()", "⇦", findTopRight);
   });
@@ -369,11 +371,11 @@ function generateWorkflowSwapList(workflow) {
   let $workflow = $(workflow);
   let swaps = [];
 
-  $workflow.find(".workflowInput").each(function(i,el){
+  $workflow.find(".workflowInput").each(function (i, el) {
     let $workflowInput = $(this);
     let from = $workflowInput.find(".transform span").text();
     let to = $workflowInput.find("input:not([type=hidden]), select option:selected").val();
-    swaps.push({from:from, to:to});
+    swaps.push({ from: from, to: to });
     //TODO: add seperate transforms for key/val on selects
   });
   return swaps;
