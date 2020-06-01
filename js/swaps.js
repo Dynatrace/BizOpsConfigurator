@@ -375,7 +375,7 @@ function generateWorkflowSwapList(workflow) {
     let $workflowInput = $(this);
     let from = $workflowInput.find(".transform span").text();
     let to = $workflowInput.find("input:not([type=hidden]), select option:selected").val();
-    swaps.push({ from: from, to: to });
+    swaps.push({ from: "${"+from+"}", to: to });
     //TODO: add seperate transforms for key/val on selects
   });
   return swaps;
