@@ -521,7 +521,8 @@ function deleteDashboard(id) {
 }
 
 function uploadWorkflow(workflow) {
-  let config = workflow.config;
+  let $workflow = $(workflow);
+  let config = JSON.parse($workflow.find("#workflowConfigJSON").val());
   let overviewName = config.overview;
 
   //get dashboard JSON
@@ -545,7 +546,7 @@ function uploadWorkflow(workflow) {
 
   //sub-dashboards & swaps
   let subs = getStaticSubDBs(overview, [config.oldId]);
-  let swaps = generateWorkflowSwapList(workflow);
+  let swaps = generateWorkflowSwapList($workflow);
   swaps = transformSubs(subs, config.id, swaps, config, nextWorkflowDBID);
   var dbObj = doSwaps(overview, swaps);
   dbObj = validateDB(dbObj);
