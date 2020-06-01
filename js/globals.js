@@ -544,7 +544,7 @@ function nextWorkflowOverview(persona, usecase) {
 function nextWorkflowDBID(id) {
   let parts = id.split("-");
   let newID = parseInt(parts[3]) + 1;
-  parts[3] = newID.toString.padStart(4, "0");
+  parts[3] = newID.toString().padStart(4, "0");
   return parts.join("-");
 }
 
