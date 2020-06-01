@@ -526,9 +526,10 @@ function uploadWorkflow(workflow) {
   let overviewName = config.overview;
 
   //get dashboard JSON
-  let overview = JSON.parse(JSON.stringify(dbList.find(x => x.name === overviewName &&
+  let overview = dbList.find(x => x.name === overviewName &&
     x.repo.owner === config.githubUser && x.repo.repo === config.githubRepo && 
-    x.repo.path === config.githubPath).file));
+    x.repo.path === config.githubPath);
+  overview = JSON.parse(JSON.stringify(overview.file));  
 
   //transform
   let personaPrefix = personas.find( ({name}) => name === selection.persona).prefix;
