@@ -562,7 +562,7 @@ function fieldsetPainter() {
             break;
         }
         case "persona_user_inputs": {
-            let p = renderWorkflow($(selection.workflow.file.html));
+            let p = renderWorkflow(selection.workflow.file.html);
             $.when(p).done(function (html) {
                 $("#workflow").html(html);
                 workflowSetFirstPageActive();

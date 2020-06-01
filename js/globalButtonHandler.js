@@ -903,6 +903,7 @@ function globalButtonHandler() {
         let p1 = loadDashboard(workflowConfigID(id));
 
         $.when(p1).done(function (data) {
+          selection['workflow'] = {};
           selection['workflow']['file'] = parseConfigDashboard(data);
           selection['workflow']['loadedFromConfigDB']=true;
           selection['workflow']['configDB']=id;

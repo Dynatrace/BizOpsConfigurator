@@ -451,7 +451,8 @@ function renderWorkflow(el) {
     let p = new $.Deferred();
     let promises = [];
 
-    clonedEl = el.clone();
+    let $el = $(el);
+    let clonedEl = $el.clone();
 
     clonedEl.find(".workflowInputPopup").remove();
     clonedEl.find(".workflowSectionPopup").remove();
