@@ -860,8 +860,12 @@ function globalButtonHandler() {
         else if(button.val()=="Done"){
           let p = uploadWorkflow($("#workflow"));
           $.when(p).done(function(){
-            $("#viewport").load("html/personaFlow/persona_list.html", fieldsetPainter);
-          })
+            let p_DBA = getAllDashboards();
+            $.when(p_DBA).done(function (data) {
+              processDBADashboards(data);
+              $("#viewport").load("html/personaFlow/persona_list.html", fieldsetPainter);
+            });
+          });
         }
       }
       case "":

@@ -591,8 +591,8 @@ function fieldsetPainter() {
                         let dbHtml = `
                         <dt id="${db.id}">${db.name} (${db.owner})</dt>
                         <dd>
-                            <input type="button" id="edit" value="Edit">
-                            <input type="button" id="delete" value="Delete">
+                            <input type="button" id="personaEdit" value="Edit">
+                            <input type="button" id="personaDelete" value="Delete">
                         </dd>`;
                         startUsecaseHtml += dbHtml;
                     })
@@ -600,7 +600,7 @@ function fieldsetPainter() {
                 });
                 html += startPersonaHtml + endPersonaHtml;
             });
-            $("#personaDeployedList").html();
+            $("#personaDeployedList").html(html);
             break;
         case "workflowBuilder":
             $(".workflowSectionPopup, .workflowInputPopup").addClass("hidden");
