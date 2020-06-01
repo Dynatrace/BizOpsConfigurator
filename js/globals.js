@@ -553,3 +553,21 @@ function workflowConfigID(id) {
   parts[3] = "ffff";
   return parts.join("-");
 }
+
+function stringifyWithValues(selector){
+  let $obj = $(selector);
+  let $clone = $obj.clone(true);
+
+  //copy values
+  $clone.find("input").each(function(){
+    $(this).attr('value',$(this).val());
+  });
+  $clone.find("select").each(function(){ 
+    $(this).find('option:selected').attr('selected', 'selected'); 
+  }); 
+  let html = $clone.wrap("<div></div>").parent().html();
+  html = html.replace(/^ +/gm,"");
+  html = html.replace(/\n/g,"");
+
+  return html;
+}
