@@ -61,6 +61,9 @@ function workflowBuilderHandlers() {
     $("#viewport").on("click", "#testAPI", testAPIhandler);
     $("#viewport").on("click", "#testUSQL", testUSQLhandler);
     $("#viewport").on("click", "#staticBoxAdd", staticBoxAddHandler);
+
+    //prevent rich text paste
+    $("#viewport").on("paste", "[contenteditable]", pasteFixer);
 }
 
 function workflowAddSection() {
@@ -596,4 +599,15 @@ function sliceUSQLdata(slicer, data, target) {
             break;
     }
     return parsedResults;
+}
+
+function pasteFixer(event) {
+        let paste = (event.clipboardData || window.clipboardData).getData('text');
+     
+        const selection = window.getSelection();
+        if (!selection.rangeCount) return false;
+        selection.deleteFromDocument();
+        selection.getRangeAt(0).insertNode(document.createTextNode(paste));
+    
+        event.preventDefault();
 }
