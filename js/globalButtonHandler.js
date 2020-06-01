@@ -906,7 +906,7 @@ function globalButtonHandler() {
           selection['workflow'] = {};
           selection['workflow']['file'] = parseConfigDashboard(data);
           selection['workflow']['loadedFromConfigDB']=true;
-          selection['workflow']['configDB']=id;
+          selection['workflow']['originalID']=id;
           //selection.funnelLoaded = true;
           $("#viewport").load("html/personaFlow/persona_userInputs.html", fieldsetPainter);
         });

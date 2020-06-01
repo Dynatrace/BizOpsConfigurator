@@ -538,7 +538,11 @@ function uploadWorkflow(workflow) {
   }
 
   //transform
-  let id = nextWorkflowOverview(selection.persona.prefix, selection.usecase.prefix);
+  let id = "";
+  if(typeof selection.workflow.originalID !== "undefined")
+    id = selection.workflow.originalID;
+  else 
+    id = nextWorkflowOverview(selection.persona.prefix, selection.usecase.prefix);
   config.id = id;
   config.oldId = overview["id"];
   overview["id"] = id;
