@@ -341,7 +341,7 @@ function workflowConfiguration() {
         let p2 = popupHTMLDeferred("Workflow Configuration", content);
         let html = "";
         personas.forEach(function (e) {
-            html += `<option>${e}</option>`;
+            html += `<option>${e.name}</option>`;
         })
         $("#persona").html(html);
 
