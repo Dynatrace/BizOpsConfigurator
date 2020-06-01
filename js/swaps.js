@@ -364,3 +364,17 @@ function scanForTokens(db) {
   else
     return [];
 }
+
+function generateWorkflowSwapList(workflow) {
+  let $workflow = $(workflow);
+  let swaps = [];
+
+  $workflow.find(".workflowInput").each(function(i,el){
+    let $workflowInput = $(this);
+    let from = $workflowInput.find(".transform span").text();
+    let to = $workflowInput.find("input:not([type=hidden]), select option:selected").val();
+    swaps.push({from:from, to:to});
+    //TODO: add seperate transforms for key/val on selects
+  });
+  return swaps;
+}
