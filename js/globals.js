@@ -1,6 +1,6 @@
 //////// Constants //////////////
 var configDashboard = "json/configDashboard.json";
-const REpersonaWorkflow = /^bbbbbbbb-a[0-9]{3}-[0-9]{4}-[0-9]{4}-[0-9]{12}$/;
+const REpersonaWorkflow = /^bbbbbbbb-a[0-9]{3}-a[0-9]{3}-[0-9]{4}-[0-9]{12}$/;
 const unique = (value, index, self) => self.indexOf(value) === index;
 
 //var dashboardDir = "json/Dynatrace-DashboardsV4/";
@@ -55,24 +55,24 @@ var journeyOverviews = [
   { name: 'LiteUserJourney (w/o KPI)', filename: 'LiteOverviewFalse.json', repo: { 'owner': 'TechShady', 'repo': 'BizOpsLite', 'path': '' } }
 ];
 var personas = [
-  {name:"Ops", prefix: "a001"},
-  {name:"Dev", prefix: "a002"},
-  {name:"App Owner", prefix: "a003"},
-  {name:"IT Exec", prefix: "a004"},
-  {name:"Dynatrace Admin", prefix: "a005"}
+  { name: "Ops", prefix: "a001" },
+  { name: "Dev", prefix: "a002" },
+  { name: "App Owner", prefix: "a003" },
+  { name: "IT Exec", prefix: "a004" },
+  { name: "Dynatrace Admin", prefix: "a005" }
 ];
 var usecases = [
-  { name: "User Journey", bizAnalytics: true, prefix: "001" },
-  { name: "Release Validation", bizAnalytics: true, prefix: "002" },
-  { name: "Marketing Analysis", bizAnalytics: true, prefix: "003" },
-  { name: "Search Overview", bizAnalytics: true, prefix: "004" },
-  { name: "A/B Testing", bizAnalytics: true, prefix: "005" },
-  { name: "Incident Response", bizAnalytics: false, prefix: "006" },
-  { name: "Citrix Overview", bizAnalytics: false, prefix: "007" },
-  { name: "SAP Overview", bizAnalytics: false, prefix: "008" },
-  { name: "Remote Employee Overview", bizAnalytics: false, prefix: "009" },
-  { name: "Capacity Management", bizAnalytics: false, prefix: "010" },
-  { name: "Billing Analysis", bizAnalytics: false, prefix: "011" }
+  { name: "User Journey", bizAnalytics: true, prefix: "a001" },
+  { name: "Release Validation", bizAnalytics: true, prefix: "a002" },
+  { name: "Marketing Analysis", bizAnalytics: true, prefix: "a003" },
+  { name: "Search Overview", bizAnalytics: true, prefix: "a004" },
+  { name: "A/B Testing", bizAnalytics: true, prefix: "a005" },
+  { name: "Incident Response", bizAnalytics: false, prefix: "a006" },
+  { name: "Citrix Overview", bizAnalytics: false, prefix: "a007" },
+  { name: "SAP Overview", bizAnalytics: false, prefix: "a008" },
+  { name: "Remote Employee Overview", bizAnalytics: false, prefix: "a009" },
+  { name: "Capacity Management", bizAnalytics: false, prefix: "a010" },
+  { name: "Billing Analysis", bizAnalytics: false, prefix: "a011" }
 ];
 //////// Global Vars ////////////
 var url = "";
@@ -109,7 +109,7 @@ function processDBADashboards(result) {
     if (dashboard["id"].substring(0, 8) == "bbbbbbbb") { //old style DBs
       dbs.push(dashboard);
     }
-    if(dashboard['id'].match(REpersonaWorkflow)) { //new persona style DBs
+    if (dashboard['id'].match(REpersonaWorkflow)) { //new persona style DBs
       pDBs.push(dashboard);
     }
   });
@@ -521,7 +521,7 @@ var sanitizer = {};
   sanitizer.sanitize = sanitize;
 })(jQuery);
 
-function nextWorkflowOverview(persona,usecase){
+function nextWorkflowOverview(persona, usecase) {
   //"bbbbbbbb-a463-0001-0000-ffffffffffff"
   //bbbbbbbb - Configurator dashboard
   //aXXX - persona prefix
@@ -534,21 +534,21 @@ function nextWorkflowOverview(persona,usecase){
     .map(el => el.id)
     .filter((id) => id.match(REpersonaWorkflow))
     .map(id => id.slice(-12))
-    .reduce(reducer,0);
+    .reduce(reducer, 0);
 
-  let newDeployment = (maxDeployment+1).toString().padStart(12,"0");
+  let newDeployment = (maxDeployment + 1).toString().padStart(12, "0");
   let newID = `bbbbbbbb-${persona}-${usecase}-0000-${newDeployment}`;
   return newID;
 }
 
-function nextWorkflowDBID(id){
+function nextWorkflowDBID(id) {
   let parts = id.split("-");
-  let newID = parseInt(parts[3])+1;
-  parts[3] = newID.toString.padStart(4,"0");
+  let newID = parseInt(parts[3]) + 1;
+  parts[3] = newID.toString.padStart(4, "0");
   return parts.join("-");
 }
 
-function workflowConfigID(id){
+function workflowConfigID(id) {
   let parts = id.split("-");
   parts[3] = "ffff";
   return parts.join("-");

@@ -858,7 +858,10 @@ function globalButtonHandler() {
         let button = $("#workflowButton");
         if(button.val()=="Next") workflowNextPage();
         else if(button.val()=="Done"){
-          uploadWorkflow($("#workflow"));
+          let p = uploadWorkflow($("#workflow"));
+          $.when(p).done(function(){
+            $("#viewport").load("html/personaFlow/persona_list.html", fieldsetPainter);
+          })
         }
       }
       case "":
