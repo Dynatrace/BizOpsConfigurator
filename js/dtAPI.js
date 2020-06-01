@@ -175,7 +175,7 @@ function deployMZ(file, swaps) {
 }
 
 //// Functions ////
-function dtAPIquery(query, options={}, retries = 3) {
+function dtAPIquery(query, options = {}, retries = 3) {
   let success = (options.hasOwnProperty('success') ? options.success : function (data, textStatus, jqXHR) {//console.log("dtAPIQuery success")
   });
   let method = (options.hasOwnProperty('method') ? options.method : "GET");
@@ -215,7 +215,7 @@ function dtAPIquery(query, options={}, retries = 3) {
 function uploadTenantOverview(config) {
   //get dashboard JSON
   var dashboardTO = JSON.parse(JSON.stringify(dbList.find(x => x.name === config.tenantOverview &&
-    x.repo.owner === config.repo.owner && x.repo.repo === config.repo.repo && 
+    x.repo.owner === config.repo.owner && x.repo.repo === config.repo.repo &&
     x.repo.path === config.repo.path).file));
 
   //transform
@@ -237,14 +237,14 @@ function uploadTenantOverview(config) {
   var query = "/api/config/v1/dashboards/" + id;
 
   //any template specific changes, e.g. add tiles
-  switch(config.tenantOverview){
+  switch (config.tenantOverview) {
     case "TenantOverview.json":
     case "LiteTenantOverview.json":
       break;
     case "00000000-dddd-bbbb-ffff-000000000001":
       break;
     case "SAP Application Cockpit.json":
-      SAPappList(dashboardTO,config.SAPapps);
+      SAPappList(dashboardTO, config.SAPapps);
       break;
     case "RETenantOverview.json":
     case "RETenantOverview2.json":
@@ -293,7 +293,7 @@ function updateTenantOverview(TOid) {
 function uploadAppOverview(config) {
   //get dashboard JSON
   var dashboardAO = JSON.parse(JSON.stringify(dbList.find(x => x.name === config.appOverview &&
-    x.repo.owner === config.repo.owner && x.repo.repo === config.repo.repo && 
+    x.repo.owner === config.repo.owner && x.repo.repo === config.repo.repo &&
     x.repo.path === config.repo.path).file));
   let p2 = addParentConfig(config, config.TOid);
   return $.when(p2).then(function () {
@@ -362,8 +362,8 @@ function uploadFunnel(config) {
   var dashboardFO;
   var filename = "";
 
-dashboardFO = JSON.parse(JSON.stringify(dbList.find(x => x.name === config.journeyOverview &&
-    x.repo.owner === config.repo.owner && x.repo.repo === config.repo.repo && 
+  dashboardFO = JSON.parse(JSON.stringify(dbList.find(x => x.name === config.journeyOverview &&
+    x.repo.owner === config.repo.owner && x.repo.repo === config.repo.repo &&
     x.repo.path === config.repo.path).file));
   let p2 = addParentConfig(config, config.AOid);
   return $.when(p2).then(function (data2) {
@@ -526,15 +526,18 @@ function uploadWorkflow(workflow) {
   let overviewName = config.overview;
 
   //get dashboard JSON
-  let overview = dbList.find(x => x.name === overviewName &&
-    x.repo.owner === config.githubUser && x.repo.repo === config.githubRepo && 
-    x.repo.path === config.githubPath);
-  overview = JSON.parse(JSON.stringify(overview.file));  
+  try {
+    let overview = dbList.find(x => x.name === overviewName &&
+      x.repo.owner === config.githubUser && x.repo.repo === config.githubRepo &&
+      x.repo.path === config.githubPath);
+    overview = JSON.parse(JSON.stringify(overview.file));
+  } catch (err) {
+    errorbox("Unable to find selected overview in downloaded list.");
+    return;
+  }
 
   //transform
-  let personaPrefix = personas.find( ({name}) => name === selection.persona).prefix;
-  let usecasePrefix = usecases.find( ({name}) => name === selection.usecase).prefix;
-  let id = nextWorkflowOverview(personaPrefix,usecasePrefix);
+  let id = nextWorkflowOverview(selection.persona.prefix, selection.usecase.prefix);
   config.id = id;
   config.oldId = overview["id"];
   overview["id"] = id;
