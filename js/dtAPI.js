@@ -558,7 +558,10 @@ function uploadWorkflow(workflow) {
 
   //upload
   let dbS = JSON.stringify(dbObj);
-  saveConfigDashboard(workflowConfigID(id), config);
+  let workflowToSave = $workflow.html();
+  workflowToSave = workflowToSave.replace(/^ +/gm,"");
+  workflowToSave = workflowToSave.replace(/\n/g,"");
+  saveConfigDashboard(workflowConfigID(id), {html:workflowToSave});
   uploadSubs(subs);
   return dtAPIquery(query, { method: "PUT", data: dbS });
 }

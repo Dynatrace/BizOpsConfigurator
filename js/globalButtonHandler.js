@@ -896,6 +896,20 @@ function globalButtonHandler() {
         }
         break;
       }
+      case "personaEdit": {
+        let id = $(this)[0].parentNode.id;
+
+        let p1 = loadDashboard(workflowConfigID(id));
+
+        $.when(p1).done(function (data) {
+          selection['workflow']['file'] = parseConfigDashboard(data);
+          selection['workflow']['loadedFromConfigDB']=true;
+          selection['workflow']['configDB']=id;
+          //selection.funnelLoaded = true;
+          $("#viewport").load("html/personaFlow/persona_userInputs.html", fieldsetPainter);
+        });
+        break;
+      }
       case "":
       case undefined:
         console.log("undefined button");
