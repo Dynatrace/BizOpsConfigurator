@@ -295,7 +295,7 @@ function testUSQLhandler() {
 
         $.when(p1).done(function (appName) {
             let usql = $("#usqlQuery").val();
-            usql = usql.replace("${app}", appName);
+            usql = usql.replace("${appname}", appName);
             let query = "/api/v1/userSessionQueryLanguage/table?query=" + encodeURIComponent(usql) + "&explain=false";
             let slicer = $("#usqlResultSlicer").val();
             let $target = $("#preview");
