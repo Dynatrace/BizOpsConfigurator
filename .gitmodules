@@ -1,0 +1,15 @@
+[submodule "3rdparty/jsonFormatter"]
+	path = 3rdparty/jsonFormatter
+	url = https://github.com/MHeironimus/jsonFormatter.git
+[submodule "3rdparty/d3-funnel"]
+	path = 3rdparty/d3-funnel
+	url = https://github.com/jakezatecky/d3-funnel.git
+[submodule "3rdparty/d3"]
+	path = 3rdparty/d3
+	url = https://github.com/d3/d3.git
+[submodule "3rdparty/sheetJS"]
+	path = 3rdparty/sheetJS
+	url = https://github.com/SheetJS/sheetjs.git
+[submodule "3rdparty/showdown"]
+	path = 3rdparty/showdown
+	url = https://github.com/showdownjs/showdown.git
