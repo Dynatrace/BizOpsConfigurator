@@ -8,20 +8,11 @@ function fieldsetPainter() {
     bcHandler();
     switch (id) {
         case "repoconfig":
-            /*$("#default_repo_owner").val(repoList[1].owner);
-            $("#default_repo_repo").val(repoList[1].repo);
-            $("#old_repo_owner").val(repoList[0].owner);
-            $("#old_repo_repo").val(repoList[0].repo);
-            $("#dbFunnelTrue").val(dbFunnelTrue);
-            $("#dbFunnelFalse").val(dbFunnelFalse);
-            $("#oldVersion").val(oldVersion);*/
             $("#dbTagsVersion").val(dbTagsVersion);
             $("#dbTO").val(dbTO);
             $("#dbAO").val(dbAO);
 
             let repoOptions = "";
-
-            //for (let i = 2; i < repoList.length; i++) {
             for (let i = 0; i < repoList.length; i++) {
                 let r = repoList[i];
                 let html = `<tr><td>Repo #${i}:</td>

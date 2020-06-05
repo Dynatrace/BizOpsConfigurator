@@ -503,7 +503,6 @@ function loadApiQuery($query) {
     let query = $query.val();
     let slicer = $query.siblings(".apiResultSlicer").val();
     let $target = $query.siblings(".workflowSelect");
-    $target.attr("insideLoadApiQuery",true);
     if (!query.match(/^\/api\//)) {
         console.log(`invalid api query: ${query}`);
         return;
@@ -527,7 +526,6 @@ function loadUsqlQuery($query) {
 
 function loadApiQueryOptions(query, slicer, target) {
     let $target = $(target);
-    $target.attr("insideLoadApiQueryOption",true);
     let p1 = dtAPIquery(query);
     return $.when(p1).done(function (data) {
         jsonviewer(data);
@@ -546,9 +544,9 @@ function loadApiQueryOptions(query, slicer, target) {
             let fromkey = "${"+$("#transform").val()+".key}";
             let fromval = "${"+$("#transform").val()+".value}";
             
-            let xform = `from:${fromkey}, to:${key}<br>
-            from:${fromval}, to:${value}<br>`;
-            $("#swaps").text(xform);
+            let xform = `<b>from</b>:${fromkey}, <b>to</b>:${key}<br>
+            <b>from</b>:${fromval}, <b>to</b>:${value}<br>`;
+            $("#swaps").html(xform);
         });
     });
 }
