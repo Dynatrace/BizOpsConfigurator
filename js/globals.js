@@ -575,3 +575,16 @@ function stringifyWithValues(selector){
 
   return html;
 }
+
+function loadBackupCSSIfNotLoaded(search,backup) {
+  var ss = document.styleSheets;
+  for (var i = 0, max = ss.length; i < max; i++) {
+      if (ss[i].href.includes(search))
+          return;
+  }
+  var link = document.createElement("link");
+  link.rel = "stylesheet";
+  link.href = backup;
+
+  document.getElementsByTagName("head")[0].appendChild(link);
+}
