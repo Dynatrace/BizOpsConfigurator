@@ -544,7 +544,7 @@ function loadApiQueryOptions(query, slicer, target) {
             let value = $(this).val();
             let key = $(this).children("option:selected").text();
             let fromkey = "${"+$("#transform").val()+".key}";
-            let fromvalue = "${"+$("#transform").val()+".value}";
+            let fromval = "${"+$("#transform").val()+".value}";
             
             let xform = `from:${fromkey}, to:${key}<br>
             from:${fromval}, to:${value}<br>`;
