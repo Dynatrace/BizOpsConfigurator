@@ -584,6 +584,7 @@ function sliceUSQLdata(slicer, data, target) {
     let parsedResults = [];
 
     let previewHTML = "";
+    let from = $("#transform").val();
     switch (slicer) {
         case 'parseUSPFilter':
             parsedResults = parseUSPFilter(data);
@@ -597,20 +598,10 @@ function sliceUSQLdata(slicer, data, target) {
                         <div class="userInput"><select id="uspVal" class="uspFilter"></select></div>
                         `;
             $target.html(previewHTML);
-            /*$target.find("select").on("change", function(){
-                let uspKey = $target.find("#uspKey").val();
-                let uspVal = $target.find("#uspVal").val();
-                let fromKey = "${"+$("#transform").val()+".key}";
-                let fromVal = "${"+$("#transform").val()+".val}";
-                
-                let xform = `
-                from:${fromKey}, to:${uspKey}<br>\n
-                from:${fromVal}, to:${uspVal}
-                `;
-                $("#swaps").text(xform);
-            });*/
             $("#swaps").html(`
-                <div class="inputHeader">Values:</div>
+                <div class="inputHeader">From:</div>
+                <div class="userInput">${from}</div>
+                <div class="inputHeader">To:</div>
                 <div class="userInput"><input id="filterClause"></div>
             `);
             uspFilterChangeHandler();
@@ -623,7 +614,9 @@ function sliceUSQLdata(slicer, data, target) {
                         `;
             $target.html(previewHTML);
             $("#swaps").html(`
-                <div class="inputHeader">Values:</div>
+                <div class="inputHeader">From:</div>
+                <div class="userInput">${from}</div>
+                <div class="inputHeader">To:</div>
                 <div class="userInput"><input id="filterClause"></div>
             `);
             uspFilterChangeHandler();
@@ -640,7 +633,9 @@ function sliceUSQLdata(slicer, data, target) {
                         `;
             $target.html(previewHTML);
             $("#swaps").html(`
-                <div class="inputHeader">Values:</div>
+                <div class="inputHeader">From:</div>
+                <div class="userInput">${from}</div>
+                <div class="inputHeader">To:</div>
                 <div class="userInput"><input id="filterClause"></div>
             `);
             regionsChangeHandler();
