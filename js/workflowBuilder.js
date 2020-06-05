@@ -535,16 +535,19 @@ function loadApiQueryOptions(query, slicer, target) {
         let optionsHTML = "";
         if (parsedResults.length > 0) {
             parsedResults.forEach(function (i) {
-                optionsHTML += `<option id="${i.id}">${i.value}</option>`;
+                optionsHTML += `<option value="${i.value}">${i.key}</option>`;
             });
         }
         $target.html(optionsHTML);
         $target.removeAttr("disabled");
         $target.on("change", function(){
-            let to = $(this).val();
-            let from = "${"+$("#transform").val()+"}";
+            let value = $(this).val();
+            let key = $(this).children("option:selected").text();
+            let fromkey = "${"+$("#transform").val()+".key}";
+            let fromvalue = "${"+$("#transform").val()+".value}";
             
-            let xform = `from:${from}, to:${to}`;
+            let xform = `from:${fromkey}, to:${key}<br>
+            from:${fromval}, to:${value}<br>`;
             $("#swaps").text(xform);
         });
     });
@@ -566,12 +569,12 @@ function sliceAPIdata(slicer, data) {
     switch (slicer) {
         case "{entityId:displayName}":
             if (data.length > 0) data.forEach(function (item) {
-                parsedResults.push({ id: item.entityId, value: item.displayName });
+                parsedResults.push({ value: item.entityId, key: item.displayName });
             });
             break;
         case "values:{id:name}":
             if (typeof data.values == "object") data.values.forEach(function (item) {
-                parsedResults.push({ id: item.id, value: item.name });
+                parsedResults.push({ value: item.id, key: item.name });
             });
             break;
     }
