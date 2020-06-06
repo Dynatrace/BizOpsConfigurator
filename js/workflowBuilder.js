@@ -528,7 +528,7 @@ function loadApiQueryOptions(query, slicer, target) {
     let $target = $(target);
     let p1 = dtAPIquery(query);
     return $.when(p1).done(function (data) {
-        jsonviewer(data);
+        jsonviewer(data,true,"","#apiResult");
         let parsedResults = sliceAPIdata(slicer, data);
         let optionsHTML = "";
         if (parsedResults.length > 0) {
@@ -555,8 +555,8 @@ function loadUsqlQueryOptions(query, slicer, target) {
     let $target = $(target);
     let p = dtAPIquery(query);
     return $.when(p).done(function (data) {
-        jsonviewer(data);
-        let parsedResults = sliceUSQLdata(slicer, data, $target);
+        jsonviewer(data,true,"","#apiResult");
+        sliceUSQLdata(slicer, data, $target);
         $target.html(optionsHTML);
         $target.removeAttr("disabled");
     });
