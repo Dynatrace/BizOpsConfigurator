@@ -687,6 +687,10 @@ img.structure {
   order: 3;
 }
 
+#vspacer {
+  flex: 1;
+}
+
 #gear {
   flex: 0 0 44px;
   order: 4;

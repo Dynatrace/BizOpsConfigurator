@@ -182,6 +182,7 @@ function inputTypeChangeHandler() {
     $("#staticBox").hide();
     $("#multiBox").hide();
     $("#textInputBox").hide();
+    $("#inputInfoBox").hide();
     $("#apiQueryHeader").text();
     $("#preview").html();
 
@@ -200,6 +201,9 @@ function inputTypeChangeHandler() {
             $("#newInputResult").show();
             $("#newInputPreview").show();
             $("#multiBox").show();
+            $("#inputInfoBox").html(`<img src="images/light-bulb-yellow_300.svg">
+            Be sure the replacement token in query is filled on a prior page.`);
+            $("#inputInfoBox").show();
             break;
         case "Select (static)":
             $("#staticBox").show();
