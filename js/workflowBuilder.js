@@ -123,6 +123,7 @@ function Input() {
         let p1 = $.get("html/personaFlow/workflowBuilder-newInput.html");
         $.when(p1).done(function (content) {
             let p2 = popupHTMLDeferred("New Input", content);
+            $("#doneBar").append(`<div id="inputInfoBox"></div>`);
             inputTypeChangeHandler();
 
             $.when(p2).done(function (data) {
