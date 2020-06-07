@@ -280,6 +280,7 @@ function usqlCommonQueryChangeHandler() {
 function testHandler() {
     let inputType = $("#inputType").val();
     $("#preview, #swaps").html("");
+    $("#preview").off();
     switch (inputType) {
         case "Select (API)":
             testAPIhandler();
