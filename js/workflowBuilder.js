@@ -185,7 +185,8 @@ function inputTypeChangeHandler() {
     $("#textInputBox").hide();
     $("#inputInfoBox").hide();
     $("#apiQueryHeader").text();
-    $("#preview").html();
+    $("#preview").html().off();
+
 
     switch ($("#inputType").val()) {
         case "Text Input":
@@ -277,6 +278,7 @@ function usqlCommonQueryChangeHandler() {
 
 function testHandler() {
     let inputType = $("#inputType").val();
+    $("#preview, #swaps").html("");
     switch (inputType) {
         case "Select (API)":
             testAPIhandler();
@@ -631,7 +633,6 @@ function sliceUSQLdata(slicer, data, target) {
                 <div class="inputHeader">To:</div>
                 <div class="userInput"><input id="filterClause"></div>
             `);
-
             $target.on("change", "select", previewChangeHandler);
             previewChangeHandler($target);
             break;
@@ -659,7 +660,7 @@ function sliceUSQLdata(slicer, data, target) {
             $target.html(previewHTML);
             $("#swaps").html(`
                 <div class="inputHeader">From:</div>
-                <div class="userInput">${from}</div>
+                <div class="userInput">${'${'+from+'}'}</div>
                 <div class="inputHeader">To:</div>
                 <div class="userInput"><input id="filterClause"></div>
             `);
