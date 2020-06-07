@@ -579,8 +579,8 @@ function loadApiQueryOptions(query, slicer, target) {
         }
         $target.html(optionsHTML);
         $target.removeAttr("disabled");
-        $target.on("change", previewChangeHandler);
-        previewChangeHandler($target);
+        $target.on("change", previewChangeHandlerKeyVal);
+        previewChangeHandlerKeyVal($target);
     });
 }
 
@@ -622,20 +622,21 @@ function sliceUSQLdata(slicer, data, target) {
             parsedResults = parseUSPFilter(data);
             break;
         case 'Keys':
-            parsedResults = parseUSPFilter(data);
             previewHTML = `
                 <div class="inputHeader">Keys:</div>
-                <div class="userInput"><select id="uspKey" class="uspFilter"></select></div>
+                <div class="userInput"><select id="kpi" class="uspFilter"></select></div>
                 `;
             $target.html(previewHTML);
+            parsedResults = parseKPIs(data);
+            $("#kpi").html(drawKPIs(parsedResults));
             $("#swaps").html(`
                 <div class="inputHeader">From:</div>
-                <div class="userInput">${from}</div>
+                <div class="userInput">${'${'+from+'}'}</div>
                 <div class="inputHeader">To:</div>
                 <div class="userInput"><input id="filterClause"></div>
             `);
-            $target.on("change", "select", previewChangeHandler);
-            previewChangeHandler($target);
+            $target.on("change", "select", previewChangeHandlerKey);
+            previewChangeHandlerKey($target);
             break;
         case 'Keys/Values':
             parsedResults = parseUSPFilter(data);
@@ -661,7 +662,7 @@ function sliceUSQLdata(slicer, data, target) {
             $target.html(previewHTML);
             $("#swaps").html(`
                 <div class="inputHeader">From:</div>
-                <div class="userInput">${'${'+from+'}'}</div>
+                <div class="userInput">${'${' + from + '}'}</div>
                 <div class="inputHeader">To:</div>
                 <div class="userInput"><input id="filterClause"></div>
             `);
@@ -682,15 +683,24 @@ function pasteFixer(event) {
     event.preventDefault();
 }
 
-
-function previewChangeHandler(el) {
+function previewChangeHandlerKeyVal(el) {
     let $el = (typeof el.length == "undefined" ? $(this) : $(el));
     let value = $el.val();
     let key = $el.children("option:selected").text();
     let fromkey = "${" + $("#transform").val() + ".key}";
-    let fromval = "${" + $("#transform").val() + ".value}";
+    let fromval = "${" + $("#transform").val() + ".id}";
 
     let xform = `<b>from</b>:${fromkey}, <b>to</b>:${key}<br>
         <b>from</b>:${fromval}, <b>to</b>:${value}<br>`;
+    $("#swaps").html(xform);
+}
+
+function previewChangeHandlerKey(el) {
+    let $el = (typeof el.length == "undefined" ? $(this) : $(el));
+    let value = $el.val();
+    let key = $el.children("option:selected").text();
+    let fromkey = "${" + $("#transform").val() + ".key}";
+
+    let xform = `<b>from</b>:${fromkey}, <b>to</b>:${key}`;
     $("#swaps").html(xform);
 }
