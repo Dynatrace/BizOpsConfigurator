@@ -1128,11 +1128,11 @@ div.userInput input[type="button"] {
   visibility: hidden;
 }
 
-.donebar {
+.doneBar {
   display: flex;
 }
 
-.inputInfoBox {
+#inputInfoBox {
   background: #242424;
   flex: 1;
   align-items: center;
