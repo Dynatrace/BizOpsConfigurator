@@ -458,7 +458,7 @@ function workflowNextPage() {
     active.removeClass("activePage");
     newPage.addClass("activePage");
     updatePageListing();
-    
+
     return newPage;
 }
 
@@ -475,15 +475,15 @@ function workflowPrevPage() {
 
 function workflowTest() {
     let p = renderWorkflow($("#workflow"));
-    $("#workflow").attr("id","workflowInactive");
+    $("#workflow").attr("id", "workflowInactive");
     $.when(p).done(function (renderedHTML) {
         let p1 = popupHTMLDeferred("Testing Workflow", renderedHTML);
         workflowSetFirstPageActive();
         let activePage = $("#workflow .workflowPage.activePage");
         renderWorkflowPage(activePage);
         drawWorkflowPagerButton();
-        $.when(p1).done(function(){
-            $("#workflowInactive").attr("id","workflow");
+        $.when(p1).done(function () {
+            $("#workflowInactive").attr("id", "workflow");
         });
     });
 
@@ -575,16 +575,8 @@ function loadApiQueryOptions(query, slicer, target) {
         }
         $target.html(optionsHTML);
         $target.removeAttr("disabled");
-        $target.on("change", function () {
-            let value = $(this).val();
-            let key = $(this).children("option:selected").text();
-            let fromkey = "${" + $("#transform").val() + ".key}";
-            let fromval = "${" + $("#transform").val() + ".value}";
-
-            let xform = `<b>from</b>:${fromkey}, <b>to</b>:${key}<br>
-            <b>from</b>:${fromval}, <b>to</b>:${value}<br>`;
-            $("#swaps").html(xform);
-        });
+        $target.on("change", previewChangeHandler);
+        previewChangeHandler();
     });
 }
 
@@ -690,4 +682,16 @@ function pasteFixer(event) {
     selection.getRangeAt(0).insertNode(document.createTextNode(paste));
 
     event.preventDefault();
+}
+
+
+function previewChangeHandler() {
+    let value = $(this).val();
+    let key = $(this).children("option:selected").text();
+    let fromkey = "${" + $("#transform").val() + ".key}";
+    let fromval = "${" + $("#transform").val() + ".value}";
+
+    let xform = `<b>from</b>:${fromkey}, <b>to</b>:${key}<br>
+        <b>from</b>:${fromval}, <b>to</b>:${value}<br>`;
+    $("#swaps").html(xform);
 }
