@@ -502,7 +502,7 @@ function renderWorkflow(el) {
     clonedEl.find("[contenteditable]").removeAttr("contenteditable");
     clonedEl.find(".transform").hide();
 
-    let html = sanitizer.sanitize(clonedEl.html());
+    let html = sanitizer.sanitize(clonedEl.wrap("<div></div>").parent().html());
     p.resolve(html);
 
     return p;
@@ -586,7 +586,6 @@ function loadUsqlQueryOptions(query, slicer, target) {
     return $.when(p).done(function (data) {
         jsonviewer(data, true, "", "#apiResult");
         sliceUSQLdata(slicer, data, $target);
-        $target.html(optionsHTML);
         $target.removeAttr("disabled");
     });
 }
