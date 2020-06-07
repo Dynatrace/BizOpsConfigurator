@@ -576,7 +576,7 @@ function loadApiQueryOptions(query, slicer, target) {
         $target.html(optionsHTML);
         $target.removeAttr("disabled");
         $target.on("change", previewChangeHandler);
-        previewChangeHandler();
+        previewChangeHandler($target);
     });
 }
 
@@ -685,9 +685,10 @@ function pasteFixer(event) {
 }
 
 
-function previewChangeHandler() {
-    let value = $(this).val();
-    let key = $(this).children("option:selected").text();
+function previewChangeHandler(el=$(this)) {
+    let $el = $(el);
+    let value = $el.val();
+    let key = $el.children("option:selected").text();
     let fromkey = "${" + $("#transform").val() + ".key}";
     let fromval = "${" + $("#transform").val() + ".value}";
 
