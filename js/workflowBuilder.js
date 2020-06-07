@@ -543,7 +543,7 @@ function loadApiQuery($query) {
     let query = $query.val();
     let slicer = $query.siblings(".apiResultSlicer").val();
     let $target = $query.siblings(".workflowSelect");
-    if (typeof selection.swaps !== "undefined") queryDoSwaps(query, selection.swaps);
+    if (typeof selection.swaps !== "undefined") query = queryDoSwaps(query, selection.swaps);
     if (!query.match(/^\/api\//)) {
         console.log(`invalid api query: ${query}`);
         return;
@@ -557,7 +557,7 @@ function loadUsqlQuery($usql) {
     let usql = $usql.val();
     let slicer = $usql.siblings(".usqlResultSlicer").val();
     let $target = $usql.siblings(".workflowSelect");
-    if (typeof selection.swaps !== "undefined") queryDoSwaps(usql, selection.swaps);
+    if (typeof selection.swaps !== "undefined") usql = queryDoSwaps(usql, selection.swaps);
     if (!usql.match(/^SELECT /i)) {
         console.log(`invalid usql query: ${usql}`);
         return;

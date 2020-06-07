@@ -404,4 +404,5 @@ function queryDoSwaps(query,swaps) {
   swaps.forEach(function (swap) {
     query = query.replace(new RegExp(swap.from, 'g'), swap.to);
   });
+  return query;
 }
