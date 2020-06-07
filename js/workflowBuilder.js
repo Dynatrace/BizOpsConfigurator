@@ -629,12 +629,7 @@ function sliceUSQLdata(slicer, data, target) {
             $target.html(previewHTML);
             parsedResults = parseKPIs(data);
             $("#kpi").html(drawKPIs(parsedResults));
-            $("#swaps").html(`
-                <div class="inputHeader">From:</div>
-                <div class="userInput">${'${'+from+'}'}</div>
-                <div class="inputHeader">To:</div>
-                <div class="userInput"><input id="filterClause"></div>
-            `);
+            $("#swaps").html();
             $target.on("change", "select", previewChangeHandlerKey);
             previewChangeHandlerKey($target);
             break;
@@ -647,18 +642,24 @@ function sliceUSQLdata(slicer, data, target) {
                 <div class="userInput"><select id="uspVal" class="uspFilter"></select></div>
                 `;
             $target.html(previewHTML);
+            $("#swaps").html(`
+                <div class="inputHeader">From:</div>
+                <div class="userInput">${'${' + from + '}'}</div>
+                <div class="inputHeader">To:</div>
+                <div class="userInput"><input id="filterClause"></div>
+            `);
             uspFilterChangeHandler();
             break;
         case 'ValX3':
             parsedResults = parseRegions(data);
             previewHTML = `
-                        <div class="inputHeader">Values:</div>
-                        <div class="userInput"><select id="countryList" class="regionFilter"></select></div>
-                        <div class="inputHeader">Values:</div>
-                        <div class="userInput"><select id="regionList" class="regionFilter"></select></div>
-                        <div class="inputHeader">Values:</div>
-                        <div class="userInput"><select id="cityList" class="regionFilter"></select></div>
-                        `;
+                <div class="inputHeader">Values:</div>
+                <div class="userInput"><select id="countryList" class="regionFilter"></select></div>
+                <div class="inputHeader">Values:</div>
+                <div class="userInput"><select id="regionList" class="regionFilter"></select></div>
+                <div class="inputHeader">Values:</div>
+                <div class="userInput"><select id="cityList" class="regionFilter"></select></div>
+                `;
             $target.html(previewHTML);
             $("#swaps").html(`
                 <div class="inputHeader">From:</div>
@@ -699,7 +700,7 @@ function previewChangeHandlerKey(el) {
     let $el = (typeof el.length == "undefined" ? $(this) : $(el));
     let value = $el.val();
     let key = $el.children("option:selected").text();
-    let fromkey = "${" + $("#transform").val() + ".key}";
+    let fromkey = "${" + $("#transform").val() + "}";
 
     let xform = `<b>from</b>:${fromkey}, <b>to</b>:${key}`;
     $("#swaps").html(xform);
