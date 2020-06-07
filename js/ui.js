@@ -358,7 +358,7 @@ function popup(inputs, popupHeader, desc) {
 }
 
 function popupHTML(popupHeader, content) {
-  bcBuffer = $("#bcwrapper").html(); //why?
+  bcBuffer = $("#bcwrapper").html(); 
   let html = `<div class='popupHTML'>
     <div class='x_box'><a id='x_c'>x</a></div>
     <h3>${popupHeader}</h3>
@@ -373,7 +373,7 @@ function popupHTMLDeferred(popupHeader, content, resultFunction=getAllInputData)
   let p = $.Deferred();
   //bcBuffer = $("#bcwrapper").html();
   let html = `<div class='popupHTML'>
-    <!--<div class='x_box'><a id='x_c'>x</a></div>-->
+    <div class='x_box'><a id='x_c'>x</a></div>
     <h3>${popupHeader}</h3>
     ${content}
     <div class="doneBar"><input type="button" class="done" value="Done"></div>

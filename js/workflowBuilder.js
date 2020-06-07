@@ -478,6 +478,7 @@ function workflowTest() {
     $("#workflow").attr("id", "workflowInactive");
     $.when(p).done(function (renderedHTML) {
         let p1 = popupHTMLDeferred("Testing Workflow", renderedHTML);
+        $(".doneBar").hide();
         workflowSetFirstPageActive();
         let activePage = $("#workflow .workflowPage.activePage");
         renderWorkflowPage(activePage);
@@ -617,6 +618,23 @@ function sliceUSQLdata(slicer, data, target) {
         case 'parseUSPFilter':
             parsedResults = parseUSPFilter(data);
             break;
+        case 'Keys':
+            parsedResults = parseUSPFilter(data);
+            previewHTML = `
+                <div class="inputHeader">Keys:</div>
+                <div class="userInput"><select id="uspKey" class="uspFilter"></select></div>
+                `;
+            $target.html(previewHTML);
+            $("#swaps").html(`
+                <div class="inputHeader">From:</div>
+                <div class="userInput">${from}</div>
+                <div class="inputHeader">To:</div>
+                <div class="userInput"><input id="filterClause"></div>
+            `);
+
+            $target.on("change", "select", previewChangeHandler);
+            previewChangeHandler($target);
+            break;
         case 'Keys/Values':
             parsedResults = parseUSPFilter(data);
             previewHTML = `
@@ -626,22 +644,6 @@ function sliceUSQLdata(slicer, data, target) {
                 <div class="userInput"><select id="uspVal" class="uspFilter"></select></div>
                 `;
             $target.html(previewHTML);
-            $target.on("change", previewChangeHandler);
-            previewChangeHandler($target);
-            break;
-        case 'Keys':
-            parsedResults = parseUSPFilter(data);
-            previewHTML = `
-                        <div class="inputHeader">Keys:</div>
-                        <div class="userInput"><select id="uspKey" class="uspFilter"></select></div>
-                        `;
-            $target.html(previewHTML);
-            $("#swaps").html(`
-                <div class="inputHeader">From:</div>
-                <div class="userInput">${from}</div>
-                <div class="inputHeader">To:</div>
-                <div class="userInput"><input id="filterClause"></div>
-            `);
             uspFilterChangeHandler();
             break;
         case 'ValX3':
