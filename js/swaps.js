@@ -371,11 +371,11 @@ function scanForTokens(db) {
     return [];
 }
 
-function generateWorkflowSwapList(workflow) {
-  let $workflow = $(workflow);
+function generateWorkflowSwapList(el) {
+  let $el = $(el);
   let swaps = [];
 
-  $workflow.find(".workflowInput").each(function (i, el) {
+  $el.find(".workflowInput").each(function (i, el) {
     let $workflowInput = $(this);
     let slicer = $workflowInput.find(".apiResultSlicer, .usqlResultSlicer");
     let transform = $workflowInput.find(".transform span").text();
@@ -385,7 +385,7 @@ function generateWorkflowSwapList(workflow) {
       let value = $option.val();
       let key = $option.text();
       let fromkey = "${" + transform + ".key}";
-      let fromval = "${" + transform + ".value}";
+      let fromval = "${" + transform + ".id}";
       swaps.push({ from: fromkey, to: key });
       swaps.push({ from: fromval, to: value });
     } else {
