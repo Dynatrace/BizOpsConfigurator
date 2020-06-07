@@ -481,6 +481,7 @@ function workflowTest() {
     let p = renderWorkflow($("#workflow"));
     $("#workflow").attr("id", "workflowInactive");
     $.when(p).done(function (renderedHTML) {
+        selection.testMode = true;
         let p1 = popupHTMLDeferred("Testing Workflow", renderedHTML);
         $(".doneBar").hide();
         workflowSetFirstPageActive();
@@ -488,6 +489,7 @@ function workflowTest() {
         renderWorkflowPage(activePage);
         drawWorkflowPagerButton();
         $.when(p1).done(function () {
+            delete selection.testMode;
             $("#workflowInactive").attr("id", "workflow");
         });
     });
@@ -549,7 +551,9 @@ function loadApiQuery($query) {
         return;
     }
     let p1 = loadApiQueryOptions(query, slicer, $target);
-    return $.when(p1).done(function () { });
+    return $.when(p1).done(function(data) {
+        jsonviewer(data);
+     });
 }
 
 function loadUsqlQuery($usql) {
@@ -564,7 +568,7 @@ function loadUsqlQuery($usql) {
     }
     let query = "/api/v1/userSessionQueryLanguage/table?query=" + encodeURIComponent(usql) + "&explain=false";
     let p1 = loadUsqlQueryOptions(query, slicer, $target);
-    return $.when(p1).done(function () { 
+    return $.when(p1).done(function(data) { 
         jsonviewer(data);
     });
 }

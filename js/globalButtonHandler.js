@@ -863,22 +863,29 @@ function globalButtonHandler() {
         let button = $("#workflowButton");
         let activePage = $("#workflow").find(".workflowPage.activePage");
         let swaps = generateWorkflowSwapList(activePage);
-        if(typeof selection.swaps == "undefined") selection.swaps = [];
+        if (typeof selection.swaps == "undefined") selection.swaps = [];
         selection.swaps = selection.swaps.concat(swaps);
-        if (button.val() == "Next"){
+        if (button.val() == "Next") {
           let activePage = workflowNextPage();
           renderWorkflowPage(activePage);
           drawWorkflowPagerButton();
-        } 
+        }
         else if (button.val() == "Done") {
-          let p = uploadWorkflow($("#workflow"));
-          $.when(p).done(function () {
-            let p_DBA = getAllDashboards();
-            $.when(p_DBA).done(function (data) {
-              processDBADashboards(data);
-              $("#viewport").load("html/personaFlow/persona_list.html", fieldsetPainter);
+          if (selection.testMode) {
+            let html = `<ul>`;
+            selection.swaps.forEach((x)=>{html+=`<li>from:${x.from}, to:${x.to}</li>`;});
+            html += `</ul>`;
+            popupHTML("Test Results",html);
+          } else {
+            let p = uploadWorkflow($("#workflow"));
+            $.when(p).done(function () {
+              let p_DBA = getAllDashboards();
+              $.when(p_DBA).done(function (data) {
+                processDBADashboards(data);
+                $("#viewport").load("html/personaFlow/persona_list.html", fieldsetPainter);
+              });
             });
-          });
+          }
         }
         break;
       }
@@ -899,11 +906,11 @@ function globalButtonHandler() {
         if (window.confirm("DELETE " + count + " dashboards? This cannot be undone...")) {
           deleteDashboards(re);
           let p_DBA = getAllDashboards();
-            $.when(p_DBA).done(function (data) {
-              processDBADashboards(data);
-              $(this).val("Deleted");
-              $("#viewport").load("html/personaFlow/persona_list.html", fieldsetPainter);
-            });
+          $.when(p_DBA).done(function (data) {
+            processDBADashboards(data);
+            $(this).val("Deleted");
+            $("#viewport").load("html/personaFlow/persona_list.html", fieldsetPainter);
+          });
         } else {
           $(this).val("Delete");
           $(this).prop('disabled', false);
@@ -918,8 +925,8 @@ function globalButtonHandler() {
         $.when(p1).done(function (data) {
           selection['workflow'] = {};
           selection['workflow']['file'] = parseConfigDashboard(data);
-          selection['workflow']['loadedFromConfigDB']=true;
-          selection['workflow']['originalID']=id;
+          selection['workflow']['loadedFromConfigDB'] = true;
+          selection['workflow']['originalID'] = id;
           //selection.funnelLoaded = true;
           $("#viewport").load("html/personaFlow/persona_userInputs.html", fieldsetPainter);
         });
