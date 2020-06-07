@@ -490,7 +490,9 @@ function workflowTest() {
         drawWorkflowPagerButton();
         $.when(p1).done(function () {
             delete selection.testMode;
+            delete selection.swaps;
             $("#workflowInactive").attr("id", "workflow");
+            updatePageListing();
         });
     });
 
