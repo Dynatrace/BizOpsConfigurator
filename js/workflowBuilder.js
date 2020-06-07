@@ -227,22 +227,27 @@ function commonQueryChangeHandler() {
         case "Apps":
             $("#apiQuery").val("/api/v1/entity/applications?includeDetails=false");
             $("#apiResultSlicer").val("{entityId:displayName}");
+            $("#transform").val("app");
             break;
         case "MZs":
             $("#apiQuery").val("/api/config/v1/managementZones");
             $("#apiResultSlicer").val("values:{id:name}");
+            $("#transform").val("mz");
             break;
         case "Hosts":
             $("#apiQuery").val("/api/v1/entity/infrastructure/hosts?includeDetails=true");
             $("#apiResultSlicer").val("{entityId:displayName}");
+            $("#transform").val("host");
             break;
         case "Autotags":
             $("#apiQuery").val("/api/config/v1/autoTags");
             $("#apiResultSlicer").val("values:{id:name}");
+            $("#transform").val("autotag");
             break;
         case "Services":
             $("#apiQuery").val("/api/v1/entity/services?includeDetails=false");
             $("#apiResultSlicer").val("{entityId:displayName}");
+            $("#transform").val("service");
             break;
 
     }
@@ -255,14 +260,17 @@ function usqlCommonQueryChangeHandler() {
         case "Double/Long USPs":
             $("#usqlQuery").val('SELECT usersession.longProperties, usersession.doubleProperties FROM useraction WHERE useraction.application = "${appname}" LIMIT 5000');
             $("#usqlResultSlicer").val("Keys");
+            $("#transform").val("usp");
             break;
         case "String/Date USPs":
             $("#usqlQuery").val('SELECT usersession.stringProperties, usersession.dateProperties FROM useraction WHERE useraction.application = "${appname}" LIMIT 5000');
             $("#usqlResultSlicer").val("Keys/Values");
+            $("#transform").val("usp");
             break;
         case "Regions":
             $("#usqlQuery").val('SELECT DISTINCT country, region, city FROM usersession WHERE useraction.application = "${appname}" ORDER BY country,region,city LIMIT 5000');
             $("#usqlResultSlicer").val("ValX3");
+            $("#transform").val("region");
             break;
     }
 }
