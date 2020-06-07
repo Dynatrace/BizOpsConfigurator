@@ -685,8 +685,8 @@ function pasteFixer(event) {
 }
 
 
-function previewChangeHandler(el=$(this)) {
-    let $el = $(el);
+function previewChangeHandler(el) {
+    let $el = (typeof el == "undefined" ? $(this) : $(el));
     let value = $el.val();
     let key = $el.children("option:selected").text();
     let fromkey = "${" + $("#transform").val() + ".key}";
