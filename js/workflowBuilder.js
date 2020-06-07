@@ -552,18 +552,21 @@ function loadApiQuery($query) {
     return $.when(p1).done(function () { });
 }
 
-function loadUsqlQuery($query) {
-    $query = $($query);
-    let query = $query.val();
-    let slicer = $query.siblings(".usqlResultSlicer").val();
-    let $target = $query.siblings(".workflowSelect");
-    if (typeof selection.swaps !== "undefined") queryDoSwaps(query, selection.swaps);
-    if (!query.match(/^\/SELECT\//i)) {
-        console.log(`invalid usql query: ${query}`);
+function loadUsqlQuery($usql) {
+    $usql = $($usql);
+    let usql = $usql.val();
+    let slicer = $usql.siblings(".usqlResultSlicer").val();
+    let $target = $usql.siblings(".workflowSelect");
+    if (typeof selection.swaps !== "undefined") queryDoSwaps(usql, selection.swaps);
+    if (!usql.match(/^SELECT /i)) {
+        console.log(`invalid usql query: ${usql}`);
         return;
     }
+    let query = "/api/v1/userSessionQueryLanguage/table?query=" + encodeURIComponent(usql) + "&explain=false";
     let p1 = loadUsqlQueryOptions(query, slicer, $target);
-    return $.when(p1).done(function () { });
+    return $.when(p1).done(function () { 
+        jsonviewer(data);
+    });
 }
 
 function loadApiQueryOptions(query, slicer, target) {
