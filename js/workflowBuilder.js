@@ -156,7 +156,7 @@ function Input() {
                         <input type="hidden" class="apiQuery" value="${data.apiQuery}">`;
                         break;
                 }
-
+                let header = `${data.transform.charAt(0).toUpperCase()}${data.transform.slice(1)}:`;
                 this.html = `
                 <div class="workflowInput" tabindex="0">
                     <div class="workflowInputPopup">
@@ -164,7 +164,7 @@ function Input() {
                         <div><a href="#workflowBuilder" class="workflowInputUp">🔼</a></div>
                         <div><a href="#workflowBuilder" class="workflowInputDown">🔽</a></div>
                     </div>
-                    <div class="inputHeader" contenteditable="true">New Header</div>
+                    <div class="inputHeader" contenteditable="true">${header}</div>
                     <div class="userInput">${input}</div>
                     <div class="transform">&dollar;{<span contenteditable="true">${data.transform}</span>}</div>
                 </div>`
@@ -258,17 +258,17 @@ function usqlCommonQueryChangeHandler() {
 
     switch (commonQueries) {
         case "Double/Long USPs":
-            $("#usqlQuery").val('SELECT usersession.longProperties, usersession.doubleProperties FROM useraction WHERE useraction.application = "${appname}" LIMIT 5000');
+            $("#usqlQuery").val('SELECT usersession.longProperties, usersession.doubleProperties FROM useraction WHERE useraction.application = "${app.key}" LIMIT 5000');
             $("#usqlResultSlicer").val("Keys");
             $("#transform").val("usp");
             break;
         case "String/Date USPs":
-            $("#usqlQuery").val('SELECT usersession.stringProperties, usersession.dateProperties FROM useraction WHERE useraction.application = "${appname}" LIMIT 5000');
+            $("#usqlQuery").val('SELECT usersession.stringProperties, usersession.dateProperties FROM useraction WHERE useraction.application = "${app.key}" LIMIT 5000');
             $("#usqlResultSlicer").val("Keys/Values");
             $("#transform").val("usp");
             break;
         case "Regions":
-            $("#usqlQuery").val('SELECT DISTINCT country, region, city FROM usersession WHERE useraction.application = "${appname}" ORDER BY country,region,city LIMIT 5000');
+            $("#usqlQuery").val('SELECT DISTINCT country, region, city FROM usersession WHERE useraction.application = "${app.key}" ORDER BY country,region,city LIMIT 5000');
             $("#usqlResultSlicer").val("ValX3");
             $("#transform").val("region");
             break;
@@ -312,7 +312,7 @@ function testUSQLhandler() {
 
         $.when(p1).done(function (appName) {
             let usql = $("#usqlQuery").val();
-            usql = usql.replace("${appname}", appName);
+            usql = usql.replace("${app.key}", appName);
             let query = "/api/v1/userSessionQueryLanguage/table?query=" + encodeURIComponent(usql) + "&explain=false";
             let slicer = $("#usqlResultSlicer").val();
             let $target = $("#preview");
@@ -621,19 +621,14 @@ function sliceUSQLdata(slicer, data, target) {
         case 'Keys/Values':
             parsedResults = parseUSPFilter(data);
             previewHTML = `
-                        <div class="inputHeader">Keys:</div>
-                        <div class="userInput"><select id="uspKey" class="uspFilter"></select></div>
-                        <div class="inputHeader">Values:</div>
-                        <div class="userInput"><select id="uspVal" class="uspFilter"></select></div>
-                        `;
+                <div class="inputHeader">Keys:</div>
+                <div class="userInput"><select id="uspKey" class="uspFilter"></select></div>
+                <div class="inputHeader">Values:</div>
+                <div class="userInput"><select id="uspVal" class="uspFilter"></select></div>
+                `;
             $target.html(previewHTML);
-            $("#swaps").html(`
-                <div class="inputHeader">From:</div>
-                <div class="userInput">${from}</div>
-                <div class="inputHeader">To:</div>
-                <div class="userInput"><input id="filterClause"></div>
-            `);
-            uspFilterChangeHandler();
+            $target.on("change", previewChangeHandler);
+            previewChangeHandler($target);
             break;
         case 'Keys':
             parsedResults = parseUSPFilter(data);
