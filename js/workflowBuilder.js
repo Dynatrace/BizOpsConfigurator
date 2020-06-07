@@ -140,7 +140,7 @@ function Input() {
                         break;
                     case "Select (USQL)":
                         input = `<select class="workflowSelect" disabled ${data.multiple}></select>
-                        <input type="hidden" class="usqlQuery" value="${data.usqlQuery}">
+                        <input type="hidden" class="usqlQuery" value="${data.usqlQuery.replace(/"/,'\\"')}">
                         <input type="hidden" class="usqlResultSlicer" value="${data.usqlResultSlicer}">
                         `;
                         break;
