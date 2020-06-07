@@ -185,7 +185,8 @@ function inputTypeChangeHandler() {
     $("#textInputBox").hide();
     $("#inputInfoBox").hide();
     $("#apiQueryHeader").text();
-    $("#preview").html().off();
+    $("#preview").html();
+    $("#preview").off();
 
 
     switch ($("#inputType").val()) {
