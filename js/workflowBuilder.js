@@ -209,7 +209,7 @@ function inputTypeChangeHandler() {
         case "Select (static)":
             $("#staticBox").show();
             let html = `<select id="staticPreview"></select>`;
-            $("#newInputPreview").html(html);
+            $("#preview").html(html);
             $("#newInputPreview").show();
             $("#multiBox").show();
             break;
@@ -269,13 +269,13 @@ function usqlCommonQueryChangeHandler() {
 
 function testHandler() {
     let inputType = $("#inputType").val();
-    switch(inputType){
+    switch (inputType) {
         case "Select (API)":
             testAPIhandler();
-        break;
+            break;
         case "Select (USQL)":
             testUSQLhandler();
-        break;
+            break;
     }
 }
 
@@ -450,6 +450,8 @@ function workflowNextPage() {
     active.removeClass("activePage");
     newPage.addClass("activePage");
     updatePageListing();
+    
+    return newPage;
 }
 
 function workflowPrevPage() {
@@ -465,9 +467,18 @@ function workflowPrevPage() {
 
 function workflowTest() {
     let p = renderWorkflow($("#workflow"));
-    $.when(p).done(function(renderedHTML){
-        popupHTML("Testing Workflow", renderedHTML);
+    $("#workflow").attr("id","workflowInactive");
+    $.when(p).done(function (renderedHTML) {
+        let p1 = popupHTMLDeferred("Testing Workflow", renderedHTML);
+        workflowSetFirstPageActive();
+        let activePage = $("#workflow .workflowPage.activePage");
+        renderWorkflowPage(activePage);
+        drawWorkflowPagerButton();
+        $.when(p1).done(function(){
+            $("#workflowInactive").attr("id","workflow");
+        });
     });
+
 }
 
 function renderWorkflow(el) {
@@ -482,24 +493,35 @@ function renderWorkflow(el) {
     clonedEl.find("input[type=text]:disabled, input:not([type]):disabled").removeAttr("disabled");
     clonedEl.find("[contenteditable]").removeAttr("contenteditable");
     clonedEl.find(".transform").hide();
-    //TODO: execute API queries here, then enable
-    clonedEl.find(".apiQuery").each(function(){
+
+    let html = sanitizer.sanitize(clonedEl.html());
+    p.resolve(html);
+
+    return p;
+}
+
+function renderWorkflowPage(el) {
+    let p = new $.Deferred();
+    let promises = [];
+
+    let $el = $(el);
+
+    //execute API queries here, then enable
+    $el.find(".apiQuery").each(function () {
         let p1 = loadApiQuery($(this));
         promises.push(p1);
     });
-    clonedEl.find(".usqlQuery").each(function(){
-        //TODO: bind change handler based on match ${token}
+    $el.find(".usqlQuery").each(function () {
         let p1 = loadUsqlQuery($(this));
         promises.push(p1);
     });
-    //TODO: add page handling
 
     //make sure any XHRs are finished before we return the html
-    $.when.apply($,promises).done(function(){
-        let html = sanitizer.sanitize(clonedEl.html());
+    $.when.apply($, promises).done(function () {
+        let html = sanitizer.sanitize($el.html());
         p.resolve(html);
     })
-    
+
     return p;
 }
 
@@ -508,12 +530,13 @@ function loadApiQuery($query) {
     let query = $query.val();
     let slicer = $query.siblings(".apiResultSlicer").val();
     let $target = $query.siblings(".workflowSelect");
+    if (typeof selection.swaps !== "undefined") queryDoSwaps(query, selection.swaps);
     if (!query.match(/^\/api\//)) {
         console.log(`invalid api query: ${query}`);
         return;
     }
     let p1 = loadApiQueryOptions(query, slicer, $target);
-    return $.when(p1).done(function(){});
+    return $.when(p1).done(function () { });
 }
 
 function loadUsqlQuery($query) {
@@ -521,19 +544,20 @@ function loadUsqlQuery($query) {
     let query = $query.val();
     let slicer = $query.siblings(".usqlResultSlicer").val();
     let $target = $query.siblings(".workflowSelect");
+    if (typeof selection.swaps !== "undefined") queryDoSwaps(query, selection.swaps);
     if (!query.match(/^\/SELECT\//i)) {
         console.log(`invalid usql query: ${query}`);
         return;
     }
     let p1 = loadUsqlQueryOptions(query, slicer, $target);
-    return $.when(p1).done(function(){});
+    return $.when(p1).done(function () { });
 }
 
 function loadApiQueryOptions(query, slicer, target) {
     let $target = $(target);
     let p1 = dtAPIquery(query);
     return $.when(p1).done(function (data) {
-        jsonviewer(data,true,"","#apiResult");
+        jsonviewer(data, true, "", "#apiResult");
         let parsedResults = sliceAPIdata(slicer, data);
         let optionsHTML = "";
         if (parsedResults.length > 0) {
@@ -543,12 +567,12 @@ function loadApiQueryOptions(query, slicer, target) {
         }
         $target.html(optionsHTML);
         $target.removeAttr("disabled");
-        $target.on("change", function(){
+        $target.on("change", function () {
             let value = $(this).val();
             let key = $(this).children("option:selected").text();
-            let fromkey = "${"+$("#transform").val()+".key}";
-            let fromval = "${"+$("#transform").val()+".value}";
-            
+            let fromkey = "${" + $("#transform").val() + ".key}";
+            let fromval = "${" + $("#transform").val() + ".value}";
+
             let xform = `<b>from</b>:${fromkey}, <b>to</b>:${key}<br>
             <b>from</b>:${fromval}, <b>to</b>:${value}<br>`;
             $("#swaps").html(xform);
@@ -560,7 +584,7 @@ function loadUsqlQueryOptions(query, slicer, target) {
     let $target = $(target);
     let p = dtAPIquery(query);
     return $.when(p).done(function (data) {
-        jsonviewer(data,true,"","#apiResult");
+        jsonviewer(data, true, "", "#apiResult");
         sliceUSQLdata(slicer, data, $target);
         $target.html(optionsHTML);
         $target.removeAttr("disabled");
@@ -650,12 +674,12 @@ function sliceUSQLdata(slicer, data, target) {
 }
 
 function pasteFixer(event) {
-        let paste = (event.clipboardData || window.clipboardData).getData('text');
-     
-        const selection = window.getSelection();
-        if (!selection.rangeCount) return false;
-        selection.deleteFromDocument();
-        selection.getRangeAt(0).insertNode(document.createTextNode(paste));
-    
-        event.preventDefault();
+    let paste = (event.clipboardData || window.clipboardData).getData('text');
+
+    const selection = window.getSelection();
+    if (!selection.rangeCount) return false;
+    selection.deleteFromDocument();
+    selection.getRangeAt(0).insertNode(document.createTextNode(paste));
+
+    event.preventDefault();
 }

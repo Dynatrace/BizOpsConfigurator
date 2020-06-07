@@ -861,7 +861,10 @@ function globalButtonHandler() {
       }
       case "workflowButton": {
         let button = $("#workflowButton");
-        if (button.val() == "Next") workflowNextPage();
+        if (button.val() == "Next"){
+          let activePage = workflowNextPage();
+          renderWorkflowPage(activePage);
+        } 
         else if (button.val() == "Done") {
           let p = uploadWorkflow($("#workflow"));
           $.when(p).done(function () {

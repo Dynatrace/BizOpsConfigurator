@@ -1139,3 +1139,7 @@ div.userInput input[type="button"] {
   display: flex;
   padding-left: 10px;
 }
+
+#workflowInactive {
+  visibility: hidden;
+}
