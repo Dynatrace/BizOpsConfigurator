@@ -388,6 +388,9 @@ function popupHTMLDeferred(popupHeader, content, resultFunction=getAllInputData)
     popupZindex--;
     p.resolve(data);
   })
+  popup.find("#x_c").on("click", function(e) {
+    p.resolve();
+  })
   return p;
 }
 
