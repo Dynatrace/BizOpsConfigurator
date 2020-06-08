@@ -264,7 +264,8 @@ function doSwaps(db, swaps) {
   if (matches.length > 0) {
     swaps = JSON.parse(JSON.stringify(swaps)); //copy
     swaps.forEach(function (s) {
-      if (s.wrap) s.from = "\\${" + s.from + "}";
+      if(s.wrap) s.from = "\\${" + s.from + "}";
+      else if(s.from.charAt(0)=='$') s.from = '\\'+s.from;
     });
   } else if (typeof db == "object") {
     console.log("Unconvert tokens in " + db.dashboardMetadata.name);
