@@ -250,9 +250,7 @@ function jsonviewer(result, show = false, name = "", selector = "#jsonviewer") {
     $(selector + " #jsontitle").append(name);
     let json = JSON.stringify(result);
     if (json.length > 10000) {
-      //let subjson = json.substring(0,10000);
       $(selector + " div#results").append("<span class='warning'>JSON too large to pretty format!</span>\n");
-      //$(selector+" div#results").append(subjson + "\n... plus " + (json.length - 10000) + " more characters.</pre>");
       $(selector + " div#results").append("<pre>" + JSON.stringify(result, null, 2) + "</pre>\n");
     } else {
       $(selector + " div#results").append(json);

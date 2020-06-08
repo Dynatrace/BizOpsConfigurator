@@ -553,9 +553,9 @@ function loadApiQuery($query) {
         return;
     }
     let p1 = loadApiQueryOptions(query, slicer, $target);
-    return $.when(p1).done(function(data) {
+    return $.when(p1).done(function (data) {
         jsonviewer(data);
-     });
+    });
 }
 
 function loadUsqlQuery($usql) {
@@ -570,7 +570,7 @@ function loadUsqlQuery($usql) {
     }
     let query = "/api/v1/userSessionQueryLanguage/table?query=" + encodeURIComponent(usql) + "&explain=false";
     let p1 = loadUsqlQueryOptions(query, slicer, $target);
-    return $.when(p1).done(function(data) { 
+    return $.when(p1).done(function (data) {
         jsonviewer(data);
     });
 }
@@ -599,7 +599,7 @@ function loadUsqlQueryOptions(query, slicer, target) {
     let p = dtAPIquery(query);
     return $.when(p).done(function (data) {
         jsonviewer(data, true, "", "#apiResult");
-        sliceUSQLdata(slicer, data, $target);
+        let parsedResults  = sliceUSQLdata(slicer, data, $target);
         $target.removeAttr("disabled");
     });
 }
@@ -625,6 +625,7 @@ function sliceUSQLdata(slicer, data, target) {
     let $target = $(target);
     let parsedResults = [];
 
+    if($target.is("select"))$target.replaceWith("<div></div>");
     let previewHTML = "";
     let from = $("#transform").val();
     switch (slicer) {
@@ -682,6 +683,61 @@ function sliceUSQLdata(slicer, data, target) {
     }
     return parsedResults;
 }
+
+/*function previewSlicedUSQLdata(parsedResults, slicer, target) {
+    let $target = $(target);
+    let parsedResults = [];
+
+    let previewHTML = "";
+    let from = $("#transform").val();
+    switch (slicer) {
+        case 'Keys':
+            previewHTML = `
+                <div class="inputHeader">Keys:</div>
+                <div class="userInput"><select id="kpi" class="uspFilter"></select></div>
+                `;
+            $target.html(previewHTML);
+            $("#kpi").html(drawKPIs(parsedResults));
+            $("#swaps").html();
+            $target.on("change", "select", previewChangeHandlerKey);
+            previewChangeHandlerKey($target);
+            break;
+        case 'Keys/Values':
+            previewHTML = `
+                <div class="inputHeader">Keys:</div>
+                <div class="userInput"><select id="uspKey" class="uspFilter"></select></div>
+                <div class="inputHeader">Values:</div>
+                <div class="userInput"><select id="uspVal" class="uspFilter"></select></div>
+                `;
+            $target.html(previewHTML);
+            $("#swaps").html(`
+                <div class="inputHeader">From:</div>
+                <div class="userInput">${'${' + from + '}'}</div>
+                <div class="inputHeader">To:</div>
+                <div class="userInput"><input id="filterClause"></div>
+            `);
+            uspFilterChangeHandler();
+            break;
+        case 'ValX3':
+            previewHTML = `
+                <div class="inputHeader">Values:</div>
+                <div class="userInput"><select id="countryList" class="regionFilter"></select></div>
+                <div class="inputHeader">Values:</div>
+                <div class="userInput"><select id="regionList" class="regionFilter"></select></div>
+                <div class="inputHeader">Values:</div>
+                <div class="userInput"><select id="cityList" class="regionFilter"></select></div>
+                `;
+            $target.html(previewHTML);
+            $("#swaps").html(`
+                <div class="inputHeader">From:</div>
+                <div class="userInput">${'${' + from + '}'}</div>
+                <div class="inputHeader">To:</div>
+                <div class="userInput"><input id="filterClause"></div>
+            `);
+            regionsChangeHandler();
+            break;
+    }
+}*/
 
 function pasteFixer(event) {
     let paste = (event.clipboardData || window.clipboardData).getData('text');
