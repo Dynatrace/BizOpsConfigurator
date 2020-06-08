@@ -88,11 +88,16 @@
             </ol>
             For <u>"Full Offline Mode" (airgapped)</u>:
             <ol>
-                <li>Outside your protected network, download the configurator <a href="https://github.com/LucasHocker/LucasHocker.github.io"
+                <li>Outside your protected network, download the configurator <a href="https://github.com/Dynatrace/BizOpsConfigurator.git"
                 target="_blank" class="newTab">source <img src='images/link.svg'></a></li>
                 <li>Trasport the source to your protected network via whatever approved means / process your company has</li>
                 <li>Extract the source (/BizOpsConfigurator directory) into a webserver of your choosing<br>
-                Note: the Configurator is 100% static content, so any webserver should be fine</li>
+                Note: the Configurator is 100% static content, so any webserver should be fine<br>
+                Be sure to use the following git commands:<br>
+                <code>
+                    git clone https://github.com/Dynatrace/BizOpsConfigurator.git
+                    git submodule update --init --recursive
+                </code></li>
                 <li>Point your browser to your webserver to confirm it's serving the content</li>
                 <li>Follow above process for "Partial Offline"</li>
             </ol>

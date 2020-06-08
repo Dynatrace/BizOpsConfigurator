@@ -1152,3 +1152,12 @@ div.userInput input[type="button"] {
   display: flex;
   flex-direction: row-reverse;
 }
+
+#devguide_persona a, #devguide_persona a:visited {
+  color: white;
+  text-decoration: none;
+}
+
+#devguide_persona a:hover {
+  text-decoration: underline;
+}
