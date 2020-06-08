@@ -384,7 +384,7 @@ function generateWorkflowSwapList(el) {
       let $option = $workflowInput.find("select option:selected");
       let value = $option.val();
       let key = $option.text();
-      let fromkey = "${" + transform + ".key}";
+      let fromkey = "${" + transform + ".name}";
       let fromval = "${" + transform + ".id}";
       swaps.push({ from: fromkey, to: key });
       swaps.push({ from: fromval, to: value });

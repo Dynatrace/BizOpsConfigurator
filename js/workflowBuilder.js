@@ -260,17 +260,17 @@ function usqlCommonQueryChangeHandler() {
 
     switch (commonQueries) {
         case "Double/Long USPs":
-            $("#usqlQuery").val('SELECT usersession.longProperties, usersession.doubleProperties FROM useraction WHERE useraction.application = "${app.key}" LIMIT 5000');
+            $("#usqlQuery").val('SELECT usersession.longProperties, usersession.doubleProperties FROM useraction WHERE useraction.application = "${app.name}" LIMIT 5000');
             $("#usqlResultSlicer").val("Keys");
             $("#transform").val("usp");
             break;
         case "String/Date USPs":
-            $("#usqlQuery").val('SELECT usersession.stringProperties, usersession.dateProperties FROM useraction WHERE useraction.application = "${app.key}" LIMIT 5000');
+            $("#usqlQuery").val('SELECT usersession.stringProperties, usersession.dateProperties FROM useraction WHERE useraction.application = "${app.name}" LIMIT 5000');
             $("#usqlResultSlicer").val("Keys/Values");
             $("#transform").val("usp");
             break;
         case "Regions":
-            $("#usqlQuery").val('SELECT DISTINCT country, region, city FROM usersession WHERE useraction.application = "${app.key}" ORDER BY country,region,city LIMIT 5000');
+            $("#usqlQuery").val('SELECT DISTINCT country, region, city FROM usersession WHERE useraction.application = "${app.name}" ORDER BY country,region,city LIMIT 5000');
             $("#usqlResultSlicer").val("ValX3");
             $("#transform").val("region");
             break;
@@ -316,7 +316,7 @@ function testUSQLhandler() {
 
         $.when(p1).done(function (appName) {
             let usql = $("#usqlQuery").val();
-            usql = usql.replace("${app.key}", appName);
+            usql = usql.replace("${app.name}", appName);
             let query = "/api/v1/userSessionQueryLanguage/table?query=" + encodeURIComponent(usql) + "&explain=false";
             let slicer = $("#usqlResultSlicer").val();
             let $target = $("#preview");
@@ -627,7 +627,7 @@ function sliceUSQLdata(slicer, data, target) {
 
     if($target.is("select")){
         let $div = $("<div></div>");
-        $target.replaceWith("<div></div>");
+        $div.replaceAll($target);
         $target = $div;
     }
     let previewHTML = "";
@@ -758,7 +758,7 @@ function previewChangeHandlerKeyVal(el) {
     let $el = (typeof el.length == "undefined" ? $(this) : $(el));
     let value = $el.val();
     let key = $el.children("option:selected").text();
-    let fromkey = "${" + $("#transform").val() + ".key}";
+    let fromkey = "${" + $("#transform").val() + ".name}";
     let fromval = "${" + $("#transform").val() + ".id}";
 
     let xform = `<b>from</b>:${fromkey}, <b>to</b>:${key}<br>
