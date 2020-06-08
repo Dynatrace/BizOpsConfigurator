@@ -625,7 +625,11 @@ function sliceUSQLdata(slicer, data, target) {
     let $target = $(target);
     let parsedResults = [];
 
-    if($target.is("select"))$target.replaceWith("<div></div>");
+    if($target.is("select")){
+        let $div = $("<div></div>");
+        $target.replaceWith("<div></div>");
+        $target = $div;
+    }
     let previewHTML = "";
     let from = $("#transform").val();
     switch (slicer) {
