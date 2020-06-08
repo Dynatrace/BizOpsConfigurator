@@ -375,7 +375,7 @@ function generateWorkflowSwapList(el) {
   let $el = $(el);
   let swaps = [];
 
-  $el.find(".workflowInput").each(function (i, el) {
+  $el.find(".workflowInput, .workflowSelect").each(function (i, el) {
     let $workflowInput = $(this);
     let slicer = $workflowInput.find(".apiResultSlicer, .usqlResultSlicer");
     let transform = $workflowInput.find(".transform span").text();
@@ -405,8 +405,6 @@ function generateWorkflowSwapList(el) {
         let to = $workflowInput.find("input:not([type=hidden])").val();
         swaps.push({ from: from, to: to });
     }
-
-    //TODO: add seperate transforms for key/val on selects
   });
 
   return swaps;
