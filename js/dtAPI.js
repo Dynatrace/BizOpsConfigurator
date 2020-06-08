@@ -570,6 +570,7 @@ function uploadWorkflow(workflow) {
   let workflowToSave = stringifyWithValues($workflow);
   saveConfigDashboard(workflowConfigID(id), {html:workflowToSave});
   uploadSubs(subs);
+  selection = {};
   return dtAPIquery(query, { method: "PUT", data: dbS });
 }
 
