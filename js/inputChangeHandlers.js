@@ -585,10 +585,10 @@ function HUreportChangeHandler() {
 function workflowPickerChangeHandler(e) {
   let el = $(this);
   let id = el.attr('id');
-  //FUTURE: only show usecases where we have workflows for selected persona
+  
   switch (id) {
     case undefined: {
-      //let deployedPersonas = personaDBs.map(({ id }) => id.split("-")[1]).filter(unique);
+      
       let deployedPersonas = workflowList.map((x) => x.file.config.persona).flat().filter(unique);
       let personaOptions = "";
       deployedPersonas.forEach(function (personaPrefix) {
@@ -596,11 +596,12 @@ function workflowPickerChangeHandler(e) {
         personaOptions += `<option data-prefix="${persona.prefix}">${persona.name}</option>`;
       });
       $("#persona").html(personaOptions);
+    //do not break
     }
     case "persona": {
       let usecaseOptions = "";
       let personaPrefix = $("#persona option:selected").attr("data-prefix");
-      //let filteredDBs = personaDBs.filter(db => db.id.split("-")[1] === personaPrefix);
+      
       let filteredWFs = workflowList.filter(wf => wf.file.config.persona.includes(personaPrefix));
       let deployedUsecases = filteredWFs.map((wf) => wf.file.config.usecase).filter(unique);
       deployedUsecases.forEach(function (usecasePrefix) {
@@ -608,9 +609,9 @@ function workflowPickerChangeHandler(e) {
         usecaseOptions += `<option data-prefix="${usecase.prefix}">${usecase.name}</option>`;
       });
       $("#usecase").html(usecaseOptions);
-    }
     //do not break
-    case "usecase":
+    }
+    case "usecase": {
       let workflowOptions = "";
       let personaPrefix = $("#persona option:selected").attr("data-prefix");
       let usecasePrefix = $("#usecase option:selected").attr("data-prefix");
@@ -622,6 +623,7 @@ function workflowPickerChangeHandler(e) {
       });
       $("#workflow").html(workflowOptions);
     //do not break
+    }
     default:
       let i = $("#workflow :selected").attr('data-workflowIndex');
       let workflow = workflowList[i];

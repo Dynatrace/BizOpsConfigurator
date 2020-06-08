@@ -377,7 +377,7 @@ function generateWorkflowSwapList(el) {
 
   $el.find(".workflowInput").each(function (i, el) {
     let $workflowInput = $(this);
-    let slicer = $workflowInput.find(".apiResultSlicer, .usqlResultSlicer");
+    let slicer = $workflowInput.find(".apiResultSlicer, .usqlResultSlicer").val();
     let transform = $workflowInput.find(".transform span").text();
 
     switch (slicer) {
