@@ -850,10 +850,10 @@ function globalButtonHandler() {
         break;
       }
       case "persona_usecase_next": {
-        let personaI = $("#persona :selected").attr('data-usecaseIndex');
-        selection.persona = personas[personaI];
-        let usecaseI = $("#usecase :selected").attr('data-usecaseIndex');
-        selection.usecase = usecases[usecaseI];
+        let personaPrefix = $("#persona :selected").attr('data-personaPrefix');
+        selection.persona = personas.find(({prefix}) => prefix === personaPrefix);
+        let usecasePrefix = $("#usecase :selected").attr('data-usecasePrefix');
+        selection.usecase = usecases.find(({prefix}) => prefix === usecasePrefix);
         let workflowI = $("#workflow :selected").attr('data-workflowIndex');
         selection.workflow = workflowList[workflowI];
         $("#viewport").load("html/personaFlow/persona_userInputs.html", fieldsetPainter);
