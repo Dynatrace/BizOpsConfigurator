@@ -561,6 +561,8 @@ function fieldsetPainter() {
             $.when(p).done(function (html) {
                 $("#workflow").html(html);
                 workflowSetFirstPageActive();
+                let activePage = $("#workflow .workflowPage.activePage");
+                renderWorkflowPage(activePage);
                 drawWorkflowPagerButton();
             });
             break;
