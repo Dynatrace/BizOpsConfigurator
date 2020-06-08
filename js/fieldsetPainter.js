@@ -100,8 +100,8 @@ function fieldsetPainter() {
         case "main":
             $("#owner").text(owner);
             let p_DBA = getAllDashboards();
-            if (personaFlow) $("#persona_list").show();
-            else $("#persona_list").hide();
+            if (personaFlow) $("#persona_list, #persona_deploy").show();
+            else $("#persona_list, #persona_deploy").hide();
 
             $.when(p_DBA).done(function (data) {
                 processDBADashboards(data);
