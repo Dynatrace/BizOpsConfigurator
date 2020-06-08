@@ -587,23 +587,37 @@ function workflowPickerChangeHandler(e) {
   let id = el.attr('id');
   //FUTURE: only show usecases where we have workflows for selected persona
   switch (id) {
-    case undefined:
+    case undefined: {
+      //let deployedPersonas = personaDBs.map(({ id }) => id.split("-")[1]).filter(unique);
+      let deployedPersonas = workflowList.map((x) => x.file.config.persona).flat().filter(unique);
       let personaOptions = "";
-      personas.forEach(function (v, i) {
-        personaOptions += `<option data-usecaseIndex="${i}">${v.name}</option>`;
+      deployedPersonas.forEach(function (personaPrefix) {
+        let persona = personas.find(({ prefix }) => prefix === personaPrefix);
+        personaOptions += `<option data-prefix="${persona.prefix}">${persona.name}</option>`;
       });
       $("#persona").html(personaOptions);
-    case "persona":
+    }
+    case "persona": {
       let usecaseOptions = "";
-      usecases.forEach(function (v, i) {
-        usecaseOptions += `<option data-usecaseIndex="${i}">${v.name}</option>`;
+      let personaPrefix = $("#persona option:selected").attr("data-prefix");
+      //let filteredDBs = personaDBs.filter(db => db.id.split("-")[1] === personaPrefix);
+      let filteredWFs = workflowList.filter(wf => wf.file.config.persona.includes(personaPrefix));
+      let deployedUsecases = filteredWFs.map((wf) => wf.file.config.usecase).filter(unique);
+      deployedUsecases.forEach(function (usecasePrefix) {
+        let usecase = usecases.find(({ prefix }) => prefix === usecasePrefix);
+        usecaseOptions += `<option data-prefix="${usecase.prefix}">${usecase.name}</option>`;
       });
       $("#usecase").html(usecaseOptions);
+    }
     //do not break
     case "usecase":
       let workflowOptions = "";
-      workflowList.forEach(function (v, i) {
-        let name = v.file.config.workflowName;
+      let personaPrefix = $("#persona option:selected").attr("data-prefix");
+      let usecasePrefix = $("#usecase option:selected").attr("data-prefix");
+      let filtered1 = workflowList.filter(wf => wf.file.config.persona.includes(personaPrefix));
+      let filtered2 = filtered1.filter(wf => wf.file.config.usecase === usecasePrefix);
+      filtered2.forEach(function (wf,i) {
+        let name = wf.file.config.workflowName;
         workflowOptions += `<option data-workflowIndex="${i}">${name}</option>`;
       });
       $("#workflow").html(workflowOptions);
@@ -614,7 +628,5 @@ function workflowPickerChangeHandler(e) {
       let readme = findWorkflowReadme(workflow);
       $("#readmeViewer").html(readme.html);
   }
-
-  //FUTURE: only show workflows within a usecase
 
 }

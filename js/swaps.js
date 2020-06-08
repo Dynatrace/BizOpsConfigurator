@@ -380,18 +380,30 @@ function generateWorkflowSwapList(el) {
     let slicer = $workflowInput.find(".apiResultSlicer, .usqlResultSlicer");
     let transform = $workflowInput.find(".transform span").text();
 
-    if (slicer.length) {
-      let $option = $workflowInput.find("select option:selected");
-      let value = $option.val();
-      let key = $option.text();
-      let fromkey = "${" + transform + ".name}";
-      let fromval = "${" + transform + ".id}";
-      swaps.push({ from: fromkey, to: key });
-      swaps.push({ from: fromval, to: value });
-    } else {
-      let from = "${" + transform + "}";
-      let to = $workflowInput.find("input:not([type=hidden])").val();
-      swaps.push({ from: from, to: to });
+    switch (slicer) {
+      case "{entityId:displayName}":
+      case "values:{id:name}": {
+        let $option = $workflowInput.find("select option:selected");
+        let value = $option.val();
+        let key = $option.text();
+        let fromkey = "${" + transform + ".name}";
+        let fromval = "${" + transform + ".id}";
+        swaps.push({ from: fromkey, to: key });
+        swaps.push({ from: fromval, to: value });
+        break;
+      }
+      case 'Keys':
+      case 'Keys/Values':
+      case 'ValX3': {
+        let from = "${" + transform + "}";
+        let to = $workflowInput.find(".filterClause").val();
+        swaps.push({ from: from, to: to });
+        break;
+      }
+      default:
+        let from = "${" + transform + "}";
+        let to = $workflowInput.find("input:not([type=hidden])").val();
+        swaps.push({ from: from, to: to });
     }
 
     //TODO: add seperate transforms for key/val on selects
@@ -400,9 +412,9 @@ function generateWorkflowSwapList(el) {
   return swaps;
 }
 
-function queryDoSwaps(query,swaps) {
+function queryDoSwaps(query, swaps) {
   swaps.forEach(function (swap) {
-    query = query.replace(new RegExp('\\'+swap.from, 'g'), swap.to);
+    query = query.replace(new RegExp('\\' + swap.from, 'g'), swap.to);
   });
   return query;
 }

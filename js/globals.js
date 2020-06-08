@@ -62,6 +62,7 @@ var personas = [
   { name: "Ops", prefix: "a001" },
   { name: "Dev", prefix: "a002" },
   { name: "App Owner", prefix: "a003" },
+  { name: "Digital Marketer", prefix: "a006" },
   { name: "IT Exec", prefix: "a004" },
   { name: "Dynatrace Admin", prefix: "a005" }
 ];
@@ -76,7 +77,8 @@ var usecases = [
   { name: "SAP Overview", bizAnalytics: false, prefix: "a008" },
   { name: "Remote Employee Overview", bizAnalytics: false, prefix: "a009" },
   { name: "Capacity Management", bizAnalytics: false, prefix: "a010" },
-  { name: "Billing Analysis", bizAnalytics: false, prefix: "a011" }
+  { name: "Billing Analysis", bizAnalytics: false, prefix: "a011" },
+  { name: "Marketing Campaign", bizAnalytics: true, prefix: "a012"}
 ];
 //////// Global Vars ////////////
 var url = "";

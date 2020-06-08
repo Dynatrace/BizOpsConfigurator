@@ -376,13 +376,15 @@ function workflowConfiguration() {
         let p2 = popupHTMLDeferred("Workflow Configuration", content);
         let html = "";
         personas.forEach(function (e) {
-            html += `<option>${e.name}</option>`;
+            html += `<option value="${e.prefix}">${e.name}</option>`;
         })
         $("#persona").html(html);
 
         html = "";
-        usecases.forEach(function (e) {
-            html += `<option>${e.name}</option>`;
+        usecases
+            .sort((a,b) => (a.name.toLowerCase() > b.name.toLowerCase()) ? 1 : -1)
+            .forEach(function (e) {
+            html += `<option value="${e.prefix}">${e.name}</option>`;
         });
         $("#usecase").html(html);
 
@@ -633,9 +635,6 @@ function sliceUSQLdata(slicer, data, target) {
     let previewHTML = "";
     let from = $("#transform").val();
     switch (slicer) {
-        case 'parseUSPFilter':
-            parsedResults = parseUSPFilter(data);
-            break;
         case 'Keys':
             previewHTML = `
                 <div class="inputHeader">Keys:</div>
