@@ -446,7 +446,6 @@ input[type=file] {
   height: 38px;
   background-color: #525252;
   border-radius: 5px;
-  padding: 3px;
 }
 
 #loaderA {
@@ -454,7 +453,7 @@ input[type=file] {
   z-index: 10;
   border: 5px solid #525252;
   border-radius: 50%;
-  border-top: 5px solid #525252;
+  border-top: 5px solid #b4dc00;
   width: 20px;
   height: 20px;
   -webkit-animation: spin 1.5s linear infinite;
@@ -467,7 +466,7 @@ input[type=file] {
   z-index: 11;
   border: 5px solid transparent;
   border-radius: 50%;
-  border-top: 5px solid #b4dc00;
+  border-top: 5px solid #525252;
   width: 20px;
   height: 20px;
   -webkit-animation: spin 1.2s linear infinite;
