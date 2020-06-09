@@ -452,9 +452,9 @@ input[type=file] {
 #loaderA {
   position: absolute;
   z-index: 10;
-  border: 5px solid #b4dc00;
+  border: 5px solid #525252;
   border-radius: 50%;
-  border-top: 5px solid #b4dc00;
+  border-top: 5px solid #525252;
   width: 20px;
   height: 20px;
   -webkit-animation: spin 1.5s linear infinite;
