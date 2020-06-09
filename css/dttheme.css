@@ -452,7 +452,7 @@ input[type=file] {
 #loaderA {
   position: absolute;
   z-index: 10;
-  border: 8px solid #242424;
+  border: 5px solid #b4dc00;
   border-radius: 50%;
   border-top: 5px solid #b4dc00;
   width: 20px;
@@ -465,7 +465,7 @@ input[type=file] {
 #loaderB {
   position: absolute;
   z-index: 11;
-  border: 8px solid transparent;
+  border: 5px solid transparent;
   border-radius: 50%;
   border-top: 5px solid #b4dc00;
   width: 20px;
