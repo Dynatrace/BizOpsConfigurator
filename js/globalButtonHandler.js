@@ -169,11 +169,11 @@ function globalButtonHandler() {
         userjourneyNextStep(id);
         break;
       case "deployFunnel-filters-next":
-        selection.config.filterClause = $("#filterClause").val();
+        selection.config.filterClause = $(".filterClause").val();
         selection.config.filterData = {
-          country: $("#countryList").val(),
-          region: $("#regionList").val(),
-          city: $("#cityList").val(),
+          country: $(".countryList").val(),
+          region: $(".regionList").val(),
+          city: $(".cityList").val(),
           key: $("#uspKey").val(),
           type: $("#uspKey option:selected")[0].dataset['colname'],
           val: $("#uspVal").val()
@@ -852,6 +852,7 @@ function globalButtonHandler() {
       }
       case "persona_usecase_next": {
         selection.swaps = [];
+        selection.config = {};
         let personaPrefix = $("#persona :selected").attr('data-prefix');
         selection.persona = personas.find(({prefix}) => prefix === personaPrefix);
         let usecasePrefix = $("#usecase :selected").attr('data-prefix');

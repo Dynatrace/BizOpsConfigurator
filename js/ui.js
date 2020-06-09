@@ -418,9 +418,9 @@ function popout(popup_p) {
 }
 
 function buildFilterClause() {
-  let country = $("#countryList").val();
-  let region = $("#regionList").val();
-  let city = $("#cityList").val();
+  let country = $(".countryList").val();
+  let region = $(".regionList").val();
+  let city = $(".cityList").val();
   let key = $("#uspKey").val();
   let type = (($("#uspKey option:selected").length > 0) ?
     $("#uspKey option:selected")[0].dataset['colname'] :

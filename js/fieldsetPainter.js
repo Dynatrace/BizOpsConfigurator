@@ -251,7 +251,7 @@ function fieldsetPainter() {
                 regionsChangeHandler();
                 uspFilterChangeHandler();
                 if ("filterClause" in selection.config)
-                    $("#filterClause").val(selection.config.filterClause);
+                    $(".filterClause").val(selection.config.filterClause);
             });
             break;
         }

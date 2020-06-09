@@ -168,9 +168,9 @@ function regionsChangeHandler() {
   let countryOs = "<option value''></option>";
   let regionOs = "<option value''></option>";
   let cityOs = "<option value''></option>";
-  let country = $("#countryList").val();
-  let region = $("#regionList").val();
-  let city = $("#cityList").val();
+  let country = $(".countryList").val();
+  let region = $(".regionList").val();
+  let city = $(".cityList").val();
 
   if (typeof selection.config.filterData != "undefined") {
     if (country == "") country = selection.config.filterData.country;
@@ -182,11 +182,11 @@ function regionsChangeHandler() {
   countries.forEach(function (c) {
     countryOs += "<option value='" + c + "'>" + c + "</option>";
   });
-  $("#countryList").html(countryOs);
+  $(".countryList").html(countryOs);
 
   //determine regions
   if (country != '') {
-    $("#countryList").val(country);
+    $(".countryList").val(country);
     let map = new Map();
     for (let i of Regions) {
       if (!map.has(i.region) && i.country == country) {
@@ -194,13 +194,13 @@ function regionsChangeHandler() {
         regionOs += "<option value='" + i.region + "'>" + i.region + "</option>";
       }
     }
-    $("#regionList").html(regionOs);
-    $("#regionList").show();
-  } else $("#regionList").hide();
+    $(".regionList").html(regionOs);
+    $(".regionList").show();
+  } else $(".regionList").hide();
 
   //determine cities
   if (region != '') {
-    $("#regionList").val(region);
+    $(".regionList").val(region);
     let map = new Map();
     for (let i of Regions) {
       if (!map.has(i.city) && i.country == country && i.region == region) {
@@ -208,14 +208,14 @@ function regionsChangeHandler() {
         cityOs += "<option value='" + i.city + "'>" + i.city + "</option>";
       }
     }
-    $("#cityList").html(cityOs);
-    $("#cityList").show();
-  } else $("#cityList").hide();
+    $(".cityList").html(cityOs);
+    $(".cityList").show();
+  } else $(".cityList").hide();
 
   if (city != '') {
-    $("#cityList").val(city);
+    $(".cityList").val(city);
   }
-  $("#filterClause").val(buildFilterClause());
+  $(".filterClause").val(buildFilterClause());
 }
 
 function uspFilterChangeHandler() {
@@ -256,7 +256,7 @@ function uspFilterChangeHandler() {
     if (val != '') $("#uspVal").val(val);
   }
 
-  $("#filterClause").val(buildFilterClause());
+  $(".filterClause").val(buildFilterClause());
 }
 
 function xappChangeHandler() {

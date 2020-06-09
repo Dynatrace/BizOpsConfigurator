@@ -182,6 +182,7 @@ function inputTypeChangeHandler() {
     $("#newInputPreview").hide();
     $("#staticBox").hide();
     $("#multiBox").hide();
+    $("#whereClauseBox").hide();
     $("#textInputBox").hide();
     $("#inputInfoBox").hide();
     $("#apiQueryHeader").text();
@@ -204,6 +205,7 @@ function inputTypeChangeHandler() {
             $("#newInputResult").show();
             $("#newInputPreview").show();
             $("#multiBox").show();
+            $("#whereClauseBox").show();
             $("#inputInfoBox").html(`<img src="images/light-bulb-yellow_300.svg">
             Be sure the replacement token in query is filled on a prior page.`);
             $("#inputInfoBox").show();
@@ -263,16 +265,19 @@ function usqlCommonQueryChangeHandler() {
             $("#usqlQuery").val('SELECT usersession.longProperties, usersession.doubleProperties FROM useraction WHERE useraction.application = "${app.name}" LIMIT 5000');
             $("#usqlResultSlicer").val("Keys");
             $("#transform").val("usp");
+            $("#addWhereClause").prop("checked", false);
             break;
         case "String/Date USPs":
             $("#usqlQuery").val('SELECT usersession.stringProperties, usersession.dateProperties FROM useraction WHERE useraction.application = "${app.name}" LIMIT 5000');
             $("#usqlResultSlicer").val("Keys/Values");
             $("#transform").val("usp");
+            $("#addWhereClause").prop("checked", true);
             break;
         case "Regions":
             $("#usqlQuery").val('SELECT DISTINCT country, region, city FROM usersession WHERE useraction.application = "${app.name}" ORDER BY country,region,city LIMIT 5000');
             $("#usqlResultSlicer").val("ValX3");
             $("#transform").val("region");
+            $("#addWhereClause").prop("checked", true);
             break;
     }
 }
@@ -382,10 +387,10 @@ function workflowConfiguration() {
 
         html = "";
         usecases
-            .sort((a,b) => (a.name.toLowerCase() > b.name.toLowerCase()) ? 1 : -1)
+            .sort((a, b) => (a.name.toLowerCase() > b.name.toLowerCase()) ? 1 : -1)
             .forEach(function (e) {
-            html += `<option value="${e.prefix}">${e.name}</option>`;
-        });
+                html += `<option value="${e.prefix}">${e.name}</option>`;
+            });
         $("#usecase").html(html);
 
         for (const prop in oldConfig) {
@@ -601,7 +606,7 @@ function loadUsqlQueryOptions(query, slicer, target) {
     let p = dtAPIquery(query);
     return $.when(p).done(function (data) {
         jsonviewer(data, true, "", "#apiResult");
-        let parsedResults  = sliceUSQLdata(slicer, data, $target);
+        let parsedResults = sliceUSQLdata(slicer, data, $target);
         $target.removeAttr("disabled");
     });
 }
@@ -627,7 +632,7 @@ function sliceUSQLdata(slicer, data, target) {
     let $target = $(target);
     let parsedResults = [];
 
-    if($target.is("select")){
+    if ($target.is("select")) {
         let $div = $("<div></div>");
         $div.replaceAll($target);
         $target = $div;
@@ -640,6 +645,11 @@ function sliceUSQLdata(slicer, data, target) {
                 <div class="inputHeader">Keys:</div>
                 <div class="userInput"><select id="kpi" class="uspFilter"></select></div>
                 `;
+            if ($("#addWhereClause").prop("checked")) {
+                previewHTML += `<div class="inputHeader">Filter Clause:</div>
+                <div class="userInput"><input disabled class="filterClause"></div>
+                `;
+            }
             $target.html(previewHTML);
             parsedResults = parseKPIs(data);
             $("#kpi").html(drawKPIs(parsedResults));
@@ -655,12 +665,17 @@ function sliceUSQLdata(slicer, data, target) {
                 <div class="inputHeader">Values:</div>
                 <div class="userInput"><select id="uspVal" class="uspFilter"></select></div>
                 `;
+            if ($("#addWhereClause").prop("checked")) {
+                previewHTML += `<div class="inputHeader">Filter Clause:</div>
+                <div class="userInput"><input disabled class="filterClause"></div>
+                `;
+            }
             $target.html(previewHTML);
             $("#swaps").html(`
                 <div class="inputHeader">From:</div>
                 <div class="userInput">${'${' + from + '}'}</div>
                 <div class="inputHeader">To:</div>
-                <div class="userInput"><input id="filterClause"></div>
+                <div class="userInput"><input class="filterClause"></div>
             `);
             uspFilterChangeHandler();
             break;
@@ -668,79 +683,27 @@ function sliceUSQLdata(slicer, data, target) {
             parsedResults = parseRegions(data);
             previewHTML = `
                 <div class="inputHeader">Values:</div>
-                <div class="userInput"><select id="countryList" class="regionFilter"></select></div>
+                <div class="userInput"><select class="countryList regionFilter"></select></div>
                 <div class="inputHeader">Values:</div>
-                <div class="userInput"><select id="regionList" class="regionFilter"></select></div>
+                <div class="userInput"><select class="regionList regionFilter"></select></div>
                 <div class="inputHeader">Values:</div>
-                <div class="userInput"><select id="cityList" class="regionFilter"></select></div>
+                <div class="userInput"><select class="cityList regionFilter"></select></div>
                 `;
+            if ($("#addWhereClause").prop("checked")) {
+                previewHTML += `<div class="inputHeader">Filter Clause:</div>
+                <div class="userInput"><input disabled class="filterClause"></div>
+                `;
+            }
             $target.html(previewHTML);
             $("#swaps").html(`
                 <div class="inputHeader">From:</div>
                 <div class="userInput">${'${' + from + '}'}</div>
-                <div class="inputHeader">To:</div>
-                <div class="userInput"><input id="filterClause"></div>
             `);
             regionsChangeHandler();
             break;
     }
     return parsedResults;
 }
-
-/*function previewSlicedUSQLdata(parsedResults, slicer, target) {
-    let $target = $(target);
-    let parsedResults = [];
-
-    let previewHTML = "";
-    let from = $("#transform").val();
-    switch (slicer) {
-        case 'Keys':
-            previewHTML = `
-                <div class="inputHeader">Keys:</div>
-                <div class="userInput"><select id="kpi" class="uspFilter"></select></div>
-                `;
-            $target.html(previewHTML);
-            $("#kpi").html(drawKPIs(parsedResults));
-            $("#swaps").html();
-            $target.on("change", "select", previewChangeHandlerKey);
-            previewChangeHandlerKey($target);
-            break;
-        case 'Keys/Values':
-            previewHTML = `
-                <div class="inputHeader">Keys:</div>
-                <div class="userInput"><select id="uspKey" class="uspFilter"></select></div>
-                <div class="inputHeader">Values:</div>
-                <div class="userInput"><select id="uspVal" class="uspFilter"></select></div>
-                `;
-            $target.html(previewHTML);
-            $("#swaps").html(`
-                <div class="inputHeader">From:</div>
-                <div class="userInput">${'${' + from + '}'}</div>
-                <div class="inputHeader">To:</div>
-                <div class="userInput"><input id="filterClause"></div>
-            `);
-            uspFilterChangeHandler();
-            break;
-        case 'ValX3':
-            previewHTML = `
-                <div class="inputHeader">Values:</div>
-                <div class="userInput"><select id="countryList" class="regionFilter"></select></div>
-                <div class="inputHeader">Values:</div>
-                <div class="userInput"><select id="regionList" class="regionFilter"></select></div>
-                <div class="inputHeader">Values:</div>
-                <div class="userInput"><select id="cityList" class="regionFilter"></select></div>
-                `;
-            $target.html(previewHTML);
-            $("#swaps").html(`
-                <div class="inputHeader">From:</div>
-                <div class="userInput">${'${' + from + '}'}</div>
-                <div class="inputHeader">To:</div>
-                <div class="userInput"><input id="filterClause"></div>
-            `);
-            regionsChangeHandler();
-            break;
-    }
-}*/
 
 function pasteFixer(event) {
     let paste = (event.clipboardData || window.clipboardData).getData('text');

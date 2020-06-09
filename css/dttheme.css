@@ -619,7 +619,7 @@ tr.github {
   height: 100%;
 }
 
-#filterClause {
+.filterClause {
   width: 80%;
 }
 
@@ -1015,7 +1015,7 @@ div.userInput input[type="button"] {
   margin: -10px -10px 10px -10px;
 }
 
-#workflowButtonRow > div {
+#workflowButtonRow>div {
   flex: 0 0 44px;
 }
 
@@ -1060,6 +1060,7 @@ div.userInput input[type="button"] {
   color: white;
   text-decoration: none;
 }
+
 .workflowInputPopup {
   display: flex;
   flex-direction: row;
@@ -1072,6 +1073,7 @@ div.userInput input[type="button"] {
 .workflowInputPopup>div {
   flex: 0 0 20px;
 }
+
 .workflowInputPopup a, .workflowInputPopup a:visited {
   display: inline-flex;
   align-items: center;
@@ -1081,6 +1083,7 @@ div.userInput input[type="button"] {
   color: white;
   text-decoration: none;
 }
+
 .workflowSections {
   display: flex;
   flex-wrap: wrap;
@@ -1145,7 +1148,7 @@ div.userInput input[type="button"] {
 }
 
 #readmeViewer img {
-  flex:0
+  flex: 0
 }
 
 #devguide_persona {
@@ -1160,4 +1163,17 @@ div.userInput input[type="button"] {
 
 #devguide_persona a:hover {
   text-decoration: underline;
+}
+
+.checkRow {
+  display: flex;
+}
+
+.checkRowOption {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.checkRowOption .userInput {
+  justify-content: center;
 }
