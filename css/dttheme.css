@@ -1169,11 +1169,11 @@ div.userInput input[type="button"] {
   display: flex;
 }
 
-.checkRowOption {
+.checkRow > div {
   padding-left: 10px;
   padding-right: 10px;
 }
 
-.checkRowOption .userInput {
+.checkRow .userInput {
   justify-content: center;
 }

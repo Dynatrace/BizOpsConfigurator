@@ -613,7 +613,7 @@ function loadUsqlQueryOptions(query, slicer, target) {
 
 function sliceAPIdata(slicer, data) {
     let parsedResults = [];
-    switch (slicer) {
+    switch(slicer) {
         case "{entityId:displayName}":
             if (data.length > 0) data.forEach(function (item) {
                 parsedResults.push({ value: item.entityId, key: item.displayName });
@@ -639,7 +639,7 @@ function sliceUSQLdata(slicer, data, target) {
     }
     let previewHTML = "";
     let from = $("#transform").val();
-    switch (slicer) {
+    switch(slicer) {
         case 'Keys':
             previewHTML = `
                 <div class="inputHeader">Keys:</div>
@@ -674,8 +674,6 @@ function sliceUSQLdata(slicer, data, target) {
             $("#swaps").html(`
                 <div class="inputHeader">From:</div>
                 <div class="userInput">${'${' + from + '}'}</div>
-                <div class="inputHeader">To:</div>
-                <div class="userInput"><input class="filterClause"></div>
             `);
             uspFilterChangeHandler();
             break;
