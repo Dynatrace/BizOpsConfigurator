@@ -39,11 +39,12 @@ function parseRepoContents(data,repo) {
         file.repo=repo;
         let reWorkflow = /(\.cwf\.json$)/;
         let reDB = /(\.json$)|(^[0-9a-f-]{36}$)/;
+        let reReadme = /\.md$/;
         if(reWorkflow.test(file.name)){
             workflowsTemp.push(file);
         } else if(reDB.test(file.name)) {
             dbListTemp.push(file);
-        } else if(file.name=="README.md") {
+        } else if(reReadme.test(file.name)) {
             readmesTemp.push(file);
         } else {
             console.log("parseRepoContents: rejected '"+file.path+"' based on regex");

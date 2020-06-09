@@ -488,7 +488,6 @@ function parseAutoTags(data) {
 
 function findOverviewREADME(overview) {
   let overviewRepo = dbList.find(({ name }) => name === overview).repo; //get the repo directly from the select in next iteration
-  //let readmes = workflowList.filter(({ name }) => name === "README.md");
   let readme = readmeList.find(({ repo }) => repo.owner === overviewRepo.owner &&
     repo.repo === overviewRepo.repo);
 
