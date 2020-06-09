@@ -263,8 +263,8 @@ function doSwaps(db, swaps) {
   let matches = scanForTokens(db);
   if (matches.length > 0) {
     swaps = JSON.parse(JSON.stringify(swaps)); //copy
-    swaps.forEach(function (s) {
-      if(s.wrap) s.from = "\\${" + s.from + "}";
+    swaps.forEach(function (s,idx,arr) {
+      if(s.wrap) arrs.from = "\\${" + s.from + "}";
       else if(s.from.charAt(0)=='$') s.from = '\\'+s.from;
     });
   } else if (typeof db == "object") {

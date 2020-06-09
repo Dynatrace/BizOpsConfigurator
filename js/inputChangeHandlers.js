@@ -617,8 +617,9 @@ function workflowPickerChangeHandler(e) {
       let usecasePrefix = $("#usecase option:selected").attr("data-prefix");
       let filtered1 = workflowList.filter(wf => wf.file.config.persona.includes(personaPrefix));
       let filtered2 = filtered1.filter(wf => wf.file.config.usecase === usecasePrefix);
-      filtered2.forEach(function (wf,i) {
+      filtered2.forEach(function (wf) {
         let name = wf.file.config.workflowName;
+        let i = workflowList.findIndex(wf);
         workflowOptions += `<option data-workflowIndex="${i}">${name}</option>`;
       });
       $("#workflow").html(workflowOptions);
