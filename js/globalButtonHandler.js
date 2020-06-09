@@ -846,10 +846,12 @@ function globalButtonHandler() {
         break;
       }
       case "persona_deploy": {
+        selection = {};
         $("#viewport").load("html/personaFlow/persona_usecase.html", fieldsetPainter);
         break;
       }
       case "persona_usecase_next": {
+        selection.swaps = [];
         let personaPrefix = $("#persona :selected").attr('data-prefix');
         selection.persona = personas.find(({prefix}) => prefix === personaPrefix);
         let usecasePrefix = $("#usecase :selected").attr('data-prefix');
