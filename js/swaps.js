@@ -393,7 +393,10 @@ function generateWorkflowSwapList(el) {
         swaps.push({ from: fromval, to: value });
         break;
       }
-      case 'Keys':
+      case 'Keys':{
+        if()
+        break;
+      }
       case 'Keys/Values':
       case 'ValX3': {
         let from = "${" + transform + "}";

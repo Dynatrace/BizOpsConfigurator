@@ -272,7 +272,6 @@ function xappChangeHandler() {
       });
       $("#xapp_apps").html(apps_html);
       $(".xapps").show();
-      //if("appID" in config)$("#xapp_apps").val(config.appID); //figure out how to set multiple values
     });
   }
   else

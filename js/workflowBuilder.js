@@ -61,7 +61,7 @@ function workflowBuilderHandlers() {
     $("#viewport").on("change", "#inputType", inputTypeChangeHandler);
     $("#viewport").on("change", "#commonQueries", commonQueryChangeHandler);
     $("#viewport").on("change", "#usqlCommonQueries", usqlCommonQueryChangeHandler);
-    $("#viewport").on("change", "#multiple", multipleHandler);
+    $("#viewport").on("change", "input[type=checkbox]", checkHandler);
     $("#viewport").on("click", "#test", testHandler);
     $("#viewport").on("click", "#staticBoxAdd", staticBoxAddHandler);
 
@@ -133,19 +133,19 @@ function Input() {
                         input = `<input class="workflowInput" placeholder="${data.placeholder}" value="${data.defaultvalue}" disabled>`;
                         break;
                     case "Select (API)":
-                        input = `<select class="workflowSelect" disabled ${data.multiple}></select>
+                        input = `<select class="workflowSelect" disabled ${data.multiple ? "multiple" : ""}></select>
                         <input type="hidden" class="apiQuery" value="${data.apiQuery}">
                         <input type="hidden" class="apiResultSlicer" value="${data.apiResultSlicer}">
                         `;
                         break;
                     case "Select (USQL)":
-                        input = `<select class="workflowSelect" disabled ${data.multiple}></select>
+                        input = `<select class="workflowSelect" disabled ${data.multiple ? "multiple" : ""}></select>
                         <input type="hidden" class="usqlQuery" value='${data.usqlQuery}'>
-                        <input type="hidden" class="usqlResultSlicer" value="${data.usqlResultSlicer}">
+                        <input type="hidden" class="usqlResultSlicer" value="${data.usqlResultSlicer}" data-addWhereClause="${data.addWhereClause}">
                         `;
                         break;
                     case "Select (static)":
-                        input = `<select class="workflowSelect" data-options='${data.staticOptions}' disabled ${data.multiple}></select>
+                        input = `<select class="workflowSelect" data-options='${data.staticOptions}' disabled ${data.multiple ? "multiple" : ""}></select>
                         `;
                         break;
                     case "Funnel":
@@ -302,8 +302,8 @@ function testAPIhandler() {
     $.when(p0).done(function () {
         let query = $("#apiQuery").val();
         $("#apiQueryHeader").text(query);
-        let multiple = $("#multiple").prop("checked") ? "multiple" : "";
-        $("#preview").html(`<select ${multiple}></select>`);
+        let multiple = $("#multiple").val();
+        $("#preview").html(`<select ${multiple ? "multiple" : ""}></select>`);
         let $target = $("#preview select");
         let slicer = $("#apiResultSlicer").val();
         let p = loadApiQueryOptions(query, slicer, $target);
@@ -353,9 +353,9 @@ function staticBoxAddHandler() {
     $("#staticOptions").val(JSON.stringify(staticOptions));
 }
 
-function multipleHandler() {
-    let multiple = $("#multiple").prop("checked") ? "multiple" : "";
-    $("#multiple").val(multiple);
+function checkHandler() {
+    let val = $(this).prop("checked") ? "true" : "false";
+    $(this).val(val);
 }
 
 function workflowDownloader() {
@@ -613,7 +613,7 @@ function loadUsqlQueryOptions(query, slicer, target) {
 
 function sliceAPIdata(slicer, data) {
     let parsedResults = [];
-    switch(slicer) {
+    switch (slicer) {
         case "{entityId:displayName}":
             if (data.length > 0) data.forEach(function (item) {
                 parsedResults.push({ value: item.entityId, key: item.displayName });
@@ -628,7 +628,7 @@ function sliceAPIdata(slicer, data) {
     return parsedResults;
 }
 
-function sliceUSQLdata(slicer, data, target) {
+function sliceUSQLdata(slicer, data, target) { //TODO: refactor this bowl of spaghetti
     let $target = $(target);
     let parsedResults = [];
 
@@ -639,65 +639,75 @@ function sliceUSQLdata(slicer, data, target) {
     }
     let previewHTML = "";
     let from = $("#transform").val();
-    switch(slicer) {
+    switch (slicer) {
         case 'Keys':
-            previewHTML = `
+            $target.html(`
                 <div class="inputHeader">Keys:</div>
                 <div class="userInput"><select id="kpi" class="uspFilter"></select></div>
-                `;
-            if ($("#addWhereClause").prop("checked")) {
-                previewHTML += `<div class="inputHeader">Filter Clause:</div>
-                <div class="userInput"><input disabled class="filterClause"></div>
-                `;
-            }
-            $target.html(previewHTML);
+                `);
             parsedResults = parseKPIs(data);
             $("#kpi").html(drawKPIs(parsedResults));
             $("#swaps").html();
-            $target.on("change", "select", previewChangeHandlerKey);
-            previewChangeHandlerKey($target);
+
+            if ($("#addWhereClause").prop("checked")) {
+                $target.append(`<div class="inputHeader">Filter Clause:</div>
+                <div class="userInput"><input disabled class="filterClause"></div>
+                `);
+                $target.on("change", "select", uspFilterChangeHandler);
+                uspFilterChangeHandler($target);
+            } else {
+                $target.on("change", "select", previewChangeHandlerKey);
+                previewChangeHandlerKey($target);
+            }
             break;
         case 'Keys/Values':
             parsedResults = parseUSPFilter(data);
-            previewHTML = `
+            $target.html(`
                 <div class="inputHeader">Keys:</div>
                 <div class="userInput"><select id="uspKey" class="uspFilter"></select></div>
                 <div class="inputHeader">Values:</div>
                 <div class="userInput"><select id="uspVal" class="uspFilter"></select></div>
-                `;
-            if ($("#addWhereClause").prop("checked")) {
-                previewHTML += `<div class="inputHeader">Filter Clause:</div>
-                <div class="userInput"><input disabled class="filterClause"></div>
-                `;
-            }
-            $target.html(previewHTML);
+                `);
             $("#swaps").html(`
                 <div class="inputHeader">From:</div>
                 <div class="userInput">${'${' + from + '}'}</div>
             `);
-            uspFilterChangeHandler();
+
+            if ($("#addWhereClause").prop("checked")) {
+                $target.append(`<div class="inputHeader">Filter Clause:</div>
+                <div class="userInput"><input disabled class="filterClause"></div>
+                `);
+                $target.on("change", "select", uspFilterChangeHandler);
+                uspFilterChangeHandler($target);
+            } else {
+                $target.on("change", "select", previewChangeHandlerKeyVal);
+                previewChangeHandlerKeyVal($target);
+            }
             break;
         case 'ValX3':
             parsedResults = parseRegions(data);
-            previewHTML = `
+            $target.html(`
                 <div class="inputHeader">Values:</div>
                 <div class="userInput"><select class="countryList regionFilter"></select></div>
                 <div class="inputHeader">Values:</div>
                 <div class="userInput"><select class="regionList regionFilter"></select></div>
                 <div class="inputHeader">Values:</div>
                 <div class="userInput"><select class="cityList regionFilter"></select></div>
-                `;
-            if ($("#addWhereClause").prop("checked")) {
-                previewHTML += `<div class="inputHeader">Filter Clause:</div>
-                <div class="userInput"><input disabled class="filterClause"></div>
-                `;
-            }
-            $target.html(previewHTML);
+                `);
             $("#swaps").html(`
                 <div class="inputHeader">From:</div>
                 <div class="userInput">${'${' + from + '}'}</div>
             `);
-            regionsChangeHandler();
+            if ($("#addWhereClause").prop("checked")) {
+                $target.append(`<div class="inputHeader">Filter Clause:</div>
+                <div class="userInput"><input disabled class="filterClause"></div>
+                `);
+                $target.on("change", "select", regionsChangeHandler);
+                regionsChangeHandler($target);
+            } else {
+                $target.on("change", "select", previewChangeHandlerValX3);
+                previewChangeHandlerValX3($target);
+            }
             break;
     }
     return parsedResults;
