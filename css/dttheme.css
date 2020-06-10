@@ -1196,6 +1196,20 @@ dt-loading-spinner {
   height: 30px;
 }
 
+.dt-loading-distractor-label {
+  font-family: BerninaSansWeb, OpenSans, sans-serif;
+  color: #454646;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 1.6;
+  font-weight: 400;
+  display: block;
+  box-sizing: border-box;
+  text-decoration: none;
+  color: #b4dc00;
+  padding-left: 8px;
+}
+
 .dt-loading-spinner-svg {
   display: block;
   box-sizing: border-box;
