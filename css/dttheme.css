@@ -442,9 +442,8 @@ input[type=file] {
   left: 50%;
   transform: translateY(-50%);
   transform: translateX(-50%);
-  width: 200px;
+  width: 250px;
   height: 38px;
-  background-color: #525252;
   border-radius: 5px;
 }
 
@@ -1182,7 +1181,7 @@ div.userInput input[type="button"] {
 }
 
 dt-loading-distractor {
-  background-color: rgba(25, 25, 25, .65);
+  background-color: #525252;
   display: inline-flex;
   align-items: center;
   height: 50px;
@@ -1198,8 +1197,6 @@ dt-loading-spinner {
 
 .dt-loading-distractor-label {
   font-family: BerninaSansWeb, OpenSans, sans-serif;
-  color: #454646;
-  font-weight: 600;
   font-size: 20px;
   line-height: 1.6;
   font-weight: 400;
