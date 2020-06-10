@@ -417,15 +417,15 @@ function popout(popup_p) {
   popupZindex--;
 }
 
-function buildFilterClause() {
-  let country = $(".countryList").val();
-  let region = $(".regionList").val();
-  let city = $(".cityList").val();
-  let key = $("#uspKey").val();
-  let type = (($("#uspKey option:selected").length > 0) ?
-    $("#uspKey option:selected")[0].dataset['colname'] :
+function buildFilterClause(selectors) {
+  let country = $(selectors[0]).val();
+  let region = $(selectors[1]).val();
+  let city = $(selectors[2]).val();
+  let key = $(selectors[3]).val();
+  let type = (($(selectors[4]).length > 0) ?
+    $(selectors[4])[0].dataset['colname'] :
     undefined);
-  let val = $("#uspVal").val();
+  let val = $(selectors[5]).val();
   let filterClause = "";
   let filters = [];
 

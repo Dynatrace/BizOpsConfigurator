@@ -632,41 +632,45 @@ function sliceUSQLdata(slicer, data, target) { //TODO: refactor this bowl of spa
     let $target = $(target);
     let parsedResults = [];
 
-    if ($target.is("select")) {
+    if ($target.is("select")) { //TODO: clean-up, currently creating one level too far down
         let $div = $("<div></div>");
         $div.replaceAll($target);
         $target = $div;
     }
-    let previewHTML = "";
+
     let from = $("#transform").val();
     switch (slicer) {
-        case 'Keys':
+        case 'Keys': {
+            let selectors = [`usp${uniqId()}`];
             $target.html(`
                 <div class="inputHeader">Keys:</div>
-                <div class="userInput"><select id="kpi" class="uspFilter"></select></div>
+                <div class="userInput"><select id="${selectors[0]}" class="uspFilter"></select></div>
                 `);
             parsedResults = parseKPIs(data);
-            $("#kpi").html(drawKPIs(parsedResults));
+            $(selectors[0]).html(drawKPIs(parsedResults));
             $("#swaps").html();
 
             if ($("#addWhereClause").prop("checked")) {
                 $target.append(`<div class="inputHeader">Filter Clause:</div>
                 <div class="userInput"><input disabled class="filterClause"></div>
                 `);
-                $target.on("change", "select", uspFilterChangeHandler);
-                uspFilterChangeHandler($target);
+                let eventData = { selectors: selectors, data: parsedResults, target: $target };
+                $target.on("change", "select", eventData, uspFilterChangeHandler);
+                $target.trigger("change");
             } else {
                 $target.on("change", "select", previewChangeHandlerKey);
                 previewChangeHandlerKey($target);
             }
             break;
-        case 'Keys/Values':
+        }
+        case 'Keys/Values': {
+            let selectors = [`uspKey${uniqId()}`, `uspVal${uniqId()}`];
             parsedResults = parseUSPFilter(data);
             $target.html(`
                 <div class="inputHeader">Keys:</div>
-                <div class="userInput"><select id="uspKey" class="uspFilter"></select></div>
+                <div class="userInput"><select id="${selectors[0]}" class="uspFilter"></select></div>
                 <div class="inputHeader">Values:</div>
-                <div class="userInput"><select id="uspVal" class="uspFilter"></select></div>
+                <div class="userInput"><select id="${selectors[1]}" class="uspFilter"></select></div>
                 `);
             $("#swaps").html(`
                 <div class="inputHeader">From:</div>
@@ -677,22 +681,25 @@ function sliceUSQLdata(slicer, data, target) { //TODO: refactor this bowl of spa
                 $target.append(`<div class="inputHeader">Filter Clause:</div>
                 <div class="userInput"><input disabled class="filterClause"></div>
                 `);
-                $target.on("change", "select", uspFilterChangeHandler);
-                uspFilterChangeHandler($target);
+                let eventData = { selectors: selectors, data: parsedResults, target: $target };
+                $target.on("change", "select", eventData, uspFilterChangeHandler);
+                $target.trigger("change");
             } else {
                 $target.on("change", "select", previewChangeHandlerKeyVal);
                 previewChangeHandlerKeyVal($target);
             }
             break;
-        case 'ValX3':
+        }
+        case 'ValX3': {
+            let selectors = [`country${uniqId()}`, `region${uniqId()}`, `city${uniqId()}`];
             parsedResults = parseRegions(data);
             $target.html(`
                 <div class="inputHeader">Values:</div>
-                <div class="userInput"><select class="countryList regionFilter"></select></div>
+                <div class="userInput"><select id="${selectors[0]}" class="countryList regionFilter"></select></div>
                 <div class="inputHeader">Values:</div>
-                <div class="userInput"><select class="regionList regionFilter"></select></div>
+                <div class="userInput"><select id="${selectors[1]}" class="regionList regionFilter"></select></div>
                 <div class="inputHeader">Values:</div>
-                <div class="userInput"><select class="cityList regionFilter"></select></div>
+                <div class="userInput"><select id="${selectors[2]}" class="cityList regionFilter"></select></div>
                 `);
             $("#swaps").html(`
                 <div class="inputHeader">From:</div>
@@ -702,13 +709,15 @@ function sliceUSQLdata(slicer, data, target) { //TODO: refactor this bowl of spa
                 $target.append(`<div class="inputHeader">Filter Clause:</div>
                 <div class="userInput"><input disabled class="filterClause"></div>
                 `);
-                $target.on("change", "select", regionsChangeHandler);
-                regionsChangeHandler($target);
+                let eventData = { selectors: selectors, data: parsedResults, target: $target };
+                $target.on("change", "select", eventData, regionsChangeHandler);
+                $target.trigger("change");
             } else {
                 $target.on("change", "select", previewChangeHandlerValX3);
                 previewChangeHandlerValX3($target);
             }
             break;
+        }
     }
     return parsedResults;
 }

@@ -394,8 +394,8 @@ function generateWorkflowSwapList(el) {
         break;
       }
       case 'Keys':{
-        if()
-        break;
+        //if()
+        //break;
       }
       case 'Keys/Values':
       case 'ValX3': {

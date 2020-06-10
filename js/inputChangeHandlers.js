@@ -164,61 +164,92 @@ function MyTimeChangeHandler() {
     $("#compareTimeList option:first").attr('selected', 'selected');
 }
 
-function regionsChangeHandler() {
+function regionsChangeHandler(event) {
+  //jQ objects
+  let countrySelector, regionSelector, citySelector, filterClauseSelector, keySelector, keyOptionSelector, valSelector;
+  if(typeof event.data.selectors !== "undefined"){
+    countrySelector = event.data.selectors[0];
+    regionSelector = event.data.selectors[1];
+    citySelector = event.data.selectors[2];
+    filterClauseSelector = event.data.targetSelector;
+  } else {
+    countrySelector = ".countryList";
+    regionSelector = ".regionList";
+    citySelector = ".cityList";
+    keySelector = "#uspKey";
+    keyOptionSelector = "#uspKey option:selected";
+    valSelector = "#uspVal";
+    filterClauseSelector = ".filterClause";
+  }
+  let selectors = [countrySelector, regionSelector, citySelector, keySelector, keyOptionSelector, valSelector];
+  let $countryList = $(countrySelector);
+  let $regionList = $(regionSelector);
+  let $cityList = $(citySelector);
+  let $filterClause = $(filterClauseSelector);
+
+  //values
   let countryOs = "<option value''></option>";
   let regionOs = "<option value''></option>";
   let cityOs = "<option value''></option>";
-  let country = $(".countryList").val();
-  let region = $(".regionList").val();
-  let city = $(".cityList").val();
+  let country = $countryList.val();
+  let region = $regionList.val();
+  let city = $cityList.val();
 
+  //data
+  if(typeof event.data.regions !== "undefined"){
+    regionData = event.data.regions;
+  } else {
+    regionData = Regions;
+  }
   if (typeof selection.config.filterData != "undefined") {
     if (country == "") country = selection.config.filterData.country;
     if (region == "") region = selection.config.filterData.region;
     if (city == "") city = selection.config.filterData.city;
   }
 
-  let countries = [...new Set(Regions.map(x => x.country))];
+  let countries = [...new Set(regionData.map(x => x.country))];
   countries.forEach(function (c) {
     countryOs += "<option value='" + c + "'>" + c + "</option>";
   });
-  $(".countryList").html(countryOs);
+  $countryList.html(countryOs);
 
   //determine regions
   if (country != '') {
-    $(".countryList").val(country);
+    $countryList.val(country);
     let map = new Map();
-    for (let i of Regions) {
+    for (let i of regionData) {
       if (!map.has(i.region) && i.country == country) {
         map.set(i.region, true);
         regionOs += "<option value='" + i.region + "'>" + i.region + "</option>";
       }
     }
-    $(".regionList").html(regionOs);
-    $(".regionList").show();
-  } else $(".regionList").hide();
+    $regionList.html(regionOs);
+    $regionList.show();
+  } else $regionList.hide();
 
   //determine cities
   if (region != '') {
-    $(".regionList").val(region);
+    $regionList.val(region);
     let map = new Map();
-    for (let i of Regions) {
+    for (let i of regionData) {
       if (!map.has(i.city) && i.country == country && i.region == region) {
         map.set(i.city, true);
         cityOs += "<option value='" + i.city + "'>" + i.city + "</option>";
       }
     }
-    $(".cityList").html(cityOs);
-    $(".cityList").show();
-  } else $(".cityList").hide();
+    $cityList.html(cityOs);
+    $cityList.show();
+  } else $cityList.hide();
 
   if (city != '') {
-    $(".cityList").val(city);
+    $cityList.val(city);
   }
-  $(".filterClause").val(buildFilterClause());
+  $filterClause.val(buildFilterClause(selectors));
 }
 
 function uspFilterChangeHandler() {
+  console.log("uspFilterChangeHandler:");
+  console.log(event.data);
   let keyOs = "<option value''></option>";
   let valOs = "<option value''></option>";
   let key = $("#uspKey").val();

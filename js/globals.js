@@ -589,3 +589,11 @@ function loadBackupCSSIfNotLoaded(search,backup) {
 
   document.getElementsByTagName("head")[0].appendChild(link);
 }
+
+var uniqId = (function(){
+  //usage: let myId = uniqId();
+  var i=0;
+  return function() {
+      return i++;
+  }
+})();
