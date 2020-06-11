@@ -641,14 +641,14 @@ function sliceUSQLdata(slicer, data, target) { //TODO: refactor this bowl of spa
     let from = $("#transform").val();
     switch (slicer) {
         case 'Keys': {
-            let selectors = [`#usp${uniqId()}`];
+            let selectors = [`usp${uniqId()}`];
             $target.html(`
                 <div class="inputHeader">Keys:</div>
-                <div class="userInput"><select id="${selectors[0]}" class="uspFilter"></select></div>
+                <div class="userInput"><select id="${selectors[0].substr(1)}" class="uspFilter"></select></div>
                 `);
             parsedResults = parseKPIs(data);
             let options = drawKPIs(parsedResults);
-            $(selectors[0]).html(options);
+            $(`#${selectors[0]}`).html(options);
             $("#swaps").html();
 
             if ($("#addWhereClause").prop("checked")) {
@@ -665,13 +665,13 @@ function sliceUSQLdata(slicer, data, target) { //TODO: refactor this bowl of spa
             break;
         }
         case 'Keys/Values': {
-            let selectors = [`#uspKey${uniqId()}`, `#uspVal${uniqId()}`];
+            let selectors = [`uspKey${uniqId()}`, `uspVal${uniqId()}`];
             parsedResults = parseUSPFilter(data);
             $target.html(`
                 <div class="inputHeader">Keys:</div>
-                <div class="userInput"><select id="${selectors[0]}" class="uspFilter"></select></div>
+                <div class="userInput"><select id="${selectors[0].substr(1)}" class="uspFilter"></select></div>
                 <div class="inputHeader">Values:</div>
-                <div class="userInput"><select id="${selectors[1]}" class="uspFilter"></select></div>
+                <div class="userInput"><select id="${selectors[1].substr(1)}" class="uspFilter"></select></div>
                 `);
             $("#swaps").html(`
                 <div class="inputHeader">From:</div>
@@ -692,15 +692,15 @@ function sliceUSQLdata(slicer, data, target) { //TODO: refactor this bowl of spa
             break;
         }
         case 'ValX3': {
-            let selectors = [`#country${uniqId()}`, `#region${uniqId()}`, `#city${uniqId()}`];
+            let selectors = [`country${uniqId()}`, `region${uniqId()}`, `city${uniqId()}`];
             parsedResults = parseRegions(data);
             $target.html(`
                 <div class="inputHeader">Values:</div>
-                <div class="userInput"><select id="${selectors[0]}" class="countryList regionFilter"></select></div>
+                <div class="userInput"><select id="${selectors[0].substr(1)}" class="countryList regionFilter"></select></div>
                 <div class="inputHeader">Values:</div>
-                <div class="userInput"><select id="${selectors[1]}" class="regionList regionFilter"></select></div>
+                <div class="userInput"><select id="${selectors[1].substr(1)}" class="regionList regionFilter"></select></div>
                 <div class="inputHeader">Values:</div>
-                <div class="userInput"><select id="${selectors[2]}" class="cityList regionFilter"></select></div>
+                <div class="userInput"><select id="${selectors[2].substr(1)}" class="cityList regionFilter"></select></div>
                 `);
             $("#swaps").html(`
                 <div class="inputHeader">From:</div>
