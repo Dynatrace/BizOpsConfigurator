@@ -196,8 +196,8 @@ function regionsChangeHandler(event) {
   let city = $cityList.val();
 
   //data
-  if(typeof event.data.regions !== "undefined"){
-    regionData = event.data.regions;
+  if(typeof event.data.data !== "undefined"){
+    regionData = event.data.data;
   } else {
     regionData = Regions;
   }
