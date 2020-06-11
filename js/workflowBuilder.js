@@ -644,7 +644,7 @@ function sliceUSQLdata(slicer, data, target) { //TODO: refactor this bowl of spa
             let selectors = [`#usp${uniqId()}`];
             $target.html(`
                 <div class="inputHeader">Keys:</div>
-                <div class="userInput"><select id="${selectors[0].substr(1)}" class="uspFilter"></select></div>
+                <div class="userInput"><select id="${selectors[0].substr(1)}" class="uspFilter"><option></option></select></div>
                 `);
             parsedResults = parseKPIs(data);
             let options = drawKPIs(parsedResults);
@@ -669,9 +669,9 @@ function sliceUSQLdata(slicer, data, target) { //TODO: refactor this bowl of spa
             parsedResults = parseUSPFilter(data);
             $target.html(`
                 <div class="inputHeader">Keys:</div>
-                <div class="userInput"><select id="${selectors[0].substr(1)}" class="uspFilter"></select></div>
+                <div class="userInput"><select id="${selectors[0].substr(1)}" class="uspFilter"><option></option></select></div>
                 <div class="inputHeader">Values:</div>
-                <div class="userInput"><select id="${selectors[1].substr(1)}" class="uspFilter"></select></div>
+                <div class="userInput"><select id="${selectors[1].substr(1)}" class="uspFilter"><option></option></select></div>
                 `);
             $("#swaps").html(`
                 <div class="inputHeader">From:</div>
@@ -696,11 +696,11 @@ function sliceUSQLdata(slicer, data, target) { //TODO: refactor this bowl of spa
             parsedResults = parseRegions(data);
             $target.html(`
                 <div class="inputHeader">Values:</div>
-                <div class="userInput"><select id="${selectors[0].substr(1)}" class="countryList regionFilter"></select></div>
+                <div class="userInput"><select id="${selectors[0].substr(1)}" class="countryList regionFilter"><option></option></select></div>
                 <div class="inputHeader">Values:</div>
-                <div class="userInput"><select id="${selectors[1].substr(1)}" class="regionList regionFilter"></select></div>
+                <div class="userInput"><select id="${selectors[1].substr(1)}" class="regionList regionFilter"><option></option></select></div>
                 <div class="inputHeader">Values:</div>
-                <div class="userInput"><select id="${selectors[2].substr(1)}" class="cityList regionFilter"></select></div>
+                <div class="userInput"><select id="${selectors[2].substr(1)}" class="cityList regionFilter"><option></option></select></div>
                 `);
             $("#swaps").html(`
                 <div class="inputHeader">From:</div>
