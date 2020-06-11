@@ -247,7 +247,7 @@ function regionsChangeHandler(event) {
   $filterClause.val(buildFilterClause(selectors));
 }
 
-function uspFilterChangeHandler() {
+function uspFilterChangeHandler(event) {
   //jQ objects
   let countrySelector, regionSelector, citySelector, filterClauseSelector, keySelector, keyOptionSelector, valSelector;
   if (typeof event.data.selectors !== "undefined") {
