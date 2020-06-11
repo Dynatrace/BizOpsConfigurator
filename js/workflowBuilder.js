@@ -270,13 +270,13 @@ function usqlCommonQueryChangeHandler() {
         case "String/Date USPs":
             $("#usqlQuery").val('SELECT usersession.stringProperties, usersession.dateProperties FROM useraction WHERE useraction.application = "${app.name}" LIMIT 5000');
             $("#usqlResultSlicer").val("Keys/Values");
-            $("#transform").val("usp");
+            $("#transform").val("uspClause");
             $("#addWhereClause").prop("checked", true);
             break;
         case "Regions":
             $("#usqlQuery").val('SELECT DISTINCT country, region, city FROM usersession WHERE useraction.application = "${app.name}" ORDER BY country,region,city LIMIT 5000');
             $("#usqlResultSlicer").val("ValX3");
-            $("#transform").val("region");
+            $("#transform").val("regionClause");
             $("#addWhereClause").prop("checked", true);
             break;
     }
@@ -679,12 +679,13 @@ function sliceUSQLdata(slicer, data, target) { //TODO: refactor this bowl of spa
             `);
 
             if ($("#addWhereClause").prop("checked")) {
+                let targetSelector = `#filterClause${uniqId()}`;
                 $target.append(`<div class="inputHeader">Filter Clause:</div>
-                <div class="userInput"><input disabled class="filterClause"></div>
+                <div class="userInput"><input disabled id="${targetSelector.substr(1)}" class="filterClause"></div>
                 `);
-                let eventData = { selectors: selectors, data: parsedResults, target: $target };
+                let eventData = { selectors: selectors, data: parsedResults, target: targetSelector };
                 $target.on("change", "select", eventData, uspFilterChangeHandler);
-                $target.trigger("change");
+                $target.find("select:first-of-type").trigger("change");
             } else {
                 $target.on("change", "select", previewChangeHandlerKeyVal);
                 previewChangeHandlerKeyVal($target);
@@ -707,7 +708,7 @@ function sliceUSQLdata(slicer, data, target) { //TODO: refactor this bowl of spa
                 <div class="userInput">${'${' + from + '}'}</div>
             `);
             if ($("#addWhereClause").prop("checked")) {
-                targetSelector = `#filterClause${uniqId()}`;
+                let targetSelector = `#filterClause${uniqId()}`;
                 $target.append(`<div class="inputHeader">Filter Clause:</div>
                 <div class="userInput"><input disabled id="${targetSelector.substr(1)}" class="filterClause"></div>
                 `);

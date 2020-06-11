@@ -167,7 +167,7 @@ function MyTimeChangeHandler() {
 function regionsChangeHandler(event) {
   //jQ objects
   let countrySelector, regionSelector, citySelector, filterClauseSelector, keySelector, keyOptionSelector, valSelector;
-  if(typeof event.data.selectors !== "undefined"){
+  if (typeof event.data.selectors !== "undefined") {
     countrySelector = event.data.selectors[0];
     regionSelector = event.data.selectors[1];
     citySelector = event.data.selectors[2];
@@ -196,7 +196,7 @@ function regionsChangeHandler(event) {
   let city = $cityList.val();
 
   //data
-  if(typeof event.data.data !== "undefined"){
+  if (typeof event.data.data !== "undefined") {
     regionData = event.data.data;
   } else {
     regionData = Regions;
@@ -248,15 +248,35 @@ function regionsChangeHandler(event) {
 }
 
 function uspFilterChangeHandler() {
-  console.log("uspFilterChangeHandler:");
-  console.log(event.data);
+  //jQ objects
+  let countrySelector, regionSelector, citySelector, filterClauseSelector, keySelector, keyOptionSelector, valSelector;
+  if (typeof event.data.selectors !== "undefined") {
+    keySelector = event.data.selectors[0];
+    keyOptionSelector = event.data.selectors[1];
+    valSelector = event.data.selectors[2];
+    filterClauseSelector = event.data.targetSelector;
+  } else {
+    countrySelector = ".countryList";
+    regionSelector = ".regionList";
+    citySelector = ".cityList";
+    keySelector = "#uspKey";
+    keyOptionSelector = "#uspKey option:selected";
+    valSelector = "#uspVal";
+    filterClauseSelector = ".filterClause";
+  }
+  let selectors = [countrySelector, regionSelector, citySelector, keySelector, keyOptionSelector, valSelector];
+  let $keyList = $(keySelector);
+  let $selectedOption = $(keyOptionSelector);
+  let $valList = $(valSelector);
+  let $filterClause = $(filterClauseSelector);
+
   let keyOs = "<option value''></option>";
   let valOs = "<option value''></option>";
-  let key = $("#uspKey").val();
-  let type = (($("#uspKey option:selected").length > 0) ?
-    $("#uspKey option:selected")[0].dataset['colname'] :
+  let key = $keyList.val();
+  let type = (($selectedOption.length > 0) ?
+    $selectedOption[0].dataset['colname'] :
     undefined);
-  let val = $("#uspVal").val();
+  let val = $valList.val();
 
   if (typeof key == "undefined" || key == null || key == '') { //build out key list if needed
     Object.keys(USPs).forEach(function (t) {
@@ -264,16 +284,16 @@ function uspFilterChangeHandler() {
         keyOs += "<option value='" + k + "' data-colname='" + t + "'>" + k + "</option>";
       });
     });
-    $("#uspKey").html(keyOs);
-    $("#uspVal").hide();
+    $keyList.html(keyOs);
+    $valList.hide();
   }
 
   if (typeof selection.config.filterData != "undefined") { //load config if available
     if (val == "") val = selection.config.filterData.val;
     if (type == "") type = selection.config.filterData.type;
     if (key == "") key = selection.config.filterData.key;
-    if (type != "") $("#uspKey").attr('data-colname', type);
-    if (key != "") $("#uspKey").val(key);
+    if (type != "") $keyList.attr('data-colname', type);
+    if (key != "") $keyList.val(key);
   }
 
   if (key != "") {  //if we have the key draw the values
@@ -282,12 +302,12 @@ function uspFilterChangeHandler() {
       USPs[type][key].forEach(function (v) {
         valOs += "<option value='" + v + "'>" + v + "</option>";
       });
-    $("#uspVal").html(valOs);
-    $("#uspVal").show();
-    if (val != '') $("#uspVal").val(val);
+    $valList.html(valOs);
+    $valList.show();
+    if (val != '') $valList.val(val);
   }
 
-  $(".filterClause").val(buildFilterClause());
+  $filterClause.val(buildFilterClause(selectors));
 }
 
 function xappChangeHandler() {
@@ -615,10 +635,10 @@ function HUreportChangeHandler() {
 function workflowPickerChangeHandler(e) {
   let el = $(this);
   let id = el.attr('id');
-  
+
   switch (id) {
     case undefined: {
-      
+
       let deployedPersonas = workflowList.map((x) => x.file.config.persona).flat().filter(unique);
       let personaOptions = "";
       deployedPersonas.forEach(function (personaPrefix) {
@@ -626,12 +646,12 @@ function workflowPickerChangeHandler(e) {
         personaOptions += `<option data-prefix="${persona.prefix}">${persona.name}</option>`;
       });
       $("#persona").html(personaOptions);
-    //do not break
+      //do not break
     }
     case "persona": {
       let usecaseOptions = "";
       let personaPrefix = $("#persona option:selected").attr("data-prefix");
-      
+
       let filteredWFs = workflowList.filter(wf => wf.file.config.persona.includes(personaPrefix));
       let deployedUsecases = filteredWFs.map((wf) => wf.file.config.usecase).filter(unique);
       deployedUsecases.forEach(function (usecasePrefix) {
@@ -639,7 +659,7 @@ function workflowPickerChangeHandler(e) {
         usecaseOptions += `<option data-prefix="${usecase.prefix}">${usecase.name}</option>`;
       });
       $("#usecase").html(usecaseOptions);
-    //do not break
+      //do not break
     }
     case "usecase": {
       let workflowOptions = "";
@@ -653,7 +673,7 @@ function workflowPickerChangeHandler(e) {
         workflowOptions += `<option data-workflowIndex="${i}">${name}</option>`;
       });
       $("#workflow").html(workflowOptions);
-    //do not break
+      //do not break
     }
     default:
       let i = $("#workflow :selected").attr('data-workflowIndex');
