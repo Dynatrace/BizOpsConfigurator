@@ -252,8 +252,8 @@ function uspFilterChangeHandler(event) {
   let countrySelector, regionSelector, citySelector, filterClauseSelector, keySelector, keyOptionSelector, valSelector;
   if (typeof event.data.selectors !== "undefined") {
     keySelector = event.data.selectors[0];
-    keyOptionSelector = event.data.selectors[1];
-    valSelector = event.data.selectors[2];
+    keyOptionSelector = keySelector+" option:selected";
+    valSelector = event.data.selectors[1];
     filterClauseSelector = event.data.targetSelector;
   } else {
     countrySelector = ".countryList";
