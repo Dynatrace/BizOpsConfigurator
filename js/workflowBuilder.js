@@ -707,12 +707,13 @@ function sliceUSQLdata(slicer, data, target) { //TODO: refactor this bowl of spa
                 <div class="userInput">${'${' + from + '}'}</div>
             `);
             if ($("#addWhereClause").prop("checked")) {
+                targetSelector = `#filterClause${uniqId()}`;
                 $target.append(`<div class="inputHeader">Filter Clause:</div>
-                <div class="userInput"><input disabled class="filterClause"></div>
+                <div class="userInput"><input disabled id="${targetSelector.substr(1)}" class="filterClause"></div>
                 `);
-                let eventData = { selectors: selectors, data: parsedResults, target: $target };
+                let eventData = { selectors: selectors, data: parsedResults, targetSelector: targetSelector };
                 $target.on("change", "select", eventData, regionsChangeHandler);
-                $target.trigger("change");
+                $target.find("select:first-of-type").trigger("change");
             } else {
                 $target.on("change", "select", previewChangeHandlerValX3);
                 previewChangeHandlerValX3($target);
