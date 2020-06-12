@@ -629,7 +629,7 @@ function sliceAPIdata(slicer, data) {
             });
             break;
     }
-    return parsedResults;
+    return parsedResultssort((a,b) => (a.key.toLowerCase() > b.key.toLowerCase()) ? 1: -1);
 }
 
 function sliceUSQLdata(slicer, data, target) { //TODO: refactor this bowl of spaghetti
