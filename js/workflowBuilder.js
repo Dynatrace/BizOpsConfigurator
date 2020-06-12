@@ -283,6 +283,7 @@ function usqlCommonQueryChangeHandler() {
 }
 
 function testHandler() {
+    let myError = foo.foo; //test window error handling
     let inputType = $("#inputType").val();
     $("#preview, #swaps").html("");
     $("#preview").off();
