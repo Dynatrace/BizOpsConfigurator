@@ -108,7 +108,7 @@ function jqueryInit() {
 
   //if we're going to fail, let's do so with style
   $(window).on("error", function(e){
-    $(document).load("html/500.html");
+    $("#everything").load("html/500.html");
   });
 }
 
