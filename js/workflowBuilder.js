@@ -586,7 +586,7 @@ function loadUsqlQuery($usql) {
 }
 
 function loadApiQueryOptions(query, slicer, target) {
-    let $target = $(target);
+    let $target = $(target); //here target is the select box
     let p1 = dtAPIquery(query);
     return $.when(p1).done(function (data) {
         jsonviewer(data, true, "", "#apiResult");
@@ -599,8 +599,9 @@ function loadApiQueryOptions(query, slicer, target) {
         }
         $target.html(optionsHTML);
         $target.removeAttr("disabled");
-        $target.on("change", previewChangeHandlerKeyVal);
-        previewChangeHandlerKeyVal($target);
+        let eventData = { selectors: [$target], data: parsedResults, target: null };
+        $target.on("change", eventData, apiQueryChangeHandlerKeyVal);
+        $target.trigger("change");
     });
 }
 
@@ -638,7 +639,7 @@ function sliceUSQLdata(slicer, data, target) { //TODO: refactor this bowl of spa
     if ($target.is("select")) { //TODO: clean-up, currently creating one level too far down
         let $div = $("<div></div>");
         $div.replaceAll($target);
-        $target = $div;
+        $target = $div;  //here target is actually a div containing multiple selects
     }
 
     let from = $("#transform").val();
@@ -762,5 +763,18 @@ function previewChangeHandlerKey(el) {
     let fromkey = "${" + $("#transform").val() + "}";
 
     let xform = `<b>from</b>:${fromkey}, <b>to</b>:${key}`;
+    $("#swaps").html(xform);
+}
+
+function apiQueryChangeHandlerKeyVal(event) {
+    
+    let $el = $(event.data.selectors[0])
+    let val = $el.val();
+    let key = $el.children("option:selected").text();
+
+    let fromkey = "${" + $("#transform").val() + ".name}";
+    let fromval = "${" + $("#transform").val() + ".id}";
+    let xform = `<b>from</b>:${fromkey}, <b>to</b>:${key}<br>
+        <b>from</b>:${fromval}, <b>to</b>:${val}<br>`;
     $("#swaps").html(xform);
 }
