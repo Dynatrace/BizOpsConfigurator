@@ -253,7 +253,31 @@ function commonQueryChangeHandler() {
             $("#apiResultSlicer").val("{entityId:displayName}");
             $("#transform").val("service");
             break;
-
+        case "CustomMetric-RUM":
+            $("#apiQuery").val("/api/config/v1/calculatedMetrics/rum");
+            $("#apiResultSlicer").val("{id:name}");
+            $("#transform").val("metricRum");
+            break;
+        case "CustomMetric-Mobile":
+            $("#apiQuery").val("/api/config/v1/calculatedMetrics/Mobile");
+            $("#apiResultSlicer").val("{id:name}");
+            $("#transform").val("metricMobile");
+            break;
+        case "CustomMetric-Service":
+            $("#apiQuery").val("/api/config/v1/calculatedMetrics/service");
+            $("#apiResultSlicer").val("{id:name}");
+            $("#transform").val("metricService");
+            break;
+        case "CustomMetric-Log":
+            $("#apiQuery").val("/api/config/v1/calculatedMetrics/log");
+            $("#apiResultSlicer").val("{id:name}");
+            $("#transform").val("metricLog");
+            break;
+        case "CustomMetric-Synthetic":
+            $("#apiQuery").val("/api/config/v1/calculatedMetrics/synthetic");
+            $("#apiResultSlicer").val("{id:name}");
+            $("#transform").val("metricSynth");
+            break;
     }
 }
 
@@ -573,8 +597,8 @@ function loadUsqlQuery($usql) {
     $usql = $($usql);
     let usql = $usql.val();
     let slicer = $usql.siblings(".usqlResultSlicer").val();
-    let whereClause = ($usql.siblings(".usqlResultSlicer[data-addWhereClause]").attr("data-addWhereClause") === 'true')?
-        true:false;
+    let whereClause = ($usql.siblings(".usqlResultSlicer[data-addWhereClause]").attr("data-addWhereClause") === 'true') ?
+        true : false;
     let $target = $usql.siblings(".workflowSelect");
     if (typeof selection.swaps !== "undefined") usql = queryDoSwaps(usql, selection.swaps);
     if (!usql.match(/^SELECT /i)) {
@@ -632,7 +656,7 @@ function sliceAPIdata(slicer, data) {
             });
             break;
     }
-    return parsedResults.sort((a,b) => (a.key.toLowerCase() > b.key.toLowerCase()) ? 1: -1);
+    return parsedResults.sort((a, b) => (a.key.toLowerCase() > b.key.toLowerCase()) ? 1 : -1);
 }
 
 function sliceUSQLdata(slicer, data, target, whereClause) { //TODO: refactor this bowl of spaghetti
@@ -770,7 +794,7 @@ function previewChangeHandlerKey(el) {
 }
 
 function apiQueryChangeHandlerKeyVal(event) {
-    
+
     let $el = $(event.data.selectors[0])
     let val = $el.val();
     let key = $el.children("option:selected").text();
