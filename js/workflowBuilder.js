@@ -302,7 +302,7 @@ function testAPIhandler() {
     $.when(p0).done(function () {
         let query = $("#apiQuery").val();
         $("#apiQueryHeader").text(query);
-        let multiple = $("#multiple").val();
+        let multiple = $("#multiple").is(":checked");
         $("#preview").html(`<select ${multiple ? "multiple" : ""}></select>`);
         let $target = $("#preview select");
         let slicer = $("#apiResultSlicer").val();
@@ -654,7 +654,7 @@ function sliceUSQLdata(slicer, data, target) { //TODO: refactor this bowl of spa
             $(`${selectors[0]}`).html(options);
             $("#swaps").html();
 
-            if ($("#addWhereClause").prop("checked")) {
+            if ($("#addWhereClause").is(":checked")) {
                 $target.append(`<div class="inputHeader">Filter Clause:</div>
                 <div class="userInput"><input disabled class="filterClause"></div>
                 `);
@@ -681,7 +681,7 @@ function sliceUSQLdata(slicer, data, target) { //TODO: refactor this bowl of spa
                 <div class="userInput">${'${' + from + '}'}</div>
             `);
 
-            if ($("#addWhereClause").prop("checked")) {
+            if ($("#addWhereClause").is(":checked")) {
                 let targetSelector = `#filterClause${uniqId()}`;
                 $target.append(`<div class="inputHeader">Filter Clause:</div>
                 <div class="userInput"><input disabled id="${targetSelector.substr(1)}" class="filterClause"></div>
@@ -712,7 +712,7 @@ function sliceUSQLdata(slicer, data, target) { //TODO: refactor this bowl of spa
                 <div class="inputHeader">From:</div>
                 <div class="userInput">${'${' + from + '}'}</div>
             `);
-            if ($("#addWhereClause").prop("checked")) {
+            if ($("#addWhereClause").is(":checked")) {
                 let targetSelector = `#filterClause${uniqId()}`;
                 $target.append(`<div class="inputHeader">Filter Clause:</div>
                 <div class="userInput"><input disabled id="${targetSelector.substr(1)}" class="filterClause"></div>
