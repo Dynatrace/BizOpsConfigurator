@@ -660,7 +660,7 @@ function sliceUSQLdata(slicer, data, target) { //TODO: refactor this bowl of spa
                 $target.trigger("change");
             } else {
                 $target.on("change", "select", previewChangeHandlerKey);
-                previewChangeHandlerKey($target);
+                $target.find("select:first-of-type").trigger("change");
             }
             break;
         }
@@ -690,7 +690,7 @@ function sliceUSQLdata(slicer, data, target) { //TODO: refactor this bowl of spa
                 let targetSelector = '';
                 let eventData = { selectors: selectors, data: parsedResults, targetSelector: targetSelector };
                 $target.on("change", "select", eventData, previewChangeHandlerKeyVal);
-                previewChangeHandlerKeyVal($target);
+                $target.find("select:first-of-type").trigger("change");
             }
             break;
         }
@@ -720,7 +720,7 @@ function sliceUSQLdata(slicer, data, target) { //TODO: refactor this bowl of spa
             } else {
                 let eventData = { selectors: selectors, data: parsedResults, targetSelector: targetSelector };
                 $target.on("change", "select", eventData, previewChangeHandlerValX3);
-                previewChangeHandlerValX3($target);
+                $target.find("select:first-of-type").trigger("change");
             }
             break;
         }
