@@ -12,9 +12,12 @@ function globalButtonHandler() {
     if (typeof dtrum !== "undefined") dtrum.actionName("globalButtonHandler(" + id + ")");
     switch (id) {
       case "connect":
-        url = $("input#url").val();
+        url = $("input#url").val().toLowerCase();
         if (url.length > 1 && url.charAt(url.length - 1) == "/")
           url = url.substring(0, url.length - 1);
+        if (url.length > 1 && !url.startsWith("https://"))
+          url = "https://" + url;
+        $("input#url").val(url);
         token = $("input#token").val();
         githubuser = $("#githubuser").val();
         githubpat = $("#githubpat").val();
@@ -854,9 +857,9 @@ function globalButtonHandler() {
         selection.swaps = [];
         selection.config = {};
         let personaPrefix = $("#persona :selected").attr('data-prefix');
-        selection.persona = personas.find(({prefix}) => prefix === personaPrefix);
+        selection.persona = personas.find(({ prefix }) => prefix === personaPrefix);
         let usecasePrefix = $("#usecase :selected").attr('data-prefix');
-        selection.usecase = usecases.find(({prefix}) => prefix === usecasePrefix);
+        selection.usecase = usecases.find(({ prefix }) => prefix === usecasePrefix);
         let workflowI = $("#workflow :selected").attr('data-workflowIndex');
         selection.workflow = workflowList[workflowI];
         $("#viewport").load("html/personaFlow/persona_userInputs.html", fieldsetPainter);
@@ -876,9 +879,9 @@ function globalButtonHandler() {
         else if (button.val() == "Done") {
           if (selection.testMode) {
             let html = `<ul>`;
-            selection.swaps.forEach((x)=>{html+=`<li><b>from</b>:${x.from}, <b>to</b>:${x.to}</li>`;});
+            selection.swaps.forEach((x) => { html += `<li><b>from</b>:${x.from}, <b>to</b>:${x.to}</li>`; });
             html += `</ul>`;
-            popupHTML("Test Results",html);
+            popupHTML("Test Results", html);
           } else {
             let p = uploadWorkflow($("#workflow"));
             $.when(p).done(function () {
