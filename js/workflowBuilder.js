@@ -485,24 +485,27 @@ function workflowPrevPage() {
 }
 
 function workflowTest() {
-    let p = renderWorkflow($("#workflow"));
-    $("#workflow").attr("id", "workflowInactive");
-    $.when(p).done(function (renderedHTML) {
-        selection.testMode = true;
-        let p1 = popupHTMLDeferred("Testing Workflow", renderedHTML);
-        $(".doneBar").hide();
-        workflowSetFirstPageActive();
-        let activePage = $("#workflow .workflowPage.activePage");
-        renderWorkflowPage(activePage);
-        drawWorkflowPagerButton();
-        $.when(p1).done(function () {
-            delete selection.testMode;
-            delete selection.swaps;
-            $("#workflowInactive").attr("id", "workflow");
-            updatePageListing();
+    let p0 = getConnectInfo();
+
+    $.when(p0).done(function () {
+        let p = renderWorkflow($("#workflow"));
+        $("#workflow").attr("id", "workflowInactive");
+        $.when(p).done(function (renderedHTML) {
+            selection.testMode = true;
+            let p1 = popupHTMLDeferred("Testing Workflow", renderedHTML);
+            $(".doneBar").hide();
+            workflowSetFirstPageActive();
+            let activePage = $("#workflow .workflowPage.activePage");
+            renderWorkflowPage(activePage);
+            drawWorkflowPagerButton();
+            $.when(p1).done(function () {
+                delete selection.testMode;
+                delete selection.swaps;
+                $("#workflowInactive").attr("id", "workflow");
+                updatePageListing();
+            });
         });
     });
-
 }
 
 function renderWorkflow(el) {
