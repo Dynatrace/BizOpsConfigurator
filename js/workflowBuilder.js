@@ -573,7 +573,8 @@ function loadUsqlQuery($usql) {
     $usql = $($usql);
     let usql = $usql.val();
     let slicer = $usql.siblings(".usqlResultSlicer").val();
-    let whereClause = $usql.siblings(".usqlResultSlicer[data-addWhereClause]").attr("data-addWhereClause") || false;
+    let whereClause = ($usql.siblings(".usqlResultSlicer[data-addWhereClause]").attr("data-addWhereClause") === 'true')?
+        true:false;
     let $target = $usql.siblings(".workflowSelect");
     if (typeof selection.swaps !== "undefined") usql = queryDoSwaps(usql, selection.swaps);
     if (!usql.match(/^SELECT /i)) {
