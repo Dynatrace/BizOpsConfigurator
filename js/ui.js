@@ -525,7 +525,8 @@ function getTestApp() {
 
 function getAllInputData(popup){
   let data = {};
-  popup.find("input,select").each(function(i,e) { data[e.id] = $(this).val() });
+  popup.find("input:not([type=checkbox]),select").each(function(i,e) { data[e.id] = $(this).val() });
+  popup.find("input[type=checkbox]").each(function(i,e) { data[e.id] = $(this).is(":checked") });
   return data;
 }
 
