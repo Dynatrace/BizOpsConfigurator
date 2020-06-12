@@ -255,27 +255,27 @@ function commonQueryChangeHandler() {
             break;
         case "CustomMetric-RUM":
             $("#apiQuery").val("/api/config/v1/calculatedMetrics/rum");
-            $("#apiResultSlicer").val("{id:name}");
+            $("#apiResultSlicer").val("values:{id:name}");
             $("#transform").val("metricRum");
             break;
         case "CustomMetric-Mobile":
             $("#apiQuery").val("/api/config/v1/calculatedMetrics/Mobile");
-            $("#apiResultSlicer").val("{id:name}");
+            $("#apiResultSlicer").val("values:{id:name}");
             $("#transform").val("metricMobile");
             break;
         case "CustomMetric-Service":
             $("#apiQuery").val("/api/config/v1/calculatedMetrics/service");
-            $("#apiResultSlicer").val("{id:name}");
+            $("#apiResultSlicer").val("values:{id:name}");
             $("#transform").val("metricService");
             break;
         case "CustomMetric-Log":
             $("#apiQuery").val("/api/config/v1/calculatedMetrics/log");
-            $("#apiResultSlicer").val("{id:name}");
+            $("#apiResultSlicer").val("values:{id:name}");
             $("#transform").val("metricLog");
             break;
         case "CustomMetric-Synthetic":
             $("#apiQuery").val("/api/config/v1/calculatedMetrics/synthetic");
-            $("#apiResultSlicer").val("{id:name}");
+            $("#apiResultSlicer").val("values:{id:name}");
             $("#transform").val("metricSynth");
             break;
     }
