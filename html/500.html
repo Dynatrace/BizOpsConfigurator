@@ -1,17 +1,19 @@
 <div class="illustration" name="roomba">
-    <img src="images/roomba.svg"> 
-    <p>Oops... it looks like something broke. Don't worry a problem has been created in Dynatrace.</p>
-    <a href="index.html#begin">Let's start over</a>
+    <div><img src="images/roomba.svg"></div>
+    <div><h3>Oops... it looks like something broke. Don't worry a problem has been created in Dynatrace.</h3>
+    <a href="index.html#begin">Let's start over</a></div>
 </div>
 <style>
     .illustration{
         display: flex;
-        flex-direction: column;
         align-content: center;
         justify-content: center;
         color: white;
         width: 100%;
         height: 100%;
+    }
+    .illustration > div {
+        flex: 1
     }
     .illustration a {
         color: #00b9cc;
