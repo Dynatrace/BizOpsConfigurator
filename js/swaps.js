@@ -378,10 +378,18 @@ function generateWorkflowSwapList(el) {
 
   $el.find(".workflowInput").each(function (i, el) {
     let $workflowInput = $(this);
-    let slicer = $workflowInput.find(".apiResultSlicer, .usqlResultSlicer").val();
+    let $slicer = $workflowInput.find(".apiResultSlicer, .usqlResultSlicer");
+    let slicer = $slicer.val();
+    let whereClause = ($slicer.attr("data-addWhereClause") === 'true')?
+        true:false;
     let transform = $workflowInput.find(".transform span").text();
 
-    switch (slicer) {
+    if(whereClause){
+      let from = "${" + transform + "}";
+      let filterClause = $workflowInput.find("input.filterClause").val();
+
+      swaps.push({ from: from, to: filterClause });
+    } else switch (slicer) {
       case "{entityId:displayName}":
       case "values:{id:name}": {
         let $option = $workflowInput.find("select option:selected");
