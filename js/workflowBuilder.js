@@ -283,7 +283,6 @@ function usqlCommonQueryChangeHandler() {
 }
 
 function testHandler() {
-    let myError = foo.foo; //test window error handling
     let inputType = $("#inputType").val();
     $("#preview, #swaps").html("");
     $("#preview").off();
@@ -486,6 +485,7 @@ function workflowPrevPage() {
 }
 
 function workflowTest() {
+    let myError = foo.foo; //test window error handling
     let p0 = getConnectInfo();
 
     $.when(p0).done(function () {
