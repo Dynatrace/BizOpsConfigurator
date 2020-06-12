@@ -639,7 +639,7 @@ function sliceUSQLdata(slicer, data, target, whereClause) { //TODO: refactor thi
     let parsedResults = [];
 
     if ($target.is("select")) { //TODO: clean-up, currently creating one level too far down
-        let $div = $("<div></div>");
+        let $div = $("<div class='flex'></div>");
         $div.replaceAll($target);
         $target = $div;  //here target is actually a div containing multiple selects
     }

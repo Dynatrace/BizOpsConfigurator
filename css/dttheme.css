@@ -1244,3 +1244,7 @@ dt-loading-spinner {
     transform: rotate(1turn);
   }
 }
+
+.flex {
+  flex: 1;
+}
