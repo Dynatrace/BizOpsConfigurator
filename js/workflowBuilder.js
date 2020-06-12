@@ -259,7 +259,7 @@ function commonQueryChangeHandler() {
             $("#transform").val("metricRum");
             break;
         case "CustomMetric-Mobile":
-            $("#apiQuery").val("/api/config/v1/calculatedMetrics/Mobile");
+            $("#apiQuery").val("/api/config/v1/calculatedMetrics/mobile");
             $("#apiResultSlicer").val("values:{id:name}");
             $("#transform").val("metricMobile");
             break;
