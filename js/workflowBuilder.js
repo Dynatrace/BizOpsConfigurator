@@ -687,7 +687,9 @@ function sliceUSQLdata(slicer, data, target) { //TODO: refactor this bowl of spa
                 $target.on("change", "select", eventData, uspFilterChangeHandler);
                 $target.find("select:first-of-type").trigger("change");
             } else {
-                $target.on("change", "select", previewChangeHandlerKeyVal);
+                let targetSelector = `#swaps`;
+                let eventData = { selectors: selectors, data: parsedResults, targetSelector: targetSelector };
+                $target.on("change", "select", eventData, previewChangeHandlerKeyVal);
                 previewChangeHandlerKeyVal($target);
             }
             break;
@@ -716,7 +718,8 @@ function sliceUSQLdata(slicer, data, target) { //TODO: refactor this bowl of spa
                 $target.on("change", "select", eventData, regionsChangeHandler);
                 $target.find("select:first-of-type").trigger("change");
             } else {
-                $target.on("change", "select", previewChangeHandlerValX3);
+                let eventData = { selectors: selectors, data: parsedResults, targetSelector: targetSelector };
+                $target.on("change", "select", eventData, previewChangeHandlerValX3);
                 previewChangeHandlerValX3($target);
             }
             break;
@@ -736,15 +739,16 @@ function pasteFixer(event) {
     event.preventDefault();
 }
 
-function previewChangeHandlerKeyVal(el) {
-    let $el = (typeof el.length == "undefined" ? $(this) : $(el));
-    let value = $el.val();
-    let key = $el.children("option:selected").text();
+function previewChangeHandlerKeyVal(event) {
+    uspFilterChangeHandler(event);
+
+    let key = $(event.data.selectors[0]).val();
+    let val = $(event.data.selectors[1]).val();
+
     let fromkey = "${" + $("#transform").val() + ".name}";
     let fromval = "${" + $("#transform").val() + ".id}";
-
     let xform = `<b>from</b>:${fromkey}, <b>to</b>:${key}<br>
-        <b>from</b>:${fromval}, <b>to</b>:${value}<br>`;
+        <b>from</b>:${fromval}, <b>to</b>:${val}<br>`;
     $("#swaps").html(xform);
 }
 
