@@ -687,7 +687,7 @@ function sliceUSQLdata(slicer, data, target) { //TODO: refactor this bowl of spa
                 $target.on("change", "select", eventData, uspFilterChangeHandler);
                 $target.find("select:first-of-type").trigger("change");
             } else {
-                let targetSelector = `#swaps`;
+                let targetSelector = '';
                 let eventData = { selectors: selectors, data: parsedResults, targetSelector: targetSelector };
                 $target.on("change", "select", eventData, previewChangeHandlerKeyVal);
                 previewChangeHandlerKeyVal($target);

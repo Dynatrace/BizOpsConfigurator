@@ -278,9 +278,17 @@ function uspFilterChangeHandler(event) {
     undefined);
   let val = $valList.val();
 
+  //which data
+  let uspData;
+  if (typeof event !== "undefined" && typeof event.data !== "undefined" && typeof event.data.data !== "undefined") {
+    uspData = event.data.data;
+  } else {
+    uspData = USPs;
+  }
+
   if (typeof key == "undefined" || key == null || key == '') { //build out key list if needed
-    Object.keys(USPs).forEach(function (t) {
-      Object.keys(USPs[t]).forEach(function (k) {
+    Object.keys(uspData).sort().forEach(function (t) {
+      Object.keys(uspData[t]).sort().forEach(function (k) {
         keyOs += "<option value='" + k + "' data-colname='" + t + "'>" + k + "</option>";
       });
     });
@@ -297,9 +305,9 @@ function uspFilterChangeHandler(event) {
   }
 
   if (key != "") {  //if we have the key draw the values
-    if (typeof USPs[type] != "undefined" &&
-      typeof USPs[type][key] != "undefined")
-      USPs[type][key].forEach(function (v) {
+    if (typeof uspData[type] != "undefined" &&
+      typeof uspData[type][key] != "undefined")
+      uspData[type][key].forEach(function (v) {
         valOs += "<option value='" + v + "'>" + v + "</option>";
       });
     $valList.html(valOs);
