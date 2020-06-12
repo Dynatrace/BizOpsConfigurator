@@ -394,10 +394,27 @@ function generateWorkflowSwapList(el) {
         break;
       }
       case 'Keys':{
-        //if()
-        //break;
+        let $option = $workflowInput.find("select option:selected");
+        let value = $option.val();
+        let key = $option.text();
+        let fromkey = "${" + transform + ".name}";
+        let fromval = "${" + transform + ".id}";
+        swaps.push({ from: fromkey, to: key });
+        swaps.push({ from: fromval, to: value });
+        break;
       }
-      case 'Keys/Values':
+      case 'Keys/Values':{
+        let $key = $workflowInput.find("select:first-of-type option:selected");
+        let $val = $workflowInput.find("select:nth-of-type(2) option:selected");
+        let key = $key.val();
+        let value = $val.val();
+        
+        let fromkey = "${" + transform + ".key}";
+        let fromval = "${" + transform + ".value}";
+        swaps.push({ from: fromkey, to: key });
+        swaps.push({ from: fromval, to: value });
+        break;
+      }
       case 'ValX3': {
         let from = "${" + transform + "}";
         let to = $workflowInput.find(".filterClause").val();

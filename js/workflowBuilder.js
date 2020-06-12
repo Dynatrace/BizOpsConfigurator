@@ -324,9 +324,10 @@ function testUSQLhandler() {
             usql = usql.replace("${app.name}", appName);
             let query = "/api/v1/userSessionQueryLanguage/table?query=" + encodeURIComponent(usql) + "&explain=false";
             let slicer = $("#usqlResultSlicer").val();
+            let whereClause = $("#whereClause").is(":checked");
             let $target = $("#preview");
             $("#apiQueryHeader").text(query);
-            let p2 = loadUsqlQueryOptions(query, slicer, $target)
+            let p2 = loadUsqlQueryOptions(query, slicer, $target, whereClause);
             $.when(p2).done(function (data) {
                 jsonviewer(data, true, "", "#apiResult");
             });
@@ -572,6 +573,7 @@ function loadUsqlQuery($usql) {
     $usql = $($usql);
     let usql = $usql.val();
     let slicer = $usql.siblings(".usqlResultSlicer").val();
+    let whereClause = $usql.siblings(".usqlResultSlicer[data-addWhereClause]").attr("data-addWhereClause") || false;
     let $target = $usql.siblings(".workflowSelect");
     if (typeof selection.swaps !== "undefined") usql = queryDoSwaps(usql, selection.swaps);
     if (!usql.match(/^SELECT /i)) {
@@ -579,7 +581,7 @@ function loadUsqlQuery($usql) {
         return;
     }
     let query = "/api/v1/userSessionQueryLanguage/table?query=" + encodeURIComponent(usql) + "&explain=false";
-    let p1 = loadUsqlQueryOptions(query, slicer, $target);
+    let p1 = loadUsqlQueryOptions(query, slicer, $target, whereClause);
     return $.when(p1).done(function (data) {
         jsonviewer(data);
     });
@@ -605,12 +607,12 @@ function loadApiQueryOptions(query, slicer, target) {
     });
 }
 
-function loadUsqlQueryOptions(query, slicer, target) {
+function loadUsqlQueryOptions(query, slicer, target, whereClause) {
     let $target = $(target);
     let p = dtAPIquery(query);
     return $.when(p).done(function (data) {
         jsonviewer(data, true, "", "#apiResult");
-        let parsedResults = sliceUSQLdata(slicer, data, $target);
+        let parsedResults = sliceUSQLdata(slicer, data, $target, whereClause);
         $target.removeAttr("disabled");
     });
 }
@@ -632,7 +634,7 @@ function sliceAPIdata(slicer, data) {
     return parsedResults.sort((a,b) => (a.key.toLowerCase() > b.key.toLowerCase()) ? 1: -1);
 }
 
-function sliceUSQLdata(slicer, data, target) { //TODO: refactor this bowl of spaghetti
+function sliceUSQLdata(slicer, data, target, whereClause) { //TODO: refactor this bowl of spaghetti
     let $target = $(target);
     let parsedResults = [];
 
@@ -655,7 +657,7 @@ function sliceUSQLdata(slicer, data, target) { //TODO: refactor this bowl of spa
             $(`${selectors[0]}`).html(options);
             $("#swaps").html();
 
-            if ($("#addWhereClause").is(":checked")) {
+            if (whereClause) {
                 $target.append(`<div class="inputHeader">Filter Clause:</div>
                 <div class="userInput"><input disabled class="filterClause"></div>
                 `);
@@ -682,7 +684,7 @@ function sliceUSQLdata(slicer, data, target) { //TODO: refactor this bowl of spa
                 <div class="userInput">${'${' + from + '}'}</div>
             `);
 
-            if ($("#addWhereClause").is(":checked")) {
+            if (whereClause) {
                 let targetSelector = `#filterClause${uniqId()}`;
                 $target.append(`<div class="inputHeader">Filter Clause:</div>
                 <div class="userInput"><input disabled id="${targetSelector.substr(1)}" class="filterClause"></div>
@@ -713,7 +715,7 @@ function sliceUSQLdata(slicer, data, target) { //TODO: refactor this bowl of spa
                 <div class="inputHeader">From:</div>
                 <div class="userInput">${'${' + from + '}'}</div>
             `);
-            if ($("#addWhereClause").is(":checked")) {
+            if (whereClause) {
                 let targetSelector = `#filterClause${uniqId()}`;
                 $target.append(`<div class="inputHeader">Filter Clause:</div>
                 <div class="userInput"><input disabled id="${targetSelector.substr(1)}" class="filterClause"></div>
