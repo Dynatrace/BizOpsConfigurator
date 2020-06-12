@@ -1106,7 +1106,7 @@ div.userInput input[type="button"] {
   width: 400px;
 }
 
-:invalid {
+:invalid:not(form) {
   border-bottom: 3px solid red;
 }
 
