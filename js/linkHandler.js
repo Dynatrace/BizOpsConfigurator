@@ -244,6 +244,19 @@ function hashHandler(hash) {
       $("#viewport").load("html/personaFlow/workflowBuilder.html", fieldsetPainter);
       break;
     }
+    case "#500error":
+    case "#error":{
+      $("#everything").load("html/500.html");
+      break;
+    }
+    case "#403error":{
+      $("#everything").load("html/403.html");
+      break;
+    }
+    case "#404error":{
+      $("#everything").load("html/404.html");
+      break;
+    }
     case "#home":
     default:
       $("#viewport").load("html/home.html");

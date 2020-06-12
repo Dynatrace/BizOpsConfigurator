@@ -485,7 +485,6 @@ function workflowPrevPage() {
 }
 
 function workflowTest() {
-    let myError = foo.foo; //test window error handling
     let p0 = getConnectInfo();
 
     $.when(p0).done(function () {
