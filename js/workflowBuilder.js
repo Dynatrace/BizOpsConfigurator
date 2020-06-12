@@ -745,8 +745,8 @@ function previewChangeHandlerKeyVal(event) {
     let key = $(event.data.selectors[0]).val();
     let val = $(event.data.selectors[1]).val();
 
-    let fromkey = "${" + $("#transform").val() + ".name}";
-    let fromval = "${" + $("#transform").val() + ".id}";
+    let fromkey = "${" + $("#transform").val() + ".key}";
+    let fromval = "${" + $("#transform").val() + ".value}";
     let xform = `<b>from</b>:${fromkey}, <b>to</b>:${key}<br>
         <b>from</b>:${fromval}, <b>to</b>:${val}<br>`;
     $("#swaps").html(xform);
