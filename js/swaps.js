@@ -387,7 +387,7 @@ function generateWorkflowSwapList(el) {
     if(whereClause){
       let from = "${" + transform + "}";
       let filterClause = $workflowInput.find("input.filterClause").val();
-      filterClause.replace(/"/g,'\\"');
+      filterClause = filterClause.replace(/"/g,'\\"');
 
       swaps.push({ from: from, to: filterClause });
     } else switch (slicer) {
