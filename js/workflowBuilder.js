@@ -722,7 +722,7 @@ function sliceUSQLdata(slicer, data, target) { //TODO: refactor this bowl of spa
                 $target.on("change", "select", eventData, regionsChangeHandler);
                 $target.find("select:first-of-type").trigger("change");
             } else {
-                let eventData = { selectors: selectors, data: parsedResults, targetSelector: targetSelector };
+                let eventData = { selectors: selectors, data: parsedResults, targetSelector: null };
                 $target.on("change", "select", eventData, previewChangeHandlerValX3);
                 $target.find("select:first-of-type").trigger("change");
             }
@@ -776,5 +776,21 @@ function apiQueryChangeHandlerKeyVal(event) {
     let fromval = "${" + $("#transform").val() + ".id}";
     let xform = `<b>from</b>:${fromkey}, <b>to</b>:${key}<br>
         <b>from</b>:${fromval}, <b>to</b>:${val}<br>`;
+    $("#swaps").html(xform);
+}
+
+function previewChangeHandlerValX3(event) {
+    regionsChangeHandler(event);
+
+    let val1 = $(event.data.selectors[0]).val();
+    let val2 = $(event.data.selectors[1]).val();
+    let val3 = $(event.data.selectors[2]).val();
+
+    let from1 = "${" + $("#transform").val() + ".1}";
+    let from2 = "${" + $("#transform").val() + ".2}";
+    let from3 = "${" + $("#transform").val() + ".3}";
+    let xform = `
+        <b>from</b>:${from1}, <b>to</b>:${val1}<br>
+        <b>from</b>:${from2}, <b>to</b>:${val2}<br>`;
     $("#swaps").html(xform);
 }
