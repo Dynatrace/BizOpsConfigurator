@@ -688,6 +688,13 @@ function workflowPickerChangeHandler(e) {
       let workflow = workflowList[i];
       let readme = findWorkflowReadme(workflow);
       $("#readmeViewer").html(readme.html);
+      if(workflow.blogURL != ""){
+        $("#blogLink").html(`<a href="${workflow.blogURL}" class="newTab" target="_blank">Blog post <img src='images/link.svg'></a>`);
+        $("#blogLink").show();
+      } else {
+        $("#blogLink").hide();
+        $("#blogLink").html("");
+      }
   }
 
 }
