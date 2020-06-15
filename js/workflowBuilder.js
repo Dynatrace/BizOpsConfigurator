@@ -792,8 +792,8 @@ function previewChangeHandlerKey(event) {
     let $option = $el.find("select option:selected");
     let val = $option.attr("data-colname") + "." + $option.val();
     let key = $option.text();
-    let fromkey = "${" + transform + ".name}";
-    let fromval = "${" + transform + ".id}";
+    let fromkey = "${" + $("#transform").val() + ".name}";
+    let fromval = "${" + $("#transform").val() + ".id}";
 
     let xform = `
         <b>from</b>:${fromkey}, <b>to</b>:${key}<br>
