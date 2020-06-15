@@ -818,6 +818,8 @@ function previewChangeHandlerValX3(event) {
     let from3 = "${" + $("#transform").val() + ".3}";
     let xform = `
         <b>from</b>:${from1}, <b>to</b>:${val1}<br>
-        <b>from</b>:${from2}, <b>to</b>:${val2}<br>`;
+        <b>from</b>:${from2}, <b>to</b>:${val2}<br>
+        <b>from</b>:${from3}, <b>to</b>:${val3}<br>
+        `;
     $("#swaps").html(xform);
 }

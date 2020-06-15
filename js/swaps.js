@@ -215,44 +215,6 @@ function whereClauseSwaps(dbData, config) {
       whereSwaps.push({ from: 'LastStep', to: whereSteps[i], wrap: true }); //temp until John fixes V5
     }
   }
-  /*} else if(t.tileType=="MARKDOWN" && t.markdown.includes("sessionquery")) { //handle URL Encoded queries
-    //TODO: refactor ugly mess with doEncodedMarkdownTileSwaps
-let query = t.markdown.match(/sessionquery=([^&]*)&?/)[1];
-query = decodeURIComponent(query);
-//let whereSteps = config.whereClause.split("AND");
-let whereSteps = whereSplit(config.whereClause);
-query = query.replace(new RegExp('comparerevenueproperty',to: (typeof config.compareRevenue == "undefined"?
-    config.kpi:config.compareRevenue));   
-query = query.replace(new RegExp('revenueproperty',to: config.kpi);
-query = query.replace(new RegExp('Revenue',to: config.kpiName);
-query = query.replace(new RegExp("([^t])FunnelStep",to:"$1"+FunnelStep);
-query = query.replace(new RegExp("MyFilter",to:config.filterClause);
-query = query.replace(new RegExp("CombinedStep",to:config.whereClause);
-for(let i=whereSteps.length-1; i>=0; i--) {  //go in reverse because steps are not zero padded
-  let j=i+1;
-    query = query.replace(new RegExp('StepFunnel'+j,to: whereSteps[i]); //for DashboardsV5
-    query = query.replace(new RegExp('useraction.name ?= ?"?StepAction'+j+'"',to: whereSteps[i]);
-    query = query.replace(new RegExp('useraction.name ?!= ?"StepAction'+j+'"',to: " NOT " +whereSteps[i]);
-    query = query.replace(new RegExp('name ?= ?"?StepAction'+j+'"',to: whereSteps[i]);
-    query = query.replace(new RegExp('name ?!= ?"StepAction'+j+'"',to: " NOT " +whereSteps[i]);
-    query = query.replace(new RegExp('Step'+j+'"',to: whereSteps[i]); //temp until John fixes V5
-  if(i==whereSteps.length-1) {
-      query = query.replace(new RegExp('StepFunnelLast',to: whereSteps[i]); //for DashboardsV5
-      query = query.replace(new RegExp('LastFunnelStep',to: whereSteps[i]); //for DashboardsV5
-      query = query.replace(new RegExp('LastURLStep',to: whereSteps[i]); //for DashboardsV5
-      query = query.replace(new RegExp('useraction.name ?= ?"LastStep"',to: whereSteps[i]);
-      query = query.replace(new RegExp('useraction.name ?[iInN]{2} ?\\("LastStep"\\)',to: whereSteps[i]);
-      query = query.replace(new RegExp('useraction.name ?!= ?"LastStep"',to: " NOT "+whereSteps[i]);
-      query = query.replace(new RegExp('name ?= ?"LastStep"',to: whereSteps[i]);
-      query = query.replace(new RegExp('name ?!= ?"LastStep"',to: " NOT "+whereSteps[i]);
-      query = query.replace(new RegExp('LastStep',to: whereSteps[i]); //temp until John fixes V5
-  }
-}
-query = encodeURIComponent(query);
-t.markdown = t.markdown.replace(/sessionquery=[^&]*&/, "sessionquery="+query+"&");
-  }
-});
-//}*/
 
   dbData = doSwaps(dbData, whereSwaps);
   return dbData;
@@ -263,9 +225,9 @@ function doSwaps(db, swaps) {
   let matches = scanForTokens(db);
   if (matches.length > 0) {
     swaps = JSON.parse(JSON.stringify(swaps)); //copy
-    swaps.forEach(function (s,idx,arr) {
-      if(s.wrap) s.from = "\\${" + s.from + "}";
-      else if(s.from.charAt(0)=='$') s.from = '\\'+s.from;
+    swaps.forEach(function (s, idx, arr) {
+      if (s.wrap) s.from = "\\${" + s.from + "}";
+      else if (s.from.charAt(0) == '$') s.from = '\\' + s.from;
     });
   } else if (typeof db == "object") {
     console.log("Unconvert tokens in " + db.dashboardMetadata.name);
@@ -380,21 +342,21 @@ function generateWorkflowSwapList(el) {
     let $workflowInput = $(this);
     let $slicer = $workflowInput.find(".apiResultSlicer, .usqlResultSlicer");
     let slicer = $slicer.val();
-    let whereClause = ($slicer.attr("data-addWhereClause") === 'true')?
-        true:false;
+    let whereClause = ($slicer.attr("data-addWhereClause") === 'true') ?
+      true : false;
     let transform = $workflowInput.find(".transform span").text();
 
-    if(whereClause){
+    if (whereClause) {
       let from = "${" + transform + "}";
       let filterClause = $workflowInput.find("input.filterClause").val();
-      filterClause = filterClause.replace(/"/g,'\\"');
+      filterClause = filterClause.replace(/"/g, '\\"');
 
       swaps.push({ from: from, to: filterClause });
     } else switch (slicer) {
       case "{entityId:displayName}":
       case "values:{id:name}": {
         let $option = $workflowInput.find("select option:selected");
-        let value = $option.val();
+        let value = $option.attr("") + "." + $option.val();
         let key = $option.text();
         let fromkey = "${" + transform + ".name}";
         let fromval = "${" + transform + ".id}";
@@ -402,9 +364,9 @@ function generateWorkflowSwapList(el) {
         swaps.push({ from: fromval, to: value });
         break;
       }
-      case 'Keys':{
+      case 'Keys': {
         let $option = $workflowInput.find("select option:selected");
-        let value = $option.val();
+        let value = $option.attr("data-colname") + "." + $option.val();
         let key = $option.text();
         let fromkey = "${" + transform + ".name}";
         let fromval = "${" + transform + ".id}";
@@ -412,12 +374,13 @@ function generateWorkflowSwapList(el) {
         swaps.push({ from: fromval, to: value });
         break;
       }
-      case 'Keys/Values':{
-        let $key = $workflowInput.find("select:first-of-type option:selected");
-        let $val = $workflowInput.find("select:nth-of-type(2) option:selected");
-        let key = $key.val();
+      case 'Keys/Values': {
+        let $selects = $workflowInput.find("select");
+        let $key = $($selects[0]).find("option:selected");
+        let $val = $($selects[1]).find("option:selected");
+        let key = $key.attr("data-colname") + "." + $key.val();
         let value = $val.val();
-        
+
         let fromkey = "${" + transform + ".key}";
         let fromval = "${" + transform + ".value}";
         swaps.push({ from: fromkey, to: key });
@@ -425,9 +388,17 @@ function generateWorkflowSwapList(el) {
         break;
       }
       case 'ValX3': {
-        let from = "${" + transform + "}";
-        let to = $workflowInput.find(".filterClause").val();
-        swaps.push({ from: from, to: to });
+        let $selects = $workflowInput.find("select");
+        let val1 = $($selects[0]).val();
+        let val2 = $($selects[1]).val();
+        let val3 = $($selects[2]).val();
+
+        let from1 = "${" + $("#transform").val() + ".1}";
+        let from2 = "${" + $("#transform").val() + ".2}";
+        let from3 = "${" + $("#transform").val() + ".3}";
+        swaps.push({ from: from1, to: val1 });
+        swaps.push({ from: from2, to: val2 });
+        swaps.push({ from: from3, to: val3 });
         break;
       }
       default:
