@@ -794,8 +794,6 @@ function previewChangeHandlerKey(event) {
     let key = $option.text();
     let fromkey = "${" + transform + ".name}";
     let fromval = "${" + transform + ".id}";
-    swaps.push({ from: fromkey, to: key });
-    swaps.push({ from: fromval, to: value });
 
     let xform = `
         <b>from</b>:${fromkey}, <b>to</b>:${key}<br>
