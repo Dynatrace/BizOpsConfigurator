@@ -247,7 +247,7 @@ function drawSteps(steps) {
   $("#goallist").append(list);
 }
 
-function jsonviewer(result, show = false, name = "", selector = "#jsonviewer") {
+async function jsonviewer(result, show = false, name = "", selector = "#jsonviewer") {
   //Load the JSON viewer
   $(selector).hide();
   $(selector).load("html/jsonviewer.html", function () {
