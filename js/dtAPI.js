@@ -521,7 +521,7 @@ function uploadDashboard(id, json) {
 
 function deleteDashboard(id) {
   query = "/api/config/v1/dashboards/" + id;
-  dtAPIquery(query, { method: "DELETE" });
+  return dtAPIquery(query, { method: "DELETE" });
 }
 
 function uploadWorkflow(workflow) {

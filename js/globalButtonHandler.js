@@ -626,7 +626,7 @@ function globalButtonHandler() {
         });
 
         list.forEach(function (id) {
-          if (id.match(/bbbbbbbb-[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9a-f]{12}/))
+          if (id.match(/bbbbbbbb-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/))
             bizops = true;
         });
         if (bizops && confirm("Selection contains Configurator managed dashboards! \nDeleting here will break links etc! \nProceed anyway?"))
