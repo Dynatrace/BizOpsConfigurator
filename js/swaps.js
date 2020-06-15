@@ -366,7 +366,8 @@ function generateWorkflowSwapList(el) {
       }
       case 'Keys': {
         let $option = $workflowInput.find("select option:selected");
-        let value = $option.attr("data-colname") + "." + $option.val();
+        //let value = $option.attr("data-colname") + "." + $option.val();
+        let value = $option.val();
         let key = $option.text();
         let fromkey = "${" + transform + ".name}";
         let fromval = "${" + transform + ".id}";
