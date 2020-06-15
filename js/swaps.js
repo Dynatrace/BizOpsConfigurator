@@ -356,7 +356,7 @@ function generateWorkflowSwapList(el) {
       case "{entityId:displayName}":
       case "values:{id:name}": {
         let $option = $workflowInput.find("select option:selected");
-        let value = $option.attr("") + "." + $option.val();
+        let value = $option.val();
         let key = $option.text();
         let fromkey = "${" + transform + ".name}";
         let fromval = "${" + transform + ".id}";
