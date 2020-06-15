@@ -271,7 +271,8 @@ function parseKPIs(result) {
       });
     }
   });
-  return kpis;
+
+  return kpis.sort((a,b) => a.toLowerCase() > b.toLowerCase() ? 1 : -1);
 }
 
 function parseUSPFilter(result) {
