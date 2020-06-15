@@ -127,6 +127,10 @@ function Input() {
             inputTypeChangeHandler();
 
             $.when(p2).done(function (data) {
+                if(typeof data == "undefined"){
+                    p0.resolve(null);
+                    return;
+                }
                 let input = "";
                 switch (data.inputType) {
                     case "Text Input":
