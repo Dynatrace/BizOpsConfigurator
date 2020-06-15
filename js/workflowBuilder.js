@@ -295,7 +295,7 @@ function usqlCommonQueryChangeHandler() {
             $("#usqlQuery").val('SELECT usersession.stringProperties, usersession.dateProperties FROM useraction WHERE useraction.application = "${app.name}" LIMIT 5000');
             $("#usqlResultSlicer").val("Keys/Values");
             $("#transform").val("uspClause");
-            $("#addWhereClause").prop("checked", true);
+            $("#addWhereClause").prop("checked", false);
             break;
         case "Regions":
             $("#usqlQuery").val('SELECT DISTINCT country, region, city FROM usersession WHERE useraction.application = "${app.name}" ORDER BY country,region,city LIMIT 5000');
