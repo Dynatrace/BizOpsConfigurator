@@ -683,14 +683,16 @@ function sliceUSQLdata(slicer, data, target, whereClause) { //TODO: refactor thi
             $("#swaps").html();
 
             if (whereClause) {
+                let targetSelector = `#filterClause${uniqId()}`;
                 $target.append(`<div class="inputHeader">Filter Clause:</div>
-                <div class="userInput"><input disabled class="filterClause"></div>
+                <div class="userInput"><input disabled id="${targetSelector.substr(1)}" class="filterClause"></div>
                 `);
-                let eventData = { selectors: selectors, data: parsedResults, target: $target };
+                let eventData = { selectors: selectors, data: parsedResults, target: targetSelector };
                 $target.on("change", "select", eventData, uspFilterChangeHandler);
-                $target.trigger("change");
+                $target.find("select:first-of-type").trigger("change");
             } else {
-                $target.on("change", "select", previewChangeHandlerKey);
+                let eventData = { selectors: selectors, data: parsedResults, target: '' };
+                $target.on("change", "select", eventData, previewChangeHandlerKey);
                 $target.find("select:first-of-type").trigger("change");
             }
             break;
@@ -770,6 +772,37 @@ function pasteFixer(event) {
     event.preventDefault();
 }
 
+function apiQueryChangeHandlerKeyVal(event) {
+
+    let $el = $(event.data.selectors[0]);
+    let val = $el.val();
+    let key = $el.children("option:selected").text();
+
+    let fromkey = "${" + $("#transform").val() + ".name}";
+    let fromval = "${" + $("#transform").val() + ".id}";
+    let xform = `
+        <b>from</b>:${fromkey}, <b>to</b>:${key}<br>
+        <b>from</b>:${fromval}, <b>to</b>:${val}<br>`;
+    $("#swaps").html(xform);
+}
+
+function previewChangeHandlerKey(event) {
+    let $el = $(event.data.selectors[0]);
+
+    let $option = $el.find("select option:selected");
+    let value = $option.attr("data-colname") + "." + $option.val();
+    let key = $option.text();
+    let fromkey = "${" + transform + ".name}";
+    let fromval = "${" + transform + ".id}";
+    swaps.push({ from: fromkey, to: key });
+    swaps.push({ from: fromval, to: value });
+
+    let xform = `
+        <b>from</b>:${fromkey}, <b>to</b>:${key}<br>
+        <b>from</b>:${fromval}, <b>to</b>:${val}<br>`;
+    $("#swaps").html(xform);
+}
+
 function previewChangeHandlerKeyVal(event) {
     uspFilterChangeHandler(event);
 
@@ -778,30 +811,9 @@ function previewChangeHandlerKeyVal(event) {
 
     let fromkey = "${" + $("#transform").val() + ".key}";
     let fromval = "${" + $("#transform").val() + ".value}";
-    let xform = `<b>from</b>:${fromkey}, <b>to</b>:${key}<br>
-        <b>from</b>:${fromval}, <b>to</b>:${val}<br>`;
-    $("#swaps").html(xform);
-}
-
-function previewChangeHandlerKey(el) {
-    let $el = (typeof el.length == "undefined" ? $(this) : $(el));
-    let value = $el.val();
-    let key = $el.children("option:selected").text();
-    let fromkey = "${" + $("#transform").val() + "}";
-
-    let xform = `<b>from</b>:${fromkey}, <b>to</b>:${key}`;
-    $("#swaps").html(xform);
-}
-
-function apiQueryChangeHandlerKeyVal(event) {
-
-    let $el = $(event.data.selectors[0])
-    let val = $el.val();
-    let key = $el.children("option:selected").text();
-
-    let fromkey = "${" + $("#transform").val() + ".name}";
-    let fromval = "${" + $("#transform").val() + ".id}";
-    let xform = `<b>from</b>:${fromkey}, <b>to</b>:${key}<br>
+    
+    let xform = `
+        <b>from</b>:${fromkey}, <b>to</b>:${key}<br>
         <b>from</b>:${fromval}, <b>to</b>:${val}<br>`;
     $("#swaps").html(xform);
 }
