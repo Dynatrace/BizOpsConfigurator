@@ -618,7 +618,7 @@ function loadApiQueryOptions(query, slicer, target) {
     return $.when(p1).done(function (data) {
         jsonviewer(data, true, "", "#apiResult");
         let parsedResults = sliceAPIdata(slicer, data);
-        let optionsHTML = "";
+        let optionsHTML = "<option></option>";
         if (parsedResults.length > 0) {
             parsedResults.forEach(function (i) {
                 optionsHTML += `<option value="${i.value}">${i.key}</option>`;
