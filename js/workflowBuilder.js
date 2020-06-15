@@ -678,7 +678,7 @@ function sliceUSQLdata(slicer, data, target, whereClause) { //TODO: refactor thi
         case 'Keys': {
             let selectors = [`#usp${uniqId()}`];
             $target.html(`
-                <div class="inputHeader">Keys:</div>
+                <div class="inputHeader"><!--Keys:--></div>
                 <div class="userInput"><select id="${selectors[0].substr(1)}"><option></option></select></div>
                 `);
             parsedResults = parseKPIs(data);
