@@ -527,12 +527,11 @@ function deleteDashboard(id) {
 function uploadWorkflow(workflow) {
   let $workflow = $(workflow);
   let config = JSON.parse($workflow.find("#workflowConfigJSON").val());
-  let overviewName = config.overview;
   let overview = {}
 
   //get dashboard JSON
   try {
-    overview = dbList.find(x => x.name === overviewName &&
+    overview = dbList.find(x => x.name === config.overviewDB &&
       x.repo.owner === config.githubUser && x.repo.repo === config.githubRepo &&
       x.repo.path === config.githubPath);
     overview = JSON.parse(JSON.stringify(overview.file));
