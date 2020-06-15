@@ -573,10 +573,12 @@ function uploadWorkflow(workflow) {
   return dtAPIquery(query, { method: "PUT", data: dbS });
 }
 
-function deleteDashboards(re) {
+function deleteDashboards(id,re) {
+  let p_delete = deleteDashboard(id); //wait for main db to delete, but not subdashboards
   DBAdashboards.forEach(function (db) {
-    if (re.test(db.id)) {
-      deleteDashboard(db.id)
+    if (re.test(db.id) && db.id!=id) {
+      deleteDashboard(db.id);
     }
   });
+  return p_delete;
 }

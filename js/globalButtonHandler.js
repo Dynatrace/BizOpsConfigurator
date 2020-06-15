@@ -910,13 +910,16 @@ function globalButtonHandler() {
         });
 
         if (window.confirm("DELETE " + count + " dashboards? This cannot be undone...")) {
-          deleteDashboards(re);
-          let p_DBA = getAllDashboards();
-          $.when(p_DBA).done(function (data) {
-            processDBADashboards(data);
-            $(this).val("Deleted");
-            $("#viewport").load("html/personaFlow/persona_list.html", fieldsetPainter);
+          let p_delete = deleteDashboards(id,re);
+          $.when(p_delete).done(function () {
+            let p_DBA = getAllDashboards();
+            $.when(p_DBA).done(function (data) {
+              processDBADashboards(data);
+              $(this).val("Deleted");
+              $("#viewport").load("html/personaFlow/persona_list.html", fieldsetPainter);
+            });
           });
+
         } else {
           $(this).val("Delete");
           $(this).prop('disabled', false);
