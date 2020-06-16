@@ -750,6 +750,7 @@ img.structure {
   top: 5%;
   height: 90%;
   display: flex;
+  flex-direction: column;
   background-color: #525252;
   border: 1px solid #00b9cc;
   border-radius: 3px;
