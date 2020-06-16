@@ -811,14 +811,12 @@ function previewChangeHandlerKeyWhereClause(event) {
     let $target = $(event.data.targetSelector);
 
     let $option = $el.find("option:selected");
-    //let val = $option.attr("data-colname") + "." + $option.val();
     let val = $option.val();
-    let key = $option.text();
     let from = "${" + $("#transform").val() + "}";
 
     let filters = [];
-    if (key != '' && key != null)
-        filters.push(key + '="' + val + '"');
+    if (val != '' && val != null)
+        filters.push(val + ' is not null');
 
     let filterClause = filters.length > 0 ?
     " AND (" + filters.join(" AND ") + ")" :
