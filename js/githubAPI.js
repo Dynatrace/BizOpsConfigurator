@@ -13,7 +13,7 @@ function gitHubAPI(url,options={},retries=3) {
     
     //Get App list from API as JSON
     return $.ajax({
-    url: "https://api.github.com/"+url,
+    url: "https://api.github.com"+url,
     contentType: "application/json; charset=utf-8",
     method: 'GET',
     dataType: "json",
