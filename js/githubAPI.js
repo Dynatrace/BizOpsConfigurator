@@ -12,12 +12,12 @@ function gitHubAPI(query, options = {}, retries = 3) {
         headers.Authorization = "Basic " + btoa(githubuser + ":" + githubpat);
 
     let url = "https://api.github.com" + query;
-    if (Object.keys(headers) === 0) { //no need for preflight
+    if (Object.keys(headers).length === 0) { //no need for preflight
         return $.ajax(url)
             .fail(gitHubAPIFailHandler);
     } else { //fine to do full preflight
         return $.ajax({
-            url: query,
+            url: url,
             contentType: "application/json; charset=utf-8",
             method: 'GET',
             dataType: "json",
