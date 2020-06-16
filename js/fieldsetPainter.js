@@ -12,6 +12,9 @@ function fieldsetPainter() {
             $("#dbTO").val(dbTO);
             $("#dbAO").val(dbAO);
 
+
+
+            //repos
             let repoOptions = "";
             for (let i = 0; i < repoList.length; i++) {
                 let r = repoList[i];
@@ -28,10 +31,17 @@ function fieldsetPainter() {
                 $("#repo_config").load("html/repo_config.html", fieldsetPainter);
             });
 
-            for (let i = 0; i < tenantOverviews.length; i++) {
-                let TO = tenantOverviews[i];
-                let html = `<tr><td>TenantOverview #${i}:</td>
-                <td class='right'>
+            if (personaFlow) {
+                $("#personaFlow").prop("checked", true);
+                $(".oldFlow").hide();
+            } else {
+                $("#personaFlow").prop("checked", false);
+                $(".oldFlow").show();
+                
+                for (let i = 0; i < tenantOverviews.length; i++) {
+                    let TO = tenantOverviews[i];
+                    let html = `<tr class="oldFlow"><td>TenantOverview #${i}:</td>
+                    <td class='right'>
                     <select class='overview_repo' class="tenantOverview_repo" data-index='${i}'>
                         <option data-repo='${JSON.stringify(TO.repo)}' selected>${TO.repo.owner}/${TO.repo.repo}/${TO.repo.path}</option>
                         ${repoOptions}
@@ -39,20 +49,20 @@ function fieldsetPainter() {
                     <input type='text' class='tenantOverview_name' data-index='${i}' value='${TO.name}'>:
                     <input type='text' class='tenantOverview_filename' data-index='${i}' value='${TO.filename}'>
                     <input type='button' class='removeTenantOverview' data-index='${i}' value='-'>
-                </td></tr>`;
-                $("#tenantOverviews").after(html);
-            }
-            $("#add_tenantOverview_repo").html(repoOptions);
-            $("input.removeTenantOverview").on("click", function () {
-                let i = $(this)[0].dataset['index'];
-                tenantOverviews.splice(i, 1);
-                $("#repo_config").load("html/repo_config.html", fieldsetPainter);
-            });
+                    </td></tr>`;
+                    $("#tenantOverviews").after(html);
+                }
+                $("#add_tenantOverview_repo").html(repoOptions);
+                $("input.removeTenantOverview").on("click", function () {
+                    let i = $(this)[0].dataset['index'];
+                    tenantOverviews.splice(i, 1);
+                    $("#repo_config").load("html/repo_config.html", fieldsetPainter);
+                });
 
-            for (let i = 0; i < appOverviews.length; i++) {
-                let AO = appOverviews[i];
-                let html = `<tr><td>AppOverview #${i}:</td>
-                <td class='right'>
+                for (let i = 0; i < appOverviews.length; i++) {
+                    let AO = appOverviews[i];
+                    let html = `<tr class="oldFlow"><td>AppOverview #${i}:</td>
+                    <td class='right'>
                     <select class='overview_repo' class="appOverview_repo" data-index='${i}'>
                         <option data-repo='${JSON.stringify(AO.repo)}' selected>${AO.repo.owner}/${AO.repo.repo}/${AO.repo.path}</option>
                         ${repoOptions}
@@ -60,20 +70,20 @@ function fieldsetPainter() {
                     <input type='text' class='appOverview_name' data-index='${i}' value='${AO.name}'>: 
                     <input type='text' class='appOverview_filename' data-index='${i}' value='${AO.filename}'>
                     <input type='button' class='removeAppOverview' data-index='${i}' value='-'>
-                </td></tr>`;
-                $("#appOverviews").after(html);
-            }
-            $("#add_appOverview_repo").html(repoOptions);
-            $("input.removeAppOverview").on("click", function () {
-                let i = $(this)[0].dataset['index'];
-                appOverviews.splice(i, 1);
-                $("#repo_config").load("html/repo_config.html", fieldsetPainter);
-            });
+                    </td></tr>`;
+                    $("#appOverviews").after(html);
+                }
+                $("#add_appOverview_repo").html(repoOptions);
+                $("input.removeAppOverview").on("click", function () {
+                    let i = $(this)[0].dataset['index'];
+                    appOverviews.splice(i, 1);
+                    $("#repo_config").load("html/repo_config.html", fieldsetPainter);
+                });
 
-            for (let i = 0; i < journeyOverviews.length; i++) {
-                let JO = journeyOverviews[i];
-                let html = `<tr><td>JourneyOverview #${i}:</td>
-                <td class='right'>
+                for (let i = 0; i < journeyOverviews.length; i++) {
+                    let JO = journeyOverviews[i];
+                    let html = `<tr class="oldFlow"><td>JourneyOverview #${i}:</td>
+                    <td class='right'>
                     <select class='overview_repo' class="journeyOverview_repo" data-index='${i}'>
                         <option data-repo='${JSON.stringify(JO.repo)}' selected>${JO.repo.owner}/${JO.repo.repo}/${JO.repo.path}</option>
                         ${repoOptions}
@@ -81,16 +91,16 @@ function fieldsetPainter() {
                     <input type='text' class='journeyOverview_name' data-index='${i}' value='${JO.name}'>: 
                     <input type='text' class='journeyOverview_filename' data-index='${i}' value='${JO.filename}'>
                     <input type='button' class='removeJourneyOverview' data-index='${i}' value='-'>
-                </td></tr>`;
-                $("#journeyOverviews").after(html);
+                    </td></tr>`;
+                    $("#journeyOverviews").after(html);
+                }
+                $("#add_journeyOverview_repo").html(repoOptions);
+                $("input.removeJourneyOverview").on("click", function () {
+                    let i = $(this)[0].dataset['index'];
+                    journeyOverviews.splice(i, 1);
+                    $("#repo_config").load("html/repo_config.html", fieldsetPainter);
+                });
             }
-            $("#add_journeyOverview_repo").html(repoOptions);
-            $("input.removeJourneyOverview").on("click", function () {
-                let i = $(this)[0].dataset['index'];
-                journeyOverviews.splice(i, 1);
-                $("#repo_config").load("html/repo_config.html", fieldsetPainter);
-            });
-
             break;
         case "connect":
             $("#url").val(url);
@@ -584,7 +594,7 @@ function fieldsetPainter() {
                     let endUsecaseHtml = `</dl></div></article></section>`;
 
                     let filteredDBs2 = filteredDBs.filter(db => db.id.split("-")[2] === usecasePrefix);
-                    filteredDBs2.forEach(function(db){
+                    filteredDBs2.forEach(function (db) {
                         let dbHtml = `
                         <dt><a target='_blank' href='${url}/#dashboard;id=${db.id}' class='newTab'>
                         ${db.name} <img src='images/link.svg'></a> (${db.owner})</dt>
