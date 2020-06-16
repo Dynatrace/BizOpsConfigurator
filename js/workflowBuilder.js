@@ -691,11 +691,11 @@ function sliceUSQLdata(slicer, data, target, whereClause) { //TODO: refactor thi
                 $target.append(`<div class="inputHeader">Filter Clause:</div>
                 <div class="userInput"><input disabled id="${targetSelector.substr(1)}" class="filterClause"></div>
                 `);
-                let eventData = { selectors: selectors, data: parsedResults, target: targetSelector };
+                let eventData = { selectors: selectors, data: parsedResults, targetSelector: targetSelector };
                 $target.on("change", "select", eventData, uspFilterChangeHandler);
                 $target.find("select:first-of-type").trigger("change");
             } else {
-                let eventData = { selectors: selectors, data: parsedResults, target: '' };
+                let eventData = { selectors: selectors, data: parsedResults, targetSelector: '' };
                 $target.on("change", "select", eventData, previewChangeHandlerKey);
                 $target.find("select:first-of-type").trigger("change");
             }
