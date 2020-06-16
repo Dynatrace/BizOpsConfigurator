@@ -352,7 +352,7 @@ function testUSQLhandler() {
             usql = usql.replace("${app.name}", appName);
             let query = "/api/v1/userSessionQueryLanguage/table?query=" + encodeURIComponent(usql) + "&explain=false";
             let slicer = $("#usqlResultSlicer").val();
-            let whereClause = $("#whereClause").is(":checked");
+            let whereClause = $("#addWhereClause").is(":checked");
             let $target = $("#preview");
             $("#apiQueryHeader").text(query);
             let p2 = loadUsqlQueryOptions(query, slicer, $target, whereClause);
