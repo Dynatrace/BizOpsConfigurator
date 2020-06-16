@@ -815,7 +815,7 @@ function previewChangeHandlerKeyWhereClause(event) {
     let from = "${" + $("#transform").val() + "}";
 
     let filters = [];
-    if (val != '' && val != null)
+    if (val != null && val != '' && val != 'n/a')
         filters.push(val + ' is not null');
 
     let filterClause = filters.length > 0 ?
