@@ -692,7 +692,7 @@ function sliceUSQLdata(slicer, data, target, whereClause) { //TODO: refactor thi
                 <div class="userInput"><input disabled id="${targetSelector.substr(1)}" class="filterClause"></div>
                 `);
                 let eventData = { selectors: selectors, data: parsedResults, targetSelector: targetSelector };
-                $target.on("change", "select", eventData, uspFilterChangeHandler);
+                $target.on("change", "select", eventData, previewChangeHandlerKeyWhereClause);
                 $target.find("select:first-of-type").trigger("change");
             } else {
                 let eventData = { selectors: selectors, data: parsedResults, targetSelector: '' };
@@ -805,6 +805,31 @@ function previewChangeHandlerKey(event) {
         <b>from</b>:${fromval}, <b>to</b>:${val}<br>`;
     $("#swaps").html(xform);
 }
+
+function previewChangeHandlerKeyWhereClause(event) {
+    let $el = $(event.data.selectors[0]);
+    let $target = $(event.data.targetSelector);
+
+    let $option = $el.find("option:selected");
+    //let val = $option.attr("data-colname") + "." + $option.val();
+    let val = $option.val();
+    let key = $option.text();
+    let from = "${" + $("#transform").val() + "}";
+
+    let filters = [];
+    if (key != '' && key != null)
+        filters.push(key + '="' + val + '"');
+
+    let filterClause = filters.length > 0 ?
+    " AND (" + filters.join(" AND ") + ")" :
+    "";
+    $target.val(filterClause);
+    
+    let xform = `
+        <b>from</b>:${from}, <b>to</b>:${filterClause}`;
+    $("#swaps").html(xform);
+}
+
 
 function previewChangeHandlerKeyVal(event) {
     uspFilterChangeHandler(event);
