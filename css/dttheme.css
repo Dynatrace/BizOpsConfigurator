@@ -726,7 +726,7 @@ img.structure {
   background-color: #525252;
 }
 
-#repo_config, #dashboard_list, .popupHTML {
+#repo_config, #dashboard_list {
   position: fixed;
   left: 5%;
   width: 90%;
@@ -743,9 +743,35 @@ img.structure {
   overflow: auto;
 }
 
-.popupHTML .flexcontainer {
-  max-height: 90%;
+.popupHTML {
+  position: fixed;
+  left: 5%;
+  width: 90%;
+  top: 5%;
+  height: 90%;
+  display: flex;
+  background-color: #525252;
+  border: 1px solid #00b9cc;
+  border-radius: 3px;
+  position: fixed;
+  color: white;
+  padding: 5px 5px 5px 5px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  overflow: auto;
 }
+
+.popupHTML > div:not(.flexcontainer) {
+  flex: 0;
+}
+
+.popupHTML > div.flexcontainer {
+  flex: 1;
+  overflow: hidden;
+}
+
+/*.popupHTML .flexcontainer {
+  max-height: 90%;
+}*/
 
 #repo_config td {
   text-align: left;
