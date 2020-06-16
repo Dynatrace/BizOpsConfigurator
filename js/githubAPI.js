@@ -3,7 +3,11 @@ Licensed under the Apache License, Version 2.0 (the "License"); you may not use 
 http://www.apache.org/licenses/LICENSE-2.0
 Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.*/
 function getRepoContents(repo) {
-    let headers = {};
+    return gitHubAPI(`${repo.owner}/${repo.repo}/contents/${repo.path}`);
+}
+
+function gitHubAPI(url,options={},retries=3) {
+    let headers = (typeof options.headers != "undefined") ? options.headers : {};
     if(githubuser!="" && githubpat!="")
         headers.Authorization = "Basic " + btoa(githubuser+":"+githubpat);
     
@@ -15,8 +19,27 @@ function getRepoContents(repo) {
     dataType: "json",
     headers: headers
     })
-    .fail(errorboxJQXHR);
+    //.fail(errorboxJQXHR);
+    .fail(function (jqXHR, textStatus, errorThrown) {
+        if (jqXHR.getResponseHeader("X-RateLimit-Remaining") !== 0) return; //only handle ratelimiting here for now
+        if (retries <= 0) {
+          errorboxJQXHR(jqXHR, "Retries exhausted.", errorThrown);
+          return;
+        }
+        let seconds = 0;
+        let now = 0;
+        let then = 0;
+        try {
+          then = parseInt(jqXHR.getResponseHeader("X-Ratelimit-Reset"));
+          now = (new Date().getTime())/1000;
+          seconds = (then - now) + 1;
+        } catch (e) { seconds = 60; } //if we didn't capture the reset time, just default to a minute
+        warningbox(`GitHub API Ratelimiting: retrying in ${seconds}s. Consider using GitHub PAT to avoid this.`);
+        console.log("Inside Fail: query=" + query + " retries=" + retries + " seconds=" + seconds + " now=" + now + " then=" + then);
+        return setTimeout(function () { gitHubAPI(query, options, retries - 1); }, seconds * 1000);
+      });
 }
+
 
 function getREADME(repo){ //not used anymore
     let headers = {'Accept':'application/vnd.github.v3.html'};

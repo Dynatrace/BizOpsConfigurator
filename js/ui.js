@@ -319,6 +319,20 @@ function errorbox(e) {
   if (typeof dtrum !== "undefined") dtrum.reportError(errorMsg);
 }
 
+function warningbox(e) {
+  var errorMsg = ""
+  let $errorBox = $("#errorBox");
+  if (e instanceof Error)
+    errorMsg = "WARNING: " + e.name + ": " + e.message;
+  if (typeof e == "string")
+    errorMsg = e;
+  $errorBox.html(errorMsg);
+  $errorBox.addClass("info");
+  $errorBox.show();
+  console.log(errorMsg);
+  //if (typeof dtrum !== "undefined") dtrum.reportError(errorMsg);
+}
+
 /*function v5handler() {
     v5test=(v5test?false:true);
     $("#v5test").text( (v5test?"Back to V4":"V5 Test") );
