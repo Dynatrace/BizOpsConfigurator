@@ -794,7 +794,8 @@ function previewChangeHandlerKey(event) {
     let $el = $(event.data.selectors[0]);
 
     let $option = $el.find("option:selected");
-    let val = $option.attr("data-colname") + "." + $option.val();
+    //let val = $option.attr("data-colname") + "." + $option.val();
+    let val = $option.val();
     let key = $option.text();
     let fromkey = "${" + $("#transform").val() + ".name}";
     let fromval = "${" + $("#transform").val() + ".id}";
