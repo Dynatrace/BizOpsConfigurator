@@ -34,7 +34,8 @@ var repoList = [
   { 'owner': 'TechShady', 'repo': 'Dynatrace-Remote-Employee', 'path': '' },
   { 'owner': 'TechShady', 'repo': 'Dynatrace-Infrastructure', 'path': '' },
   { 'owner': 'TechShady', 'repo': 'BizOpsLite', 'path': '' },
-  { 'owner': 'LucasHocker', 'repo': 'TestRepo', 'path': '' }
+  { 'owner': 'LucasHocker', 'repo': 'TestRepo', 'path': '' },
+  { 'owner': 'TechShady', 'repo': 'Dynatrace-Marketing-Dashboards', 'path': ''}
 ];
 var tenantOverviews = [
   { name: 'BizOps', filename: 'TenantOverview.json', repo: { 'owner': 'TechShady', 'repo': 'Dynatrace-DashboardV5', 'path': '' } },

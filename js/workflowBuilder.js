@@ -793,7 +793,7 @@ function apiQueryChangeHandlerKeyVal(event) {
 function previewChangeHandlerKey(event) {
     let $el = $(event.data.selectors[0]);
 
-    let $option = $el.find("select option:selected");
+    let $option = $el.find("option:selected");
     let val = $option.attr("data-colname") + "." + $option.val();
     let key = $option.text();
     let fromkey = "${" + $("#transform").val() + ".name}";
