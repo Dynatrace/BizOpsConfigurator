@@ -10,8 +10,7 @@ function gitHubAPICheckRateLimit(){
     return $.ajax({
         url: "https://api.github.com/rate_limit?callback=?",
         jsonp: gitHubAPIJSONPHandler,
-        dataType: "jsonp",
-        contentType: "application/json"
+        dataType: "jsonp"
     });
 }
 

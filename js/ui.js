@@ -90,9 +90,9 @@ function jqueryInit() {
   }
 
   //prevent caching of XHR loads, consider turning off once production ready
-  $.ajaxSetup({
+  /*$.ajaxSetup({
     cache: false,
-  });
+  });*/
   // prevent normal form submissions, we're using jQuery instead
   $("form").submit(function (event) {
     event.preventDefault(); //prevent default action 
