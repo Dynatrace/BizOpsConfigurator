@@ -5,9 +5,9 @@
 </head>
 
 <body>
-    <input type=button onclick="clickButton()">
+    <input type=button onclick="clickButton()" value="clickme">
     <div id="result">
-
+        Result:
     </div>
 </body>
 <script>
@@ -18,7 +18,8 @@
     }
 
     function gitHubAPIJSONPHandler(data) {
-        document.getElementById("result").innerText(data);
+        console.log(data);
+        document.getElementById("result").innerHTML(data);
     }
 </script>
 
