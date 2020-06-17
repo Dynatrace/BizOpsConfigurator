@@ -8,7 +8,7 @@ function getRepoContents(repo) {
 
 function gitHubAPICheckRateLimit(){
     return $.ajax({
-        url: "https://api.github.com/rate_limit?callback=?",
+        url: "https://api.github.com/rate_limit?callback=gitHubAPIJSONPHandler",
         jsonp: gitHubAPIJSONPHandler,
         dataType: "jsonp"
     }).then(gitHubAPIJSONPHandler);
