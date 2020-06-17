@@ -7,10 +7,12 @@ function getRepoContents(repo) {
 }
 
 function gitHubAPICheckRateLimit(){
-    return $.get("https://api.github.com/rate_limit");
+    return $.getJSON("https://api.github.com/rate_limit?callback=?",gitHubAPIJSONPHandler);
 }
 
-
+function gitHubAPIJSONPHandler(data){
+    console.log(data);
+}
 
 function gitHubAPI(query, options = {}, retries = 3) {
     let headers = (typeof options.headers != "undefined") ? options.headers : {};
