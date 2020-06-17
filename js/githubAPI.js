@@ -14,8 +14,10 @@ function gitHubAPICheckRateLimit(){
     });
 }
 
-function gitHubAPIJSONPHandler(data){
-    console.log(data);
+function gitHubAPIJSONPHandler(jqxhr){
+    //Note: we'll never see the response body because of CORB
+    let remaining = jqxhr.getResponseHeader("X-Ratelimit-Remaining");
+    console.log(remaining);
 }
 
 function gitHubAPI(query, options = {}, retries = 3) {
