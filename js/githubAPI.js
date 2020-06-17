@@ -22,7 +22,7 @@ function gitHubAPI(query, options = {}, retries = 3) {
         warningbox(`GitHub API Ratelimiting: retrying in ${seconds}s. Consider using GitHub PAT to avoid this.`);
         console.log("GitHub API Ratelimiting: query=" + query + " retries=" + retries + " seconds=" + seconds + " now=" + now + " then=" + then);
     }
-    return setTimeout(function () { return gitHubAPIinner(); }, seconds * 1000);
+    return deferredSafeDelay(gitHubAPIinner, seconds * 1000);
 
     function gitHubAPIinner(){
         let headers = (typeof options.headers != "undefined") ? options.headers : {};
@@ -39,6 +39,21 @@ function gitHubAPI(query, options = {}, retries = 3) {
         })
             .done(gitHubUpdateLimits) //only do this on success, over rate limit gives CORS failure for unexplained reasons
             .fail(gitHubAPIFailHandler);
+    }
+
+    function deferredSafeDelay(f,ms){
+        let p1 = $.Deferred();
+        let p2 = $.Deferred();
+        setTimeout(p2.resolve, ms);
+
+        $.when(p2).done(function(){
+            let p3 = f();
+            $.when(p3).done(function(data){
+                p1.resolve(data);
+            });
+        });
+
+        return p1;
     }
 }
 
