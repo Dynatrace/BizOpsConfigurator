@@ -18,7 +18,7 @@ function gitHubAPI(query, options = {}, retries = 3) {
     if (GithubRemaining < 1) { //handle rate limiting
         let then = GithubReset;
         let now = (new Date().getTime()) / 1000;
-        seconds = Math.max((then - now) + 1, 1);
+        seconds = Math.trunc(Math.max((then - now) + 1, 1));
         warningbox(`GitHub API Ratelimiting: retrying in ${seconds}s. Consider using GitHub PAT to avoid this.`);
         console.log("GitHub API Ratelimiting: query=" + query + " retries=" + retries + " seconds=" + seconds + " now=" + now + " then=" + then);
     }
