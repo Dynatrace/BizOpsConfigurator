@@ -7,7 +7,11 @@ function getRepoContents(repo) {
 }
 
 function gitHubAPICheckRateLimit(){
-    return $.getJSON("https://api.github.com/rate_limit?callback=?",gitHubAPIJSONPHandler);
+    return $.ajax({
+        url: "https://api.github.com/rate_limit?callback=?",
+        jsonp: gitHubAPIJSONPHandler,
+        dataType: "jsonp"
+    });
 }
 
 function gitHubAPIJSONPHandler(data){
