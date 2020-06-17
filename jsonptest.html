@@ -1,0 +1,25 @@
+<html>
+
+<head>
+    <title>Testing</title>
+</head>
+
+<body>
+    <input type=button onclick="clickButton()">
+    <div id="result">
+
+    </div>
+</body>
+<script>
+    function clickButton() {
+        var s = document.createElement("script");
+        s.src = "https://api.github.com/rate_limit?callback=gitHubAPIJSONPHandler";
+        document.body.appendChild(s);
+    }
+
+    function gitHubAPIJSONPHandler(data) {
+        document.getElementById("result").innerText(data);
+    }
+</script>
+
+</html>
