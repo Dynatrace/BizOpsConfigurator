@@ -374,7 +374,7 @@ function loadDBList(p = 1) {
     dbList = [];
     readmeList = [];
     workflowList = [];
-    let p_git = gitHubAPICheckRateLimit();
+    /*let p_git = gitHubAPICheckRateLimit();
     $.when(p_git).done(function (gitrate) {
       console.log(gitrate);
 
@@ -389,7 +389,7 @@ function loadDBList(p = 1) {
           workflowList = workflowList.concat(result.workflowList);
         });
       }
-    });
+    });*/
     $.when.apply($, deferreds).done(function () { master.resolve(); });
     //});
   });
