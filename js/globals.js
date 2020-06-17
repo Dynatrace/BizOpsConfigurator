@@ -35,7 +35,7 @@ var repoList = [
   { 'owner': 'TechShady', 'repo': 'Dynatrace-Infrastructure', 'path': '' },
   { 'owner': 'TechShady', 'repo': 'BizOpsLite', 'path': '' },
   { 'owner': 'LucasHocker', 'repo': 'TestRepo', 'path': '' },
-  { 'owner': 'TechShady', 'repo': 'Dynatrace-Marketing-Dashboards', 'path': ''}
+  { 'owner': 'TechShady', 'repo': 'Dynatrace-Marketing-Dashboards', 'path': '' }
 ];
 var tenantOverviews = [
   { name: 'BizOps', filename: 'TenantOverview.json', repo: { 'owner': 'TechShady', 'repo': 'Dynatrace-DashboardV5', 'path': '' } },
@@ -79,7 +79,7 @@ var usecases = [
   { name: "Remote Employee Overview", bizAnalytics: false, prefix: "a009" },
   { name: "Capacity Management", bizAnalytics: false, prefix: "a010" },
   { name: "Billing Analysis", bizAnalytics: false, prefix: "a011" },
-  { name: "Marketing Campaign", bizAnalytics: true, prefix: "a012"}
+  { name: "Marketing Campaign", bizAnalytics: true, prefix: "a012" }
 ];
 //////// Global Vars ////////////
 var url = "";
@@ -273,7 +273,7 @@ function parseKPIs(result) {
     }
   });
 
-  return kpis.sort((a,b) => a.key.toLowerCase() > b.key.toLowerCase() ? 1 : -1);
+  return kpis.sort((a, b) => a.key.toLowerCase() > b.key.toLowerCase() ? 1 : -1);
 }
 
 function parseUSPFilter(result) {
@@ -371,26 +371,25 @@ function loadDBList(p = 1) {
   let master = $.Deferred();
   if (p.promise) deferreds.push(p);
   $.when(p).then(function () {  // we should have been passed a deferred
-    //let p1 = getRepoContents(repoList[i]);
-    //deferreds.push(p1);
-    //$.when(p1).then(function(data) {
-    //dbList=parseRepoContents(data,repoList[i]);
-    //always get any custom repos (i>1)
-    //for(i=2; i<repoList.length; i++) {
     dbList = [];
     readmeList = [];
     workflowList = [];
-    for (i = 0; i < repoList.length; i++) {
-      let repo = repoList[i];
-      let p_i = getRepoContents(repo);
-      deferreds.push(p_i);
-      $.when(p_i).done(function (data_i) {
-        let result = parseRepoContents(data_i, repo)
-        dbList = dbList.concat(result.dbList);
-        readmeList = readmeList.concat(result.readmeList);
-        workflowList = workflowList.concat(result.workflowList);
-      });
-    }
+    let p_git = gitHubAPICheckRateLimit();
+    $.when(p_git).done(function (gitrate) {
+      console.log(gitrate);
+
+      for (i = 0; i < repoList.length; i++) {
+        let repo = repoList[i];
+        let p_i = getRepoContents(repo);
+        deferreds.push(p_i);
+        $.when(p_i).done(function (data_i) {
+          let result = parseRepoContents(data_i, repo)
+          dbList = dbList.concat(result.dbList);
+          readmeList = readmeList.concat(result.readmeList);
+          workflowList = workflowList.concat(result.workflowList);
+        });
+      }
+    });
     $.when.apply($, deferreds).done(function () { master.resolve(); });
     //});
   });
@@ -561,29 +560,29 @@ function workflowConfigID(id) {
   return parts.join("-");
 }
 
-function stringifyWithValues(selector){
+function stringifyWithValues(selector) {
   let $obj = $(selector);
   let $clone = $obj.clone(true);
 
   //copy values
-  $clone.find("input").each(function(){
-    $(this).attr('value',$(this).val());
+  $clone.find("input").each(function () {
+    $(this).attr('value', $(this).val());
   });
-  $clone.find("select").each(function(){ 
-    $(this).find('option:selected').attr('selected', 'selected'); 
-  }); 
+  $clone.find("select").each(function () {
+    $(this).find('option:selected').attr('selected', 'selected');
+  });
   let html = $clone.wrap("<div></div>").parent().html();
-  html = html.replace(/^ +/gm,"");
-  html = html.replace(/\n/g,"");
+  html = html.replace(/^ +/gm, "");
+  html = html.replace(/\n/g, "");
 
   return html;
 }
 
-function loadBackupCSSIfNotLoaded(search,backup) {
+function loadBackupCSSIfNotLoaded(search, backup) {
   var ss = document.styleSheets;
   for (var i = 0, max = ss.length; i < max; i++) {
-      if (ss[i].href.includes(search))
-          return;
+    if (ss[i].href.includes(search))
+      return;
   }
   var link = document.createElement("link");
   link.rel = "stylesheet";
@@ -592,10 +591,10 @@ function loadBackupCSSIfNotLoaded(search,backup) {
   document.getElementsByTagName("head")[0].appendChild(link);
 }
 
-var uniqId = (function(){
+var uniqId = (function () {
   //usage: let myId = uniqId();
-  var i=0;
-  return function() {
-      return i++;
+  var i = 0;
+  return function () {
+    return i++;
   }
 })();

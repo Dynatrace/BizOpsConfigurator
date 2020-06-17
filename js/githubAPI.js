@@ -6,6 +6,12 @@ function getRepoContents(repo) {
     return gitHubAPI(`/repos/${repo.owner}/${repo.repo}/contents/${repo.path}`);
 }
 
+function gitHubAPICheckRateLimit(){
+    return gitHubAPI("/rate_limit");
+}
+
+
+
 function gitHubAPI(query, options = {}, retries = 3) {
     let headers = (typeof options.headers != "undefined") ? options.headers : {};
     if (githubuser != "" && githubpat != "")
