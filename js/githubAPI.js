@@ -22,7 +22,7 @@ function gitHubAPI(query, options = {}, retries = 3) {
         warningbox(`GitHub API Ratelimiting: retrying in ${seconds}s. Consider using GitHub PAT to avoid this.`);
         console.log("GitHub API Ratelimiting: query=" + query + " retries=" + retries + " seconds=" + seconds + " now=" + now + " then=" + then);
     }
-    return setTimeout(function () { gitHubAPIinner(); }, seconds * 1000);
+    return setTimeout(function () { return gitHubAPIinner(); }, seconds * 1000);
 
     function gitHubAPIinner(){
         let headers = (typeof options.headers != "undefined") ? options.headers : {};
@@ -44,7 +44,7 @@ function gitHubAPI(query, options = {}, retries = 3) {
 
 
 
-function gitHubUpdateLimits(jqXHR){ 
+function gitHubUpdateLimits(data, textStatus, jqXHR){ 
     GithubRemaining = parseInt(jqXHR.getResponseHeader("X-RateLimit-Remaining"));
     GithubReset = parseInt(jqXHR.getResponseHeader("X-Ratelimit-Reset"));
 }
@@ -63,7 +63,7 @@ function gitHubAPIFailHandler(jqXHR, textStatus, errorThrown) {
         seconds = Math.max( (then - now) + 1, 1);
         warningbox(`GitHub API Ratelimiting: retrying in ${seconds}s. Consider using GitHub PAT to avoid this.`);
         console.log("GitHub API Ratelimiting: query=" + query + " retries=" + retries + " seconds=" + seconds + " now=" + now + " then=" + then);
-    return setTimeout(function () { gitHubAPI(query, options, retries - 1); }, seconds * 1000);
+    return setTimeout(function () { return gitHubAPI(query, options, retries - 1); }, seconds * 1000);
 }
 
 function getREADME(repo) { //not used anymore
