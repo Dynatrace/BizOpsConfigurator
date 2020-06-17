@@ -15,20 +15,20 @@ function getRepoContents(repo) {
 
 function gitHubAPI(query, options = {}, retries = 3) {
     let seconds = 0;
-    if(GithubRemaining<1){ //handle rate limiting
+    if (GithubRemaining < 1) { //handle rate limiting
         let then = GithubReset;
         let now = (new Date().getTime()) / 1000;
-        seconds = Math.max( (then - now) + 1, 1);
+        seconds = Math.max((then - now) + 1, 1);
         warningbox(`GitHub API Ratelimiting: retrying in ${seconds}s. Consider using GitHub PAT to avoid this.`);
         console.log("GitHub API Ratelimiting: query=" + query + " retries=" + retries + " seconds=" + seconds + " now=" + now + " then=" + then);
     }
     return deferredSafeDelay(gitHubAPIinner, seconds * 1000);
 
-    function gitHubAPIinner(){
+    function gitHubAPIinner() {
         let headers = (typeof options.headers != "undefined") ? options.headers : {};
         if (githubuser != "" && githubpat != "")
             headers.Authorization = "Basic " + btoa(githubuser + ":" + githubpat);
-    
+
         let url = "https://api.github.com" + query;
         return $.ajax({
             url: url,
@@ -41,14 +41,14 @@ function gitHubAPI(query, options = {}, retries = 3) {
             .fail(gitHubAPIFailHandler);
     }
 
-    function deferredSafeDelay(f,ms){
+    function deferredSafeDelay(f, ms) {
         let p1 = $.Deferred();
         let p2 = $.Deferred();
         setTimeout(p2.resolve, ms);
 
-        $.when(p2).done(function(){
+        $.when(p2).done(function () {
             let p3 = f();
-            $.when(p3).done(function(data){
+            $.when(p3).done(function (data) {
                 p1.resolve(data);
             });
         });
@@ -59,25 +59,25 @@ function gitHubAPI(query, options = {}, retries = 3) {
 
 
 
-function gitHubUpdateLimits(data, textStatus, jqXHR){ 
+function gitHubUpdateLimits(data, textStatus, jqXHR) {
     GithubRemaining = parseInt(jqXHR.getResponseHeader("X-RateLimit-Remaining"));
     GithubReset = parseInt(jqXHR.getResponseHeader("X-Ratelimit-Reset"));
 }
 
 function gitHubAPIFailHandler(jqXHR, textStatus, errorThrown) {
-    if (jqXHR.statusCode !== 0){ //only do retries if it was ratelimiting
+    if (jqXHR.statusCode !== 0) { //only do retries if it was ratelimiting
         errorboxJQXHR(jqXHR, textStatus, errorThrown);
         return;
-    } 
+    }
     if (retries <= 0) {
         errorboxJQXHR(jqXHR, "Retries exhausted.", errorThrown);
         return;
     }
     let then = GithubReset;
-        let now = (new Date().getTime()) / 1000;
-        seconds = Math.max( (then - now) + 1, 1);
-        warningbox(`GitHub API Ratelimiting: retrying in ${seconds}s. Consider using GitHub PAT to avoid this.`);
-        console.log("GitHub API Ratelimiting: query=" + query + " retries=" + retries + " seconds=" + seconds + " now=" + now + " then=" + then);
+    let now = (new Date().getTime()) / 1000;
+    seconds = Math.max((then - now) + 1, 1);
+    warningbox(`GitHub API Ratelimiting: retrying in ${seconds}s. Consider using GitHub PAT to avoid this.`);
+    console.log("GitHub API Ratelimiting: query=" + query + " retries=" + retries + " seconds=" + seconds + " now=" + now + " then=" + then);
     return setTimeout(function () { return gitHubAPI(query, options, retries - 1); }, seconds * 1000);
 }
 
@@ -94,7 +94,7 @@ function getREADME(repo) { //not used anymore
         .fail(errorboxJQXHR);
 }
 
-function parseRepoContents(data, repo) {
+function parseRepoContents(data, repo, old) { 
     let dbListTemp = [];
     let workflowsTemp = [];
     let readmesTemp = [];
@@ -104,11 +104,23 @@ function parseRepoContents(data, repo) {
         let reDB = /(\.json$)|(^[0-9a-f-]{36}$)/;
         let reReadme = /\.md$/;
         if (reWorkflow.test(file.name)) {
-            workflowsTemp.push(file);
+            let oldMatch = old.workflowList.find((x) => x.git_url == file.git_url); //checks repo, filename, and sha
+            if (typeof oldMatch != "undefined")
+                workflowsTemp.push(oldMatch);
+            else
+                workflowsTemp.push(file);
         } else if (reDB.test(file.name)) {
-            dbListTemp.push(file);
+            let oldMatch = old.dbList.find((x) => x.git_url == file.git_url); //checks repo, filename, and sha
+            if (typeof oldMatch != "undefined")
+                dbListTemp.push(oldMatch);
+            else
+                dbListTemp.push(file);
         } else if (reReadme.test(file.name)) {
-            readmesTemp.push(file);
+            let oldMatch = old.readmeList.find((x) => x.git_url == file.git_url); //checks repo, filename, and sha
+            if (typeof oldMatch != "undefined")
+                readmesTemp.push(oldMatch);
+            else
+                readmesTemp.push(file);
         } else {
             console.log("parseRepoContents: rejected '" + file.path + "' based on regex");
         }

@@ -373,6 +373,7 @@ function loadDBList(p = 1) {
   let master = $.Deferred();
   if (p.promise) deferreds.push(p);
   $.when(p).then(function () {  // we should have been passed a deferred
+    let old = {dbList:dbList, readmeList:readmeList, workflowList:workflowList};
     dbList = [];
     readmeList = [];
     workflowList = [];
@@ -382,7 +383,7 @@ function loadDBList(p = 1) {
       let p_i = getRepoContents(repo);
       deferreds.push(p_i);
       $.when(p_i).done(function (data_i) {
-        let result = parseRepoContents(data_i, repo)
+        let result = parseRepoContents(data_i, repo, old)
         dbList = dbList.concat(result.dbList);
         readmeList = readmeList.concat(result.readmeList);
         workflowList = workflowList.concat(result.workflowList);
@@ -411,18 +412,20 @@ function downloadDBsFromList() {
   let promises = [];
 
   dbList.forEach(function (file, index, arr) {
-    let p = $.get(file.download_url)
-      .fail(errorboxJQXHR)
-      .done(function (d) {
-        try {
-          file.file = JSON.parse(d);
-        } catch (e) {
-          let emsg = "JSON Error on file " + file.path + ". " + e.name + ": " + e.message;
-          errorbox(emsg);
-          arr.splice(index, 1);
-        }
-      });
-    promises.push(p);
+    if (typeof file.file == "undefined" || file.file == null) {
+      let p = $.get(file.download_url)
+        .fail(errorboxJQXHR)
+        .done(function (d) {
+          try {
+            file.file = JSON.parse(d);
+          } catch (e) {
+            let emsg = "JSON Error on file " + file.path + ". " + e.name + ": " + e.message;
+            errorbox(emsg);
+            arr.splice(index, 1);
+          }
+        });
+      promises.push(p);
+    }
   });
   return promises;
 }
@@ -431,21 +434,23 @@ function downloadReadmesFromList() {
   let promises = [];
 
   readmeList.forEach(function (file, index, arr) {
-    let p = $.get(file.download_url)
-      .fail(errorboxJQXHR)
-      .done(function (d) {
-        try {
-          var converter = new showdown.Converter();
-          let html = converter.makeHtml(d);
-          file.html = html.replace(/<img ([^>]*)src="(?!http)([^"]+)"([^>]*)>/g,
-            `<img $1src="https://github.com/${file.repo.owner}/${file.repo.repo}/raw/master/$2"$3>`);
-        } catch (e) {
-          let emsg = "Showdown Error on file " + file.path + ". " + e.name + ": " + e.message;
-          errorbox(emsg);
-          arr.splice(index, 1);
-        }
-      });
-    promises.push(p);
+    if (typeof file.file == "undefined" || file.file == null) {
+      let p = $.get(file.download_url)
+        .fail(errorboxJQXHR)
+        .done(function (d) {
+          try {
+            var converter = new showdown.Converter();
+            let html = converter.makeHtml(d);
+            file.html = html.replace(/<img ([^>]*)src="(?!http)([^"]+)"([^>]*)>/g,
+              `<img $1src="https://github.com/${file.repo.owner}/${file.repo.repo}/raw/master/$2"$3>`);
+          } catch (e) {
+            let emsg = "Showdown Error on file " + file.path + ". " + e.name + ": " + e.message;
+            errorbox(emsg);
+            arr.splice(index, 1);
+          }
+        });
+      promises.push(p);
+    }
   });
 }
 
@@ -453,18 +458,20 @@ function downloadWorkflowsFromList() {
   let promises = [];
 
   workflowList.forEach(function (file, index, arr) {
-    let p = $.get(file.download_url)
-      .fail(errorboxJQXHR)
-      .done(function (d) {
-        try {
-          file.file = JSON.parse(d);
-        } catch (e) {
-          let emsg = "JSON Error on file " + file.path + ". " + e.name + ": " + e.message;
-          errorbox(emsg);
-          arr.splice(index, 1);
-        }
-      });
-    promises.push(p);
+    if (typeof file.file == "undefined" || file.file == null) {
+      let p = $.get(file.download_url)
+        .fail(errorboxJQXHR)
+        .done(function (d) {
+          try {
+            file.file = JSON.parse(d);
+          } catch (e) {
+            let emsg = "JSON Error on file " + file.path + ". " + e.name + ": " + e.message;
+            errorbox(emsg);
+            arr.splice(index, 1);
+          }
+        });
+      promises.push(p);
+    }
   });
 }
 
