@@ -106,6 +106,8 @@ var MZs = [];
 var HUreport = { url: "", data: {} };
 var popupZindex = 0;
 var bcBuffer = "";
+var GithubRemaining = 1;
+var GithubReset = 9999999999;
 
 ///////// Functions for manipulating global vars //////////
 
@@ -374,22 +376,19 @@ function loadDBList(p = 1) {
     dbList = [];
     readmeList = [];
     workflowList = [];
-    let p_git = gitHubAPICheckRateLimit();
-    $.when(p_git).done(function (gitrate) {
-      console.log(gitrate);
 
-      for (i = 0; i < repoList.length; i++) {
-        let repo = repoList[i];
-        let p_i = getRepoContents(repo);
-        deferreds.push(p_i);
-        $.when(p_i).done(function (data_i) {
-          let result = parseRepoContents(data_i, repo)
-          dbList = dbList.concat(result.dbList);
-          readmeList = readmeList.concat(result.readmeList);
-          workflowList = workflowList.concat(result.workflowList);
-        });
-      }
-    });
+    for (i = 0; i < repoList.length; i++) {
+      let repo = repoList[i];
+      let p_i = getRepoContents(repo);
+      deferreds.push(p_i);
+      $.when(p_i).done(function (data_i) {
+        let result = parseRepoContents(data_i, repo)
+        dbList = dbList.concat(result.dbList);
+        readmeList = readmeList.concat(result.readmeList);
+        workflowList = workflowList.concat(result.workflowList);
+      });
+    }
+
     $.when.apply($, deferreds).done(function () { master.resolve(); });
   });
   return master

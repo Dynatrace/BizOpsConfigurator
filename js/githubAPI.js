@@ -6,29 +6,30 @@ function getRepoContents(repo) {
     return gitHubAPI(`/repos/${repo.owner}/${repo.repo}/contents/${repo.path}`);
 }
 
-function gitHubAPICheckRateLimit(){
+/*function gitHubAPICheckRateLimit(){ //does not work, CORS & JSONP are broken on this endpoint
     return $.ajax({
         url: "https://api.github.com/rate_limit?callback=gitHubAPIJSONPHandler",
         dataType: "jsonp"
     }).then(gitHubAPIJSONPHandler);
-}
-
-function gitHubAPIJSONPHandler(jqxhr){
-    //Note: we'll never see the response body because of CORB
-    let remaining = jqxhr.getResponseHeader("X-Ratelimit-Remaining");
-    console.log(remaining);
-}
+}*/
 
 function gitHubAPI(query, options = {}, retries = 3) {
-    let headers = (typeof options.headers != "undefined") ? options.headers : {};
-    if (githubuser != "" && githubpat != "")
-        headers.Authorization = "Basic " + btoa(githubuser + ":" + githubpat);
+    let seconds = 0;
+    if(GithubRemaining<1){ //handle rate limiting
+        let then = GithubReset;
+        let now = (new Date().getTime()) / 1000;
+        seconds = Math.max( (then - now) + 1, 1);
+        warningbox(`GitHub API Ratelimiting: retrying in ${seconds}s. Consider using GitHub PAT to avoid this.`);
+        console.log("GitHub API Ratelimiting: query=" + query + " retries=" + retries + " seconds=" + seconds + " now=" + now + " then=" + then);
+    }
+    return setTimeout(function () { gitHubAPIinner(); }, seconds * 1000);
 
-    let url = "https://api.github.com" + query;
-    if (Object.keys(headers).length === 0) { //no need for preflight
-        return $.ajax(url)
-            .fail(gitHubAPIFailHandler);
-    } else { //fine to do full preflight
+    function gitHubAPIinner(){
+        let headers = (typeof options.headers != "undefined") ? options.headers : {};
+        if (githubuser != "" && githubpat != "")
+            headers.Authorization = "Basic " + btoa(githubuser + ":" + githubpat);
+    
+        let url = "https://api.github.com" + query;
         return $.ajax({
             url: url,
             contentType: "application/json; charset=utf-8",
@@ -36,26 +37,32 @@ function gitHubAPI(query, options = {}, retries = 3) {
             dataType: "json",
             headers: headers
         })
+            .done(gitHubUpdateLimits) //only do this on success, over rate limit gives CORS failure for unexplained reasons
             .fail(gitHubAPIFailHandler);
     }
 }
 
+
+
+function gitHubUpdateLimits(jqXHR){ 
+    GithubRemaining = parseInt(jqXHR.getResponseHeader("X-RateLimit-Remaining"));
+    GithubReset = parseInt(jqXHR.getResponseHeader("X-Ratelimit-Reset"));
+}
+
 function gitHubAPIFailHandler(jqXHR, textStatus, errorThrown) {
-    if (jqXHR.getResponseHeader("X-RateLimit-Remaining") !== 0) return; //only handle ratelimiting here for now
+    if (jqXHR.statusCode !== 0){ //only do retries if it was ratelimiting
+        errorboxJQXHR(jqXHR, textStatus, errorThrown);
+        return;
+    } 
     if (retries <= 0) {
         errorboxJQXHR(jqXHR, "Retries exhausted.", errorThrown);
         return;
     }
-    let seconds = 0;
-    let now = 0;
-    let then = 0;
-    try {
-        then = parseInt(jqXHR.getResponseHeader("X-Ratelimit-Reset"));
-        now = (new Date().getTime()) / 1000;
-        seconds = (then - now) + 1;
-    } catch (e) { seconds = 60; } //if we didn't capture the reset time, just default to a minute
-    warningbox(`GitHub API Ratelimiting: retrying in ${seconds}s. Consider using GitHub PAT to avoid this.`);
-    console.log("Inside Fail: query=" + query + " retries=" + retries + " seconds=" + seconds + " now=" + now + " then=" + then);
+    let then = GithubReset;
+        let now = (new Date().getTime()) / 1000;
+        seconds = Math.max( (then - now) + 1, 1);
+        warningbox(`GitHub API Ratelimiting: retrying in ${seconds}s. Consider using GitHub PAT to avoid this.`);
+        console.log("GitHub API Ratelimiting: query=" + query + " retries=" + retries + " seconds=" + seconds + " now=" + now + " then=" + then);
     return setTimeout(function () { gitHubAPI(query, options, retries - 1); }, seconds * 1000);
 }
 
