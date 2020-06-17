@@ -11,7 +11,7 @@ function gitHubAPICheckRateLimit(){
         url: "https://api.github.com/rate_limit?callback=?",
         jsonp: gitHubAPIJSONPHandler,
         dataType: "jsonp"
-    });
+    }).done(gitHubAPIJSONPHandler);
 }
 
 function gitHubAPIJSONPHandler(jqxhr){
