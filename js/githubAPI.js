@@ -7,7 +7,7 @@ function getRepoContents(repo) {
 }
 
 function gitHubAPICheckRateLimit(){
-    return gitHubAPI("/rate_limit");
+    return $.get("https://api.github.com/rate_limit");
 }
 
 
