@@ -572,3 +572,11 @@ function drawWorkflowPagerButton(workflowSelector="#workflow"){
     button.replaceWith(html);
   }
 }
+
+function updateDashboardButton(){
+  if(dbList.length>0){
+    $("#hamburger img").attr("src","images/dashboard.svg");
+  } else {
+    $("#hamburger img").attr("src","images/desktop.svg");
+  }
+}

@@ -390,7 +390,10 @@ function loadDBList(p = 1) {
       });
     }
 
-    $.when.apply($, deferreds).done(function () { master.resolve(); });
+    $.when.apply($, deferreds).done(function () { 
+      master.resolve(); 
+      updateDashboardButton();
+    });
   });
   return master
 }
