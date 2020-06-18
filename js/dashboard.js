@@ -116,9 +116,16 @@ function validateDB(input) {
   });
 
   //validate DT is new enough to support tags
-  if("tags" in db.dashboardMetadata && version < dbTagsVersion){
+  if(version < dbTagsVersion){
+    if("tags" in db.dashboardMetadata){
     delete db.dashboardMetadata.tags;
     e += " Tenant too old, removing tags\n";
+    }
+  } else if("tags" in db.dashboardMetadata ){
+    if(! "Configurator" in db.dashboardMetadata.tags)
+      db.dashboardMetadata.tags.push("Configurator");
+  } else {
+    db.dashboardMetadata.tags = ["Configurator"];
   }
     
 
