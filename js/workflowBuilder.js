@@ -127,7 +127,7 @@ function Input() {
             inputTypeChangeHandler();
 
             $.when(p2).done(function (data) {
-                if(typeof data == "undefined"){
+                if (typeof data == "undefined") {
                     p0.resolve(null);
                     return;
                 }
@@ -305,6 +305,18 @@ function usqlCommonQueryChangeHandler() {
             $("#usqlQuery").val('SELECT DISTINCT country, region, city FROM usersession WHERE useraction.application = "${app.name}" ORDER BY country,region,city LIMIT 5000');
             $("#usqlResultSlicer").val("ValX3");
             $("#transform").val("regionClause");
+            $("#addWhereClause").prop("checked", true);
+            break;
+        case "Key User Actions":
+            $("#usqlQuery").val('SELECT name FROM useraction WHERE useraction.application = "${app.name}" AND keyUserAction = true LIMIT 5000');
+            $("#usqlResultSlicer").val("Keys");
+            $("#transform").val("kua");
+            $("#addWhereClause").prop("checked", true);
+            break;
+        case "Conversion Goals":
+            $("#usqlQuery").val('SELECT matchingConversionGoals FROM useraction WHERE useraction.application = "${app.name}" AND matchingConversionGoals IS NOT NULL LIMIT 5000');
+            $("#usqlResultSlicer").val("Keys");
+            $("#transform").val("goal");
             $("#addWhereClause").prop("checked", true);
             break;
     }
@@ -819,10 +831,10 @@ function previewChangeHandlerKeyWhereClause(event) {
         filters.push(val + ' is not null');
 
     let filterClause = filters.length > 0 ?
-    " AND (" + filters.join(" AND ") + ")" :
-    "";
+        " AND (" + filters.join(" AND ") + ")" :
+        "";
     $target.val(filterClause);
-    
+
     let xform = `
         <b>from</b>:${from}, <b>to</b>:${filterClause}`;
     $("#swaps").html(xform);
@@ -837,7 +849,7 @@ function previewChangeHandlerKeyVal(event) {
 
     let fromkey = "${" + $("#transform").val() + ".key}";
     let fromval = "${" + $("#transform").val() + ".value}";
-    
+
     let xform = `
         <b>from</b>:${fromkey}, <b>to</b>:${key}<br>
         <b>from</b>:${fromval}, <b>to</b>:${val}<br>`;
