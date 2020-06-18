@@ -247,6 +247,16 @@ function drawSteps(steps) {
   $("#goallist").append(list);
 }
 
+function drawActions(data){
+  let options = "";
+
+  let actions = [... new Set(data.values.flat())].sort();
+  actions = actions.map((x) => x.replace(/([^"])"([^"])?/g, "$1\"\"$2")); //escape janky doublequotes
+
+  options = actions.reduce( (agg,cv) => agg += `<option>${cv}</option`);
+  return options;
+}
+
 async function jsonviewer(result, show = false, name = "", selector = "#jsonviewer") {
   //Load the JSON viewer
   $(selector).hide();

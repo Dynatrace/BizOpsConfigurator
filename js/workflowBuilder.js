@@ -309,13 +309,13 @@ function usqlCommonQueryChangeHandler() {
             break;
         case "Key User Actions":
             $("#usqlQuery").val('SELECT name FROM useraction WHERE useraction.application = "${app.name}" AND keyUserAction = true LIMIT 5000');
-            $("#usqlResultSlicer").val("Keys");
+            $("#usqlResultSlicer").val("actions");
             $("#transform").val("kua");
             $("#addWhereClause").prop("checked", true);
             break;
         case "Conversion Goals":
             $("#usqlQuery").val('SELECT matchingConversionGoals FROM useraction WHERE useraction.application = "${app.name}" AND matchingConversionGoals IS NOT NULL LIMIT 5000');
-            $("#usqlResultSlicer").val("Keys");
+            $("#usqlResultSlicer").val("actions");
             $("#transform").val("goal");
             $("#addWhereClause").prop("checked", true);
             break;
@@ -700,7 +700,7 @@ function sliceUSQLdata(slicer, data, target, whereClause) { //TODO: refactor thi
 
             if (whereClause) {
                 let targetSelector = `#filterClause${uniqId()}`;
-                $target.append(`<div class="inputHeader">Filter Clause:</div>
+                $target.append(`<div class="inputHeader">Where Clause:</div>
                 <div class="userInput"><input disabled id="${targetSelector.substr(1)}" class="filterClause"></div>
                 `);
                 let eventData = { selectors: selectors, data: parsedResults, targetSelector: targetSelector };
@@ -729,7 +729,7 @@ function sliceUSQLdata(slicer, data, target, whereClause) { //TODO: refactor thi
 
             if (whereClause) {
                 let targetSelector = `#filterClause${uniqId()}`;
-                $target.append(`<div class="inputHeader">Filter Clause:</div>
+                $target.append(`<div class="inputHeader">Where Clause:</div>
                 <div class="userInput"><input disabled id="${targetSelector.substr(1)}" class="filterClause"></div>
                 `);
                 let eventData = { selectors: selectors, data: parsedResults, targetSelector: targetSelector };
@@ -760,7 +760,7 @@ function sliceUSQLdata(slicer, data, target, whereClause) { //TODO: refactor thi
             `);
             if (whereClause) {
                 let targetSelector = `#filterClause${uniqId()}`;
-                $target.append(`<div class="inputHeader">Filter Clause:</div>
+                $target.append(`<div class="inputHeader">Where Clause:</div>
                 <div class="userInput"><input disabled id="${targetSelector.substr(1)}" class="filterClause"></div>
                 `);
                 let eventData = { selectors: selectors, data: parsedResults, targetSelector: targetSelector };
@@ -769,6 +769,34 @@ function sliceUSQLdata(slicer, data, target, whereClause) { //TODO: refactor thi
             } else {
                 let eventData = { selectors: selectors, data: parsedResults, targetSelector: null };
                 $target.on("change", "select", eventData, previewChangeHandlerValX3);
+                $target.find("select:first-of-type").trigger("change");
+            }
+            break;
+        }
+        case "actions": {
+            let selectors = [`#action${uniqId()}`]
+            
+            let colname = data.columnNames[0];
+            $target.html(`
+                <div class="inputHeader"><!--Actions:--></div>
+                <div class="userInput"><select id="${selectors[0].substr(1)}" data-colname="${colname}">
+                    <option></option></select></div>
+                `);
+            let options = drawActions(parsedResults);
+            $(`${selectors[0]}`).html(options);
+            $("#swaps").html();
+
+            if (whereClause) {
+                let targetSelector = `#filterClause${uniqId()}`;
+                $target.append(`<div class="inputHeader">Where Clause:</div>
+                <div class="userInput"><input disabled id="${targetSelector.substr(1)}" class="filterClause"></div>
+                `);
+                let eventData = { selectors: selectors, data: parsedResults, targetSelector: targetSelector };
+                $target.on("change", "select", eventData, previewChangeHandlerActionWhereClause);
+                $target.find("select:first-of-type").trigger("change");
+            } else {
+                let eventData = { selectors: selectors, data: parsedResults, targetSelector: '' };
+                $target.on("change", "select", eventData, previewChangeHandlerAction);
                 $target.find("select:first-of-type").trigger("change");
             }
             break;
@@ -840,6 +868,42 @@ function previewChangeHandlerKeyWhereClause(event) {
     $("#swaps").html(xform);
 }
 
+function previewChangeHandlerAction(event) {
+    let $el = $(event.data.selectors[0]);
+
+    let $option = $el.find("option:selected");
+    //let val = $option.attr("data-colname") + "." + $option.val();
+    let val = $option.val();
+    let from = "${" + $("#transform").val() + "}";
+    
+
+    let xform = `
+        <b>from</b>:${from}, <b>to</b>:${val}`;
+    $("#swaps").html(xform);
+}
+
+function previewChangeHandlerActionWhereClause(event) {
+    let $el = $(event.data.selectors[0]);
+    let $target = $(event.data.targetSelector);
+
+    let $option = $el.find("option:selected");
+    let colname = $el.attr("data-colname");
+    let val = $option.val();
+    let from = "${" + $("#transform").val() + "}";
+
+    let filters = [];
+    if (val != null && val != '' && val != 'n/a')
+        filters.push(`${colname}="${val}"`);
+
+    let filterClause = filters.length > 0 ?
+        " AND (" + filters.join(" AND ") + ")" :
+        "";
+    $target.val(filterClause);
+
+    let xform = `
+        <b>from</b>:${from}, <b>to</b>:${filterClause}`;
+    $("#swaps").html(xform);
+}
 
 function previewChangeHandlerKeyVal(event) {
     uspFilterChangeHandler(event);

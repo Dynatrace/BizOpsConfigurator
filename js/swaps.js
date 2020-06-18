@@ -402,6 +402,13 @@ function generateWorkflowSwapList(el) {
         swaps.push({ from: from3, to: val3 });
         break;
       }
+      case 'actions': {
+        let $option = $workflowInput.find("select option:selected");
+        let value = $option.val();
+        let from = "${" + transform + "}";
+        swaps.push({ from: from, to: value });
+        break;
+      }
       default:
         let from = "${" + transform + "}";
         let to = $workflowInput.find("input:not([type=hidden])").val();
