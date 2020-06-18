@@ -122,7 +122,7 @@ function validateDB(input) {
     e += " Tenant too old, removing tags\n";
     }
   } else if("tags" in db.dashboardMetadata ){
-    if(! "Configurator" in db.dashboardMetadata.tags)
+    if(!("Configurator" in db.dashboardMetadata.tags))
       db.dashboardMetadata.tags.push("Configurator");
   } else {
     db.dashboardMetadata.tags = ["Configurator"];
