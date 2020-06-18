@@ -253,7 +253,7 @@ function drawActions(data){
   let actions = [... new Set(data.values.flat())].sort();
   actions = actions.map((x) => x.replace(/([^"])"([^"])?/g, "$1\"\"$2")); //escape janky doublequotes
 
-  options = actions.reduce( (agg,cv) => agg += `<option>${cv}</option`);
+  options = actions.reduce( (agg,cv) => agg += `<option>${cv}</option>`);
   return options;
 }
 
