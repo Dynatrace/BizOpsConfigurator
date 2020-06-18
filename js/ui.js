@@ -575,8 +575,8 @@ function drawWorkflowPagerButton(workflowSelector="#workflow"){
 
 function updateDashboardButton(){
   if(dbList.length>0){
-    $("#hamburger img").attr("src","images/dashboard.svg");
+    $("#dbbutton img").attr("src","images/dashboard.svg");
   } else {
-    $("#hamburger img").attr("src","images/desktop.svg");
+    $("#dbbutton img").attr("src","images/desktop.svg");
   }
 }
