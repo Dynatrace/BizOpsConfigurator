@@ -79,7 +79,8 @@ var usecases = [
   { name: "Remote Employee Overview", bizAnalytics: false, prefix: "a009" },
   { name: "Capacity Management", bizAnalytics: false, prefix: "a010" },
   { name: "Billing Analysis", bizAnalytics: false, prefix: "a011" },
-  { name: "Marketing Campaign", bizAnalytics: true, prefix: "a012" }
+  { name: "Marketing Campaign", bizAnalytics: true, prefix: "a012" },
+  { name: "AIOps", bizAnalytics: false, prefix: "a013"}
 ];
 //////// Global Vars ////////////
 var url = "";
