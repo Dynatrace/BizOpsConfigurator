@@ -304,7 +304,8 @@ function transformSubs(subs, dbid, swaps, config, nextID = nextDB) {
       };
     else sub["dashboardMetadata"]["dashboardFilter"]["managementZone"] = null;
     if ("costControlUserSessionPercentage" in config) addCostControlTile(sub, config);
-    addReplaceButton(sub, dbid, "![BackButton]()", "⇦", findTopRight);
+    if(config.addBackButtons!=="false")
+      addReplaceButton(sub, dbid, "![BackButton]()", "⇦", findTopRight);
   });
 
   for (let i = 0; i < subs.length; i++) {

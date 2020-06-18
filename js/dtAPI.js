@@ -560,6 +560,7 @@ function uploadWorkflow(workflow) {
   let subs = getStaticSubDBs(overview, [config.oldId]);
   //let swaps = generateWorkflowSwapList($workflow);
   let swaps = selection.swaps;
+  swaps.push({from:config.oldId, to:config.id});
   swaps = transformSubs(subs, config.id, swaps, config, nextWorkflowDBID);
   var dbObj = doSwaps(overview, swaps);
   dbObj = validateDB(dbObj);
