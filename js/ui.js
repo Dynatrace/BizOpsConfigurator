@@ -519,7 +519,11 @@ function getConnectInfo() {
       let p2 = popupHTMLDeferred("New Input", content);
 
       $.when(p2).done(function (inputs) {
-        url = inputs.url;
+        url = inputs.url.toLowerCase();
+        if (url.length > 1 && url.charAt(url.length - 1) == "/")
+          url = url.substring(0, url.length - 1);
+        if (url.length > 1 && !url.startsWith("https://"))
+          url = "https://" + url;
         token = inputs.token;
         githubuser = inputs.githubuser;
         githubpat = inputs.githubpat;
