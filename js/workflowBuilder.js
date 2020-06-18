@@ -774,7 +774,7 @@ function sliceUSQLdata(slicer, data, target, whereClause) { //TODO: refactor thi
             break;
         }
         case "actions": {
-            let selectors = [`#action${uniqId()}`]
+            let selectors = [`#action${uniqId()}`];
             
             let colname = data.columnNames[0];
             $target.html(`
@@ -782,7 +782,7 @@ function sliceUSQLdata(slicer, data, target, whereClause) { //TODO: refactor thi
                 <div class="userInput"><select id="${selectors[0].substr(1)}" data-colname="${colname}">
                     <option></option></select></div>
                 `);
-            let options = drawActions(parsedResults);
+            let options = drawActions(data);
             $(`${selectors[0]}`).html(options);
             $("#swaps").html();
 
