@@ -257,7 +257,7 @@ function drawActions(data){
   return options;
 }
 
-async function jsonviewer(result, show = false, name = "", selector = "#jsonviewer") {
+function jsonviewer(result, show = false, name = "", selector = "#jsonviewer") {
   //Load the JSON viewer
   $(selector).hide();
   $(selector).load("html/jsonviewer.html", function () {
