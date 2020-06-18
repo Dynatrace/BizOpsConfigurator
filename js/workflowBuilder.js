@@ -308,13 +308,13 @@ function usqlCommonQueryChangeHandler() {
             $("#addWhereClause").prop("checked", true);
             break;
         case "Key User Actions":
-            $("#usqlQuery").val('SELECT name FROM useraction WHERE useraction.application = "${app.name}" AND keyUserAction = true LIMIT 5000');
+            $("#usqlQuery").val('SELECT useraction.name FROM useraction WHERE useraction.application = "${app.name}" AND keyUserAction = true LIMIT 5000');
             $("#usqlResultSlicer").val("actions");
             $("#transform").val("kua");
             $("#addWhereClause").prop("checked", true);
             break;
         case "Conversion Goals":
-            $("#usqlQuery").val('SELECT matchingConversionGoals FROM useraction WHERE useraction.application = "${app.name}" AND matchingConversionGoals IS NOT NULL LIMIT 5000');
+            $("#usqlQuery").val('SELECT useraction.matchingConversionGoals FROM useraction WHERE useraction.application = "${app.name}" AND matchingConversionGoals IS NOT NULL LIMIT 5000');
             $("#usqlResultSlicer").val("actions");
             $("#transform").val("goal");
             $("#addWhereClause").prop("checked", true);
