@@ -288,7 +288,7 @@ function commonQueryChangeHandler() {
             $("#apiResultSlicer").val("values:{id:name}");
             $("#transform").val("metricSynth");
             break;
-        case "ApplicationMethod":
+        case "Application Methods":
             $("#apiQuery").val("/api/v1/entity/applications/${app.id}/baseline");
             $("#apiResultSlicer").val("ApplicationMethod");
             $("#transform").val("method");
