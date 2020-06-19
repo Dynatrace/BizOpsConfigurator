@@ -665,22 +665,27 @@ function loadUsqlQueryOptions(query, slicer, target, whereClause) {
 
 function sliceAPIdata(slicer, data) {
     let parsedResults = [];
-    switch (slicer) {
-        case "{entityId:displayName}":
-            if (data.length > 0) data.forEach(function (item) {
-                parsedResults.push({ value: item.entityId, key: item.displayName });
-            });
-            break;
-        case "{entityId:name}":
-            if (data.length > 0) data.forEach(function (item) {
-                parsedResults.push({ value: item.entityId, key: item.name });
-            });
-            break;
-        case "values:{id:name}":
-            if (typeof data.values == "object") data.values.forEach(function (item) {
-                parsedResults.push({ value: item.id, key: item.name });
-            });
-            break;
+    if (!Array.isArray(data)) { //flatten values/monitors/etc
+        data = Object.keys(data)[0];
+    }
+    if (data.length > 0) {
+        switch (slicer) {
+            case "{entityId:displayName}":
+                data.forEach(function (item) {
+                    parsedResults.push({ value: item.entityId, key: item.displayName });
+                });
+                break;
+            case "{entityId:name}":
+                data.forEach(function (item) {
+                    parsedResults.push({ value: item.entityId, key: item.name });
+                });
+                break;
+            case "values:{id:name}":
+                data.forEach(function (item) {
+                    parsedResults.push({ value: item.id, key: item.name });
+                });
+                break;
+        }
     }
     return parsedResults.sort((a, b) => (a.key.toLowerCase() > b.key.toLowerCase()) ? 1 : -1);
 }
