@@ -252,7 +252,7 @@ function uspFilterChangeHandler(event) {
   let countrySelector, regionSelector, citySelector, filterClauseSelector, keySelector, keyOptionSelector, valSelector;
   if (typeof event !== "undefined" && typeof event.data !== "undefined" && typeof event.data.selectors !== "undefined") {
     keySelector = event.data.selectors[0];
-    keyOptionSelector = keySelector+" option:selected";
+    keyOptionSelector = keySelector + " option:selected";
     valSelector = event.data.selectors[1];
     filterClauseSelector = event.data.targetSelector;
   } else {
@@ -687,9 +687,12 @@ function workflowPickerChangeHandler(e) {
       let i = $("#workflow :selected").attr('data-workflowIndex');
       let workflow = workflowList[i];
       let readme = findWorkflowReadme(workflow);
-      $("#readmeViewer").html(readme.html);
+      if (typeof readme != "undefined" && typeof readme.html != "undefined")
+        $("#readmeViewer").html(readme.html);
+      else
+        $("#readmeViewer").html("");
       let blogURL = workflow.file.config.blogURL;
-      if(blogURL != ""){
+      if (blogURL != "") {
         $("#blogLink").html(`<a href="${blogURL}" class="newTab" target="_blank">Blog post <img src='images/link.svg'></a>`);
         $("#blogLink").show();
       } else {
