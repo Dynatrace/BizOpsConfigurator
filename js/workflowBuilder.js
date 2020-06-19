@@ -355,10 +355,11 @@ function testAPIhandler() {
 
     $.when(p0).done(function () {
         let query = $("#apiQuery").val();
+        let p1 = {};
         if (query.match(/\${.+}/))
-            let p1 = getTestApp();
+            p1 = getTestApp();
         else
-            let p1 = "";
+            p1 = {};
         $.when(p1).done(function (app) {
             query = query.replace("${app.name}", app.name);
             query = query.replace("${app.id}", app.id);
