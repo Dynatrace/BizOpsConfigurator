@@ -666,7 +666,7 @@ function loadUsqlQueryOptions(query, slicer, target, whereClause) {
 function sliceAPIdata(slicer, data) {
     let parsedResults = [];
     if (!Array.isArray(data)) { //flatten values/monitors/etc
-        data = Object.keys(data)[0];
+        data = data[Object.keys(data)[0]];
     }
     if (data.length > 0) {
         switch (slicer) {
