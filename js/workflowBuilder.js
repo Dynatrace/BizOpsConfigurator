@@ -684,41 +684,46 @@ function loadUsqlQueryOptions(query, slicer, target, whereClause) {
 
 function sliceAPIdata(slicer, data) {
     let parsedResults = [];
-    if (!Array.isArray(data)) { //flatten values/monitors/etc
-        data = data[Object.keys(data)[0]];
-    }
-    if (data.length > 0) {
-        switch (slicer) {
-            case "{entityId:displayName}":
-                data.forEach(function (item) {
-                    parsedResults.push({ value: item.entityId, key: item.displayName });
-                });
-                break;
-            case "{entityId:name}":
-                data.forEach(function (item) {
-                    parsedResults.push({ value: item.entityId, key: item.name });
-                });
-                break;
-            case "values:{id:name}":
-                data.forEach(function (item) {
-                    parsedResults.push({ value: item.id, key: item.name });
-                });
-                break;
-            case "ApplicationMethods":
-                parsedResults = Object.keys(data)
-                    .filter(key => key.includes("Baselines"))
-                    .reduce((obj, key) => {
-                        obj = obj.concat(
-                            data[key].map((x) => {
-                                return x.childBaselines.map((y) => {
-                                    return { value: y.entityId, key: y.displayName }
-                                })
+
+    switch (slicer) {
+        case "{entityId:displayName}":
+            if (!Array.isArray(data)) { //flatten values/monitors/etc
+                data = data[Object.keys(data)[0]];
+            }
+            data.forEach(function (item) {
+                parsedResults.push({ value: item.entityId, key: item.displayName });
+            });
+            break;
+        case "{entityId:name}":
+            if (!Array.isArray(data)) { //flatten values/monitors/etc
+                data = data[Object.keys(data)[0]];
+            }
+            data.forEach(function (item) {
+                parsedResults.push({ value: item.entityId, key: item.name });
+            });
+            break;
+        case "values:{id:name}":
+            if (!Array.isArray(data)) { //flatten values/monitors/etc
+                data = data[Object.keys(data)[0]];
+            }
+            data.forEach(function (item) {
+                parsedResults.push({ value: item.id, key: item.name });
+            });
+            break;
+        case "ApplicationMethods":
+            parsedResults = Object.keys(data)
+                .filter(key => key.includes("Baselines"))
+                .reduce((obj, key) => {
+                    obj = obj.concat(
+                        data[key].map((x) => {
+                            return x.childBaselines.map((y) => {
+                                return { value: y.entityId, key: y.displayName }
                             })
-                        );
-                        return obj;
-                    }, []).flat();
-                break;
-        }
+                        })
+                    );
+                    return obj;
+                }, []).flat();
+            break;
     }
     return parsedResults.sort((a, b) => (a.key.toLowerCase() > b.key.toLowerCase()) ? 1 : -1);
 }
