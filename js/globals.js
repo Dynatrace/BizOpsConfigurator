@@ -30,7 +30,7 @@ var repoList = [
   { 'owner': 'TechShady', 'repo': 'Dynatrace-DashboardV5', 'path': '' },
   { 'owner': 'Dynatrace-JasonOstroski', 'repo': 'CitrixDashboardsV1', 'path': '' },
   { 'owner': 'jjbologna', 'repo': 'SAP-extension-dashboards', 'path': '' },
-  { 'owner': 'Dynatrace-Dave-Mauney', 'repo': 'DashboardTemplates', 'path': 'v1.192.96' },
+  { 'owner': 'LucasHocker', 'repo': 'DashboardTemplates', 'path': 'v1.192.96' },
   { 'owner': 'TechShady', 'repo': 'Dynatrace-Remote-Employee', 'path': '' },
   { 'owner': 'TechShady', 'repo': 'Dynatrace-Infrastructure', 'path': '' },
   { 'owner': 'TechShady', 'repo': 'BizOpsLite', 'path': '' },
@@ -80,7 +80,8 @@ var usecases = [
   { name: "Capacity Management", bizAnalytics: false, prefix: "a010" },
   { name: "Billing Analysis", bizAnalytics: false, prefix: "a011" },
   { name: "Marketing Campaign", bizAnalytics: true, prefix: "a012" },
-  { name: "AIOps", bizAnalytics: false, prefix: "a013"}
+  { name: "AIOps", bizAnalytics: false, prefix: "a013"},
+  { name: "Site Reliability Engineering (SRE)", bizAnalytics: false, prefix: "a014"}
 ];
 //////// Global Vars ////////////
 var url = "";

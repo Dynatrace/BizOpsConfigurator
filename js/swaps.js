@@ -12,7 +12,8 @@ function generateTenantSwapList(config) {
     { from: 'ipCompare1Clause', to: config.compareipClause, wrap: true },
     { from: 'ipCompare1Name', to: config.ipCompareName, wrap: true },
     { from: 'ipCompare2Clause', to: config.compareipClause2, wrap: true },
-    { from: 'ipCompare2Name', to: config.ipCompareName2, wrap: true }
+    { from: 'ipCompare2Name', to: config.ipCompareName2, wrap: true },
+    { from: 'overviewName', to: config.TOname, wrap: true}
   ];
 
   return swaps;
