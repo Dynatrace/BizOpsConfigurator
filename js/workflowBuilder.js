@@ -230,6 +230,7 @@ function inputTypeChangeHandler() {
 
 function commonQueryChangeHandler() {
     let commonQueries = $("#commonQueries").val();
+    $("#inputInfoBox").hide();
 
     switch (commonQueries) {
         case "Apps":
@@ -286,6 +287,14 @@ function commonQueryChangeHandler() {
             $("#apiQuery").val("/api/config/v1/calculatedMetrics/synthetic");
             $("#apiResultSlicer").val("values:{id:name}");
             $("#transform").val("metricSynth");
+            break;
+        case "ApplicationMethod":
+            $("#apiQuery").val("/api/v1/entity/applications/${app.id}/baseline");
+            $("#apiResultSlicer").val("ApplicationMethod");
+            $("#transform").val("method");
+            $("#inputInfoBox").html(`<img src="images/light-bulb-yellow_300.svg">
+            Be sure the replacement token in query is filled on a prior page.`);
+            $("#inputInfoBox").show();
             break;
     }
 }
@@ -684,6 +693,9 @@ function sliceAPIdata(slicer, data) {
                 data.forEach(function (item) {
                     parsedResults.push({ value: item.id, key: item.name });
                 });
+                break;
+            case "ApplicationMethods":
+                //stuff here
                 break;
         }
     }
