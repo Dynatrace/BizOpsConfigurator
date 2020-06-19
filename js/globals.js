@@ -507,10 +507,11 @@ function findOverviewREADME(overview) {
 
 function findWorkflowReadme(workflow) {
   let config = workflow.file.config;
-  let readme = readmeList.find((el) => el.repo.owner === workflow.repo.owner &&
-    el.repo.repo === workflow.repo.repo && el.path === config.readme);
+  let readme = workflow.repo.path.length>0 ? `${workflow.repo.path}/${config.readme}` : config.readme;
+  let readmeFile = readmeList.find((el) => el.repo.owner === workflow.repo.owner &&
+    el.repo.repo === workflow.repo.repo && el.path === readme);
 
-  return readme;
+  return readmeFile;
 }
 
 var sanitizer = {};
