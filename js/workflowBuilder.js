@@ -290,7 +290,7 @@ function commonQueryChangeHandler() {
             break;
         case "Application Methods":
             $("#apiQuery").val("/api/v1/entity/applications/${app.id}/baseline");
-            $("#apiResultSlicer").val("ApplicationMethod");
+            $("#apiResultSlicer").val("ApplicationMethods");
             $("#transform").val("method");
             $("#inputInfoBox").html(`<img src="images/light-bulb-yellow_300.svg">
             Be sure the replacement token in query is filled on a prior page.`);
