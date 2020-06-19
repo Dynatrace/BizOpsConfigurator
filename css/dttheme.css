@@ -1177,7 +1177,10 @@ input:invalid {
 }
 
 #readmeViewer img {
-  flex: 0
+  flex: 0;
+  max-width: calc(100vw - 236px - 300px - 15px);
+  border: 1px solid #606060;
+  border-radius: 3px;
 }
 
 #devguide_persona {
