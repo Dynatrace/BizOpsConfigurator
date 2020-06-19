@@ -40,7 +40,7 @@ var repoList = [
 var tenantOverviews = [
   { name: 'BizOps', filename: 'TenantOverview.json', repo: { 'owner': 'TechShady', 'repo': 'Dynatrace-DashboardV5', 'path': '' } },
   { name: 'BizOpsLite', filename: 'LiteTenantOverview.json', repo: { 'owner': 'TechShady', 'repo': 'BizOpsLite', 'path': '' } },
-  { name: 'Dashboard Basics', filename: '00000000-dddd-bbbb-ffff-000000000001', repo: { 'owner': 'Dynatrace-Dave-Mauney', 'repo': 'DashboardTemplates', 'path': 'v1.192.96' } },
+  { name: 'Dashboard Basics', filename: '00000000-dddd-bbbb-ffff-000000000001', repo: { 'owner': 'LucasHocker', 'repo': 'DashboardTemplates', 'path': 'v1.192.96' } },
   { name: 'SAP Extension', filename: 'SAP Application Cockpit.json', repo: { 'owner': 'jjbologna', 'repo': 'SAP-extension-dashboards', 'path': '' } },
   { name: 'Remote Employee Web', filename: 'RETenantOverview.json', repo: { 'owner': 'TechShady', 'repo': 'Dynatrace-Remote-Employee', 'path': '' } },
   { name: 'Remote Employee Mobile', filename: 'RETenantOverview2.json', repo: { 'owner': 'TechShady', 'repo': 'Dynatrace-Remote-Employee', 'path': '' } },
