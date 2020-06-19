@@ -370,7 +370,7 @@ function testAPIhandler() {
             let slicer = $("#apiResultSlicer").val();
             let p = loadApiQueryOptions(query, slicer, $target);
             $.when(p).done(function (data) {
-                jsonviewer(data, true, "", "#apiResult");
+                //jsonviewer(data, true, "", "#apiResult");
             });
         })
     });
@@ -705,7 +705,18 @@ function sliceAPIdata(slicer, data) {
                 });
                 break;
             case "ApplicationMethods":
-                //stuff here
+                parsedResults = Object.keys(data)
+                    .filter(key => key.includes("Baselines"))
+                    .reduce((obj, key) => {
+                        obj = obj.concat(
+                            data[key].map((x) => {
+                                return x.childBaselines.map((y) => {
+                                    return { value: y.entityId, key: y.displayName }
+                                })
+                            })
+                        );
+                        return obj;
+                    }, []).flat();
                 break;
         }
     }
