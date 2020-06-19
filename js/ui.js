@@ -549,7 +549,7 @@ function getTestApp() {
     drawApps(apps, {}, "#testAppId");
     $.when(p2).done(function (inputs) {
       let appName = apps.find(x => x.entityId == inputs.testAppId).displayName;
-      p0.resolve(appName);
+      p0.resolve({id:inputs.testAppId, name:appName});
     });
   });
   return p0;

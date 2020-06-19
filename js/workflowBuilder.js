@@ -355,15 +355,23 @@ function testAPIhandler() {
 
     $.when(p0).done(function () {
         let query = $("#apiQuery").val();
-        $("#apiQueryHeader").text(query);
-        let multiple = $("#multiple").is(":checked");
-        $("#preview").html(`<select ${multiple ? "multiple" : ""}></select>`);
-        let $target = $("#preview select");
-        let slicer = $("#apiResultSlicer").val();
-        let p = loadApiQueryOptions(query, slicer, $target);
-        $.when(p).done(function (data) {
-            jsonviewer(data, true, "", "#apiResult");
-        });
+        if (query.match(/\${.+}/))
+            let p1 = getTestApp();
+        else
+            let p1 = "";
+        $.when(p1).done(function (app) {
+            query = query.replace("${app.name}", app.name);
+            query = query.replace("${app.id}", app.id);
+            $("#apiQueryHeader").text(query);
+            let multiple = $("#multiple").is(":checked");
+            $("#preview").html(`<select ${multiple ? "multiple" : ""}></select>`);
+            let $target = $("#preview select");
+            let slicer = $("#apiResultSlicer").val();
+            let p = loadApiQueryOptions(query, slicer, $target);
+            $.when(p).done(function (data) {
+                jsonviewer(data, true, "", "#apiResult");
+            });
+        })
     });
 }
 
@@ -373,9 +381,10 @@ function testUSQLhandler() {
     $.when(p0).done(function () {
         let p1 = getTestApp();
 
-        $.when(p1).done(function (appName) {
+        $.when(p1).done(function (app) {
             let usql = $("#usqlQuery").val();
-            usql = usql.replace("${app.name}", appName);
+            usql = usql.replace("${app.name}", app.name);
+            usql = usql.replace("${app.id}", app.id);
             let query = "/api/v1/userSessionQueryLanguage/table?query=" + encodeURIComponent(usql) + "&explain=false";
             let slicer = $("#usqlResultSlicer").val();
             let whereClause = $("#addWhereClause").is(":checked");
