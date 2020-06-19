@@ -257,6 +257,11 @@ function commonQueryChangeHandler() {
             $("#apiResultSlicer").val("{entityId:displayName}");
             $("#transform").val("service");
             break;
+        case "Synthetics":
+            $("#apiQuery").val("/api/v1/synthetic/monitors");
+            $("#apiResultSlicer").val("{entityId:name}");
+            $("#transform").val("synth");
+            break;
         case "CustomMetric-RUM":
             $("#apiQuery").val("/api/config/v1/calculatedMetrics/rum");
             $("#apiResultSlicer").val("values:{id:name}");
@@ -666,6 +671,11 @@ function sliceAPIdata(slicer, data) {
                 parsedResults.push({ value: item.entityId, key: item.displayName });
             });
             break;
+        case "{entityId:name}":
+            if (data.length > 0) data.forEach(function (item) {
+                parsedResults.push({ value: item.entityId, key: item.name });
+            });
+            break;
         case "values:{id:name}":
             if (typeof data.values == "object") data.values.forEach(function (item) {
                 parsedResults.push({ value: item.id, key: item.name });
@@ -775,7 +785,7 @@ function sliceUSQLdata(slicer, data, target, whereClause) { //TODO: refactor thi
         }
         case "actions": {
             let selectors = [`#action${uniqId()}`];
-            
+
             let colname = data.columnNames[0];
             $target.html(`
                 <div class="inputHeader"><!--Actions:--></div>
@@ -875,7 +885,7 @@ function previewChangeHandlerAction(event) {
     //let val = $option.attr("data-colname") + "." + $option.val();
     let val = $option.val();
     let from = "${" + $("#transform").val() + "}";
-    
+
 
     let xform = `
         <b>from</b>:${from}, <b>to</b>:${val}`;

@@ -355,6 +355,7 @@ function generateWorkflowSwapList(el) {
 
       swaps.push({ from: from, to: filterClause });
     } else switch (slicer) {
+      case "{entityId:name}":
       case "{entityId:displayName}":
       case "values:{id:name}": {
         let $option = $workflowInput.find("select option:selected");
