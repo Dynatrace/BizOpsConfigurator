@@ -722,8 +722,8 @@ function sliceAPIdata(slicer, data) {
                     })
                     return obj;
                 }, new Map());
-            parsedResults = valueMap.forEach((val, key, map) => ({ value: val, key: key }))
-                .sort((a, b) => a.key.toLowerCase() > b.key.toLowerCase() ? 1 : -1);
+            valueMap.forEach((val, key, map) => { parsedResults.push({ value: val, key: key });});
+            parsedResults = parsedResults.sort((a, b) => a.key.toLowerCase() > b.key.toLowerCase() ? 1 : -1);
             break;
     }
     return parsedResults.sort((a, b) => (a.key.toLowerCase() > b.key.toLowerCase()) ? 1 : -1);
