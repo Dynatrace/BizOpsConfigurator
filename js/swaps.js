@@ -355,6 +355,7 @@ function generateWorkflowSwapList(el) {
 
       swaps.push({ from: from, to: filterClause });
     } else switch (slicer) {
+      case "ApplicationMethods":
       case "{entityId:name}":
       case "{entityId:displayName}":
       case "values:{id:name}": {
