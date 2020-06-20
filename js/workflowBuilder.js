@@ -711,18 +711,19 @@ function sliceAPIdata(slicer, data) {
             });
             break;
         case "ApplicationMethods":
-            parsedResults = Object.keys(data)
+            parsedResults = [];
+            let valueMap = Object.keys(data)
                 .filter(key => key.includes("Baselines"))
                 .reduce((obj, key) => {
-                    obj = obj.concat(
-                        data[key].map((x) => {
-                            return x.childBaselines.map((y) => {
-                                return { value: y.entityId, key: y.displayName }
-                            })
+                    data[key].map((x) => {
+                        return x.childBaselines.map((y) => {
+                            obj.set(y.displayName, y.entityId);
                         })
-                    );
+                    })
                     return obj;
-                }, []).flat();
+                }, new Map());
+            parsedResults = valueMap.forEach((val, key, map) => ({ value: val, key: key }))
+                .sort((a, b) => a.key.toLowerCase() > b.key.toLowerCase() ? 1 : -1);
             break;
     }
     return parsedResults.sort((a, b) => (a.key.toLowerCase() > b.key.toLowerCase()) ? 1 : -1);
