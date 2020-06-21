@@ -432,5 +432,5 @@ function queryDoSwaps(query, swaps) {
 
 function addToSwaps(swaps, swap) {
   if (!swaps.find(x => x.from === swap.from && x.to === swap.to))
-    swaps.push({ from: from, to: filterClause });
+    swaps.push(swap);
 }
