@@ -600,6 +600,7 @@ function compareWorkflowVsRepo() {
     let p_i = getRepoContents(repo);
     deferreds.push(p_i);
     $.when(p_i).done(function (data_i) {
+      let old = {dbList:dbList, readmeList:readmeList, workflowList:workflowList};
       let result = parseRepoContents(data_i, repo, old)
       dbList = dbList.concat(result.dbList);
       readmeList = readmeList.concat(result.readmeList);
