@@ -550,6 +550,7 @@ function workflowPrevPage() {
 }
 
 function workflowTest() {
+    selection = {};
     let p0 = getConnectInfo();
 
     $.when(p0).done(function () {
@@ -585,6 +586,7 @@ function renderWorkflow(el) {
     clonedEl.find("input[type=text]:disabled, input:not([type]):disabled").removeAttr("disabled");
     clonedEl.find("[contenteditable]").removeAttr("contenteditable");
     clonedEl.find(".transform").hide();
+    selection.config = clonedEl.find("#workflowConfigJSON").val();
 
     let html = sanitizer.sanitize(clonedEl.wrap("<div></div>").parent().html());
     p.resolve(html);
