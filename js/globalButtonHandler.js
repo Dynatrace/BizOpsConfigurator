@@ -879,10 +879,7 @@ function globalButtonHandler() {
         }
         else if (button.val() == "Done") {
           if (selection.testMode) {
-            let html = `<ul>`;
-            selection.swaps.forEach((x) => { html += `<li><b>from</b>:${x.from}, <b>to</b>:${x.to}</li>`; });
-            html += `</ul>`;
-            popupHTML("Test Results", html);
+            compareWorkflowVsRepo();
           } else {
             let p = uploadWorkflow($("#workflow"));
             $.when(p).done(function () {

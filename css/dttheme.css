@@ -361,7 +361,7 @@ a.bc:hover::after {
   background: #CCCCCC;
 }
 
-#comparisons, #filters, div.flexcontainer {
+#comparisons, #filters, div.flexcontainer, #testCompareWorkflow {
   display: flex;
 }
 
@@ -375,7 +375,7 @@ a.bc:hover::after {
   color: white;
 }
 
-#comparisons>div, #filters>div, div.flexcontainer>div, .flexwrap>div {
+#comparisons>div, #filters>div, div.flexcontainer>div, .flexwrap>div, #testCompareWorkflow>div {
   margin: 0px 10px 0px 10px;
   border: 1px solid #606060;
   border-radius: 3px;

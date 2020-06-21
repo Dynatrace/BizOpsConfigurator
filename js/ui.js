@@ -107,7 +107,7 @@ function jqueryInit() {
   });
 
   //if we're going to fail, let's do so with style
-  $(window).on("error", function(e){
+  $(window).on("error", function (e) {
     $("#everything").load("html/500.html");
   });
 }
@@ -247,13 +247,13 @@ function drawSteps(steps) {
   $("#goallist").append(list);
 }
 
-function drawActions(data){
+function drawActions(data) {
   let options = "";
 
   let actions = [... new Set(data.values.flat(Infinity))].sort();
   actions = actions.map((x) => x.replace(/([^"])"([^"])?/g, "$1\"\"$2")); //escape janky doublequotes
 
-  options = actions.reduce( (agg,cv) => agg += `<option>${cv}</option>`, "");
+  options = actions.reduce((agg, cv) => agg += `<option>${cv}</option>`, "");
   return options;
 }
 
@@ -384,7 +384,7 @@ function popup(inputs, popupHeader, desc) {
 }
 
 function popupHTML(popupHeader, content) {
-  bcBuffer = $("#bcwrapper").html(); 
+  bcBuffer = $("#bcwrapper").html();
   let html = `<div class='popupHTML'>
     <div class='x_box'><a id='x_c'>x</a></div>
     <h3>${popupHeader}</h3>
@@ -395,7 +395,7 @@ function popupHTML(popupHeader, content) {
   $(".popupHTML").show();
 }
 
-function popupHTMLDeferred(popupHeader, content, resultFunction=getAllInputData) {
+function popupHTMLDeferred(popupHeader, content, resultFunction = getAllInputData) {
   let p = $.Deferred();
   //bcBuffer = $("#bcwrapper").html();
   let html = `<div class='popupHTML'>
@@ -414,7 +414,7 @@ function popupHTMLDeferred(popupHeader, content, resultFunction=getAllInputData)
     popupZindex--;
     p.resolve(data);
   })
-  popup.find("#x_c").on("click", function(e) {
+  popup.find("#x_c").on("click", function (e) {
     p.resolve();
   })
   return p;
@@ -544,43 +544,95 @@ function getTestApp() {
   </div>`;
 
   let p1 = getApps();
-  $.when(p1).done(function(apps){
+  $.when(p1).done(function (apps) {
     let p2 = popupHTMLDeferred("Test App", content);
     drawApps(apps, {}, "#testAppId");
     $.when(p2).done(function (inputs) {
       let appName = apps.find(x => x.entityId == inputs.testAppId).displayName;
-      p0.resolve({id:inputs.testAppId, name:appName});
+      p0.resolve({ id: inputs.testAppId, name: appName });
     });
   });
   return p0;
 }
 
-function getAllInputData(popup){
+function getAllInputData(popup) {
   let data = {};
-  popup.find("input:not([type=checkbox]),select").each(function(i,e) { data[e.id] = $(this).val() });
-  popup.find("input[type=checkbox]").each(function(i,e) { data[e.id] = $(this).is(":checked") });
+  popup.find("input:not([type=checkbox]),select").each(function (i, e) { data[e.id] = $(this).val() });
+  popup.find("input[type=checkbox]").each(function (i, e) { data[e.id] = $(this).is(":checked") });
   return data;
 }
 
-function drawWorkflowPagerButton(workflowSelector="#workflow"){
+function drawWorkflowPagerButton(workflowSelector = "#workflow") {
   let workflow = $(workflowSelector);
   let pages = workflow.find(".workflowPage").length;
   let activePageNum = workflow.find(".workflowPage.activePage").index();
   let button = $("#workflowButton");
-  let html = `<input type="button" id="workflowButton" value="${activePageNum<pages?
-    "Next":"Done"}">`;
+  let html = `<input type="button" id="workflowButton" value="${activePageNum < pages ?
+    "Next" : "Done"}">`;
 
-  if(button.length<1){
+  if (button.length < 1) {
     workflow.append(html);
   } else {
     button.replaceWith(html);
   }
 }
 
-function updateDashboardButton(){
-  if(dbList.length>0){
-    $("#dbbutton img").attr("src","images/dashboard.svg");
+function updateDashboardButton() {
+  if (dbList.length > 0) {
+    $("#dbbutton img").attr("src", "images/dashboard.svg");
   } else {
-    $("#dbbutton img").attr("src","images/desktop.svg");
+    $("#dbbutton img").attr("src", "images/desktop.svg");
   }
+}
+
+function compareWorkflowVsRepo() {
+  let config = selection.config;
+  let master = $.Deferred();
+  let deferreds = [master];
+  let repo = { owner: config.githubUser, repo: config.githubRepo, path: config.githubPath };
+  let overview = dbList.find(x => x.name === config.overviewDB &&
+    x.repo.owner === repo.owner && x.repo.repo === repo.repo && x.repo.path === repo.path);
+
+  //load specified repo if not already
+  if (typeof overview == "undefined") {
+    if (!repoList.find(x => x.repo.owner === repo.owner && x.repo.repo === repo.repo && x.repo.path === repo.path))
+      repoList.push(repo);
+    let p_i = getRepoContents(repo);
+    deferreds.push(p_i);
+    $.when(p_i).done(function (data_i) {
+      let result = parseRepoContents(data_i, repo, old)
+      dbList = dbList.concat(result.dbList);
+      readmeList = readmeList.concat(result.readmeList);
+      workflowList = workflowList.concat(result.workflowList);
+      let moreDeferreds = downloadDBsFromList();
+      deferreds = deferreds.concat(moreDeferreds);
+      master.resolve();
+    });
+  }
+
+  //build html
+  $.when.apply($, deferreds).done(function () {
+    if (typeof overview == "undefined")
+      overview = dbList.find(x => x.name === config.overviewDB &&
+        x.repo.owner === repo.owner && x.repo.repo === repo.repo && x.repo.path === repo.path);
+    let tokens = scanForTokens(overview);
+    let html = `<div id="testCompareWorkflow"><div><ul>`;
+    selection.swaps.forEach(x => {
+      let match = (tokens.includes(x.from)) ? "match" : "notmatch";
+      html += `<li class="${match}"><b>from</b>:${x.from}, <b>to</b>:${x.to}</li>`;
+    });
+    html += `</ul></div>`;
+
+    html += `<div><ul>`;
+    let swapFroms = selection.swaps.map(x => x.from);
+    tokens.forEach(x => {
+      let match = (swapFroms.includes(x)) ? "match" : "notmatch";
+      html += `<li class="${match}">${x}</li>`;
+    });
+    html += `</ul></div></div>`;
+
+    popupHTML("Test Results", html);
+
+  });
+
 }
