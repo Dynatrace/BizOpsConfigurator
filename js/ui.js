@@ -588,7 +588,7 @@ function updateDashboardButton() {
 function compareWorkflowVsRepo() {
   let config = selection.config;
   let master = $.Deferred();
-  let deferreds = [master];
+  let deferreds = [];
   let repo = { owner: config.githubUser, repo: config.githubRepo, path: config.githubPath };
   let overview = dbList.find(x => x.name === config.overviewDB &&
     x.repo.owner === repo.owner && x.repo.repo === repo.repo && x.repo.path === repo.path);
@@ -607,12 +607,14 @@ function compareWorkflowVsRepo() {
       workflowList = workflowList.concat(result.workflowList);
       let moreDeferreds = downloadDBsFromList();
       deferreds = deferreds.concat(moreDeferreds);
-      master.resolve();
+      $.when.apply($,deferreds).done(function(){
+        master.resolve();
+      })
     });
   } else master.resolve();
 
   //build html
-  $.when.apply($, deferreds).done(function () {
+  $.when(master).done(function () {
     if (typeof overview == "undefined")
       overview = dbList.find(x => x.name === config.overviewDB &&
         x.repo.owner === repo.owner && x.repo.repo === repo.repo && x.repo.path === repo.path);
