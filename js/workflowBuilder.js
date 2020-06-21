@@ -586,7 +586,8 @@ function renderWorkflow(el) {
     clonedEl.find("input[type=text]:disabled, input:not([type]):disabled").removeAttr("disabled");
     clonedEl.find("[contenteditable]").removeAttr("contenteditable");
     clonedEl.find(".transform").hide();
-    selection.config = clonedEl.find("#workflowConfigJSON").val();
+    let config = clonedEl.find("#workflowConfigJSON").val();
+    if (config.length > 0) selection['config'] = JSON.parse(config);
 
     let html = sanitizer.sanitize(clonedEl.wrap("<div></div>").parent().html());
     p.resolve(html);
