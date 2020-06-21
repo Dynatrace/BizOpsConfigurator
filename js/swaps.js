@@ -13,7 +13,7 @@ function generateTenantSwapList(config) {
     { from: 'ipCompare1Name', to: config.ipCompareName, wrap: true },
     { from: 'ipCompare2Clause', to: config.compareipClause2, wrap: true },
     { from: 'ipCompare2Name', to: config.ipCompareName2, wrap: true },
-    { from: 'overviewName', to: config.TOname, wrap: true}
+    { from: 'overviewName', to: config.TOname, wrap: true }
   ];
 
   return swaps;
@@ -305,7 +305,7 @@ function transformSubs(subs, dbid, swaps, config, nextID = nextDB) {
       };
     else sub["dashboardMetadata"]["dashboardFilter"]["managementZone"] = null;
     if ("costControlUserSessionPercentage" in config) addCostControlTile(sub, config);
-    if(config.addBackButtons!==false)
+    if (config.addBackButtons !== false)
       addReplaceButton(sub, dbid, "![BackButton]()", "⇦", findTopRight);
   });
 
@@ -353,7 +353,7 @@ function generateWorkflowSwapList(el) {
       let filterClause = $workflowInput.find("input.filterClause").val();
       filterClause = filterClause.replace(/"/g, '\\"');
 
-      swaps.push({ from: from, to: filterClause });
+      addToSwaps(swaps,{ from: from, to: filterClause });
     } else switch (slicer) {
       case "ApplicationMethods":
       case "{entityId:name}":
@@ -364,8 +364,8 @@ function generateWorkflowSwapList(el) {
         let key = $option.text();
         let fromkey = "${" + transform + ".name}";
         let fromval = "${" + transform + ".id}";
-        swaps.push({ from: fromkey, to: key });
-        swaps.push({ from: fromval, to: value });
+        addToSwaps(swaps,{ from: fromkey, to: key });
+        addToSwaps(swaps,{ from: fromval, to: value });
         break;
       }
       case 'Keys': {
@@ -375,8 +375,8 @@ function generateWorkflowSwapList(el) {
         let key = $option.text();
         let fromkey = "${" + transform + ".name}";
         let fromval = "${" + transform + ".id}";
-        swaps.push({ from: fromkey, to: key });
-        swaps.push({ from: fromval, to: value });
+        addToSwaps(swaps,{ from: fromkey, to: key });
+        addToSwaps(swaps,{ from: fromval, to: value });
         break;
       }
       case 'Keys/Values': {
@@ -388,8 +388,8 @@ function generateWorkflowSwapList(el) {
 
         let fromkey = "${" + transform + ".key}";
         let fromval = "${" + transform + ".value}";
-        swaps.push({ from: fromkey, to: key });
-        swaps.push({ from: fromval, to: value });
+        addToSwaps(swaps,{ from: fromkey, to: key });
+        addToSwaps(swaps,{ from: fromval, to: value });
         break;
       }
       case 'ValX3': {
@@ -401,22 +401,22 @@ function generateWorkflowSwapList(el) {
         let from1 = "${" + $("#transform").val() + ".1}";
         let from2 = "${" + $("#transform").val() + ".2}";
         let from3 = "${" + $("#transform").val() + ".3}";
-        swaps.push({ from: from1, to: val1 });
-        swaps.push({ from: from2, to: val2 });
-        swaps.push({ from: from3, to: val3 });
+        addToSwaps(swaps,{ from: from1, to: val1 });
+        addToSwaps(swaps,{ from: from2, to: val2 });
+        addToSwaps(swaps,{ from: from3, to: val3 });
         break;
       }
       case 'actions': {
         let $option = $workflowInput.find("select option:selected");
         let value = $option.val();
         let from = "${" + transform + "}";
-        swaps.push({ from: from, to: value });
+        addToSwaps(swaps,{ from: from, to: value });
         break;
       }
       default:
         let from = "${" + transform + "}";
         let to = $workflowInput.find("input:not([type=hidden])").val();
-        swaps.push({ from: from, to: to });
+        addToSwaps(swaps,{ from: from, to: to });
     }
   });
 
@@ -428,4 +428,9 @@ function queryDoSwaps(query, swaps) {
     query = query.replace(new RegExp('\\' + swap.from, 'g'), swap.to);
   });
   return query;
+}
+
+function addToSwaps(swaps, swap) {
+  if (!swaps.find(x => x.from === swap.from && x.to === swap.to))
+    swaps.push({ from: from, to: filterClause });
 }

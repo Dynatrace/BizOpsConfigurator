@@ -616,15 +616,17 @@ function compareWorkflowVsRepo() {
     if (typeof overview == "undefined")
       overview = dbList.find(x => x.name === config.overviewDB &&
         x.repo.owner === repo.owner && x.repo.repo === repo.repo && x.repo.path === repo.path);
-    let tokens = Array.from(new Set([...scanForTokens(overview)]));
-    let html = `<div id="testCompareWorkflow"><div><ul>`;
-    selection.swaps.forEach(x => {
+    let tokens = Array.from(new Set([...scanForTokens(overview)])).sort();
+    let html = `<div id="testCompareWorkflow"><div>Workflow Tokens:<ul>`;
+    selection.swaps
+    .sort((a,b) => a.from.toLowerCase() > b.from.toLowerCase() ? 1:-1)
+    .forEach(x => {
       let match = (tokens.includes(x.from)) ? "match" : "notmatch";
       html += `<li class="${match}"><b>from</b>:${x.from}, <b>to</b>:${x.to}</li>`;
     });
     html += `</ul></div>`;
 
-    html += `<div><ul>`;
+    html += `<div>Dashboard tokens:<ul>`;
     let swapFroms = selection.swaps.map(x => x.from);
     tokens.forEach(x => {
       let match = (swapFroms.includes(x)) ? "match" : "notmatch";
