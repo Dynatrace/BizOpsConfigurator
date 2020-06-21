@@ -1278,3 +1278,11 @@ dt-loading-spinner {
 .flex {
   flex: 1;
 }
+
+li.match {
+  background: #006613;
+}
+
+li.notmatch {
+  background: #7a0004;
+}

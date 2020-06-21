@@ -600,7 +600,7 @@ function compareWorkflowVsRepo() {
     let p_i = getRepoContents(repo);
     deferreds.push(p_i);
     $.when(p_i).done(function (data_i) {
-      let old = {dbList:dbList, readmeList:readmeList, workflowList:workflowList};
+      let old = { dbList: dbList, readmeList: readmeList, workflowList: workflowList };
       let result = parseRepoContents(data_i, repo, old)
       dbList = dbList.concat(result.dbList);
       readmeList = readmeList.concat(result.readmeList);
@@ -609,14 +609,14 @@ function compareWorkflowVsRepo() {
       deferreds = deferreds.concat(moreDeferreds);
       master.resolve();
     });
-  }
+  } else master.resolve();
 
   //build html
   $.when.apply($, deferreds).done(function () {
     if (typeof overview == "undefined")
       overview = dbList.find(x => x.name === config.overviewDB &&
         x.repo.owner === repo.owner && x.repo.repo === repo.repo && x.repo.path === repo.path);
-    let tokens = scanForTokens(overview);
+    let tokens = Array.from(new Set([...scanForTokens(overview)]));
     let html = `<div id="testCompareWorkflow"><div><ul>`;
     selection.swaps.forEach(x => {
       let match = (tokens.includes(x.from)) ? "match" : "notmatch";
