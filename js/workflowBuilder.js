@@ -869,14 +869,17 @@ function sliceUSQLdata(slicer, data, target, whereClause) { //TODO: refactor thi
 }
 
 function pasteFixer(event) {
-    let paste = (event.clipboardData || window.clipboardData).getData('text');
+    let data = (event.clipboardData || window.clipboardData);
+    if(typeof data != "undefined"){
+        let paste = data.getData('text');
 
-    const selection = window.getSelection();
-    if (!selection.rangeCount) return false;
-    selection.deleteFromDocument();
-    selection.getRangeAt(0).insertNode(document.createTextNode(paste));
-
-    event.preventDefault();
+        const selection = window.getSelection();
+        if (!selection.rangeCount) return false;
+        selection.deleteFromDocument();
+        selection.getRangeAt(0).insertNode(document.createTextNode(paste));
+    
+        event.preventDefault();
+    }
 }
 
 function apiQueryChangeHandlerKeyVal(event) {
