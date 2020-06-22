@@ -619,22 +619,24 @@ function compareWorkflowVsRepo() {
       overview = dbList.find(x => x.name === config.overviewDB &&
         x.repo.owner === repo.owner && x.repo.repo === repo.repo && x.repo.path === repo.path);
     let tokens = Array.from(new Set([...scanForTokens(overview)])).sort();
-    let html = `<div id="testCompareWorkflow"><div>Workflow Tokens:<ul>`;
+    let html = `<div id="testCompareWorkflow"><div>Workflow Tokens:<br><table class="workflow">
+      <tr><td>From</td><td>To</td></tr>`;
     selection.swaps
     .sort((a,b) => a.from.toLowerCase() > b.from.toLowerCase() ? 1:-1)
     .forEach(x => {
       let match = (tokens.includes(x.from)) ? "match" : "notmatch";
-      html += `<li class="${match}"><b>from</b>:${x.from}, <b>to</b>:${x.to}</li>`;
+      html += `<tr class="${match}"><td>${x.from}</td><td>${x.to}</td></tr>`;
     });
-    html += `</ul></div>`;
+    html += `</table></div>`;
 
-    html += `<div>Dashboard tokens:<ul>`;
+    html += `<div>Dashboard tokens:<br><table class="dashboard">
+    <tr><td>From</td><td>To</td></tr>`;
     let swapFroms = selection.swaps.map(x => x.from);
     tokens.forEach(x => {
       let match = (swapFroms.includes(x)) ? "match" : "notmatch";
-      html += `<li class="${match}">${x}</li>`;
+      html += `<tr class="${match}"><td>${x}</td></tr>`;
     });
-    html += `</ul></div></div>`;
+    html += `</table></div></div>`;
 
     popupHTML("Test Results", html);
 

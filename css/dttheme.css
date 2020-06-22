@@ -1279,10 +1279,14 @@ dt-loading-spinner {
   flex: 1;
 }
 
-li.match {
+table tr.match {
   background: #006613;
 }
 
-li.notmatch {
+table.workflow tr.notmatch {
+  background: #353535;
+}
+
+table.dashboard tr.notmatch {
   background: #7a0004;
 }
