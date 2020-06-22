@@ -1286,6 +1286,10 @@ table.workflow, table.dashboard {
   font-variant: tabular-nums;
 }
 
+table.workflow tr:nth-child(1), table.dashboard tr:nth-child(1) {
+  border-bottom: 1px white solid;
+}
+
 table.workflow td, table.dashboard td {
   padding: 8px 12px;
   border: 0px;
@@ -1294,6 +1298,7 @@ table.workflow td, table.dashboard td {
 
 table.workflow td:nth-child(1), table.dashboard td:nth-child(1) {
   text-align: left;
+  border-right: 1px white solid;
 }
 
 table tr.match {

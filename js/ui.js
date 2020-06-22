@@ -630,7 +630,7 @@ function compareWorkflowVsRepo() {
     html += `</table></div>`;
 
     html += `<div>Dashboard tokens:<br><table class="dashboard">
-    <tr><td>From</td><td>To</td></tr>`;
+    <tr><td>From</td></tr>`;
     let swapFroms = selection.swaps.map(x => x.from);
     tokens.forEach(x => {
       let match = (swapFroms.includes(x)) ? "match" : "notmatch";
