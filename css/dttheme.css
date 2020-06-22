@@ -1279,13 +1279,30 @@ dt-loading-spinner {
   flex: 1;
 }
 
+table.workflow, table.dashboard {
+  border: 1px solid;
+  border-radius: 3px;
+  border-spacing: 0px;
+  font-variant: tabular-nums;
+}
+
+table.workflow td, table.dashboard td {
+  padding: 8px 12px;
+  border: 0px;
+  text-align: right;
+}
+
+table.workflow td:nth-child(1), table.dashboard td:nth-child(1) {
+  text-align: left;
+}
+
 table tr.match {
   background: #006613;
 }
 
-table.workflow tr.notmatch {
+/*table.workflow tr.notmatch {
   background: #353535;
-}
+}*/
 
 table.dashboard tr.notmatch {
   background: #7a0004;
