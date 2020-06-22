@@ -81,7 +81,7 @@ function getStaticSubDBs(db,parentids=[""],subs=[]) {
     console.log("getStaticSubDBs from: "+db.id+" (oldid:"+parentids+")");
     db.tiles.forEach(function(t) {
         if(t.tileType=="MARKDOWN") {
-            let matches = t.markdown.matchAll(/\(#dashboard(\/dashboard)?;(gt?f=[^;]+;)*id=([^) ]+)/g);
+            let matches = t.markdown.matchAll(/\(#dashboard(\/dashboard)?;(gt?f=[^;]+;)*id=([^) ;]+)/g);
             for( let m of matches) { 
                 let id = m[3];
                 if(id != db.id && !parentids.includes(id)) for( let d of dbList) { //skip self and parent links
