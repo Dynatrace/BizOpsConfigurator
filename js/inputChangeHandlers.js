@@ -647,11 +647,13 @@ function workflowPickerChangeHandler(e) {
   switch (id) {
     case undefined: {
 
-      let deployedPersonas = workflowList.map((x) => x.file.config.persona).flat().filter(unique);
+      let deployedPersonas = workflowList
+        .map((x) => x.file.config.persona).flat().filter(unique);
       let personaOptions = "";
-      deployedPersonas.forEach(function (personaPrefix) {
-        let persona = personas.find(({ prefix }) => prefix === personaPrefix);
-        personaOptions += `<option data-prefix="${persona.prefix}">${persona.name}</option>`;
+      personas.sort((a,b)=>a.name.toLowerCase() > b.name.toLowerCase()? 1:-1).forEach(function(persona){
+        if(deployedPersonas.includes(persona.prefix)){
+          personaOptions += `<option data-prefix="${persona.prefix}">${persona.name}</option>`;
+        }
       });
       $("#persona").html(personaOptions);
       //do not break
@@ -662,9 +664,10 @@ function workflowPickerChangeHandler(e) {
 
       let filteredWFs = workflowList.filter(wf => wf.file.config.persona.includes(personaPrefix));
       let deployedUsecases = filteredWFs.map((wf) => wf.file.config.usecase).filter(unique);
-      deployedUsecases.forEach(function (usecasePrefix) {
-        let usecase = usecases.find(({ prefix }) => prefix === usecasePrefix);
-        usecaseOptions += `<option data-prefix="${usecase.prefix}">${usecase.name}</option>`;
+      usecases.sort((a,b)=>a.name.toLowerCase() > b.name.toLowerCase()? 1:-1).forEach(function(usecase){
+        if(deployedUsecases.includes(usecase.prefix)){
+          usecaseOptions += `<option data-prefix="${usecase.prefix}">${usecase.name}</option>`;
+        }
       });
       $("#usecase").html(usecaseOptions);
       //do not break
@@ -675,7 +678,9 @@ function workflowPickerChangeHandler(e) {
       let usecasePrefix = $("#usecase option:selected").attr("data-prefix");
       let filtered1 = workflowList.filter(wf => wf.file.config.persona.includes(personaPrefix));
       let filtered2 = filtered1.filter(wf => wf.file.config.usecase === usecasePrefix);
-      filtered2.forEach(function (wf) {
+      filtered2
+        .sort((a,b)=>a.name.toLowerCase() > b.name.toLowerCase()? 1:-1)
+        .forEach(function (wf) {
         let name = wf.file.config.workflowName;
         let i = workflowList.findIndex((x) => x == wf);
         workflowOptions += `<option data-workflowIndex="${i}">${name}</option>`;

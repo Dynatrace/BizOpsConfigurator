@@ -578,7 +578,9 @@ function fieldsetPainter() {
             break;
         }
         case "persona_list":
-            let deployedPersonas = personaDBs.map(({ id }) => id.split("-")[1]).filter(unique);
+            let deployedPersonas = personaDBs
+                //.sort((a,b) => a.)
+                .map(({ id }) => id.split("-")[1]).filter(unique);
             let html = "";
 
             deployedPersonas.forEach(function (personaPrefix) {
