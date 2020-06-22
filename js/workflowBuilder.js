@@ -869,7 +869,7 @@ function sliceUSQLdata(slicer, data, target, whereClause) { //TODO: refactor thi
 }
 
 function pasteFixer(event) {
-    let data = (event.clipboardData || window.clipboardData);
+    let data = (event.clipboardData || window.clipboardData || event.originalEvent.clipboardData);
     if(typeof data != "undefined"){
         let paste = data.getData('text');
 
