@@ -307,7 +307,7 @@ function uspFilterChangeHandler(event) {
   if (key != "") {  //if we have the key draw the values
     if (typeof uspData[type] != "undefined" &&
       typeof uspData[type][key] != "undefined")
-      uspData[type][key].forEach(function (v) {
+      uspData[type][key].sort().forEach(function (v) {
         valOs += "<option value='" + v + "'>" + v + "</option>";
       });
     $valList.html(valOs);
