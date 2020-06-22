@@ -338,7 +338,9 @@ function scanForTokens(db) {
 
 function generateWorkflowSwapList(el) {
   let $el = $(el);
-  let swaps = [];
+  //let swaps = [];
+  if (typeof selection.swaps == "undefined") selection.swaps = [];
+  let swaps = selection.swaps;
 
   $el.find(".workflowInput").each(function (i, el) {
     let $workflowInput = $(this);
