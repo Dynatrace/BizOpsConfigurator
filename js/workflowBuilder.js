@@ -555,11 +555,11 @@ function workflowPrevPage() {
 function workflowTest() {
     selection = {};
     let p0 = getConnectInfo();
-    selection.swaps = [
-        {from:'${url}', to:url}
-    ];
 
     $.when(p0).done(function () {
+        selection.swaps = [
+            {from:'${url}', to:url}
+        ];
         let p = renderWorkflow($("#workflow"));
         $("#workflow").attr("id", "workflowInactive");
         $.when(p).done(function (renderedHTML) {
