@@ -296,7 +296,9 @@ function uspFilterChangeHandler(event) {
     $valList.hide();
   }
 
-  if (typeof selection.config.filterData != "undefined") { //load config if available
+  if ( typeof selection != "undefined" &&
+    typeof selection.config != "undefined" &&
+    typeof selection.config.filterData != "undefined") { //load config if available
     if (val == "") val = selection.config.filterData.val;
     if (type == "") type = selection.config.filterData.type;
     if (key == "") key = selection.config.filterData.key;
