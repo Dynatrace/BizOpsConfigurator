@@ -6,6 +6,10 @@ body {
   margin: 0;
 }
 
+div {
+  box-sizing: border-box;
+}
+
 #everything {
   display: flex;
 }
@@ -531,6 +535,7 @@ a.dashboardCleanup-owner:hover, a.dashboardCleanup-db:hover {
   display: none;
   flex: 0 0 44px;
   background-color: #ffe11c;
+  padding: 5px;
 }
 
 #errorBox.info {
