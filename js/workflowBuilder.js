@@ -554,6 +554,9 @@ function workflowPrevPage() {
 
 function workflowTest() {
     selection = {};
+    selection.swaps = [
+        {from:'${url}', to:url}
+    ];
     let p0 = getConnectInfo();
 
     $.when(p0).done(function () {
