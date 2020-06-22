@@ -489,6 +489,9 @@ function workflowUploader() {
             let json = JSON.parse(res);
             let html = sanitizer.sanitize(json.html);
             $("#workflow").html(html);
+            let workflows = $("div[id=workflow]");
+            if(workflows.length>1)
+                workflows[0].replaceWith(workflows[workflows.length-1]); //there can only be one
             workflowSetFirstPageActive();
         };
         if (typeof file !== "undefined") fr.readAsText(file);
