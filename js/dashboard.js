@@ -231,15 +231,18 @@ function buildConfigDashboard(dashboard,id,config) {
   dashboard["tiles"].pop();
   let configS = JSON.stringify(config);
   let tiles = Math.ceil(configS.length / 999);
+  let left=0,top=0;
   for(i=0; i <= tiles; i++) {
     let markdown = JSON.parse(markdownTemplate);
     markdown["markdown"]=configS.substring(i*999,(i+1)*999);
-    //put tiles horizontally 3px apart
-    markdown["bounds"]["left"] += 152; //must snap to grid in 152
-    if(markdown["bounds"]["left"] > 4500){
-      markdown["bounds"]["left"]=0;
-      markdown["bounds"]["top"] += 152;
+    left += 152;
+    if(left > 4500){
+      left = 0;
+      top += 152;
     }
+    markdown["bounds"]["left"] = left; //must snap to grid in 152
+    markdown["bounds"]["top"] = top;
+    
     dashboard["tiles"].push(markdown);
   }
 
