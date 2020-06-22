@@ -235,7 +235,11 @@ function buildConfigDashboard(dashboard,id,config) {
     let markdown = JSON.parse(markdownTemplate);
     markdown["markdown"]=configS.substring(i*999,(i+1)*999);
     //put tiles horizontally 3px apart
-    markdown["bounds"]["left"] = i * markdown["bounds"]["width"]; //must snap to grid in 188
+    markdown["bounds"]["left"] = i * markdown["bounds"]["width"]; //must snap to grid in 152
+    if(markdown["bounds"]["left"] > 4500){
+      markdown["bounds"]["left"]=0;
+      markdown["bounds"]["top"] += 152;
+    }
     dashboard["tiles"].push(markdown);
   }
 
