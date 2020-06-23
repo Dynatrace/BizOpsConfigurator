@@ -174,12 +174,12 @@ function validateDB(input) {
   }
 
   //temporarily remove visualizationConfig due to bugs in 189/190
-  db.tiles.forEach(function(t,index,arr) {
+  /*db.tiles.forEach(function(t,index,arr) {
     if("visualizationConfig" in t){
       delete t.visualizationConfig;
       e += ` Removed visualizationConfig tile[${index}]\n`;
     }
-  });
+  });*/
 
   //check for untransformed dashboard
   var re = /^bbbbbbbb-/;

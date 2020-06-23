@@ -166,13 +166,15 @@ function MyTimeChangeHandler() {
 
 function regionsChangeHandler(event) {
   //jQ objects
-  let countrySelector, regionSelector, citySelector, filterClauseSelector, keySelector, keyOptionSelector, valSelector;
+  let continentSelector, countrySelector, regionSelector, citySelector, filterClauseSelector, keySelector, keyOptionSelector, valSelector;
   if (typeof event !== "undefined" && typeof event.data !== "undefined" && typeof event.data.selectors !== "undefined") {
-    countrySelector = event.data.selectors[0];
-    regionSelector = event.data.selectors[1];
-    citySelector = event.data.selectors[2];
+    continentSelector = event.data.selectors[0];
+    countrySelector = event.data.selectors[1];
+    regionSelector = event.data.selectors[2];
+    citySelector = event.data.selectors[3];
     filterClauseSelector = event.data.targetSelector;
   } else {
+    continentSelector = ".continentList";
     countrySelector = ".countryList";
     regionSelector = ".regionList";
     citySelector = ".cityList";
@@ -181,16 +183,18 @@ function regionsChangeHandler(event) {
     valSelector = "#uspVal";
     filterClauseSelector = ".filterClause";
   }
-  let selectors = [countrySelector, regionSelector, citySelector, keySelector, keyOptionSelector, valSelector];
+  let selectors = [continentSelector, countrySelector, regionSelector, citySelector, keySelector, keyOptionSelector, valSelector];
+  let $continentList = $(continentSelector);
   let $countryList = $(countrySelector);
   let $regionList = $(regionSelector);
   let $cityList = $(citySelector);
   let $filterClause = $(filterClauseSelector);
 
   //values
-  let countryOs = "<option value''></option>";
-  let regionOs = "<option value''></option>";
-  let cityOs = "<option value''></option>";
+  //let countryOs = "<option value''></option>";
+  //let regionOs = "<option value''></option>";
+  //let cityOs = "<option value''></option>";
+  let continent = $continentList.val();
   let country = $countryList.val();
   let region = $regionList.val();
   let city = $cityList.val();
@@ -202,28 +206,60 @@ function regionsChangeHandler(event) {
     regionData = Regions;
   }
   if (typeof selection.config.filterData != "undefined") {
+    if (continent == "") country = selection.config.filterData.continent;
     if (country == "") country = selection.config.filterData.country;
     if (region == "") region = selection.config.filterData.region;
     if (city == "") city = selection.config.filterData.city;
   }
 
-  let countries = [...new Set(regionData.map(x => x.country))];
-  countries.forEach(function (c) {
-    countryOs += "<option value='" + c + "'>" + c + "</option>";
+  let continents = [...new Set(regionData.map(x => x.continent))];
+  $continentList.html('');
+  $('<option>').val('').text('').appendTo($continentList);
+  continents.forEach(function (c) {
+    //countryOs += "<option value='" + c + "'>" + c + "</option>";
+    $('<option>').val(c).text(c).appendTo($continentList);
   });
-  $countryList.html(countryOs);
+  //$countryList.html(countryOs);
+
+  /*let countries = [...new Set(regionData.map(x => x.country))];
+  $countryList.html('');
+  countries.forEach(function (c) {
+    //countryOs += "<option value='" + c + "'>" + c + "</option>";
+    $('<option>').val(c).text(c).appendTo($countryList);
+  });
+  //$countryList.html(countryOs);*/
+
+ //determine countries
+ if (continent != '') {
+  $continentList.val(continent);
+  let map = new Map();
+  $countryList.html('');
+  $('<option>').val('').text('n/a').appendTo($countryList);
+  for (let i of countryData) {
+    if (!map.has(i.country) && i.continent == continent) {
+      map.set(i.country, true);
+      //regionOs += "<option value='" + i.region + "'>" + i.region + "</option>";
+      $('<option>').val(i.country).text(i.country).appendTo($countryList);
+    }
+  }
+  //$countryList.html(countryOs);
+  $countryList.show();
+} else $countryList.hide();
 
   //determine regions
   if (country != '') {
     $countryList.val(country);
     let map = new Map();
+    $regionList.html('');
+    $('<option>').val('').text('n/a').appendTo($regionList);
     for (let i of regionData) {
       if (!map.has(i.region) && i.country == country) {
         map.set(i.region, true);
-        regionOs += "<option value='" + i.region + "'>" + i.region + "</option>";
+        //regionOs += "<option value='" + i.region + "'>" + i.region + "</option>";
+        $('<option>').val(i.region).text(i.region).appendTo($regionList);
       }
     }
-    $regionList.html(regionOs);
+    //$regionList.html(regionOs);
     $regionList.show();
   } else $regionList.hide();
 
@@ -231,13 +267,16 @@ function regionsChangeHandler(event) {
   if (region != '') {
     $regionList.val(region);
     let map = new Map();
+    $cityList.html('');
+    $('<option>').val('').text('n/a').appendTo($cityList);
     for (let i of regionData) {
       if (!map.has(i.city) && i.country == country && i.region == region) {
         map.set(i.city, true);
-        cityOs += "<option value='" + i.city + "'>" + i.city + "</option>";
+        //cityOs += "<option value='" + i.city + "'>" + i.city + "</option>";
+        $('<option>').val(i.city).text(i.city).appendTo($cityList);
       }
     }
-    $cityList.html(cityOs);
+    //$cityList.html(cityOs);
     $cityList.show();
   } else $cityList.hide();
 
@@ -270,8 +309,8 @@ function uspFilterChangeHandler(event) {
   let $valList = $(valSelector);
   let $filterClause = $(filterClauseSelector);
 
-  let keyOs = "<option value''></option>";
-  let valOs = "<option value''></option>";
+  //let keyOs = "<option value''></option>";
+  //let valOs = "<option value''></option>";
   let key = $keyList.val();
   let type = (($selectedOption.length > 0) ?
     $selectedOption[0].dataset['colname'] :
@@ -287,12 +326,15 @@ function uspFilterChangeHandler(event) {
   }
 
   if (typeof key == "undefined" || key == null || key == '') { //build out key list if needed
+    $keyList.html('');
+    $('<option>').val('').text('n/a').appendTo($keyList);
     Object.keys(uspData).sort().forEach(function (t) {
       Object.keys(uspData[t]).sort().forEach(function (k) {
-        keyOs += "<option value='" + k + "' data-colname='" + t + "'>" + k + "</option>";
+        //keyOs += "<option value='" + k + "' data-colname='" + t + "'>" + k + "</option>";
+        $('<option>').val(k).text(k).attr('data-colname',t).appendTo($keyList);
       });
     });
-    $keyList.html(keyOs);
+    //$keyList.html(keyOs);
     $valList.hide();
   }
 
@@ -307,12 +349,15 @@ function uspFilterChangeHandler(event) {
   }
 
   if (key != "") {  //if we have the key draw the values
+    $valList.html('');
+    $('<option>').val('').text('n/a').appendTo($valList);
     if (typeof uspData[type] != "undefined" &&
       typeof uspData[type][key] != "undefined")
       uspData[type][key].sort().forEach(function (v) {
-        valOs += "<option value='" + v + "'>" + v + "</option>";
+        //valOs += "<option value='" + v + "'>" + v + "</option>";
+        $('<option>').val(v).text(v).appendTo($valList);
       });
-    $valList.html(valOs);
+    //$valList.html(valOs);
     $valList.show();
     if (val != '') $valList.val(val);
   }

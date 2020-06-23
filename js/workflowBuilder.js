@@ -316,7 +316,7 @@ function usqlCommonQueryChangeHandler() {
             $("#addWhereClause").prop("checked", false);
             break;
         case "Regions":
-            $("#usqlQuery").val('SELECT DISTINCT country, region, city FROM usersession WHERE useraction.application = "${app.name}" ORDER BY country,region,city LIMIT 5000');
+            $("#usqlQuery").val('SELECT DISTINCT continent, country, region, city FROM usersession WHERE useraction.application = "${app.name}" ORDER BY country,region,city LIMIT 5000');
             $("#usqlResultSlicer").val("ValX3");
             $("#transform").val("regionClause");
             $("#addWhereClause").prop("checked", true);
@@ -757,8 +757,9 @@ function sliceUSQLdata(slicer, data, target, whereClause) { //TODO: refactor thi
                 <div class="userInput"><select id="${selectors[0].substr(1)}"><option></option></select></div>
                 `);
             parsedResults = parseKPIs(data);
-            let options = drawKPIs(parsedResults);
-            $(`${selectors[0]}`).html(options);
+            /*let options = drawKPIs(parsedResults);
+            $(`${selectors[0]}`).html(options);*/
+            drawKPIsJQ(parsedResults,selectors[0]);
             $("#swaps").html();
 
             if (whereClause) {
@@ -807,15 +808,17 @@ function sliceUSQLdata(slicer, data, target, whereClause) { //TODO: refactor thi
             break;
         }
         case 'ValX3': {
-            let selectors = [`#country${uniqId()}`, `#region${uniqId()}`, `#city${uniqId()}`];
+            let selectors = [`#continent${uniqId()}`,`#country${uniqId()}`, `#region${uniqId()}`, `#city${uniqId()}`];
             parsedResults = parseRegions(data);
             $target.html(`
                 <div class="inputHeader">Values:</div>
-                <div class="userInput"><select id="${selectors[0].substr(1)}" class="countryList"><option></option></select></div>
+                <div class="userInput"><select id="${selectors[0].substr(1)}" class="continentList"><option></option></select></div>
                 <div class="inputHeader">Values:</div>
-                <div class="userInput"><select id="${selectors[1].substr(1)}" class="regionList"><option></option></select></div>
+                <div class="userInput"><select id="${selectors[1].substr(1)}" class="countryList"><option></option></select></div>
                 <div class="inputHeader">Values:</div>
-                <div class="userInput"><select id="${selectors[2].substr(1)}" class="cityList"><option></option></select></div>
+                <div class="userInput"><select id="${selectors[2].substr(1)}" class="regionList"><option></option></select></div>
+                <div class="inputHeader">Values:</div>
+                <div class="userInput"><select id="${selectors[3].substr(1)}" class="cityList"><option></option></select></div>
                 `);
             $("#swaps").html(`
                 <div class="inputHeader">From:</div>
@@ -831,7 +834,7 @@ function sliceUSQLdata(slicer, data, target, whereClause) { //TODO: refactor thi
                 $target.find("select:first-of-type").trigger("change");
             } else {
                 let eventData = { selectors: selectors, data: parsedResults, targetSelector: null };
-                $target.on("change", "select", eventData, previewChangeHandlerValX3);
+                $target.on("change", "select", eventData, previewChangeHandlerValX4);
                 $target.find("select:first-of-type").trigger("change");
             }
             break;
@@ -986,20 +989,23 @@ function previewChangeHandlerKeyVal(event) {
     $("#swaps").html(xform);
 }
 
-function previewChangeHandlerValX3(event) {
+function previewChangeHandlerValX4(event) {
     regionsChangeHandler(event);
 
     let val1 = $(event.data.selectors[0]).val();
     let val2 = $(event.data.selectors[1]).val();
     let val3 = $(event.data.selectors[2]).val();
+    let val4 = $(event.data.selectors[3]).val();
 
     let from1 = "${" + $("#transform").val() + ".1}";
     let from2 = "${" + $("#transform").val() + ".2}";
     let from3 = "${" + $("#transform").val() + ".3}";
+    let from4 = "${" + $("#transform").val() + ".4}";
     let xform = `
         <b>from</b>:${from1}, <b>to</b>:${val1}<br>
         <b>from</b>:${from2}, <b>to</b>:${val2}<br>
         <b>from</b>:${from3}, <b>to</b>:${val3}<br>
+        <b>from</b>:${from4}, <b>to</b>:${val4}<br>
         `;
     $("#swaps").html(xform);
 }

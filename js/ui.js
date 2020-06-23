@@ -222,6 +222,15 @@ function drawKPIs(kpis) {
   return options;
 }
 
+function drawKPIsJQ(kpis,select) {
+  let $select = $(select);
+  $('<option>').val('').text('n/a').appendTo($select);
+  kpis.forEach(function (kpi) {
+    $('<option>').val(kpi.type + "." + kpi.key).text(kpi.key).appendTo($select);
+  });
+  return $select;
+}
+
 function drawSteps(steps) {
   let list = "";
   steps.steps.forEach(function (step) {
