@@ -937,8 +937,10 @@ function apiQueryChangeHandlerKeyVal(event) {
             let fromval = "${" + transform + "-" +i+ ".id}";
             xform += `<b>from</b>:${fromkey}, <b>to</b>:${k}<br>`;
             xform += `<b>from</b>:${fromval}, <b>to</b>:${v}<br>`;
-            $("#swaps").html(xform);
+            
         });
+        $("#swaps").html(xform);
+        i++;
     } else {
         let val = $el.val();
         let key = $el.children("option:selected").text();
