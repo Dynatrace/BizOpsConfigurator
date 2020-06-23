@@ -79,9 +79,9 @@ function workflowAddSection() {
 function workflowSectionAddInput() {
     let section = $(this).parents(".workflowSection");
     let newInput = new Input();
-    let p = newInput.prompt();
+    let p = newInput.prompt(section);
     $.when(p).done(function (newInput) {
-        section.append(newInput);
+        //section.append(newInput);
         $(".workflowSectionPopup, .workflowInputPopup").addClass("hidden");
     });
 }
@@ -118,7 +118,8 @@ function Section() {
 function Input() {
     this.html = "";
 
-    this.prompt = function () {
+    this.prompt = function (section) {
+        let $section = $(section);
         let p0 = $.Deferred();
         let p1 = $.get("html/personaFlow/workflowBuilder-newInput.html");
         $.when(p1).done(function (content) {
@@ -131,36 +132,6 @@ function Input() {
                     p0.resolve(null);
                     return;
                 }
-                let input = "";
-                switch (data.inputType) {
-                    case "Text Input":
-                        input = `<input class="workflowInput" placeholder="${data.placeholder}" value="${data.defaultvalue}" disabled>`;
-                        break;
-                    case "Select (API)":
-                        input = `<select class="workflowSelect" disabled ${data.multiple ? "multiple" : ""}></select>
-                        <input type="hidden" class="apiQuery" value="${data.apiQuery}">
-                        <input type="hidden" class="apiResultSlicer" value="${data.apiResultSlicer}">
-                        `;
-                        break;
-                    case "Select (USQL)":
-                        input = `<select class="workflowSelect" disabled ${data.multiple ? "multiple" : ""}></select>
-                        <input type="hidden" class="usqlQuery" value='${data.usqlQuery}'>
-                        <input type="hidden" class="usqlResultSlicer" value="${data.usqlResultSlicer}" data-addWhereClause="${data.addWhereClause}">
-                        `;
-                        break;
-                    case "Select (static)":
-                        input = `<select class="workflowSelect" data-options='${data.staticOptions}' disabled ${data.multiple ? "multiple" : ""}></select>
-                        `;
-                        break;
-                    case "Funnel":
-                        input = `<h1>Giant funnel graphic here</h1>`;
-                        break;
-                    case "Checkboxes":
-                        input = `<input class="workflowCheck" type="checkbox" placeholder="Friendly Name" disabled>
-                        <input type="hidden" class="apiQuery" value="${data.apiQuery}">`;
-                        break;
-                }
-                let header = `${data.transform.charAt(0).toUpperCase()}${data.transform.slice(1)}:`;
                 this.html = `
                 <div class="workflowInput" tabindex="0">
                     <div class="workflowInputPopup">
@@ -168,10 +139,72 @@ function Input() {
                         <div><a href="#workflowBuilder" class="workflowInputUp">🔼</a></div>
                         <div><a href="#workflowBuilder" class="workflowInputDown">🔽</a></div>
                     </div>
-                    <div class="inputHeader" contenteditable="true">${header}</div>
-                    <div class="userInput">${input}</div>
-                    <div class="transform">&dollar;{<span contenteditable="true">${data.transform}</span>}</div>
-                </div>`
+                    <div class="inputHeader" contenteditable="true"></div>
+                    <div class="userInput"></div>
+                    <div class="transform">&dollar;{<span contenteditable="true"></span>}</div>
+                </div>`;
+                $(section).html(this.html);
+                let $input = $(section).find(".userInput");
+                let $header = $(section).find(".inputHeader");
+                let $transform = $(section).find(".transform span");
+                switch (data.inputType) {
+                    case "Text Input": {
+                        $(`<input class="workflowInput" disabled>`)
+                            .attr("placeholder", data.placeholder)
+                            .val(data.defaultvalue)
+                            .appendTo($input);
+                        break;
+                    }
+                    case "Select (API)": {
+                        let $select = $(`<select class="workflowSelect" disabled></select>`);
+                        if (data.multiple) $select.attr("multiple", "multiple").addClass("chosen");
+                        $select.appendTo($input);
+                        $(`<input type="hidden" class="apiQuery">`)
+                            .val(data.apiQuery)
+                            .appendTo($input);
+                        $(`<input type="hidden" class="apiResultSlicer">`)
+                            .val(data.apiResultSlicer)
+                            .appendTo($input);
+                        break;
+                    }
+                    case "Select (USQL)": {
+                        let $select = $(`<select class="workflowSelect" disabled ${data.multiple ? "multiple" : ""}></select>`);
+                        if (data.multiple) $select.attr("multiple", "multiple").addClass("chosen");
+                        $select.appendTo($input);
+                        $(`<input type="hidden" class="usqlQuery">`)
+                            .val(data.usqlQuery)
+                            .appendTo($input);
+                        $(`<input type="hidden" class="usqlResultSlicer">`)
+                            .val(data.usqlResultSlicer)
+                            .attr("data-addWhereClause", data.addWhereClause)
+                            .appendTo($input);
+                        break;
+                    }
+                    case "Select (static)": {
+                        let $select = $(`<select class="workflowSelect" disabled></select>`);
+                        if (data.multiple) $select.attr("multiple", "multiple").addClass("chosen");
+                        $select
+                            .attr("data-options", data.staticOptions)
+                            .appendTo($input);
+                        break;
+                    }
+                    case "Funnel": {
+                        $(`<h1>Giant funnel graphic here</h1>`)
+                            .appendTo($input);
+                        break;
+                    }
+                    case "Checkboxes": {
+                        $(`<input class="workflowCheck" type="checkbox" disabled>`)
+                            .attr("placeholder", "Friendly Name")
+                            .appendTo($input);
+                        $(`<input type="hidden" class="apiQuery">`)
+                            .val(data.apiQuery)
+                            .appendTo($input);;
+                        break;
+                    }
+                }
+                $transform.text(data.transform);
+                $header.text(data.transform.charAt(0).toUpperCase() + data.transform.slice(1) + ':');
                 p0.resolve(this.html);
             });
         });
@@ -490,8 +523,8 @@ function workflowUploader() {
             let html = sanitizer.sanitize(json.html);
             $("#workflow").html(html);
             let workflows = $("div[id=workflow]");
-            if(workflows.length>1)
-                workflows[0].replaceWith(workflows[workflows.length-1]); //there can only be one
+            if (workflows.length > 1)
+                workflows[0].replaceWith(workflows[workflows.length - 1]); //there can only be one
             workflowSetFirstPageActive();
         };
         if (typeof file !== "undefined") fr.readAsText(file);
@@ -558,7 +591,7 @@ function workflowTest() {
 
     $.when(p0).done(function () {
         selection.swaps = [
-            {from:'${url}', to:url}
+            { from: '${url}', to: url }
         ];
         let p = renderWorkflow($("#workflow"));
         $("#workflow").attr("id", "workflowInactive");
@@ -731,7 +764,7 @@ function sliceAPIdata(slicer, data) {
                     })
                     return obj;
                 }, new Map());
-            valueMap.forEach((val, key, map) => { parsedResults.push({ value: val, key: key });});
+            valueMap.forEach((val, key, map) => { parsedResults.push({ value: val, key: key }); });
             parsedResults = parsedResults.sort((a, b) => a.key.toLowerCase() > b.key.toLowerCase() ? 1 : -1);
             break;
     }
@@ -759,7 +792,7 @@ function sliceUSQLdata(slicer, data, target, whereClause) { //TODO: refactor thi
             parsedResults = parseKPIs(data);
             /*let options = drawKPIs(parsedResults);
             $(`${selectors[0]}`).html(options);*/
-            drawKPIsJQ(parsedResults,selectors[0]);
+            drawKPIsJQ(parsedResults, selectors[0]);
             $("#swaps").html();
 
             if (whereClause) {
@@ -808,7 +841,7 @@ function sliceUSQLdata(slicer, data, target, whereClause) { //TODO: refactor thi
             break;
         }
         case 'ValX3': {
-            let selectors = [`#continent${uniqId()}`,`#country${uniqId()}`, `#region${uniqId()}`, `#city${uniqId()}`];
+            let selectors = [`#continent${uniqId()}`, `#country${uniqId()}`, `#region${uniqId()}`, `#city${uniqId()}`];
             parsedResults = parseRegions(data);
             $target.html(`
                 <div class="inputHeader">Values:</div>
@@ -873,14 +906,14 @@ function sliceUSQLdata(slicer, data, target, whereClause) { //TODO: refactor thi
 
 function pasteFixer(event) {
     let data = (event.clipboardData || window.clipboardData || event.originalEvent.clipboardData);
-    if(typeof data != "undefined"){
+    if (typeof data != "undefined") {
         let paste = data.getData('text');
 
         const selection = window.getSelection();
         if (!selection.rangeCount) return false;
         selection.deleteFromDocument();
         selection.getRangeAt(0).insertNode(document.createTextNode(paste));
-    
+
         event.preventDefault();
     }
 }
