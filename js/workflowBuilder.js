@@ -925,7 +925,19 @@ function apiQueryChangeHandlerKeyVal(event) {
 
     let $el = $(event.data.selectors[0]);
     if($el.attr("multiple")){
-        //get values from chosen
+        let values = new Map();
+        $el.find("option:selected").each((i,e)=>{
+            values.set(e.val(),e.text());
+        });
+        let transform = $("#transform").val();
+        let xform = "";
+        let i = 1;
+        values.forEach((v,k) => {
+            let fromkey = "${" + transform + "-" +i+ ".name}";
+            let fromval = "${" + transform + "-" +i+ ".id}";
+            xform += `<b>from</b>:${fromkey}, <b>to</b>:${k}<br>`;
+            xform += `<b>from</b>:${fromval}, <b>to</b>:${v}<br>`;
+        });
     } else {
         let val = $el.val();
         let key = $el.children("option:selected").text();
