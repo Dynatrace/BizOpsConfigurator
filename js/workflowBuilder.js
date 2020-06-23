@@ -157,7 +157,7 @@ function Input() {
                     }
                     case "Select (API)": {
                         let $select = $(`<select class="workflowSelect" disabled></select>`);
-                        if (data.multiple) $select.attr("multiple", "multiple").addClass("chosen");
+                        if (data.multiple) $select.attr("multiple", "multiple").addClass("chosen-select");
                         $select.appendTo($input);
                         $(`<input type="hidden" class="apiQuery">`)
                             .val(data.apiQuery)
@@ -169,7 +169,7 @@ function Input() {
                     }
                     case "Select (USQL)": {
                         let $select = $(`<select class="workflowSelect" disabled ${data.multiple ? "multiple" : ""}></select>`);
-                        if (data.multiple) $select.attr("multiple", "multiple").addClass("chosen");
+                        if (data.multiple) $select.attr("multiple", "multiple").addClass("chosen-select");
                         $select.appendTo($input);
                         $(`<input type="hidden" class="usqlQuery">`)
                             .val(data.usqlQuery)
@@ -182,7 +182,7 @@ function Input() {
                     }
                     case "Select (static)": {
                         let $select = $(`<select class="workflowSelect" disabled></select>`);
-                        if (data.multiple) $select.attr("multiple", "multiple").addClass("chosen");
+                        if (data.multiple) $select.attr("multiple", "multiple").addClass("chosen-select");
                         $select
                             .attr("data-options", data.staticOptions)
                             .appendTo($input);
@@ -398,12 +398,14 @@ function testAPIhandler() {
             query = query.replace("${app.id}", app.id);
             $("#apiQueryHeader").text(query);
             let multiple = $("#multiple").is(":checked");
-            $("#preview").html(`<select ${multiple ? "multiple" : ""}></select>`);
+            $("#preview").html(`<select>`);
             let $target = $("#preview select");
+            if (multiple) $target.attr("multiple", "multiple").addClass("chosen-select");
             let slicer = $("#apiResultSlicer").val();
             let p = loadApiQueryOptions(query, slicer, $target);
             $.when(p).done(function (data) {
                 //jsonviewer(data, true, "", "#apiResult");
+                $(".chosen-select").chosen();
             });
         })
     });
@@ -427,6 +429,7 @@ function testUSQLhandler() {
             let p2 = loadUsqlQueryOptions(query, slicer, $target, whereClause);
             $.when(p2).done(function (data) {
                 jsonviewer(data, true, "", "#apiResult");
+                $(".chosen-select").chosen();
             });
         });
     });
@@ -700,13 +703,13 @@ function loadApiQueryOptions(query, slicer, target) {
     return $.when(p1).done(function (data) {
         jsonviewer(data, true, "", "#apiResult");
         let parsedResults = sliceAPIdata(slicer, data);
-        let optionsHTML = "<option></option>";
+        $target.html('');
+        $("<option>").appendTo($target);
         if (parsedResults.length > 0) {
             parsedResults.forEach(function (i) {
-                optionsHTML += `<option value="${i.value}">${i.key}</option>`;
+                $(`<option>`).val(i.value).text(i.key).appendTo($target);
             });
         }
-        $target.html(optionsHTML);
         $target.removeAttr("disabled");
         let eventData = { selectors: [$target], data: parsedResults, target: null };
         $target.on("change", eventData, apiQueryChangeHandlerKeyVal);
@@ -921,15 +924,19 @@ function pasteFixer(event) {
 function apiQueryChangeHandlerKeyVal(event) {
 
     let $el = $(event.data.selectors[0]);
-    let val = $el.val();
-    let key = $el.children("option:selected").text();
-
-    let fromkey = "${" + $("#transform").val() + ".name}";
-    let fromval = "${" + $("#transform").val() + ".id}";
-    let xform = `
-        <b>from</b>:${fromkey}, <b>to</b>:${key}<br>
-        <b>from</b>:${fromval}, <b>to</b>:${val}<br>`;
-    $("#swaps").html(xform);
+    if($el.attr("multiple")){
+        //get values from chosen
+    } else {
+        let val = $el.val();
+        let key = $el.children("option:selected").text();
+    
+        let fromkey = "${" + $("#transform").val() + ".name}";
+        let fromval = "${" + $("#transform").val() + ".id}";
+        let xform = `
+            <b>from</b>:${fromkey}, <b>to</b>:${key}<br>
+            <b>from</b>:${fromval}, <b>to</b>:${val}<br>`;
+        $("#swaps").html(xform);
+    }
 }
 
 function previewChangeHandlerKey(event) {
