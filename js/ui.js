@@ -455,17 +455,19 @@ function popout(popup_p) {
 }
 
 function buildFilterClause(selectors) {
-  let country = $(selectors[0]).val();
-  let region = $(selectors[1]).val();
-  let city = $(selectors[2]).val();
-  let key = $(selectors[3]).val();
-  let type = (($(selectors[4]).length > 0) ?
-    $(selectors[4])[0].dataset['colname'] :
+  let continent = $(selectors[0]).val();
+  let country = $(selectors[1]).val();
+  let region = $(selectors[2]).val();
+  let city = $(selectors[3]).val();
+  let key = $(selectors[4]).val();
+  let type = (($(selectors[5]).length > 0) ?
+    $(selectors[5])[0].dataset['colname'] :
     undefined);
-  let val = $(selectors[5]).val();
+  let val = $(selectors[6]).val();
   let filterClause = "";
   let filters = [];
 
+  if (continent != '' && continent != null) filters.push('usersession.continent="' + continent + '"');
   if (country != '' && country != null) filters.push('usersession.country="' + country + '"');
   if (region != '' && region != null) filters.push('usersession.region="' + region + '"');
   if (city != '' && city != null) filters.push('usersession.city="' + city + '"');
