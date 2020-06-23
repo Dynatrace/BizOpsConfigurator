@@ -927,7 +927,7 @@ function apiQueryChangeHandlerKeyVal(event) {
     if($el.attr("multiple")){
         let values = new Map();
         $el.find("option:selected").each((i,e)=>{
-            values.set(e.val(),e.text());
+            values.set($(this).val(),$(this).text());
         });
         let transform = $("#transform").val();
         let xform = "";
