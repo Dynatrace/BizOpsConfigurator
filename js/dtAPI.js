@@ -76,12 +76,12 @@ function getUSPs(appname) {
 function getRegions(appname) {
   regions = [];
   if (typeof appname == "string")
-    var usql = "SELECT DISTINCT country, region, city FROM usersession WHERE useraction.application=\"" + appname + "\" ORDER BY country,region,city LIMIT 5000";
+    var usql = "SELECT DISTINCT continent, country, region, city FROM usersession WHERE useraction.application=\"" + appname + "\" ORDER BY country,region,city LIMIT 5000";
   else if (Array.isArray(appname)) {
     let apps = [];
     appname.forEach(function (o, i, a) { apps.push('"' + o + '"'); });
     apps = apps.join(',');
-    var usql = "SELECT DISTINCT country, region, city FROM usersession WHERE useraction.application IN (" + apps + ") ORDER BY country,region,city LIMIT 5000";
+    var usql = "SELECT DISTINCT continent, country, region, city FROM usersession WHERE useraction.application IN (" + apps + ") ORDER BY country,region,city LIMIT 5000";
   }
   var query = "/api/v1/userSessionQueryLanguage/table?query=" + encodeURIComponent(usql) + "&explain=false";
   return dtAPIquery(query, {});
