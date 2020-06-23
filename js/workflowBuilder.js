@@ -143,7 +143,7 @@ function Input() {
                     <div class="userInput"></div>
                     <div class="transform">&dollar;{<span contenteditable="true"></span>}</div>
                 </div>`;
-                $(section).html(this.html);
+                $(section).append(this.html);
                 let $input = $(section).find(".userInput");
                 let $header = $(section).find(".inputHeader");
                 let $transform = $(section).find(".transform span");
