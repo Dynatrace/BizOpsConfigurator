@@ -235,7 +235,7 @@ function regionsChangeHandler(event) {
   let map = new Map();
   $countryList.html('');
   $('<option>').val('').text('n/a').appendTo($countryList);
-  for (let i of countryData) {
+  for (let i of regionData) {
     if (!map.has(i.country) && i.continent == continent) {
       map.set(i.country, true);
       //regionOs += "<option value='" + i.region + "'>" + i.region + "</option>";
