@@ -707,7 +707,9 @@ function loadApiQueryOptions(query, slicer, target) {
         $("<option>").appendTo($target);
         if (parsedResults.length > 0) {
             parsedResults.forEach(function (i) {
-                $(`<option>`).val(i.value).text(i.key).appendTo($target);
+                let $opt = $(`<option>`).val(i.value).text(i.key);
+                if (typeof i.type !== "undefined") $opt.attr("data-type", i.type);
+                $opt.appendTo($target);
             });
         }
         $target.removeAttr("disabled");
@@ -761,13 +763,15 @@ function sliceAPIdata(slicer, data) {
                 .filter(key => key.includes("Baselines"))
                 .reduce((obj, key) => {
                     data[key].map((x) => {
+                        //TODO: get type and create new object with key, val, type
+                        let type = x.displayName.toLowerCase();
                         return x.childBaselines.map((y) => {
-                            obj.set(y.displayName, y.entityId);
+                            obj.set(y.displayName, { id: y.entityId, type: type });
                         })
                     })
                     return obj;
                 }, new Map());
-            valueMap.forEach((val, key, map) => { parsedResults.push({ value: val, key: key }); });
+            valueMap.forEach((val, key, map) => { parsedResults.push({ value: val.id, key: key, type: val.type }); });
             parsedResults = parsedResults.sort((a, b) => a.key.toLowerCase() > b.key.toLowerCase() ? 1 : -1);
             break;
     }
@@ -924,32 +928,43 @@ function pasteFixer(event) {
 function apiQueryChangeHandlerKeyVal(event) {
 
     let $el = $(event.data.selectors[0]);
-    if($el.attr("multiple")){
-        let values = new Map();
-        $el.find("option:selected").each((i,e)=>{
-            values.set(e.value,e.text);
+    if ($el.attr("multiple")) {
+        let values = [];
+        $el.find("option:selected").each((i, e) => {
+            let $e = $(e);
+            let obj = { value: $e.val(), key: $e.text() };
+            if (typeof $e.attr("data-type") !== "undefined") obj['type'] = $e.attr("data-type");
+            values.push(obj);
         });
         let transform = $("#transform").val();
         let xform = "";
         let i = 1;
-        values.forEach((v,k) => {
-            let fromkey = "${" + transform + "-" +i+ ".name}";
-            let fromval = "${" + transform + "-" +i+ ".id}";
-            xform += `<b>from</b>:${fromkey}, <b>to</b>:${k}<br>`;
-            xform += `<b>from</b>:${fromval}, <b>to</b>:${v}<br>`;
-            
+        values.forEach((obj) => {
+            let fromkey = "${" + transform + "-" + i + ".name}";
+            let fromval = "${" + transform + "-" + i + ".id}";
+            xform += `<b>from</b>:${fromkey}, <b>to</b>:${obj.key}<br>`;
+            xform += `<b>from</b>:${fromval}, <b>to</b>:${obj.value}<br>`;
+            if (typeof obj.type != "undefined") {
+                let fromtype = "${" + transform + "-" + i + ".type}";
+                xform += `<b>from</b>:${fromtype}, <b>to</b>:${obj.type}<br>`;
+            }
+            i++;
         });
         $("#swaps").html(xform);
-        i++;
     } else {
         let val = $el.val();
         let key = $el.children("option:selected").text();
-    
+
         let fromkey = "${" + $("#transform").val() + ".name}";
         let fromval = "${" + $("#transform").val() + ".id}";
         let xform = `
             <b>from</b>:${fromkey}, <b>to</b>:${key}<br>
             <b>from</b>:${fromval}, <b>to</b>:${val}<br>`;
+        if (typeof $e.attr("data-type") !== "undefined") {
+            let type = $e.attr("data-type");
+            let fromtype = "${" + transform + "-" + i + ".type}";
+            xform += `<b>from</b>:${fromtype}, <b>to</b>:${type}<br>`;
+        }
         $("#swaps").html(xform);
     }
 }
