@@ -927,10 +927,10 @@ function pasteFixer(event) {
 
 function apiQueryChangeHandlerKeyVal(event) {
 
-    let $el = $(event.data.selectors[0]);
-    if ($el.attr("multiple")) {
+    let $select = $(event.data.selectors[0]);
+    if ($select.attr("multiple")) {
         let values = [];
-        $el.find("option:selected").each((i, e) => {
+        $select.find("option:selected").each((i, e) => {
             let $e = $(e);
             let obj = { value: $e.val(), key: $e.text() };
             if (typeof $e.attr("data-type") !== "undefined") obj['type'] = $e.attr("data-type");
@@ -952,16 +952,16 @@ function apiQueryChangeHandlerKeyVal(event) {
         });
         $("#swaps").html(xform);
     } else {
-        let val = $el.val();
-        let key = $el.children("option:selected").text();
+        let val = $select.val();
+        let key = $select.children("option:selected").text();
 
         let fromkey = "${" + $("#transform").val() + ".name}";
         let fromval = "${" + $("#transform").val() + ".id}";
         let xform = `
             <b>from</b>:${fromkey}, <b>to</b>:${key}<br>
             <b>from</b>:${fromval}, <b>to</b>:${val}<br>`;
-        if (typeof $el.attr("data-type") !== "undefined") {
-            let type = $el.attr("data-type");
+        if (typeof $select.attr("data-type") !== "undefined") {
+            let type = $select.attr("data-type");
             let fromtype = "${" + transform + "-" + i + ".type}";
             xform += `<b>from</b>:${fromtype}, <b>to</b>:${type}<br>`;
         }
