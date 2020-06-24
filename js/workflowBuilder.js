@@ -960,8 +960,8 @@ function apiQueryChangeHandlerKeyVal(event) {
         let xform = `
             <b>from</b>:${fromkey}, <b>to</b>:${key}<br>
             <b>from</b>:${fromval}, <b>to</b>:${val}<br>`;
-        if (typeof $e.attr("data-type") !== "undefined") {
-            let type = $e.attr("data-type");
+        if (typeof $el.attr("data-type") !== "undefined") {
+            let type = $el.attr("data-type");
             let fromtype = "${" + transform + "-" + i + ".type}";
             xform += `<b>from</b>:${fromtype}, <b>to</b>:${type}<br>`;
         }
