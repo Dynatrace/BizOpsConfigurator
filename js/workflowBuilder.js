@@ -937,7 +937,7 @@ function apiQueryChangeHandlerKeyVal(event) {
     swaps.forEach((x) => {
         preview.append(`<tr><td>${x.from}</td><td>${x.to}</td></tr>`);
     });
-    $("#swaps").html(xform);
+    $("#swaps").html(preview);
 }
 
 function previewChangeHandlerKey(event) {
