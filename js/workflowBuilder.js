@@ -62,7 +62,7 @@ function workflowBuilderHandlers() {
     $("#viewport").on("change", "#commonQueries", commonQueryChangeHandler);
     $("#viewport").on("change", "#usqlCommonQueries", usqlCommonQueryChangeHandler);
     $("#viewport").on("change", "input[type=checkbox]", checkHandler);
-    $("#viewport").on("click", "#test", testHandler);
+    $("#viewport").on("click", "#test", previewHandler);
     $("#viewport").on("click", "#staticBoxAdd", staticBoxAddHandler);
 
     //prevent rich text paste
@@ -369,21 +369,21 @@ function usqlCommonQueryChangeHandler() {
     }
 }
 
-function testHandler() {
+function previewHandler() {
     let inputType = $("#inputType").val();
     $("#preview, #swaps").html("");
     $("#preview").off();
     switch (inputType) {
         case "Select (API)":
-            testAPIhandler();
+            previewAPIhandler();
             break;
         case "Select (USQL)":
-            testUSQLhandler();
+            previewUSQLhandler();
             break;
     }
 }
 
-function testAPIhandler() {
+function previewAPIhandler() {
     let p0 = getConnectInfo();
 
     $.when(p0).done(function () {
@@ -411,7 +411,7 @@ function testAPIhandler() {
     });
 }
 
-function testUSQLhandler() {
+function previewUSQLhandler() {
     let p0 = getConnectInfo();
 
     $.when(p0).done(function () {
