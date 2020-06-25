@@ -669,6 +669,7 @@ function renderWorkflowPage(el) {
         var converter = new showdown.Converter();
         html = converter.makeHtml(md) || "Markdown failed to render";
         $(this).html(md);
+        $(this).addClass("markdownTransformed");
     });
 
     //make sure any XHRs are finished before we return the html
