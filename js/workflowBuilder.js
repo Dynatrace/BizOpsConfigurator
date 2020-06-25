@@ -207,6 +207,7 @@ function Input() {
                         .attr("contenteditable","contenteditable")
                         .text("## Enter your text here...")
                         .appendTo($input);
+                        $input.parent().find(".inputHeader, .transform").remove();
                     }
                 }
                 $transform.text(data.transform);
@@ -265,6 +266,7 @@ function inputTypeChangeHandler() {
         case "KUA Funnel":
             break;
         case "Markdown":
+            $(".transform").hide();
             break;
     }
 }
@@ -666,7 +668,7 @@ function renderWorkflowPage(el) {
         let md = $(this).text();
         var converter = new showdown.Converter();
         html = converter.makeHtml(md) || "Markdown failed to render";
-        $el.html(md);
+        $(this).html(md);
     });
 
     //make sure any XHRs are finished before we return the html
