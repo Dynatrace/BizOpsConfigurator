@@ -205,7 +205,7 @@ function Input() {
                 }
                 $transform.text(data.transform);
                 $header.text(data.transform.charAt(0).toUpperCase() + data.transform.slice(1) + ':');
-                p0.resolve($newDiv;
+                p0.resolve($newDiv);
             });
         });
         return p0;
