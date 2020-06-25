@@ -132,7 +132,7 @@ function Input() {
                     p0.resolve(null);
                     return;
                 }
-                this.html = `
+                let $newDiv = $(`
                 <div class="workflowInput" tabindex="0">
                     <div class="workflowInputPopup">
                         <div><a href="#workflowBuilder" class="workflowInputDelete">❌</a></div>
@@ -142,11 +142,11 @@ function Input() {
                     <div class="inputHeader" contenteditable="true"></div>
                     <div class="userInput"></div>
                     <div class="transform">&dollar;{<span contenteditable="true"></span>}</div>
-                </div>`;
-                $(section).append(this.html);
-                let $input = $(section).find(".userInput");
-                let $header = $(section).find(".inputHeader");
-                let $transform = $(section).find(".transform span");
+                </div>`);
+                $section.append($newDiv);
+                let $input = $newDiv.find(".userInput");
+                let $header = $newDiv.find(".inputHeader");
+                let $transform = $newDiv.find(".transform span");
                 switch (data.inputType) {
                     case "Text Input": {
                         $(`<input class="workflowInput" disabled>`)
@@ -205,7 +205,7 @@ function Input() {
                 }
                 $transform.text(data.transform);
                 $header.text(data.transform.charAt(0).toUpperCase() + data.transform.slice(1) + ':');
-                p0.resolve(this.html);
+                p0.resolve($newDiv;
             });
         });
         return p0;
