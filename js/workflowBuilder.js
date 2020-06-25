@@ -960,9 +960,9 @@ function apiQueryChangeHandlerKeyVal(event) {
         let xform = `
             <b>from</b>:${fromkey}, <b>to</b>:${key}<br>
             <b>from</b>:${fromval}, <b>to</b>:${val}<br>`;
-        if (typeof $select.attr("data-type") !== "undefined") {
+        if ($select.children("option:selected[data-type]").length) {
             let type = $select.attr("data-type");
-            let fromtype = "${" + transform + "-" + i + ".type}";
+            let fromtype = "${" + transform + ".type}";
             xform += `<b>from</b>:${fromtype}, <b>to</b>:${type}<br>`;
         }
         $("#swaps").html(xform);
