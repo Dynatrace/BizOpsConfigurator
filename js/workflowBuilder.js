@@ -202,6 +202,12 @@ function Input() {
                             .appendTo($input);;
                         break;
                     }
+                    case "Markdown": {
+                        $(`<div class="workflowMarkdown">`)
+                        .attr("contenteditable","contenteditable")
+                        .text("## Enter your text here...")
+                        .appendTo($input);
+                    }
                 }
                 $transform.text(data.transform);
                 $header.text(data.transform.charAt(0).toUpperCase() + data.transform.slice(1) + ':');
@@ -257,6 +263,8 @@ function inputTypeChangeHandler() {
         case "Checkboxes":
             break;
         case "KUA Funnel":
+            break;
+        case "Markdown":
             break;
     }
 }
@@ -651,6 +659,14 @@ function renderWorkflowPage(el) {
     $el.find(".usqlQuery").each(function () {
         let p1 = loadUsqlQuery($(this));
         promises.push(p1);
+    });
+
+    //render markdowns
+    $el.find(".workflowMarkdown").each(function() {
+        let md = $(this).text();
+        var converter = new showdown.Converter();
+        html = converter.makeHtml(md) || "Markdown failed to render";
+        $el.html(md);
     });
 
     //make sure any XHRs are finished before we return the html
