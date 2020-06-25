@@ -928,45 +928,16 @@ function pasteFixer(event) {
 function apiQueryChangeHandlerKeyVal(event) {
 
     let $select = $(event.data.selectors[0]);
-    if ($select.attr("multiple")) {
-        let values = [];
-        $select.find("option:selected").each((i, e) => {
-            let $e = $(e);
-            let obj = { value: $e.val(), key: $e.text() };
-            if (typeof $e.attr("data-type") !== "undefined") obj['type'] = $e.attr("data-type");
-            values.push(obj);
-        });
-        let transform = $("#transform").val();
-        let xform = "";
-        let i = 1;
-        values.forEach((obj) => {
-            let fromkey = "${" + transform + "-" + i + ".name}";
-            let fromval = "${" + transform + "-" + i + ".id}";
-            xform += `<b>from</b>:${fromkey}, <b>to</b>:${obj.key}<br>`;
-            xform += `<b>from</b>:${fromval}, <b>to</b>:${obj.value}<br>`;
-            if (typeof obj.type != "undefined") {
-                let fromtype = "${" + transform + "-" + i + ".type}";
-                xform += `<b>from</b>:${fromtype}, <b>to</b>:${obj.type}<br>`;
-            }
-            i++;
-        });
-        $("#swaps").html(xform);
-    } else {
-        let val = $select.val();
-        let key = $select.children("option:selected").text();
+    let transform = $("#transform").val();
+    let swaps = [];
+    let preview = $(`<table>`);
 
-        let fromkey = "${" + $("#transform").val() + ".name}";
-        let fromval = "${" + $("#transform").val() + ".id}";
-        let xform = `
-            <b>from</b>:${fromkey}, <b>to</b>:${key}<br>
-            <b>from</b>:${fromval}, <b>to</b>:${val}<br>`;
-        if ($select.children("option:selected[data-type]").length) {
-            let type = $select.attr("data-type");
-            let fromtype = "${" + transform + ".type}";
-            xform += `<b>from</b>:${fromtype}, <b>to</b>:${type}<br>`;
-        }
-        $("#swaps").html(xform);
-    }
+    preview.append(`<tr><th>From</th><th>To</th></tr>`);
+    apiSelectGetSwaps($select,transform,swaps);
+    swaps.forEach((x) => {
+        preview.append(`<tr><td>${x.from}</td><td>${x.to}</td></tr>`);
+    });
+    $("#swaps").html(xform);
 }
 
 function previewChangeHandlerKey(event) {
@@ -979,9 +950,9 @@ function previewChangeHandlerKey(event) {
     let fromkey = "${" + $("#transform").val() + ".name}";
     let fromval = "${" + $("#transform").val() + ".id}";
 
-    let xform = `
-        <b>from</b>:${fromkey}, <b>to</b>:${key}<br>
-        <b>from</b>:${fromval}, <b>to</b>:${val}<br>`;
+    let xform = `<table><tr><th>From</th>
+        <b>from</b>: ${fromkey}, <b>to</b>: ${key}<br>
+        <b>from</b>: ${fromval}, <b>to</b>: ${val}<br>`;
     $("#swaps").html(xform);
 }
 
@@ -1078,4 +1049,51 @@ function previewChangeHandlerValX4(event) {
         <b>from</b>:${from4}, <b>to</b>:${val4}<br>
         `;
     $("#swaps").html(xform);
+}
+
+function apiSelectGetSwaps(select,transform,swaps){
+    let $select = $(select);
+    if ($select.attr("multiple")) {
+        let values = [];
+        $select.find("option:selected").each((i, e) => {
+            let $e = $(e);
+            let obj = { value: $e.val(), key: $e.text() };
+            if (typeof $e.attr("data-type") !== "undefined") obj['type'] = $e.attr("data-type");
+            values.push(obj);
+        });
+        let i = 1;
+        values.forEach((obj) => {
+            let fromkey = "${" + transform + "-" + i + ".name}";
+            let fromval = "${" + transform + "-" + i + ".id}";
+            //xform += `<b>from</b>:${fromkey}, <b>to</b>:${obj.key}<br>`;
+            addToSwaps(swaps, {from: fromkey, to: obj.key});
+            //xform += `<b>from</b>:${fromval}, <b>to</b>:${obj.value}<br>`;
+            addToSwaps(swaps, {from: fromval, to: obj.value});
+            if (typeof obj.type != "undefined") {
+                let fromtype = "${" + transform + "-" + i + ".type}";
+                //xform += `<b>from</b>:${fromtype}, <b>to</b>:${obj.type}<br>`;
+                addToSwaps(swaps, {from: fromtype, to: obj.type});
+            }
+            i++;
+        });
+        //$("#swaps").html(xform);
+    } else {
+        let val = $select.val();
+        let key = $select.children("option:selected").text();
+
+        let fromkey = "${" + $("#transform").val() + ".name}";
+        let fromval = "${" + $("#transform").val() + ".id}";
+        //let xform = `
+        //    <b>from</b>:${fromkey}, <b>to</b>:${key}<br>
+        //    <b>from</b>:${fromval}, <b>to</b>:${val}<br>`;
+        addToSwaps(swaps, {from: fromkey, to: key});
+        addToSwaps(swaps, {from: fromval, to: val});
+        if ($select.children("option:selected[data-type]").length) {
+            let type = $select.children("option:selected[data-type]").attr("data-type");
+            let fromtype = "${" + $("#transform").val() + ".type}";
+            //xform += `<b>from</b>:${fromtype}, <b>to</b>:${type}<br>`;
+            addToSwaps(swaps, {from: fromtype, to: type});
+        }
+        //$("#swaps").html(xform);
+    }
 }

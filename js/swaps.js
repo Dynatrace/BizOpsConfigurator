@@ -355,19 +355,22 @@ function generateWorkflowSwapList(el) {
       let filterClause = $workflowInput.find("input.filterClause").val();
       //filterClause = filterClause.replace(/"/g, '\\"'); //not sure why I needed this before but now do not...
 
-      addToSwaps(swaps,{ from: from, to: filterClause });
+      addToSwaps(swaps, { from: from, to: filterClause });
     } else switch (slicer) {
       case "ApplicationMethods":
       case "{entityId:name}":
       case "{entityId:displayName}":
       case "values:{id:name}": {
-        let $option = $workflowInput.find("select option:selected");
-        let value = $option.val();
-        let key = $option.text();
-        let fromkey = "${" + transform + ".name}";
-        let fromval = "${" + transform + ".id}";
-        addToSwaps(swaps,{ from: fromkey, to: key });
-        addToSwaps(swaps,{ from: fromval, to: value });
+        let $select = $workflowInput.find("select");
+        apiSelectGetSwaps($select,transform,swaps);
+
+          /*let $option = $workflowInput.find("select option:selected");
+          let value = $option.val();
+          let key = $option.text();
+          let fromkey = "${" + transform + ".name}";
+          let fromval = "${" + transform + ".id}";
+          addToSwaps(swaps, { from: fromkey, to: key });
+          addToSwaps(swaps, { from: fromval, to: value });*/
         break;
       }
       case 'Keys': {
@@ -377,8 +380,8 @@ function generateWorkflowSwapList(el) {
         let key = $option.text();
         let fromkey = "${" + transform + ".name}";
         let fromval = "${" + transform + ".id}";
-        addToSwaps(swaps,{ from: fromkey, to: key });
-        addToSwaps(swaps,{ from: fromval, to: value });
+        addToSwaps(swaps, { from: fromkey, to: key });
+        addToSwaps(swaps, { from: fromval, to: value });
         break;
       }
       case 'Keys/Values': {
@@ -390,8 +393,8 @@ function generateWorkflowSwapList(el) {
 
         let fromkey = "${" + transform + ".key}";
         let fromval = "${" + transform + ".value}";
-        addToSwaps(swaps,{ from: fromkey, to: key });
-        addToSwaps(swaps,{ from: fromval, to: value });
+        addToSwaps(swaps, { from: fromkey, to: key });
+        addToSwaps(swaps, { from: fromval, to: value });
         break;
       }
       case 'ValX3': {
@@ -403,22 +406,22 @@ function generateWorkflowSwapList(el) {
         let from1 = "${" + $("#transform").val() + ".1}";
         let from2 = "${" + $("#transform").val() + ".2}";
         let from3 = "${" + $("#transform").val() + ".3}";
-        addToSwaps(swaps,{ from: from1, to: val1 });
-        addToSwaps(swaps,{ from: from2, to: val2 });
-        addToSwaps(swaps,{ from: from3, to: val3 });
+        addToSwaps(swaps, { from: from1, to: val1 });
+        addToSwaps(swaps, { from: from2, to: val2 });
+        addToSwaps(swaps, { from: from3, to: val3 });
         break;
       }
       case 'actions': {
         let $option = $workflowInput.find("select option:selected");
         let value = $option.val();
         let from = "${" + transform + "}";
-        addToSwaps(swaps,{ from: from, to: value });
+        addToSwaps(swaps, { from: from, to: value });
         break;
       }
       default:
         let from = "${" + transform + "}";
         let to = $workflowInput.find("input:not([type=hidden])").val();
-        addToSwaps(swaps,{ from: from, to: to });
+        addToSwaps(swaps, { from: from, to: to });
     }
   });
 
