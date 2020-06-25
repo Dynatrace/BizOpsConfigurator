@@ -204,7 +204,7 @@ function Input() {
                     }
                     case "Markdown": {
                         $(`<div class="workflowMarkdown">`)
-                        .attr("contenteditable","contenteditable")
+                        .attr("contenteditable","true")
                         .text("## Enter your text here...")
                         .appendTo($input);
                         $input.parent().find(".inputHeader, .transform").remove();
