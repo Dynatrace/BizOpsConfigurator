@@ -627,11 +627,18 @@ function workflowTest() {
 
 function renderWorkflow(el) {
     let p = new $.Deferred();
-    let promises = [];
 
     let $el = $(el);
-    let clonedEl = $el.clone(true).off();
+    let clonedEl = $el.clone();
 
+    //copy markdown values
+    let fromMarkdowns = $el.find(".workflowMarkdown textarea");
+    let toMarkdowns = clonedEl.find(".workflowMarkdown textarea");
+    fromMarkdowns.forEach(function(md,i){
+        toMarkdowns[i].val(md.val());
+    });
+
+    //cleanup clone
     clonedEl.find(".workflowInputPopup").remove();
     clonedEl.find(".workflowSectionPopup").remove();
     clonedEl.find("input[type=text]:disabled, input:not([type]):disabled").removeAttr("disabled");
