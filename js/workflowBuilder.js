@@ -635,7 +635,8 @@ function renderWorkflow(el) {
     let fromMarkdowns = $el.find(".workflowMarkdown textarea");
     let toMarkdowns = clonedEl.find(".workflowMarkdown textarea");
     for(let i=0; i<fromMarkdowns.length; i++){
-        toMarkdowns[i].value = fromMarkdowns[i].value;
+        let val = $(fromMarkdowns[i]).val();
+        $(toMarkdowns[i]).text(val); 
     }
 
     //cleanup clone
@@ -671,11 +672,14 @@ function renderWorkflowPage(el) {
 
     //render markdowns
     $el.find(".workflowMarkdown").each(function () {
-        let md = $(this).find("textarea").val();
+        let $ta = $(this).find("textarea"); 
+        let md = $ta.val();
+        let style = $ta.attr("style");
         var converter = new showdown.Converter();
         html = converter.makeHtml(md) || "Markdown failed to render";
         $(this).html(md);
         $(this).addClass("markdownTransformed");
+        $(this).attr("style",style);
     });
 
     //make sure any XHRs are finished before we return the html
