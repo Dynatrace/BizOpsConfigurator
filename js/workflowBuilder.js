@@ -469,8 +469,10 @@ function checkHandler() {
 }
 
 function workflowDownloader() {
+    let $workflow = $("#workflow");
+    syncMarkdowns($workflow);
     let workflow = {};
-    workflow['html'] = $("#workflow").prop("outerHTML");
+    workflow['html'] = $workflow.prop("outerHTML");
     let config = $("#workflowConfigJSON").val();
     if (config.length > 0) workflow['config'] = JSON.parse(config);
     let name = workflow.config.workflowName;
@@ -1081,3 +1083,11 @@ function previewChangeHandlerValX4(event) {
     $("#swaps").html(xform);
 }
 
+function syncMarkdowns(el){
+    let $el = $(el);
+    let $markdowns = $el.find(".workflowMarkdown textarea");
+    for(let i=0; i < $markdowns.length; i++){
+        let val = $($markdowns[i]).val();
+        $($markdowns[i]).text(val); 
+    }
+}
