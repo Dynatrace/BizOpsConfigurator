@@ -222,7 +222,7 @@ function drawKPIs(kpis) {
   return options;
 }
 
-function drawKPIsJQ(kpis,select) {
+function drawKPIsJQ(kpis, select) {
   let $select = $(select);
   $('<option>').val('').text('n/a').appendTo($select);
   kpis.forEach(function (kpi) {
@@ -618,7 +618,7 @@ function compareWorkflowVsRepo() {
       workflowList = workflowList.concat(result.workflowList);
       let moreDeferreds = downloadDBsFromList();
       deferreds = deferreds.concat(moreDeferreds);
-      $.when.apply($,deferreds).done(function(){
+      $.when.apply($, deferreds).done(function () {
         master.resolve();
       })
     });
@@ -633,21 +633,23 @@ function compareWorkflowVsRepo() {
     let html = `<div id="testCompareWorkflow"><div>Workflow Tokens:<br><table class="workflow">
       <tr><td>From</td><td>To</td></tr>`;
     selection.swaps
-    .sort((a,b) => a.from.toLowerCase() > b.from.toLowerCase() ? 1:-1)
-    .forEach(x => {
-      let match = (tokens.includes(x.from)) ? "match" : "notmatch";
-      html += `<tr class="${match}"><td>${x.from}</td><td>${x.to}</td></tr>`;
-    });
+      .sort((a, b) => a.from.toLowerCase() > b.from.toLowerCase() ? 1 : -1)
+      .forEach(x => {
+        let match = (tokens.includes(x.from)) ? "match" : "notmatch";
+        html += `<tr class="${match}"><td>${x.from}</td><td>${x.to}</td></tr>`;
+      });
     html += `</table></div>`;
 
-    html += `<div>Dashboard tokens:<br><table class="dashboard">
+    if (tokens.length) {
+      html += `<div>Dashboard tokens:<br><table class="dashboard">
     <tr><td>From</td></tr>`;
-    let swapFroms = selection.swaps.map(x => x.from);
-    tokens.forEach(x => {
-      let match = (swapFroms.includes(x)) ? "match" : "notmatch";
-      html += `<tr class="${match}"><td>${x}</td></tr>`;
-    });
-    html += `</table></div></div>`;
+      let swapFroms = selection.swaps.map(x => x.from);
+      tokens.forEach(x => {
+        let match = (swapFroms.includes(x)) ? "match" : "notmatch";
+        html += `<tr class="${match}"><td>${x}</td></tr>`;
+      });
+      html += `</table></div></div>`;
+    }
 
     popupHTML("Test Results", html);
 
