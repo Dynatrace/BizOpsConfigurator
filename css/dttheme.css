@@ -1188,6 +1188,20 @@ input:invalid {
   border-radius: 3px;
 }
 
+#readmeViewer a, #readmeViewer a:visited {
+  color: #00b9cc;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#readmeViewer a:hover {
+  text-decoration: underline;
+}
+
+#readmeViewer a::after {
+  content: url(../images/link.svg);
+}
+
 #devguide_persona {
   display: flex;
   flex-direction: row-reverse;
