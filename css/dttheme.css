@@ -1327,4 +1327,5 @@ table.dashboard tr.notmatch {
 
 .workflowMarkdown.markdownTransformed {
   margin-top: 10px;
+  white-space: normal;
 }
