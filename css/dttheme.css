@@ -1318,7 +1318,7 @@ table.dashboard tr.notmatch {
   background: #7a0004;
 }
 
-.workflowMarkdown:not(.markdownTransformed) {
+.workflowMarkdown:not(.markdownTransformed) textarea {
   margin-top: 10px;
   font-family: "VeraMonoWeb","Courier New",monospace;
   color:#14a8f5;

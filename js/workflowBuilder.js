@@ -203,10 +203,9 @@ function Input() {
                         break;
                     }
                     case "Markdown": {
-                        $(`<div class="workflowMarkdown">`)
-                        .attr("contenteditable","true")
-                        .text("## Enter your text here...")
-                        .appendTo($input);
+                        let $div = $(`<div class="workflowMarkdown">`);
+                        $div.append("<textarea>## Enter your text here...</textarea>")
+                            .appendTo($input);
                         $input.parent().find(".inputHeader, .transform").remove();
                     }
                 }
@@ -664,8 +663,8 @@ function renderWorkflowPage(el) {
     });
 
     //render markdowns
-    $el.find(".workflowMarkdown").each(function() {
-        let md = $(this).text();
+    $el.find(".workflowMarkdown").each(function () {
+        let md = $(this).find("textarea").val();
         var converter = new showdown.Converter();
         html = converter.makeHtml(md) || "Markdown failed to render";
         $(this).html(md);
@@ -953,7 +952,7 @@ function apiQueryChangeHandlerKeyVal(event) {
     let preview = $(`<table>`);
 
     preview.append(`<tr><th>From</th><th>To</th></tr>`);
-    apiSelectGetSwaps($select,transform,swaps);
+    apiSelectGetSwaps($select, transform, swaps);
     swaps.forEach((x) => {
         preview.append(`<tr><td>${x.from}</td><td>${x.to}</td></tr>`);
     });
