@@ -1200,6 +1200,7 @@ input:invalid {
 
 #readmeViewer a::after {
   content: url(../images/link.svg);
+  padding-left: 4px;
 }
 
 #devguide_persona {
