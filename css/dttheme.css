@@ -1322,6 +1322,7 @@ table.dashboard tr.notmatch {
   margin-top: 10px;
   font-family: "VeraMonoWeb","Courier New",monospace;
   color:#14a8f5;
+  background: none;
 }
 
 .workflowMarkdown.markdownTransformed {
