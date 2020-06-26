@@ -630,7 +630,7 @@ function renderWorkflow(el) {
     let promises = [];
 
     let $el = $(el);
-    let clonedEl = $el.clone();
+    let clonedEl = $el.clone(true).off();
 
     clonedEl.find(".workflowInputPopup").remove();
     clonedEl.find(".workflowSectionPopup").remove();
