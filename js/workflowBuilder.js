@@ -634,9 +634,9 @@ function renderWorkflow(el) {
     //copy markdown values
     let fromMarkdowns = $el.find(".workflowMarkdown textarea");
     let toMarkdowns = clonedEl.find(".workflowMarkdown textarea");
-    fromMarkdowns.forEach(function(md,i){
-        toMarkdowns[i].val(md.val());
-    });
+    for(let i=0; i<fromMarkdowns.length; i++){
+        toMarkdowns[i].val(fromMarkdowns[i].val());
+    }
 
     //cleanup clone
     clonedEl.find(".workflowInputPopup").remove();
