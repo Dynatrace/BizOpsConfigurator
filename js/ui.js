@@ -597,7 +597,7 @@ function updateDashboardButton() {
 }
 
 function compareWorkflowVsRepo() {
-  let config = selection.config;
+  let config = selection.config || {};
   let master = $.Deferred();
   let deferreds = [];
   let repo = { owner: config.githubUser, repo: config.githubRepo, path: config.githubPath };
@@ -605,7 +605,7 @@ function compareWorkflowVsRepo() {
     x.repo.owner === repo.owner && x.repo.repo === repo.repo && x.repo.path === repo.path);
 
   //load specified repo if not already
-  if (typeof overview == "undefined") {
+  if (typeof overview == "undefined" && typeof selection.config != "undefined") {
     if (!repoList.find(x => x.repo.owner === repo.owner && x.repo.repo === repo.repo && x.repo.path === repo.path))
       repoList.push(repo);
     let p_i = getRepoContents(repo);

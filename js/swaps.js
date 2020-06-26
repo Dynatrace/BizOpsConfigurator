@@ -327,7 +327,7 @@ function scanForTokens(db) {
     dbs = db;
   } else if (typeof db == "object") {
     dbs = JSON.stringify(db);
-  }
+  } else if (typeof db == "undefined") return [];
 
   let matches = Array.from(dbs.matchAll(/\${[^}]*}/g), m => m[0]);
   if (matches.length > 0)
