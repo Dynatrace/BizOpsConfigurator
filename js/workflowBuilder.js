@@ -677,7 +677,7 @@ function renderWorkflowPage(el) {
         let style = $ta.attr("style");
         var converter = new showdown.Converter();
         html = converter.makeHtml(md) || "Markdown failed to render";
-        $(this).html(md);
+        $(this).html(html);
         $(this).addClass("markdownTransformed");
         $(this).attr("style",style);
     });
