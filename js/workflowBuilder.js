@@ -635,7 +635,7 @@ function renderWorkflow(el) {
     let fromMarkdowns = $el.find(".workflowMarkdown textarea");
     let toMarkdowns = clonedEl.find(".workflowMarkdown textarea");
     for(let i=0; i<fromMarkdowns.length; i++){
-        toMarkdowns[i].val(fromMarkdowns[i].val());
+        toMarkdowns[i].value = fromMarkdowns[i].value;
     }
 
     //cleanup clone
