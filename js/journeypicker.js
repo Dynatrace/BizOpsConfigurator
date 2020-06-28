@@ -122,7 +122,7 @@ function JourneyPickerFactory(app, data = null) { //JourneyPicker factory
 			$widget.find("[id]").each(function () {
 				let $el = $(this);
 				let id = $el.attr("id");
-				selectors[id] = $el;
+				newSelectors[id] = $el;
 				$el.attr("id", `id${uniqId()}`);
 			})
 			selectors = newSelectors;
