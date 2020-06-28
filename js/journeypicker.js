@@ -3,7 +3,7 @@ Licensed under the Apache License, Version 2.0 (the "License"); you may not use 
 http://www.apache.org/licenses/LICENSE-2.0
 Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.*/
 
-function JourneyPickerFactory(app, data = null) { //JourneyPicker factory
+function JourneyPickerFactory(app, data = null) { //JourneyPicker factory, usage: var jp = JourneyPickerFactory({name:"www.angular.easytravel.com",id:"APPLICATION-726A108B51CB78E2"});
 	let masterP = $.Deferred();
 
 	//public data
@@ -126,8 +126,19 @@ function JourneyPickerFactory(app, data = null) { //JourneyPicker factory
 				$el.attr("id", `id${uniqId()}`);
 			})
 			selectors = newSelectors;
+			popuplateSelectors();
 			$html = $widget;
 		});
+	}
+
+	function popuplateSelectors() {
+		$funnel = selectors.funnel;
+		$labelFrom = selectors.labelFrom;
+		$whereClause = selectors.whereClause;
+		$goalList = selectors.goalList;
+		$pencil = selectors.pencil;
+		$plus = selectors.plus;
+		$minus = selectors.minus;
 	}
 
 	//public methods
