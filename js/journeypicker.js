@@ -45,10 +45,10 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 
 	//private methods
 	function funnelClickHandler(e) {
-		if ($(whereClause).attr('readonly')) { //do nothing if in pencil mode
+		if ($whereClause.attr('readonly')) { //do nothing if in pencil mode
 			$labelForm.find("input:text").val(e.label.raw);
 			$labelForm.find("input#i").val(e.index);
-			let fw = $(funnel).parent();
+			let fw = $funnel.parent();
 			let lf = $labelForm;
 			let rects = e.node.getClientRects();
 			let x = fw.position().left + fw.width() / 2 - lf.width() / 2;
@@ -210,8 +210,8 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 				+ ' class="newTab" target="_blank">here <img src="images/link.svg"></a>';
 			popup([], popheader, desc);
 		}
-		drawSteps(parseSteps(data2[0]));
-		drawSteps(parseSteps(data1[0]));
+		drawSteps(parseSteps(data2[0]),$goalList);
+		drawSteps(parseSteps(data1[0]),$goalList);
 		$goalList.find("li").draggable();
 		//jsonviewer([data1[0], data2[0]]);
 
