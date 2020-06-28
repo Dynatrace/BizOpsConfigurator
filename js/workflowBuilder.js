@@ -687,12 +687,14 @@ function renderWorkflowPage(el) {
         let $target = $(this);
         let appTransform = $target.siblings(".appTransform").val();
         let app = {
-            name: '${' + appTransform + '.name',
-            id: '${' + appTransform + '.id'
+            name: '${' + appTransform + '.name}',
+            id: '${' + appTransform + '.id}'
         };
         if (typeof selection.swaps !== "undefined"){
-            app.name = selection.swaps.find(x => x.from == app.name).to;
-            app.id = selection.swaps.find(x => x.from == app.id).to;
+            let swap = selection.swaps.find(x => x.from == app.name);
+            app.name = swap?swap.to:app.name;
+            swap = selection.swaps.find(x => x.from == app.id);
+            app.id = swap?swap.to:app.id;
         }
         let p1 = JourneyPickerFactory($target,app);
         promises.push(p1);
