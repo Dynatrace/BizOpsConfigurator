@@ -1,28 +1,28 @@
-<div id="funnelFlex">
-    <div id="funnelwrapper">
+<div id="funnelFlex" class="flex">
+    <div id="funnelwrapper" class="funnelwrapper">
         Click funnel band to edit Friendly Name:
-        <div id="funnel"></div>
-        <div id="funnelbuttons">
+        <div id="funnel" class="funnel"></div>
+        <div id="funnelbuttons" class="funnelbuttons">
             <input type="button" id="plus" value="+">
             <input type="button" id="minus" value="-">
         </div>
-        <div id="funnelUpload">
+        <div id="funnelUpload" class="funnelUpload">
             <input type="button" id="deployFunnel-funnel-next" value="Next">
             <input type="button" id="clearFunnel" value="Clear Funnel">
         </div>
     </div>
-    <div id="options" class="ui-helper-clearfix">
+    <div id="options" class="ui-helper-clearfix goalListWrapper">
         Drag Key User Action over to funnel step:
-        <ul id="goalList" class="ui-helper-reset ui-helper-clearfix">
+        <ul id="goalList" class="ui-helper-reset ui-helper-clearfix goalList">
         </ul>
     </div>
 </div>
 
-<div id="querybox">
-    Where: <input id="whereClause" readonly>
-    <a href="#configurator" id="pencil">
+<div id="querybox" class="querybox">
+    Where: <input id="whereClause" readonly class="whereClause">
+    <a href="#configurator" id="pencil" class="pencil">
         <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-            x="0px" y="0px" width="512px" height="512px" viewBox="0 0 512 512" xml:space="preserve">
+            x="0px" y="0px" width="20px" height="20px" viewBox="0 0 512 512" xml:space="preserve">
             <path
                 d="M137.522 283.97l175.364-175.363 90.51 90.51-175.363 175.365zM441.576 129.821l-59.397-59.397c-8.592-8.591-22.521-8.591-31.113 0L335.51 85.981l90.51 90.51 15.556-15.557c8.591-8.591 8.591-22.521 0-31.113zM83.447 393.946L63.98 448.02l54.073-19.466zM151.33 416.574l54.072-19.466-90.51-90.51-19.466 54.073z">
             </path>
@@ -30,8 +30,8 @@
     </a>
 </div>
 
-<div id="labelForm">
-    <input id="labelInput">
+<div id="labelForm" class="labelForm">
+    <input id="labelInput" class="labelInput">
     <input id="i" type="hidden">
     <input type="button" id="updateLabel" value="Update">
 </div>
