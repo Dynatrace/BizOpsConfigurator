@@ -198,6 +198,7 @@ function Input() {
                             $(`<input type="hidden" class="appTransform">`)
                             .val(data.app)
                             .appendTo($input);
+                            $input.parent().find(".inputHeader, .tryitout").remove();
                         break;
                     }
                     case "Checkboxes": {
@@ -213,7 +214,7 @@ function Input() {
                         let $div = $(`<div class="workflowMarkdown">`);
                         $div.append("<textarea>## Enter your text here...</textarea>")
                             .appendTo($input);
-                        $input.parent().find(".inputHeader, .transform").remove();
+                        $input.parent().find(".inputHeader, .transform, .tryitout").remove();
                     }
                 }
                 $transform.text(data.transform);

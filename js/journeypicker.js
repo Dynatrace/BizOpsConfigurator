@@ -225,7 +225,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		chart = new D3Funnel(`#${$funnel.attr("id")}`);
 		chart.draw(journeyData, options);
 		updateWhere();
-		if ("whereClause" in selection.config &&
+		if (selection.config && "whereClause" in selection.config &&
 			$whereClause.val() != selection.config.whereClause) {
 			pencilToggle(true);
 			$("whereClause").val(selection.config.whereClause);
