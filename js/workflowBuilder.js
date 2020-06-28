@@ -188,8 +188,15 @@ function Input() {
                             .appendTo($input);
                         break;
                     }
-                    case "Funnel": {
-                        $(`<h1>Giant funnel graphic here</h1>`)
+                    case "Journey Picker": {
+                        $(`<img src="images/funnel.png">`)
+                            .appendTo($input);
+                            $(`<input type="hidden" class="journeyPicker">`)
+                            .val(data.usqlResultSlicer)
+                            .attr("data-addWhereClause", data.addWhereClause)
+                            .appendTo($input);
+                            $(`<input type="hidden" class="appTransform">`)
+                            .val(data.app)
                             .appendTo($input);
                         break;
                     }
@@ -231,6 +238,7 @@ function inputTypeChangeHandler() {
     $("#apiQueryHeader").text();
     $("#preview").html();
     $("#preview").off();
+    $("#appTransform").hide();
 
 
     switch ($("#inputType").val()) {
@@ -262,7 +270,8 @@ function inputTypeChangeHandler() {
             break;
         case "Checkboxes":
             break;
-        case "KUA Funnel":
+        case "Journey Picker":
+            $("#appTransform").show();
             break;
         case "Markdown":
             $(".transform").hide();
@@ -669,6 +678,18 @@ function renderWorkflowPage(el) {
     });
     $el.find(".usqlQuery").each(function () {
         let p1 = loadUsqlQuery($(this));
+        promises.push(p1);
+    });
+
+    //Journey Pickers
+    $el.find(".journeyPicker").each(function() {
+        let $target = $(this);
+        let appTransform = $target.siblings(".appTransform").val();
+        let app = {
+            name: `${appTransform}.name`,
+            id: `${appTransform}.id`
+        };
+        let p1 = JourneyPickerFactory($target,app);
         promises.push(p1);
     });
 

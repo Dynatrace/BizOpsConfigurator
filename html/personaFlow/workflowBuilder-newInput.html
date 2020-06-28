@@ -8,7 +8,7 @@
                 <option disabled>Select (static)</option>
                 <option>Markdown</option>
                 <option disabled>Checkboxes</option>
-                <option disabled>KUA Funnel</option>
+                <option>Journey Picker</option>
                 <option disabled>Tile Replicator</option>
                 <option disabled>Existing Dashboard Linker</option><!--how? regex maybe?-->
             </select></div>
@@ -87,6 +87,10 @@
             <div class="inputHeader">Add</div>
             <div class="userInput"><input type="button" id="staticBoxAdd" value="+"></div>
             <input type="hidden" id="staticOptions">
+        </div>
+        <div id="appTransform">
+            <div class="inputHeader">App transform:</div>
+            <div class="userInput">${<input id="app" value="app">}</div>
         </div>
         <div class="inputHeader transform">Dashboard placeholder to search/replace:</div>
         <div class="userInput transform">&dollar;{&nbsp;<input id="transform" value="MyString" required>&nbsp;}</div>

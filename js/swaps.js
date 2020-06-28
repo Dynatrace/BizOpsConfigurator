@@ -344,7 +344,7 @@ function generateWorkflowSwapList(el) {
 
   $el.find(".workflowInput").each(function (i, el) {
     let $workflowInput = $(this);
-    let $slicer = $workflowInput.find(".apiResultSlicer, .usqlResultSlicer");
+    let $slicer = $workflowInput.find(".apiResultSlicer, .usqlResultSlicer, .journeyPicker");
     let slicer = $slicer.val();
     let whereClause = ($slicer.attr("data-addWhereClause") === 'true') ?
       true : false;
@@ -352,7 +352,7 @@ function generateWorkflowSwapList(el) {
 
     if (whereClause) {
       let from = "${" + transform + "}";
-      let filterClause = $workflowInput.find("input.filterClause").val();
+      let filterClause = $workflowInput.find("input.filterClause, input.whereClause").val();
       //filterClause = filterClause.replace(/"/g, '\\"'); //not sure why I needed this before but now do not...
 
       addToSwaps(swaps, { from: from, to: filterClause });
