@@ -124,7 +124,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 				let $el = $(this);
 				let id = $el.attr("id");
 				newSelectors[id] = $el;
-				$el.attr("id", `id${uniqId()}`);
+				$el.attr("id", id+uniqId());
 			})
 			selectors = newSelectors;
 			popuplateSelectors();
