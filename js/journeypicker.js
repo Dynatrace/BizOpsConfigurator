@@ -213,7 +213,7 @@ function JourneyPickerFactory(app, data = null) { //JourneyPicker factory, usage
 		$goalList.find("li").draggable();
 		//jsonviewer([data1[0], data2[0]]);
 
-		if (data == null) journeyData = data;
+		if (data != null) journeyData = data;
 		else journeyData = [
 			{ label: 'Awareness', value: '', clauses: [] },
 			{ label: 'Interest', value: '', clauses: [] },
