@@ -3,7 +3,7 @@ Licensed under the Apache License, Version 2.0 (the "License"); you may not use 
 http://www.apache.org/licenses/LICENSE-2.0
 Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.*/
 
-function JourneyPickerFactory(app, data = null) { //JourneyPicker factory, usage: var jp = JourneyPickerFactory({name:"www.angular.easytravel.com",id:"APPLICATION-726A108B51CB78E2"});
+function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factory, usage: var jp = JourneyPickerFactory("#viewport",{name:"www.angular.easytravel.com",id:"APPLICATION-726A108B51CB78E2"});
 	let masterP = $.Deferred();
 
 	//public data
@@ -15,6 +15,7 @@ function JourneyPickerFactory(app, data = null) { //JourneyPicker factory, usage
 		$whereClause,
 		$goalList,
 		$pencil, $plus, $minus;
+	let $target = $(target);
 
 	var options = {
 		chart: {
@@ -201,6 +202,7 @@ function JourneyPickerFactory(app, data = null) { //JourneyPicker factory, usage
 	let p1 = getGoals(app.name);
 	let p2 = getKeyActions(app.name);
 	$.when(p0, p1, p2).done(function (data0, data1, data2) {
+		$target.html($html);
 		if (data1[0].values.length == 0 && data2[0].values.length == 0) {
 			let popheader = "No Key User Actions or Conversion Goals";
 			let desc = "Please configure some Key User Actions and/or Conversion Goals ";
