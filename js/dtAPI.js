@@ -529,7 +529,8 @@ function uploadWorkflow(workflow) {
   let config = JSON.parse($workflow.find("#workflowConfigJSON").val());
   let overview = {};
   let actionName = `NewFlowDeploy-${selection.persona.name}-${selection.usecase.name}-${selection.config.workflowName}`;
-  if(dtrum) let action = dtrum.enterAction(actionName,"deploy");
+  let dtaction;
+  if(dtrum) dtaction = dtrum.enterAction(actionName,"deploy");
 
   //get dashboard JSON
   try {
@@ -575,7 +576,7 @@ function uploadWorkflow(workflow) {
   selection = {};
   if(dtrum)
   return dtAPIquery(query, { method: "PUT", data: dbS })
-  .done(()=>{if(dtrum)dtrum.leaveAction(action);});
+  .done(()=>{if(dtrum)dtrum.leaveAction(dtaction);});
 }
 
 function deleteDashboards(id,re) {
