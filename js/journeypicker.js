@@ -202,7 +202,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 	let p1 = getGoals(app.name);
 	let p2 = getKeyActions(app.name);
 	$.when(p0, p1, p2).done(function (data0, data1, data2) {
-		$target.html($html);
+		$target.replaceWith($html);
 		if (data1[0].values.length == 0 && data2[0].values.length == 0) {
 			let popheader = "No Key User Actions or Conversion Goals";
 			let desc = "Please configure some Key User Actions and/or Conversion Goals ";
