@@ -527,7 +527,9 @@ function deleteDashboard(id) {
 function uploadWorkflow(workflow) {
   let $workflow = $(workflow);
   let config = JSON.parse($workflow.find("#workflowConfigJSON").val());
-  let overview = {}
+  let overview = {};
+  let actionName = `NewFlowDeploy-${selection.persona.name}-${selection.usecase.name}-${selection.config.workflowName}`;
+  if(dtrum) let action = dtrum.enterAction(actionName,"deploy");
 
   //get dashboard JSON
   try {
@@ -571,7 +573,9 @@ function uploadWorkflow(workflow) {
   saveConfigDashboard(workflowConfigID(id), {html:workflowToSave});
   uploadSubs(subs);
   selection = {};
-  return dtAPIquery(query, { method: "PUT", data: dbS });
+  if(dtrum)
+  return dtAPIquery(query, { method: "PUT", data: dbS })
+  .done(()=>{if(dtrum)dtrum.leaveAction(action);});
 }
 
 function deleteDashboards(id,re) {

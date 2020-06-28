@@ -231,7 +231,7 @@ function drawKPIsJQ(kpis, select) {
   return $select;
 }
 
-function drawSteps(steps) {
+function drawSteps(steps,goallist="#goallist") {
   let list = "";
   steps.steps.forEach(function (step) {
     let type = "";
@@ -253,7 +253,7 @@ function drawSteps(steps) {
         : "") +
       "</li>";
   });
-  $("#goallist").append(list);
+  $(goallist).append(list);
 }
 
 function drawActions(data) {
