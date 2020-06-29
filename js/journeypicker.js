@@ -70,12 +70,12 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 			let clauseString = d.clauses.join(" OR ");
 			whereA.push("(" + clauseString + ")");
 
-			funnelSteps.push(clauseString + " AS \"" + d.label + "\"");
+			funnelSteps.push("(" + clauseString + ") AS \"" + d.label + "\"");
 		});
 
 		let whereS = whereA.join(" AND ");
 		$whereClause.val(whereS);
-		
+
 		FunnelStep = funnelSteps.join(", ");
 		$funnelClause.text(FunnelStep);
 	}
