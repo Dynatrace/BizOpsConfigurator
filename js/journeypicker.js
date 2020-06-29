@@ -52,7 +52,8 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 			let lf = $labelForm;
 			let rects = e.node.getClientRects();
 			let x = fw.position().left + fw.width() / 2 - lf.width() / 2;
-			let y = rects[0].y + rects[0].height / 2 - lf.height() / 2;
+			//let y = rects[0].y + rects[0].height / 2 - lf.height() / 2;
+			let y = rects[0].y; //don't know why the change, but seems to work...
 			console.log([fw.position().left, fw.width() / 2, lf.width() / 2]);
 			console.log([rects[0].y, rects[0].height / 2, lf.height() / 2]);
 			let fill = e.fill.raw;
