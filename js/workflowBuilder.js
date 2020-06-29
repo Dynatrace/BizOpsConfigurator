@@ -191,10 +191,6 @@ function Input() {
                     case "Journey Picker": {
                         $(`<img src="images/funnel.png" class="journeyPicker" data-addWhereClause="true">`)
                             .appendTo($input);
-                            $(`<input type="hidden" class="journeyPicker">`)
-                            .val(data.usqlResultSlicer)
-                            .attr("data-addWhereClause", data.addWhereClause)
-                            .appendTo($input);
                             $(`<input type="hidden" class="appTransform">`)
                             .val(data.app)
                             .appendTo($input);
@@ -273,9 +269,10 @@ function inputTypeChangeHandler() {
             break;
         case "Journey Picker":
             $("#appTransform").show();
+            $(".tryitout").hide();
             break;
         case "Markdown":
-            $(".transform").hide();
+            $(".transform, .tryitout").hide();
             break;
     }
 }
