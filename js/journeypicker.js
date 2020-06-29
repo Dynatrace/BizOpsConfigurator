@@ -155,7 +155,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 	function updateLabel() {
 		let i = $labelForm.find("input#i").val();
 		let label = $labelForm.find("#labelInput").val();
-		journeylData[i].label = label;
+		journeyData[i].label = label;
 		$labelForm.hide();
 		chart.draw(journeyData, options);
 		updateWhere();
