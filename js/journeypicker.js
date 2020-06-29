@@ -47,7 +47,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 	function funnelClickHandler(e) {
 		if ($whereClause.attr('readonly')) { //do nothing if in pencil mode
 			$labelForm.find("input:text").val(e.label.raw);
-			$labelForm.find("input#i").val(e.index);
+			$labelForm.find("input:hidden").val(e.index);
 			let fw = $funnel.parent();
 			let lf = $labelForm;
 			let rects = e.node.getClientRects();
@@ -153,8 +153,8 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 	}
 
 	function updateLabel() {
-		let i = $labelForm.find("input#i").val();
-		let label = $labelForm.find("#labelInput").val();
+		let i = $labelForm.find("input:hidden").val();
+		let label = $labelForm.find("input:text").val();
 		journeyData[i].label = label;
 		$labelForm.hide();
 		chart.draw(journeyData, options);
