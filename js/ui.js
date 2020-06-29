@@ -248,7 +248,7 @@ function drawSteps(steps,goallist="#goallist") {
       "' data-colname='" + steps.type + "' data-appName='" + step.appName + "' " +
       "type='hidden'><span class='steptype'>" +
       type + "</span>: " + step.step +
-      ("xapp" in selection.config && selection.config.xapp ?
+      (selection.config && "xapp" in selection.config && selection.config.xapp ?
         "<span class='tooltiptext'>" + step.appName + "</span>"
         : "") +
       "</li>";
