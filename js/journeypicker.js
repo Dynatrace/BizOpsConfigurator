@@ -64,18 +64,18 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 
 	function updateWhere() {
 		let whereA = [];
+		let FunnelStep = "";
+		let funnelSteps = [];
 		journeyData.forEach(function (d) {
 			let clauseString = d.clauses.join(" OR ");
 			whereA.push("(" + clauseString + ")");
+
+			funnelSteps.push(clauseString + " AS \"" + d.label + "\"");
 		});
+
 		let whereS = whereA.join(" AND ");
 		$whereClause.val(whereS);
-
-		let FunnelStep = "";
-		let funnelSteps = [];
-		for (let i = 0; i < whereSteps.length; i++) {
-			funnelSteps.push(whereSteps[i] + " AS \"" + config.funnelData[i].label + "\"");
-		}
+		
 		FunnelStep = funnelSteps.join(", ");
 		$funnelClause.text(FunnelStep);
 	}
