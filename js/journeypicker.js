@@ -78,6 +78,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 
 		FunnelStep = funnelSteps.join(", ");
 		$funnelClause.val(FunnelStep);
+		$funnelClause.attr("data-journeyData",JSON.stringify(journeyData));
 	}
 
 	function funnelDrop(event, ui) {
