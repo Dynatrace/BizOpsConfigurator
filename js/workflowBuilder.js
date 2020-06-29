@@ -640,6 +640,9 @@ function renderWorkflow(el) {
     let $el = $(el);
     let clonedEl = $el.clone();
 
+    if(typeof selection == "undefined") selection = {};
+    if(typeof selection.config == "undefined") selection.config = {};
+
     //copy markdown values
     let fromMarkdowns = $el.find(".workflowMarkdown textarea");
     let toMarkdowns = clonedEl.find(".workflowMarkdown textarea");

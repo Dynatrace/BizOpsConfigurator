@@ -80,7 +80,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		let colname = ui.draggable[0].childNodes[0].dataset.colname;
 		let appname = ui.draggable[0].childNodes[0].dataset.appname;
 		let clause = colname + '="' + id + '"';
-		if ("xapp" in selection.config && selection.config.xapp)
+		if (selection.config && "xapp" in selection.config && selection.config.xapp)
 			clause = '(useraction.application="' + appname + '" and ' + clause + ')';
 		//console.log("mouse drop at " + mx + "," + my);
 		$funnel.find("g").each(function (i) {
