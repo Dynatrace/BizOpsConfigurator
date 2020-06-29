@@ -268,6 +268,7 @@ function inputTypeChangeHandler() {
         case "Checkboxes":
             break;
         case "Journey Picker":
+            $("#transform").val("journey");
             $("#appTransform").show();
             $(".tryitout").hide();
             break;

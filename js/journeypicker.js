@@ -77,7 +77,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		$whereClause.val(whereS);
 
 		FunnelStep = funnelSteps.join(", ");
-		$funnelClause.text(FunnelStep);
+		$funnelClause.val(FunnelStep);
 	}
 
 	function funnelDrop(event, ui) {
