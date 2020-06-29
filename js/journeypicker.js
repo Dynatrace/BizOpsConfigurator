@@ -120,6 +120,12 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 
 		return $.when(p).done(function (data) {
 			$widget = $(data);
+			$widget.each(function () {
+				let $el = $(this);
+				let id = $el.attr("id");
+				newSelectors[id] = $el;
+				$el.attr("id", id+uniqId());
+			})
 			$widget.find("[id]").each(function () {
 				let $el = $(this);
 				let id = $el.attr("id");

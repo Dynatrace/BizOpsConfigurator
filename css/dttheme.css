@@ -234,7 +234,7 @@ li.BOcollection input~ul {
   order: 2;
 }
 
-#options, #goalListWrapper {
+#options, .goalListWrapper {
   flex: 1 1 50%;
   order: 1;
 }
