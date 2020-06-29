@@ -351,7 +351,7 @@ function generateWorkflowSwapList(el) {
     let transform = $workflowInput.find(".transform span").text();
     let journeyPicker = $workflowInput.find(".journeyPicker");
 
-    if (journeyPicker) {
+    if (journeyPicker.length) {
       let from = "${" + transform + ".where}";
       let where = $workflowInput.find("input.whereClause").val();
       addToSwaps(swaps, { from: from, to: where });
