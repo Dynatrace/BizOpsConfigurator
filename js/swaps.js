@@ -355,7 +355,7 @@ function generateWorkflowSwapList(el) {
       let from = "${" + transform + ".where}";
       let where = $workflowInput.find("input.whereClause").val();
       addToSwaps(swaps, { from: from, to: where });
-      let whereSteps = whereSplit(config.whereClause);
+      let whereSteps = whereSplit(where);
       whereSteps.forEach(function (x, i) {
         from = "${" + transform + ".where-" + i + "}";
         addToSwaps(swaps, { from: from, to: x });
