@@ -225,17 +225,17 @@ li.BOcollection input~ul {
   max-height: 0px;
 }
 
-#funnelFlex {
+#funnelFlex, .funnelFlex {
   display: flex;
 }
 
 #funnelwrapper, .funnelwrapper {
-  flex: 1;
+  flex: 1 1 50%;
   order: 2;
 }
 
 #options, #goalListWrapper {
-  flex: 1;
+  flex: 1 1 50%;
   order: 1;
 }
 
