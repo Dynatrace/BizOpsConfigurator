@@ -12,7 +12,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 	//private data
 	let journeyData, selectors, chart,
 		$funnel, $labelForm,
-		$whereClause,
+		$whereClause, $funnelClause,
 		$goalList,
 		$pencil, $plus, $minus, $updateLabel, $clearFunnel;
 	let $target = $(target);
@@ -69,8 +69,15 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 			whereA.push("(" + clauseString + ")");
 		});
 		let whereS = whereA.join(" AND ");
-
 		$whereClause.val(whereS);
+
+		let FunnelStep = "";
+		let funnelSteps = [];
+		for (let i = 0; i < whereSteps.length; i++) {
+			funnelSteps.push(whereSteps[i] + " AS \"" + config.funnelData[i].label + "\"");
+		}
+		FunnelStep = funnelSteps.join(", ");
+		$funnelClause.text(FunnelStep);
 	}
 
 	function funnelDrop(event, ui) {
@@ -151,6 +158,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		$minus = selectors.minus;
 		$updateLabel = selectors.updateLabel;
 		$clearFunnel = selectors.clearFunnel;
+		$funnelClause = selectors.funnelClause;
 	}
 
 	function updateLabel() {
@@ -277,7 +285,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 
 	$.when(p0).done(function (data0) {
 		$target.parents(".workflowSection").addClass("flex");
-		$target.parent(".userInput").removeClass("userInput");
+		$target.parent(".userInput").removeClass("userInput").addClass("journeyPicker");
 		$target.replaceWith($html);
 
 		populateGoalList();

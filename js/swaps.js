@@ -344,13 +344,21 @@ function generateWorkflowSwapList(el) {
 
   $el.find(".workflowInput").each(function (i, el) {
     let $workflowInput = $(this);
-    let $slicer = $workflowInput.find(".apiResultSlicer, .usqlResultSlicer, .journeyPicker");
+    let $slicer = $workflowInput.find(".apiResultSlicer, .usqlResultSlicer");
     let slicer = $slicer.val();
     let whereClause = ($slicer.attr("data-addWhereClause") === 'true') ?
       true : false;
     let transform = $workflowInput.find(".transform span").text();
+    let journeyPicker = $workflowInput.find(".journeyPicker");
 
-    if (whereClause) {
+    if (journeyPicker) {
+      let from = "${" + transform + ".where}";
+      let where = $workflowInput.find("input.whereClause").val();
+      addToSwaps(swaps, { from: from, to: where });
+      from = "${" + transform + ".funnel}";
+      where = $workflowInput.find("input.funnelClause").val();
+      addToSwaps(swaps, { from: from, to: where });
+    } else if (whereClause) {
       let from = "${" + transform + "}";
       let filterClause = $workflowInput.find("input.filterClause, input.whereClause").val();
       //filterClause = filterClause.replace(/"/g, '\\"'); //not sure why I needed this before but now do not...
@@ -362,15 +370,15 @@ function generateWorkflowSwapList(el) {
       case "{entityId:displayName}":
       case "values:{id:name}": {
         let $select = $workflowInput.find("select");
-        apiSelectGetSwaps($select,transform,swaps);
+        apiSelectGetSwaps($select, transform, swaps);
 
-          /*let $option = $workflowInput.find("select option:selected");
-          let value = $option.val();
-          let key = $option.text();
-          let fromkey = "${" + transform + ".name}";
-          let fromval = "${" + transform + ".id}";
-          addToSwaps(swaps, { from: fromkey, to: key });
-          addToSwaps(swaps, { from: fromval, to: value });*/
+        /*let $option = $workflowInput.find("select option:selected");
+        let value = $option.val();
+        let key = $option.text();
+        let fromkey = "${" + transform + ".name}";
+        let fromval = "${" + transform + ".id}";
+        addToSwaps(swaps, { from: fromkey, to: key });
+        addToSwaps(swaps, { from: fromval, to: value });*/
         break;
       }
       case 'Keys': {
@@ -440,49 +448,49 @@ function addToSwaps(swaps, swap) {
     swaps.push(swap);
 }
 
-function apiSelectGetSwaps(select,transform,swaps){
+function apiSelectGetSwaps(select, transform, swaps) {
   let $select = $(select);
   if ($select.attr("multiple")) {
-      let values = [];
-      $select.find("option:selected").each((i, e) => {
-          let $e = $(e);
-          let obj = { value: $e.val(), key: $e.text() };
-          if (typeof $e.attr("data-type") !== "undefined") obj['type'] = $e.attr("data-type");
-          values.push(obj);
-      });
-      let i = 1;
-      values.forEach((obj) => {
-          let fromkey = "${" + transform + "-" + i + ".name}";
-          let fromval = "${" + transform + "-" + i + ".id}";
-          //xform += `<b>from</b>:${fromkey}, <b>to</b>:${obj.key}<br>`;
-          addToSwaps(swaps, {from: fromkey, to: obj.key});
-          //xform += `<b>from</b>:${fromval}, <b>to</b>:${obj.value}<br>`;
-          addToSwaps(swaps, {from: fromval, to: obj.value});
-          if (typeof obj.type != "undefined") {
-              let fromtype = "${" + transform + "-" + i + ".type}";
-              //xform += `<b>from</b>:${fromtype}, <b>to</b>:${obj.type}<br>`;
-              addToSwaps(swaps, {from: fromtype, to: obj.type});
-          }
-          i++;
-      });
-      //$("#swaps").html(xform);
-  } else {
-      let val = $select.val();
-      let key = $select.children("option:selected").text();
-
-      let fromkey = "${" + transform + ".name}";
-      let fromval = "${" + transform + ".id}";
-      //let xform = `
-      //    <b>from</b>:${fromkey}, <b>to</b>:${key}<br>
-      //    <b>from</b>:${fromval}, <b>to</b>:${val}<br>`;
-      addToSwaps(swaps, {from: fromkey, to: key});
-      addToSwaps(swaps, {from: fromval, to: val});
-      if ($select.children("option:selected[data-type]").length) {
-          let type = $select.children("option:selected[data-type]").attr("data-type");
-          let fromtype = "${" + transform + ".type}";
-          //xform += `<b>from</b>:${fromtype}, <b>to</b>:${type}<br>`;
-          addToSwaps(swaps, {from: fromtype, to: type});
+    let values = [];
+    $select.find("option:selected").each((i, e) => {
+      let $e = $(e);
+      let obj = { value: $e.val(), key: $e.text() };
+      if (typeof $e.attr("data-type") !== "undefined") obj['type'] = $e.attr("data-type");
+      values.push(obj);
+    });
+    let i = 1;
+    values.forEach((obj) => {
+      let fromkey = "${" + transform + "-" + i + ".name}";
+      let fromval = "${" + transform + "-" + i + ".id}";
+      //xform += `<b>from</b>:${fromkey}, <b>to</b>:${obj.key}<br>`;
+      addToSwaps(swaps, { from: fromkey, to: obj.key });
+      //xform += `<b>from</b>:${fromval}, <b>to</b>:${obj.value}<br>`;
+      addToSwaps(swaps, { from: fromval, to: obj.value });
+      if (typeof obj.type != "undefined") {
+        let fromtype = "${" + transform + "-" + i + ".type}";
+        //xform += `<b>from</b>:${fromtype}, <b>to</b>:${obj.type}<br>`;
+        addToSwaps(swaps, { from: fromtype, to: obj.type });
       }
-      //$("#swaps").html(xform);
+      i++;
+    });
+    //$("#swaps").html(xform);
+  } else {
+    let val = $select.val();
+    let key = $select.children("option:selected").text();
+
+    let fromkey = "${" + transform + ".name}";
+    let fromval = "${" + transform + ".id}";
+    //let xform = `
+    //    <b>from</b>:${fromkey}, <b>to</b>:${key}<br>
+    //    <b>from</b>:${fromval}, <b>to</b>:${val}<br>`;
+    addToSwaps(swaps, { from: fromkey, to: key });
+    addToSwaps(swaps, { from: fromval, to: val });
+    if ($select.children("option:selected[data-type]").length) {
+      let type = $select.children("option:selected[data-type]").attr("data-type");
+      let fromtype = "${" + transform + ".type}";
+      //xform += `<b>from</b>:${fromtype}, <b>to</b>:${type}<br>`;
+      addToSwaps(swaps, { from: fromtype, to: type });
+    }
+    //$("#swaps").html(xform);
   }
 }
