@@ -193,6 +193,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		  });
 		  updateWhere(journeyData);
 		  chart.draw(journeyData, options);
+		  populateGoalList();
 	}
 
 	function attachHandlers() {
@@ -252,6 +253,13 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		}
 	}
 
+	function populateGoalList() {
+		$goalList.find("li").remove();
+		drawSteps(parseSteps(data2[0]),$goalList);
+		drawSteps(parseSteps(data1[0]),$goalList);
+		$goalList.find("li").draggable();
+	}
+
 
 	//constructor
 	let p0 = loadHTML();
@@ -268,9 +276,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 				+ ' class="newTab" target="_blank">here <img src="images/link.svg"></a>';
 			popup([], popheader, desc);
 		}
-		drawSteps(parseSteps(data2[0]),$goalList);
-		drawSteps(parseSteps(data1[0]),$goalList);
-		$goalList.find("li").draggable();
+		populateGoalList();
 		//jsonviewer([data1[0], data2[0]]);
 
 		if (data != null) journeyData = data;
