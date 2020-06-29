@@ -357,7 +357,7 @@ function generateWorkflowSwapList(el) {
       addToSwaps(swaps, { from: from, to: where });
       let whereSteps = whereSplit(where);
       whereSteps.forEach(function (x, i) {
-        from = "${" + transform + ".where-" + i + "}";
+        from = "${" + transform + ".where-" + (i + 1) + "}";
         addToSwaps(swaps, { from: from, to: x });
         if (i == whereSteps.length - 1) {
           from = "${" + transform + ".where-last}";
@@ -370,10 +370,17 @@ function generateWorkflowSwapList(el) {
       where = $funnelClause.val();
       addToSwaps(swaps, { from: from, to: where });
       let journeyData = JSON.parse($funnelClause.attr("data-journeyData"));
-      journeyData.forEach(function (d,i) {
-        from = "${" + transform + ".header-"+ i + "}";
+      journeyData.forEach(function (d, i) {
+        from = "${" + transform + ".header-" + (i + 1) + "}";
         addToSwaps(swaps, { from: from, to: d.label });
+        if (i == journeyData.length - 1) {
+          from = "${" + transform + ".header-last}";
+          addToSwaps(swaps, { from: from, to: d.label });
+        }
       });
+
+      from = "${" + transform + ".steps}";
+      ddToSwaps(swaps, { from: from, to: journeyData.length });
     } else if (whereClause) {
       let from = "${" + transform + "}";
       let filterClause = $workflowInput.find("input.filterClause, input.whereClause").val();
