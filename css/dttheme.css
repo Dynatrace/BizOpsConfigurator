@@ -269,13 +269,13 @@ div#querybox input, div#querybox a {
   margin: 5px 10px 0px 10px;
 }
 
-#whereClause, .whereClause {
+#whereClause, .whereClause, .funnelClause {
   width: 100%;
   text-overflow: ellipsis;
   background: #CCCCCC;
 }
 
-#whereClause.pencilMode, .whereClause.pencilMode {
+#whereClause.pencilMode, .whereClause.pencilMode, .funnelClause.pencilMode {
   text-overflow: clip;
   background: white;
 }

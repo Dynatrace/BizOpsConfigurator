@@ -232,11 +232,12 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 	function pencilToggle(on) {
 		if (on === true || $whereClause.attr('readonly')) {
 			$whereClause.attr('readonly', false);
+			$funnelClause.attr('readonly', false);
 			$whereClause.addClass("pencilMode");
+			$funnelClause.addClass("pencilMode");
 			$goalList.find("li").draggable({ disabled: true });
 			$goalList.find("li").addClass("pencilMode");
 			//disable funnel
-			//handled in funnelClickHandler
 			options.block.fill.scale = d3.schemeGreys[9];
 			options.label.fill = "#000";
 			chart.draw(journeyData, options);
@@ -246,7 +247,9 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 
 		} else if (on === false || confirm("Revert where clause to funnel?")) {
 			$whereClause.attr('readonly', true);
+			$funnelClause.attr('readonly', true);
 			$whereClause.removeClass("pencilMode");
+			$funnelClause.removeClass("pencilMode");
 			$goalList.find("li").draggable({ disabled: false });
 			$goalList.find("li").removeClass("pencilMode");
 			options.block.fill.scale = d3.schemeCategory10;
