@@ -11,7 +11,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 
 	//private data
 	let journeyData, selectors, chart,
-		$funnel, $labelFrom,
+		$funnel, $labelForm,
 		$whereClause,
 		$goalList,
 		$pencil, $plus, $minus;
@@ -134,7 +134,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 
 	function popuplateSelectors() {
 		$funnel = selectors.funnel;
-		$labelFrom = selectors.labelFrom;
+		$labelForm = selectors.labelForm;
 		$whereClause = selectors.whereClause;
 		$goalList = selectors.goalList;
 		$pencil = selectors.pencil;
@@ -149,7 +149,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 	}
 
 	function getSelectors() {
-		return { funnel: $funnel, whereClause: $whereClause, $labelFrom }
+		return { funnel: $funnel, whereClause: $whereClause, $labelForm }
 	}
 
 	function getData() {
@@ -202,6 +202,8 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 	let p1 = getGoals(app.name);
 	let p2 = getKeyActions(app.name);
 	$.when(p0, p1, p2).done(function (data0, data1, data2) {
+		$target.parent(".workflowSection").addClass("flex");
+		$target.parent(".userInput").removeClass("userInput");
 		$target.replaceWith($html);
 		if (data1[0].values.length == 0 && data2[0].values.length == 0) {
 			let popheader = "No Key User Actions or Conversion Goals";
