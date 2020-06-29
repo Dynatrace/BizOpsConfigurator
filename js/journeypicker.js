@@ -122,9 +122,11 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 			$widget = $(data);
 			$widget.each(function () {
 				let $el = $(this);
-				let id = $el.attr("id");
-				newSelectors[id] = $el;
-				$el.attr("id", id+uniqId());
+				if($el.attr("id")){
+					let id = $el.attr("id");
+					newSelectors[id] = $el;
+					$el.attr("id", id+uniqId());
+				}
 			})
 			$widget.find("[id]").each(function () {
 				let $el = $(this);
@@ -197,6 +199,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		$plus.on("click",addTier);
 		$minus.on("click",removeTier);
 		$clearFunnel.on("click",clearFunnel);
+		$pencil.on("click",pencilToggle);
 	}
 
 
@@ -288,6 +291,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 			tolerance: "pointer",
 			drop: funnelDrop
 		});
+		attachHandlers();
 
 		masterP.resolve({ html:$html, updateData, getSelectors, getData, pencilToggle });
 	});
