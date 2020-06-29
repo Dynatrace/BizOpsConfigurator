@@ -14,7 +14,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		$funnel, $labelForm,
 		$whereClause,
 		$goalList,
-		$pencil, $plus, $minus;
+		$pencil, $plus, $minus, $updateLabel, $clearFunnel;
 	let $target = $(target);
 
 	var options = {
@@ -146,7 +146,61 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		$pencil = selectors.pencil;
 		$plus = selectors.plus;
 		$minus = selectors.minus;
+		$updateLabel = selectors.updateLabel;
+		$clearFunnel = selectors.clearFunnel;
 	}
+
+	function updateLabel() {
+		let i = $labelForm.find("input#i").val();
+		let label = $labelForm.find("#labelInput").val();
+		journeylData[i].label = label;
+		$labelForm.hide();
+		chart.draw(journeyData, options);
+		updateWhere();
+	}
+
+	function addTier() {
+		if ($whereClause.attr('readonly') &&
+          journeyData.length < 10) { //do nothing if in pencil mode
+          journeyData.push({ label: 'name', value: '', clauses: [] });
+          chart.draw(journeyData, options);
+          updateWhere(journeyData);
+          $minus.prop("disabled", false);
+        } else {
+          $plus.prop("disabled", true);
+        }
+	}
+
+	function removeTier() {
+		if ($whereClause.attr('readonly') &&
+          journeyData.length > 2) { //do nothing if in pencil mode
+          journeyData.pop();
+          chart.draw(journeyData, options);
+          updateWhere(journeyData);
+          $plus.prop("disabled", false);
+        } else {
+          $minus.prop("disabled", true);
+        }
+	}
+
+	function clearFunnel() {
+		journeyData.forEach(function (f, i, a) {
+			a[i].value = "";
+			a[i].clauses = [];
+		  });
+		  updateWhere(journeyData);
+		  chart.draw(journeyData, options);
+	}
+
+	function attachHandlers() {
+		$updateLabel.on("click",updateLabel);
+		$plus.on("click",addTier);
+		$minus.on("click",removeTier);
+		$clearFunnel.on("click",clearFunnel);
+	}
+
+
+
 
 	//public methods
 	function updateData(data) {
@@ -194,14 +248,6 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		}
 	}
 
-	function updateLabel() {
-		let i = $labelForm.find("input#i").val();
-		let label = $labelForm.find("#labelInput").val();
-		journeylData[i].label = label;
-		$labelForm.hide();
-		chart.draw(journeyData, options);
-		updateWhere();
-	}
 
 	//constructor
 	let p0 = loadHTML();
@@ -243,7 +289,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 			drop: funnelDrop
 		});
 
-		masterP.resolve({ html:$html, updateData, getSelectors, getData, pencilToggle, updateLabel });
+		masterP.resolve({ html:$html, updateData, getSelectors, getData, pencilToggle });
 	});
 	return masterP;
 }
