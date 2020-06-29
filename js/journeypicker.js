@@ -202,7 +202,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 	let p1 = getGoals(app.name);
 	let p2 = getKeyActions(app.name);
 	$.when(p0, p1, p2).done(function (data0, data1, data2) {
-		$target.parent(".workflowSection").addClass("flex");
+		$target.parents(".workflowSection").addClass("flex");
 		$target.parent(".userInput").removeClass("userInput");
 		$target.replaceWith($html);
 		if (data1[0].values.length == 0 && data2[0].values.length == 0) {
