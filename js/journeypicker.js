@@ -123,17 +123,17 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 			$widget = $(data);
 			$widget.each(function () {
 				let $el = $(this);
-				if($el.attr("id")){
+				if ($el.attr("id")) {
 					let id = $el.attr("id");
 					newSelectors[id] = $el;
-					$el.attr("id", id+uniqId());
+					$el.attr("id", id + uniqId());
 				}
 			})
 			$widget.find("[id]").each(function () {
 				let $el = $(this);
 				let id = $el.attr("id");
 				newSelectors[id] = $el;
-				$el.attr("id", id+uniqId());
+				$el.attr("id", id + uniqId());
 			})
 			selectors = newSelectors;
 			popuplateSelectors();
@@ -164,44 +164,44 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 
 	function addTier() {
 		if ($whereClause.attr('readonly') &&
-          journeyData.length < 10) { //do nothing if in pencil mode
-          journeyData.push({ label: 'name', value: '', clauses: [] });
-          chart.draw(journeyData, options);
-          updateWhere(journeyData);
-          $minus.prop("disabled", false);
-        } else {
-          $plus.prop("disabled", true);
-        }
+			journeyData.length < 10) { //do nothing if in pencil mode
+			journeyData.push({ label: 'name', value: '', clauses: [] });
+			chart.draw(journeyData, options);
+			updateWhere(journeyData);
+			$minus.prop("disabled", false);
+		} else {
+			$plus.prop("disabled", true);
+		}
 	}
 
 	function removeTier() {
 		if ($whereClause.attr('readonly') &&
-          journeyData.length > 2) { //do nothing if in pencil mode
-          journeyData.pop();
-          chart.draw(journeyData, options);
-          updateWhere(journeyData);
-          $plus.prop("disabled", false);
-        } else {
-          $minus.prop("disabled", true);
-        }
+			journeyData.length > 2) { //do nothing if in pencil mode
+			journeyData.pop();
+			chart.draw(journeyData, options);
+			updateWhere(journeyData);
+			$plus.prop("disabled", false);
+		} else {
+			$minus.prop("disabled", true);
+		}
 	}
 
 	function clearFunnel() {
 		journeyData.forEach(function (f, i, a) {
 			a[i].value = "";
 			a[i].clauses = [];
-		  });
-		  updateWhere(journeyData);
-		  chart.draw(journeyData, options);
-		  populateGoalList();
+		});
+		updateWhere(journeyData);
+		chart.draw(journeyData, options);
+		populateGoalList();
 	}
 
 	function attachHandlers() {
-		$updateLabel.on("click",updateLabel);
-		$plus.on("click",addTier);
-		$minus.on("click",removeTier);
-		$clearFunnel.on("click",clearFunnel);
-		$pencil.on("click",pencilToggle);
+		$updateLabel.on("click", updateLabel);
+		$plus.on("click", addTier);
+		$minus.on("click", removeTier);
+		$clearFunnel.on("click", clearFunnel);
+		$pencil.on("click", pencilToggle);
 	}
 
 
@@ -254,28 +254,32 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 	}
 
 	function populateGoalList() {
-		$goalList.find("li").remove();
-		drawSteps(parseSteps(data2[0]),$goalList);
-		drawSteps(parseSteps(data1[0]),$goalList);
-		$goalList.find("li").draggable();
+		let p1 = getGoals(app.name);
+		let p2 = getKeyActions(app.name);
+		$.when(p1, p2).done(function (data1, data2) {
+			if (data1[0].values.length == 0 && data2[0].values.length == 0) {
+				let popheader = "No Key User Actions or Conversion Goals";
+				let desc = "Please configure some Key User Actions and/or Conversion Goals ";
+				desc += `<a href="${url}/#uemapplications/performanceanalysis;uemapplicationId=${app.id}"`
+					+ ' class="newTab" target="_blank">here <img src="images/link.svg"></a>';
+				popup([], popheader, desc);
+			}
+			$goalList.find("li").remove();
+			drawSteps(parseSteps(data2[0]), $goalList);
+			drawSteps(parseSteps(data1[0]), $goalList);
+			$goalList.find("li").draggable();
+		});
 	}
 
 
 	//constructor
 	let p0 = loadHTML();
-	let p1 = getGoals(app.name);
-	let p2 = getKeyActions(app.name);
-	$.when(p0, p1, p2).done(function (data0, data1, data2) {
+
+	$.when(p0).done(function (data0) {
 		$target.parents(".workflowSection").addClass("flex");
 		$target.parent(".userInput").removeClass("userInput");
 		$target.replaceWith($html);
-		if (data1[0].values.length == 0 && data2[0].values.length == 0) {
-			let popheader = "No Key User Actions or Conversion Goals";
-			let desc = "Please configure some Key User Actions and/or Conversion Goals ";
-			desc += `<a href="${url}/#uemapplications/performanceanalysis;uemapplicationId=${app.id}"`
-				+ ' class="newTab" target="_blank">here <img src="images/link.svg"></a>';
-			popup([], popheader, desc);
-		}
+
 		populateGoalList();
 		//jsonviewer([data1[0], data2[0]]);
 
@@ -300,7 +304,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		});
 		attachHandlers();
 
-		masterP.resolve({ html:$html, updateData, getSelectors, getData, pencilToggle });
+		masterP.resolve({ html: $html, updateData, getSelectors, getData, pencilToggle, populateGoalList });
 	});
 	return masterP;
 }
