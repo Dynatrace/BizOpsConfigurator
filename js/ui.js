@@ -605,7 +605,7 @@ function compareWorkflowVsRepo() {
     x.repo.owner === repo.owner && x.repo.repo === repo.repo && x.repo.path === repo.path);
 
   //load specified repo if not already
-  if (typeof overview == "undefined" && typeof selection.config != "undefined") {
+  if (typeof overview == "undefined" && typeof repo.owner != "undefined") {
     if (!repoList.find(x => x.repo.owner === repo.owner && x.repo.repo === repo.repo && x.repo.path === repo.path))
       repoList.push(repo);
     let p_i = getRepoContents(repo);
