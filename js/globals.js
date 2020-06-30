@@ -81,7 +81,8 @@ var usecases = [
   { name: "Billing Analysis", bizAnalytics: false, prefix: "a011" },
   { name: "Marketing Campaign", bizAnalytics: true, prefix: "a012" },
   { name: "AIOps", bizAnalytics: false, prefix: "a013"},
-  { name: "Site Reliability Engineering (SRE)", bizAnalytics: false, prefix: "a014"}
+  { name: "Site Reliability Engineering (SRE)", bizAnalytics: false, prefix: "a014"},
+  { name: "Software Suite (COTS)", bizAnalytics: false, prefix: "a015"}
 ];
 //////// Global Vars ////////////
 var url = "";

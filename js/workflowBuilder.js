@@ -211,7 +211,18 @@ function Input() {
                         let $div = $(`<div class="workflowMarkdown">`);
                         $div.append("<textarea>## Enter your text here...</textarea>")
                             .appendTo($input);
-                        $input.parent().find(".inputHeader, .transform, .tryitout").remove();
+                        $input.parent().find(".inputHeader, .transform").remove();
+                        break;
+                    }
+                    case "Conditional Swaps": {
+                        let $div = $(`<div class="conditionalSwap">`)
+                            .appendTo($input);
+                        let $el = $(`<input type="hidden" class="conditionalValues">`)
+                            .val(data.conditionalValues)
+                            .appendTo($div);
+                            
+                        $input.parent().find(".inputHeader").remove();
+                        break;
                     }
                 }
                 $transform.text(data.transform);
@@ -543,6 +554,11 @@ function workflowConfiguration() {
                 $(`#${prop}`).val(oldConfig[prop]);
             }
         }
+        $("#workflowConfigBox").find("input[type=checkbox]").each(function(){
+            $el = $(this);
+            if($el.val()) $el.attr("checked",true);
+            else $el.attr("checked",false);
+        });
 
         $.when(p2).done(function (data) {
             let newConfig = JSON.stringify(data);
@@ -737,6 +753,9 @@ function renderWorkflowPage(el) {
         $(this).addClass("markdownTransformed");
         $(this).attr("style", style);
     });
+
+    //render conditional swaps
+
 
     //make sure any XHRs are finished before we return the html
     $.when.apply($, promises).done(function () {
@@ -1155,6 +1174,13 @@ function conditionalAddHandler(e) {
     vals.push({prior:prior, swap:swap});
     $("#conditionalValues").val(JSON.stringify(vals));
 
+    conditionalPreview(vals);
+
+    $("#conditionalPriorValue").val("");
+    $("#conditionalSwapValue").val("");
+}
+
+function conditionalPreview(vals) {
     let transform = "${" + $("#transform").val() + "}";
     let priorSwap = $("#conditionalPrior").val();
     let preview = `
@@ -1166,7 +1192,4 @@ function conditionalAddHandler(e) {
     });
     preview += `</table>`;
     $("#preview").html(preview);
-
-    $("#conditionalPriorValue").val("");
-    $("#conditionalSwapValue").val("");
 }
