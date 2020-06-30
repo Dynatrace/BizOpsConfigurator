@@ -273,6 +273,9 @@ function inputTypeChangeHandler() {
             $("#transform").val("journey");
             $("#appTransform").show();
             $(".tryitout").hide();
+            $("#inputInfoBox").html(`<img src="images/light-bulb-yellow_300.svg">
+            Journey Pickers should be on their own page.`);
+            $("#inputInfoBox").show();
             break;
         case "Markdown":
             $(".transform, .tryitout").hide();
@@ -280,6 +283,19 @@ function inputTypeChangeHandler() {
         case "Conditional Swap":
             $("#conditionalSwap").show();
             $("#newInputPreview").show();
+            $("#newInputResult").html(`
+                if \${feature} == X, then swap \${dashboardid} to Y:<br>
+                <table><tr><th>X</th><th>Y</th></tr>
+                <tr><td>true</td><td>31349d20-e714-4aaa-8184-7e5a76f5bf5b</td></tr>
+                <tr><td>false</td><td>98749d20-1234-4567-8244-876a76f5b567</td></tr>
+                </table><br>
+                if \${journey.steps} == X, then swap \${dashboardid} to Y:<br>
+                <table><tr><th>X</th><th>Y</th></tr>
+                <tr><td>3</td><td>31349d20-e714-4aaa-8184-7e5a76f5bf5b</td></tr>
+                <tr><td>4</td><td>98749d20-1234-4567-8244-876a76f5b567</td></tr>
+                <tr><td>5</td><td>12349d20-4234-9567-8244-126a76f5b789</td></tr>
+                </table><br>`);
+            $("#newInputResult").show();
             break;
     }
 }
@@ -1148,6 +1164,6 @@ function conditionalAddHandler(e) {
     preview += `</table>`;
     $("#preview").html(preview);
 
-    $("#conditionalPriorValue").val("${}");
-    $("#conditionalSwapValue").val("${}");
+    $("#conditionalPriorValue").val("");
+    $("#conditionalSwapValue").val("");
 }
