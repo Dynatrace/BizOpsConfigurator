@@ -220,7 +220,7 @@ function Input() {
                         let $el = $(`<input type="hidden" class="conditionalValues">`)
                             .val(data.conditionalValues)
                             .appendTo($div);
-                            
+
                         $input.parent().find(".inputHeader").remove();
                         break;
                     }
@@ -433,6 +433,9 @@ function previewHandler() {
         case "Select (USQL)":
             previewUSQLhandler();
             break;
+        case "Conditional Swaps":
+            conditionalPreview();
+            break;
     }
 }
 
@@ -554,10 +557,10 @@ function workflowConfiguration() {
                 $(`#${prop}`).val(oldConfig[prop]);
             }
         }
-        $("#workflowConfigBox").find("input[type=checkbox]").each(function(){
+        $("#workflowConfigBox").find("input[type=checkbox]").each(function () {
             $el = $(this);
-            if($el.val()!=="false") $el.attr("checked",true);
-            else $el.attr("checked",false);
+            if ($el.val() !== "false") $el.attr("checked", true);
+            else $el.attr("checked", false);
         });
 
         $.when(p2).done(function (data) {
@@ -1167,11 +1170,11 @@ function syncMarkdowns(el) {
 
 function conditionalAddHandler(e) {
     let vals = $("#conditionalValues").val();
-    if(vals) vals = JSON.parse(vals);
+    if (vals) vals = JSON.parse(vals);
     else vals = [];
     let prior = $("#conditionalPriorValue").val();
     let swap = $("#conditionalSwapValue").val();
-    vals.push({prior:prior, swap:swap});
+    vals.push({ prior: prior, swap: swap });
     $("#conditionalValues").val(JSON.stringify(vals));
 
     conditionalPreview(vals);
@@ -1187,7 +1190,7 @@ function conditionalPreview(vals) {
     let swapPreview = `
     <table class="dataTable"><thead><tr><td>X</td><td>Y</td></tr></thead>
     `;
-    vals.forEach(function(v){
+    vals.forEach(function (v) {
         swapPreview += `<tr><td>${v.prior}</td><td>${v.swap}</td></tr>`;
     });
     swapPreview += `</table>`;
