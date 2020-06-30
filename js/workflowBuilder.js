@@ -214,11 +214,14 @@ function Input() {
                         $input.parent().find(".inputHeader, .transform").remove();
                         break;
                     }
-                    case "Conditional Swaps": {
+                    case "Conditional Swap": {
                         let $div = $(`<div class="conditionalSwap">`)
                             .appendTo($input);
                         let $el = $(`<input type="hidden" class="conditionalValues">`)
                             .val(data.conditionalValues)
+                            .appendTo($div);
+                        $el = $(`<input type="text" disabled class="conditionalPrior">`)
+                            .val(data.conditionalPrior)
                             .appendTo($div);
 
                         $input.parent().find(".inputHeader").remove();
@@ -310,6 +313,7 @@ function inputTypeChangeHandler() {
                 <tr><td>5</td><td>12349d20-4234-9567-8244-126a76f5b789</td></tr>
                 </table><br>`);
             $("#newInputResult").show();
+            $("#transform").val("nextdb");
             break;
     }
 }
@@ -1184,10 +1188,10 @@ function conditionalAddHandler(e) {
 }
 
 function conditionalPreview(vals) {
-    if(vals==null) {
+    if (vals == null) {
         vals = $("#conditionalValues").val();
         if (vals) vals = JSON.parse(vals);
-        else vals = []; 
+        else vals = [];
     }
     let transform = "${" + $("#transform").val() + "}";
     let priorSwap = $("#conditionalPrior").val();
