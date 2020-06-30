@@ -1146,7 +1146,7 @@ function conditionalAddHandler(e) {
         preview += `<tr><td>${v.prior}</td><td>${v.swap}</td></tr>`;
     });
     preview += `</table>`;
-    $("#preview").val(preview);
+    $("#preview").html(preview);
 
     $("#conditionalPriorValue").val("${}");
     $("#conditionalSwapValue").val("${}");
