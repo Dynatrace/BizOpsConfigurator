@@ -93,8 +93,20 @@
             <div class="inputHeader">App transform:</div>
             <div class="userInput">&dollar;{&nbsp;<input id="app" value="app">&nbsp;}</div>
         </div>
+        
         <div class="inputHeader transform">Dashboard placeholder to search/replace:</div>
         <div class="userInput transform">&dollar;{&nbsp;<input id="transform" value="MyString" required>&nbsp;}</div>
+        <div id="conditionalSwap">
+            <div class="inputHeader">Prior page swap</div>
+            <div class="userInput"><input id="conditionalPrior"></div>
+            <div class="inputHeader">Prior page value</div>
+            <div class="userInput"><input id="conditionalPriorValue"></div>
+            <div class="inputHeader">Swap value</div>
+            <div class="userInput"><input id="conditionalSwapValue"></div>
+            <div class="inputHeader">Add</div>
+            <div class="userInput"><input type="button" id="conditionalAdd" value="+"></div>
+            <input type="hidden" id="conditionalValues">
+        </div>
         <div class="inputHeader tryitout">Try it out:</div>
         <div class="userInput tryitout"><input type="button" id="test" value="Test"></div>
 

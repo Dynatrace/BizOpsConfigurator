@@ -64,6 +64,7 @@ function workflowBuilderHandlers() {
     $("#viewport").on("change", "input[type=checkbox]", checkHandler);
     $("#viewport").on("click", "#test", previewHandler);
     $("#viewport").on("click", "#staticBoxAdd", staticBoxAddHandler);
+    $("#viewport").on("click", "#conditionalAdd", conditionalAddHandler);
 
     //prevent rich text paste
     $("#viewport").on("paste", "[contenteditable]", pasteFixer);
@@ -191,10 +192,10 @@ function Input() {
                     case "Journey Picker": {
                         $(`<img src="images/funnel.png" class="journeyPicker" data-addWhereClause="true">`)
                             .appendTo($input);
-                            $(`<input type="hidden" class="appTransform">`)
+                        $(`<input type="hidden" class="appTransform">`)
                             .val(data.app)
                             .appendTo($input);
-                            $input.parent().find(".inputHeader, .tryitout").remove();
+                        $input.parent().find(".inputHeader, .tryitout").remove();
                         break;
                     }
                     case "Checkboxes": {
@@ -236,6 +237,7 @@ function inputTypeChangeHandler() {
     $("#preview").html();
     $("#preview").off();
     $("#appTransform").hide();
+    $("#conditionalSwap").hide();
 
 
     switch ($("#inputType").val()) {
@@ -274,6 +276,9 @@ function inputTypeChangeHandler() {
             break;
         case "Markdown":
             $(".transform, .tryitout").hide();
+            break;
+        case "Conditional Swap":
+            $("#conditionalSwap").show();
             break;
     }
 }
@@ -641,15 +646,15 @@ function renderWorkflow(el) {
     let $el = $(el);
     let clonedEl = $el.clone();
 
-    if(typeof selection == "undefined") selection = {};
-    if(typeof selection.config == "undefined") selection.config = {};
+    if (typeof selection == "undefined") selection = {};
+    if (typeof selection.config == "undefined") selection.config = {};
 
     //copy markdown values
     let fromMarkdowns = $el.find(".workflowMarkdown textarea");
     let toMarkdowns = clonedEl.find(".workflowMarkdown textarea");
-    for(let i=0; i<fromMarkdowns.length; i++){
+    for (let i = 0; i < fromMarkdowns.length; i++) {
         let val = $(fromMarkdowns[i]).val();
-        $(toMarkdowns[i]).text(val); 
+        $(toMarkdowns[i]).text(val);
     }
 
     //cleanup clone
@@ -684,33 +689,33 @@ function renderWorkflowPage(el) {
     });
 
     //Journey Pickers
-    $el.find(".journeyPicker").each(function() {
+    $el.find(".journeyPicker").each(function () {
         let $target = $(this);
         let appTransform = $target.siblings(".appTransform").val();
         let app = {
             name: '${' + appTransform + '.name}',
             id: '${' + appTransform + '.id}'
         };
-        if (typeof selection.swaps !== "undefined"){
+        if (typeof selection.swaps !== "undefined") {
             let swap = selection.swaps.find(x => x.from == app.name);
-            app.name = swap?swap.to:app.name;
+            app.name = swap ? swap.to : app.name;
             swap = selection.swaps.find(x => x.from == app.id);
-            app.id = swap?swap.to:app.id;
+            app.id = swap ? swap.to : app.id;
         }
-        let p1 = JourneyPickerFactory($target,app);
+        let p1 = JourneyPickerFactory($target, app);
         promises.push(p1);
     });
 
     //render markdowns
     $el.find(".workflowMarkdown").each(function () {
-        let $ta = $(this).find("textarea"); 
+        let $ta = $(this).find("textarea");
         let md = $ta.val();
         let style = $ta.attr("style");
         var converter = new showdown.Converter();
         html = converter.makeHtml(md) || "Markdown failed to render";
         $(this).html(html);
         $(this).addClass("markdownTransformed");
-        $(this).attr("style",style);
+        $(this).attr("style", style);
     });
 
     //make sure any XHRs are finished before we return the html
@@ -1112,11 +1117,31 @@ function previewChangeHandlerValX4(event) {
     $("#swaps").html(xform);
 }
 
-function syncMarkdowns(el){
+function syncMarkdowns(el) {
     let $el = $(el);
     let $markdowns = $el.find(".workflowMarkdown textarea");
-    for(let i=0; i < $markdowns.length; i++){
+    for (let i = 0; i < $markdowns.length; i++) {
         let val = $($markdowns[i]).val();
-        $($markdowns[i]).text(val); 
+        $($markdowns[i]).text(val);
     }
+}
+
+function conditionalAddHandler(e) {
+    let vals = $("#conditionalValues").val();
+    if(vals) vals = JSON.parse(vals);
+    else vals = [];
+    let prior = $("#conditionalPriorValue").val();
+    let swap = $("#conditionalSwapValue").val();
+    vals.push({prior:prior, swap:swap});
+    $("#conditionalValues").val(vals);
+
+    let preview = `
+    if ${priorSwap} == X, then swap ${transform} to Y:<br>
+    <table><tr><th>X</th><th>Y</th></tr>
+    `;
+    vals.forEach(function(v){
+        preview += `<tr><td>${v.prior}</td><td>${v.swap}</td></tr>`;
+    });
+    preview += `</table>`;
+    $("#preview").val(preview);
 }
