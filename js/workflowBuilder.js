@@ -1184,6 +1184,9 @@ function conditionalAddHandler(e) {
 }
 
 function conditionalPreview(vals) {
+    if(vals==null) vals = $("#conditionalValues").val();
+    if (vals) vals = JSON.parse(vals);
+    else vals = []; 
     let transform = "${" + $("#transform").val() + "}";
     let priorSwap = $("#conditionalPrior").val();
     let preview = `if ${priorSwap} == X, then swap ${transform} to Y:<br>`;
