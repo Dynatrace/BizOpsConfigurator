@@ -283,7 +283,8 @@ function inputTypeChangeHandler() {
         case "Conditional Swap":
             $("#conditionalSwap").show();
             $("#newInputPreview").show();
-            $("#newInputResult").html(`
+            $("#apiQueryHeader").text("Examples:")
+            $("#apiResult").html(`
                 if \${feature} == X, then swap \${dashboardid} to Y:<br>
                 <table><tr><th>X</th><th>Y</th></tr>
                 <tr><td>true</td><td>31349d20-e714-4aaa-8184-7e5a76f5bf5b</td></tr>
