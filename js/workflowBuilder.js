@@ -279,6 +279,7 @@ function inputTypeChangeHandler() {
             break;
         case "Conditional Swap":
             $("#conditionalSwap").show();
+            $("#newInputPreview").show();
             break;
     }
 }
@@ -1133,7 +1134,7 @@ function conditionalAddHandler(e) {
     let prior = $("#conditionalPriorValue").val();
     let swap = $("#conditionalSwapValue").val();
     vals.push({prior:prior, swap:swap});
-    $("#conditionalValues").val(vals);
+    $("#conditionalValues").val(JSON.stringify(vals));
 
     let transform = $("#transform").val();
     let priorSwap = $("#conditionalPrior").val();
