@@ -1183,13 +1183,14 @@ function conditionalAddHandler(e) {
 function conditionalPreview(vals) {
     let transform = "${" + $("#transform").val() + "}";
     let priorSwap = $("#conditionalPrior").val();
-    let preview = `
-    if ${priorSwap} == X, then swap ${transform} to Y:<br>
+    let preview = `if ${priorSwap} == X, then swap ${transform} to Y:<br>`;
+    let swapPreview = `
     <table class="dataTable"><thead><tr><td>X</td><td>Y</td></tr></thead>
     `;
     vals.forEach(function(v){
-        preview += `<tr><td>${v.prior}</td><td>${v.swap}</td></tr>`;
+        swapPreview += `<tr><td>${v.prior}</td><td>${v.swap}</td></tr>`;
     });
-    preview += `</table>`;
+    swapPreview += `</table>`;
     $("#preview").html(preview);
+    $("#swaps").html(swapPreview);
 }
