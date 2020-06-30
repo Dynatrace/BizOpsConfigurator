@@ -433,7 +433,7 @@ function previewHandler() {
         case "Select (USQL)":
             previewUSQLhandler();
             break;
-        case "Conditional Swaps":
+        case "Conditional Swap":
             conditionalPreview();
             break;
     }
