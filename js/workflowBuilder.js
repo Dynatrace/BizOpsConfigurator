@@ -238,6 +238,7 @@ function inputTypeChangeHandler() {
     $("#preview").off();
     $("#appTransform").hide();
     $("#conditionalSwap").hide();
+    $("#resultHeader").text("Result:");
 
 
     switch ($("#inputType").val()) {
@@ -283,15 +284,16 @@ function inputTypeChangeHandler() {
         case "Conditional Swap":
             $("#conditionalSwap").show();
             $("#newInputPreview").show();
-            $("#apiQueryHeader").text("Examples:")
+            $("#resultHeader").text("Examples:");
+            $("#apiQueryHeader").text("")
             $("#apiResult").html(`
                 if \${feature} == X, then swap \${dashboardid} to Y:<br>
-                <table><tr><th>X</th><th>Y</th></tr>
+                <table class="dataTable"><thead><tr><td>X</td><td>Y</td></tr></thead>
                 <tr><td>true</td><td>31349d20-e714-4aaa-8184-7e5a76f5bf5b</td></tr>
                 <tr><td>false</td><td>98749d20-1234-4567-8244-876a76f5b567</td></tr>
                 </table><br>
                 if \${journey.steps} == X, then swap \${dashboardid} to Y:<br>
-                <table><tr><th>X</th><th>Y</th></tr>
+                <table class="dataTable"><thead><tr><td>X</td><td>Y</td></tr></thead>
                 <tr><td>3</td><td>31349d20-e714-4aaa-8184-7e5a76f5bf5b</td></tr>
                 <tr><td>4</td><td>98749d20-1234-4567-8244-876a76f5b567</td></tr>
                 <tr><td>5</td><td>12349d20-4234-9567-8244-126a76f5b789</td></tr>
@@ -1157,7 +1159,7 @@ function conditionalAddHandler(e) {
     let priorSwap = $("#conditionalPrior").val();
     let preview = `
     if ${priorSwap} == X, then swap ${transform} to Y:<br>
-    <table><tr><th>X</th><th>Y</th></tr>
+    <table class="dataTable"><thead><tr><td>X</td><td>Y</td></tr></thead>
     `;
     vals.forEach(function(v){
         preview += `<tr><td>${v.prior}</td><td>${v.swap}</td></tr>`;

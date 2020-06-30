@@ -11,7 +11,8 @@
                 <option>Journey Picker</option>
                 <option disabled>Tile Replicator</option>
                 <option disabled>Conditional Swap</option>
-                <option disabled>Existing Dashboard Linker</option><!--how? regex maybe?-->
+                <option disabled>Existing Dashboard Linker</option>
+                <!--how? regex maybe?-->
             </select></div>
         <div id="textInputBox">
             <div class="inputHeader">Placeholder (ie hint):</div>
@@ -93,7 +94,7 @@
             <div class="inputHeader">App transform:</div>
             <div class="userInput">&dollar;{&nbsp;<input id="app" value="app">&nbsp;}</div>
         </div>
-        
+
         <div class="inputHeader transform">Dashboard placeholder to search/replace:</div>
         <div class="userInput transform">&dollar;{&nbsp;<input id="transform" value="MyString" required>&nbsp;}</div>
         <div id="conditionalSwap">
@@ -111,14 +112,16 @@
         <div class="userInput tryitout"><input type="button" id="test" value="Test"></div>
 
     </div>
-    <div id="newInputResult">
-        <div class="inputHeader">Result:<br><span id="apiQueryHeader"></span></div>
-        <div id="apiResult"></div>
-    </div>
     <div id="newInputPreview">
         <div class="inputHeader">Preview:</div>
         <div id="preview"></div>
         <div class="inputHeader">Swaps:</div>
         <div id="swaps"></div>
     </div>
+
+    <div id="newInputResult">
+        <div class="inputHeader"><span id="resultHeader">Result:</span><br><span id="apiQueryHeader"></span></div>
+        <div id="apiResult"></div>
+    </div>
+
 </div>
