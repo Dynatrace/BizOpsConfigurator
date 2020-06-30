@@ -1136,7 +1136,7 @@ function conditionalAddHandler(e) {
     vals.push({prior:prior, swap:swap});
     $("#conditionalValues").val(JSON.stringify(vals));
 
-    let transform = $("#transform").val();
+    let transform = "${" + $("#transform").val() + "}";
     let priorSwap = $("#conditionalPrior").val();
     let preview = `
     if ${priorSwap} == X, then swap ${transform} to Y:<br>
@@ -1147,4 +1147,7 @@ function conditionalAddHandler(e) {
     });
     preview += `</table>`;
     $("#preview").val(preview);
+
+    $("#conditionalPriorValue").val("${}");
+    $("#conditionalSwapValue").val("${}");
 }
