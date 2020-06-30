@@ -1135,6 +1135,8 @@ function conditionalAddHandler(e) {
     vals.push({prior:prior, swap:swap});
     $("#conditionalValues").val(vals);
 
+    let transform = $("#transform").val();
+    let priorSwap = $("#conditionalPrior").val();
     let preview = `
     if ${priorSwap} == X, then swap ${transform} to Y:<br>
     <table><tr><th>X</th><th>Y</th></tr>
