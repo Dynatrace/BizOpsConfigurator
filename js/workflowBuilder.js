@@ -556,7 +556,7 @@ function workflowConfiguration() {
         }
         $("#workflowConfigBox").find("input[type=checkbox]").each(function(){
             $el = $(this);
-            if($el.val()) $el.attr("checked",true);
+            if($el.val()!=="false") $el.attr("checked",true);
             else $el.attr("checked",false);
         });
 
