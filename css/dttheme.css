@@ -913,7 +913,7 @@ table.dataTable td:nth-child(1) {
   text-align: left;
 }
 
-table.dataTable tr:nth-child(even) {
+table.dataTable tr:nth-child(even):not(.match):not(table.dashboard tr.notmatch) {
   background-color: #f8f8f8;
 }
 
@@ -1322,7 +1322,8 @@ table.workflow td:nth-child(1), table.dashboard td:nth-child(1) {
 }
 
 table tr.match {
-  background: #006613;
+  /*background: #006613;*/
+  background: #7dc540;
 }
 
 /*table.workflow tr.notmatch {
@@ -1330,7 +1331,8 @@ table tr.match {
 }*/
 
 table.dashboard tr.notmatch {
-  background: #7a0004;
+  /*background: #7a0004;*/
+  background: #dc172a;
 }
 
 .workflowMarkdown:not(.markdownTransformed) textarea {
