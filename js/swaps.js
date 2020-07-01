@@ -381,15 +381,15 @@ function generateWorkflowSwapList(el) {
       });
 
       from = "${" + transform + ".steps}";
-      addToSwaps(swaps, { from: from, to: journeyData.length });
+      addToSwaps(swaps, { from: from, to: journeyData.length.toString() });
     } else if(conditionalSwap.length){
-      let from = "${" + transform + ".where}";
+      let from = "${" + transform + "}";
       let conditionalValues = JSON.parse($(".conditionalValues").val());
       let conditionalPrior = $(".conditionalPrior").val();
       let priorSwap = swaps.find(x => x.from === conditionalPrior);
       if(typeof priorSwap != "undefined"){
         let val = conditionalValues.find(x => x.prior === priorSwap.to);
-        addToSwaps(swaps, {from:from, to:val});
+        addToSwaps(swaps, {from:from, to:val.swap});
       }
     } else if (whereClause) {
       let from = "${" + transform + "}";
