@@ -335,6 +335,7 @@ function inputTypeChangeHandler() {
             break;
         case "Config Override":
             $("#configOverride").show();
+            $("#newInputPreview").show();
             $("#resultHeader").text("Examples:");
             $("#apiQueryHeader").text("")
             $("#apiResult").html(`
