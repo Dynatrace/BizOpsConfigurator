@@ -1042,9 +1042,9 @@ function apiQueryChangeHandlerKeyVal(event) {
     let $select = $(event.data.selectors[0]);
     let transform = $("#transform").val();
     let swaps = [];
-    let preview = $(`<table>`);
+    let preview = $(`<table class="dataTable">`);
 
-    preview.append(`<tr><th>From</th><th>To</th></tr>`);
+    preview.append(`<thead><tr><td>From</td><td>To</td></tr></thead>`);
     apiSelectGetSwaps($select, transform, swaps);
     swaps.forEach((x) => {
         preview.append(`<tr><td>${x.from}</td><td>${x.to}</td></tr>`);
@@ -1062,9 +1062,11 @@ function previewChangeHandlerKey(event) {
     let fromkey = "${" + $("#transform").val() + ".name}";
     let fromval = "${" + $("#transform").val() + ".id}";
 
-    let xform = `<table><tr><th>From</th>
-        <b>from</b>: ${fromkey}, <b>to</b>: ${key}<br>
-        <b>from</b>: ${fromval}, <b>to</b>: ${val}<br>`;
+    let xform = `<table class="dataTable">
+        <thead><tr><td>From</td><td>To</td></tr></thead>
+        <tr><td>${fromkey}</td><td>${key}</td></tr>
+        <tr><td>${fromval}</td><td>${val}</td></tr>
+        </table>`;
     $("#swaps").html(xform);
 }
 
@@ -1197,7 +1199,8 @@ function conditionalPreview(vals) {
     let priorSwap = $("#conditionalPrior").val();
     let preview = `if ${priorSwap} == X, then swap ${transform} to Y:<br>`;
     let swapPreview = `
-    <table class="dataTable"><thead><tr><td>X</td><td>Y</td></tr></thead>
+    <table class="dataTable">
+    <thead><tr><td>X</td><td>Y</td></tr></thead>
     `;
     vals.forEach(function (v) {
         swapPreview += `<tr><td>${v.prior}</td><td>${v.swap}</td></tr>`;
