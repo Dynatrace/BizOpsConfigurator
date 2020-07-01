@@ -351,6 +351,7 @@ function generateWorkflowSwapList(el) {
     let transform = $workflowInput.find(".transform span").text();
     let journeyPicker = $workflowInput.find(".journeyPicker");
     let conditionalSwap = $workflowInput.find(".conditionalSwap");
+    let configOverride = $workflowInput.find(".configOverride");
 
     if (journeyPicker.length) {
       let from = "${" + transform + ".where}";
@@ -390,6 +391,18 @@ function generateWorkflowSwapList(el) {
       if(typeof priorSwap != "undefined"){
         let val = conditionalValues.find(x => x.prior === priorSwap.to);
         addToSwaps(swaps, {from:from, to:val.swap});
+      }
+    } else if (configOverride.length) {
+      let overrideValues = JSON.parse($(".overrideValues").val());
+      let overridePrior = $(".overridePrior").val();
+      let overrideAction = $(".overrideAction").val();
+      let priorSwap = swaps.find(x => x.from === overridePrior);
+      if(typeof priorSwap != "undefined"){
+        let val = overrideValues.find(x => x.prior === priorSwap.to);
+        switch(overrideAction){
+          case "OverviewDB":
+            selection.config.overviewDB = val.overrideValue;
+        }
       }
     } else if (whereClause) {
       let from = "${" + transform + "}";

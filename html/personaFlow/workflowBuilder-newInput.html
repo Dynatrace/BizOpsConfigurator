@@ -11,6 +11,7 @@
                 <option>Journey Picker</option>
                 <option disabled>Tile Replicator</option>
                 <option>Conditional Swap</option>
+                <option>Config Override</option>
                 <option disabled>Existing Dashboard Linker</option>
                 <!--how? regex maybe?-->
             </select></div>
@@ -107,6 +108,21 @@
             <div class="inputHeader">Add</div>
             <div class="userInput"><input type="button" id="conditionalAdd" value="+"></div>
             <input type="hidden" id="conditionalValues">
+        </div>
+        <div id="configOverride">
+            <div class="inputHeader">What to override</div>
+            <div class="userInput"><select id="overrideAction">
+                <option>OverviewDB</option>
+            </select></div>
+            <div class="inputHeader">Prior page swap</div>
+            <div class="userInput"><input id="overridePriorSwap" value="${priorswap}"></div>
+            <div class="inputHeader">Prior page value</div>
+            <div class="userInput"><input id="overridePriorValue" value="priorvalue"></div>
+            <div class="inputHeader">New config value</div>
+            <div class="userInput"><input id="overrideValue" value="MyOtherDashboard.json"></div>
+            <div class="inputHeader">Add</div>
+            <div class="userInput"><input type="button" id="overrideAdd" value="+"></div>
+            <input type="hidden" id="overrideValues">
         </div>
         <div class="inputHeader tryitout">Try it out:</div>
         <div class="userInput tryitout"><input type="button" id="test" value="Test"></div>

@@ -65,6 +65,7 @@ function workflowBuilderHandlers() {
     $("#viewport").on("click", "#test", previewHandler);
     $("#viewport").on("click", "#staticBoxAdd", staticBoxAddHandler);
     $("#viewport").on("click", "#conditionalAdd", conditionalAddHandler);
+    $("#viewport").on("click", "#overrideAdd", overrideAddHandler);
 
     //prevent rich text paste
     $("#viewport").on("paste", "[contenteditable]", pasteFixer);
@@ -227,6 +228,22 @@ function Input() {
                         $input.parent().find(".inputHeader").remove();
                         break;
                     }
+                    case "Config Override": {
+                        let $div = $(`<div class="configOverride">`)
+                            .appendTo($input);
+                        let $el = $(`<input type="hidden" class="overrideValues">`)
+                            .val(data.overrideValues)
+                            .appendTo($div);
+                        $el = $(`<input type="text" disabled class="overridePrior">`)
+                            .val(data.overridePrior)
+                            .appendTo($div);
+                        $el = $(`<input type="hidden" disabled class="overrideAction">`)
+                            .val(data.overrideAction)
+                            .appendTo($div);
+
+                        $input.parent().find(".inputHeader").remove();
+                        break;
+                    }
                 }
                 $transform.text(data.transform);
                 $header.text(data.transform.charAt(0).toUpperCase() + data.transform.slice(1) + ':');
@@ -253,6 +270,7 @@ function inputTypeChangeHandler() {
     $("#appTransform").hide();
     $("#conditionalSwap").hide();
     $("#resultHeader").text("Result:");
+    $("#configOverride").hide();
 
 
     switch ($("#inputType").val()) {
@@ -314,6 +332,25 @@ function inputTypeChangeHandler() {
                 </table><br>`);
             $("#newInputResult").show();
             $("#transform").val("nextdb");
+            break;
+        case "Config Override":
+            $("#configOverride").show();
+            $("#resultHeader").text("Examples:");
+            $("#apiQueryHeader").text("")
+            $("#apiResult").html(`
+                if \${version} == X, then override OverviewDB to Y:<br>
+                <table class="dataTable"><thead><tr><td>X</td><td>Y</td></tr></thead>
+                <tr><td>detailed</td><td>Overview-detailed.json</td></tr>
+                <tr><td>highlevel</td><td>Overview-highlevel.json</td></tr>
+                </table><br>
+                if \${journey.steps} == X, then swap \${dashboardid} to Y:<br>
+                <table class="dataTable"><thead><tr><td>X</td><td>Y</td></tr></thead>
+                <tr><td>3</td><td>JourneyOverview-3.json</td></tr>
+                <tr><td>4</td><td>JourneyOverview-4.json</td></tr>
+                <tr><td>5</td><td>JourneyOverview-5.json</td></tr>
+                </table><br>`);
+            $("#newInputResult").show();
+            $("#transform").hide();
             break;
     }
 }
@@ -439,6 +476,9 @@ function previewHandler() {
             break;
         case "Conditional Swap":
             conditionalPreview();
+            break;
+        case "Config Override":
+            configoverridePreview();
             break;
     }
 }
@@ -1204,6 +1244,42 @@ function conditionalPreview(vals) {
     `;
     vals.forEach(function (v) {
         swapPreview += `<tr><td>${v.prior}</td><td>${v.swap}</td></tr>`;
+    });
+    swapPreview += `</table>`;
+    $("#preview").html(preview);
+    $("#swaps").html(swapPreview);
+}
+
+function overrideAddHandler(e) {
+    let vals = $("#overrideValues").val();
+    if (vals) vals = JSON.parse(vals);
+    else vals = [];
+    let prior = $("#overridePriorValue").val();
+    let overrideValue = $("#overrideValue").val();
+    vals.push({ prior: prior, overrideValue: overrideValue });
+    $("#overrideValues").val(JSON.stringify(vals));
+
+    overridePreview(vals);
+
+    $("#overridePriorValue").val("");
+    $("#overrideSwapValue").val("");
+}
+
+function configoverridePreview(vals) {
+    if (vals == null) {
+        vals = $("#overrideValues").val();
+        if (vals) vals = JSON.parse(vals);
+        else vals = [];
+    }
+    let priorSwap = $("#overridePriorSwap").val();
+    let overrideAction = $("#overrideAction").val();
+    let preview = `if ${priorSwap} == X, then override ${overrideAction} to Y:<br>`;
+    let swapPreview = `
+    <table class="dataTable">
+    <thead><tr><td>X</td><td>Y</td></tr></thead>
+    `;
+    vals.forEach(function (v) {
+        swapPreview += `<tr><td>${v.prior}</td><td>${v.overrideValue}</td></tr>`;
     });
     swapPreview += `</table>`;
     $("#preview").html(preview);
