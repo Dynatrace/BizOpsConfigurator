@@ -350,6 +350,7 @@ function generateWorkflowSwapList(el) {
       true : false;
     let transform = $workflowInput.find(".transform span").text();
     let journeyPicker = $workflowInput.find(".journeyPicker");
+    let conditionalSwap = $workflowInput.find(".conditionalSwap");
 
     if (journeyPicker.length) {
       let from = "${" + transform + ".where}";
@@ -380,7 +381,16 @@ function generateWorkflowSwapList(el) {
       });
 
       from = "${" + transform + ".steps}";
-      ddToSwaps(swaps, { from: from, to: journeyData.length });
+      addToSwaps(swaps, { from: from, to: journeyData.length });
+    } else if(conditionalSwap.length){
+      let from = "${" + transform + ".where}";
+      let conditionalValues = JSON.parse($(".conditionalValues").val());
+      let conditionalPrior = $(".conditionalPrior").val();
+      let priorSwap = swaps.find(x => x.from === conditionalPrior);
+      if(typeof priorSwap != "undefined"){
+        let val = conditionalValues.find(x => x.prior === priorSwap.to);
+        addToSwaps(swaps, {from:from, to:val});
+      }
     } else if (whereClause) {
       let from = "${" + transform + "}";
       let filterClause = $workflowInput.find("input.filterClause, input.whereClause").val();
@@ -394,19 +404,10 @@ function generateWorkflowSwapList(el) {
       case "values:{id:name}": {
         let $select = $workflowInput.find("select");
         apiSelectGetSwaps($select, transform, swaps);
-
-        /*let $option = $workflowInput.find("select option:selected");
-        let value = $option.val();
-        let key = $option.text();
-        let fromkey = "${" + transform + ".name}";
-        let fromval = "${" + transform + ".id}";
-        addToSwaps(swaps, { from: fromkey, to: key });
-        addToSwaps(swaps, { from: fromval, to: value });*/
         break;
       }
       case 'Keys': {
         let $option = $workflowInput.find("select option:selected");
-        //let value = $option.attr("data-colname") + "." + $option.val();
         let value = $option.val();
         let key = $option.text();
         let fromkey = "${" + transform + ".name}";
@@ -485,35 +486,26 @@ function apiSelectGetSwaps(select, transform, swaps) {
     values.forEach((obj) => {
       let fromkey = "${" + transform + "-" + i + ".name}";
       let fromval = "${" + transform + "-" + i + ".id}";
-      //xform += `<b>from</b>:${fromkey}, <b>to</b>:${obj.key}<br>`;
       addToSwaps(swaps, { from: fromkey, to: obj.key });
-      //xform += `<b>from</b>:${fromval}, <b>to</b>:${obj.value}<br>`;
       addToSwaps(swaps, { from: fromval, to: obj.value });
       if (typeof obj.type != "undefined") {
         let fromtype = "${" + transform + "-" + i + ".type}";
-        //xform += `<b>from</b>:${fromtype}, <b>to</b>:${obj.type}<br>`;
         addToSwaps(swaps, { from: fromtype, to: obj.type });
       }
       i++;
     });
-    //$("#swaps").html(xform);
   } else {
     let val = $select.val();
     let key = $select.children("option:selected").text();
 
     let fromkey = "${" + transform + ".name}";
     let fromval = "${" + transform + ".id}";
-    //let xform = `
-    //    <b>from</b>:${fromkey}, <b>to</b>:${key}<br>
-    //    <b>from</b>:${fromval}, <b>to</b>:${val}<br>`;
     addToSwaps(swaps, { from: fromkey, to: key });
     addToSwaps(swaps, { from: fromval, to: val });
     if ($select.children("option:selected[data-type]").length) {
       let type = $select.children("option:selected[data-type]").attr("data-type");
       let fromtype = "${" + transform + ".type}";
-      //xform += `<b>from</b>:${fromtype}, <b>to</b>:${type}<br>`;
       addToSwaps(swaps, { from: fromtype, to: type });
     }
-    //$("#swaps").html(xform);
   }
 }
