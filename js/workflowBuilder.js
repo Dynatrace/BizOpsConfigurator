@@ -235,7 +235,7 @@ function Input() {
                             .val(data.overrideValues)
                             .appendTo($div);
                         $el = $(`<input type="text" disabled class="overridePrior">`)
-                            .val(data.overridePrior)
+                            .val(data.overridePriorSwap)
                             .appendTo($div);
                         $el = $(`<input type="hidden" disabled class="overrideAction">`)
                             .val(data.overrideAction)
@@ -803,7 +803,16 @@ function renderWorkflowPage(el) {
     });
 
     //render conditional swaps
+    $el.find(".conditionalSwap").each(function() {
+        let $input = $(this);
+        $input.find("input:not([type=hidden])").attr("type","hidden"); //hide everything
+    })
 
+    //render config overrides
+    $el.find(".configOverride").each(function() {
+        let $input = $(this);
+        $input.find("input:not([type=hidden])").attr("type","hidden"); //hide everything
+    })
 
     //make sure any XHRs are finished before we return the html
     $.when.apply($, promises).done(function () {
