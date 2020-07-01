@@ -350,7 +350,7 @@ function inputTypeChangeHandler() {
                 <tr><td>5</td><td>JourneyOverview-5.json</td></tr>
                 </table><br>`);
             $("#newInputResult").show();
-            $("#transform").hide();
+            $(".transform").hide();
             break;
     }
 }
@@ -478,7 +478,7 @@ function previewHandler() {
             conditionalPreview();
             break;
         case "Config Override":
-            configoverridePreview();
+            configOverridePreview();
             break;
     }
 }
@@ -1259,13 +1259,13 @@ function overrideAddHandler(e) {
     vals.push({ prior: prior, overrideValue: overrideValue });
     $("#overrideValues").val(JSON.stringify(vals));
 
-    overridePreview(vals);
+    configOverridePreview(vals);
 
     $("#overridePriorValue").val("");
     $("#overrideSwapValue").val("");
 }
 
-function configoverridePreview(vals) {
+function configOverridePreview(vals) {
     if (vals == null) {
         vals = $("#overrideValues").val();
         if (vals) vals = JSON.parse(vals);
