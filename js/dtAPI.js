@@ -526,7 +526,9 @@ function deleteDashboard(id) {
 
 function uploadWorkflow(workflow) {
   let $workflow = $(workflow);
-  let config = JSON.parse($workflow.find("#workflowConfigJSON").val());
+  //let config = JSON.parse($workflow.find("#workflowConfigJSON").val());
+  let config = selection.config;
+  config.swaps = selection.swaps; //safe store for editing dbs later
   let overview = {};
   let actionName = `NewFlowDeploy-${selection.persona.name}-${selection.usecase.name}-${selection.config.workflowName}`;
   let dtaction;
