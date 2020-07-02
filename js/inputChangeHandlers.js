@@ -288,13 +288,14 @@ function regionsChangeHandler(event) {
 
 function uspFilterChangeHandler(event) {
   //jQ objects
-  let countrySelector, regionSelector, citySelector, filterClauseSelector, keySelector, keyOptionSelector, valSelector;
+  let continentSelector, countrySelector, regionSelector, citySelector, filterClauseSelector, keySelector, keyOptionSelector, valSelector;
   if (typeof event !== "undefined" && typeof event.data !== "undefined" && typeof event.data.selectors !== "undefined") {
     keySelector = event.data.selectors[0];
     keyOptionSelector = keySelector + " option:selected";
     valSelector = event.data.selectors[1];
     filterClauseSelector = event.data.targetSelector;
   } else {
+    continentSelector = ".continentList";
     countrySelector = ".countryList";
     regionSelector = ".regionList";
     citySelector = ".cityList";
@@ -303,7 +304,7 @@ function uspFilterChangeHandler(event) {
     valSelector = "#uspVal";
     filterClauseSelector = ".filterClause";
   }
-  let selectors = [countrySelector, regionSelector, citySelector, keySelector, keyOptionSelector, valSelector];
+  let selectors = [continentSelector, countrySelector, regionSelector, citySelector, keySelector, keyOptionSelector, valSelector];
   let $keyList = $(keySelector);
   let $selectedOption = $(keyOptionSelector);
   let $valList = $(valSelector);
