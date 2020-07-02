@@ -510,12 +510,17 @@ function findOverviewREADME(overview) {
 }
 
 function findWorkflowReadme(workflow) {
-  let config = workflow.file.config;
-  let readme = workflow.repo.path.length>0 ? `${workflow.repo.path}/${config.readme}` : config.readme;
-  let readmeFile = readmeList.find((el) => el.repo.owner === workflow.repo.owner &&
-    el.repo.repo === workflow.repo.repo && el.path === readme);
-
-  return readmeFile;
+  if(typeof workflow != "undefined" &&
+    typeof workflow.file != "undefined" &&
+    typeof workflow.file.config != "undefined"){
+      let config = workflow.file.config;
+      let readme = workflow.repo.path.length>0 ? `${workflow.repo.path}/${config.readme}` : config.readme;
+      let readmeFile = readmeList.find((el) => el.repo.owner === workflow.repo.owner &&
+        el.repo.repo === workflow.repo.repo && el.path === readme);
+    
+      return readmeFile;
+    }
+  else return;
 }
 
 var sanitizer = {};
