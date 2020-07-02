@@ -27,19 +27,23 @@
             <code>"id": "38862cbd-8ab4-4e17-81ca-1f43af427ad3",</code>
             <img src="images/help-linking.png"></article>
     </section>
-    <section><a class="expandable">3) Create a public GitHub repo</a>
-        <article>JSON files should be in the root of the repo and named &lt;something&gt;.json. <br>
-            I recommend using a JSON-aware Git-enabled IDE, such as VS Code:<br>
+    <section><a class="expandable">3) Create a GitHub repo</a>
+        <article>JSON files should be in the root of the repo and named &lt;something&gt;.json. 
+            You can use a private repo if you don't want to share your dashboards, but public
+            is recommended.<br>
+            Also, I recommend using a JSON-aware Git-enabled IDE, such as VS Code:<br>
             <img src="images/vscode.png"><br><br>
-            This helps ensure your JSON is valid and easily commit and push changes. After you push a change,
-            you can reload your dashboards in the Gear:<br>
+            This helps ensure your JSON is valid and easily commit and push changes.<br> 
+            Note: After you push a change, you can reload your dashboards in the Gear:<br>
             <img src="images/reload-dashboards.png">
         </article>
     </section>
     <section><a class="expandable">4) Determine your swaps</a>
         <article>The Configurator will look for strings to swap. They should be in the format: <code>${MyString}</code>
             You want to replace things like GUIDs, application names, management zones, etc in your prototype
-            with swaps. You'll use these momentarily in Workflow Builder.</article>
+            with swaps. You'll use these momentarily in Workflow Builder. <br>
+            <img src="images/Workflow-build-8.png">
+        </article>
     </section>
     <section><a class="expandable">5) Build a workflow</a>
         <article> Click on Workflow Builder in the top right corner of this dev guide.
@@ -69,10 +73,28 @@
             <img src="images/newrepo.png">
         </article>
     </section>
-    <section><a class="expandable">6) Submit you dashboardpack (optional)</a>
+    <section><a class="expandable">7) Submit you dashboardpack (optional)</a>
         <article>If you think others would find your dashboard pack useful, submit your pack on our forum or email the maintainers directly.</article>
     </section>
 
+    <section>
+        <a class="expandable">Reference: Widget types</a>
+        <article>
+            <ul>
+                <li>Text Input</li>
+                <li>Select (API)</li>
+                <li>Select (USQL)</li>
+                <li>Select (static)</li>
+                <li>Markdown</li>
+                <li>Checkboxes</li>
+                <li>Journey Picker</li>
+                <li>Tile Replicator</li>
+                <li>Conditional Swap</li>
+                <li>Config Override</li>
+                <li>Existing Dashboard Linker</li>
+            </ul>
+        </article>
+    </section>
     <!--<section><a class="expandable">Standard swaps</a>
         <article>
             <table class="dataTable">
