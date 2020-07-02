@@ -28,6 +28,7 @@ var githubuser = "";
 var githubpat = "";
 var repoList = [
   { 'owner': 'TechShady', 'repo': 'Dynatrace-DashboardV5', 'path': '' },
+  { 'owner': 'TechShady', 'repo': 'Dynatrace-Dashboards', 'path': '' },
   { 'owner': 'Dynatrace-JasonOstroski', 'repo': 'CitrixDashboardsV1', 'path': '' },
   { 'owner': 'jjbologna', 'repo': 'SAP-extension-dashboards', 'path': '' },
   { 'owner': 'LucasHocker', 'repo': 'DashboardTemplates', 'path': 'v1.192.96' },
