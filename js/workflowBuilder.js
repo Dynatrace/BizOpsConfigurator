@@ -568,7 +568,9 @@ function workflowDownloader() {
     workflow['html'] = $workflow.prop("outerHTML");
     let config = $("#workflowConfigJSON").val();
     if (config.length > 0) workflow['config'] = JSON.parse(config);
-    let name = workflow.config.workflowName;
+    let name = (typeof workflow.config != "undefined" &&
+        typeof workflow.config.workflowName != "undefined")
+        ? workflow.config.workflowName : "untitled";
     let filename = `${name}.cwf.json`;
     let text = JSON.stringify(workflow);
 
@@ -747,7 +749,7 @@ function renderWorkflow(el) {
     let toInputs = clonedEl.find("input");
     for (let i = 0; i < fromInputs.length; i++) {
         let val = $(fromInputs[i]).val();
-        $(toInputs[i]).attr("value",val);
+        $(toInputs[i]).attr("value", val);
     }
 
     //cleanup clone
@@ -812,15 +814,15 @@ function renderWorkflowPage(el) {
     });
 
     //render conditional swaps
-    $el.find(".conditionalSwap").each(function() {
+    $el.find(".conditionalSwap").each(function () {
         let $input = $(this);
-        $input.find("input:not([type=hidden])").attr("type","hidden"); //hide everything
+        $input.find("input:not([type=hidden])").attr("type", "hidden"); //hide everything
     })
 
     //render config overrides
-    $el.find(".configOverride").each(function() {
+    $el.find(".configOverride").each(function () {
         let $input = $(this);
-        $input.find("input:not([type=hidden])").attr("type","hidden"); //hide everything
+        $input.find("input:not([type=hidden])").attr("type", "hidden"); //hide everything
     })
 
     //make sure any XHRs are finished before we return the html
@@ -1238,7 +1240,7 @@ function syncInputs(el) {
     let $inputs = $el.find("input");
     for (let i = 0; i < $inputs.length; i++) {
         let val = $($inputs[i]).val();
-        $($inputs[i]).attr("value",val);
+        $($inputs[i]).attr("value", val);
     }
 }
 
