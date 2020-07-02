@@ -38,23 +38,42 @@
     </section>
     <section><a class="expandable">4) Determine your swaps</a>
         <article>The Configurator will look for strings to swap. They should be in the format: <code>${MyString}</code>
-            See below for a predefined list. If you need new swaps, include them in the template. By default,
-            the user will get a prompt for these <i>(coming soon)</i>. If you need custom handling, e.g. a pulldown
-            instead of a text input or need choices from the API, note that in your request to add the dashboard pack,
-            and
-            be sure to include example API queries to get the choices.</article>
+            You want to replace things like GUIDs, application names, management zones, etc in your prototype
+            with swaps. You'll use these momentarily in Workflow Builder.</article>
     </section>
-    <section><a class="expandable">5) Test locally</a>
+    <section><a class="expandable">5) Build a workflow</a>
+        <article> Click on Workflow Builder in the top right corner of this dev guide.
+            Inside the Workflow Builder you'll build a workflow to get inputs from the API and user
+            to transform your dashboard template, into the user's completely customized dashboards.
+            There are 4 key concepts in the Workflow Builder:<br>
+            <ol>
+                <li>⚙️ (Workflow Config) - Here you pick your target personas, usecase, and provide your repo info</li>
+                <li>+ far right (Add page) - Pages allow you space out your inputs, so the user isn't overwhelmed.
+                    Also, inputs which require a prior input (e.g. a USP input needs the app first), should be on
+                    subsequent pages.
+                </li>
+                <li>+ far left (Add section) - Sections are logical groupings of inputs. They'll wrap around the pages
+                    but consider only using a few per page.
+                </li>
+                <li>+ inside a section (Add Widget) - Widgets get input from the user or API. There are various
+                    different types, described below.
+                </li>
+            </ol>
+            You can also test your workflow with the 🏃🏼‍♂️icon. When you're done, click 💾 to download the .cwf.json workflow file.
+            You can come back and edit your workflow at any time by reloading the file with 📂.
+        </article>
+    </section>
+    <section><a class="expandable">6) Test locally</a>
         <article>Click the gear icon in the top right and add your repo and Overview dashboard. Reload Dashboards. Test
             a deployment.<br>
             <img src="images/newrepo.png">
         </article>
     </section>
-    <section><a class="expandable">6) Submit you dashboardpack</a>
-        <article>Either submit your pack on our forum or email the maintainers directly.</article>
+    <section><a class="expandable">6) Submit you dashboardpack (optional)</a>
+        <article>If you think others would find your dashboard pack useful, submit your pack on our forum or email the maintainers directly.</article>
     </section>
 
-    <section><a class="expandable">Standard swaps</a>
+    <!--<section><a class="expandable">Standard swaps</a>
         <article>
             <table class="dataTable">
                 <thead>
@@ -445,5 +464,5 @@
                     </tr>
                 </tbody>
             </table>
-        </article>
+        </article>-->
 </div>

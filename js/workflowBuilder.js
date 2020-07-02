@@ -563,6 +563,7 @@ function checkHandler() {
 function workflowDownloader() {
     let $workflow = $("#workflow");
     syncMarkdowns($workflow);
+    syncInputs($workflow);
     let workflow = {};
     workflow['html'] = $workflow.prop("outerHTML");
     let config = $("#workflowConfigJSON").val();
@@ -739,6 +740,14 @@ function renderWorkflow(el) {
     for (let i = 0; i < fromMarkdowns.length; i++) {
         let val = $(fromMarkdowns[i]).val();
         $(toMarkdowns[i]).text(val);
+    }
+
+    //copy input values
+    let fromInputs = $el.find("input");
+    let toInputs = clonedEl.find("input");
+    for (let i = 0; i < fromInputs.length; i++) {
+        let val = $(fromInputs[i]).val();
+        $(toInputs[i]).attr("value",val);
     }
 
     //cleanup clone
@@ -1224,6 +1233,15 @@ function syncMarkdowns(el) {
     }
 }
 
+function syncInputs(el) {
+    let $el = $(el);
+    let $inputs = $el.find("input");
+    for (let i = 0; i < $inputs.length; i++) {
+        let val = $($inputs[i]).val();
+        $($inputs[i]).attr("value",val);
+    }
+}
+
 function conditionalAddHandler(e) {
     let vals = $("#conditionalValues").val();
     if (vals) vals = JSON.parse(vals);
@@ -1272,7 +1290,7 @@ function overrideAddHandler(e) {
     configOverridePreview(vals);
 
     $("#overridePriorValue").val("");
-    $("#overrideSwapValue").val("");
+    $("#overrideValue").val("");
 }
 
 function configOverridePreview(vals) {
