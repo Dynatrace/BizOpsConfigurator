@@ -356,7 +356,7 @@ function inputTypeChangeHandler() {
                 <tr><td>detailed</td><td>Overview-detailed.json</td></tr>
                 <tr><td>highlevel</td><td>Overview-highlevel.json</td></tr>
                 </table><br>
-                if \${journey.steps} == X, then swap \${dashboardid} to Y:<br>
+                if \${journey.steps} == X, then override OverviewDB to Y:<br>
                 <table class="dataTable"><thead><tr><td>X</td><td>Y</td></tr></thead>
                 <tr><td>3</td><td>JourneyOverview-3.json</td></tr>
                 <tr><td>4</td><td>JourneyOverview-4.json</td></tr>
