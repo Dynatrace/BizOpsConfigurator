@@ -409,7 +409,10 @@ function generateWorkflowSwapList(el) {
               logError("Selection.config undefined");
               selection.config = {};
             }
-            selection.config.overviewDB = val.overrideValue;
+            if(typeof val !== "undefined")
+              selection.config.overviewDB = val.overrideValue;
+            else
+              console.log("No override match found");
         }
       }
     } else if (whereClause) {
