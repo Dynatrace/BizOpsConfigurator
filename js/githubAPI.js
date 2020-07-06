@@ -65,7 +65,7 @@ function gitHubUpdateLimits(data, textStatus, jqXHR) {
 }
 
 function gitHubAPIFailHandler(jqXHR, textStatus, errorThrown) {
-    if (jqXHR.statusCode !== 403) { //only do retries if it was ratelimiting
+    if (jqXHR.status !== 403) { //only do retries if it was ratelimiting
         errorboxJQXHR(jqXHR, textStatus, errorThrown);
         return;
     }
