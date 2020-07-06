@@ -401,6 +401,14 @@ function generateWorkflowSwapList(el) {
         let val = overrideValues.find(x => x.prior === priorSwap.to);
         switch(overrideAction){
           case "OverviewDB":
+            if(typeof selection == "undefined"){
+              logError("Selection undefined");
+              selection = {};
+            }
+            if(typeof selection.config == "undefined"){
+              logError("Selection.config undefined");
+              selection.config = {};
+            }
             selection.config.overviewDB = val.overrideValue;
         }
       }

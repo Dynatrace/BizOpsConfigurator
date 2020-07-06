@@ -322,6 +322,10 @@ function errorboxJQXHR(jqXHR, textStatus, errorThrown) {
   }
   $("#errorBox").html(errorMsg);
   $("#errorBox").show();
+  logError(errorMsg);
+}
+
+function logError(errorMsg){
   console.log(errorMsg);
   if (typeof dtrum !== "undefined") dtrum.reportError(errorMsg);
 }
@@ -334,8 +338,7 @@ function errorbox(e) {
     errorMsg = e;
   $("#errorBox").html(errorMsg);
   $("#errorBox").show();
-  console.log(errorMsg);
-  if (typeof dtrum !== "undefined") dtrum.reportError(errorMsg);
+  logError(errorMsg);
 }
 
 function warningbox(e) {
