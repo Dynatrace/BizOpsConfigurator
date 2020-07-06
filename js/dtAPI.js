@@ -186,6 +186,7 @@ function dtAPIquery(query, options = {}, retries = 3) {
   let data = (options.hasOwnProperty('data') ? options.data : {});
   let error = (options.hasOwnProperty('error') ? options.error : errorboxJQXHR);
   if(USQLlimit!=5000 && query.endsWith('LIMIT 5000')) query.replace('LIMIT 5000',`LIMIT ${USQLlimit}`); //override query, if user selects different USQLlimit
+  if(USQLlimit!=5000 && query.includes('LIMIT%205000')) query.replace('LIMIT%205000',`LIMIT%20${USQLlimit}`);
 
   //Get App list from API as JSON
   return $.ajax({
