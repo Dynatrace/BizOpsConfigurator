@@ -11,7 +11,7 @@ function fieldsetPainter() {
             $("#dbTagsVersion").val(dbTagsVersion);
             $("#dbTO").val(dbTO);
             $("#dbAO").val(dbAO);
-
+            $("#USQLlimit").val(USQLlimit);
 
 
             //repos

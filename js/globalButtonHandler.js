@@ -682,6 +682,7 @@ function globalButtonHandler() {
         repoList[0].repo = $("#old_repo_repo").val();
         oldVersion = parseInt($("#oldVersion").val());
         dbTagsVersion = parseInt($("#dbTagsVersion").val());
+        USQLlimit = parseInt($("#USQLlimit").val());
         personaFlow = $("#personaFlow").prop('checked');;
         dbTO = $("#dbTO").val();
         dbAO = $("#dbAO").val();

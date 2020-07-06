@@ -14,6 +14,7 @@ var dbFunnelTrue = "OverviewTrue.json";
 var dbFunnelFalse = "OverviewFalse.json";
 var oldVersion = 183;
 var dbTagsVersion = 190;
+var USQLlimit = 5000;
 var personaFlow = true;
 const timeTable = [
   { MyTime: "Last 30 minutes", MyCompareTimes: ["Last 30 minutes", "-60m to -30m", "-2h30m to -2h", "-24h-30m to -24h", "-7d-30m to -7d"] },

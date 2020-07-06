@@ -46,12 +46,12 @@ function getKPIs(appname) {
   kpis = [];
   //replace with API call to /config/v1/applications/web once that endpoint provides USPs
   if (typeof appname == "string")
-    var usql = "SELECT usersession.longProperties, usersession.doubleProperties FROM useraction WHERE application=\"" + appname + "\" LIMIT 5000";
+    var usql = "SELECT usersession.longProperties, usersession.doubleProperties FROM useraction WHERE application=\"" + appname + "\" LIMIT " + USQLlimit;
   else if (Array.isArray(appname)) {
     let apps = [];
     appname.forEach(function (o, i, a) { apps.push('"' + o + '"'); });
     apps = apps.join(',');
-    var usql = "SELECT usersession.longProperties, usersession.doubleProperties FROM useraction WHERE application IN (" + apps + ") LIMIT 5000";
+    var usql = "SELECT usersession.longProperties, usersession.doubleProperties FROM useraction WHERE application IN (" + apps + ") LIMIT " + USQLlimit;
   }
 
   var query = "/api/v1/userSessionQueryLanguage/table?query=" + encodeURIComponent(usql) + "&explain=false";
@@ -62,12 +62,12 @@ function getUSPs(appname) {
   usps = [];
   //replace with API call to /config/v1/applications/web once that endpoint provides USPs
   if (typeof appname == "string")
-    var usql = "SELECT usersession.stringProperties, usersession.dateProperties FROM useraction WHERE application=\"" + appname + "\" LIMIT 5000";
+    var usql = "SELECT usersession.stringProperties, usersession.dateProperties FROM useraction WHERE application=\"" + appname + "\" LIMIT " + USQLlimit;
   else if (Array.isArray(appname)) {
     let apps = [];
     appname.forEach(function (o, i, a) { apps.push('"' + o + '"'); });
     apps = apps.join(',');
-    var usql = "SELECT usersession.stringProperties, usersession.dateProperties FROM useraction WHERE application IN (" + apps + ") LIMIT 5000";
+    var usql = "SELECT usersession.stringProperties, usersession.dateProperties FROM useraction WHERE application IN (" + apps + ") LIMIT " + USQLlimit;
   }
   var query = "/api/v1/userSessionQueryLanguage/table?query=" + encodeURIComponent(usql) + "&explain=false";
   return dtAPIquery(query, {});
@@ -76,12 +76,12 @@ function getUSPs(appname) {
 function getRegions(appname) {
   regions = [];
   if (typeof appname == "string")
-    var usql = "SELECT DISTINCT continent, country, region, city FROM usersession WHERE useraction.application=\"" + appname + "\" ORDER BY country,region,city LIMIT 5000";
+    var usql = "SELECT DISTINCT continent, country, region, city FROM usersession WHERE useraction.application=\"" + appname + "\" ORDER BY country,region,city LIMIT " + USQLlimit;
   else if (Array.isArray(appname)) {
     let apps = [];
     appname.forEach(function (o, i, a) { apps.push('"' + o + '"'); });
     apps = apps.join(',');
-    var usql = "SELECT DISTINCT continent, country, region, city FROM usersession WHERE useraction.application IN (" + apps + ") ORDER BY country,region,city LIMIT 5000";
+    var usql = "SELECT DISTINCT continent, country, region, city FROM usersession WHERE useraction.application IN (" + apps + ") ORDER BY country,region,city LIMIT " + USQLlimit;
   }
   var query = "/api/v1/userSessionQueryLanguage/table?query=" + encodeURIComponent(usql) + "&explain=false";
   return dtAPIquery(query, {});
@@ -90,12 +90,12 @@ function getRegions(appname) {
 function getGoals(appname) {
   goals = [];
   if (typeof appname == "string")
-    var usql = "SELECT DISTINCT application, matchingConversionGoals FROM useraction WHERE application=\"" + appname + "\" and matchingConversionGoals IS NOT NULL LIMIT 5000";
+    var usql = "SELECT DISTINCT application, matchingConversionGoals FROM useraction WHERE application=\"" + appname + "\" and matchingConversionGoals IS NOT NULL LIMIT " + USQLlimit;
   else if (Array.isArray(appname)) {
     let apps = [];
     appname.forEach(function (o, i, a) { apps.push('"' + o + '"'); });
     apps = apps.join(',');
-    var usql = "SELECT DISTINCT application, matchingConversionGoals FROM useraction WHERE application IN (" + apps + ") and matchingConversionGoals IS NOT NULL LIMIT 5000";
+    var usql = "SELECT DISTINCT application, matchingConversionGoals FROM useraction WHERE application IN (" + apps + ") and matchingConversionGoals IS NOT NULL LIMIT " + USQLlimit;
   }
   var query = "/api/v1/userSessionQueryLanguage/table?query=" + encodeURIComponent(usql) + "&explain=false";
   return dtAPIquery(query, {});
@@ -107,14 +107,14 @@ function getKeyActions(appname, all = false) {
   if (typeof appname == "string")
     var usql = "SELECT DISTINCT application, name FROM useraction WHERE " +
       (!all ? "keyUserAction = true and" : "") +
-      " application=\"" + appname + "\" LIMIT 5000";
+      " application=\"" + appname + "\" LIMIT " + USQLlimit;
   else if (Array.isArray(appname)) {
     let apps = [];
     appname.forEach(function (o, i, a) { apps.push('"' + o + '"'); });
     apps = apps.join(',');
     var usql = "SELECT DISTINCT application, name FROM useraction WHERE " +
       (!all ? "keyUserAction = true and" : "") +
-      " application IN (" + apps + ") LIMIT 5000";
+      " application IN (" + apps + ") LIMIT " + USQLlimit;
   }
   var query = "/api/v1/userSessionQueryLanguage/table?query=" + encodeURIComponent(usql) + " &explain=false&startTimestamp=" + yesterday;
   return dtAPIquery(query, {});
