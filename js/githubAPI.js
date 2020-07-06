@@ -38,7 +38,22 @@ function gitHubAPI(query, options = {}, retries = 3) {
             headers: headers
         })
             .done(gitHubUpdateLimits) //only do this on success, over rate limit gives CORS failure for unexplained reasons
-            .fail(gitHubAPIFailHandler);
+            .fail(function(jqXHR, textStatus, errorThrown) {
+                    if (jqXHR.status !== 403) { //only do retries if it was ratelimiting
+                        errorboxJQXHR(jqXHR, textStatus, errorThrown);
+                        return;
+                    }
+                    if (retries <= 0) {
+                        errorboxJQXHR(jqXHR, "Retries exhausted.", errorThrown);
+                        return;
+                    }
+                    let then = GithubReset;
+                    let now = (new Date().getTime()) / 1000;
+                    seconds = Math.max((then - now) + 1, 1);
+                    warningbox(`GitHub API Ratelimiting: retrying in ${seconds}s. Consider using GitHub PAT to avoid this.`);
+                    console.log("GitHub API Ratelimiting: query=" + query + " retries=" + retries + " seconds=" + seconds + " now=" + now + " then=" + then);
+                    return setTimeout(function () { return gitHubAPI(query, options, retries - 1); }, seconds * 1000);
+                });
     }
 
     function deferredSafeDelay(f, ms) {
@@ -64,22 +79,7 @@ function gitHubUpdateLimits(data, textStatus, jqXHR) {
     GithubReset = parseInt(jqXHR.getResponseHeader("X-Ratelimit-Reset"));
 }
 
-function gitHubAPIFailHandler(jqXHR, textStatus, errorThrown) {
-    if (jqXHR.status !== 403) { //only do retries if it was ratelimiting
-        errorboxJQXHR(jqXHR, textStatus, errorThrown);
-        return;
-    }
-    if (retries <= 0) {
-        errorboxJQXHR(jqXHR, "Retries exhausted.", errorThrown);
-        return;
-    }
-    let then = GithubReset;
-    let now = (new Date().getTime()) / 1000;
-    seconds = Math.max((then - now) + 1, 1);
-    warningbox(`GitHub API Ratelimiting: retrying in ${seconds}s. Consider using GitHub PAT to avoid this.`);
-    console.log("GitHub API Ratelimiting: query=" + query + " retries=" + retries + " seconds=" + seconds + " now=" + now + " then=" + then);
-    return setTimeout(function () { return gitHubAPI(query, options, retries - 1); }, seconds * 1000);
-}
+
 
 function getREADME(repo) { //not used anymore
     let headers = { 'Accept': 'application/vnd.github.v3.html' };
