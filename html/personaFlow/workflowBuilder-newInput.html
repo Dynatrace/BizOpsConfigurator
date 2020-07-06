@@ -11,7 +11,8 @@
                 <option>Journey Picker</option>
                 <option disabled>Tile Replicator</option>
                 <option>Conditional Swap</option>
-                <option>Config Override</option>
+                <option>Workflow Config Override</option>
+                <option disabled>DT Config Pusher</option>
                 <option disabled>Existing Dashboard Linker</option>
                 <!--how? regex maybe?-->
             </select></div>
@@ -123,6 +124,18 @@
             <div class="inputHeader">Add</div>
             <div class="userInput"><input type="button" id="overrideAdd" value="+"></div>
             <input type="hidden" id="overrideValues">
+        </div>
+        <div id="configPusher">
+            <div class="inputHeader">What type of config</div>
+            <div class="userInput"><select id="configPushType">
+                <option>Autotag</option>
+                <option disabled>MZ</option>
+                <option disabled>RequestAttribute</option>
+                <option disabled>CustomService</option>
+                <option disabled>Plugin</option>
+            </select></div>
+            <div class="inputHeader">JSON filename</div>
+            <div class="userInput"><input id="configPushFile" placeholder="MyAutotag.json"></div>
         </div>
         <div class="inputHeader tryitout">Try it out:</div>
         <div class="userInput tryitout"><input type="button" id="test" value="Test"></div>

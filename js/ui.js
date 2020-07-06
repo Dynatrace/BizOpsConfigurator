@@ -118,7 +118,7 @@ function drawTenantOverviewList() {
   let TO = /bbbbbbbb-[0-9]{4}-0000-0000-000000000000/;
   DBAdashboards.forEach(function (dashboard) {
     if (TO.test(dashboard.id)) {
-      let dt = "<dt><a target='_blank' href='" + url + "/#dashboard;id=" + dashboard.id + "' class='newTab'>" +
+      let dt = "<dt><a target='_blank' href='" + url + "/#dashboard;id=" + dashboard.id + "gf=defaultManagementZone' class='newTab'>" +
         dashboard.name + " <img src='images/link.svg'></a> (" + dashboard.owner + ")</dt>";
       let dd = "<dd id='" + dashboard.id + "'>" +
         "<input type='button' id='listApp' value='List App Overviews'>" +
@@ -138,7 +138,7 @@ function drawAppOverviewList(TOid) {
   let re = new RegExp(reS);
   DBAdashboards.forEach(function (dashboard) {
     if (re.test(dashboard.id) && dashboard.id != TOid) {
-      let dt = "<dt><a target='_blank' href='" + url + "/#dashboard;id=" + dashboard.id + "' class='newTab'>" +
+      let dt = "<dt><a target='_blank' href='" + url + "/#dashboard;id=" + dashboard.id + "gf=defaultManagementZone' class='newTab'>" +
         dashboard.name + " <img src='images/link.svg'></a> (" + dashboard.owner + ")</dt>";
       let dd = "<dd id='" + dashboard.id + "'>" +
         "<input type='button' id='listFunnel' value='List Journeys'>" +
@@ -161,7 +161,7 @@ function drawFunnelList(AOid) {
   let re = new RegExp(reS);
   DBAdashboards.forEach(function (dashboard) {
     if (re.test(dashboard.id) && dashboard.id != AOid) {
-      let dt = "<dt><a target='_blank' href='" + url + "/#dashboard;id=" + dashboard.id + "' class='newTab'>" +
+      let dt = "<dt><a target='_blank' href='" + url + "/#dashboard;id=" + dashboard.id + "gf=defaultManagementZone' class='newTab'>" +
         dashboard.name + " <img src='images/link.svg'></a> (" + dashboard.owner + ")</dt>";
       let dd = "<dd id='" + dashboard.id + "'>" +
         "<input type='button' id='updateFunnelForecast' value='Update Forecast'>" +

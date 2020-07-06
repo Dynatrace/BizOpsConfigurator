@@ -376,7 +376,7 @@ function fieldsetPainter() {
             $("#kpi").text(selection.config.kpiName);
             $("#finalWhereClause").text(selection.config.whereClause);
 
-            $("#deployFunnel-finish").append("Uploaded: <a target='_blank' href='" + url + "/#dashboard;id=" + selection.config.FOid + "' class='newTab'>" +
+            $("#deployFunnel-finish").append("Uploaded: <a target='_blank' href='" + url + "/#dashboard;id=" + selection.config.FOid + "gf=defaultManagementZone' class='newTab'>" +
                 selection.config.dashboardName + " <img src='images/link.svg'></a>");
             break;
         case "deployTenant":
@@ -598,7 +598,7 @@ function fieldsetPainter() {
                     let filteredDBs2 = filteredDBs.filter(db => db.id.split("-")[2] === usecasePrefix);
                     filteredDBs2.forEach(function (db) {
                         let dbHtml = `
-                        <dt><a target='_blank' href='${url}/#dashboard;id=${db.id}' class='newTab'>
+                        <dt><a target='_blank' href='${url}/#dashboard;id=${db.id}&gf=defaultManagementZone' class='newTab'>
                         ${db.name} <img src='images/link.svg'></a> (${db.owner})</dt>
                         <dd id="${db.id}">
                             <input type="button" id="personaEdit" value="Edit">

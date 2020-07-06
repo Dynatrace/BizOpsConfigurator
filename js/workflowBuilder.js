@@ -228,7 +228,7 @@ function Input() {
                         $input.parent().find(".inputHeader").remove();
                         break;
                     }
-                    case "Config Override": {
+                    case "Workflow Config Override": {
                         let $div = $(`<div class="configOverride">`)
                             .appendTo($input);
                         let $el = $(`<input type="hidden" class="overrideValues">`)
@@ -242,6 +242,17 @@ function Input() {
                             .appendTo($div);
 
                         $input.parent().find(".inputHeader").remove();
+                        break;
+                    }
+                    case "DT Config Pusher": {
+                        let $div = $(`<div class="configPusher">`)
+                        .appendTo($input);
+                    let $el = $(`<input type="hidden" class="configPushType">`)
+                        .val(data.configPushType)
+                        .appendTo($div);
+                    $el = $(`<input type="text" disabled class="configPushFile">`)
+                        .val(data.configPushFile)
+                        .appendTo($div);
                         break;
                     }
                 }
@@ -271,6 +282,7 @@ function inputTypeChangeHandler() {
     $("#conditionalSwap").hide();
     $("#resultHeader").text("Result:");
     $("#configOverride").hide();
+    $("#configPusher").hide();
 
 
     switch ($("#inputType").val()) {
@@ -333,7 +345,7 @@ function inputTypeChangeHandler() {
             $("#newInputResult").show();
             $("#transform").val("nextdb");
             break;
-        case "Config Override":
+        case "Workflow Config Override":
             $("#configOverride").show();
             $("#newInputPreview").show();
             $("#resultHeader").text("Examples:");
@@ -351,6 +363,10 @@ function inputTypeChangeHandler() {
                 <tr><td>5</td><td>JourneyOverview-5.json</td></tr>
                 </table><br>`);
             $("#newInputResult").show();
+            $(".transform").hide();
+            break;
+        case "configPusher":
+            $("#configPusher").show();
             $(".transform").hide();
             break;
     }
@@ -478,7 +494,7 @@ function previewHandler() {
         case "Conditional Swap":
             conditionalPreview();
             break;
-        case "Config Override":
+        case "Workflow Config Override":
             configOverridePreview();
             break;
     }
@@ -823,6 +839,15 @@ function renderWorkflowPage(el) {
     $el.find(".configOverride").each(function () {
         let $input = $(this);
         $input.find("input:not([type=hidden])").attr("type", "hidden"); //hide everything
+    })
+
+    //render Config pushers
+    $el.find(".configPusher").each(function() {
+        let $input = $(this);
+        let configPushType = $input.find(".configPushType").val();
+        let configPushFile = $input.find(".configPushFile").val();
+
+        let p = configPusherFactory($input, configPushType, configPushFile);
     })
 
     //make sure any XHRs are finished before we return the html
