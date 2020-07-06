@@ -47,6 +47,7 @@ function gitHubAPI(query, options = {}, retries = 3) {
                         errorboxJQXHR(jqXHR, "Retries exhausted.", errorThrown);
                         return;
                     }
+                    gitHubUpdateLimits(null,null,jqXHR);
                     let then = GithubReset;
                     let now = (new Date().getTime()) / 1000;
                     seconds = Math.max((then - now) + 1, 1);
