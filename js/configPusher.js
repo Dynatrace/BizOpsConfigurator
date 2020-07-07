@@ -153,7 +153,7 @@ function ConfigPusherFactory(target, configPushType, configPushFile, customServi
                     .text(i.name)
                     .appendTo($altSelect);
             });
-            $html.replaceWith($target);
+            $html.appendTo($target);
             $button = $(`#${buttonID}`);
             $button.on("click", pushConfig);
         }
