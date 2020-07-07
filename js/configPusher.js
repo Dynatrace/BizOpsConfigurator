@@ -3,7 +3,7 @@ Licensed under the Apache License, Version 2.0 (the "License"); you may not use 
 http://www.apache.org/licenses/LICENSE-2.0
 Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.*/
 
-function ConfigPusherFactory(target, configPushType, configPushFile, customServiceTech = null, customMetricType = null) { //ConfigPusher factory, usage: var cp = ConfigPusherFactory("#viewport","AutoTag","config/MyAutoTag.json");
+function ConfigPusherFactory(target, transform, configPushType, configPushFile, customServiceTech = null, customMetricType = null) { //ConfigPusher factory, usage: var cp = ConfigPusherFactory("#viewport","AutoTag","config/MyAutoTag.json");
     let masterP = $.Deferred();
     //public data
 
@@ -217,7 +217,7 @@ function ConfigPusherFactory(target, configPushType, configPushFile, customServi
         $.when(p1).done(displayUserChoice);
     }
 
-    function addCPToSwaps(swaps, transform) {
+    function addCPToSwaps(swaps) {
         if (configured) {
             addToSwaps(swaps, { from: transform + '.id', to: configData.id });
             addToSwaps(swaps, { from: transform + '.name', to: configData.name });

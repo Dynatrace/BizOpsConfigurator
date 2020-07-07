@@ -870,7 +870,11 @@ function globalButtonHandler() {
       case "workflowButton": {
         let button = $("#workflowButton");
         let activePage = $("#workflow").find(".workflowPage.activePage");
-        let swaps = generateWorkflowSwapList(activePage);
+        generateWorkflowSwapList(activePage);
+        while(ConfigPushers.length){
+          let cp = ConfigPushers.shift();
+          cp.addCPToSwaps(selection.swaps);
+        }
         if (button.val() == "Next") {
           let activePage = workflowNextPage();
           renderWorkflowPage(activePage);

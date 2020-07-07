@@ -116,6 +116,7 @@ var popupZindex = 0;
 var bcBuffer = "";
 var GithubRemaining = 1;
 var GithubReset = 9999999999;
+var ConfigPushers = [];
 
 ///////// Functions for manipulating global vars //////////
 
