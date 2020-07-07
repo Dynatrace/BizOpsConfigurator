@@ -251,10 +251,10 @@ function Input() {
                         let $el = $(`<input type="hidden" class="configPushType">`)
                             .val(data.configPushType)
                             .appendTo($div);
-                        let $el = $(`<input type="hidden" class="customServiceTech">`)
+                        $el = $(`<input type="hidden" class="customServiceTech">`)
                             .val(data.customServiceTech)
                             .appendTo($div)
-                        let $el = $(`<input type="hidden" class="customMetricType">`)
+                        $el = $(`<input type="hidden" class="customMetricType">`)
                             .val(data.customMetricType)
                             .appendTo($div)
                         $el = $(`<input type="text" disabled class="configPushFile">`)
