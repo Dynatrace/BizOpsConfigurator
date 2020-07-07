@@ -375,7 +375,7 @@ function inputTypeChangeHandler() {
         case "DT Config Pusher":
             $("#configPusher").show();
             $(".transform").show();
-            $("#").trigger("change");;
+            $("#configPushType").trigger("change");;
             break;
     }
 }
