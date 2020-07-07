@@ -14,6 +14,7 @@ function ConfigPusherFactory(target, configPushType, configPushFile, customServi
     let $target = $(target);
     let $altSelect = {};
     let $button = {};
+    let $html = {};
 
     //private methods
     function loadConfigJSON() {
@@ -138,20 +139,23 @@ function ConfigPusherFactory(target, configPushType, configPushFile, customServi
         let html = "";
         if (configured) {
             html = `<span>✅ ${configPushType} found.`;
-            $target.html(html);
+            $html = $(html);
+            $html.appendTo($target);
         } else {
             let buttonID = `button${uniqId()}`;
             let altID = `select${uniqId()}`;
             html = `<input type="button" id="${buttonID}" value="Push Config"><br>
-            or choose alternate: <select id="${altID}></select>`;
-            $target.html(html);
-            $altSelect = $(`#${altID}`);
+            or choose alternate: `;
+            $html = $(html);
+            $altSelect = $(`<select id="${altID}>`)
+                .appendTo($html);
             alternates.forEach(function (i) {
                 let $opt = $("<option>");
                 $opt.val(i.id)
                     .text(i.name)
                     .appendTo($altSelect);
             });
+            $html.appendTo($target);
             $button = $(`#${buttonID}`);
             $button.on("click", pushConfig);
         }
