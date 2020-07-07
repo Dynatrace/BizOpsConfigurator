@@ -143,7 +143,7 @@ function ConfigPusherFactory(target, configPushType, configPushFile, customServi
         } else {
             let buttonID = `button${uniqId()}`;
             let altID = `select${uniqId()}`;
-            $html = $(`<span><input type="button" id="${buttonID}" value="Push Config"><br>
+            $html = $(`<span><input type="button" id="${buttonID}" value="Push Config"> 
             or choose alternate: </span>`);
             $altSelect = $(`<select id="${altID}">`)
                 .appendTo($html);
