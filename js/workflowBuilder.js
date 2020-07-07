@@ -856,6 +856,7 @@ function renderWorkflowPage(el) {
         let configPushFile = $input.find(".configPushFile").val();
         let customServiceTech = $input.find(".customServiceTech").val();
         let customMetricType = $input.find(".customMetricType").val();
+        $input.find("input:not([type=hidden])").attr("type", "hidden"); //hide everything
 
         let p = ConfigPusherFactory($input, configPushType, configPushFile, customServiceTech, customMetricType);
     })

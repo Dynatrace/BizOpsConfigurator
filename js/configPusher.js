@@ -136,18 +136,15 @@ function ConfigPusherFactory(target, configPushType, configPushFile, customServi
     }
 
     function displayUserChoice() {
-        let html = "";
         if (configured) {
-            html = `<span>✅ ${configPushType} found.`;
-            $html = $(html);
-            $html.appendTo($target);
+            $html = $(`<span>✅ ${configPushType} found.</span>`);
+            $html.replaceWith($target);
         } else {
             let buttonID = `button${uniqId()}`;
             let altID = `select${uniqId()}`;
-            html = `<input type="button" id="${buttonID}" value="Push Config"><br>
-            or choose alternate: `;
-            $html = $(html);
-            $altSelect = $(`<select id="${altID}>`)
+            $html = $(`<span><input type="button" id="${buttonID}" value="Push Config"><br>
+            or choose alternate: </span>`);
+            $altSelect = $(`<select id="${altID}">`)
                 .appendTo($html);
             alternates.forEach(function (i) {
                 let $opt = $("<option>");
