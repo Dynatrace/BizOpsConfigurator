@@ -858,7 +858,7 @@ function renderWorkflowPage(el) {
         let customServiceTech = $input.find(".customServiceTech").val();
         let customMetricType = $input.find(".customMetricType").val();
         $input.find("input:not([type=hidden])").attr("type", "hidden"); //hide everything
-        let transform = $input.parent().siblings(".transform").text();
+        let transform = $input.parent().siblings(".transform").find("span").text();
 
         let p = ConfigPusherFactory($input, transform, configPushType, configPushFile, customServiceTech, customMetricType);
         $.when(p).done(function(cp){

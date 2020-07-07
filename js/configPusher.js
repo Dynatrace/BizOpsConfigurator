@@ -221,25 +221,25 @@ function ConfigPusherFactory(target, transform, configPushType, configPushFile, 
         if (configured) {
             switch (configPushType) {
                 case "CustomMetric":
-                    addToSwaps(swaps, { from: transform + '.mtype', to: customMetricType });
-                    addToSwaps(swaps, { from: transform + '.id', to: configData.metricKey });
-                    addToSwaps(swaps, { from: transform + '.name', to: configData.name });
-                    addToSwaps(swaps, { from: transform + '.type', to: configPushType });
+                    addToSwaps(swaps, { from: '${' + transform + '.mtype}', to: customMetricType });
+                    addToSwaps(swaps, { from: '${' + transform + '.id}', to: configData.metricKey });
+                    addToSwaps(swaps, { from: '${' + transform + '.name}', to: configData.name });
+                    addToSwaps(swaps, { from: '${' + transform + '.type}', to: configPushType });
                     break;
                 case "CustomService":
-                    addToSwaps(swaps, { from: transform + '.tech', to: customServiceTech });
-                    addToSwaps(swaps, { from: transform + '.id', to: configData.id });
-                    addToSwaps(swaps, { from: transform + '.name', to: configData.name });
-                    addToSwaps(swaps, { from: transform + '.type', to: configPushType });
+                    addToSwaps(swaps, { from: '${' + transform + '.tech}', to: customServiceTech });
+                    addToSwaps(swaps, { from: '${' + transform + '.id}', to: configData.id });
+                    addToSwaps(swaps, { from: '${' + transform + '.name}', to: configData.name });
+                    addToSwaps(swaps, { from: '${' + transform + '.type}', to: configPushType });
                     break;
                 //case "Extension":
                 //case "Autotag":
                 //case "MZ":
                 //case "RequestAttribute":
                 default:
-                    addToSwaps(swaps, { from: transform + '.id', to: configData.id });
-                    addToSwaps(swaps, { from: transform + '.name', to: configData.name });
-                    addToSwaps(swaps, { from: transform + '.type', to: configPushType });
+                    addToSwaps(swaps, { from: '${' + transform + '.id}', to: configData.id });
+                    addToSwaps(swaps, { from: '${' + transform + '.name}', to: configData.name });
+                    addToSwaps(swaps, { from: '${' + transform + '.type}', to: configPushType });
             }
         } else if (Object.entries($altSelect).length) {
             let id = $altSelect.val();
@@ -247,25 +247,25 @@ function ConfigPusherFactory(target, transform, configPushType, configPushFile, 
 
             switch (configPushType) {
                 case "CustomMetric":
-                    addToSwaps(swaps, { from: transform + '.mtype', to: customMetricType });
-                    addToSwaps(swaps, { from: transform + '.id', to: id });
-                    addToSwaps(swaps, { from: transform + '.name', to: name });
-                    addToSwaps(swaps, { from: transform + '.type', to: configPushType });
+                    addToSwaps(swaps, { from: '${' + transform + '.mtype}', to: customMetricType });
+                    addToSwaps(swaps, { from: '${' + transform + '.id}', to: id });
+                    addToSwaps(swaps, { from: '${' + transform + '.name}', to: name });
+                    addToSwaps(swaps, { from: '${' + transform + '.type}', to: configPushType });
                     break;
                 case "CustomService":
-                    addToSwaps(swaps, { from: transform + '.tech', to: customServiceTech });
-                    addToSwaps(swaps, { from: transform + '.id', to: id });
-                    addToSwaps(swaps, { from: transform + '.name', to: name });
-                    addToSwaps(swaps, { from: transform + '.type', to: configPushType });
+                    addToSwaps(swaps, { from: '${' + transform + '.tech}', to: customServiceTech });
+                    addToSwaps(swaps, { from: '${' + transform + '.id}', to: id });
+                    addToSwaps(swaps, { from: '${' + transform + '.name}', to: name });
+                    addToSwaps(swaps, { from: '${' + transform + '.type}', to: configPushType });
                     break;
                 //case "Extension":
                 //case "Autotag":
                 //case "MZ":
                 //case "RequestAttribute":
                 default:
-                    addToSwaps(swaps, { from: transform + '.id', to: id });
-                    addToSwaps(swaps, { from: transform + '.name', to: name });
-                    addToSwaps(swaps, { from: transform + '.type', to: configPushType });
+                    addToSwaps(swaps, { from: '${' + transform + '.id}', to: id });
+                    addToSwaps(swaps, { from: '${' + transform + '.name}', to: name });
+                    addToSwaps(swaps, { from: '${' + transform + '.type}', to: configPushType });
             }
         } else {
             console.log("Tried to addToSwaps w/o configPusher ready");
