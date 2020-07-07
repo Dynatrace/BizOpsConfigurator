@@ -198,11 +198,8 @@ function ConfigPusherFactory(target, configPushType, configPushFile, customServi
                 break;
             }
             case "CustomMetric": {
-                let metricKey = c.metricKey.includes('${')?
-                    queryDoSwaps(c.metricKey,selection.swaps):
-                    c.metricKey;
-                let query = `/api/config/v1/calculatedMetrics/${customMetricType}/${metricKey}`;
-                p = dtAPIquery(query, { method: "PUT", data: data });
+                let query = `/api/config/v1/calculatedMetrics/${customMetricType}`;
+                p = dtAPIquery(query, { method: "POST", data: data });
                 $.when(p).done(refreshConfigPusher);
                 break;
             }
