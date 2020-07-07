@@ -159,50 +159,44 @@ function ConfigPusherFactory(target, configPushType, configPushFile, customServi
 
     function pushConfig() {
         let c = configData;
+        let data = JSON.stringify(c);
         let p = {};
 
         switch (configPushType) {
             case "Autotag": {
                 let query = `/api/config/v1/autoTags/${c.id}`;
-                p = dtAPIquery(query, { method: "PUT", data: c });
+                p = dtAPIquery(query, { method: "PUT", data: data });
                 $.when(p).done(refreshConfigPusher);
                 break;
             }
             case "MZ": {
                 let query = `/api/config/v1/managementZones/${c.id}`;
-                p = dtAPIquery(query, { method: "PUT", data: c });
+                p = dtAPIquery(query, { method: "PUT", data: data });
                 $.when(p).done(refreshConfigPusher);
                 break;
             }
             case "RequestAttribute": {
                 let query = `/api/config/v1/service/requestAttributes/${c.id}`;
-                p = dtAPIquery(query, { method: "PUT", data: c });
+                p = dtAPIquery(query, { method: "PUT", data: data });
                 $.when(p).done(refreshConfigPusher);
                 break;
             }
             case "CustomService": {
                 let query = `/api/config/v1/service/customServices/${customServiceTech}/${c.id}`;
-                p = dtAPIquery(query, { method: "PUT", data: c });
+                p = dtAPIquery(query, { method: "PUT", data: data });
                 $.when(p).done(refreshConfigPusher);
                 break;
             }
             case "Extension": {
                 let query = `/api/config/v1/extensions/${c.id}`; //need some sort of zip handling here
-                p = dtAPIquery(query, { method: "PUT", data: c });
+                p = dtAPIquery(query, { method: "PUT", data: data });
                 $.when(p).done(refreshConfigPusher);
                 break;
             }
             case "CustomMetric": {
                 let query = `/api/config/v1/calculatedMetrics/${customMetricType}/${c.id}`;
-                p = dtAPIquery(query);
-                $.when(p).done(function (result) {
-                    if (result.values.find(x => x.id === c.id && x.name === c.name)) {
-                        configured = true;
-                    } else {
-                        configured = false;
-                        alternates = result.values;
-                    }
-                });
+                p = dtAPIquery(query, { method: "PUT", data: data });
+                $.when(p).done(refreshConfigPusher);
                 break;
             }
             default: {
