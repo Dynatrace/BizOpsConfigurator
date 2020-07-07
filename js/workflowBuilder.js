@@ -857,7 +857,7 @@ function renderWorkflowPage(el) {
         let customServiceTech = $input.find(".customServiceTech").val();
         let customMetricType = $input.find(".customMetricType").val();
 
-        let p = configPusherFactory($input, configPushType, configPushFile, customServiceTech, customMetricType);
+        let p = ConfigPusherFactory($input, configPushType, configPushFile, customServiceTech, customMetricType);
     })
 
     //make sure any XHRs are finished before we return the html
