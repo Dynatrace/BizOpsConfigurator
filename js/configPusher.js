@@ -133,14 +133,14 @@ function ConfigPusherFactory(target, configPushType, configPushFile, customServi
             html = `<input type="button" id="${buttonID}" value="Push Config"><br>
             or choose alternate: <select id="${altID}></select>`;
             $target.html(html);
-            $altSelect = $(altID);
+            $altSelect = $(`#${altID}`);
             alternates.forEach(function (i) {
                 let $opt = $("<option>");
                 $opt.val(i.id)
                     .text(i.name)
                     .appendTo($altSelect);
             });
-            $button = $(buttonID);
+            $button = $(`#${buttonID}`);
             $button.on("click", pushConfig);
         }
     }
