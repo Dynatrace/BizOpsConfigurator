@@ -136,9 +136,10 @@ function ConfigPusherFactory(target, configPushType, configPushFile, customServi
     }
 
     function displayUserChoice() {
+        $target.empty();
         if (configured) {
             $html = $(`<span>✅ ${configPushType} found.</span>`);
-            $target.replaceWith($html);
+            $html.appendTo($target);
         } else {
             let buttonID = `button${uniqId()}`;
             let altID = `select${uniqId()}`;
@@ -152,7 +153,7 @@ function ConfigPusherFactory(target, configPushType, configPushFile, customServi
                     .text(i.name)
                     .appendTo($altSelect);
             });
-            $target.replaceWith($html);
+            $html.replaceWith($target);
             $button = $(`#${buttonID}`);
             $button.on("click", pushConfig);
         }
