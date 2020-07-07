@@ -19,10 +19,16 @@ function ConfigPusherFactory(target, configPushType, configPushFile, customServi
     function loadConfigJSON() {
         if (typeof selection == "undefined" ||
             typeof selection.config == "undefined" ||
-            typeof selection.config.repo == "undefined")
-            return;
+            typeof selection.config.githubRepo == "undefined"){
+                console.log("loadConfigJSON but repo not set");
+                return;
+            }
+            
+        let repo = selection.config.githubRepo;
+        let owner = selection.config.githubUser;
+        let path = selection.config.githubPath;
 
-        let file = `https://github.com/${file.repo.owner}/${file.repo.repo}/raw/master/${configPushFile}`;
+        let file = `https://github.com/${owner}/${repo}/raw/master/${path!=""?path+'/':''}${configPushFile}`;
         let p = $.get(file);
 
         $.when(p).done(function (data) {
