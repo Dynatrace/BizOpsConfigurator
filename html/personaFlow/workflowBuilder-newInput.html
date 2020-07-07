@@ -96,7 +96,37 @@
             <div class="inputHeader">App transform:</div>
             <div class="userInput">&dollar;{&nbsp;<input id="app" value="app">&nbsp;}</div>
         </div>
-
+        <div id="configPusher">
+            <div class="inputHeader">What type of config</div>
+            <div class="userInput"><select id="configPushType">
+                <option>Autotag</option>
+                <option>MZ</option>
+                <option>RequestAttribute</option>
+                <option>CustomMetric</option>
+                <option>CustomService</option>
+                <option disabled>Extension</option>
+            </select></div>
+            <div class="inputHeader configPusherCustomService">CustomService technology</div>
+            <div class="userInput configPusherCustomService"><select id="customServiceTech">
+                <option></option>
+                <option>dotNet</option>
+                <option>go</option>
+                <option>java</option>
+                <option>nodeJS</option>
+                <option>php</option>
+            </select></div>
+            <div class="inputHeader configPusherCustomMetric">CustomMetric type</div>
+            <div class="userInput configPusherCustomMetric"><select id="customMetricType">
+                <option></option>
+                <option>log</option>
+                <option>mobile</option>
+                <option>service</option>
+                <option>synthetic</option>
+                <option>rum</option>
+            </select></div>
+            <div class="inputHeader">JSON filename</div>
+            <div class="userInput"><input id="configPushFile" placeholder="config/MyAutotag.json"></div>
+        </div>
         <div class="inputHeader transform">Dashboard placeholder to search/replace:</div>
         <div class="userInput transform">&dollar;{&nbsp;<input id="transform" value="MyString" required>&nbsp;}</div>
         <div id="conditionalSwap">
@@ -125,37 +155,7 @@
             <div class="userInput"><input type="button" id="overrideAdd" value="+"></div>
             <input type="hidden" id="overrideValues">
         </div>
-        <div id="configPusher">
-            <div class="inputHeader">What type of config</div>
-            <div class="userInput"><select id="configPushType">
-                <option>Autotag</option>
-                <option>MZ</option>
-                <option>RequestAttribute</option>
-                <option>CustomMetric</option>
-                <option>CustomService</option>
-                <option disabled>Extension</option>
-            </select></div>
-            <div class="inputHeader">JSON filename</div>
-            <div class="userInput"><input id="configPushFile" placeholder="config/MyAutotag.json"></div>
-            <div class="inputHeader configPusherCustomService">CustomService technology</div>
-            <div class="userInput configPusherCustomService"><select id="customServiceTech">
-                <option></option>
-                <option>dotNet</option>
-                <option>go</option>
-                <option>java</option>
-                <option>nodeJS</option>
-                <option>php</option>
-            </select></div>
-            <div class="inputHeader configPusherCustomMetric">CustomMetric type</div>
-            <div class="userInput configPusherCustomMetric"><select id="customMetricType">
-                <option></option>
-                <option>log</option>
-                <option>mobile</option>
-                <option>service</option>
-                <option>synthetic</option>
-                <option>rum</option>
-            </select></div>
-        </div>
+        
         <div class="inputHeader tryitout">Try it out:</div>
         <div class="userInput tryitout"><input type="button" id="test" value="Test"></div>
 

@@ -375,6 +375,7 @@ function inputTypeChangeHandler() {
         case "DT Config Pusher":
             $("#configPusher").show();
             $(".transform").show();
+            $(".tryitout").hide();
             $("#configPushType").trigger("change");;
             break;
     }
@@ -1358,6 +1359,7 @@ function configPushTypeHandler() {
     $(".configPusherCustomMetric").hide();
     switch ($el.val()) {
         case "Autotag":
+            break;
         case "MZ":
             break;
         case "RequestAttribute":
@@ -1371,4 +1373,5 @@ function configPushTypeHandler() {
         case "Extension":
             break;
     }
+    $("#transform").val($el.val().toLowerCase());
 }

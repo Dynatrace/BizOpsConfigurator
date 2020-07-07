@@ -118,7 +118,7 @@ function ConfigPusherFactory(target, configPushType, configPushFile, customServi
                 let query = `/api/config/v1/calculatedMetrics/${customMetricType}`;
                 p = dtAPIquery(query);
                 $.when(p).done(function (result) {
-                    if (result.values.find(x => x.id === c.id && x.name === c.name)) {
+                    if (result.values.find(x => x.metricKey === c.metricKey && x.name === c.name)) {
                         configured = true;
                     } else {
                         configured = false;
@@ -162,6 +162,7 @@ function ConfigPusherFactory(target, configPushType, configPushFile, customServi
     function pushConfig() {
         let c = configData;
         let data = JSON.stringify(c);
+        data=queryDoSwaps(data,selection.swaps);
         let p = {};
 
         switch (configPushType) {
@@ -196,7 +197,10 @@ function ConfigPusherFactory(target, configPushType, configPushFile, customServi
                 break;
             }
             case "CustomMetric": {
-                let query = `/api/config/v1/calculatedMetrics/${customMetricType}/${c.id}`;
+                let metricKey = c.metricKey.includes('${')?
+                    queryDoSwaps(c.metricKey,selection.swaps):
+                    c.metricKey;
+                let query = `/api/config/v1/calculatedMetrics/${customMetricType}/${metricKey}`;
                 p = dtAPIquery(query, { method: "PUT", data: data });
                 $.when(p).done(refreshConfigPusher);
                 break;
