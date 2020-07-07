@@ -62,6 +62,7 @@ function workflowBuilderHandlers() {
     $("#viewport").on("change", "#commonQueries", commonQueryChangeHandler);
     $("#viewport").on("change", "#usqlCommonQueries", usqlCommonQueryChangeHandler);
     $("#viewport").on("change", "input[type=checkbox]", checkHandler);
+    $("#viewport").on("change", "#configPushType", configPushTypeHandler);
     $("#viewport").on("click", "#test", previewHandler);
     $("#viewport").on("click", "#staticBoxAdd", staticBoxAddHandler);
     $("#viewport").on("click", "#conditionalAdd", conditionalAddHandler);
@@ -246,13 +247,19 @@ function Input() {
                     }
                     case "DT Config Pusher": {
                         let $div = $(`<div class="configPusher">`)
-                        .appendTo($input);
-                    let $el = $(`<input type="hidden" class="configPushType">`)
-                        .val(data.configPushType)
-                        .appendTo($div);
-                    $el = $(`<input type="text" disabled class="configPushFile">`)
-                        .val(data.configPushFile)
-                        .appendTo($div);
+                            .appendTo($input);
+                        let $el = $(`<input type="hidden" class="configPushType">`)
+                            .val(data.configPushType)
+                            .appendTo($div);
+                        let $el = $(`<input type="hidden" class="customServiceTech">`)
+                            .val(data.customServiceTech)
+                            .appendTo($div)
+                        let $el = $(`<input type="hidden" class="customMetricType">`)
+                            .val(data.customMetricType)
+                            .appendTo($div)
+                        $el = $(`<input type="text" disabled class="configPushFile">`)
+                            .val(data.configPushFile)
+                            .appendTo($div);
                         break;
                     }
                 }
@@ -842,12 +849,14 @@ function renderWorkflowPage(el) {
     })
 
     //render Config pushers
-    $el.find(".configPusher").each(function() {
+    $el.find(".configPusher").each(function () {
         let $input = $(this);
         let configPushType = $input.find(".configPushType").val();
         let configPushFile = $input.find(".configPushFile").val();
+        let customServiceTech = $input.find(".customServiceTech").val();
+        let customMetricType = $input.find(".customMetricType").val();
 
-        let p = configPusherFactory($input, configPushType, configPushFile);
+        let p = configPusherFactory($input, configPushType, configPushFile, customServiceTech, customMetricType);
     })
 
     //make sure any XHRs are finished before we return the html
@@ -1339,4 +1348,25 @@ function configOverridePreview(vals) {
     swapPreview += `</table>`;
     $("#preview").html(preview);
     $("#swaps").html(swapPreview);
+}
+
+function configPushTypeHandler() {
+    $el = $(this);
+    $(".configPusherCustomService").hide();
+    $(".configPusherCustomMetric").hide();
+    switch ($el.val()) {
+        case "Autotag":
+        case "MZ":
+            break;
+        case "RequestAttribute":
+            break;
+        case "CustomMetric":
+            $(".configPusherCustomMetric").show();
+            break;
+        case "CustomService":
+            $(".configPusherCustomService").show();
+            break;
+        case "Extension":
+            break;
+    }
 }

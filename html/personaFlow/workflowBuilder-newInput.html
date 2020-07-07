@@ -131,11 +131,28 @@
                 <option>Autotag</option>
                 <option disabled>MZ</option>
                 <option disabled>RequestAttribute</option>
+                <option disabled>CustomMetric</option>
                 <option disabled>CustomService</option>
-                <option disabled>Plugin</option>
+                <option disabled>Extension</option>
             </select></div>
             <div class="inputHeader">JSON filename</div>
-            <div class="userInput"><input id="configPushFile" placeholder="MyAutotag.json"></div>
+            <div class="userInput"><input id="configPushFile" placeholder="config/MyAutotag.json"></div>
+            <div class="inputHeader configPusherCustomService">CustomService technology</div>
+            <div class="userInput configPusherCustomService"><select id="customServiceTech">
+                <option>dotNet</option>
+                <option>go</option>
+                <option>java</option>
+                <option>nodeJS</option>
+                <option>php</option>
+            </select></div>
+            <div class="inputHeader configPusherCustomMetric">CustomMetric type</div>
+            <div class="userInput configPusherCustomMetric"><select id="customMetricType">
+                <option>log</option>
+                <option>mobile</option>
+                <option>service</option>
+                <option>synthetic</option>
+                <option>rum</option>
+            </select></div>
         </div>
         <div class="inputHeader tryitout">Try it out:</div>
         <div class="userInput tryitout"><input type="button" id="test" value="Test"></div>
