@@ -28,7 +28,8 @@ function ConfigPusherFactory(target, configPushType, configPushFile, customServi
         let owner = selection.config.githubUser;
         let path = selection.config.githubPath;
 
-        let file = `https://github.com/${owner}/${repo}/raw/master/${path!=""?path+'/':''}${configPushFile}`;
+        //"https://raw.githubusercontent.com/TechShady/Dynatrace-Dashboards/master/FunnelAnalysisStep2.json"
+        let file = `https://raw.githubusercontent.com/${owner}/${repo}/master/${path!=""?path+'/':''}${configPushFile}`;
         let p = $.get(file);
 
         $.when(p).done(function (data) {
