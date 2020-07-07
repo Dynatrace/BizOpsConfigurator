@@ -35,6 +35,8 @@ function ConfigPusherFactory(target, configPushType, configPushFile, customServi
 
         $.when(p).done(function (data) {
             try {
+                if(data.includes('${'))
+                    data=queryDoSwaps(data,selection.swaps);
                 configData = JSON.parse(data);
             } catch (err) {
                 configData = {};
@@ -162,7 +164,6 @@ function ConfigPusherFactory(target, configPushType, configPushFile, customServi
     function pushConfig() {
         let c = configData;
         let data = JSON.stringify(c);
-        data=queryDoSwaps(data,selection.swaps);
         let p = {};
 
         switch (configPushType) {
