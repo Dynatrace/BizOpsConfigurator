@@ -3,7 +3,7 @@ Licensed under the Apache License, Version 2.0 (the "License"); you may not use 
 http://www.apache.org/licenses/LICENSE-2.0
 Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.*/
 
-function ConfigPusherFactory(target, configPushType, configPushFile, customServiceTech=null, customMetricType=null) { //ConfigPusher factory, usage: var cp = ConfigPusherFactory("#viewport","AutoTag","config/MyAutoTag.json");
+function ConfigPusherFactory(target, configPushType, configPushFile, customServiceTech = null, customMetricType = null) { //ConfigPusher factory, usage: var cp = ConfigPusherFactory("#viewport","AutoTag","config/MyAutoTag.json");
     let masterP = $.Deferred();
     //public data
 
@@ -19,21 +19,26 @@ function ConfigPusherFactory(target, configPushType, configPushFile, customServi
     function loadConfigJSON() {
         if (typeof selection == "undefined" ||
             typeof selection.config == "undefined" ||
-            typeof selection.config.githubRepo == "undefined"){
-                console.log("loadConfigJSON but repo not set");
-                return;
-            }
-            
+            typeof selection.config.githubRepo == "undefined") {
+            console.log("loadConfigJSON but repo not set");
+            return;
+        }
+
         let repo = selection.config.githubRepo;
         let owner = selection.config.githubUser;
         let path = selection.config.githubPath;
 
         //"https://raw.githubusercontent.com/TechShady/Dynatrace-Dashboards/master/FunnelAnalysisStep2.json"
-        let file = `https://raw.githubusercontent.com/${owner}/${repo}/master/${path!=""?path+'/':''}${configPushFile}`;
+        let file = `https://raw.githubusercontent.com/${owner}/${repo}/master/${path != "" ? path + '/' : ''}${configPushFile}`;
         let p = $.get(file);
 
         $.when(p).done(function (data) {
-            configData = data;
+            try {
+                configData = JSON.parse(data);
+            } catch (err) {
+                configData = {};
+                console.log(err);
+            }
         })
         return p;
     }
@@ -44,7 +49,7 @@ function ConfigPusherFactory(target, configPushType, configPushFile, customServi
 
         switch (configPushType) {
             case "Autotag": {
-                let query = `/api/config/v1/autoTags`;
+                let query = `/api/config/v1/autoTags/${c.id}`;
                 p = dtAPIquery(query);
                 $.when(p).done(function (result) {
                     if (result.values.find(x => x.id === c.id && x.name === c.name)) {
@@ -57,7 +62,7 @@ function ConfigPusherFactory(target, configPushType, configPushFile, customServi
                 break;
             }
             case "MZ": {
-                let query = `/api/config/v1/managementZones`;
+                let query = `/api/config/v1/managementZones/${c.id}`;
                 p = dtAPIquery(query);
                 $.when(p).done(function (result) {
                     if (result.values.find(x => x.id === c.id && x.name === c.name)) {
@@ -70,7 +75,7 @@ function ConfigPusherFactory(target, configPushType, configPushFile, customServi
                 break;
             }
             case "RequestAttribute": {
-                let query = `/api/config/v1/service/requestAttributes`;
+                let query = `/api/config/v1/service/requestAttributes/${c.id}`;
                 p = dtAPIquery(query);
                 $.when(p).done(function (result) {
                     if (result.values.find(x => x.id === c.id && x.name === c.name)) {
@@ -83,7 +88,7 @@ function ConfigPusherFactory(target, configPushType, configPushFile, customServi
                 break;
             }
             case "CustomService": {
-                let query = `/api/config/v1/service/customServices/${customServiceTech}`; //get tech from workflow creator
+                let query = `/api/config/v1/service/customServices/${customServiceTech}/${c.id}`; //get tech from workflow creator
                 p = dtAPIquery(query);
                 $.when(p).done(function (result) {
                     if (result.values.find(x => x.id === c.id && x.name === c.name)) {
@@ -96,7 +101,7 @@ function ConfigPusherFactory(target, configPushType, configPushFile, customServi
                 break;
             }
             case "Extension": {
-                let query = `/api/config/v1/extensions`;
+                let query = `/api/config/v1/extensions/${c.id}`; //need zip file handling here
                 p = dtAPIquery(query);
                 $.when(p).done(function (result) {
                     if (result.values.find(x => x.id === c.id && x.name === c.name)) {
@@ -109,7 +114,7 @@ function ConfigPusherFactory(target, configPushType, configPushFile, customServi
                 break;
             }
             case "CustomMetric": {
-                let query = `/api/config/v1/calculatedMetrics/${customMetricType}`;
+                let query = `/api/config/v1/calculatedMetrics/${customMetricType}/${c.id}`;
                 p = dtAPIquery(query);
                 $.when(p).done(function (result) {
                     if (result.values.find(x => x.id === c.id && x.name === c.name)) {
@@ -214,22 +219,22 @@ function ConfigPusherFactory(target, configPushType, configPushFile, customServi
         $.when(p1).done(displayUserChoice);
     }
 
-    function addCPToSwaps(swaps,transform) {
-        if(configured){
-            addToSwaps(swaps, { from: transform+'.id', to: configData.id });
-            addToSwaps(swaps, { from: transform+'.name', to: configData.name });
-            addToSwaps(swaps, { from: transform+'.type', to: configPushType });
-            if(customServiceTech!=null)addToSwaps(swaps, { from: transform+'.tech', to: customServiceTech });
-            if(customMetricType!=null)addToSwaps(swaps, { from: transform+'.mtype', to: customMetricType });
-        } else if(Object.entries($altSelect).length){
+    function addCPToSwaps(swaps, transform) {
+        if (configured) {
+            addToSwaps(swaps, { from: transform + '.id', to: configData.id });
+            addToSwaps(swaps, { from: transform + '.name', to: configData.name });
+            addToSwaps(swaps, { from: transform + '.type', to: configPushType });
+            if (customServiceTech != null) addToSwaps(swaps, { from: transform + '.tech', to: customServiceTech });
+            if (customMetricType != null) addToSwaps(swaps, { from: transform + '.mtype', to: customMetricType });
+        } else if (Object.entries($altSelect).length) {
             let id = $altSelect.val();
             let name = $altSelect.find("option:selected").text();
 
-            addToSwaps(swaps, { from: transform+'.id', to: id });
-            addToSwaps(swaps, { from: transform+'.name', to: name });
-            addToSwaps(swaps, { from: transform+'.type', to: configPushType });
-            if(customServiceTech!=null)addToSwaps(swaps, { from: transform+'.tech', to: customServiceTech });
-            if(customMetricType!=null)addToSwaps(swaps, { from: transform+'.mtype', to: customMetricType });
+            addToSwaps(swaps, { from: transform + '.id', to: id });
+            addToSwaps(swaps, { from: transform + '.name', to: name });
+            addToSwaps(swaps, { from: transform + '.type', to: configPushType });
+            if (customServiceTech != null) addToSwaps(swaps, { from: transform + '.tech', to: customServiceTech });
+            if (customMetricType != null) addToSwaps(swaps, { from: transform + '.mtype', to: customMetricType });
         } else {
             console.log("Tried to addToSwaps w/o configPusher ready");
         }
@@ -244,7 +249,7 @@ function ConfigPusherFactory(target, configPushType, configPushFile, customServi
         $.when(p1).done(function () {
             displayUserChoice();
 
-            masterP.resolve({ html: $html, refreshConfigPusher, addCPToSwaps});
+            masterP.resolve({ html: $html, refreshConfigPusher, addCPToSwaps });
         })
     });
     return masterP;
