@@ -49,7 +49,7 @@ function ConfigPusherFactory(target, configPushType, configPushFile, customServi
 
         switch (configPushType) {
             case "Autotag": {
-                let query = `/api/config/v1/autoTags/${c.id}`;
+                let query = `/api/config/v1/autoTags`;
                 p = dtAPIquery(query);
                 $.when(p).done(function (result) {
                     if (result.values.find(x => x.id === c.id && x.name === c.name)) {
@@ -62,7 +62,7 @@ function ConfigPusherFactory(target, configPushType, configPushFile, customServi
                 break;
             }
             case "MZ": {
-                let query = `/api/config/v1/managementZones/${c.id}`;
+                let query = `/api/config/v1/managementZones`;
                 p = dtAPIquery(query);
                 $.when(p).done(function (result) {
                     if (result.values.find(x => x.id === c.id && x.name === c.name)) {
@@ -75,7 +75,7 @@ function ConfigPusherFactory(target, configPushType, configPushFile, customServi
                 break;
             }
             case "RequestAttribute": {
-                let query = `/api/config/v1/service/requestAttributes/${c.id}`;
+                let query = `/api/config/v1/service/requestAttributes`;
                 p = dtAPIquery(query);
                 $.when(p).done(function (result) {
                     if (result.values.find(x => x.id === c.id && x.name === c.name)) {
@@ -88,7 +88,7 @@ function ConfigPusherFactory(target, configPushType, configPushFile, customServi
                 break;
             }
             case "CustomService": {
-                let query = `/api/config/v1/service/customServices/${customServiceTech}/${c.id}`; //get tech from workflow creator
+                let query = `/api/config/v1/service/customServices/${customServiceTech}`; //get tech from workflow creator
                 p = dtAPIquery(query);
                 $.when(p).done(function (result) {
                     if (result.values.find(x => x.id === c.id && x.name === c.name)) {
@@ -101,7 +101,7 @@ function ConfigPusherFactory(target, configPushType, configPushFile, customServi
                 break;
             }
             case "Extension": {
-                let query = `/api/config/v1/extensions/${c.id}`; //need zip file handling here
+                let query = `/api/config/v1/extensions`; //need zip file handling here
                 p = dtAPIquery(query);
                 $.when(p).done(function (result) {
                     if (result.values.find(x => x.id === c.id && x.name === c.name)) {
@@ -114,7 +114,7 @@ function ConfigPusherFactory(target, configPushType, configPushFile, customServi
                 break;
             }
             case "CustomMetric": {
-                let query = `/api/config/v1/calculatedMetrics/${customMetricType}/${c.id}`;
+                let query = `/api/config/v1/calculatedMetrics/${customMetricType}`;
                 p = dtAPIquery(query);
                 $.when(p).done(function (result) {
                     if (result.values.find(x => x.id === c.id && x.name === c.name)) {
@@ -163,37 +163,37 @@ function ConfigPusherFactory(target, configPushType, configPushFile, customServi
 
         switch (configPushType) {
             case "Autotag": {
-                let query = `/api/config/v1/autoTags`;
+                let query = `/api/config/v1/autoTags/${c.id}`;
                 p = dtAPIquery(query, { method: "PUT", data: c });
                 $.when(p).done(refreshConfigPusher);
                 break;
             }
             case "MZ": {
-                let query = `/api/config/v1/managementZones`;
+                let query = `/api/config/v1/managementZones/${c.id}`;
                 p = dtAPIquery(query, { method: "PUT", data: c });
                 $.when(p).done(refreshConfigPusher);
                 break;
             }
             case "RequestAttribute": {
-                let query = `/api/config/v1/service/requestAttributes`;
+                let query = `/api/config/v1/service/requestAttributes/${c.id}`;
                 p = dtAPIquery(query, { method: "PUT", data: c });
                 $.when(p).done(refreshConfigPusher);
                 break;
             }
             case "CustomService": {
-                let query = `/api/config/v1/service/customServices/${customServiceTech}`; //get tech from workflow creator
+                let query = `/api/config/v1/service/customServices/${customServiceTech}/${c.id}`;
                 p = dtAPIquery(query, { method: "PUT", data: c });
                 $.when(p).done(refreshConfigPusher);
                 break;
             }
             case "Extension": {
-                let query = `/api/config/v1/extensions`;
+                let query = `/api/config/v1/extensions/${c.id}`; //need some sort of zip handling here
                 p = dtAPIquery(query, { method: "PUT", data: c });
                 $.when(p).done(refreshConfigPusher);
                 break;
             }
             case "CustomMetric": {
-                let query = `/api/config/v1/calculatedMetrics/${customMetricType}`;
+                let query = `/api/config/v1/calculatedMetrics/${customMetricType}/${c.id}`;
                 p = dtAPIquery(query);
                 $.when(p).done(function (result) {
                     if (result.values.find(x => x.id === c.id && x.name === c.name)) {
