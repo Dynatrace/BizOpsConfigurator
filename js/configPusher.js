@@ -199,7 +199,9 @@ function ConfigPusherFactory(target, transform, configPushType, configPushFile, 
             }
             case "CustomMetric": {
                 c = configData;
-                c.metricKey = encodeURIComponent(c.metricKey);
+                let parts = c.metricKey.split(':');
+                c.metricKey = parts[0] + ':' +
+                    encodeURIComponent(parts[1]); //app.name may have reserved chars, but don't replace :
                 data = JSON.stringify(c);
                 let query = `/api/config/v1/calculatedMetrics/${customMetricType}`;
                 p = dtAPIquery(query, { method: "POST", data: data });
