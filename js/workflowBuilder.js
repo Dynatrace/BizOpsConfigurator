@@ -285,6 +285,7 @@ function inputTypeChangeHandler() {
     $("#apiQueryHeader").text();
     $("#preview").html();
     $("#preview").off();
+    $("#swaps").html();
     $("#appTransform").hide();
     $("#conditionalSwap").hide();
     $("#resultHeader").text("Result:");
