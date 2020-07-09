@@ -580,6 +580,21 @@ function staticBoxAddHandler() {
     $("#staticOptions").val(JSON.stringify(staticOptions));
 }
 
+function staticBoxPreviewHandler() {
+    let $opt = $("#staticPreview option:selected");
+    let key = $opt.text();
+    let val = $opt.val();
+
+    let fromkey = "${" + $("#transform").val() + ".key}";
+    let fromval = "${" + $("#transform").val() + ".value}";
+
+    let preview = $(`<table class="dataTable">`);
+    preview.append(`<thead><tr><td>From</td><td>To</td></tr></thead>`);
+    preview.append(`<tr><td>${fromkey}</td><td>${key}</td></tr>`);
+    preview.append(`<tr><td>${fromval}</td><td>${val}</td></tr>`);
+    $("#swaps").html(preview);
+}
+
 function checkHandler() {
     let val = $(this).prop("checked") ? "true" : "false";
     $(this).val(val);
@@ -861,7 +876,7 @@ function renderWorkflowPage(el) {
         let transform = $input.parent().siblings(".transform").find("span").text();
 
         let p = ConfigPusherFactory($input, transform, configPushType, configPushFile, customServiceTech, customMetricType);
-        $.when(p).done(function(cp){
+        $.when(p).done(function (cp) {
             ConfigPushers.push(cp);
         });
     })
@@ -1189,9 +1204,10 @@ function previewChangeHandlerKeyWhereClause(event) {
         "";
     $target.val(filterClause);
 
-    let xform = `
-        <b>from</b>:${from}, <b>to</b>:${filterClause}`;
-    $("#swaps").html(xform);
+    let preview = $(`<table class="dataTable">`);
+    preview.append(`<thead><tr><td>From</td><td>To</td></tr></thead>`);
+    preview.append(`<tr><td>${from}</td><td>${filterClause}</td></tr>`);
+    $("#swaps").html(preview);
 }
 
 function previewChangeHandlerAction(event) {
@@ -1202,10 +1218,10 @@ function previewChangeHandlerAction(event) {
     let val = $option.val();
     let from = "${" + $("#transform").val() + "}";
 
-
-    let xform = `
-        <b>from</b>:${from}, <b>to</b>:${val}`;
-    $("#swaps").html(xform);
+    let preview = $(`<table class="dataTable">`);
+    preview.append(`<thead><tr><td>From</td><td>To</td></tr></thead>`);
+    preview.append(`<tr><td>${from}</td><td>${val}</td></tr>`);
+    $("#swaps").html(preview);
 }
 
 function previewChangeHandlerActionWhereClause(event) {
@@ -1226,9 +1242,10 @@ function previewChangeHandlerActionWhereClause(event) {
         "";
     $target.val(filterClause);
 
-    let xform = `
-        <b>from</b>:${from}, <b>to</b>:${filterClause}`;
-    $("#swaps").html(xform);
+    let preview = $(`<table class="dataTable">`);
+    preview.append(`<thead><tr><td>From</td><td>To</td></tr></thead>`);
+    preview.append(`<tr><td>${from}</td><td>${filterClause}</td></tr>`);
+    $("#swaps").html(preview);
 }
 
 function previewChangeHandlerKeyVal(event) {
@@ -1240,10 +1257,11 @@ function previewChangeHandlerKeyVal(event) {
     let fromkey = "${" + $("#transform").val() + ".key}";
     let fromval = "${" + $("#transform").val() + ".value}";
 
-    let xform = `
-        <b>from</b>:${fromkey}, <b>to</b>:${key}<br>
-        <b>from</b>:${fromval}, <b>to</b>:${val}<br>`;
-    $("#swaps").html(xform);
+    let preview = $(`<table class="dataTable">`);
+    preview.append(`<thead><tr><td>From</td><td>To</td></tr></thead>`);
+    preview.append(`<tr><td>${fromkey}</td><td>${key}</td></tr>`);
+    preview.append(`<tr><td>${fromval}</td><td>${val}</td></tr>`);
+    $("#swaps").html(preview);
 }
 
 function previewChangeHandlerValX4(event) {
@@ -1258,13 +1276,14 @@ function previewChangeHandlerValX4(event) {
     let from2 = "${" + $("#transform").val() + ".2}";
     let from3 = "${" + $("#transform").val() + ".3}";
     let from4 = "${" + $("#transform").val() + ".4}";
-    let xform = `
-        <b>from</b>:${from1}, <b>to</b>:${val1}<br>
-        <b>from</b>:${from2}, <b>to</b>:${val2}<br>
-        <b>from</b>:${from3}, <b>to</b>:${val3}<br>
-        <b>from</b>:${from4}, <b>to</b>:${val4}<br>
-        `;
-    $("#swaps").html(xform);
+    
+    let preview = $(`<table class="dataTable">`);
+    preview.append(`<thead><tr><td>From</td><td>To</td></tr></thead>`);
+    preview.append(`<tr><td>${from1}</td><td>${val1}</td></tr>`);
+    preview.append(`<tr><td>${from2}</td><td>${val2}</td></tr>`);
+    preview.append(`<tr><td>${from3}</td><td>${val3}</td></tr>`);
+    preview.append(`<tr><td>${from4}</td><td>${val4}</td></tr>`);
+    $("#swaps").html(preview);
 }
 
 function syncMarkdowns(el) {
