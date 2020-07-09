@@ -1099,7 +1099,7 @@ function sliceUSQLdata(slicer, data, target, whereClause) { //TODO: refactor thi
                 <div class="userInput"><input disabled id="${targetSelector.substr(1)}" class="filterClause"></div>
                 `);
                 let eventData = { selectors: selectors, data: parsedResults, targetSelector: targetSelector };
-                $target.on("change", "select", eventData, regionsChangeHandler);
+                $target.on("change", "select", eventData, previewChangeHandlerValX4Where);
                 $target.find("select:first-of-type").trigger("change");
             } else {
                 let eventData = { selectors: selectors, data: parsedResults, targetSelector: null };
@@ -1283,6 +1283,19 @@ function previewChangeHandlerValX4(event) {
     preview.append(`<tr><td>${from2}</td><td>${val2}</td></tr>`);
     preview.append(`<tr><td>${from3}</td><td>${val3}</td></tr>`);
     preview.append(`<tr><td>${from4}</td><td>${val4}</td></tr>`);
+    $("#swaps").html(preview);
+}
+
+function previewChangeHandlerValX4Where(event) {
+    regionsChangeHandler(event);
+
+    let val = $(event.data.targetSelector).val();
+
+    let from = "${" + $("#transform").val() + "}";
+    
+    let preview = $(`<table class="dataTable">`);
+    preview.append(`<thead><tr><td>From</td><td>To</td></tr></thead>`);
+    preview.append(`<tr><td>${from}</td><td>${val}</td></tr>`);
     $("#swaps").html(preview);
 }
 
