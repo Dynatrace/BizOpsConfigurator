@@ -487,7 +487,7 @@ function generateWorkflowSwapList(el) {
         if ($select.length) {
           let multi = $select.attr("multiple");
           if (multi) {
-            let $opts = $select.find("option:select");
+            let $opts = $select.find("option:selected");
             $opts.forEach(function (opt, i) {
               let $opt = $(opt);
               fromkey = "${" + transform + "-"+i+".key}";
