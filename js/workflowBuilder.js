@@ -587,7 +587,8 @@ function staticBoxAddHandler() {
     if (vals.length < 1) vals = "[]";
     let staticOptions = JSON.parse(vals);
     let newOption = {};
-    newOption[key] = val;
+    newOption['key'] = key;
+    newOption['val'] = val;
     staticOptions.push(newOption);
     $("#staticOptions").val(JSON.stringify(staticOptions));
 }
@@ -903,8 +904,8 @@ function renderWorkflowPage(el) {
 
             options.forEach(function(i){
                 let $opt = $("<option>")
-                    .text(i[1])
-                    .val(i[0])
+                    .text(i.key)
+                    .val(i.val)
                     .appendTo($input);
             })
     
