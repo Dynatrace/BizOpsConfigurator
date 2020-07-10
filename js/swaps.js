@@ -474,10 +474,20 @@ function generateWorkflowSwapList(el) {
         addToSwaps(swaps, { from: from, to: value });
         break;
       }
+      case undefined:
       default:
         let from = "${" + transform + "}";
         let to = $workflowInput.find("input:not([type=hidden])").val();
-        addToSwaps(swaps, { from: from, to: to });
+        if(typeof to !== "undefined") addToSwaps(swaps, { from: from, to: to });
+
+        ////HERE
+        let fromkey = "${" + transform + ".key}";
+        let fromval = "${" + transform + ".value}";
+        let select = $workflowInput.find("select option:selected");
+        if(select.length){
+          addToSwaps(swaps, { from: fromkey, to: select.text() });
+          addToSwaps(swaps, { from: fromval, to: select.val() });
+        }
     }
   });
 
