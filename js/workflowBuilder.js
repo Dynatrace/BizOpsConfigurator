@@ -602,7 +602,7 @@ function staticBoxPreviewHandler() {
             $select.addClass("chosen-select");
             $select.chosen();
         }
-        let $opts = $select.find("option:select");
+        let $opts = $select.find("option:selected");
         let preview = $(`<table class="dataTable">`);
         preview.append(`<thead><tr><td>From</td><td>To</td></tr></thead>`);
         $opts.forEach(function (opt, i) {
