@@ -598,14 +598,16 @@ function staticBoxPreviewHandler() {
     let transform = $("#transform").val();
     let multiple = $("#multiple").prop("checked");
     if (multiple) {
-        if (!$select.hasClass("chosen-select")) {
-            $select.addClass("chosen-select");
-            $select.chosen();
+        if (!$select.hasClass("chosen-select") || !$select.attr("multiple")) {
+            $select
+                .attr("multiple", "multiple")
+                .addClass("chosen-select")
+                .chosen();
         }
         let $opts = $select.find("option:selected");
         let preview = $(`<table class="dataTable">`);
         preview.append(`<thead><tr><td>From</td><td>To</td></tr></thead>`);
-        for(let i=0; i<$opts.length; i++){
+        for (let i = 0; i < $opts.length; i++) {
             let $opt = $($opts[i]);
             let fromkey = "${" + transform + "-" + i + ".key}";
             let fromval = "${" + transform + "-" + i + ".value}";
@@ -616,9 +618,11 @@ function staticBoxPreviewHandler() {
         }
         $("#swaps").html(preview);
     } else {
-        if($select.hasClass("chosen-select")){
-            $select.removeClass("chosen-select");
-            $select.chosen('destroy');
+        if ($select.hasClass("chosen-select") || $select.attr("multiple")) {
+            $select
+                .removeClass("chosen-select")
+                .removeAttr("multiple")
+                .chosen('destroy');
         }
         let $opt = $("#staticPreview option:selected");
         let key = $opt.text();
