@@ -496,7 +496,7 @@ function generateWorkflowSwapList(el) {
               addToSwaps(swaps, { from: fromval, to: $opt.val() });
             }
           } else {
-            let $opt = $select.find("option:select");
+            let $opt = $select.find("option:selected");
             addToSwaps(swaps, { from: fromkey, to: $opt.text() });
             addToSwaps(swaps, { from: fromval, to: $opt.val() });
           }
