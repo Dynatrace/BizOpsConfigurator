@@ -594,18 +594,46 @@ function staticBoxAddHandler() {
 }
 
 function staticBoxPreviewHandler() {
-    let $opt = $("#staticPreview option:selected");
-    let key = $opt.text();
-    let val = $opt.val();
+    let $select = $("#staticPreview");
+    let transform = $("#transform").val();
+    let multiple = $select.attr("multiple");
+    if (multiple) {
+        if (!$select.hasClass("chosen-select")) {
+            $select.addClass("chosen-select");
+            $(".chosen-select").chosen();
+        }
+        let $opts = $select.find("option:select");
+        let preview = $(`<table class="dataTable">`);
+        preview.append(`<thead><tr><td>From</td><td>To</td></tr></thead>`);
+        $opts.forEach(function (opt, i) {
+            let $opt = $(opt);
+            let fromkey = "${" + transform + "-" + i + ".key}";
+            let fromval = "${" + transform + "-" + i + ".value}";
+            let key = $opt.text();
+            let val = $opt.val();
+            preview.append(`<tr><td>${fromkey}</td><td>${key}</td></tr>`);
+            preview.append(`<tr><td>${fromval}</td><td>${val}</td></tr>`);
+        });
+        $("#swaps").html(preview);
+    } else {
+        if($select.hasClass("chosen-select")){
+            $select.removeClass("chosen-select");
+            $select.chosen('destroy');
+        }
+        let $opt = $("#staticPreview option:selected");
+        let key = $opt.text();
+        let val = $opt.val();
 
-    let fromkey = "${" + $("#transform").val() + ".key}";
-    let fromval = "${" + $("#transform").val() + ".value}";
+        let fromkey = "${" + transform + ".key}";
+        let fromval = "${" + transform + ".value}";
 
-    let preview = $(`<table class="dataTable">`);
-    preview.append(`<thead><tr><td>From</td><td>To</td></tr></thead>`);
-    preview.append(`<tr><td>${fromkey}</td><td>${key}</td></tr>`);
-    preview.append(`<tr><td>${fromval}</td><td>${val}</td></tr>`);
-    $("#swaps").html(preview);
+        let preview = $(`<table class="dataTable">`);
+        preview.append(`<thead><tr><td>From</td><td>To</td></tr></thead>`);
+        preview.append(`<tr><td>${fromkey}</td><td>${key}</td></tr>`);
+        preview.append(`<tr><td>${fromval}</td><td>${val}</td></tr>`);
+        $("#swaps").html(preview);
+    }
+
 }
 
 function checkHandler() {
@@ -895,20 +923,20 @@ function renderWorkflowPage(el) {
     })
 
     //render static selects
-    $el.find(".staticSelect").each(function() {
+    $el.find(".staticSelect").each(function () {
         let $input = $(this);
         let optionS = $input.attr("data-options");
 
-        if(optionS.length){
+        if (optionS.length) {
             let options = JSON.parse(optionS);
 
-            options.forEach(function(i){
+            options.forEach(function (i) {
                 let $opt = $("<option>")
                     .text(i.key)
                     .val(i.val)
                     .appendTo($input);
             })
-    
+
             $input.removeAttr("disabled");
         }
     })
@@ -1308,7 +1336,7 @@ function previewChangeHandlerValX4(event) {
     let from2 = "${" + $("#transform").val() + ".2}";
     let from3 = "${" + $("#transform").val() + ".3}";
     let from4 = "${" + $("#transform").val() + ".4}";
-    
+
     let preview = $(`<table class="dataTable">`);
     preview.append(`<thead><tr><td>From</td><td>To</td></tr></thead>`);
     preview.append(`<tr><td>${from1}</td><td>${val1}</td></tr>`);
@@ -1324,7 +1352,7 @@ function previewChangeHandlerValX4Where(event) {
     let val = $(event.data.targetSelector).val();
 
     let from = "${" + $("#transform").val() + "}";
-    
+
     let preview = $(`<table class="dataTable">`);
     preview.append(`<thead><tr><td>From</td><td>To</td></tr></thead>`);
     preview.append(`<tr><td>${from}</td><td>${val}</td></tr>`);

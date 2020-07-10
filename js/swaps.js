@@ -383,33 +383,33 @@ function generateWorkflowSwapList(el) {
 
       from = "${" + transform + ".steps}";
       addToSwaps(swaps, { from: from, to: journeyData.length.toString() });
-    } else if(conditionalSwap.length){
+    } else if (conditionalSwap.length) {
       let from = "${" + transform + "}";
       let conditionalValues = JSON.parse($(".conditionalValues").val());
       let conditionalPrior = $(".conditionalPrior").val();
       let priorSwap = swaps.find(x => x.from === conditionalPrior);
-      if(typeof priorSwap != "undefined"){
+      if (typeof priorSwap != "undefined") {
         let val = conditionalValues.find(x => x.prior === priorSwap.to);
-        addToSwaps(swaps, {from:from, to:val.swap});
+        addToSwaps(swaps, { from: from, to: val.swap });
       }
     } else if (configOverride.length) {
       let overrideValues = JSON.parse($(".overrideValues").val());
       let overridePrior = $(".overridePrior").val();
       let overrideAction = $(".overrideAction").val();
       let priorSwap = swaps.find(x => x.from === overridePrior);
-      if(typeof priorSwap != "undefined"){
+      if (typeof priorSwap != "undefined") {
         let val = overrideValues.find(x => x.prior === priorSwap.to);
-        switch(overrideAction){
+        switch (overrideAction) {
           case "OverviewDB":
-            if(typeof selection == "undefined"){
+            if (typeof selection == "undefined") {
               logError("Selection undefined");
               selection = {};
             }
-            if(typeof selection.config == "undefined"){
+            if (typeof selection.config == "undefined") {
               logError("Selection.config undefined");
               selection.config = {};
             }
-            if(typeof val !== "undefined")
+            if (typeof val !== "undefined")
               selection.config.overviewDB = val.overrideValue;
             else
               console.log("No override match found");
@@ -475,19 +475,33 @@ function generateWorkflowSwapList(el) {
         break;
       }
       case undefined:
-      default:
+      default: {
         let from = "${" + transform + "}";
-        let to = $workflowInput.find("input:not([type=hidden])").val();
-        if(typeof to !== "undefined") addToSwaps(swaps, { from: from, to: to });
+        let to = $workflowInput.find("input:not([type=hidden]):not(.chosen-search-input)").val();
+        if (typeof to !== "undefined") addToSwaps(swaps, { from: from, to: to });
 
         ////HERE
         let fromkey = "${" + transform + ".key}";
         let fromval = "${" + transform + ".value}";
-        let select = $workflowInput.find("select option:selected");
-        if(select.length){
-          addToSwaps(swaps, { from: fromkey, to: select.text() });
-          addToSwaps(swaps, { from: fromval, to: select.val() });
+        let $select = $workflowInput.find("select");
+        if ($select.length) {
+          let multi = $select.attr("multiple");
+          if (multi) {
+            let $opts = $select.find("option:select");
+            $opts.forEach(function (opt, i) {
+              let $opt = $(opt);
+              fromkey = "${" + transform + "-"+i+".key}";
+              fromval = "${" + transform + "-"+i+".value}";
+              addToSwaps(swaps, { from: fromkey, to: $opt.text() });
+              addToSwaps(swaps, { from: fromval, to: $opt.val() });
+            });
+          } else {
+            let $opt = $select.find("option:select");
+            addToSwaps(swaps, { from: fromkey, to: $opt.text() });
+            addToSwaps(swaps, { from: fromval, to: $opt.val() });
+          }
         }
+      }
     }
   });
 
