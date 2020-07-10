@@ -901,6 +901,7 @@ table.dataTable {
   border-radius: 3px;
   border-spacing: 0px;
   font-variant: tabular-nums;
+  width: 100%;
 }
 
 table.dataTable td {

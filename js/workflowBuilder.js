@@ -185,7 +185,7 @@ function Input() {
                         break;
                     }
                     case "Select (static)": {
-                        let $select = $(`<select class="workflowSelect" disabled></select>`);
+                        let $select = $(`<select class="workflowSelect staticSelect" disabled></select>`);
                         if (data.multiple) $select.attr("multiple", "multiple").addClass("chosen-select");
                         $select
                             .attr("data-options", data.staticOptions)
@@ -316,7 +316,7 @@ function inputTypeChangeHandler() {
             break;
         case "Select (static)":
             $("#staticBox").show();
-            let html = `<select id="staticPreview"></select>`;
+            let html = `<div class="userInput"><select id="staticPreview"></select></div>`;
             $("#preview").html(html);
             $("#newInputPreview").show();
             $("#multiBox").show();
@@ -493,22 +493,32 @@ function usqlCommonQueryChangeHandler() {
 
 function previewHandler() {
     let inputType = $("#inputType").val();
-    $("#preview, #swaps").html("");
-    $("#preview").off();
     switch (inputType) {
         case "Select (API)":
+            previewReset();
             previewAPIhandler();
             break;
         case "Select (USQL)":
+            previewReset();
             previewUSQLhandler();
             break;
         case "Conditional Swap":
+            previewReset();
             conditionalPreview();
             break;
         case "Workflow Config Override":
+            previewReset();
             configOverridePreview();
             break;
+        case "Select (static)":
+            staticBoxPreviewHandler();
+            break;
     }
+}
+
+function previewReset() {
+    $("#preview, #swaps").html("");
+    $("#preview").off();
 }
 
 function previewAPIhandler() {
@@ -567,8 +577,8 @@ function staticBoxAddHandler() {
     let key = $("#staticBoxLabel").val();
     let val = $("#staticBoxValue").val();
 
-    let clonedEl = $(`<option value="${val}">${key}</option>`);
-    clonedEl.appendTo("#staticPreview");
+    let $opt = $(`<option value="${val}">${key}</option>`);
+    $opt.appendTo("#staticPreview");
     $("#staticPreview").val(val);
     $("#staticBoxLabel").val("");
     $("#staticBoxValue").val("");
@@ -881,6 +891,21 @@ function renderWorkflowPage(el) {
         $.when(p).done(function (cp) {
             ConfigPushers.push(cp);
         });
+    })
+
+    //render static selects
+    $el.find(".staticSelect").each(function() {
+        let $input = $(this);
+        let options = $input.attr("data-options");
+
+        options.forEach(function(i){
+            let $opt = $("<option>")
+                .text(i[1])
+                .val(i[0])
+                .appendTo($input);
+        })
+
+        $input.removeAttr("disabled");
     })
 
     //make sure any XHRs are finished before we return the html
