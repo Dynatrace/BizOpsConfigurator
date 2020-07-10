@@ -596,11 +596,11 @@ function staticBoxAddHandler() {
 function staticBoxPreviewHandler() {
     let $select = $("#staticPreview");
     let transform = $("#transform").val();
-    let multiple = $select.attr("multiple");
+    let multiple = $("#multiple").prop("checked");
     if (multiple) {
         if (!$select.hasClass("chosen-select")) {
             $select.addClass("chosen-select");
-            $(".chosen-select").chosen();
+            $select.chosen();
         }
         let $opts = $select.find("option:select");
         let preview = $(`<table class="dataTable">`);
