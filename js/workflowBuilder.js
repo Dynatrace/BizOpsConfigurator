@@ -605,15 +605,15 @@ function staticBoxPreviewHandler() {
         let $opts = $select.find("option:selected");
         let preview = $(`<table class="dataTable">`);
         preview.append(`<thead><tr><td>From</td><td>To</td></tr></thead>`);
-        $opts.forEach(function (opt, i) {
-            let $opt = $(opt);
+        for(let i=0; i<$opts.length; i++){
+            let $opt = $($opts[i]);
             let fromkey = "${" + transform + "-" + i + ".key}";
             let fromval = "${" + transform + "-" + i + ".value}";
             let key = $opt.text();
             let val = $opt.val();
             preview.append(`<tr><td>${fromkey}</td><td>${key}</td></tr>`);
             preview.append(`<tr><td>${fromval}</td><td>${val}</td></tr>`);
-        });
+        }
         $("#swaps").html(preview);
     } else {
         if($select.hasClass("chosen-select")){
