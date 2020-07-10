@@ -896,16 +896,20 @@ function renderWorkflowPage(el) {
     //render static selects
     $el.find(".staticSelect").each(function() {
         let $input = $(this);
-        let options = $input.attr("data-options");
+        let optionS = $input.attr("data-options");
 
-        options.forEach(function(i){
-            let $opt = $("<option>")
-                .text(i[1])
-                .val(i[0])
-                .appendTo($input);
-        })
+        if(optionS.length){
+            let options = JSON.parse(optionS);
 
-        $input.removeAttr("disabled");
+            options.forEach(function(i){
+                let $opt = $("<option>")
+                    .text(i[1])
+                    .val(i[0])
+                    .appendTo($input);
+            })
+    
+            $input.removeAttr("disabled");
+        }
     })
 
     //make sure any XHRs are finished before we return the html
