@@ -488,13 +488,13 @@ function generateWorkflowSwapList(el) {
           let multi = $select.attr("multiple");
           if (multi) {
             let $opts = $select.find("option:selected");
-            $opts.forEach(function (opt, i) {
-              let $opt = $(opt);
+            for (let i = 0; i < $opts.length; i++) {
+              let $opt = $($opts[i]);
               fromkey = "${" + transform + "-"+i+".key}";
               fromval = "${" + transform + "-"+i+".value}";
               addToSwaps(swaps, { from: fromkey, to: $opt.text() });
               addToSwaps(swaps, { from: fromval, to: $opt.val() });
-            });
+            }
           } else {
             let $opt = $select.find("option:select");
             addToSwaps(swaps, { from: fromkey, to: $opt.text() });
