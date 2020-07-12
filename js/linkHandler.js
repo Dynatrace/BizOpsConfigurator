@@ -218,8 +218,8 @@ function hashHandler(hash) {
   let args = [];
   if (hash.includes('/')) {
     let tmp = hash.split('/');
-    hash = tmp[0];
-    args = tmp.shift();
+    hash = tmp.shift();
+    args = tmp;
   }
   switch (hash) {
     case "#MassEdit":
