@@ -361,7 +361,7 @@ function generateWorkflowSwapList(el) {
     } else if (configOverride.length) {
       configOverrideGetSwaps(workflowInput, swaps);
     } else if (tileReplication.length) {
-      addTileReplication($workflowInput,swaps);
+      addTileReplication($workflowInput, swaps);
     } else if (whereClause) {
       let from = "${" + transform + "}";
       let filterClause = $workflowInput.find("input.filterClause, input.whereClause").val();
@@ -509,7 +509,7 @@ function apiSelectGetSwaps(select, transform, swaps) {
   }
 }
 
-function journeyGetSwaps(select, transform, swaps){
+function journeyGetSwaps(select, transform, swaps) {
   let $select = $(select);
   let from = "${" + transform + ".where}";
   let where = $workflowInput.find("input.whereClause").val();
@@ -545,64 +545,72 @@ function journeyGetSwaps(select, transform, swaps){
 function conditionalGetSwaps(workflowInput, transform, swaps) {
   let $workflowInput = $(workflowInput);
   let from = "${" + transform + "}";
-      let conditionalValues = JSON.parse($workflowInput.find(".conditionalValues").val());
-      let conditionalPrior = $workflowInput.find(".conditionalPrior").val();
-      let priorSwap = swaps.find(x => x.from === conditionalPrior);
-      if (typeof priorSwap != "undefined") {
-        let val = conditionalValues.find(x => x.prior === priorSwap.to);
-        addToSwaps(swaps, { from: from, to: val.swap });
-      }
+  let conditionalValues = JSON.parse($workflowInput.find(".conditionalValues").val());
+  let conditionalPrior = $workflowInput.find(".conditionalPrior").val();
+  let priorSwap = swaps.find(x => x.from === conditionalPrior);
+  if (typeof priorSwap != "undefined") {
+    let val = conditionalValues.find(x => x.prior === priorSwap.to);
+    addToSwaps(swaps, { from: from, to: val.swap });
+  }
 }
 
 function configOverrideGetSwaps(workflowInput, swaps) {
   let $workflowInput = $(workflowInput);
   let overrideValues = JSON.parse($workflowInput.find(".overrideValues").val());
-      let overridePrior = $workflowInput.find(".overridePrior").val();
-      let overrideAction = $workflowInput.find(".overrideAction").val();
-      let priorSwap = swaps.find(x => x.from === overridePrior);
-      if (typeof priorSwap != "undefined") {
-        let val = overrideValues.find(x => x.prior === priorSwap.to);
-        switch (overrideAction) {
-          case "OverviewDB":
-            if (typeof selection == "undefined") {
-              logError("Selection undefined");
-              selection = {};
-            }
-            if (typeof selection.config == "undefined") {
-              logError("Selection.config undefined");
-              selection.config = {};
-            }
-            if (typeof val !== "undefined")
-              selection.config.overviewDB = val.overrideValue;
-            else
-              console.log("No override match found");
+  let overridePrior = $workflowInput.find(".overridePrior").val();
+  let overrideAction = $workflowInput.find(".overrideAction").val();
+  let priorSwap = swaps.find(x => x.from === overridePrior);
+  if (typeof priorSwap != "undefined") {
+    let val = overrideValues.find(x => x.prior === priorSwap.to);
+    switch (overrideAction) {
+      case "OverviewDB":
+        if (typeof selection == "undefined") {
+          logError("Selection undefined");
+          selection = {};
         }
-      }
+        if (typeof selection.config == "undefined") {
+          logError("Selection.config undefined");
+          selection.config = {};
+        }
+        if (typeof val !== "undefined")
+          selection.config.overviewDB = val.overrideValue;
+        else
+          console.log("No override match found");
+    }
+  }
 }
 
-function addTileReplication(workflowInput,swaps) {
+function addTileReplication(workflowInput, swaps) {
   let $workflowInput = $(workflowInput);
   let replicationColumns = $workflowInput.find(".replicationColumns").val();
   let replicationTileName = $workflowInput.find(".replicationTileName").val();
   let replicationPriorTransform = $workflowInput.find(".replicationPriorTransform").val();
-  if(replicationPriorTransform.substr(0,2)=='${' &&
-  replicationPriorTransform.substr(-1)=='}') 
-  replicationPriorTransform = replicationPriorTransform.substr(2,replicationPriorTransform.length-3);
+  if (replicationPriorTransform.substr(0, 2) == '${' &&
+    replicationPriorTransform.substr(-1) == '}')
+    replicationPriorTransform = replicationPriorTransform.substr(2, replicationPriorTransform.length - 3);
 
-  let swapCount = swaps.find(x => x.from === '${'+replicationPriorTransform+'.count}');
+  let swapCount = swaps.find(x => x.from === '${' + replicationPriorTransform + '.count}');
   let count = 0;
-  if(typeof swapCount != "undefined"){
-    let variants = swaps.filter(x => x.from.startsWith('${'+replicationPriorTransform+'-1.'))
+  if (typeof swapCount != "undefined") {
+    let variants = swaps.filter(x => x.from.startsWith('${' + replicationPriorTransform + '-1.'))
       .map(x => x.from.match(/-1\.([^}]+)/)[1]);
-    count=parseInt(swapCount.to);
+    let vals = [];
+    swaps.filter(x => x.from.startsWith('${' + replicationPriorTransform + '-') &&
+      x.from.endsWith('.name}'))
+      .forEach((x) => {
+        let i = x.from.match(/-([^.]+)\./)[1];
+        vals[i] = x.to;
+      })
+    count = parseInt(swapCount.to);
     let replicator = {
       columns: replicationColumns,
       tilename: replicationTileName,
       count: count,
       transform: replicationPriorTransform,
-      variants: variants
+      variants: variants,
+      vals: vals
     }
-    if(typeof selection.TileReplicators === "undefined") selection.TileReplicators = [];
+    if (typeof selection.TileReplicators === "undefined") selection.TileReplicators = [];
     selection.TileReplicators.push(replicator);
   } else return;
 }

@@ -306,14 +306,14 @@ function applyTileReplicators(db, replicators) {
     db.tiles
       .filter(x => x.name === rep.tilename)
       .forEach(function (t, i, arr) {
-        for (let j = 1; j <= rep.count; j++) {
+        for (let j = 0; j < rep.count; j++) {
           let newTile = JSON.parse(JSON.stringify(t));
           let colnum = j % rep.columns;
           let rownum = Math.floor(j / rep.columns);
           newTile.bounds.left = t.bounds.left + t.bounds.width * colnum;
           newTile.bounds.top = t.bounds.top + t.bounds.height * rownum;
 
-          newTile.name += '-' + j.toString();
+          newTile.name = rep.vals[j+1];
           let tmp = JSON.stringify(newTile);
           let from = '\\${' + rep.transform + '\\.([^}]+)}';
           let to = '${' + rep.transform + '-' + j.toString() + '.$1}';
