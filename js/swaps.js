@@ -592,12 +592,15 @@ function addTileReplication(workflowInput,swaps) {
   let swapCount = swaps.find(x => x.from === '${'+replicationPriorTransform+'.count}');
   let count = 0;
   if(typeof swapCount != "undefined"){
+    let variants = swaps.filter(x => x.from.startsWith('${'+replicationPriorTransform+'-1.'))
+      .map(x => x.from.match(/-1\.([^}]+)/)[1]);
     count=parseInt(swapCount.to);
     let replicator = {
       columns: replicationColumns,
       tilename: replicationTileName,
       count: count,
-      transform: replicationPriorTransform
+      transform: replicationPriorTransform,
+      variants: variants
     }
     if(typeof selection.TileReplicators === "undefined") selection.TileReplicators = [];
     selection.TileReplicators.push(replicator);
