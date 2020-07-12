@@ -68,8 +68,8 @@ function loadStaticHandlers() {
     staticCleanup();
   });
   $("#devguide").click(function () {
-    $("#viewport").load("html/devguide.html",function(){
-      if(personaFlow)$("#devguide_persona").show();
+    $("#viewport").load("html/devguide.html", function () {
+      if (personaFlow) $("#devguide_persona").show();
       else $("#devguide_persona").hide();
     });
     staticCleanup();
@@ -199,21 +199,28 @@ function linkHandler(e) {
         popupHTML(
           `${readme.repo.owner}/${readme.repo.repo}/${readme.repo.path}/${readme.name}`,
           readme.html);
-          break;
+        break;
       }
-      case "workflowBuilder":{
+      case "workflowBuilder": {
         $("#viewport").load("html/personaFlow/workflowBuilder.html", fieldsetPainter);
         break;
       }
       default:
         //alert("Unknown Link: " + id);
-        if (typeof dtrum !== "undefined") dtrum.reportCustomError("Unknown Link", e, id, true);
+        //if (typeof dtrum !== "undefined") dtrum.reportCustomError("Unknown Link", e, id, true);
+        hashHandler(window.location.hash);
     }
   }
 }
 
 
 function hashHandler(hash) {
+  let args = [];
+  if (hash.includes('/')) {
+    let tmp = hash.split('/');
+    hash = tmp[0];
+    args = tmp.shift();
+  }
   switch (hash) {
     case "#MassEdit":
       $("#viewport").load("html/miscTools/MassEdit.html", massEditInit);
@@ -240,23 +247,28 @@ function hashHandler(hash) {
       $("#viewport").load("html/devguide.html");
       break;
     }
-    case "#workflowBuilder":{
+    case "#workflowBuilder": {
       $("#viewport").load("html/personaFlow/workflowBuilder.html", fieldsetPainter);
       break;
     }
     case "#500error":
-    case "#error":{
+    case "#error": {
       $("#everything").load("html/500.html");
       break;
     }
-    case "#403error":{
+    case "#403error": {
       $("#everything").load("html/403.html");
       break;
     }
-    case "#404error":{
+    case "#404error": {
       $("#everything").load("html/404.html");
       break;
     }
+    case "#deploy": {
+      loadDeployScreen(args);
+      break;
+    }
+
     case "#home":
     default:
       $("#viewport").load("html/home.html");
@@ -267,4 +279,23 @@ function hashHandler(hash) {
 function helpdocToggler(jqobj) {
   let section = jqobj.parent("section");
   section.toggleClass("expanded");
+}
+
+function loadDeployScreen(args) {
+  let p0 = getConnectInfo();
+
+  $.when(p0).done(function () {
+    switch (args[0]) {
+      case "owner":
+        $("#viewport").load("html/personal_usecase_owner.html",fieldsetPainter);
+        break;
+      case "all":
+        $("#viewport").load("html/personal_usecase_all.html",fieldsetPainter);
+        break;
+      case "persona":
+      default:
+        $("#viewport").load("html/personal_usecase.html",fieldsetPainter);
+        break;
+    }
+  });
 }

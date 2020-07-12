@@ -361,7 +361,7 @@ a.bc:hover::after {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-#goallist li.pencilMode, .goalList  li.pencilMode {
+#goallist li.pencilMode, .goalList li.pencilMode {
   background: #CCCCCC;
 }
 
@@ -766,11 +766,11 @@ img.structure {
   overflow: auto;
 }
 
-.popupHTML > div:not(.flexcontainer) {
+.popupHTML>div:not(.flexcontainer) {
   flex: 0;
 }
 
-.popupHTML > div.flexcontainer {
+.popupHTML>div.flexcontainer {
   flex: 1;
   overflow: hidden;
 }
@@ -1339,8 +1339,8 @@ table.dashboard tr.notmatch {
 
 .workflowMarkdown:not(.markdownTransformed) textarea {
   margin-top: 10px;
-  font-family: "VeraMonoWeb","Courier New",monospace;
-  color:#14a8f5;
+  font-family: "VeraMonoWeb", "Courier New", monospace;
+  color: #14a8f5;
   background: none;
 }
 
@@ -1351,6 +1351,8 @@ table.dashboard tr.notmatch {
 
 input.ellipsis {
   width: 32px;
+  min-width: 32px;
+  height: 24px;
 }
 
 .ellipsisContainer {
@@ -1361,7 +1363,11 @@ input.ellipsis {
 .ellipsisMenu {
   width: 200px;
   background-color: #525252;
+  border: 1px solid #606060;
   border-radius: 3px;
+  display: none;
+  z-index: 5;
+  padding-top: 40px;
 }
 
 .ellipsisMenu a {

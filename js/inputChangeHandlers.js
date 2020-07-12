@@ -21,6 +21,7 @@ function loadInputChangeHandlers() {
   $("#viewport").on("change", ".workflowPicker", workflowPickerChangeHandler);
 
   $("#viewport").on("click", "section h4", helpdocToggler);
+  $("#viewport").on("click", ".ellipsis", ellipsisToggler);
 }
 
 
@@ -754,4 +755,8 @@ function workflowPickerChangeHandler(e) {
       }
   }
 
+}
+
+function ellipsisToggler(){
+  $(".ellipsisMenu").toggle();
 }
