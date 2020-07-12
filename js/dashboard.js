@@ -313,7 +313,7 @@ function applyTileReplicators(db, replicators) {
           newTile.bounds.left = t.bounds.left + t.bounds.width * colnum;
           newTile.bounds.top = t.bounds.top + t.bounds.height * rownum;
 
-          newTile.name = rep.vals[j+1];
+          newTile.name = rep.vals[j + 1];
           let tmp = JSON.stringify(newTile);
           let from = '\\${' + rep.transform + '\\.([^}]+)}';
           let to = '${' + rep.transform + '-' + j.toString() + '.$1}';
@@ -324,7 +324,8 @@ function applyTileReplicators(db, replicators) {
           db.tiles.push(newTile);
         }
       });
-
+    db.tiles = db.tiles
+      .filter(x => x.name !== rep.tilename); //remove placeholders
   });
 
 }
