@@ -571,7 +571,7 @@ function uploadWorkflow(workflow) {
   if(selection.TileReplicators && selection.TileReplicators.length){
     applyTileReplicators(overview,selection.TileReplicators);
     subs.forEach(function(s){
-      applyTileReplicators(s,selection.TileReplicators);
+      applyTileReplicators(s.file,selection.TileReplicators);
     });
   }
 
