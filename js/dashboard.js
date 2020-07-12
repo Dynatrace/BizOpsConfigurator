@@ -301,8 +301,9 @@ function applyTileReplicators(db, replicators) {
 
           newTile.name += '-' + j.toString();
           let tmp = JSON.stringify(newTile);
-          let transform = '${' + rep.transform + '-'+ j.toString() + '}';
-          tmp = tmp.replace(new RegExp('\\' + transform, 'g'), rep.vals[j]);
+          let from = '${' + rep.transform + '}';
+          let to = '${' + rep.transform + '-' + j.toString() + '}';
+          tmp = tmp.replace(new RegExp('\\' + from, 'g'), to);
           newTile = JSON.parse(tmp);
 
           //Perhaps do a bounds check?

@@ -580,7 +580,7 @@ function configOverrideGetSwaps(workflowInput, swaps) {
       }
 }
 
-function addTileReplication(workflowInput,transform,swaps) {
+function addTileReplication(workflowInput,swaps) {
   let $workflowInput = $(workflowInput);
   let replicationColumns = $workflowInput.find(".replicationColumns").val();
   let replicationTileName = $workflowInput.find(".replicationTileName").val();
@@ -593,16 +593,10 @@ function addTileReplication(workflowInput,transform,swaps) {
   let count = 0;
   if(typeof swapCount != "undefined"){
     count=parseInt(swapCount.to);
-    let vals = [];
-    for(let i=1; i<=count; i++){
-      let val = swaps.find(x => x.from === '${'+replicationPriorTransform+'-'+i+'}');
-      vals[i]=val;
-    }
     let replicator = {
       columns: replicationColumns,
       tilename: replicationTileName,
       count: count,
-      vals: vals,
       transform: replicationPriorTransform
     }
     if(typeof selection.TileReplicators === "undefined") selection.TileReplicators = [];
