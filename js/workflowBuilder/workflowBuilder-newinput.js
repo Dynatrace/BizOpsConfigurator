@@ -88,13 +88,13 @@ function Input() {
                     case "Tile Replicator": {
                         let $div = $(`<div class="tileReplication">`)
                             .appendTo($input);
-                        let $el = $(`<input type="hidden" class="replicationPriorTransform">`)
+                        $(`<input type="hidden" class="replicationPriorTransform">`)
                             .val(data.replicationPriorTransform)
                             .appendTo($div);
-                        $el = $(`<input type="hidden" class="replicationColumns">`)
+                        $(`<input type="hidden" class="replicationColumns">`)
                             .val(data.replicationColumns)
                             .appendTo($div);
-                        $el = $(`<input type="text" disabled class="replicationTileName">`)
+                        $(`<input type="text" disabled class="replicationTileName">`)
                             .val(data.replicationTileName)
                             .appendTo($div);
 

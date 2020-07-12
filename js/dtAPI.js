@@ -568,6 +568,13 @@ function uploadWorkflow(workflow) {
   let swaps = selection.swaps;
   swaps.push({from:config.oldId, to:config.id});
   swaps.push({from:'${url}', to:url});
+  if(selection.TileReplicators && selection.TileReplicators.length){
+    applyTileReplicators(overview,selection.TileReplicators);
+    subs.forEach(function(s){
+      applyTileReplicators(s,selection.TileReplicators);
+    });
+  }
+
   swaps = transformSubs(subs, config.id, swaps, config, nextWorkflowDBID);
   var dbObj = doSwaps(overview, swaps);
   dbObj = validateDB(dbObj);

@@ -352,69 +352,16 @@ function generateWorkflowSwapList(el) {
     let journeyPicker = $workflowInput.find(".journeyPicker");
     let conditionalSwap = $workflowInput.find(".conditionalSwap");
     let configOverride = $workflowInput.find(".configOverride");
+    let tileReplication = $workflowInput.find(".tileReplication");
 
     if (journeyPicker.length) {
-      let from = "${" + transform + ".where}";
-      let where = $workflowInput.find("input.whereClause").val();
-      addToSwaps(swaps, { from: from, to: where });
-      let whereSteps = whereSplit(where);
-      whereSteps.forEach(function (x, i) {
-        from = "${" + transform + ".where-" + (i + 1) + "}";
-        addToSwaps(swaps, { from: from, to: x });
-        if (i == whereSteps.length - 1) {
-          from = "${" + transform + ".where-last}";
-          addToSwaps(swaps, { from: from, to: x });
-        }
-      });
-
-      from = "${" + transform + ".funnel}";
-      let $funnelClause = $workflowInput.find("input.funnelClause");
-      where = $funnelClause.val();
-      addToSwaps(swaps, { from: from, to: where });
-      let journeyData = JSON.parse($funnelClause.attr("data-journeyData"));
-      journeyData.forEach(function (d, i) {
-        from = "${" + transform + ".header-" + (i + 1) + "}";
-        addToSwaps(swaps, { from: from, to: d.label });
-        if (i == journeyData.length - 1) {
-          from = "${" + transform + ".header-last}";
-          addToSwaps(swaps, { from: from, to: d.label });
-        }
-      });
-
-      from = "${" + transform + ".steps}";
-      addToSwaps(swaps, { from: from, to: journeyData.length.toString() });
+      journeyGetSwaps($select, transform, swaps);
     } else if (conditionalSwap.length) {
-      let from = "${" + transform + "}";
-      let conditionalValues = JSON.parse($(".conditionalValues").val());
-      let conditionalPrior = $(".conditionalPrior").val();
-      let priorSwap = swaps.find(x => x.from === conditionalPrior);
-      if (typeof priorSwap != "undefined") {
-        let val = conditionalValues.find(x => x.prior === priorSwap.to);
-        addToSwaps(swaps, { from: from, to: val.swap });
-      }
+      conditionalGetSwaps($workflowInput, transform, swaps);
     } else if (configOverride.length) {
-      let overrideValues = JSON.parse($(".overrideValues").val());
-      let overridePrior = $(".overridePrior").val();
-      let overrideAction = $(".overrideAction").val();
-      let priorSwap = swaps.find(x => x.from === overridePrior);
-      if (typeof priorSwap != "undefined") {
-        let val = overrideValues.find(x => x.prior === priorSwap.to);
-        switch (overrideAction) {
-          case "OverviewDB":
-            if (typeof selection == "undefined") {
-              logError("Selection undefined");
-              selection = {};
-            }
-            if (typeof selection.config == "undefined") {
-              logError("Selection.config undefined");
-              selection.config = {};
-            }
-            if (typeof val !== "undefined")
-              selection.config.overviewDB = val.overrideValue;
-            else
-              console.log("No override match found");
-        }
-      }
+      configOverrideGetSwaps(workflowInput, swaps);
+    } else if (tileReplication.length) {
+      addTileReplication($workflowInput,swaps);
     } else if (whereClause) {
       let from = "${" + transform + "}";
       let filterClause = $workflowInput.find("input.filterClause, input.whereClause").val();
@@ -430,6 +377,7 @@ function generateWorkflowSwapList(el) {
         apiSelectGetSwaps($select, transform, swaps);
         break;
       }
+      //TODO: support multi for USQL, non whereClause
       case 'Keys': {
         let $option = $workflowInput.find("select option:selected");
         let value = $option.val();
@@ -480,7 +428,6 @@ function generateWorkflowSwapList(el) {
         let to = $workflowInput.find("input:not([type=hidden]):not(.chosen-search-input)").val();
         if (typeof to !== "undefined") addToSwaps(swaps, { from: from, to: to });
 
-        ////HERE
         let fromkey = "${" + transform + ".key}";
         let fromval = "${" + transform + ".value}";
         let $select = $workflowInput.find("select");
@@ -490,11 +437,13 @@ function generateWorkflowSwapList(el) {
             let $opts = $select.find("option:selected");
             for (let i = 0; i < $opts.length; i++) {
               let $opt = $($opts[i]);
-              fromkey = "${" + transform + "-"+i+".key}";
-              fromval = "${" + transform + "-"+i+".value}";
+              fromkey = "${" + transform + "-" + i + ".key}";
+              fromval = "${" + transform + "-" + i + ".value}";
               addToSwaps(swaps, { from: fromkey, to: $opt.text() });
               addToSwaps(swaps, { from: fromval, to: $opt.val() });
             }
+            let fromcount = "${" + transform + "-" + i + ".count}";
+            addToSwaps(swaps, { from: fromcount, to: $opts.length });
           } else {
             let $opt = $select.find("option:selected");
             addToSwaps(swaps, { from: fromkey, to: $opt.text() });
@@ -542,6 +491,8 @@ function apiSelectGetSwaps(select, transform, swaps) {
       }
       i++;
     });
+    let fromcount = "${" + transform + "-" + i + ".count}";
+    addToSwaps(swaps, { from: fromcount, to: values.length });
   } else {
     let val = $select.val();
     let key = $select.children("option:selected").text();
@@ -556,4 +507,105 @@ function apiSelectGetSwaps(select, transform, swaps) {
       addToSwaps(swaps, { from: fromtype, to: type });
     }
   }
+}
+
+function journeyGetSwaps(select, transform, swaps){
+  let $select = $(select);
+  let from = "${" + transform + ".where}";
+  let where = $workflowInput.find("input.whereClause").val();
+  addToSwaps(swaps, { from: from, to: where });
+  let whereSteps = whereSplit(where);
+  whereSteps.forEach(function (x, i) {
+    from = "${" + transform + ".where-" + (i + 1) + "}";
+    addToSwaps(swaps, { from: from, to: x });
+    if (i == whereSteps.length - 1) {
+      from = "${" + transform + ".where-last}";
+      addToSwaps(swaps, { from: from, to: x });
+    }
+  });
+
+  from = "${" + transform + ".funnel}";
+  let $funnelClause = $workflowInput.find("input.funnelClause");
+  where = $funnelClause.val();
+  addToSwaps(swaps, { from: from, to: where });
+  let journeyData = JSON.parse($funnelClause.attr("data-journeyData"));
+  journeyData.forEach(function (d, i) {
+    from = "${" + transform + ".header-" + (i + 1) + "}";
+    addToSwaps(swaps, { from: from, to: d.label });
+    if (i == journeyData.length - 1) {
+      from = "${" + transform + ".header-last}";
+      addToSwaps(swaps, { from: from, to: d.label });
+    }
+  });
+
+  from = "${" + transform + ".steps}";
+  addToSwaps(swaps, { from: from, to: journeyData.length.toString() });
+}
+
+function conditionalGetSwaps(workflowInput, transform, swaps) {
+  let $workflowInput = $(workflowInput);
+  let from = "${" + transform + "}";
+      let conditionalValues = JSON.parse($workflowInput.find(".conditionalValues").val());
+      let conditionalPrior = $workflowInput.find(".conditionalPrior").val();
+      let priorSwap = swaps.find(x => x.from === conditionalPrior);
+      if (typeof priorSwap != "undefined") {
+        let val = conditionalValues.find(x => x.prior === priorSwap.to);
+        addToSwaps(swaps, { from: from, to: val.swap });
+      }
+}
+
+function configOverrideGetSwaps(workflowInput, swaps) {
+  let $workflowInput = $(workflowInput);
+  let overrideValues = JSON.parse($workflowInput.find(".overrideValues").val());
+      let overridePrior = $workflowInput.find(".overridePrior").val();
+      let overrideAction = $workflowInput.find(".overrideAction").val();
+      let priorSwap = swaps.find(x => x.from === overridePrior);
+      if (typeof priorSwap != "undefined") {
+        let val = overrideValues.find(x => x.prior === priorSwap.to);
+        switch (overrideAction) {
+          case "OverviewDB":
+            if (typeof selection == "undefined") {
+              logError("Selection undefined");
+              selection = {};
+            }
+            if (typeof selection.config == "undefined") {
+              logError("Selection.config undefined");
+              selection.config = {};
+            }
+            if (typeof val !== "undefined")
+              selection.config.overviewDB = val.overrideValue;
+            else
+              console.log("No override match found");
+        }
+      }
+}
+
+function addTileReplication(workflowInput,transform,swaps) {
+  let $workflowInput = $(workflowInput);
+  let replicationColumns = $workflowInput.find(".replicationColumns").val();
+  let replicationTileName = $workflowInput.find(".replicationTileName").val();
+  let replicationPriorTransform = $workflowInput.find(".replicationPriorTransform").val();
+  if(replicationPriorTransform.substr(0,2)=='${' &&
+  replicationPriorTransform.substr(-1)=='}') 
+  replicationPriorTransform = replicationPriorTransform.substr(2,replicationPriorTransform.length-3);
+
+  let swapCount = swaps.find(x => x.from === '${'+replicationPriorTransform+'.count}');
+  let count = 0;
+  if(typeof swapCount != "undefined"){
+    count=parseInt(swapCount.to);
+    let vals = [];
+    for(let i=1; i<=count; i++){
+      let val = swaps.find(x => x.from === '${'+replicationPriorTransform+'-'+i+'}');
+      vals[i]=val;
+    }
+    let replicator = {
+      columns: replicationColumns,
+      tilename: replicationTileName,
+      count: count,
+      vals: vals,
+      transform: replicationPriorTransform
+    }
+    if(typeof selection.TileReplicators === "undefined") selection.TileReplicators = [];
+    TileReplicators.push(replicator);
+  } else return;
 }
