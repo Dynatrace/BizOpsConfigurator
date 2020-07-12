@@ -235,10 +235,10 @@ function inputTypeChangeHandler() {
         case "Tile Replicator":
             $("#tileReplication").show();
             $(".transform, .tryitout").hide();
-            $("#newInputPreview").show();
             $("#resultHeader").text("Example:");
             $("#apiQueryHeader").text("")
             $("#apiResult").html(`<img src="images/tilereplicator.png">`);
+            $("#newInputResult").show();
             break;
         case "Markdown":
             $(".transform, .tryitout").hide();
