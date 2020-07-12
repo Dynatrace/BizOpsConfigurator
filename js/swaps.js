@@ -442,7 +442,7 @@ function generateWorkflowSwapList(el) {
               addToSwaps(swaps, { from: fromkey, to: $opt.text() });
               addToSwaps(swaps, { from: fromval, to: $opt.val() });
             }
-            let fromcount = "${" + transform + "-" + i + ".count}";
+            let fromcount = "${" + transform + ".count}";
             addToSwaps(swaps, { from: fromcount, to: $opts.length });
           } else {
             let $opt = $select.find("option:selected");
@@ -491,7 +491,7 @@ function apiSelectGetSwaps(select, transform, swaps) {
       }
       i++;
     });
-    let fromcount = "${" + transform + "-" + i + ".count}";
+    let fromcount = "${" + transform + ".count}";
     addToSwaps(swaps, { from: fromcount, to: values.length });
   } else {
     let val = $select.val();

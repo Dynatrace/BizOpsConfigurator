@@ -134,7 +134,13 @@ function renderWorkflowPage(el) {
 
             $input.removeAttr("disabled");
         }
-    })
+    });
+
+    //render tile replicators
+    $el.find(".tileReplication").each(function(){
+        let $input = $(this);
+        $input.find(".replicationTileName").attr("type","hidden");
+    });
 
     //make sure any XHRs are finished before we return the html
     $.when.apply($, promises).done(function () {
