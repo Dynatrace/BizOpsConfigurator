@@ -1348,3 +1348,12 @@ table.dashboard tr.notmatch {
   margin-top: 10px;
   white-space: normal;
 }
+
+input.ellipsis {
+  width: 32px;
+}
+
+.ellipsisContainer {
+  display: flex;
+  flex-direction: row-reverse;
+}
