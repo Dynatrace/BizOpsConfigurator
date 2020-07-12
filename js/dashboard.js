@@ -305,15 +305,16 @@ function applyTileReplicators(db, replicators) {
   replicators.forEach(function (rep) {
     db.tiles
       .filter(x => x.name === rep.tilename)
-      .forEach(function (t, i, arr) {
-        for (let j = 0; j < rep.count; j++) {
+      .forEach(function (t) {
+        for (let i = 0; i < rep.count; i++) {
+          let j = i + 1; //swaps are base 1 instead of 0
           let newTile = JSON.parse(JSON.stringify(t));
-          let colnum = j % rep.columns;
-          let rownum = Math.floor(j / rep.columns);
+          let colnum = i % rep.columns;
+          let rownum = Math.floor(i / rep.columns);
           newTile.bounds.left = t.bounds.left + t.bounds.width * colnum;
           newTile.bounds.top = t.bounds.top + t.bounds.height * rownum;
 
-          newTile.name = rep.vals[j + 1];
+          newTile.name = rep.vals[j];
           let tmp = JSON.stringify(newTile);
           let from = '\\${' + rep.transform + '\\.([^}]+)}';
           let to = '${' + rep.transform + '-' + j.toString() + '.$1}';
