@@ -600,6 +600,6 @@ function addTileReplication(workflowInput,swaps) {
       transform: replicationPriorTransform
     }
     if(typeof selection.TileReplicators === "undefined") selection.TileReplicators = [];
-    TileReplicators.push(replicator);
+    selection.TileReplicators.push(replicator);
   } else return;
 }
