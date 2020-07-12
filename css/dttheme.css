@@ -1357,3 +1357,29 @@ input.ellipsis {
   display: flex;
   flex-direction: row-reverse;
 }
+
+.ellipsisMenu {
+  width: 200px;
+  background-color: #525252;
+  border-radius: 3px;
+}
+
+.ellipsisMenu a {
+  width: 200px;
+  background-color: #525252;
+}
+
+.ellipsisMenu a, .ellipsisMenu a:visited {
+  display: block;
+  color: white;
+  cursor: pointer;
+  padding: 0 20px;
+  font-size: 14px;
+  line-height: 32px;
+  text-decoration: none;
+}
+
+.ellipsisMenu a:hover {
+  background: #242424;
+  cursor: pointer;
+}
