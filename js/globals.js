@@ -30,14 +30,14 @@ var githubpat = "";
 var repoList = [
   { 'owner': 'TechShady', 'repo': 'Dynatrace-DashboardV5', 'path': '' },
   { 'owner': 'TechShady', 'repo': 'Dynatrace-Dashboards', 'path': '' },
-  { 'owner': 'Dynatrace-JasonOstroski', 'repo': 'CitrixDashboardsV1', 'path': '' },
-  { 'owner': 'jjbologna', 'repo': 'SAP-extension-dashboards', 'path': '' },
-  { 'owner': 'LucasHocker', 'repo': 'DashboardTemplates', 'path': 'v1.192.96' },
   { 'owner': 'TechShady', 'repo': 'Dynatrace-Remote-Employee', 'path': '' },
   { 'owner': 'TechShady', 'repo': 'Dynatrace-Infrastructure', 'path': '' },
   { 'owner': 'TechShady', 'repo': 'BizOpsLite', 'path': '' },
-  { 'owner': 'LucasHocker', 'repo': 'TestRepo', 'path': '' },
   { 'owner': 'TechShady', 'repo': 'Dynatrace-Marketing-Dashboards', 'path': '' },
+  { 'owner': 'LucasHocker', 'repo': 'DashboardTemplates', 'path': 'v1.192.96' },
+  { 'owner': 'LucasHocker', 'repo': 'DashboardTemplates', 'path': '' },
+  { 'owner': 'Dynatrace-JasonOstroski', 'repo': 'CitrixDashboardsV1', 'path': '' },
+  { 'owner': 'jjbologna', 'repo': 'SAP-extension-dashboards', 'path': '' },
   { 'owner': 'popecruzdt', 'repo': 'dt-kubernetes-config', 'path': ''},
   { 'owner': 'mcaminiti', 'repo': 'dynatrace-dashboards-dem-usage', 'path': ''}
 ];

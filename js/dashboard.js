@@ -105,69 +105,82 @@ function validateDB(input) {
   let e = "";
   var t = {};
 
-  //trunc any MARKDOWNs that are too long
-  db.tiles.forEach(function (t, index, arr) {
-    if (t.tileType == 'MARKDOWN' && t.markdown.length > 1000) {
-      t.markdown = t.markdown.substring(0, 1000);
-      e += ` Trunc MARKDOWN tile[${index}]\n`;
-    }
-  });
+  //check for empty db, e.g. if JSON failed to parse after swaps
+  if (!Object.keys(db)) {
+    e += ` Empty dashboard, see previous errors.`;
+  }
 
-  //validate DT is new enough to support tags
-  if (version < dbTagsVersion) {
-    if ("tags" in db.dashboardMetadata) {
-      delete db.dashboardMetadata.tags;
-      e += " Tenant too old, removing tags\n";
-    }
-  } else if ("tags" in db.dashboardMetadata) {
-    if (!("Configurator" in db.dashboardMetadata.tags))
-      db.dashboardMetadata.tags.push("Configurator");
-  } else {
-    db.dashboardMetadata.tags = ["Configurator"];
+  //trunc any MARKDOWNs that are too long
+  if (!e.length) {
+    db.tiles.forEach(function (t, index, arr) {
+      if (t.tileType == 'MARKDOWN' && t.markdown.length > 1000) {
+        t.markdown = t.markdown.substring(0, 1000);
+        e += ` Trunc MARKDOWN tile[${index}]\n`;
+      }
+    });
   }
 
 
+  //validate DT is new enough to support tags
+  if (!e.length) {
+    if (version < dbTagsVersion) {
+      if ("tags" in db.dashboardMetadata) {
+        delete db.dashboardMetadata.tags;
+        e += " Tenant too old, removing tags\n";
+      }
+    } else if ("tags" in db.dashboardMetadata) {
+      if (!("Configurator" in db.dashboardMetadata.tags))
+        db.dashboardMetadata.tags.push("Configurator");
+    } else {
+      db.dashboardMetadata.tags = ["Configurator"];
+    }
+  }
+
   //check that bounds are divisible by 38 and < 5016
-  for (let i = db.tiles.length - 1; i >= 0; i--) {
-    t = db.tiles[i];
+  if (!e.length) {
+    for (let i = db.tiles.length - 1; i >= 0; i--) {
+      t = db.tiles[i];
 
-    if (t.bounds.left % 38 != 0) {
-      e += ` tile[${i}] left bound not divisible by 38\n`;
-    }
-    if (t.bounds.top % 38 != 0) {
-      e += ` tile[${i}] top bound not divisible by 38\n`;
-    }
-    if (t.bounds.width % 38 != 0) {
-      e += ` tile[${i}] width bound not divisible by 38\n`;
-    }
-    if (t.bounds.height % 38 != 0) {
-      e += ` tile[${i}] height bound not divisible by 38\n`;
-    }
+      if (t.bounds.left % 38 != 0) {
+        e += ` tile[${i}] left bound not divisible by 38\n`;
+      }
+      if (t.bounds.top % 38 != 0) {
+        e += ` tile[${i}] top bound not divisible by 38\n`;
+      }
+      if (t.bounds.width % 38 != 0) {
+        e += ` tile[${i}] width bound not divisible by 38\n`;
+      }
+      if (t.bounds.height % 38 != 0) {
+        e += ` tile[${i}] height bound not divisible by 38\n`;
+      }
 
-    if (t.bounds.left + t.bounds.width > 5016) {
-      arr.splice(i, 1); //remove tile out of bounds
-      e += ` tile[${i}] horizontal out of bounds (5016)\n`;
-    }
-    if (t.bounds.top + t.bounds.height > 5016) {
-      arr.splice(i, 1); //remove tile out of bounds
-      e += ` tile[${i}] vertical out of bounds (5016)\n`;
+      if (t.bounds.left + t.bounds.width > 5016) {
+        arr.splice(i, 1); //remove tile out of bounds
+        e += ` tile[${i}] horizontal out of bounds (5016)\n`;
+      }
+      if (t.bounds.top + t.bounds.height > 5016) {
+        arr.splice(i, 1); //remove tile out of bounds
+        e += ` tile[${i}] vertical out of bounds (5016)\n`;
+      }
     }
   }
 
   //remove any CTS_PLUGIN_ruxit, which are deprecated
-  for (let i = db.tiles.length - 1; i >= 0; i--) {
-    t = db.tiles[i];
-    if (t.tileType == "CUSTOM_CHARTING") {
-      t.filterConfig.chartConfig.series.forEach(function (s) {
-        if (s.metric.startsWith("CTS")) {
-          db.tiles.splice(i, 1);
-          e += ` Deprecated CTS metric detected tile[${i}]\n`;
-        }
-        if (s.metric == "builtin:synthetic.browser.duration") {
-          db.tiles.splice(i, 1);
-          e += ` Deprecated synthetic metric detected tile[${i}]\n`;
-        }
-      });
+  if (!e.length) {
+    for (let i = db.tiles.length - 1; i >= 0; i--) {
+      t = db.tiles[i];
+      if (t.tileType == "CUSTOM_CHARTING") {
+        t.filterConfig.chartConfig.series.forEach(function (s) {
+          if (s.metric.startsWith("CTS")) {
+            db.tiles.splice(i, 1);
+            e += ` Deprecated CTS metric detected tile[${i}]\n`;
+          }
+          if (s.metric == "builtin:synthetic.browser.duration") {
+            db.tiles.splice(i, 1);
+            e += ` Deprecated synthetic metric detected tile[${i}]\n`;
+          }
+        });
+      }
     }
   }
 
@@ -180,9 +193,10 @@ function validateDB(input) {
   });*/
 
   //check for untransformed dashboard
-  var re = /^bbbbbbbb-/;
-  if (!re.test(db.id)) e += ` Untransformed dashboard\n`;
-
+  if (!e.length) {
+    var re = /^bbbbbbbb-/;
+    if (!re.test(db.id)) e += ` Untransformed dashboard\n`;
+  }
 
   //alert and return the DB
   if (e.length > 0) {
@@ -292,7 +306,7 @@ function applyTileReplicators(db, replicators) {
     db.tiles
       .filter(x => x.name === rep.tilename)
       .forEach(function (t, i, arr) {
-        for(let j=1; j<=rep.count; j++){
+        for (let j = 1; j <= rep.count; j++) {
           let newTile = JSON.parse(JSON.stringify(t));
           let colnum = j % rep.columns;
           let rownum = Math.floor(j / rep.columns);
