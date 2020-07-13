@@ -232,22 +232,22 @@ function regionsChangeHandler(event) {
   });
   //$countryList.html(countryOs);*/
 
- //determine countries
- if (continent != '') {
-  $continentList.val(continent);
-  let map = new Map();
-  $countryList.html('');
-  $('<option>').val('').text('n/a').appendTo($countryList);
-  for (let i of regionData) {
-    if (!map.has(i.country) && i.continent == continent) {
-      map.set(i.country, true);
-      //regionOs += "<option value='" + i.region + "'>" + i.region + "</option>";
-      $('<option>').val(i.country).text(i.country).appendTo($countryList);
+  //determine countries
+  if (continent != '') {
+    $continentList.val(continent);
+    let map = new Map();
+    $countryList.html('');
+    $('<option>').val('').text('n/a').appendTo($countryList);
+    for (let i of regionData) {
+      if (!map.has(i.country) && i.continent == continent) {
+        map.set(i.country, true);
+        //regionOs += "<option value='" + i.region + "'>" + i.region + "</option>";
+        $('<option>').val(i.country).text(i.country).appendTo($countryList);
+      }
     }
-  }
-  //$countryList.html(countryOs);
-  $countryList.show();
-} else $countryList.hide();
+    //$countryList.html(countryOs);
+    $countryList.show();
+  } else $countryList.hide();
 
   //determine regions
   if (country != '') {
@@ -335,14 +335,14 @@ function uspFilterChangeHandler(event) {
     Object.keys(uspData).sort().forEach(function (t) {
       Object.keys(uspData[t]).sort().forEach(function (k) {
         //keyOs += "<option value='" + k + "' data-colname='" + t + "'>" + k + "</option>";
-        $('<option>').val(k).text(k).attr('data-colname',t).appendTo($keyList);
+        $('<option>').val(k).text(k).attr('data-colname', t).appendTo($keyList);
       });
     });
     //$keyList.html(keyOs);
     $valList.hide();
   }
 
-  if ( typeof selection != "undefined" &&
+  if (typeof selection != "undefined" &&
     typeof selection.config != "undefined" &&
     typeof selection.config.filterData != "undefined") { //load config if available
     if (val == "") val = selection.config.filterData.val;
@@ -701,8 +701,8 @@ function workflowPickerChangeHandler(e) {
       let deployedPersonas = workflowList
         .map((x) => x.file.config.persona).flat().filter(unique);
       let personaOptions = "";
-      personas.sort((a,b)=>a.name.toLowerCase() > b.name.toLowerCase()? 1:-1).forEach(function(persona){
-        if(deployedPersonas.includes(persona.prefix)){
+      personas.sort((a, b) => a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1).forEach(function (persona) {
+        if (deployedPersonas.includes(persona.prefix)) {
           personaOptions += `<option data-prefix="${persona.prefix}">${persona.name}</option>`;
         }
       });
@@ -715,8 +715,8 @@ function workflowPickerChangeHandler(e) {
 
       let filteredWFs = workflowList.filter(wf => wf.file.config.persona.includes(personaPrefix));
       let deployedUsecases = filteredWFs.map((wf) => wf.file.config.usecase).filter(unique);
-      usecases.sort((a,b)=>a.name.toLowerCase() > b.name.toLowerCase()? 1:-1).forEach(function(usecase){
-        if(deployedUsecases.includes(usecase.prefix)){
+      usecases.sort((a, b) => a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1).forEach(function (usecase) {
+        if (deployedUsecases.includes(usecase.prefix)) {
           usecaseOptions += `<option data-prefix="${usecase.prefix}">${usecase.name}</option>`;
         }
       });
@@ -730,12 +730,12 @@ function workflowPickerChangeHandler(e) {
       let filtered1 = workflowList.filter(wf => wf.file.config.persona.includes(personaPrefix));
       let filtered2 = filtered1.filter(wf => wf.file.config.usecase === usecasePrefix);
       filtered2
-        .sort((a,b)=>a.name.toLowerCase() > b.name.toLowerCase()? 1:-1)
+        .sort((a, b) => a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1)
         .forEach(function (wf) {
-        let name = wf.file.config.workflowName;
-        let i = workflowList.findIndex((x) => x == wf);
-        workflowOptions += `<option data-workflowIndex="${i}">${name}</option>`;
-      });
+          let name = wf.file.config.workflowName;
+          let i = workflowList.findIndex((x) => x == wf);
+          workflowOptions += `<option data-workflowIndex="${i}">${name}</option>`;
+        });
       $("#workflow").html(workflowOptions);
       //do not break
     }
@@ -759,84 +759,91 @@ function workflowPickerChangeHandler(e) {
 
 }
 
-function ellipsisToggler(){
+function ellipsisToggler() {
   $(".ellipsisMenu").toggle();
 }
 
 function workflowPickerOwnerChangeHandler(e) {
   let el = $(this);
   let id = el.attr('id');
+  let $owner = $("#owner");
+  let $repo = $("#repo");
+  let $workflow = $("#workflow");
+  let $readmeViewer = $("#readmeViewer");
+  let $blogLink = $("#blogLink");
 
   switch (id) {
     case undefined: {
-
       let owners = workflowList
         .map((x) => x.repo.owner).flat().filter(unique);
       let ownerOptions = "";
-      owners.sort((a,b)=>a.toLowerCase() > b.toLowerCase()? 1:-1).forEach(function(owner){
-          ownerOptions += `<option>${owner}</option>`;
+      owners.sort((a, b) => a.toLowerCase() > b.toLowerCase() ? 1 : -1).forEach(function (owner) {
+        ownerOptions += `<option>${owner}</option>`;
       });
-      $("#owner").html(ownerOptions);
-      if(window.location.hash.includes("#deploy/owner")){
+      $owner.html(ownerOptions);
+      if (window.location.hash.includes("#deploy/owner")) {
         let args = window.location.hash.split('/');
-        if(args[2]!="")$("#owner").val(args[2]);
-        else window.location.hash=`#deploy/owner/${$("#owner").val()}`;
+        if (args[2] != "") $owner.val(args[2]);
+        else window.location.hash = `#deploy/owner/${$("#owner").val()}`;
       }
-      else window.location.hash=`#deploy/owner/${$("#owner").val()}`;
+      else window.location.hash = `#deploy/owner/${$("#owner").val()}`;
+      if ($owner.val() == null) $owner.val($owner.find("option:first").val());
       //do not break
     }
     case "owner": {
       let repoOptions = "";
-      let owner = $("#owner").val();
+      let owner = $owner.val();
 
       let filteredWFs = workflowList.filter(wf => wf.repo.owner == owner);
       let repos = filteredWFs.map((wf) => wf.repo.repo).filter(unique);
-      repos.sort((a,b)=>a.toLowerCase() > b.toLowerCase()? 1:-1).forEach(function(repo){
-          repoOptions += `<option>${repo}</option>`;
+      repos.sort((a, b) => a.toLowerCase() > b.toLowerCase() ? 1 : -1).forEach(function (repo) {
+        repoOptions += `<option>${repo}</option>`;
       });
-      $("#repo").html(repoOptions);
-      if(window.location.hash.includes("#deploy/owner")){
+      $repo.html(repoOptions);
+      if (window.location.hash.includes("#deploy/owner")) {
         let args = window.location.hash.split('/');
-        if(args[3]!="")$("#repo").val(args[3]);
-        else window.location.hash=`#deploy/owner/${$("#owner").val()}/${$("#repo").val()}`;
+        if (args[3] != "") $repo.val(args[3]);
+        else window.location.hash = `#deploy/owner/${$owner.val()}/${$repo.val()}`;
       }
+      if ($repo.val() == null) $repo.val($repo.find("option:first").val());
       //do not break
     }
     case "repo": {
       let workflowOptions = "";
-      let owner = $("#owner").val();
-      let repo = $("#repo").val();
+      let owner = $owner.val();
+      let repo = $repo.val();
       let filteredWFs = workflowList.filter(wf => wf.repo.owner == owner && wf.repo.repo == repo);
       filteredWFs
-        .sort((a,b)=>a.name.toLowerCase() > b.name.toLowerCase()? 1:-1)
+        .sort((a, b) => a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1)
         .forEach(function (wf) {
-        let name = wf.file.config.workflowName;
-        let i = workflowList.findIndex((x) => x == wf);
-        workflowOptions += `<option data-workflowIndex="${i}">${name}</option>`;
-      });
-      $("#workflow").html(workflowOptions);
+          let name = wf.file.config.workflowName;
+          let i = workflowList.findIndex((x) => x == wf);
+          workflowOptions += `<option data-workflowIndex="${i}">${name}</option>`;
+        });
+      $workflow.html(workflowOptions);
+      if ($workflow.val() == null) $workflow.val($workflow.find("option:first").val());
       //do not break
     }
     default:
-      let i = $("#workflow :selected").attr('data-workflowIndex');
+      let i = $workflow.find("option:selected").attr('data-workflowIndex');
       let workflow = workflowList[i];
       let readme = findWorkflowReadme(workflow);
       if (typeof readme != "undefined" && typeof readme.html != "undefined")
-        $("#readmeViewer").html(readme.html);
+        $readmeViewer.html(readme.html);
       else
-        $("#readmeViewer").html("");
+        $readmeViewer.html("");
       let blogURL = workflow.file.config.blogURL;
       if (blogURL != "") {
-        $("#blogLink").html(`<a href="${blogURL}" class="newTab" target="_blank">Blog post <img src='images/link.svg'></a>`);
-        $("#blogLink").show();
+        $blogLink.html(`<a href="${blogURL}" class="newTab" target="_blank">Blog post <img src='images/link.svg'></a>`);
+        $blogLink.show();
       } else {
-        $("#blogLink").hide();
-        $("#blogLink").html("");
+        $blogLink.hide();
+        $blogLink.html("");
       }
   }
 }
 
-function workflowPickerAllChangeHandler(e){
+function workflowPickerAllChangeHandler(e) {
   let el = $(this);
   let id = el.attr('id');
 
@@ -845,12 +852,12 @@ function workflowPickerAllChangeHandler(e){
       let workflowOptions = "";
       let filteredWFs = workflowList;
       filteredWFs
-        .sort((a,b)=>a.name.toLowerCase() > b.name.toLowerCase()? 1:-1)
+        .sort((a, b) => a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1)
         .forEach(function (wf) {
-        let name = wf.file.config.workflowName;
-        let i = workflowList.findIndex((x) => x == wf);
-        workflowOptions += `<option data-workflowIndex="${i}">${name}</option>`;
-      });
+          let name = wf.file.config.workflowName;
+          let i = workflowList.findIndex((x) => x == wf);
+          workflowOptions += `<option data-workflowIndex="${i}">${name}</option>`;
+        });
       $("#workflow").html(workflowOptions);
       //do not break
     }
@@ -871,8 +878,8 @@ function workflowPickerAllChangeHandler(e){
         $("#blogLink").html("");
       }
 
-      if(!window.location.hash.includes("#deploy/all")){
-        window.location.hash=`#deploy/all`;
+      if (!window.location.hash.includes("#deploy/all")) {
+        window.location.hash = `#deploy/all`;
       }
   }
 }
