@@ -1391,5 +1391,5 @@ input.ellipsis {
 }
 
 .workflowPickers {
-  min-width: 400px;
+  min-width: 400px !important; /*not sure why this wasn't overriding, so make important*/
 }

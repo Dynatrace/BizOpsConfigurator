@@ -530,7 +530,7 @@ function getConnectInfo(full=false) {
   if (url == "" || token == "") {
     let p1 = $.get("html/connect.html");
     $.when(p1).done(function (content) {
-      let p2 = popupHTMLDeferred("New Input", content);
+      let p2 = popupHTMLDeferred("API Connection", content);
 
       $.when(p2).done(function (inputs) {
         url = inputs.url.toLowerCase();
