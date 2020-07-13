@@ -3,7 +3,13 @@ Licensed under the Apache License, Version 2.0 (the "License"); you may not use 
 http://www.apache.org/licenses/LICENSE-2.0
 Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.*/
 function getRepoContents(repo) {
-    return gitHubAPI(`/repos/${repo.owner}/${repo.repo}/contents/${repo.path}`);
+    let options = {headers:{}}
+    if("etag" in repo) options.headers['If-None-Match'] = repo.etag;
+    let p = gitHubAPI(`/repos/${repo.owner}/${repo.repo}/contents/${repo.path}`, options);
+    $.when(p).done(function(data, textStatus, jqXHR){
+        gitHubUpdateEtag(repo, jqXHR);
+    })
+    return p;
 }
 
 /*function gitHubAPICheckRateLimit(){ //does not work, CORS & JSONP are broken on this endpoint
@@ -80,7 +86,10 @@ function gitHubUpdateLimits(data, textStatus, jqXHR) {
     GithubReset = parseInt(jqXHR.getResponseHeader("X-Ratelimit-Reset"));
 }
 
-
+function gitHubUpdateEtag(repo, jqXHR) {
+    let etag = jqXHR.getResponseHeader("etag");
+    repo.etag = etag;
+}
 
 function getREADME(repo) { //not used anymore
     let headers = { 'Accept': 'application/vnd.github.v3.html' };
