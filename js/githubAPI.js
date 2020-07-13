@@ -70,8 +70,8 @@ function gitHubAPI(query, options = {}, retries = 3) {
 
         $.when(p2).done(function () {
             let p3 = f();
-            $.when(p3).done(function (data) {
-                p1.resolve(data);
+            $.when(p3).done(function (data, textStatus, jqXHR) {
+                p1.resolve(data, textStatus, jqXHR);
             });
         });
 
