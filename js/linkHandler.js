@@ -84,15 +84,16 @@ function staticCleanup() {
 
 function linkHandler(e) {
   if ($(this)[0].nodeName == 'A') {
-    let jqobj = $(this);
-    let a = jqobj[0];
+    let $jqobj = $(this);
+    let a = $jqobj[0];
     let id = a.id;
+    let href = $jqobj.attr("href");
     if (typeof dtrum !== "undefined") dtrum.actionName("linkHandler(" + id + ")");
     if (a.classList.contains("newTab")) return e; //don't handle new tabs with jQuery
     if (a.classList.contains("dashboardList")) return e; //handled by custom listener
     if (a.classList.contains("dashboardCleanup-owner")) return e; //handled by custom listener
     if (a.classList.contains("dashboardCleanup-db")) return e; //handled by custom listener
-    if (a.classList.contains("expandable")) { helpdocToggler(jqobj); return e }; //handled by custom listener
+    if (a.classList.contains("expandable")) { helpdocToggler($jqobj); return e }; //handled by custom listener
     if (a.classList.contains("workflow")) { return e }; //handled by custom listener
     switch (id) {
       case "bc-connect":
@@ -208,7 +209,8 @@ function linkHandler(e) {
       default:
         //alert("Unknown Link: " + id);
         //if (typeof dtrum !== "undefined") dtrum.reportCustomError("Unknown Link", e, id, true);
-        hashHandler(window.location.hash);
+        if(href.startsWith('#'))
+          hashHandler(href);
     }
   }
 }
