@@ -105,7 +105,7 @@ function getREADME(repo) { //not used anymore
         .fail(errorboxJQXHR);
 }
 
-function parseRepoContents(data, repo, old) { 
+function parseRepoContents(data=[], repo, old) { 
     let dbListTemp = [];
     let workflowsTemp = [];
     let readmesTemp = [];
