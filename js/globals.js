@@ -633,15 +633,18 @@ function updateLocalStorage() {
 }
 
 function loadLocalStorage() {
-  let repoListTmp = localStorage.getItem('repoList') || [];
-  workflowList = localStorage.getItem('workflowList') || [];
-  readmeList = localStorage.getItem('readmeList') || [];
-  dbList = localStorage.getItem('dbList') || [];
+  let repoListTmp = localStorage.getItem('repoList') || "[]";
+  let workflowListTmp = localStorage.getItem('workflowList') || "[]";
+  let readmeListTmp = localStorage.getItem('readmeList') || "[]";
+  let dbListTmp = localStorage.getItem('dbList') || "[]";
 
-  repoListTmp.forEach((x) => {
+  JSON.parse(repoListTmp).forEach((x) => {
     let r = repoList.find((y) => x.owner === y.owner &&
       x.repo === y.repo && x.path === y.path);
     if (typeof r != "undefined" && typeof x.etag != "undefined")
       r.etag = x.etag;
   })
+  workflowList = JSON.parse(workflowListTmp);
+  readmeList = JSON.parse(readmeListTmp);
+  dbList = JSON.parse(dbListTmp);
 }
