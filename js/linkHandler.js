@@ -287,14 +287,14 @@ function loadDeployScreen(args) {
   $.when(p0).done(function () {
     switch (args[0]) {
       case "owner":
-        $("#viewport").load("html/personaFlow/personal_usecase_owner.html",fieldsetPainter);
+        $("#viewport").load("html/personaFlow/persona_usecase_owner.html",fieldsetPainter);
         break;
       case "all":
-        $("#viewport").load("html/personaFlow/personal_usecase_all.html",fieldsetPainter);
+        $("#viewport").load("html/personaFlow/persona_usecase_all.html",fieldsetPainter);
         break;
       case "persona":
       default:
-        $("#viewport").load("html/personaFlow/personal_usecase.html",fieldsetPainter);
+        $("#viewport").load("html/personaFlow/persona_usecase.html",fieldsetPainter);
         break;
     }
   });
