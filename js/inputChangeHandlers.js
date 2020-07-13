@@ -19,6 +19,8 @@ function loadInputChangeHandlers() {
   $("#viewport").on("change", ".dashboardCleanupAll", dashboardCleanupAllChangeHandler);
   $("#viewport").on("change", "#HU-report", HUreportChangeHandler);
   $("#viewport").on("change", ".workflowPicker", workflowPickerChangeHandler);
+  $("#viewport").on("change", ".workflowPickerOwner", workflowPickerOwnerChangeHandler);
+  $("#viewport").on("change", ".workflowPickerAll", workflowPickerAllChangeHandler);
 
   $("#viewport").on("click", "section h4", helpdocToggler);
   $("#viewport").on("click", ".ellipsis", ellipsisToggler);
@@ -759,4 +761,118 @@ function workflowPickerChangeHandler(e) {
 
 function ellipsisToggler(){
   $(".ellipsisMenu").toggle();
+}
+
+function workflowPickerOwnerChangeHandler(e) {
+  let el = $(this);
+  let id = el.attr('id');
+
+  switch (id) {
+    case undefined: {
+
+      let owners = workflowList
+        .map((x) => x.repo.owner).flat().filter(unique);
+      let ownerOptions = "";
+      owners.sort((a,b)=>a.name.toLowerCase() > b.name.toLowerCase()? 1:-1).forEach(function(owner){
+          ownerOptions += `<option>${owner}</option>`;
+      });
+      $("#owner").html(ownerOptions);
+      if(window.location.hash.includes("#deploy/owner")){
+        let args = window.location.hash.split('/');
+        if(args[2]!="")$("#owner").val(args[2]);
+        else window.location.hash=`#deploy/owner/${$("#owner").val()}`;
+      }
+      else window.location.hash=`#deploy/owner/${$("#owner").val()}`;
+      //do not break
+    }
+    case "owner": {
+      let repoOptions = "";
+      let owner = $("#owner").val();
+
+      let filteredWFs = workflowList.filter(wf => wf.repo.owner == owner);
+      let repos = filteredWFs.map((wf) => wf.repo.repo).filter(unique);
+      repos.sort((a,b)=>a.name.toLowerCase() > b.name.toLowerCase()? 1:-1).forEach(function(repo){
+          repoOptions += `<option>${repo}</option>`;
+      });
+      $("#repo").html(repoOptions);
+      if(window.location.hash.includes("#deploy/owner")){
+        let args = window.location.hash.split('/');
+        if(args[3]!="")$("#repo").val(args[3]);
+        else window.location.hash=`#deploy/owner/${$("#owner").val()}/${$("#repo").val()}`;
+      }
+      //do not break
+    }
+    case "repo": {
+      let workflowOptions = "";
+      let owner = $("#owner").val();
+      let repo = $("#repo").val();
+      let filteredWFs = workflowList.filter(wf => wf.repo.owner == owner && wf.repo.repo == repo);
+      filteredWFs
+        .sort((a,b)=>a.name.toLowerCase() > b.name.toLowerCase()? 1:-1)
+        .forEach(function (wf) {
+        let name = wf.file.config.workflowName;
+        let i = workflowList.findIndex((x) => x == wf);
+        workflowOptions += `<option data-workflowIndex="${i}">${name}</option>`;
+      });
+      $("#workflow").html(workflowOptions);
+      //do not break
+    }
+    default:
+      let i = $("#workflow :selected").attr('data-workflowIndex');
+      let workflow = workflowList[i];
+      let readme = findWorkflowReadme(workflow);
+      if (typeof readme != "undefined" && typeof readme.html != "undefined")
+        $("#readmeViewer").html(readme.html);
+      else
+        $("#readmeViewer").html("");
+      let blogURL = workflow.file.config.blogURL;
+      if (blogURL != "") {
+        $("#blogLink").html(`<a href="${blogURL}" class="newTab" target="_blank">Blog post <img src='images/link.svg'></a>`);
+        $("#blogLink").show();
+      } else {
+        $("#blogLink").hide();
+        $("#blogLink").html("");
+      }
+  }
+}
+
+function workflowPickerAllChangeHandler(e){
+  let el = $(this);
+  let id = el.attr('id');
+
+  switch (id) {
+    case undefined: {
+      let workflowOptions = "";
+      let filteredWFs = workflowList;
+      filteredWFs
+        .sort((a,b)=>a.name.toLowerCase() > b.name.toLowerCase()? 1:-1)
+        .forEach(function (wf) {
+        let name = wf.file.config.workflowName;
+        let i = workflowList.findIndex((x) => x == wf);
+        workflowOptions += `<option data-workflowIndex="${i}">${name}</option>`;
+      });
+      $("#workflow").html(workflowOptions);
+      //do not break
+    }
+    default:
+      let i = $("#workflow :selected").attr('data-workflowIndex');
+      let workflow = workflowList[i];
+      let readme = findWorkflowReadme(workflow);
+      if (typeof readme != "undefined" && typeof readme.html != "undefined")
+        $("#readmeViewer").html(readme.html);
+      else
+        $("#readmeViewer").html("");
+      let blogURL = workflow.file.config.blogURL;
+      if (blogURL != "") {
+        $("#blogLink").html(`<a href="${blogURL}" class="newTab" target="_blank">Blog post <img src='images/link.svg'></a>`);
+        $("#blogLink").show();
+      } else {
+        $("#blogLink").hide();
+        $("#blogLink").html("");
+      }
+
+      if(!window.location.hash.includes("#deploy/all")){
+        window.location.hash=`#deploy/all`;
+      }
+  }
 }
