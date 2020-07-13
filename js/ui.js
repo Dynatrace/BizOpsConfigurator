@@ -525,7 +525,7 @@ function drawServiceSelect(data, selector) {
   $(selector).html(html);
 }
 
-function getConnectInfo() {
+function getConnectInfo(full=false) {
   let p0 = $.Deferred();
   if (url == "" || token == "") {
     let p1 = $.get("html/connect.html");
@@ -541,7 +541,11 @@ function getConnectInfo() {
         token = inputs.token;
         githubuser = inputs.githubuser;
         githubpat = inputs.githubpat;
-        p0.resolve();
+        if(full){
+          let p3 = createFullConnection();
+          $.when(p3).done(()=>p0.resolve());
+        }
+        else p0.resolve();
       });
     });
   } else {

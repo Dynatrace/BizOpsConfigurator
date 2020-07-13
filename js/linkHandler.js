@@ -282,7 +282,7 @@ function helpdocToggler(jqobj) {
 }
 
 function loadDeployScreen(args) {
-  let p0 = getConnectInfo();
+  let p0 = getConnectInfo(true);
 
   $.when(p0).done(function () {
     switch (args[0]) {

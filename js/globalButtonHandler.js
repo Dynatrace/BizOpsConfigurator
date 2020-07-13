@@ -22,24 +22,7 @@ function globalButtonHandler() {
         token = $("input#token").val();
         githubuser = $("#githubuser").val();
         githubpat = $("#githubpat").val();
-        let p_connect = testConnect();
-
-        $.when(p_connect).done(function (data) {
-          if (processTestConnect(data)) {
-            $("#viewport").load("html/configurator/main.html", fieldsetPainter);
-            getVersion()
-              .then(processVersion)
-              .then(function () {
-                if (!dbList.length > 0) {
-                  loadDBList()
-                    .then(downloadWorkflowsFromList)
-                    .then(downloadReadmesFromList)
-                    .then(downloadDBsFromList);
-                }
-              });
-          }
-        });
-        $.when(p_connect).fail(errorboxJQXHR);
+        createFullConnection();
         break;
       case "deleteApp": {
         $(this).val("Deleting...");
@@ -871,7 +854,7 @@ function globalButtonHandler() {
         let button = $("#workflowButton");
         let activePage = $("#workflow").find(".workflowPage.activePage");
         generateWorkflowSwapList(activePage);
-        while(ConfigPushers.length){
+        while (ConfigPushers.length) {
           let cp = ConfigPushers.shift();
           cp.addCPToSwaps(selection.swaps);
         }
@@ -911,7 +894,7 @@ function globalButtonHandler() {
         });
 
         if (window.confirm("DELETE " + count + " dashboards? This cannot be undone...")) {
-          let p_delete = deleteDashboards(id,re);
+          let p_delete = deleteDashboards(id, re);
           $.when(p_delete).done(function () {
             let p_DBA = getAllDashboards();
             $.when(p_DBA).done(function (data) {
