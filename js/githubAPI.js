@@ -5,6 +5,9 @@ Unless required by applicable law or agreed to in writing, software distributed 
 function getRepoContents(repo) {
     let options = {headers:{}}
     if("etag" in repo) options.headers['If-None-Match'] = repo.etag;
+    if (githubuser != "" && githubpat != "")
+            options.headers.Authorization = "Basic " + btoa(githubuser + ":" + githubpat);
+            
     let p = gitHubAPI(`/repos/${repo.owner}/${repo.repo}/contents/${repo.path}`, options);
     $.when(p).done(function(data, textStatus, jqXHR){
         gitHubUpdateEtag(repo, jqXHR);
@@ -32,8 +35,6 @@ function gitHubAPI(query, options = {}, retries = 3) {
 
     function gitHubAPIinner() {
         let headers = (typeof options.headers != "undefined") ? options.headers : {};
-        if (githubuser != "" && githubpat != "")
-            headers.Authorization = "Basic " + btoa(githubuser + ":" + githubpat);
 
         let url = "https://api.github.com" + query;
         return $.ajax({
