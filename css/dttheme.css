@@ -1389,3 +1389,7 @@ input.ellipsis {
   background: #242424;
   cursor: pointer;
 }
+
+.workflowPicker {
+  min-width: 400px;
+}

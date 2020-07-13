@@ -783,11 +783,10 @@ function workflowPickerOwnerChangeHandler(e) {
       $owner.html(ownerOptions);
       if (window.location.hash.includes("#deploy/owner")) {
         let args = window.location.hash.split('/');
-        if (args[2] != "") $owner.val(args[2]);
-        else window.location.hash = `#deploy/owner/${$("#owner").val()}`;
+        if (args[2] != "" && args[2] != null) $owner.val(args[2]);
       }
-      else window.location.hash = `#deploy/owner/${$("#owner").val()}`;
       if ($owner.val() == null) $owner.val($owner.find("option:first").val());
+      window.location.hash = `#deploy/owner/${$owner.val()}`;
       //do not break
     }
     case "owner": {
@@ -802,10 +801,10 @@ function workflowPickerOwnerChangeHandler(e) {
       $repo.html(repoOptions);
       if (window.location.hash.includes("#deploy/owner")) {
         let args = window.location.hash.split('/');
-        if (args[3] != "") $repo.val(args[3]);
-        else window.location.hash = `#deploy/owner/${$owner.val()}/${$repo.val()}`;
+        if (args[3] != "" && args[3] != null) $repo.val(args[3]);
       }
       if ($repo.val() == null) $repo.val($repo.find("option:first").val());
+      window.location.hash = `#deploy/owner/${$owner.val()}/${$repo.val()}`;
       //do not break
     }
     case "repo": {
