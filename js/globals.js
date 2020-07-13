@@ -638,10 +638,11 @@ function loadLocalStorage() {
   readmeList = localStorage.getItem('readmeList');
   dbList = localStorage.getItem('dbList');
 
-  if(typeof repoListTmp != "undefined") repoListTmp.forEach((x) => {
-    let r = repoList.find((y) => x.owner === y.owner &&
-      x.repo === y.repo && x.path === y.path);
-    if (typeof r != "undefined" && typeof x.etag != "undefined")
-      r.etag = x.etag;
-  })
+  if (typeof repoListTmp != "undefined" && repoListTmp != null)
+    repoListTmp.forEach((x) => {
+      let r = repoList.find((y) => x.owner === y.owner &&
+        x.repo === y.repo && x.path === y.path);
+      if (typeof r != "undefined" && typeof x.etag != "undefined")
+        r.etag = x.etag;
+    })
 }
