@@ -206,7 +206,9 @@ function workflowUploader() {
             workflowSetFirstPageActive();
         };
         if (typeof file !== "undefined") fr.readAsText(file);
+        p0.resolve();
     });
+    return p0;
 }
 
 function updatePageListing() {

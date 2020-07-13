@@ -95,6 +95,7 @@ function linkHandler(e) {
     if (a.classList.contains("dashboardCleanup-db")) return e; //handled by custom listener
     if (a.classList.contains("expandable")) { helpdocToggler($jqobj); return e }; //handled by custom listener
     if (a.classList.contains("workflow")) { return e }; //handled by custom listener
+    if (a.classList.contains("hashHandled") && href.startsWith('#')) hashHandler(href);
     switch (id) {
       case "bc-connect":
         selection.config = {};
@@ -209,8 +210,8 @@ function linkHandler(e) {
       default:
         //alert("Unknown Link: " + id);
         //if (typeof dtrum !== "undefined") dtrum.reportCustomError("Unknown Link", e, id, true);
-        if(href.startsWith('#'))
-          hashHandler(href);
+        //if(href.startsWith('#'))
+        //  hashHandler(href);
     }
   }
 }
