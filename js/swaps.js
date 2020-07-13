@@ -359,7 +359,7 @@ function generateWorkflowSwapList(el) {
     } else if (conditionalSwap.length) {
       conditionalGetSwaps($workflowInput, transform, swaps);
     } else if (configOverride.length) {
-      configOverrideGetSwaps(workflowInput, swaps);
+      configOverrideGetSwaps($workflowInput, swaps);
     } else if (tileReplication.length) {
       addTileReplication($workflowInput, swaps);
     } else if (whereClause) {
