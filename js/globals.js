@@ -403,7 +403,7 @@ function loadDBList(p = 1) {
     $.when.apply($, deferreds).done(function () {
       master.resolve();
       updateDashboardButton();
-      updateLocalStorage();
+      //updateLocalStorage();
     });
   });
   return master
@@ -441,6 +441,9 @@ function downloadDBsFromList() {
       promises.push(p);
     }
   });
+  $.when.apply($, promises).done(function () {
+    localStorage.setItem('dbList', JSON.stringify(dbList));
+  });
   return promises;
 }
 
@@ -466,6 +469,9 @@ function downloadReadmesFromList() {
       promises.push(p);
     }
   });
+  $.when.apply($, promises).done(function () {
+    localStorage.setItem('readmeList', JSON.stringify(readmeList));
+  });
 }
 
 function downloadWorkflowsFromList() {
@@ -486,6 +492,9 @@ function downloadWorkflowsFromList() {
         });
       promises.push(p);
     }
+  });
+  $.when.apply($, promises).done(function () {
+    localStorage.setItem('workflowList', JSON.stringify(workflowList));
   });
 }
 
@@ -625,14 +634,14 @@ var uniqId = (function () {
 })();
 
 
-function updateLocalStorage() {
+/*function updateLocalStorage() { //decentralize to allot for async
   localStorage.setItem('repoList', JSON.stringify(repoList));
   localStorage.setItem('workflowList', JSON.stringify(workflowList));
   localStorage.setItem('readmeList', JSON.stringify(readmeList));
   localStorage.setItem('dbList', JSON.stringify(dbList));
-}
+}*/
 
-function loadLocalStorage() {
+function loadLocalStorage() { //consider moving to IndexDB
   let repoListTmp = localStorage.getItem('repoList') || "[]";
   let workflowListTmp = localStorage.getItem('workflowList') || "[]";
   let readmeListTmp = localStorage.getItem('readmeList') || "[]";

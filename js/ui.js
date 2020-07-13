@@ -632,7 +632,7 @@ function compareWorkflowVsRepo() {
       $.when.apply($, deferreds).done(function () {
         master.resolve();
         updateDashboardButton();
-        updateLocalStorage();
+        //updateLocalStorage();
       })
     });
   } else master.resolve();

@@ -355,7 +355,7 @@ function generateWorkflowSwapList(el) {
     let tileReplication = $workflowInput.find(".tileReplication");
 
     if (journeyPicker.length) {
-      journeyGetSwaps($select, transform, swaps);
+      journeyGetSwaps($workflowInput, transform, swaps);
     } else if (conditionalSwap.length) {
       conditionalGetSwaps($workflowInput, transform, swaps);
     } else if (configOverride.length) {
@@ -509,8 +509,8 @@ function apiSelectGetSwaps(select, transform, swaps) {
   }
 }
 
-function journeyGetSwaps(select, transform, swaps) {
-  let $select = $(select);
+function journeyGetSwaps(workflowInput, transform, swaps) {
+  let $workflowInput = $(workflowInput);
   let from = "${" + transform + ".where}";
   let where = $workflowInput.find("input.whereClause").val();
   addToSwaps(swaps, { from: from, to: where });
