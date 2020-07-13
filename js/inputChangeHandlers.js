@@ -694,6 +694,11 @@ function HUreportChangeHandler() {
 function workflowPickerChangeHandler(e) {
   let el = $(this);
   let id = el.attr('id');
+  let $persona = $("#persona");
+  let $usecase = $("#usecase");
+  let $workflow = $("#workflow");
+  let $readmeViewer = $("#readmeViewer");
+  let $blogLink = $("#blogLink");
 
   switch (id) {
     case undefined: {
@@ -706,7 +711,13 @@ function workflowPickerChangeHandler(e) {
           personaOptions += `<option data-prefix="${persona.prefix}">${persona.name}</option>`;
         }
       });
-      $("#persona").html(personaOptions);
+      $persona.html(personaOptions);
+      if (window.location.hash.includes("#deploy/persona")) {
+        let args = window.location.hash.split('/');
+        if (args[2] != "" && args[2] != null) $persona.val(args[2]);
+      }
+      if ($persona.val() == null) $persona.val($persona.find("option:first").val());
+      window.location.hash = `#deploy/persona/${$persona.val()}`;
       //do not break
     }
     case "persona": {
@@ -720,7 +731,13 @@ function workflowPickerChangeHandler(e) {
           usecaseOptions += `<option data-prefix="${usecase.prefix}">${usecase.name}</option>`;
         }
       });
-      $("#usecase").html(usecaseOptions);
+      $usecase.html(usecaseOptions);
+      if (window.location.hash.includes("#deploy/persona")) {
+        let args = window.location.hash.split('/');
+        if (args[3] != "" && args[3] != null) $usecase.val(args[3]);
+      }
+      if ($usecase.val() == null) $usecase.val($usecase.find("option:first").val());
+      window.location.hash = `#deploy/persona/${$persona.val()}`;
       //do not break
     }
     case "usecase": {
@@ -736,7 +753,9 @@ function workflowPickerChangeHandler(e) {
           let i = workflowList.findIndex((x) => x == wf);
           workflowOptions += `<option data-workflowIndex="${i}">${name}</option>`;
         });
-      $("#workflow").html(workflowOptions);
+      $workflow.html(workflowOptions);
+      if ($workflow.val() == null) $workflow.val($workflow.find("option:first").val());
+      window.location.hash = `#deploy/persona/${$persona.val()}/${$usecase.val()}`;
       //do not break
     }
     default:
@@ -744,16 +763,16 @@ function workflowPickerChangeHandler(e) {
       let workflow = workflowList[i];
       let readme = findWorkflowReadme(workflow);
       if (typeof readme != "undefined" && typeof readme.html != "undefined")
-        $("#readmeViewer").html(readme.html);
+        $readmeViewer.html(readme.html);
       else
-        $("#readmeViewer").html("");
+        $readmeViewer.html("");
       let blogURL = workflow.file.config.blogURL;
       if (blogURL != "") {
-        $("#blogLink").html(`<a href="${blogURL}" class="newTab" target="_blank">Blog post <img src='images/link.svg'></a>`);
-        $("#blogLink").show();
+        $blogLink.html(`<a href="${blogURL}" class="newTab" target="_blank">Blog post <img src='images/link.svg'></a>`);
+        $blogLink.show();
       } else {
-        $("#blogLink").hide();
-        $("#blogLink").html("");
+        $blogLink.hide();
+        $blogLink.html("");
       }
   }
 
