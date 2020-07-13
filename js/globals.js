@@ -38,8 +38,8 @@ var repoList = [
   { 'owner': 'LucasHocker', 'repo': 'DashboardTemplates', 'path': '' },
   { 'owner': 'Dynatrace-JasonOstroski', 'repo': 'CitrixDashboardsV1', 'path': '' },
   { 'owner': 'jjbologna', 'repo': 'SAP-extension-dashboards', 'path': '' },
-  { 'owner': 'popecruzdt', 'repo': 'dt-kubernetes-config', 'path': ''},
-  { 'owner': 'mcaminiti', 'repo': 'dynatrace-dashboards-dem-usage', 'path': ''}
+  { 'owner': 'popecruzdt', 'repo': 'dt-kubernetes-config', 'path': '' },
+  { 'owner': 'mcaminiti', 'repo': 'dynatrace-dashboards-dem-usage', 'path': '' }
 ];
 var tenantOverviews = [
   { name: 'BizOps', filename: 'TenantOverview.json', repo: { 'owner': 'TechShady', 'repo': 'Dynatrace-DashboardV5', 'path': '' } },
@@ -70,7 +70,7 @@ var personas = [
   { name: "Digital Marketer", prefix: "a006" },
   { name: "IT Exec", prefix: "a004" },
   { name: "Dynatrace Admin", prefix: "a005" },
-  { name: "Line of Business", prefix: "a007"}
+  { name: "Line of Business", prefix: "a007" }
 ];
 var usecases = [
   { name: "User Journey", bizAnalytics: true, prefix: "a001" },
@@ -85,10 +85,10 @@ var usecases = [
   { name: "Capacity Management", bizAnalytics: false, prefix: "a010" },
   { name: "Billing Analysis", bizAnalytics: false, prefix: "a011" },
   { name: "Marketing Campaign", bizAnalytics: true, prefix: "a012" },
-  { name: "AIOps", bizAnalytics: false, prefix: "a013"},
-  { name: "Site Reliability Engineering (SRE)", bizAnalytics: false, prefix: "a014"},
-  { name: "Software Suite (COTS)", bizAnalytics: false, prefix: "a015"},
-  { name: "Industry Vertical", bizAnalytics: true, prefix: "a016"}
+  { name: "AIOps", bizAnalytics: false, prefix: "a013" },
+  { name: "Site Reliability Engineering (SRE)", bizAnalytics: false, prefix: "a014" },
+  { name: "Software Suite (COTS)", bizAnalytics: false, prefix: "a015" },
+  { name: "Industry Vertical", bizAnalytics: true, prefix: "a016" }
 ];
 //////// Global Vars ////////////
 var url = "";
@@ -383,7 +383,7 @@ function loadDBList(p = 1) {
   let master = $.Deferred();
   if (p.promise) deferreds.push(p);
   $.when(p).then(function () {  // we should have been passed a deferred
-    let old = {dbList:dbList, readmeList:readmeList, workflowList:workflowList};
+    let old = { dbList: dbList, readmeList: readmeList, workflowList: workflowList };
     dbList = [];
     readmeList = [];
     workflowList = [];
@@ -400,9 +400,10 @@ function loadDBList(p = 1) {
       });
     }
 
-    $.when.apply($, deferreds).done(function () { 
-      master.resolve(); 
+    $.when.apply($, deferreds).done(function () {
+      master.resolve();
       updateDashboardButton();
+      updateLocalStorage();
     });
   });
   return master
@@ -514,16 +515,16 @@ function findOverviewREADME(overview) {
 }
 
 function findWorkflowReadme(workflow) {
-  if(typeof workflow != "undefined" &&
+  if (typeof workflow != "undefined" &&
     typeof workflow.file != "undefined" &&
-    typeof workflow.file.config != "undefined"){
-      let config = workflow.file.config;
-      let readme = workflow.repo.path.length>0 ? `${workflow.repo.path}/${config.readme}` : config.readme;
-      let readmeFile = readmeList.find((el) => el.repo.owner === workflow.repo.owner &&
-        el.repo.repo === workflow.repo.repo && el.path === readme);
-    
-      return readmeFile;
-    }
+    typeof workflow.file.config != "undefined") {
+    let config = workflow.file.config;
+    let readme = workflow.repo.path.length > 0 ? `${workflow.repo.path}/${config.readme}` : config.readme;
+    let readmeFile = readmeList.find((el) => el.repo.owner === workflow.repo.owner &&
+      el.repo.repo === workflow.repo.repo && el.path === readme);
+
+    return readmeFile;
+  }
   else return;
 }
 
@@ -622,3 +623,25 @@ var uniqId = (function () {
     return i++;
   }
 })();
+
+
+function updateLocalStorage() {
+  localStorage.setItem('repoList', JSON.stringify(repoList));
+  localStorage.setItem('workflowList', JSON.stringify(workflowList));
+  localStorage.setItem('readmeList', JSON.stringify(readmeList));
+  localStorage.setItem('dbList', JSON.stringify(dbList));
+}
+
+function loadLocalStorage() {
+  let repoListTmp = localStorage.getItem('repoList');
+  workflowList = localStorage.getItem('workflowList');
+  readmeList = localStorage.getItem('readmeList');
+  dbList = localStorage.getItem('dbList');
+
+  repoListTmp.forEach((x) => {
+    let r = repoList.find((y) => x.owner === y.owner &&
+      x.repo === y.repo && x.path === y.path);
+    if (typeof r != "undefined" && typeof x.etag != "undefined")
+      r.etag = x.etag;
+  })
+}

@@ -93,6 +93,7 @@ function jqueryInit() {
   /*$.ajaxSetup({
     cache: false,
   });*/
+
   // prevent normal form submissions, we're using jQuery instead
   $("form").submit(function (event) {
     event.preventDefault(); //prevent default action 
@@ -110,6 +111,9 @@ function jqueryInit() {
   $(window).on("error", function (e) {
     $("#everything").load("html/500.html");
   });
+
+  //load heavy stuff from localStorage
+  loadLocalStorage();
 }
 
 function drawTenantOverviewList() {
@@ -231,7 +235,7 @@ function drawKPIsJQ(kpis, select) {
   return $select;
 }
 
-function drawSteps(steps,goallist="#goallist") {
+function drawSteps(steps, goallist = "#goallist") {
   let list = "";
   steps.steps.forEach(function (step) {
     let type = "";
@@ -325,7 +329,7 @@ function errorboxJQXHR(jqXHR, textStatus, errorThrown) {
   logError(errorMsg);
 }
 
-function logError(errorMsg){
+function logError(errorMsg) {
   console.log(errorMsg);
   if (typeof dtrum !== "undefined") dtrum.reportError(errorMsg);
 }
@@ -525,7 +529,7 @@ function drawServiceSelect(data, selector) {
   $(selector).html(html);
 }
 
-function getConnectInfo(full=false) {
+function getConnectInfo(full = false) {
   let p0 = $.Deferred();
   if (url == "" || token == "") {
     let p1 = $.get("html/connect.html");
@@ -541,9 +545,9 @@ function getConnectInfo(full=false) {
         token = inputs.token;
         githubuser = inputs.githubuser;
         githubpat = inputs.githubpat;
-        if(full){
+        if (full) {
           let p3 = createFullConnection();
-          $.when(p3).done(()=>p0.resolve());
+          $.when(p3).done(() => p0.resolve());
         }
         else p0.resolve();
       });
@@ -627,6 +631,8 @@ function compareWorkflowVsRepo() {
       deferreds = deferreds.concat(moreDeferreds);
       $.when.apply($, deferreds).done(function () {
         master.resolve();
+        updateDashboardButton();
+        updateLocalStorage();
       })
     });
   } else master.resolve();

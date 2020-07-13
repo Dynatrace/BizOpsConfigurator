@@ -32,13 +32,6 @@ function loadStaticHandlers() {
     staticCleanup();
   });
 
-  //$("#v5test").click(v5handler);
-
-  /*$("#githubtest").click(function() {
-    testRepo(0);      
-     staticCleanup();
-  });*/
-
   $("#faq").click(function () {
     $("#viewport").load("html/faq.html");
     staticCleanup();

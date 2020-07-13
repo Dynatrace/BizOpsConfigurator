@@ -7,7 +7,7 @@ function getRepoContents(repo) {
     if("etag" in repo) options.headers['If-None-Match'] = repo.etag;
     if (githubuser != "" && githubpat != "")
             options.headers.Authorization = "Basic " + btoa(githubuser + ":" + githubpat);
-            
+
     let p = gitHubAPI(`/repos/${repo.owner}/${repo.repo}/contents/${repo.path}`, options);
     $.when(p).done(function(data, textStatus, jqXHR){
         gitHubUpdateEtag(repo, jqXHR);
@@ -154,18 +154,5 @@ function getDBJSON(list) {
             dbs.push(JSON.parse(arguments[i][0]));;
         };
         return dbs;
-    });
-}
-
-function testRepo(i = 0) {
-    let p1 = getRepoContents(repoList[i]);
-
-    $.when(p1).done(function (data) {
-        let repos = parseRepoContents(data, repoList[i]);
-
-        let p2 = getDBJSON(repos);
-        $.when(p2).done(function (d2) {
-            console.log(d2);
-        });
     });
 }
