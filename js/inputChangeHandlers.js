@@ -804,7 +804,7 @@ function workflowPickerOwnerChangeHandler(e) {
         if (args[3] != "" && args[3] != null) $repo.val(args[3]);
       }
       if ($repo.val() == null) $repo.val($repo.find("option:first").val());
-      window.location.hash = `#deploy/owner/${$owner.val()}/${$repo.val()}`;
+      window.location.hash = `#deploy/owner/${$owner.val()}`;
       //do not break
     }
     case "repo": {
@@ -821,6 +821,7 @@ function workflowPickerOwnerChangeHandler(e) {
         });
       $workflow.html(workflowOptions);
       if ($workflow.val() == null) $workflow.val($workflow.find("option:first").val());
+      window.location.hash = `#deploy/owner/${$owner.val()}/${$repo.val()}`;
       //do not break
     }
     default:
