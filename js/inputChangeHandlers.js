@@ -773,7 +773,7 @@ function workflowPickerOwnerChangeHandler(e) {
       let owners = workflowList
         .map((x) => x.repo.owner).flat().filter(unique);
       let ownerOptions = "";
-      owners.sort((a,b)=>a.name.toLowerCase() > b.name.toLowerCase()? 1:-1).forEach(function(owner){
+      owners.sort((a,b)=>a.toLowerCase() > b.toLowerCase()? 1:-1).forEach(function(owner){
           ownerOptions += `<option>${owner}</option>`;
       });
       $("#owner").html(ownerOptions);
@@ -791,7 +791,7 @@ function workflowPickerOwnerChangeHandler(e) {
 
       let filteredWFs = workflowList.filter(wf => wf.repo.owner == owner);
       let repos = filteredWFs.map((wf) => wf.repo.repo).filter(unique);
-      repos.sort((a,b)=>a.name.toLowerCase() > b.name.toLowerCase()? 1:-1).forEach(function(repo){
+      repos.sort((a,b)=>a.toLowerCase() > b.toLowerCase()? 1:-1).forEach(function(repo){
           repoOptions += `<option>${repo}</option>`;
       });
       $("#repo").html(repoOptions);
