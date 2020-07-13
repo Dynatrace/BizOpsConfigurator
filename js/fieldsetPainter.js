@@ -566,6 +566,14 @@ function fieldsetPainter() {
             workflowPickerChangeHandler();
             break;
         }
+        case "persona_usecase_selection_owner": {
+            workflowPickerOwnerChangeHandler();
+            break;
+        }
+        case "persona_usecase_selection_all": {
+            workflowPickerAllChangeHandler();
+            break;
+        }
         case "persona_user_inputs": {
             let p = renderWorkflow(selection.workflow.file.html);
             $.when(p).done(function (html) {
