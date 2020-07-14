@@ -235,7 +235,7 @@ function drawKPIsJQ(kpis, select) {
   return $select;
 }
 
-function drawSteps(steps, goallist = "#goallist") {
+function drawSteps(steps, goallist = "#goallist", xapp=false) {
   let list = "";
   steps.steps.forEach(function (step) {
     let type = "";
@@ -252,9 +252,7 @@ function drawSteps(steps, goallist = "#goallist") {
       "' data-colname='" + steps.type + "' data-appName='" + step.appName + "' " +
       "type='hidden'><span class='steptype'>" +
       type + "</span>: " + step.step +
-      (selection.config && "xapp" in selection.config && selection.config.xapp ?
-        "<span class='tooltiptext'>" + step.appName + "</span>"
-        : "") +
+      (xapp ? "<span class='tooltiptext'>" + step.appName + "</span>" : "") +
       "</li>";
   });
   $(goallist).append(list);

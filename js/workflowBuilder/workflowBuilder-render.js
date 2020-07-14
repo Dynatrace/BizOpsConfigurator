@@ -65,13 +65,22 @@ function renderWorkflowPage(el) {
         let appTransform = $target.siblings(".appTransform").val();
         let app = {
             name: '${' + appTransform + '.name}',
-            id: '${' + appTransform + '.id}'
+            id: '${' + appTransform + '.id}',
+            xapp: false
         };
         if (typeof selection.swaps !== "undefined") {
-            let swap = selection.swaps.find(x => x.from == app.name);
-            app.name = swap ? swap.to : app.name;
-            swap = selection.swaps.find(x => x.from == app.id);
-            app.id = swap ? swap.to : app.id;
+            if (selection.swaps.find(x => x.from === '${' + appTransform + '.count}')) app.xapp = true;
+            if (app.xapp) {
+                app.names = selection.swaps
+                    .filter(x => x.from.startsWith('${' + appTransform + '-') &&
+                        x.from.endsWith('.name}'))
+                    .map(x => x.to);
+            } else {
+                let swap = selection.swaps.find(x => x.from == app.name);
+                app.name = swap ? swap.to : app.name;
+                swap = selection.swaps.find(x => x.from == app.id);
+                app.id = swap ? swap.to : app.id;
+            }
         }
         let p1 = JourneyPickerFactory($target, app);
         promises.push(p1);
@@ -137,9 +146,9 @@ function renderWorkflowPage(el) {
     });
 
     //render tile replicators
-    $el.find(".tileReplication").each(function(){
+    $el.find(".tileReplication").each(function () {
         let $input = $(this);
-        $input.find(".replicationTileName").attr("type","hidden");
+        $input.find(".replicationTileName").attr("type", "hidden");
     });
 
     //make sure any XHRs are finished before we return the html

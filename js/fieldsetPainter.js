@@ -317,9 +317,10 @@ function fieldsetPainter() {
             break;
         }
         case "deployFunnel-funnel": {
-            let mobileHack = (selection.config.appID.split('-')[0] == "APPLICATION" ? false : true);
-            let p1 = getGoals(selection.config.xapp ? selection.config.xapps : selection.config.appName);
-            let p2 = getKeyActions(selection.config.xapp ? selection.config.xapps : selection.config.appName, mobileHack);
+            let xapp = selection.config && "xapp" in selection.config && selection.config.xapp || false;
+            let mobileHack = (!xapp && selection.config.appID.split('-')[0] == "APPLICATION" ? false : true);
+            let p1 = getGoals(xapp ? selection.config.xapps : selection.config.appName);
+            let p2 = getKeyActions(xapp ? selection.config.xapps : selection.config.appName, mobileHack);
             $("#bc-deployFunnel-name").text(selection.config.funnelName);
 
             //paint info we already have
@@ -357,8 +358,8 @@ function fieldsetPainter() {
                         + ' class="newTab" target="_blank">here <img src="images/link.svg"></a>';
                     popup([], popheader, desc);
                 }
-                drawSteps(parseSteps(data2[0]));
-                drawSteps(parseSteps(data1[0]));
+                drawSteps(parseSteps(data2[0]),xapp);
+                drawSteps(parseSteps(data1[0]),xapp);
                 $("#goallist li").draggable();
                 jsonviewer([data1[0], data2[0]]);
             });

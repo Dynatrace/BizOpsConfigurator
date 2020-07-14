@@ -78,7 +78,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 
 		FunnelStep = funnelSteps.join(", ");
 		$funnelClause.val(FunnelStep);
-		$funnelClause.attr("data-journeyData",JSON.stringify(journeyData));
+		$funnelClause.attr("data-journeyData", JSON.stringify(journeyData));
 	}
 
 	function funnelDrop(event, ui) {
@@ -89,7 +89,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		let colname = ui.draggable[0].childNodes[0].dataset.colname;
 		let appname = ui.draggable[0].childNodes[0].dataset.appname;
 		let clause = colname + '="' + id + '"';
-		if (selection.config && "xapp" in selection.config && selection.config.xapp)
+		if (app.xapp)
 			clause = '(useraction.application="' + appname + '" and ' + clause + ')';
 		//console.log("mouse drop at " + mx + "," + my);
 		$funnel.find("g").each(function (i) {
@@ -266,8 +266,9 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 	}
 
 	function populateGoalList() {
-		let p1 = getGoals(app.name);
-		let p2 = getKeyActions(app.name);
+		let mobileHack = (!app.xapp && app.id.split('-')[0] == "APPLICATION" ? false : true);
+		let p1 = getGoals(app.xapp ? app.names : app.name);
+		let p2 = getKeyActions(app.xapp ? app.names : app.name, mobileHack);
 		$.when(p1, p2).done(function (data1, data2) {
 			if (data1[0].values.length == 0 && data2[0].values.length == 0) {
 				let popheader = "No Key User Actions or Conversion Goals";
@@ -277,8 +278,8 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 				popup([], popheader, desc);
 			}
 			$goalList.find("li").remove();
-			drawSteps(parseSteps(data2[0]), $goalList);
-			drawSteps(parseSteps(data1[0]), $goalList);
+			drawSteps(parseSteps(data2[0]), $goalList, app.xapp);
+			drawSteps(parseSteps(data1[0]), $goalList, app.xapp);
 			$goalList.find("li").draggable();
 		});
 	}
