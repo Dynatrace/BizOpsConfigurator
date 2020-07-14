@@ -771,8 +771,9 @@ function workflowPickerChangeHandler(e) {
       }
       //do not break
     }
+    case "workflow":
     default:
-      let i = $("#workflow :selected").attr('data-workflowIndex');
+      let i = $workflow.find("option:selected").attr('data-workflowIndex');
       let workflow = workflowList[i];
       let readme = findWorkflowReadme(workflow);
       if (typeof readme != "undefined" && typeof readme.html != "undefined")
@@ -787,6 +788,7 @@ function workflowPickerChangeHandler(e) {
         $blogLink.hide();
         $blogLink.html("");
       }
+      window.location.hash = `#deploy/persona/${$persona.val()}/${$usecase.val()}/${$workflow.val()}`;
   }
 
 }
@@ -893,6 +895,9 @@ function workflowPickerOwnerChangeHandler(e) {
 function workflowPickerAllChangeHandler(e) {
   let el = $(this);
   let id = el.attr('id');
+  let $workflow = $("#workflow");
+  let $readmeViewer = $("#readmeViewer");
+  let $blogLink = $("#blogLink");
 
   switch (id) {
     case undefined: {
@@ -905,28 +910,32 @@ function workflowPickerAllChangeHandler(e) {
           let i = workflowList.findIndex((x) => x == wf);
           workflowOptions += `<option data-workflowIndex="${i}">${name}</option>`;
         });
-      $("#workflow").html(workflowOptions);
+      $workflow.html(workflowOptions);
+      if (window.location.hash.includes("#deploy/all")) {
+        let args = window.location.hash.split('/');
+        if (args[2] != "" && args[2] != null) 
+          $workflow.val(args[2]);
+      }
       //do not break
     }
+    case "workflow":
     default:
-      let i = $("#workflow :selected").attr('data-workflowIndex');
+      let i = $workflow.find("option:selected").attr('data-workflowIndex');
       let workflow = workflowList[i];
       let readme = findWorkflowReadme(workflow);
       if (typeof readme != "undefined" && typeof readme.html != "undefined")
-        $("#readmeViewer").html(readme.html);
+        $readmeViewer.html(readme.html);
       else
-        $("#readmeViewer").html("");
+        $readmeViewer.html("");
       let blogURL = workflow.file.config.blogURL;
       if (blogURL != "") {
-        $("#blogLink").html(`<a href="${blogURL}" class="newTab" target="_blank">Blog post <img src='images/link.svg'></a>`);
-        $("#blogLink").show();
+        $blogLink.html(`<a href="${blogURL}" class="newTab" target="_blank">Blog post <img src='images/link.svg'></a>`);
+        $blogLink.show();
       } else {
-        $("#blogLink").hide();
-        $("#blogLink").html("");
+        $blogLink.hide();
+        $blogLink.html("");
       }
 
-      if (!window.location.hash.includes("#deploy/all")) {
-        window.location.hash = `#deploy/all`;
-      }
+        window.location.hash = `#deploy/all/${$workflow.val()}`;
   }
 }
