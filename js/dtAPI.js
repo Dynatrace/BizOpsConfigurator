@@ -20,8 +20,9 @@ function createFullConnection() {
               .then(downloadDBsFromList)
               .then(function (){ return main.resolve(); });
             return true;
-          } else
-            return false;
+          } else {
+            return main.resolve();
+          }
         });
     }
   });
