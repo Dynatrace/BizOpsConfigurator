@@ -713,7 +713,7 @@ function workflowPickerChangeHandler(e) {
       });
       $persona.html(personaOptions);
       if (window.location.hash.includes("#deploy/persona")) {
-        let args = window.location.hash.split('/');
+        let args = hashArgs();
         if (args[2] != "" && args[2] != null) 
           $persona.val(args[2]);
       }
@@ -736,7 +736,7 @@ function workflowPickerChangeHandler(e) {
       });
       $usecase.html(usecaseOptions);
       if (window.location.hash.includes("#deploy/persona")) {
-        let args = window.location.hash.split('/');
+        let args = hashArgs();
         if (args[3] != "" && args[3] != null) 
           $usecase.val(args[3]);
       }
@@ -761,7 +761,7 @@ function workflowPickerChangeHandler(e) {
         });
       $workflow.html(workflowOptions);
       if (window.location.hash.includes("#deploy/persona")) {
-        let args = window.location.hash.split('/');
+        let args = hashArgs();
         if (args[4] != "" && args[4] != null) 
           $workflow.val(args[4]);
       }
@@ -816,7 +816,7 @@ function workflowPickerOwnerChangeHandler(e) {
       });
       $owner.html(ownerOptions);
       if (window.location.hash.includes("#deploy/owner")) {
-        let args = window.location.hash.split('/');
+        let args = hashArgs();
         if (args[2] != "" && args[2] != null)
           $owner.val(args[2]);
       }
@@ -837,7 +837,7 @@ function workflowPickerOwnerChangeHandler(e) {
       });
       $repo.html(repoOptions);
       if (window.location.hash.includes("#deploy/owner")) {
-        let args = window.location.hash.split('/');
+        let args = hashArgs();
         if (args[3] != "" && args[3] != null) 
           $repo.val(args[3]);
       }
@@ -861,7 +861,7 @@ function workflowPickerOwnerChangeHandler(e) {
         });
       $workflow.html(workflowOptions);
       if (window.location.hash.includes("#deploy/owner")) {
-        let args = window.location.hash.split('/');
+        let args = hashArgs();
         if (args[4] != "" && args[4] != null) 
           $workflow.val(args[4]);
       }
@@ -912,7 +912,7 @@ function workflowPickerAllChangeHandler(e) {
         });
       $workflow.html(workflowOptions);
       if (window.location.hash.includes("#deploy/all")) {
-        let args = window.location.hash.split('/');
+        let args = hashArgs();
         if (args[2] != "" && args[2] != null) 
           $workflow.val(args[2]);
       }

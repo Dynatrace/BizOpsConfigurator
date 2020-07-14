@@ -211,13 +211,8 @@ function linkHandler(e) {
 
 
 function hashHandler(hash) {
-  let args = [];
-  if (hash.includes('/')) {
-    let tmp = hash.split('/');
-    hash = tmp.shift();
-    args = tmp;
-  }
-  switch (hash) {
+  let hashargs = hashArgs(hash);
+  switch (hashargs[0]) {
     case "#MassEdit":
       $("#viewport").load("html/miscTools/MassEdit.html", massEditInit);
       break;
@@ -261,7 +256,7 @@ function hashHandler(hash) {
       break;
     }
     case "#deploy": {
-      loadDeployScreen(args);
+      loadDeployScreen(hashargs);
       break;
     }
 
@@ -281,7 +276,7 @@ function loadDeployScreen(args) {
   let p0 = getConnectInfo(true);
 
   return $.when(p0).done(function () {
-    switch (args[0]) {
+    switch (args[1]) {
       case "owner":
         $("#viewport").load("html/personaFlow/persona_usecase_owner.html",fieldsetPainter);
         break;
@@ -294,4 +289,9 @@ function loadDeployScreen(args) {
         break;
     }
   });
+}
+
+function hashArgs(hash){
+  if(typeof hash == "undefined") hash = window.location.hash;
+  return hash.split('/').map(x => decodeURIComponent(x));
 }
