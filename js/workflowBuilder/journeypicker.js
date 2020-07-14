@@ -266,7 +266,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 	}
 
 	function populateGoalList() {
-		let mobileHack = (!app.xapp && app.id.split('-')[0] == "APPLICATION" ? false : true);
+		let mobileHack = (!app.xapp && app.id.split('-')[0] != "APPLICATION" ? true : false);
 		let p1 = getGoals(app.xapp ? app.names : app.name);
 		let p2 = getKeyActions(app.xapp ? app.names : app.name, mobileHack);
 		$.when(p1, p2).done(function (data1, data2) {
