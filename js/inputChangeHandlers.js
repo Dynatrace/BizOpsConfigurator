@@ -867,7 +867,7 @@ function workflowPickerOwnerChangeHandler(e) {
       }
       if ($workflow.val() == null) {
         $workflow.val($workflow.find("option:first").val());
-        window.location.hash = `#deploy/owner/${$owner.val()}/${$repo.val()}/${workflow.val()}`;
+        window.location.hash = `#deploy/owner/${$owner.val()}/${$repo.val()}/${$workflow.val()}`;
       }
       //do not break
     }
@@ -888,7 +888,7 @@ function workflowPickerOwnerChangeHandler(e) {
         $blogLink.hide();
         $blogLink.html("");
       }
-      window.location.hash = `#deploy/owner/${$owner.val()}/${$repo.val()}/${workflow.val()}`;
+      window.location.hash = `#deploy/owner/${$owner.val()}/${$repo.val()}/${$workflow.val()}`;
   }
 }
 
