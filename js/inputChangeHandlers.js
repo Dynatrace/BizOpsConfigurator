@@ -714,10 +714,13 @@ function workflowPickerChangeHandler(e) {
       $persona.html(personaOptions);
       if (window.location.hash.includes("#deploy/persona")) {
         let args = window.location.hash.split('/');
-        if (args[2] != "" && args[2] != null) $persona.val(args[2]);
+        if (args[2] != "" && args[2] != null) 
+          $persona.val(args[2]);
       }
-      if ($persona.val() == null) $persona.val($persona.find("option:first").val());
-      window.location.hash = `#deploy/persona/${$persona.val()}`;
+      if ($persona.val() == null) {
+        $persona.val($persona.find("option:first").val());
+        window.location.hash = `#deploy/persona/${$persona.val()}`;
+      }
       //do not break
     }
     case "persona": {
@@ -734,10 +737,13 @@ function workflowPickerChangeHandler(e) {
       $usecase.html(usecaseOptions);
       if (window.location.hash.includes("#deploy/persona")) {
         let args = window.location.hash.split('/');
-        if (args[3] != "" && args[3] != null) $usecase.val(args[3]);
+        if (args[3] != "" && args[3] != null) 
+          $usecase.val(args[3]);
       }
-      if ($usecase.val() == null) $usecase.val($usecase.find("option:first").val());
-      window.location.hash = `#deploy/persona/${$persona.val()}`;
+      if ($usecase.val() == null) {
+        $usecase.val($usecase.find("option:first").val());
+        window.location.hash = `#deploy/persona/${$persona.val()}/${$usecase.val()}`;
+      }
       //do not break
     }
     case "usecase": {
@@ -754,8 +760,15 @@ function workflowPickerChangeHandler(e) {
           workflowOptions += `<option data-workflowIndex="${i}">${name}</option>`;
         });
       $workflow.html(workflowOptions);
-      if ($workflow.val() == null) $workflow.val($workflow.find("option:first").val());
-      window.location.hash = `#deploy/persona/${$persona.val()}/${$usecase.val()}`;
+      if (window.location.hash.includes("#deploy/persona")) {
+        let args = window.location.hash.split('/');
+        if (args[4] != "" && args[4] != null) 
+          $workflow.val(args[4]);
+      }
+      if ($workflow.val() == null) {
+        $workflow.val($workflow.find("option:first").val());
+        window.location.hash = `#deploy/persona/${$persona.val()}/${$usecase.val()}/${$workflow.val()}`;
+      }
       //do not break
     }
     default:
