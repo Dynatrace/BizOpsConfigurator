@@ -380,7 +380,7 @@ function parseSteps(result) {
 function loadDBList(p = 1) {
   let i = p;//(v5test?1:0);
   let deferreds = [];
-  let master = $.Deferred();
+  let main = $.Deferred();
   if (p.promise) deferreds.push(p);
   $.when(p).then(function () {  // we should have been passed a deferred
     let old = { dbList: dbList, readmeList: readmeList, workflowList: workflowList };
@@ -401,12 +401,12 @@ function loadDBList(p = 1) {
     }
 
     $.when.apply($, deferreds).done(function () {
-      master.resolve();
+      main.resolve();
       updateDashboardButton();
       //updateLocalStorage();
     });
   });
-  return master
+  return main
 }
 
 function processVersion(p) {

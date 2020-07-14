@@ -531,10 +531,10 @@ function getConnectInfo(full = false) {
   let p0 = $.Deferred();
   if (url == "" || token == "") {
     let p1 = $.get("html/connect.html");
-    $.when(p1).done(function (content) {
+    return $.when(p1).done(function (content) {
       let p2 = popupHTMLDeferred("API Connection", content);
 
-      $.when(p2).done(function (inputs) {
+      return $.when(p2).done(function (inputs) {
         url = inputs.url.toLowerCase();
         if (url.length > 1 && url.charAt(url.length - 1) == "/")
           url = url.substring(0, url.length - 1);
@@ -545,9 +545,10 @@ function getConnectInfo(full = false) {
         githubpat = inputs.githubpat;
         if (full) {
           let p3 = createFullConnection();
-          $.when(p3).done(() => {p0.resolve();});
+          $.when(p3).done(function () { return p0.resolve();});
         }
         else p0.resolve();
+        return p0;
       });
     });
   } else {
@@ -607,7 +608,7 @@ function updateDashboardButton() {
 
 function compareWorkflowVsRepo() {
   let config = selection.config || {};
-  let master = $.Deferred();
+  let main = $.Deferred();
   let deferreds = [];
   let repo = { owner: config.githubUser, repo: config.githubRepo, path: config.githubPath };
   let overview = dbList.find(x => x.name === config.overviewDB &&
@@ -628,15 +629,15 @@ function compareWorkflowVsRepo() {
       let moreDeferreds = downloadDBsFromList();
       deferreds = deferreds.concat(moreDeferreds);
       $.when.apply($, deferreds).done(function () {
-        master.resolve();
+        main.resolve();
         updateDashboardButton();
         //updateLocalStorage();
       })
     });
-  } else master.resolve();
+  } else main.resolve();
 
   //build html
-  $.when(master).done(function () {
+  $.when(main).done(function () {
     if (typeof overview == "undefined")
       overview = dbList.find(x => x.name === config.overviewDB &&
         x.repo.owner === repo.owner && x.repo.repo === repo.repo && x.repo.path === repo.path);

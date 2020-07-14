@@ -280,7 +280,7 @@ function helpdocToggler(jqobj) {
 function loadDeployScreen(args) {
   let p0 = getConnectInfo(true);
 
-  $.when(p0).done(function () {
+  return $.when(p0).done(function () {
     switch (args[0]) {
       case "owner":
         $("#viewport").load("html/personaFlow/persona_usecase_owner.html",fieldsetPainter);

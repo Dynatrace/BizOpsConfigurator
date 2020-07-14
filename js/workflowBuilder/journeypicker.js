@@ -4,7 +4,7 @@ http://www.apache.org/licenses/LICENSE-2.0
 Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.*/
 
 function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factory, usage: var jp = JourneyPickerFactory("#viewport",{name:"www.angular.easytravel.com",id:"APPLICATION-726A108B51CB78E2"});
-	let masterP = $.Deferred();
+	let mainP = $.Deferred();
 
 	//public data
 	let $html;
@@ -317,7 +317,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		});
 		attachHandlers();
 
-		masterP.resolve({ html: $html, updateData, getSelectors, getData, pencilToggle, populateGoalList });
+		mainP.resolve({ html: $html, updateData, getSelectors, getData, pencilToggle, populateGoalList });
 	});
-	return masterP;
+	return mainP;
 }

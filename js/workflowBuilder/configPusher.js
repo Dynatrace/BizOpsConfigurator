@@ -4,7 +4,7 @@ http://www.apache.org/licenses/LICENSE-2.0
 Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.*/
 
 function ConfigPusherFactory(target, transform, configPushType, configPushFile, customServiceTech = null, customMetricType = null) { //ConfigPusher factory, usage: var cp = ConfigPusherFactory("#viewport","AutoTag","config/MyAutoTag.json");
-    let masterP = $.Deferred();
+    let mainP = $.Deferred();
     //public data
 
     //private data
@@ -286,8 +286,8 @@ function ConfigPusherFactory(target, transform, configPushType, configPushFile, 
         $.when(p1).done(function () {
             displayUserChoice();
 
-            masterP.resolve({ html: $html, refreshConfigPusher, addCPToSwaps });
+            mainP.resolve({ html: $html, refreshConfigPusher, addCPToSwaps });
         })
     });
-    return masterP;
+    return mainP;
 }
