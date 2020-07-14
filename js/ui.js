@@ -531,10 +531,10 @@ function getConnectInfo(full = false) {
   let p0 = $.Deferred();
   if (url == "" || token == "") {
     let p1 = $.get("html/connect.html");
-    return $.when(p1).done(function (content) {
+    $.when(p1).done(function (content) {
       let p2 = popupHTMLDeferred("API Connection", content);
 
-      return $.when(p2).done(function (inputs) {
+      $.when(p2).done(function (inputs) {
         url = inputs.url.toLowerCase();
         if (url.length > 1 && url.charAt(url.length - 1) == "/")
           url = url.substring(0, url.length - 1);
@@ -548,10 +548,12 @@ function getConnectInfo(full = false) {
           return $.when(p3).done(function () { return p0.resolve(); });
         } else return p0.resolve();
       });
+      return p0;
     });
   } else {
-    return p0.resolve();
+    p0.resolve();
   }
+  return p0;
 }
 
 function getTestApp() {
