@@ -235,7 +235,7 @@ function drawKPIsJQ(kpis, select) {
   return $select;
 }
 
-function drawSteps(steps, goallist = "#goallist", xapp=false) {
+function drawSteps(steps, goallist = "#goallist", xapp = false) {
   let list = "";
   steps.steps.forEach(function (step) {
     let type = "";
@@ -545,16 +545,13 @@ function getConnectInfo(full = false) {
         githubpat = inputs.githubpat;
         if (full) {
           let p3 = createFullConnection();
-          $.when(p3).done(function () { return p0.resolve();});
-        }
-        else p0.resolve();
-        return p0;
+          return $.when(p3).done(function () { return p0.resolve(); });
+        } else return p0.resolve();
       });
     });
   } else {
-    p0.resolve();
+    return p0.resolve();
   }
-  return p0;
 }
 
 function getTestApp() {
