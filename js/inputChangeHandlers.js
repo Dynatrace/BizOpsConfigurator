@@ -802,10 +802,13 @@ function workflowPickerOwnerChangeHandler(e) {
       $owner.html(ownerOptions);
       if (window.location.hash.includes("#deploy/owner")) {
         let args = window.location.hash.split('/');
-        if (args[2] != "" && args[2] != null) $owner.val(args[2]);
+        if (args[2] != "" && args[2] != null)
+          $owner.val(args[2]);
       }
-      if ($owner.val() == null) $owner.val($owner.find("option:first").val());
-      window.location.hash = `#deploy/owner/${$owner.val()}`;
+      if ($owner.val() == null) {
+        $owner.val($owner.find("option:first").val());
+        window.location.hash = `#deploy/owner/${$owner.val()}`;
+      }
       //do not break
     }
     case "owner": {
@@ -820,10 +823,13 @@ function workflowPickerOwnerChangeHandler(e) {
       $repo.html(repoOptions);
       if (window.location.hash.includes("#deploy/owner")) {
         let args = window.location.hash.split('/');
-        if (args[3] != "" && args[3] != null) $repo.val(args[3]);
+        if (args[3] != "" && args[3] != null) 
+          $repo.val(args[3]);
       }
-      if ($repo.val() == null) $repo.val($repo.find("option:first").val());
-      window.location.hash = `#deploy/owner/${$owner.val()}`;
+      if ($repo.val() == null) {
+        $repo.val($repo.find("option:first").val());
+        window.location.hash = `#deploy/owner/${$owner.val()}/${$repo.val()}`;
+      }
       //do not break
     }
     case "repo": {
@@ -839,10 +845,18 @@ function workflowPickerOwnerChangeHandler(e) {
           workflowOptions += `<option data-workflowIndex="${i}">${name}</option>`;
         });
       $workflow.html(workflowOptions);
-      if ($workflow.val() == null) $workflow.val($workflow.find("option:first").val());
-      window.location.hash = `#deploy/owner/${$owner.val()}/${$repo.val()}`;
+      if (window.location.hash.includes("#deploy/owner")) {
+        let args = window.location.hash.split('/');
+        if (args[4] != "" && args[4] != null) 
+          $workflow.val(args[4]);
+      }
+      if ($workflow.val() == null) {
+        $workflow.val($workflow.find("option:first").val());
+        window.location.hash = `#deploy/owner/${$owner.val()}/${$repo.val()}/${workflow.val()}`;
+      }
       //do not break
     }
+    case "workflow":
     default:
       let i = $workflow.find("option:selected").attr('data-workflowIndex');
       let workflow = workflowList[i];
@@ -859,6 +873,7 @@ function workflowPickerOwnerChangeHandler(e) {
         $blogLink.hide();
         $blogLink.html("");
       }
+      window.location.hash = `#deploy/owner/${$owner.val()}/${$repo.val()}/${workflow.val()}`;
   }
 }
 
