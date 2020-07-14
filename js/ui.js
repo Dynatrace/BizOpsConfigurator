@@ -545,7 +545,7 @@ function getConnectInfo(full = false) {
         githubpat = inputs.githubpat;
         if (full) {
           let p3 = createFullConnection();
-          $.when(p3).done(() => p0.resolve());
+          $.when(p3).done(() => {p0.resolve();});
         }
         else p0.resolve();
       });
