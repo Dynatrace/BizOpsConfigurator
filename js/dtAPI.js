@@ -18,7 +18,7 @@ function createFullConnection() {
               .then(downloadWorkflowsFromList)
               .then(downloadReadmesFromList)
               .then(downloadDBsFromList)
-              .then(()=>master.resolve());
+              .then(()=>{master.resolve();});
           }
         });
     }
