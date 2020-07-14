@@ -18,8 +18,10 @@ function createFullConnection() {
               .then(downloadWorkflowsFromList)
               .then(downloadReadmesFromList)
               .then(downloadDBsFromList)
-              .then(()=>{master.resolve();});
-          }
+              .then(() => { master.resolve(); });
+            return true;
+          } else
+            return false;
         });
     }
   });
@@ -209,8 +211,8 @@ function dtAPIquery(query, options = {}, retries = 3) {
   let method = (options.hasOwnProperty('method') ? options.method : "GET");
   let data = (options.hasOwnProperty('data') ? options.data : {});
   let error = (options.hasOwnProperty('error') ? options.error : errorboxJQXHR);
-  if(USQLlimit!=5000 && query.endsWith('LIMIT 5000')) query = query.replace('LIMIT 5000',`LIMIT ${USQLlimit}`); //override query, if user selects different USQLlimit
-  if(USQLlimit!=5000 && query.includes('LIMIT%205000')) query = query.replace('LIMIT%205000',`LIMIT%20${USQLlimit}`);
+  if (USQLlimit != 5000 && query.endsWith('LIMIT 5000')) query = query.replace('LIMIT 5000', `LIMIT ${USQLlimit}`); //override query, if user selects different USQLlimit
+  if (USQLlimit != 5000 && query.includes('LIMIT%205000')) query = query.replace('LIMIT%205000', `LIMIT%20${USQLlimit}`);
 
   //Get App list from API as JSON
   return $.ajax({
@@ -558,7 +560,7 @@ function uploadWorkflow(workflow) {
   let overview = {};
   let actionName = `NewFlowDeploy-${selection.persona.name}-${selection.usecase.name}-${selection.config.workflowName}`;
   let dtaction;
-  if(dtrum) dtaction = dtrum.enterAction(actionName,"deploy");
+  if (dtrum) dtaction = dtrum.enterAction(actionName, "deploy");
 
   //get dashboard JSON
   try {
@@ -573,9 +575,9 @@ function uploadWorkflow(workflow) {
 
   //transform
   let id = "";
-  if(typeof selection.workflow.originalID !== "undefined")
+  if (typeof selection.workflow.originalID !== "undefined")
     id = selection.workflow.originalID;
-  else 
+  else
     id = nextWorkflowOverview(selection.persona.prefix, selection.usecase.prefix);
   config.id = id;
   config.oldId = overview["id"];
@@ -590,12 +592,12 @@ function uploadWorkflow(workflow) {
   //sub-dashboards & swaps
   let subs = getStaticSubDBs(overview, [config.oldId]);
   let swaps = selection.swaps;
-  swaps.push({from:config.oldId, to:config.id});
-  swaps.push({from:'${url}', to:url});
-  if(selection.TileReplicators && selection.TileReplicators.length){
-    applyTileReplicators(overview,selection.TileReplicators);
-    subs.forEach(function(s){
-      applyTileReplicators(s.file,selection.TileReplicators);
+  swaps.push({ from: config.oldId, to: config.id });
+  swaps.push({ from: '${url}', to: url });
+  if (selection.TileReplicators && selection.TileReplicators.length) {
+    applyTileReplicators(overview, selection.TileReplicators);
+    subs.forEach(function (s) {
+      applyTileReplicators(s.file, selection.TileReplicators);
     });
   }
 
@@ -606,18 +608,18 @@ function uploadWorkflow(workflow) {
   //upload
   let dbS = JSON.stringify(dbObj);
   let workflowToSave = stringifyWithValues($workflow);
-  saveConfigDashboard(workflowConfigID(id), {html:workflowToSave});
+  saveConfigDashboard(workflowConfigID(id), { html: workflowToSave });
   uploadSubs(subs);
   selection = {};
-  if(dtrum)
-  return dtAPIquery(query, { method: "PUT", data: dbS })
-  .done(()=>{if(dtrum)dtrum.leaveAction(dtaction);});
+  if (dtrum)
+    return dtAPIquery(query, { method: "PUT", data: dbS })
+      .done(() => { if (dtrum) dtrum.leaveAction(dtaction); });
 }
 
-function deleteDashboards(id,re) {
+function deleteDashboards(id, re) {
   let p_delete = deleteDashboard(id); //wait for main db to delete, but not subdashboards
   DBAdashboards.forEach(function (db) {
-    if (re.test(db.id) && db.id!=id) {
+    if (re.test(db.id) && db.id != id) {
       deleteDashboard(db.id);
     }
   });
