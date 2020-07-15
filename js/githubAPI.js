@@ -5,8 +5,15 @@ Unless required by applicable law or agreed to in writing, software distributed 
 function getRepoContents(repo) {
     let p1 = $.Deferred();
     let options = { headers: {} }
-    if ("etag" in repo && repo.contents && repo.contents.length)
-        options.headers['If-None-Match'] = repo.etag;
+    if ("etag" in repo && repo.contents && repo.contents.length){
+        if("repo" in repo.contents[0]){
+            console.log("Cleaning circular reference...");
+            delete repo.etag;
+            delete repo.contents;
+        } else {
+            options.headers['If-None-Match'] = repo.etag;
+        }
+    }
     if (githubuser != "" && githubpat != "")
         options.headers.Authorization = "Basic " + btoa(githubuser + ":" + githubpat);
 
@@ -101,7 +108,7 @@ function gitHubUpdateLimits(data, textStatus, jqXHR) {
 function gitHubUpdateContents(repo, data, textStatus, jqXHR) {
     let etag = jqXHR.getResponseHeader("etag");
     repo.etag = etag;
-    repo.contents = data;
+    repo.contents = JSON.parse(JSON.stringify(data));
 }
 
 function getREADME(repo) { //not used anymore
