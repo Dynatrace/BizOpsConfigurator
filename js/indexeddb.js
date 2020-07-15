@@ -38,7 +38,8 @@ function upgradeDB(e){
 
 
 /////////// Populate DB ////////////
-function dbPopulateRepoList(list=repoList){
+function dbPopulateRepoList(){
+    let list = repoList;
     let p = $.Deferred();
     let db = Idxdb.db;
     let tx = db.transaction(["repoList"],"readwrite");
@@ -53,7 +54,8 @@ function dbPopulateRepoList(list=repoList){
     return p;
 }
 
-function dbPopulateDBList(list=dbList){
+function dbPopulateDBList(){
+    let list = dbList;
     let p = $.Deferred();
     let db = Idxdb.db;
     let tx = db.transaction(["dbList"],"readwrite");
@@ -68,7 +70,8 @@ function dbPopulateDBList(list=dbList){
     return p
 }
 
-function dbPopulateWorkflowList(list=workflowList){
+function dbPopulateWorkflowList(){
+    let list = workflowList;
     let p = $.Deferred();
     let db = Idxdb.db;
     let tx = db.transaction(["workflowList"],"readwrite");
@@ -83,7 +86,8 @@ function dbPopulateWorkflowList(list=workflowList){
     return p
 }
 
-function dbPopulateReadmeList(list=readmeList){
+function dbPopulateReadmeList(){
+    let list = readmeList;
     let p = $.Deferred();
     let db = Idxdb.db;
     let tx = db.transaction(["readmeList"],"readwrite");
@@ -101,7 +105,8 @@ function dbPopulateReadmeList(list=readmeList){
 
 
 /////////// Load from DB ////////////
-function dbLoadRepoList(list=repoList) {
+function dbLoadRepoList() {
+    let list = repoList;
     let p = $.Deferred();
     let db = Idxdb.db;
     let tx = db.transaction(["repoList"],"readonly");
@@ -124,7 +129,8 @@ function dbLoadRepoList(list=repoList) {
     return p
 }
 
-function dbLoadDBList(list=dbList) {
+function dbLoadDBList() {
+    let list = dbList;
     let p = $.Deferred();
     let db = Idxdb.db;
     let tx = db.transaction(["dbList"],"readonly");
@@ -145,7 +151,8 @@ function dbLoadDBList(list=dbList) {
     return p
 }
 
-function dbLoadWorkflowList(list=workflowList) {
+function dbLoadWorkflowList() {
+    let list = workflowList;
     let p = $.Deferred();
     let db = Idxdb.db;
     let tx = db.transaction(["workflowList"],"readonly");
@@ -166,7 +173,8 @@ function dbLoadWorkflowList(list=workflowList) {
     return p
 }
 
-function dbLoadReadmeList(list=readmeList) {
+function dbLoadReadmeList() {
+    let list = readmeList;
     let p = $.Deferred();
     let db = Idxdb.db;
     let tx = db.transaction(["readmeList"],"readonly");
