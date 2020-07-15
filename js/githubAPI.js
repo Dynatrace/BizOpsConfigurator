@@ -3,16 +3,27 @@ Licensed under the Apache License, Version 2.0 (the "License"); you may not use 
 http://www.apache.org/licenses/LICENSE-2.0
 Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.*/
 function getRepoContents(repo) {
-    let options = {headers:{}}
-    if("etag" in repo) options.headers['If-None-Match'] = repo.etag;
+    let p1 = $.Deferred();
+    let options = { headers: {} }
+    if ("etag" in repo && repo.contents && repo.contents.length)
+        options.headers['If-None-Match'] = repo.etag;
     if (githubuser != "" && githubpat != "")
-            options.headers.Authorization = "Basic " + btoa(githubuser + ":" + githubpat);
+        options.headers.Authorization = "Basic " + btoa(githubuser + ":" + githubpat);
 
-    let p = gitHubAPI(`/repos/${repo.owner}/${repo.repo}/contents/${repo.path}`, options);
-    $.when(p).done(function(data, textStatus, jqXHR){
-        gitHubUpdateEtag(repo, jqXHR);
+    let p2 = gitHubAPI(`/repos/${repo.owner}/${repo.repo}/contents/${repo.path}`, options);
+    $.when(p2).done(function (data, textStatus, jqXHR) {
+        switch (jqXHR.status) {
+            case 200: //new data
+                gitHubUpdateContents(repo, data, textStatus, jqXHR);
+                p1.resolve(p2);
+                break;
+            case 304: //no change
+                p1.resolve(repo.contents);
+                break;
+        }
+
     })
-    return p;
+    return p1;
 }
 
 /*function gitHubAPICheckRateLimit(){ //does not work, CORS & JSONP are broken on this endpoint
@@ -45,23 +56,23 @@ function gitHubAPI(query, options = {}, retries = 3) {
             headers: headers
         })
             .done(gitHubUpdateLimits) //only do this on success, over rate limit gives CORS failure for unexplained reasons
-            .fail(function(jqXHR, textStatus, errorThrown) {
-                    if (jqXHR.status !== 403) { //only do retries if it was ratelimiting
-                        errorboxJQXHR(jqXHR, textStatus, errorThrown);
-                        return;
-                    }
-                    if (retries <= 0) {
-                        errorboxJQXHR(jqXHR, "Retries exhausted.", errorThrown);
-                        return;
-                    }
-                    gitHubUpdateLimits(null,null,jqXHR);
-                    let then = GithubReset;
-                    let now = (new Date().getTime()) / 1000;
-                    seconds = Math.trunc(Math.max((then - now) + 1, 1));
-                    warningbox(`GitHub API Ratelimiting: retrying in ${seconds}s. Consider using GitHub PAT to avoid this.`);
-                    console.log("GitHub API Ratelimiting: query=" + query + " retries=" + retries + " seconds=" + seconds + " now=" + now + " then=" + then);
-                    return setTimeout(function () { return gitHubAPI(query, options, retries - 1); }, seconds * 1000);
-                });
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                if (jqXHR.status !== 403) { //only do retries if it was ratelimiting
+                    errorboxJQXHR(jqXHR, textStatus, errorThrown);
+                    return;
+                }
+                if (retries <= 0) {
+                    errorboxJQXHR(jqXHR, "Retries exhausted.", errorThrown);
+                    return;
+                }
+                gitHubUpdateLimits(null, null, jqXHR);
+                let then = GithubReset;
+                let now = (new Date().getTime()) / 1000;
+                seconds = Math.trunc(Math.max((then - now) + 1, 1));
+                warningbox(`GitHub API Ratelimiting: retrying in ${seconds}s. Consider using GitHub PAT to avoid this.`);
+                console.log("GitHub API Ratelimiting: query=" + query + " retries=" + retries + " seconds=" + seconds + " now=" + now + " then=" + then);
+                return setTimeout(function () { return gitHubAPI(query, options, retries - 1); }, seconds * 1000);
+            });
     }
 
     function deferredSafeDelay(f, ms) {
@@ -87,9 +98,10 @@ function gitHubUpdateLimits(data, textStatus, jqXHR) {
     GithubReset = parseInt(jqXHR.getResponseHeader("X-Ratelimit-Reset"));
 }
 
-function gitHubUpdateEtag(repo, jqXHR) {
+function gitHubUpdateContents(repo, data, textStatus, jqXHR) {
     let etag = jqXHR.getResponseHeader("etag");
     repo.etag = etag;
+    repo.contents = data;
 }
 
 function getREADME(repo) { //not used anymore
@@ -105,7 +117,7 @@ function getREADME(repo) { //not used anymore
         .fail(errorboxJQXHR);
 }
 
-function parseRepoContents(data=[], repo, old) { 
+function parseRepoContents(data = [], repo, old) {
     let dbListTemp = [];
     let workflowsTemp = [];
     let readmesTemp = [];
@@ -155,4 +167,26 @@ function getDBJSON(list) {
         };
         return dbs;
     });
+}
+
+function loadEverythingFromGithubAndCache() {
+    let p = $.Deferred();
+    //Github repos
+    dbLoadRepoList()
+    .then(loadGithubRepos)
+    //Load from IndexedDB cache
+    .then(dbLoadWorkflowList)
+    .then(dbLoadReadmeList)
+    .then(dbLoadDBList)
+    //Download files
+    .then(downloadWorkflowsFromList)
+    .then(downloadReadmesFromList)
+    .then(downloadDBsFromList)
+    //Store in IndexedDB cache
+    .then(dbPopulateRepoList)
+    .then(dbPopulateWorkflowList)
+    .then(dbPopulateReadmeList)
+    .then(dbPopulateDBList)
+    .then(()=>{p.resolve();});
+    return p;
 }

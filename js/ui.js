@@ -114,12 +114,8 @@ function jqueryInit() {
 
   //load heavy stuff from localStorage
   //loadLocalStorage();
-  //no no, load from IndexedDB instead
-  openOrCreateDB()
-  .then(dbLoadRepoList)
-  .then(dbLoadWorkflowList)
-  .then(dbLoadReadmeList)
-  .then(dbLoadDBList);
+  //no no, use IndexedDB instead
+  openOrCreateDB();
 }
 
 function drawTenantOverviewList() {

@@ -730,14 +730,7 @@ function globalButtonHandler() {
         break;
       }
       case "reloadDBs": {
-        loadGithubRepos()
-          .then(dbPopulateRepoList)
-          .then(downloadWorkflowsFromList)
-          .then(dbPopulateWorkflowList)
-          .then(downloadReadmesFromList)
-          .then(dbPopulateReadmeList)
-          .then(downloadDBsFromList)
-          .then(dbPopulateDBList)
+        loadEverythingFromGithubAndCache();
         break;
       }
       case "addRepo": {

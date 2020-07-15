@@ -12,22 +12,9 @@ function createFullConnection() {
       $("#viewport").load("html/configurator/main.html", fieldsetPainter);
       getVersion()
         .then(processVersion)
-        .then(function () {
-          if (!dbList.length > 0) {
-            loadGithubRepos()
-              .then(dbPopulateRepoList)
-              .then(downloadWorkflowsFromList)
-              .then(dbPopulateWorkflowList)
-              .then(downloadReadmesFromList)
-              .then(dbPopulateReadmeList)
-              .then(downloadDBsFromList)
-              .then(dbPopulateDBList)
-              .then(function () { return main.resolve(); });
-            return true;
-          } else {
-            return main.resolve();
-          }
-        });
+        .then(loadEverythingFromGithubAndCache)
+        //Return
+        .then(() => { return main.resolve(); });
     }
   });
   $.when(p_connect).fail(errorboxJQXHR);
