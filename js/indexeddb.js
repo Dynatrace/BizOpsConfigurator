@@ -27,11 +27,11 @@ function upgradeDB(e){
     let db = e.target.result;
 
     if(event.oldVersion < 1){
-        db.repoList = db.createObjectStore("repoList", {keypath: ["owner", "repo", "path"]});
-        db.dbList = db.createObjectStore("dbList", {keypath: ["sha"]});
-        db.dbList_byID = db.dbList.createIndex("by_ID", "file.id");
-        db.workflowList = db.createObjectStore("workflowList", {keypath: ["sha"]});
-        db.readmeList = db.createObjectStore("readmeList", {keypath: ["sha"]});
+        db.createObjectStore("repoList", {keypath: ["owner", "repo", "path"]});
+        db.createObjectStore("dbList", {keypath: ["sha"]});
+        db.dbList.createIndex("by_ID", "file.id");
+        db.createObjectStore("workflowList", {keypath: ["sha"]});
+        db.createObjectStore("readmeList", {keypath: ["sha"]});
     }
 }
 
