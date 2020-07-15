@@ -112,9 +112,7 @@ function jqueryInit() {
     $("#everything").load("html/500.html");
   });
 
-  //load heavy stuff from localStorage
-  //loadLocalStorage();
-  //no no, use IndexedDB instead
+  //Open IndexDB
   openOrCreateDB();
 }
 

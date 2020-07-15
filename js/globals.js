@@ -447,7 +447,7 @@ function downloadDBsFromList() {
     }
   });
   $.when.apply($, promises).done(function () {
-    localStorage.setItem('dbList', JSON.stringify(dbList));
+    
   });
   return promises;
 }
@@ -475,7 +475,7 @@ function downloadReadmesFromList() {
     }
   });
   $.when.apply($, promises).done(function () {
-    localStorage.setItem('readmeList', JSON.stringify(readmeList));
+    
   });
 }
 
@@ -499,7 +499,7 @@ function downloadWorkflowsFromList() {
     }
   });
   $.when.apply($, promises).done(function () {
-    localStorage.setItem('workflowList', JSON.stringify(workflowList));
+    
   });
 }
 
@@ -637,28 +637,3 @@ var uniqId = (function () {
     return i++;
   }
 })();
-
-
-/*function updateLocalStorage() { //decentralize to allot for async
-  localStorage.setItem('repoList', JSON.stringify(repoList));
-  localStorage.setItem('workflowList', JSON.stringify(workflowList));
-  localStorage.setItem('readmeList', JSON.stringify(readmeList));
-  localStorage.setItem('dbList', JSON.stringify(dbList));
-}*/
-
-function loadLocalStorage() { //consider moving to IndexDB
-  let repoListTmp = localStorage.getItem('repoList') || "[]";
-  let workflowListTmp = localStorage.getItem('workflowList') || "[]";
-  let readmeListTmp = localStorage.getItem('readmeList') || "[]";
-  let dbListTmp = localStorage.getItem('dbList') || "[]";
-
-  JSON.parse(repoListTmp).forEach((x) => {
-    let r = repoList.find((y) => x.owner === y.owner &&
-      x.repo === y.repo && x.path === y.path);
-    if (typeof r != "undefined" && typeof x.etag != "undefined")
-      r.etag = x.etag;
-  })
-  workflowList = JSON.parse(workflowListTmp);
-  readmeList = JSON.parse(readmeListTmp);
-  dbList = JSON.parse(dbListTmp);
-}
