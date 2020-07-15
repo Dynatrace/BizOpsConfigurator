@@ -27,11 +27,12 @@ function upgradeDB(e){
     let db = e.target.result;
 
     if(event.oldVersion < 1){
-        db.createObjectStore("repoList", {keypath: ["owner", "repo", "path"]});
-        db.createObjectStore("dbList", {keypath: ["sha"]});
-        db.dbList.createIndex("by_ID", "file.id");
-        db.createObjectStore("workflowList", {keypath: ["sha"]});
-        db.createObjectStore("readmeList", {keypath: ["sha"]});
+        let os = {};
+        os = db.createObjectStore("repoList", {keyPath: ["owner", "repo", "path"]});
+        os = db.createObjectStore("dbList", {keyPath: "sha"});
+        os.createIndex("by_ID", "file.id");
+        os = db.createObjectStore("workflowList", {keyPath: "sha"});
+        os = db.createObjectStore("readmeList", {keyPath: "sha"});
     }
 }
 
@@ -40,7 +41,7 @@ function upgradeDB(e){
 function dbPopulateRepoList(list=repoList){
     let p = $.Deferred();
     let db = Idxdb.db;
-    let tx = db.transaction(["repoList","readwrite"]);
+    let tx = db.transaction(["repoList"],"readwrite");
     let os = tx.objectStore("repoList");
 
     list.forEach((repo) => {
@@ -55,7 +56,7 @@ function dbPopulateRepoList(list=repoList){
 function dbPopulateDBList(list=dbList){
     let p = $.Deferred();
     let db = Idxdb.db;
-    let tx = db.transaction(["dbList","readwrite"]);
+    let tx = db.transaction(["dbList"],"readwrite");
     let os = tx.objectStore("dbList");
 
     list.forEach((el) => {
@@ -70,7 +71,7 @@ function dbPopulateDBList(list=dbList){
 function dbPopulateWorkflowList(list=workflowList){
     let p = $.Deferred();
     let db = Idxdb.db;
-    let tx = db.transaction(["workflowList","readwrite"]);
+    let tx = db.transaction(["workflowList"],"readwrite");
     let os = tx.objectStore("workflowList");
 
     list.forEach((wf) => {
@@ -85,7 +86,7 @@ function dbPopulateWorkflowList(list=workflowList){
 function dbPopulateReadmeList(list=readmeList){
     let p = $.Deferred();
     let db = Idxdb.db;
-    let tx = db.transaction(["readmeList","readwrite"]);
+    let tx = db.transaction(["readmeList"],"readwrite");
     let os = tx.objectStore("readmeList");
 
     list.forEach((rm) => {
@@ -103,7 +104,7 @@ function dbPopulateReadmeList(list=readmeList){
 function dbLoadRepoList(list=repoList) {
     let p = $.Deferred();
     let db = Idxdb.db;
-    let tx = db.transaction(["repoList","readonly"]);
+    let tx = db.transaction(["repoList"],"readonly");
     let os = tx.objectStore("repoList");
     let req = os.getAll();
 
@@ -126,7 +127,7 @@ function dbLoadRepoList(list=repoList) {
 function dbLoadDBList(list=dbList) {
     let p = $.Deferred();
     let db = Idxdb.db;
-    let tx = db.transaction(["dbList","readonly"]);
+    let tx = db.transaction(["dbList"],"readonly");
     let os = tx.objectStore("dbList");
     let req = os.getAll();
 
@@ -147,7 +148,7 @@ function dbLoadDBList(list=dbList) {
 function dbLoadWorkflowList(list=workflowList) {
     let p = $.Deferred();
     let db = Idxdb.db;
-    let tx = db.transaction(["workflowList","readonly"]);
+    let tx = db.transaction(["workflowList"],"readonly");
     let os = tx.objectStore("workflowList");
     let req = os.getAll();
 
@@ -168,7 +169,7 @@ function dbLoadWorkflowList(list=workflowList) {
 function dbLoadReadmeList(list=readmeList) {
     let p = $.Deferred();
     let db = Idxdb.db;
-    let tx = db.transaction(["readmeList","readonly"]);
+    let tx = db.transaction(["readmeList"],"readonly");
     let os = tx.objectStore("readmeList");
     let req = os.getAll();
 

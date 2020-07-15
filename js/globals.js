@@ -382,7 +382,7 @@ function parseSteps(result) {
   return { 'steps': steps, 'type': type };
 }
 
-function loadDBList(p = 1) {
+function loadGithubRepos(p = 1) {
   let i = p;//(v5test?1:0);
   let deferreds = [];
   let main = $.Deferred();
@@ -422,7 +422,7 @@ function processVersion(p) {
     else
       v5test = false;
 
-    //loadDBList( (v5test?1:0) );
+    //loadGithubRepos( (v5test?1:0) );
     return (v5test ? 1 : 0);
   });
 }

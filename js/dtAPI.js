@@ -14,11 +14,15 @@ function createFullConnection() {
         .then(processVersion)
         .then(function () {
           if (!dbList.length > 0) {
-            loadDBList()
+            loadGithubRepos()
+              .then(dbPopulateRepoList)
               .then(downloadWorkflowsFromList)
+              .then(dbPopulateWorkflowList)
               .then(downloadReadmesFromList)
+              .then(dbPopulateReadmeList)
               .then(downloadDBsFromList)
-              .then(function (){ return main.resolve(); });
+              .then(dbPopulateDBList)
+              .then(function () { return main.resolve(); });
             return true;
           } else {
             return main.resolve();

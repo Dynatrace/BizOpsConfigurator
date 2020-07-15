@@ -730,12 +730,14 @@ function globalButtonHandler() {
         break;
       }
       case "reloadDBs": {
-        let p = loadDBList();
-        $.when(p).done(function () {
-          downloadWorkflowsFromList();
-          downloadReadmesFromList();
-          downloadDBsFromList();
-        });
+        loadGithubRepos()
+          .then(dbPopulateRepoList)
+          .then(downloadWorkflowsFromList)
+          .then(dbPopulateWorkflowList)
+          .then(downloadReadmesFromList)
+          .then(dbPopulateReadmeList)
+          .then(downloadDBsFromList)
+          .then(dbPopulateDBList)
         break;
       }
       case "addRepo": {
