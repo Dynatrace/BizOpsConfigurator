@@ -118,6 +118,11 @@ var bcBuffer = "";
 var GithubRemaining = 1;
 var GithubReset = 9999999999;
 var ConfigPushers = [];
+var Idxdb = {
+  name: "BizOpsConfigurator",
+  version: 1,
+  db: null
+}
 
 ///////// Functions for manipulating global vars //////////
 
