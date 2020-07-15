@@ -6,9 +6,20 @@
   <script type="text/javascript"
     src="https://js-cdn.dynatracelabs.com/jstag/145e049b9b1/bf49960xxn/b94c132cf8396fed_complete.js"
     crossorigin="anonymous"></script>
+  <script>
+    //test for IE and bomb out fast
+    try {
+      new Function("(a = 0) => a");
+    }
+    catch (err) {
+      window.location.replace("tooOld.html");
+    }
+  </script>
+  <noscript>
+    <meta http-equiv="refresh" content="0;url=tooOld.html">
+  </noscript>
   <title>BizOpsConfigurator</title>
   <link id='css' rel="stylesheet" type="text/css" href="css/dttheme.css">
-  <!--<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">-->
   <link href="3rdparty/jsonFormatter/source/jsonFormatter-darkTheme.min.css" rel="stylesheet" />
   <link href="3rdparty/chosen/chosen.min.css" rel="stylesheet" />
   <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
@@ -47,15 +58,15 @@
           <div id='searchbarh'>
             <div id='hamburger'>
               <a><svg fill="#454646" xmlns="http://www.w3.org/2000/svg" width="20px" height="20px"
-                viewBox="0 0 512 512">
-                <path
-                  d="M100 120h312a4 4 0 0 1 4 4v40a4 4 0 0 1-4 4H100a4 4 0 0 1-4-4v-40a4 4 0 0 1 4-4zm0 224h312a4 4 0 0 1 4 4v40a4 4 0 0 1-4 4H100a4 4 0 0 1-4-4v-40a4 4 0 0 1 4-4zm0-112h312a4 4 0 0 1 4 4v40a4 4 0 0 1-4 4H100a4 4 0 0 1-4-4v-40a4 4 0 0 1 4-4z">
-                </path>
-              </svg></a>
+                  viewBox="0 0 512 512">
+                  <path
+                    d="M100 120h312a4 4 0 0 1 4 4v40a4 4 0 0 1-4 4H100a4 4 0 0 1-4-4v-40a4 4 0 0 1 4-4zm0 224h312a4 4 0 0 1 4 4v40a4 4 0 0 1-4 4H100a4 4 0 0 1-4-4v-40a4 4 0 0 1 4-4zm0-112h312a4 4 0 0 1 4 4v40a4 4 0 0 1-4 4H100a4 4 0 0 1-4-4v-40a4 4 0 0 1 4-4z">
+                  </path>
+                </svg></a>
             </div>
             <div id='dbbutton'>
               <a><img src="images/desktop.svg"></a>
-              </div>
+            </div>
             <div id='hspacer'> </div>
             <div id='gear'><a href='#config' id='config'><img src='images/services-white.svg' class='icon'>
               </a></div>
@@ -127,5 +138,5 @@
   <!--misc fixes-->
   <script>loadBackupCSSIfNotLoaded('jquery-ui.css', '3rdparty/jqueryui/jquery-ui.css');</script>
 </body>
-</html>
 
+</html>
