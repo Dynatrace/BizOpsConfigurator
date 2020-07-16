@@ -25,7 +25,11 @@ function getRepoContents(repo) {
                 p1.resolve(p2);
                 break;
             case 304: //no change
-                p1.resolve(repo.contents);
+                let contents = JSON.parse(JSON.stringify(repo.contents);
+                if("repo" in contents[0]){
+                    contents.forEach(function(el){delete el.repo;});
+                }
+                p1.resolve(JSON.parse(JSON.stringify(repo.contents)));
                 break;
         }
 
