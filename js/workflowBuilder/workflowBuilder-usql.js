@@ -301,31 +301,31 @@ function usqlCommonQueryChangeHandler() {
 
     switch (commonQueries) {
         case "Double/Long USPs":
-            $("#usqlQuery").val('SELECT usersession.longProperties, usersession.doubleProperties FROM useraction WHERE useraction.application = "${app.name}" LIMIT 5000');
+            $("#usqlQuery").val('SELECT usersession.longProperties, usersession.doubleProperties FROM useraction WHERE useraction.application IN ("${app.name}") LIMIT 5000');
             $("#usqlResultSlicer").val("Keys");
             $("#transform").val("usp");
             $("#addWhereClause").prop("checked", false);
             break;
         case "String/Date USPs":
-            $("#usqlQuery").val('SELECT usersession.stringProperties, usersession.dateProperties FROM useraction WHERE useraction.application = "${app.name}" LIMIT 5000');
+            $("#usqlQuery").val('SELECT usersession.stringProperties, usersession.dateProperties FROM useraction WHERE useraction.application IN ("${app.name}") LIMIT 5000');
             $("#usqlResultSlicer").val("Keys/Values");
             $("#transform").val("uspClause");
             $("#addWhereClause").prop("checked", false);
             break;
         case "Regions":
-            $("#usqlQuery").val('SELECT DISTINCT continent, country, region, city FROM usersession WHERE useraction.application = "${app.name}" ORDER BY country,region,city LIMIT 5000');
+            $("#usqlQuery").val('SELECT DISTINCT continent, country, region, city FROM usersession WHERE useraction.application IN ("${app.name}") ORDER BY country,region,city LIMIT 5000');
             $("#usqlResultSlicer").val("ValX3");
             $("#transform").val("regionClause");
             $("#addWhereClause").prop("checked", true);
             break;
         case "Key User Actions":
-            $("#usqlQuery").val('SELECT useraction.name FROM useraction WHERE useraction.application = "${app.name}" AND keyUserAction = true LIMIT 5000');
+            $("#usqlQuery").val('SELECT useraction.name FROM useraction WHERE useraction.application IN ("${app.name}") AND keyUserAction = true LIMIT 5000');
             $("#usqlResultSlicer").val("actions");
             $("#transform").val("kua");
             $("#addWhereClause").prop("checked", true);
             break;
         case "Conversion Goals":
-            $("#usqlQuery").val('SELECT useraction.matchingConversionGoals FROM useraction WHERE useraction.application = "${app.name}" AND matchingConversionGoals IS NOT NULL LIMIT 5000');
+            $("#usqlQuery").val('SELECT useraction.matchingConversionGoals FROM useraction WHERE useraction.application IN ("${app.name}") AND matchingConversionGoals IS NOT NULL LIMIT 5000');
             $("#usqlResultSlicer").val("actions");
             $("#transform").val("goal");
             $("#addWhereClause").prop("checked", true);

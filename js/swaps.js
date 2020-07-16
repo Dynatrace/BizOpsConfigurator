@@ -459,7 +459,15 @@ function generateWorkflowSwapList(el) {
 
 function queryDoSwaps(query, swaps) {
   swaps.forEach(function (swap) {
-    query = query.replace(new RegExp('\\' + swap.from, 'g'), swap.to);
+    let regex = new RegExp('\\' + swap.from, 'g');
+    if (query.match(regex) && swap.to.substring(0, 1) == '"' && swap.to.substr(-1) == '"') {//handle quoted string, which is about to be inserted into a quoted string
+      //we know that regex matches and to is a quoted string, confirm that it would be double-wrapped
+      let regex2 = new RegExp('"\\' + swap.from + '"', 'g');
+      if(query.match(regex2)) //unwrap double-wrapped quotes
+        query = query.replace(regex, swap.to.substring(1, swap.to.length - 2));
+    } else {
+      query = query.replace(regex, swap.to);
+    }
   });
   return query;
 }
@@ -494,11 +502,11 @@ function apiSelectGetSwaps(select, transform, swaps) {
     let fromcount = "${" + transform + ".count}";
     addToSwaps(swaps, { from: fromcount, to: values.length });
     let from = "${" + transform + ".name}";
-    let to = values.map(x => '"' + x.key.replace(/"/g,'\\"') + '"' )
+    let to = values.map(x => '"' + x.key.replace(/"/g, '\\"') + '"')
       .join(' , ');
     addToSwaps(swaps, { from: from, to: to });
     from = "${" + transform + ".id}";
-    to = values.map(x => '"' + x.value.replace(/"/g,'\\"') + '"' )
+    to = values.map(x => '"' + x.value.replace(/"/g, '\\"') + '"')
       .join(' , ');
     addToSwaps(swaps, { from: from, to: to });
   } else {
