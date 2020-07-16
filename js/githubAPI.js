@@ -29,7 +29,7 @@ function getRepoContents(repo) {
                 if("repo" in contents[0]){
                     contents.forEach(function(el){delete el.repo;});
                 }
-                p1.resolve(JSON.parse(JSON.stringify(repo.contents)));
+                p1.resolve(contents);
                 break;
         }
 
