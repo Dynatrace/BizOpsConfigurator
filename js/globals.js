@@ -39,7 +39,8 @@ var repoList = [
   { 'owner': 'Dynatrace-JasonOstroski', 'repo': 'CitrixDashboardsV1', 'path': '' },
   { 'owner': 'jjbologna', 'repo': 'SAP-extension-dashboards', 'path': '' },
   { 'owner': 'popecruzdt', 'repo': 'dt-kubernetes-config', 'path': '' },
-  { 'owner': 'mcaminiti', 'repo': 'dynatrace-dashboards-dem-usage', 'path': '' }
+  { 'owner': 'mcaminiti', 'repo': 'dynatrace-dashboards-dem-usage', 'path': '' },
+  { 'owner': 'sergiohinojosa', 'repo': 'dashboards-dt-kubernetes', 'path': '' }
 ];
 var tenantOverviews = [
   { name: 'BizOps', filename: 'TenantOverview.json', repo: { 'owner': 'TechShady', 'repo': 'Dynatrace-DashboardV5', 'path': '' } },
@@ -48,7 +49,8 @@ var tenantOverviews = [
   { name: 'SAP Extension', filename: 'SAP Application Cockpit.json', repo: { 'owner': 'jjbologna', 'repo': 'SAP-extension-dashboards', 'path': '' } },
   { name: 'Remote Employee Web', filename: 'RETenantOverview.json', repo: { 'owner': 'TechShady', 'repo': 'Dynatrace-Remote-Employee', 'path': '' } },
   { name: 'Remote Employee Mobile', filename: 'RETenantOverview2.json', repo: { 'owner': 'TechShady', 'repo': 'Dynatrace-Remote-Employee', 'path': '' } },
-  { name: 'Infrastructure', filename: 'InfrastructureOverview.json', repo: { 'owner': 'TechShady', 'repo': 'Dynatrace-Infrastructure', 'path': '' } }
+  { name: 'Infrastructure', filename: 'InfrastructureOverview.json', repo: { 'owner': 'TechShady', 'repo': 'Dynatrace-Infrastructure', 'path': '' } },
+  { name: 'K8s', filename: '1-overview.json', repo: { 'owner': 'sergiohinojosa', 'repo': 'dashboards-dt-kubernetes', 'path': '' } }
 ];
 var appOverviews = [
   { name: 'WebApp', filename: 'AppOverview.json', repo: { 'owner': 'TechShady', 'repo': 'Dynatrace-DashboardV5', 'path': '' } },
@@ -448,7 +450,7 @@ function downloadDBsFromList() {
     }
   });
   $.when.apply($, promises).done(function () {
-    
+
   });
   return promises;
 }
@@ -476,7 +478,7 @@ function downloadReadmesFromList() {
     }
   });
   $.when.apply($, promises).done(function () {
-    
+
   });
 }
 
@@ -500,7 +502,7 @@ function downloadWorkflowsFromList() {
     }
   });
   $.when.apply($, promises).done(function () {
-    
+
   });
 }
 
