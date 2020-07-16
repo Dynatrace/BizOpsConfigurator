@@ -493,6 +493,9 @@ function apiSelectGetSwaps(select, transform, swaps) {
     });
     let fromcount = "${" + transform + ".count}";
     addToSwaps(swaps, { from: fromcount, to: values.length });
+    let from = "${" + transform + ".name}";
+    let to = JSON.stringify(values.map(x => x.value));
+    addToSwaps(swaps, { from: from, to: to });
   } else {
     let val = $select.val();
     let key = $select.children("option:selected").text();
