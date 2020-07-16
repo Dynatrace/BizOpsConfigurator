@@ -86,6 +86,7 @@ function getStaticSubDBs(db, parentids = [""], subs = []) {
           if ("file" in d && d.file.id === id &&
             typeof (subs.find(x => x.name === d.name)) == "undefined") { //ensure it's not already in the array, note: ids are not unique
             console.log("getStaticSubDBs: " + id + " => " + d.file.dashboardMetadata.name);
+            if("contents" in d.repo) delete d.repo.contents; //prevent circular structure
             subs.push(JSON.parse(JSON.stringify(d)));
             getStaticSubDBs(d.file, parentids, subs);
           }
