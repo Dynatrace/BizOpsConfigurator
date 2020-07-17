@@ -29,7 +29,8 @@ function renderWorkflow(el) {
     }
 
     //cleanup clone
-    clonedEl.find(".chosen-select").chosen("destroy") //in case we're already rendered for some reason
+    clonedEl.find(".chosen-select").chosen("destroy"); //in case we're already rendered for some reason
+    clonedEl.find(".chosen-container").remove();
     clonedEl.find(".workflowInputPopup").remove();
     clonedEl.find(".workflowSectionPopup").remove();
     clonedEl.find("input[type=text]:disabled, input:not([type]):disabled").removeAttr("disabled");
