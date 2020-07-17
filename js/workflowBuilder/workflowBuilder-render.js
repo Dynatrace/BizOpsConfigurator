@@ -157,7 +157,7 @@ function renderWorkflowPage(el) {
     $.when.apply($, promises).done(function () {
         let html = sanitizer.sanitize($el.html());
         //$el.find("select.chosen-select").chosen('destroy');
-        //$el.find("select.chosen-select").chosen();
+        $el.find("select.chosen-select").show().chosen();
             //.chosen("destroy") //in case we're already rendered for some reason
             
         p.resolve(html);
