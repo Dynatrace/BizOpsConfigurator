@@ -199,7 +199,8 @@ function previewAPIhandler() {
             let p = loadApiQueryOptions(query, slicer, $target);
             $.when(p).done(function (data) {
                 //jsonviewer(data, true, "", "#apiResult");
-                $(".chosen-select").chosen();
+                if($target.hasClass("chosen-select"))
+                    $target.chosen();
             });
         })
     });

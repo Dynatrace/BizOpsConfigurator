@@ -29,6 +29,7 @@ function renderWorkflow(el) {
     }
 
     //cleanup clone
+    clonedEl.find(".chosen-select").chosen("destroy") //in case we're already rendered for some reason
     clonedEl.find(".workflowInputPopup").remove();
     clonedEl.find(".workflowSectionPopup").remove();
     clonedEl.find("input[type=text]:disabled, input:not([type]):disabled").removeAttr("disabled");
@@ -155,7 +156,7 @@ function renderWorkflowPage(el) {
     $.when.apply($, promises).done(function () {
         let html = sanitizer.sanitize($el.html());
         $el.find(".chosen-select")
-            .chosen("destroy") //in case we're already rendered for some reason
+            //.chosen("destroy") //in case we're already rendered for some reason
             .chosen();
         p.resolve(html);
     })
