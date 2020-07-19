@@ -249,7 +249,8 @@ function doSwaps(db, swaps) {
     dbS = JSON.stringify(db);
   }
   swaps.forEach(function (swap) {
-    dbS = dbS.replace(new RegExp(swap.from, 'g'), swap.to);
+    let to = swap.to.replace(/\\([\s\S])|(")/g,"\\$1$2"); //escape any unescaped quotes
+    dbS = dbS.replace(new RegExp(swap.from, 'g'), to);
   });
 
   let dbObj = {};
@@ -477,7 +478,7 @@ function addToSwaps(swaps, swap) {
     console.log("Adding non-string swap.to value, fail.");
     return false;
   }
-  swap.to = swap.to.replace(/\\([\s\S])|(")/g,"\\$1$2"); //escape any quotes
+  //swap.to = swap.to.replace(/\\([\s\S])|(")/g,"\\$1$2"); //escape any quotes //this breaks things :(
   if (!swaps.find(x => x.from === swap.from && x.to === swap.to)){
 
     swaps.push(swap);
