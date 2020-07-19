@@ -249,7 +249,7 @@ function doSwaps(db, swaps) {
     dbS = JSON.stringify(db);
   }
   swaps.forEach(function (swap) {
-    let to = swap.to.replace(/\\([\s\S])|(")/g,"\\$1$2"); //escape any unescaped quotes
+    let to = swap.to.replace(/\\([\s\S])|(")/g, "\\$1$2"); //escape any unescaped quotes
     dbS = dbS.replace(new RegExp(swap.from, 'g'), to);
   });
 
@@ -464,7 +464,7 @@ function queryDoSwaps(query, swaps) {
     if (query.match(regex) && swap.to.substring(0, 1) == '"' && swap.to.substr(-1) == '"') {//handle quoted string, which is about to be inserted into a quoted string
       //we know that regex matches and to is a quoted string, confirm that it would be double-wrapped
       let regex2 = new RegExp('"\\' + swap.from + '"', 'g');
-      if(query.match(regex2)) //unwrap double-wrapped quotes
+      if (query.match(regex2)) //unwrap double-wrapped quotes
         query = query.replace(regex, swap.to.substring(1, swap.to.length - 2));
     } else {
       query = query.replace(regex, swap.to);
@@ -474,16 +474,16 @@ function queryDoSwaps(query, swaps) {
 }
 
 function addToSwaps(swaps, swap) {
-  if(typeof swap.to != "string") {
+  if (typeof swap.to != "string") {
     console.log("Adding non-string swap.to value, fail.");
     return false;
   }
   //swap.to = swap.to.replace(/\\([\s\S])|(")/g,"\\$1$2"); //escape any quotes //this breaks things :(
-  if (!swaps.find(x => x.from === swap.from && x.to === swap.to)){
+  if (!swaps.find(x => x.from === swap.from && x.to === swap.to)) {
 
     swaps.push(swap);
   }
-    
+
 }
 
 function apiSelectGetSwaps(select, transform, swaps) {
@@ -557,9 +557,17 @@ function journeyGetSwaps(workflowInput, transform, swaps) {
   journeyData.forEach(function (d, i) {
     from = "${" + transform + ".header-" + (i + 1) + "}";
     addToSwaps(swaps, { from: from, to: d.label });
+    if ("appname" in d) {
+      from = "${" + transform + ".app-" + (i + 1) + "}";
+      addToSwaps(swaps, { from: from, to: d.appname });
+    }
     if (i == journeyData.length - 1) {
       from = "${" + transform + ".header-last}";
       addToSwaps(swaps, { from: from, to: d.label });
+      if ("appname" in d) {
+        from = "${" + transform + ".app-last}";
+        addToSwaps(swaps, { from: from, to: d.appname });
+      }
     }
   });
 

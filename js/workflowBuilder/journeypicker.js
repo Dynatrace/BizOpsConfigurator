@@ -112,6 +112,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 						journeyData[i].value += " OR " + id;
 					}
 					journeyData[i].clauses.push(clause);
+					if(appname) journeyData[i].appname = appname;
 					chart.draw(journeyData, options);
 					updateWhere(journeyData);
 				}
