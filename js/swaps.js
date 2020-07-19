@@ -443,7 +443,7 @@ function generateWorkflowSwapList(el) {
               addToSwaps(swaps, { from: fromval, to: $opt.val() });
             }
             let fromcount = "${" + transform + ".count}";
-            addToSwaps(swaps, { from: fromcount, to: $opts.length });
+            addToSwaps(swaps, { from: fromcount, to: $opts.length.toString() });
           } else {
             let $opt = $select.find("option:selected");
             addToSwaps(swaps, { from: fromkey, to: $opt.text() });
@@ -473,8 +473,16 @@ function queryDoSwaps(query, swaps) {
 }
 
 function addToSwaps(swaps, swap) {
-  if (!swaps.find(x => x.from === swap.from && x.to === swap.to))
+  if(typeof swap.to != "string") {
+    console.log("Adding non-string swap.to value, fail.");
+    return false;
+  }
+  swap.to = swap.to.replace(/\\([\s\S])|(")/g,"\\$1$2"); //escape any quotes
+  if (!swaps.find(x => x.from === swap.from && x.to === swap.to)){
+
     swaps.push(swap);
+  }
+    
 }
 
 function apiSelectGetSwaps(select, transform, swaps) {
@@ -500,7 +508,7 @@ function apiSelectGetSwaps(select, transform, swaps) {
       i++;
     });
     let fromcount = "${" + transform + ".count}";
-    addToSwaps(swaps, { from: fromcount, to: values.length });
+    addToSwaps(swaps, { from: fromcount, to: values.length.toString() });
     let from = "${" + transform + ".name}";
     let to = values.map(x => '"' + x.key.replace(/"/g, '\\"') + '"')
       .join(' , ');

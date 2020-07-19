@@ -112,7 +112,7 @@ function validateDB(input) {
   }
 
   //trunc any MARKDOWNs that are too long
-  if (!e.length) {
+  if (db.tiles) {
     db.tiles.forEach(function (t, index, arr) {
       if (t.tileType == 'MARKDOWN' && t.markdown.length > 1000) {
         t.markdown = t.markdown.substring(0, 1000);
