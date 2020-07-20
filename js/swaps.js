@@ -249,8 +249,10 @@ function doSwaps(db, swaps) {
     dbS = JSON.stringify(db);
   }
   swaps.forEach(function (swap) {
-    let to = swap.to.replace(/\\([\s\S])|(")/g, "\\$1$2"); //escape any unescaped quotes
-    dbS = dbS.replace(new RegExp(swap.from, 'g'), to);
+    if(swap.to){
+      let to = swap.to.replace(/\\([\s\S])|(")/g, "\\$1$2"); //escape any unescaped quotes
+      dbS = dbS.replace(new RegExp(swap.from, 'g'), to);
+    }
   });
 
   let dbObj = {};
