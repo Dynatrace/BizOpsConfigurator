@@ -549,6 +549,8 @@ function uploadWorkflow(workflow) {
   //let config = JSON.parse($workflow.find("#workflowConfigJSON").val());
   let config = selection.config;
   config.swaps = selection.swaps; //safe store for editing dbs later
+  if(!selection.persona) selection.persona  = personas.find(x => x.prefix === config.persona[0]);
+  if(!selection.usecase) selection.usecase  = usecases.find(x => x.prefix === config.usecase);
   let overview = {};
   let actionName = `NewFlowDeploy-${selection.persona.name}-${selection.usecase.name}-${selection.config.workflowName}`;
   let dtaction;
