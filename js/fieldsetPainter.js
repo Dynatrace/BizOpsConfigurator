@@ -37,7 +37,7 @@ function fieldsetPainter() {
             } else {
                 $("#personaFlow").prop("checked", false);
                 $(".oldFlow").show();
-                
+
                 for (let i = 0; i < tenantOverviews.length; i++) {
                     let TO = tenantOverviews[i];
                     let html = `<tr class="oldFlow"><td>TenantOverview #${i}:</td>
@@ -358,8 +358,8 @@ function fieldsetPainter() {
                         + ' class="newTab" target="_blank">here <img src="images/link.svg"></a>';
                     popup([], popheader, desc);
                 }
-                drawSteps(parseSteps(data2[0]),xapp);
-                drawSteps(parseSteps(data1[0]),xapp);
+                drawSteps(parseSteps(data2[0]), xapp);
+                drawSteps(parseSteps(data1[0]), xapp);
                 $("#goallist li").draggable();
                 jsonviewer([data1[0], data2[0]]);
             });
@@ -434,6 +434,62 @@ function fieldsetPainter() {
             break;
         }
         case "dashboardList": {
+            let $wf_ul = $("#dashboardList ul")
+            $wf_ul.html("");
+            workflowList
+                .sort((a, b) => (a.file.config.workflowName.toLowerCase() > b.file.config.workflowName.toLowerCase()) ? 1 : -1)
+                .forEach((wf, i) => {
+                    let $wf_li = $("<li>");
+                    let $wf_li_a = $("<a>")
+                        .addClass("dashboardList")
+                        .attr("href", "#json")
+                        .attr("data-index", i)
+                        .text(wf.file.config.workflowName)
+                        .appendTo($wf_li);
+                    $wf_li.appendTo($wf_ul);
+                    $wf_li_a.on("click", function () {
+                        if ($wf_li_a.hasClass("open")) {
+                            $wf_li_a.removeClass("open");
+                            $wf_li_a.detach();
+                            $wf_li.empty();
+                            $wf_li_a.appendTo($wf_li);
+                        } else {
+                            $wf_li_a.addClass("open");
+                            let ov = dbList.find((x) =>
+                                x.name === wf.file.config.overviewDB
+                                && x.repo.owner === wf.file.config.githubUser
+                                && x.repo.repo === wf.file.config.githubRepo
+                                && x.repo.path === wf.file.config.githubPath
+                            );
+                            let $wf_ov = $("<a>")
+                                .addClass("dashboardList")
+                                .attr("href", "#json")
+                                .text(ov.name)
+                                .appendTo($wf_li);
+                            $wf_ov.before(" - (");
+                            $wf_ov.after(")");
+                            jsonviewer(wf.file, true, wf.file.config.workflowName, "#popupjsonviewer");
+                            let $ov_ul = $("<ul>")
+                                .appendTo($wf_li);
+                            let subs = getStaticSubDBs(ov.file);
+                            subs
+                                .sort((a, b) => (a.file.dashboardMetadata.name.toLowerCase() > b.file.dashboardMetadata.name.toLowerCase()) ? 1 : -1)
+                                .forEach((sub) => {
+                                    let $sub_li = $("<li>");
+                                    let $sub_li_a = $("<a>")
+                                        .addClass("dashboardList")
+                                        .attr("href", "#json")
+                                        .text(sub.name)
+                                        .appendTo($sub_li);
+                                    $sub_li_a.on("click",function(){
+                                        jsonviewer(sub.file, true, wf.file.config.workflowName, "#popupjsonviewer");
+                                    });
+                                });
+                        }
+                    });
+                });
+        }
+        case "dashboardList_old": {
             let html = "";
             let list = [].concat(tenantOverviews, appOverviews, journeyOverviews);
             let topLevelIDs = [];
