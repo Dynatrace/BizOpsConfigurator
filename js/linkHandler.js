@@ -259,6 +259,10 @@ function hashHandler(hash) {
       loadDeployScreen(hashargs);
       break;
     }
+    case "#helpPopup": {
+      helpPopup(hashargs);
+      break;
+    }
 
     case "#home":
     default:
@@ -294,4 +298,15 @@ function loadDeployScreen(args) {
 function hashArgs(hash){
   if(typeof hash == "undefined") hash = window.location.hash;
   return hash.split('/').map(x => decodeURIComponent(x));
+}
+
+function helpPopup(args) {
+  switch(args[1]){
+    case "scopes":
+      let header = `Dynatrace API Token Scopes`;
+      let content = `<p>Please correct your API token's scopes to include:</p>
+        <img src='images/Token.png'>`
+      popupHTML(header,content);
+      break;
+  }
 }

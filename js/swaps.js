@@ -469,7 +469,7 @@ function queryDoSwaps(query, swaps) {
       //we know that regex matches and to is a quoted string, confirm that it would be double-wrapped
       let regex2 = new RegExp('"\\' + swap.from + '"', 'g');
       if (query.match(regex2)) //unwrap double-wrapped quotes
-        query = query.replace(regex, swap.to.substring(1, swap.to.length - 2));
+        query = query.replace(regex, swap.to.substring(1, swap.to.length - 1));
     } else {
       query = query.replace(regex, swap.to);
     }
