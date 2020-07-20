@@ -453,8 +453,10 @@ function fieldsetPainter() {
                             $wf_li_a.detach();
                             $wf_li.empty();
                             $wf_li_a.appendTo($wf_li);
+                            jsonviewer({ config: wf.file.config },
+                                true, wf.file.config.workflowName, "#popupjsonviewer");
                         } else {
-                            jsonviewer(wf.file.config, true, wf.file.config.workflowName, "#popupjsonviewer");
+                            let tokenList = new Set();
                             $wf_li_a.addClass("open");
                             let ov = dbList.find((x) =>
                                 x.name === wf.file.config.overviewDB
@@ -462,19 +464,20 @@ function fieldsetPainter() {
                                 && x.repo.repo === wf.file.config.githubRepo
                                 && x.repo.path === wf.file.config.githubPath
                             );
-                            let $wf_ov = $("<a>")
+                            let $wf_ov_a = $("<a>")
                                 .addClass("dashboardList")
                                 .attr("href", "#json")
                                 .text(ov.name)
                                 .appendTo($wf_li);
-                            $wf_ov.before(" - (");
-                            $wf_ov.after(")");
-                            $wf_ov.on("click", function() {
+                            $wf_ov_a.before(" - (");
+                            $wf_ov_a.after(")");
+                            $wf_ov_a.on("click", function () {
                                 jsonviewer(ov.file, true, ov.file.dashboardMetadata.name, "#popupjsonviewer");
                             });
                             let $ov_ul = $("<ul>")
                                 .appendTo($wf_li);
-                            let subs = getStaticSubDBs(ov.file);
+                            let subs = getStaticSubDBs(ov.file)
+                                .sort((a,b) => (a.name.toLowerCase() > b.name.toLowerCase()) ? 1 : -1);
                             subs
                                 .sort((a, b) => (a.file.dashboardMetadata.name.toLowerCase() > b.file.dashboardMetadata.name.toLowerCase()) ? 1 : -1)
                                 .forEach((sub) => {
@@ -488,7 +491,11 @@ function fieldsetPainter() {
                                     $sub_li_a.on("click", function () {
                                         jsonviewer(sub.file, true, sub.file.dashboardMetadata.name, "#popupjsonviewer");
                                     });
+                                    tokenList = new Set([...tokenList, ...scanForTokens(sub.file)]);
                                 });
+                            tokenList = new Set([...tokenList, ...scanForTokens(ov.file)]);
+                            jsonviewer({ config: wf.file.config, tokens: tokenList},
+                                true, wf.file.config.workflowName, "#popupjsonviewer");
                         }
                     });
                 });
