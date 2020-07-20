@@ -481,13 +481,14 @@ function fieldsetPainter() {
                                         .attr("href", "#json")
                                         .text(sub.name)
                                         .appendTo($sub_li);
-                                    $sub_li_a.on("click",function(){
+                                    $sub_li_a.on("click", function () {
                                         jsonviewer(sub.file, true, wf.file.config.workflowName, "#popupjsonviewer");
                                     });
                                 });
                         }
                     });
                 });
+            break;
         }
         case "dashboardList_old": {
             let html = "";
