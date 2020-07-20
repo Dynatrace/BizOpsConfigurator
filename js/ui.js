@@ -17,7 +17,8 @@ $(document).ready(function () {
   $("#viewport, #repo_config").on("click", "input:button", globalButtonHandler);
 
   //anchor handler
-  $("#bcwrapper, #viewport, #repo_config, #dashboard_list").on("click", "a", linkHandler);
+  $("#bcwrapper, #viewport, #repo_config, #dashboard_list, #errorBox")
+    .on("click", "a", linkHandler);
 
   loadInputChangeHandlers();
   workflowBuilderHandlers();

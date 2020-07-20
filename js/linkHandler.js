@@ -201,10 +201,10 @@ function linkHandler(e) {
         break;
       }
       default:
-        //alert("Unknown Link: " + id);
-        //if (typeof dtrum !== "undefined") dtrum.reportCustomError("Unknown Link", e, id, true);
-        //if(href.startsWith('#'))
-        //  hashHandler(href);
+      //alert("Unknown Link: " + id);
+      //if (typeof dtrum !== "undefined") dtrum.reportCustomError("Unknown Link", e, id, true);
+      //if(href.startsWith('#'))
+      //  hashHandler(href);
     }
   }
 }
@@ -282,31 +282,31 @@ function loadDeployScreen(args) {
   return $.when(p0).done(function () {
     switch (args[1]) {
       case "owner":
-        $("#viewport").load("html/personaFlow/persona_usecase_owner.html",fieldsetPainter);
+        $("#viewport").load("html/personaFlow/persona_usecase_owner.html", fieldsetPainter);
         break;
       case "all":
-        $("#viewport").load("html/personaFlow/persona_usecase_all.html",fieldsetPainter);
+        $("#viewport").load("html/personaFlow/persona_usecase_all.html", fieldsetPainter);
         break;
       case "persona":
       default:
-        $("#viewport").load("html/personaFlow/persona_usecase.html",fieldsetPainter);
+        $("#viewport").load("html/personaFlow/persona_usecase.html", fieldsetPainter);
         break;
     }
   });
 }
 
-function hashArgs(hash){
-  if(typeof hash == "undefined") hash = window.location.hash;
+function hashArgs(hash) {
+  if (typeof hash == "undefined") hash = window.location.hash;
   return hash.split('/').map(x => decodeURIComponent(x));
 }
 
 function helpPopup(args) {
-  switch(args[1]){
+  switch (args[1]) {
     case "scopes":
       let header = `Dynatrace API Token Scopes`;
       let content = `<p>Please correct your API token's scopes to include:</p>
         <img src='images/Token.png'>`
-      popupHTML(header,content);
+      popupHTML(header, content);
       break;
   }
 }
