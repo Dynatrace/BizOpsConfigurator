@@ -252,6 +252,8 @@ function doSwaps(db, swaps) {
     if(swap.to){
       let to = swap.to.replace(/\\([\s\S])|(")/g, "\\$1$2"); //escape any unescaped quotes
       dbS = dbS.replace(new RegExp(swap.from, 'g'), to);
+    } else if(swap.from) {
+      dbS = dbS.replace(new RegExp(swap.from, 'g'), "");
     }
   });
 
