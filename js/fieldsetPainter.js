@@ -454,6 +454,7 @@ function fieldsetPainter() {
                             $wf_li.empty();
                             $wf_li_a.appendTo($wf_li);
                         } else {
+                            jsonviewer(wf.file.config, true, wf.file.config.workflowName, "#popupjsonviewer");
                             $wf_li_a.addClass("open");
                             let ov = dbList.find((x) =>
                                 x.name === wf.file.config.overviewDB
@@ -468,7 +469,9 @@ function fieldsetPainter() {
                                 .appendTo($wf_li);
                             $wf_ov.before(" - (");
                             $wf_ov.after(")");
-                            jsonviewer(wf.file.config, true, wf.file.config.workflowName, "#popupjsonviewer");
+                            $wf_ov.on("click", function() {
+                                jsonviewer(ov.file, true, ov.file.dashboardMetadata.name, "#popupjsonviewer");
+                            });
                             let $ov_ul = $("<ul>")
                                 .appendTo($wf_li);
                             let subs = getStaticSubDBs(ov.file);
@@ -483,7 +486,7 @@ function fieldsetPainter() {
                                         .text(sub.name)
                                         .appendTo($sub_li);
                                     $sub_li_a.on("click", function () {
-                                        jsonviewer(sub.file, true, wf.file.config.workflowName, "#popupjsonviewer");
+                                        jsonviewer(sub.file, true, sub.file.dashboardMetadata.name, "#popupjsonviewer");
                                     });
                                 });
                         }
