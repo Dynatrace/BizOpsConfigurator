@@ -468,14 +468,15 @@ function fieldsetPainter() {
                                 .appendTo($wf_li);
                             $wf_ov.before(" - (");
                             $wf_ov.after(")");
-                            jsonviewer(wf.file, true, wf.file.config.workflowName, "#popupjsonviewer");
+                            jsonviewer(wf.file.config, true, wf.file.config.workflowName, "#popupjsonviewer");
                             let $ov_ul = $("<ul>")
                                 .appendTo($wf_li);
                             let subs = getStaticSubDBs(ov.file);
                             subs
                                 .sort((a, b) => (a.file.dashboardMetadata.name.toLowerCase() > b.file.dashboardMetadata.name.toLowerCase()) ? 1 : -1)
                                 .forEach((sub) => {
-                                    let $sub_li = $("<li>");
+                                    let $sub_li = $("<li>")
+                                        .appendTo($ov_ul);
                                     let $sub_li_a = $("<a>")
                                         .addClass("dashboardList")
                                         .attr("href", "#json")
