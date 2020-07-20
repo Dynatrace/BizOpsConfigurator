@@ -167,7 +167,7 @@ function processTestConnect(result) {
   owner = result["userId"];
   tenantID = calcTenantID(url);
   let res = true;
-  let e = "Missing DT API token scopes (<a href='#helpPopup/scopes' class='helpPopup'>Help</a>): ";
+  let e = "Missing DT API token scopes (<a href='#helpPopup/scopes' class='helpPopup hashHandled'>Help</a>): ";
   let missingScopes = [];
 
   if (!result["scopes"].includes("DTAQLAccess")) {
