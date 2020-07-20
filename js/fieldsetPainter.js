@@ -478,9 +478,7 @@ function fieldsetPainter() {
                                 .appendTo($wf_li);
                             let subs = getStaticSubDBs(ov.file)
                                 .sort((a,b) => (a.name.toLowerCase() > b.name.toLowerCase()) ? 1 : -1);
-                            subs
-                                .sort((a, b) => (a.file.dashboardMetadata.name.toLowerCase() > b.file.dashboardMetadata.name.toLowerCase()) ? 1 : -1)
-                                .forEach((sub) => {
+                            subs.forEach((sub) => {
                                     let $sub_li = $("<li>")
                                         .appendTo($ov_ul);
                                     let $sub_li_a = $("<a>")
@@ -494,7 +492,7 @@ function fieldsetPainter() {
                                     tokenList = new Set([...tokenList, ...scanForTokens(sub.file)]);
                                 });
                             tokenList = new Set([...tokenList, ...scanForTokens(ov.file)]);
-                            jsonviewer({ config: wf.file.config, tokens: tokenList},
+                            jsonviewer({ config: wf.file.config, tokens: Array.from(tokenList)},
                                 true, wf.file.config.workflowName, "#popupjsonviewer");
                         }
                     });
