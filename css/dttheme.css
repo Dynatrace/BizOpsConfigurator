@@ -1042,6 +1042,8 @@ div.userInput input[type="button"] {
 
 .popupHTML img {
   max-width: 100%;
+  object-fit: contain;
+  object-position: left;
 }
 
 #workflowButtonRow {
@@ -1193,7 +1195,7 @@ input:invalid {
 
 #readmeViewer img {
   flex: 0;
-  max-width: calc(100vw - 236px - 300px - 110px);
+  max-width: calc(100vw - 236px - 300px - 250px);
   border: 1px solid #606060;
   border-radius: 3px;
 }
