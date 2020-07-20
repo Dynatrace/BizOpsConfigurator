@@ -492,7 +492,8 @@ function fieldsetPainter() {
                                     tokenList = new Set([...tokenList, ...scanForTokens(sub.file)]);
                                 });
                             tokenList = new Set([...tokenList, ...scanForTokens(ov.file)]);
-                            jsonviewer({ config: wf.file.config, tokens: Array.from(tokenList)},
+                            jsonviewer({ config: wf.file.config, tokens: Array.from(tokenList)
+                                .sort((a,b)=>(a.name.toLowerCase() > b.name.toLowerCase()) ? 1 : -1)},
                                 true, wf.file.config.workflowName, "#popupjsonviewer");
                         }
                     });
