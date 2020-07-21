@@ -227,8 +227,8 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 				$.when(p1).done(function (data) {
 					let results = sliceAPIdata("ApplicationMethods", data);
 					if(results.length>0) anyResults = true;
+					drawMethods(parseMethods(results), $goalList, app.xapp);
 				})
-				drawMethods(parseMethods(results), $goalList, app.xapp);
 			}
 			if (!anyResults) {
 				let popheader = "No Key User Actions";
@@ -251,8 +251,8 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 						+ ' class="newTab" target="_blank">here <img src="images/link.svg"></a>';
 					popup([], popheader, desc);
 				}
+				drawMethods(parseMethods(results), $goalList, app.xapp);
 			})
-			drawMethods(parseMethods(results), $goalList, app.xapp);
 		}
 		$goalList.find("li").draggable();
 	}
