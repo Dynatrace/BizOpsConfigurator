@@ -284,7 +284,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 			list += "<li class='ui-corner-all ui-widget-content tooltip'><input id='" + step.step +
 				"' data-json='" + JSON.stringify(step) + "' " +
 				"type='hidden'><span class='steptype'>" +
-				type + "</span>: " + step.step +
+				step.type + "</span>: " + step.step +
 				(xapp ? "<span class='tooltiptext'>" + step.appname + "</span>" : "") +
 				"</li>";
 		});
