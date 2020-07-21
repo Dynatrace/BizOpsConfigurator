@@ -88,6 +88,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		let id = ui.draggable[0].childNodes[0].id;
 		let colname = ui.draggable[0].childNodes[0].dataset.colname;
 		let appname = ui.draggable[0].childNodes[0].dataset.appname;
+		let stepData = JSON.parse(ui.draggable[0].childNodes[0].dataset.json) || {};
 		let clause = colname + '="' + id + '"';
 		if (app.xapp)
 			clause = '(useraction.application="' + appname + '" and ' + clause + ')';
@@ -113,6 +114,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 					}
 					journeyData[i].clauses.push(clause);
 					if (appname) journeyData[i].appname = appname;
+					if(stepData) journeyData[i].stepData = stepData;
 					chart.draw(journeyData, options);
 					updateWhere(journeyData);
 				}
