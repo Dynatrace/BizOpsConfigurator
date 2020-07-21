@@ -112,7 +112,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 						journeyData[i].value += " OR " + id;
 					}
 					journeyData[i].clauses.push(clause);
-					if(appname) journeyData[i].appname = appname;
+					if (appname) journeyData[i].appname = appname;
 					chart.draw(journeyData, options);
 					updateWhere(journeyData);
 				}
@@ -214,6 +214,73 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		$pencil.on("click", pencilToggle);
 	}
 
+	function populateMethodList() {
+		$goalList.find("li").remove();
+		if (app.xapp) {
+			let promises = [];
+			let query = "";
+			let anyResults = false;
+			for(let i=0; i<app.count; i++){
+				let query = `/api/v1/entity/applications/${app.ids[i]}/baseline`;
+				let p1 = dtAPIquery(query);
+	
+				$.when(p1).done(function (data) {
+					let results = sliceAPIdata("ApplicationMethods", data);
+					if(results.length>0) anyResults = true;
+				})
+				drawMethods(parseMethods(results), $goalList, app.xapp);
+			}
+			if (!anyResults) {
+				let popheader = "No Key User Actions";
+				let desc = "Please configure some Key User Actions";
+				desc += `<a href="${url}/#uemapplications/performanceanalysis;uemapplicationId=${app.ids[0]}"`
+					+ ' class="newTab" target="_blank">here <img src="images/link.svg"></a>';
+				popup([], popheader, desc);
+			}
+		} else {
+			let query = `/api/v1/entity/applications/${app.id}/baseline`;
+			let p1 = dtAPIquery(query);
+
+			$.when(p1).done(function (data) {
+				let results = sliceAPIdata("ApplicationMethods", data);
+
+				if (results.length == 0) {
+					let popheader = "No Key User Actions";
+					let desc = "Please configure some Key User Actions";
+					desc += `<a href="${url}/#uemapplications/performanceanalysis;uemapplicationId=${app.id}"`
+						+ ' class="newTab" target="_blank">here <img src="images/link.svg"></a>';
+					popup([], popheader, desc);
+				}
+			})
+			drawMethods(parseMethods(results), $goalList, app.xapp);
+		}
+		$goalList.find("li").draggable();
+	}
+
+	function parseMethods(results) {
+		var keys = [];
+		var steps = [];
+		var type = 'useraction.name';
+		//parse keyActions
+		results.forEach(function (result) {
+			result.step = result.key.replace(/([^"])"([^"])?/g, "$1\"\"$2"); //escape janky doublequotes
+		});
+		results.sort((a, b) => (a.step.toLowerCase() > b.step.toLowerCase()) ? 1 : -1);
+		return results;
+	}
+
+	function drawMethods(results, goallist = "#goallist", xapp = false) {
+		let list = "";
+		results.forEach(function (step) {
+			list += "<li class='ui-corner-all ui-widget-content tooltip'><input id='" + step.step +
+				"' data-json='" + JSON.stringify(step) + "' "  +
+				"type='hidden'><span class='steptype'>" +
+				type + "</span>: " + step.step +
+				(xapp ? "<span class='tooltiptext'>" + step.appname + "</span>" : "") +
+				"</li>";
+		});
+		$(goallist).append(list);
+	}
 
 
 
@@ -294,7 +361,8 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		$target.parent(".userInput").removeClass("userInput").addClass("journeyPicker");
 		$target.replaceWith($html);
 
-		populateGoalList();
+		//populateGoalList();
+		populateMethodList();
 		//jsonviewer([data1[0], data2[0]]);
 
 		if (data != null) journeyData = data;

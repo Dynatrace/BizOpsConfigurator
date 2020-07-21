@@ -72,6 +72,8 @@ function sliceAPIdata(slicer, data) {
             break;
         case "ApplicationMethods":
             parsedResults = [];
+            let appid = data.entityId;
+            let appname = data.displayName;
             let valueMap = Object.keys(data)
                 .filter(key => key.includes("Baselines"))
                 .reduce((obj, key) => {
@@ -84,7 +86,7 @@ function sliceAPIdata(slicer, data) {
                     })
                     return obj;
                 }, new Map());
-            valueMap.forEach((val, key, map) => { parsedResults.push({ value: val.id, key: key, type: val.type }); });
+            valueMap.forEach((val, key, map) => { parsedResults.push({ value: val.id, key: key, type: val.type, appid: appid, appname: appname }); });
             parsedResults = parsedResults.sort((a, b) => a.key.toLowerCase() > b.key.toLowerCase() ? 1 : -1);
             break;
     }

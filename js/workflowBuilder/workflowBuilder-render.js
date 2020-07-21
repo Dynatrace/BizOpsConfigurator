@@ -68,7 +68,8 @@ function renderWorkflowPage(el) {
         let app = {
             name: '${' + appTransform + '.name}',
             id: '${' + appTransform + '.id}',
-            xapp: false
+            xapp: false,
+            transform: appTransform
         };
         if (typeof selection.swaps !== "undefined") {
             if (selection.swaps.find(x => x.from === '${' + appTransform + '.count}')) app.xapp = true;
@@ -77,6 +78,11 @@ function renderWorkflowPage(el) {
                     .filter(x => x.from.startsWith('${' + appTransform + '-') &&
                         x.from.endsWith('.name}'))
                     .map(x => x.to);
+                app.ids = selection.swaps
+                    .filter(x => x.from.startsWith('${' + appTransform + '-') &&
+                        x.from.endsWith('.id}'))
+                    .map(x => x.to);
+                app.count = selection.swaps.find(x => x.from === '${' + appTransform + '.count}').to;
             } else {
                 let swap = selection.swaps.find(x => x.from == app.name);
                 app.name = swap ? swap.to : app.name;
@@ -158,8 +164,8 @@ function renderWorkflowPage(el) {
         let html = sanitizer.sanitize($el.html());
         //$el.find("select.chosen-select").chosen('destroy');
         $el.find("select.chosen-select").show().chosen();
-            //.chosen("destroy") //in case we're already rendered for some reason
-            
+        //.chosen("destroy") //in case we're already rendered for some reason
+
         p.resolve(html);
     })
 
