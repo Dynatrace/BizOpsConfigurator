@@ -263,7 +263,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		}
 		$.when.apply($, promises).then(function (d) {
 			$goalList.find("li").draggable();
-		}
+		});
 	}
 
 	function parseMethods(results) {
