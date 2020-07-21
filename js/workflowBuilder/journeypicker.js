@@ -215,36 +215,43 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 	}
 
 	function populateMethodList() {
+		let promises = [];
+		let anyResults = false;
 		$goalList.find("li").remove();
+
 		if (app.xapp) {
-			let promises = [];
-			let query = "";
-			let anyResults = false;
-			for(let i=0; i<app.count; i++){
+
+			for (let i = 0; i < app.count; i++) {
 				let query = `/api/v1/entity/applications/${app.ids[i]}/baseline`;
 				let p1 = dtAPIquery(query);
-	
+				promises.push(p1);
+
 				$.when(p1).done(function (data) {
 					let results = sliceAPIdata("ApplicationMethods", data);
-					if(results.length>0) anyResults = true;
+					if (results.length > 0) anyResults = true;
 					drawMethods(parseMethods(results), $goalList, app.xapp);
 				})
 			}
-			if (!anyResults) {
-				let popheader = "No Key User Actions";
-				let desc = "Please configure some Key User Actions";
-				desc += `<a href="${url}/#uemapplications/performanceanalysis;uemapplicationId=${app.ids[0]}"`
-					+ ' class="newTab" target="_blank">here <img src="images/link.svg"></a>';
-				popup([], popheader, desc);
-			}
+			$.when.apply($, promises).then(function (d) {
+				if (!anyResults) {
+					let popheader = "No Key User Actions";
+					let desc = "Please configure some Key User Actions";
+					desc += `<a href="${url}/#uemapplications/performanceanalysis;uemapplicationId=${app.ids[0]}"`
+						+ ' class="newTab" target="_blank">here <img src="images/link.svg"></a>';
+					popup([], popheader, desc);
+				}
+			});
 		} else {
 			let query = `/api/v1/entity/applications/${app.id}/baseline`;
 			let p1 = dtAPIquery(query);
+			promises.push(p1);
 
 			$.when(p1).done(function (data) {
 				let results = sliceAPIdata("ApplicationMethods", data);
 
-				if (results.length == 0) {
+				if (results.length > 0) {
+					anyResults = true;
+				} else {
 					let popheader = "No Key User Actions";
 					let desc = "Please configure some Key User Actions";
 					desc += `<a href="${url}/#uemapplications/performanceanalysis;uemapplicationId=${app.id}"`
@@ -252,9 +259,11 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 					popup([], popheader, desc);
 				}
 				drawMethods(parseMethods(results), $goalList, app.xapp);
-			})
+			});
 		}
-		$goalList.find("li").draggable();
+		$.when.apply($, promises).then(function (d) {
+			$goalList.find("li").draggable();
+		}
 	}
 
 	function parseMethods(results) {
@@ -273,7 +282,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		let list = "";
 		results.forEach(function (step) {
 			list += "<li class='ui-corner-all ui-widget-content tooltip'><input id='" + step.step +
-				"' data-json='" + JSON.stringify(step) + "' "  +
+				"' data-json='" + JSON.stringify(step) + "' " +
 				"type='hidden'><span class='steptype'>" +
 				type + "</span>: " + step.step +
 				(xapp ? "<span class='tooltiptext'>" + step.appname + "</span>" : "") +
