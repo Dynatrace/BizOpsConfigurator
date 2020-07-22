@@ -8,6 +8,7 @@ function createFullConnection() {
   let p_connect = testConnect();
 
   $.when(p_connect).done(function (data) {
+    isInternalTenant();
     if (processTestConnect(data)) {
       $("#viewport").load("html/configurator/main.html", fieldsetPainter);
       getVersion()

@@ -704,6 +704,7 @@ function workflowPickerChangeHandler(e) {
     case undefined: {
 
       let deployedPersonas = workflowList
+        .filter(statusFilter)
         .map((x) => x.file.config.persona).flat().filter(unique);
       let personaOptions = "";
       personas.sort((a, b) => a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1).forEach(function (persona) {
@@ -714,7 +715,7 @@ function workflowPickerChangeHandler(e) {
       $persona.html(personaOptions);
       if (window.location.hash.includes("#deploy/persona")) {
         let args = hashArgs();
-        if (args[2] != "" && args[2] != null) 
+        if (args[2] != "" && args[2] != null)
           $persona.val(args[2]);
       }
       if ($persona.val() == null) {
@@ -727,7 +728,9 @@ function workflowPickerChangeHandler(e) {
       let usecaseOptions = "";
       let personaPrefix = $("#persona option:selected").attr("data-prefix");
 
-      let filteredWFs = workflowList.filter(wf => wf.file.config.persona.includes(personaPrefix));
+      let filteredWFs = workflowList
+        .filter(statusFilter)
+        .filter(wf => wf.file.config.persona.includes(personaPrefix));
       let deployedUsecases = filteredWFs.map((wf) => wf.file.config.usecase).filter(unique);
       usecases.sort((a, b) => a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1).forEach(function (usecase) {
         if (deployedUsecases.includes(usecase.prefix)) {
@@ -737,7 +740,7 @@ function workflowPickerChangeHandler(e) {
       $usecase.html(usecaseOptions);
       if (window.location.hash.includes("#deploy/persona")) {
         let args = hashArgs();
-        if (args[3] != "" && args[3] != null) 
+        if (args[3] != "" && args[3] != null)
           $usecase.val(args[3]);
       }
       if ($usecase.val() == null) {
@@ -750,7 +753,9 @@ function workflowPickerChangeHandler(e) {
       let workflowOptions = "";
       let personaPrefix = $("#persona option:selected").attr("data-prefix");
       let usecasePrefix = $("#usecase option:selected").attr("data-prefix");
-      let filtered1 = workflowList.filter(wf => wf.file.config.persona.includes(personaPrefix));
+      let filtered1 = workflowList
+        .filter(statusFilter)
+        .filter(wf => wf.file.config.persona.includes(personaPrefix));
       let filtered2 = filtered1.filter(wf => wf.file.config.usecase === usecasePrefix);
       filtered2
         .sort((a, b) => a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1)
@@ -762,7 +767,7 @@ function workflowPickerChangeHandler(e) {
       $workflow.html(workflowOptions);
       if (window.location.hash.includes("#deploy/persona")) {
         let args = hashArgs();
-        if (args[4] != "" && args[4] != null) 
+        if (args[4] != "" && args[4] != null)
           $workflow.val(args[4]);
       }
       if ($workflow.val() == null) {
@@ -809,6 +814,7 @@ function workflowPickerOwnerChangeHandler(e) {
   switch (id) {
     case undefined: {
       let owners = workflowList
+        .filter(statusFilter)
         .map((x) => x.repo.owner).flat().filter(unique);
       let ownerOptions = "";
       owners.sort((a, b) => a.toLowerCase() > b.toLowerCase() ? 1 : -1).forEach(function (owner) {
@@ -830,7 +836,9 @@ function workflowPickerOwnerChangeHandler(e) {
       let repoOptions = "";
       let owner = $owner.val();
 
-      let filteredWFs = workflowList.filter(wf => wf.repo.owner == owner);
+      let filteredWFs = workflowList
+        .filter(statusFilter)
+        .filter(wf => wf.repo.owner == owner);
       let repos = filteredWFs.map((wf) => wf.repo.repo).filter(unique);
       repos.sort((a, b) => a.toLowerCase() > b.toLowerCase() ? 1 : -1).forEach(function (repo) {
         repoOptions += `<option>${repo}</option>`;
@@ -838,7 +846,7 @@ function workflowPickerOwnerChangeHandler(e) {
       $repo.html(repoOptions);
       if (window.location.hash.includes("#deploy/owner")) {
         let args = hashArgs();
-        if (args[3] != "" && args[3] != null) 
+        if (args[3] != "" && args[3] != null)
           $repo.val(args[3]);
       }
       if ($repo.val() == null) {
@@ -851,7 +859,9 @@ function workflowPickerOwnerChangeHandler(e) {
       let workflowOptions = "";
       let owner = $owner.val();
       let repo = $repo.val();
-      let filteredWFs = workflowList.filter(wf => wf.repo.owner == owner && wf.repo.repo == repo);
+      let filteredWFs = workflowList
+        .filter(statusFilter)
+        .filter(wf => wf.repo.owner == owner && wf.repo.repo == repo);
       filteredWFs
         .sort((a, b) => a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1)
         .forEach(function (wf) {
@@ -862,7 +872,7 @@ function workflowPickerOwnerChangeHandler(e) {
       $workflow.html(workflowOptions);
       if (window.location.hash.includes("#deploy/owner")) {
         let args = hashArgs();
-        if (args[4] != "" && args[4] != null) 
+        if (args[4] != "" && args[4] != null)
           $workflow.val(args[4]);
       }
       if ($workflow.val() == null) {
@@ -902,7 +912,8 @@ function workflowPickerAllChangeHandler(e) {
   switch (id) {
     case undefined: {
       let workflowOptions = "";
-      let filteredWFs = workflowList;
+      let filteredWFs = workflowList
+        .filter(statusFilter);
       filteredWFs
         .sort((a, b) => a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1)
         .forEach(function (wf) {
@@ -913,7 +924,7 @@ function workflowPickerAllChangeHandler(e) {
       $workflow.html(workflowOptions);
       if (window.location.hash.includes("#deploy/all")) {
         let args = hashArgs();
-        if (args[2] != "" && args[2] != null) 
+        if (args[2] != "" && args[2] != null)
           $workflow.val(args[2]);
       }
       //do not break
@@ -936,6 +947,6 @@ function workflowPickerAllChangeHandler(e) {
         $blogLink.html("");
       }
 
-        window.location.hash = `#deploy/all/${$workflow.val()}`;
+      window.location.hash = `#deploy/all/${$workflow.val()}`;
   }
 }

@@ -6,6 +6,11 @@ Unless required by applicable law or agreed to in writing, software distributed 
 var configDashboard = "json/configDashboard.json";
 const REpersonaWorkflow = /^bbbbbbbb-a[0-9]{3}-a[0-9]{3}-[0]{4}-[0-9]{12}$/;
 const unique = (value, index, self) => self.indexOf(value) === index;
+const statusFilter = (x) => x.file.config.workflowStatus === undefined
+  || x.file.config.workflowStatus === "GA"
+  || x.file.config.workflowStatus === "Early Adopter"
+  || (x.file.config.workflowStatus === "Preview" && PreviewWorkflows)
+  || (x.file.config.workflowStatus === "Testing" && PreviewWorkflows && InternalTenant);
 
 //var dashboardDir = "json/Dynatrace-DashboardsV4/";
 var dbTO = "TenantOverview.json";
@@ -126,6 +131,9 @@ var Idxdb = {
   version: 1,
   db: null
 }
+var PreviewWorkflows = false;
+var InternalTenant = false;
+
 
 ///////// Functions for manipulating global vars //////////
 
@@ -640,3 +648,13 @@ var uniqId = (function () {
     return i++;
   }
 })();
+
+function isInternalTenant(u=url) {
+  //not like "%sprint%dynalabs.io%" and stringProperties.url_js not like "%.dynatracelabs.com" 
+  let internal = false;
+  if(! u.match(/sprint.*dynalabs.io/) && ! u.match(/\.dynatracelabs.com/))
+    internal = true;
+
+  InternalTenant = internal;
+  return internal;
+}

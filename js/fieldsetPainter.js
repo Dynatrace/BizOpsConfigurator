@@ -31,6 +31,9 @@ function fieldsetPainter() {
                 $("#repo_config").load("html/repo_config.html", fieldsetPainter);
             });
 
+            if(PreviewWorkflows) $("#previewWorkflows").prop("checked", true);
+            else $("#previewWorkflows").prop("checked", false);
+            
             if (personaFlow) {
                 $("#personaFlow").prop("checked", true);
                 $(".oldFlow").hide();

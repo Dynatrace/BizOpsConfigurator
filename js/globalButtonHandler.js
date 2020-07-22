@@ -666,7 +666,8 @@ function globalButtonHandler() {
         oldVersion = parseInt($("#oldVersion").val());
         dbTagsVersion = parseInt($("#dbTagsVersion").val());
         USQLlimit = parseInt($("#USQLlimit").val());
-        personaFlow = $("#personaFlow").prop('checked');;
+        personaFlow = $("#personaFlow").prop('checked');
+        PreviewWorkflows = $("#previewWorkflows").prop('checked');
         dbTO = $("#dbTO").val();
         dbAO = $("#dbAO").val();
         dbFunnelTrue = $("#dbFunnelTrue").val();
