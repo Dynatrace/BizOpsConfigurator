@@ -454,8 +454,8 @@ function generateWorkflowSwapList(el) {
             }
             let fromcount = "${" + transform + ".count}";
             addToSwaps(swaps, { from: fromcount, to: $opts.length.toString() });
-            addToSwaps(swaps, { from: fromkey, to: keys.join('","') });
-            addToSwaps(swaps, { from: fromval, to: vals.join('","') });
+            addToSwaps(swaps, { from: fromkey, to: keys.join('", "') });
+            addToSwaps(swaps, { from: fromval, to: vals.join('", "') });
           } else {
             let $opt = $select.find("option:selected");
             addToSwaps(swaps, { from: fromkey, to: $opt.text() });
@@ -523,11 +523,11 @@ function apiSelectGetSwaps(select, transform, swaps) {
     addToSwaps(swaps, { from: fromcount, to: values.length.toString() });
     let from = "${" + transform + ".name}";
     let to = values.map(x => x.key.replace(/"/g, '\\"'))
-      .join('" , "');
+      .join('", "');
     addToSwaps(swaps, { from: from, to: to });
     from = "${" + transform + ".id}";
     to = values.map(x => x.value.replace(/"/g, '\\"'))
-      .join('" , "');
+      .join('", "');
     addToSwaps(swaps, { from: from, to: to });
   } else {
     let val = $select.val();
@@ -574,10 +574,10 @@ function journeyGetSwaps(workflowInput, transform, swaps) {
     }
     if("stepData" in d){
       from = "${" + transform + ".methods-" + (i + 1) + "}";
-      let methods = d.stepData.map(x=>x.value).join('","');
+      let methods = d.stepData.map(x=>x.value).join('", "');
       addToSwaps(swaps, { from: from, to: methods });
       from = "${" + transform + ".appids-" + (i + 1) + "}";
-      let appids = d.stepData.map(x=>x.appid).join('","');
+      let appids = d.stepData.map(x=>x.appid).join('", "');
       addToSwaps(swaps, { from: from, to: appids });
     }
 
@@ -591,10 +591,10 @@ function journeyGetSwaps(workflowInput, transform, swaps) {
       }
       if("stepData" in d){
         from = "${" + transform + ".methods-last}";
-        let methods = d.stepData.map(x=>x.value).join('","');
+        let methods = d.stepData.map(x=>x.value).join('", "');
         addToSwaps(swaps, { from: from, to: methods });
         from = "${" + transform + ".appids-last}";
-        let appids = d.stepData.map(x=>x.appid).join('","');
+        let appids = d.stepData.map(x=>x.appid).join('", "');
         addToSwaps(swaps, { from: from, to: appids });
       }
     }
