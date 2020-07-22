@@ -116,7 +116,10 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 					}
 					journeyData[i].clauses.push(clause);
 					if (appname) journeyData[i].appname = appname;
-					if(actionData) journeyData[i].stepData.push(actionData);
+					if(actionData) {
+						if(!"stepData" in journeyData[i]) journeyData[i].stepData = [];
+						journeyData[i].stepData.push(actionData);
+					}
 					chart.draw(journeyData, options);
 					updateWhere(journeyData);
 				}
