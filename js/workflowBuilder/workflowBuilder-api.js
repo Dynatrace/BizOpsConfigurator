@@ -86,7 +86,7 @@ function sliceAPIdata(slicer, data) {
                     })
                     return obj;
                 }, new Map());
-            valueMap.forEach((val, key, map) => { parsedResults.push({ value: val.id, key: key, type: val.type, appid: appid, appname: appname }); });
+            valueMap.forEach((val, key, map) => { parsedResults.push({ value: val.id, key: key, type: val.type, appid: appid, appname: appname, colname: 'useraction.name' }); });
             parsedResults = parsedResults.sort((a, b) => a.key.toLowerCase() > b.key.toLowerCase() ? 1 : -1);
             break;
     }
