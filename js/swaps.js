@@ -522,11 +522,11 @@ function apiSelectGetSwaps(select, transform, swaps) {
     let fromcount = "${" + transform + ".count}";
     addToSwaps(swaps, { from: fromcount, to: values.length.toString() });
     let from = "${" + transform + ".name}";
-    let to = values.map(x => '"' + x.key.replace(/"/g, '\\"') + '"')
+    let to = values.map(x => x.key.replace(/"/g, '\\"'))
       .join('" , "');
     addToSwaps(swaps, { from: from, to: to });
     from = "${" + transform + ".id}";
-    to = values.map(x => '"' + x.value.replace(/"/g, '\\"') + '"')
+    to = values.map(x => x.value.replace(/"/g, '\\"'))
       .join('" , "');
     addToSwaps(swaps, { from: from, to: to });
   } else {
