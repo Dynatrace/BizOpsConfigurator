@@ -302,22 +302,24 @@ function hashArgs(hash) {
 
 function helpPopup(args) {
   switch (args[1]) {
-    case "scopes":
+    case "scopes": {
       let header = `Dynatrace API Token Scopes`;
       let content = `<p>Please correct your API token's scopes to include:</p>
         <img src='images/Token.png'>`
       popupHTML(header, content);
       break;
-      case "workflowStatus":
-        let header = `Workflow Status`;
-        let content = `<p>What status is your workflow in?</p>
+    }
+    case "workflowStatus": {
+      let header = `Workflow Status`;
+      let content = `<p>What status is your workflow in?</p>
           <ul>
             <li><b>GA</b> - Available for everyone by default</li>
             <li><b>Early Adopter</b> - Available for everyone by default but denoted with EA</li>
             <li><b>Preview</b> - Only available if the Preview option in the gear menu is checked</li>
             <li><b>Testing</b> - Only available to be pushed to Sprint and Dev domains</li>
           </ul>`
-        popupHTML(header, content);
-        break;
+      popupHTML(header, content);
+      break;
+    }
   }
 }
