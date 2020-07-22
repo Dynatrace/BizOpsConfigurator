@@ -565,12 +565,30 @@ function journeyGetSwaps(workflowInput, transform, swaps) {
       from = "${" + transform + ".app-" + (i + 1) + "}";
       addToSwaps(swaps, { from: from, to: d.appname });
     }
-    if (i == journeyData.length - 1) {
+    if("stepData" in d){
+      from = "${" + transform + ".methods-" + (i + 1) + "}";
+      let methods = d.stepData.map(x=>x.value).join('","');
+      addToSwaps(swaps, { from: from, to: methods });
+      from = "${" + transform + ".appids-" + (i + 1) + "}";
+      let appids = d.stepData.map(x=>x.appid).join('","');
+      addToSwaps(swaps, { from: from, to: appids });
+    }
+
+
+    if (i == journeyData.length - 1) { //last
       from = "${" + transform + ".header-last}";
       addToSwaps(swaps, { from: from, to: d.label });
       if ("appname" in d) {
         from = "${" + transform + ".app-last}";
         addToSwaps(swaps, { from: from, to: d.appname });
+      }
+      if("stepData" in d){
+        from = "${" + transform + ".methods-last}";
+        let methods = d.stepData.map(x=>x.value).join('","');
+        addToSwaps(swaps, { from: from, to: methods });
+        from = "${" + transform + ".appids-last}";
+        let appids = d.stepData.map(x=>x.appid).join('","');
+        addToSwaps(swaps, { from: from, to: appids });
       }
     }
   });
