@@ -439,16 +439,23 @@ function generateWorkflowSwapList(el) {
         if ($select.length) {
           let multi = $select.attr("multiple");
           if (multi) {
+            let keys = [], vals = [];
             let $opts = $select.find("option:selected");
             for (let i = 0; i < $opts.length; i++) {
               let $opt = $($opts[i]);
+              let key = $opt.text();
+              let val = $opt.val();
               fromkey = "${" + transform + "-" + i + ".key}";
               fromval = "${" + transform + "-" + i + ".value}";
-              addToSwaps(swaps, { from: fromkey, to: $opt.text() });
-              addToSwaps(swaps, { from: fromval, to: $opt.val() });
+              addToSwaps(swaps, { from: fromkey, to: key });
+              addToSwaps(swaps, { from: fromval, to: val });
+              keys.push(key)
+              vals.push(val);
             }
             let fromcount = "${" + transform + ".count}";
             addToSwaps(swaps, { from: fromcount, to: $opts.length.toString() });
+            addToSwaps(swaps, { from: fromkey, to: keys.join('","') });
+            addToSwaps(swaps, { from: fromval, to: vals.join('","') });
           } else {
             let $opt = $select.find("option:selected");
             addToSwaps(swaps, { from: fromkey, to: $opt.text() });
@@ -516,11 +523,11 @@ function apiSelectGetSwaps(select, transform, swaps) {
     addToSwaps(swaps, { from: fromcount, to: values.length.toString() });
     let from = "${" + transform + ".name}";
     let to = values.map(x => '"' + x.key.replace(/"/g, '\\"') + '"')
-      .join(' , ');
+      .join('" , "');
     addToSwaps(swaps, { from: from, to: to });
     from = "${" + transform + ".id}";
     to = values.map(x => '"' + x.value.replace(/"/g, '\\"') + '"')
-      .join(' , ');
+      .join('" , "');
     addToSwaps(swaps, { from: from, to: to });
   } else {
     let val = $select.val();
