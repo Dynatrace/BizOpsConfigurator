@@ -1000,7 +1000,7 @@ section.expanded>a.expandable::before {
   justify-content: center;
 }
 
-#readmeIcon, #readmeIcon:visited {
+#readmeIcon, #readmeIcon:visited, .questionMark {
   display: inline-block;
   min-width: 15px;
   text-align: center;
