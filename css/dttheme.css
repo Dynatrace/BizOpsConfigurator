@@ -1430,3 +1430,18 @@ input.ellipsis {
 .illustration a:hover {
   text-decoration: underline;
 }
+
+.dttag {
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  min-width: 30px;
+  max-width: 350px;
+  height: 24px;
+  padding: 2px 8px;
+  background: #454646;
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

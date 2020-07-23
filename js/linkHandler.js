@@ -316,7 +316,7 @@ function helpPopup(args) {
             <li><b>GA</b> - Available for everyone by default</li>
             <li><b>Early Adopter</b> - Available for everyone by default but denoted with EA</li>
             <li><b>Preview</b> - Only available if the Preview option in the gear menu is checked</li>
-            <li><b>Testing</b> - Only available to be pushed to Sprint and Dev domains</li>
+            <li><b>Testing</b> - Only available to be pushed to Sprint and Dev domains, check Preview option</li>
           </ul>`
       popupHTML(header, content);
       break;

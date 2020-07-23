@@ -699,6 +699,7 @@ function workflowPickerChangeHandler(e) {
   let $workflow = $("#workflow");
   let $readmeViewer = $("#readmeViewer");
   let $blogLink = $("#blogLink");
+  $("#persona_usecase_next").siblings(".dttag").remove();
 
   switch (id) {
     case undefined: {
@@ -793,6 +794,10 @@ function workflowPickerChangeHandler(e) {
         $blogLink.hide();
         $blogLink.html("");
       }
+      if("workflowStatus" in workflow.file.config && workflow.file.config.workflowStatus 
+      && workflow.file.config.workflowStatus != "GA")
+      $("#persona_usecase_next").after(`<div class='dttag'>${workflow.file.config.workflowStatus}</div>`);
+      
       window.location.hash = `#deploy/persona/${$persona.val()}/${$usecase.val()}/${$workflow.val()}`;
   }
 
@@ -810,6 +815,7 @@ function workflowPickerOwnerChangeHandler(e) {
   let $workflow = $("#workflow");
   let $readmeViewer = $("#readmeViewer");
   let $blogLink = $("#blogLink");
+  $("#persona_usecase_next").siblings(".dttag").remove();
 
   switch (id) {
     case undefined: {
@@ -898,6 +904,10 @@ function workflowPickerOwnerChangeHandler(e) {
         $blogLink.hide();
         $blogLink.html("");
       }
+      if("workflowStatus" in workflow.file.config && workflow.file.config.workflowStatus 
+      && workflow.file.config.workflowStatus != "GA")
+      $("#persona_usecase_next").after(`<div class='dttag'>${workflow.file.config.workflowStatus}</div>`);
+
       window.location.hash = `#deploy/owner/${$owner.val()}/${$repo.val()}/${$workflow.val()}`;
   }
 }
@@ -908,6 +918,7 @@ function workflowPickerAllChangeHandler(e) {
   let $workflow = $("#workflow");
   let $readmeViewer = $("#readmeViewer");
   let $blogLink = $("#blogLink");
+  $("#persona_usecase_next").siblings(".dttag").remove();
 
   switch (id) {
     case undefined: {
@@ -946,6 +957,9 @@ function workflowPickerAllChangeHandler(e) {
         $blogLink.hide();
         $blogLink.html("");
       }
+      if("workflowStatus" in workflow.file.config && workflow.file.config.workflowStatus 
+      && workflow.file.config.workflowStatus != "GA")
+      $("#persona_usecase_next").after(`<div class='dttag'>${workflow.file.config.workflowStatus}</div>`);
 
       window.location.hash = `#deploy/all/${$workflow.val()}`;
   }
