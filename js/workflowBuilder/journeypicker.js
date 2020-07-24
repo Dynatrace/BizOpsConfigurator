@@ -90,7 +90,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		//let appname = ui.draggable[0].childNodes[0].dataset.appname;
 		let $li = $(ui.draggable[0]);
 		let $li_input = $li.children("input[type=hidden]");
-		let actionData = $li_input.data(json) || {};
+		let actionData = $li_input.data("json") || {};
 		let appname = actionData.appname;
 		let colname = actionData.colname;
 		let clause = colname + '="' + id + '"';
