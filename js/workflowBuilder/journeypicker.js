@@ -236,6 +236,10 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 
 			if (app.xapp) {
 				for (let i = 0; i < app.count; i++) {
+					if(! app.ids.startsWith("APPLICATION-")) {
+						console.log("/baseline isn't supported on Mobile etc");
+						continue;
+					}
 					query = `/api/v1/entity/applications/${app.ids[i]}/baseline`;
 					let p1 = dtAPIquery(query);
 					promises.push(p1);
@@ -256,6 +260,9 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 					} 
 				});
 			} else {
+				if(! app.ids.startsWith("APPLICATION-")) {
+					console.log("/baseline isn't supported on Mobile etc");
+				}
 				query = `/api/v1/entity/applications/${app.id}/baseline`;
 				let p1 = dtAPIquery(query);
 				promises.push(p1);
