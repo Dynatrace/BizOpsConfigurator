@@ -231,52 +231,56 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		let query = "/api/v2/metrics/query?pageSize=5000&metricSelector=builtin%3Aapps.web.action.apdex%3Amerge%281%29&resolution=Inf&from=now-1d%2Fd";
 		let p0 = dtAPIquery(query);
 		promises.push(p0);
-		$.when(p0).done(data => kuas=data.result[0].data.map(x=>x.dimensions[0]));
+		$.when(p0).done(function(data) {
+			kuas=data.result[0].data.map(x=>x.dimensions[0])
 
-		if (app.xapp) {
-			for (let i = 0; i < app.count; i++) {
-				query = `/api/v1/entity/applications/${app.ids[i]}/baseline`;
+			if (app.xapp) {
+				for (let i = 0; i < app.count; i++) {
+					query = `/api/v1/entity/applications/${app.ids[i]}/baseline`;
+					let p1 = dtAPIquery(query);
+					promises.push(p1);
+	
+					$.when(p0,p1).done(function (d0,d1) {
+						let results = sliceAPIdata("ApplicationMethods", d1[0]);
+						if (results.length > 0) anyResults = true;
+						drawMethods(parseMethods(results,kuas), $goalList, app.xapp);
+					})
+				}
+				$.when.apply($, promises).then(function (d) {
+					if (!anyResults) {
+						let popheader = "No Key User Actions";
+						let desc = "Please configure some Key User Actions";
+						desc += `<a href="${url}/#uemapplications/performanceanalysis;uemapplicationId=${app.ids[0]}"`
+							+ ' class="newTab" target="_blank">here <img src="images/link.svg"></a>';
+						popup([], popheader, desc);
+					} 
+				});
+			} else {
+				query = `/api/v1/entity/applications/${app.id}/baseline`;
 				let p1 = dtAPIquery(query);
 				promises.push(p1);
-
+	
 				$.when(p0,p1).done(function (d0,d1) {
 					let results = sliceAPIdata("ApplicationMethods", d1[0]);
-					if (results.length > 0) anyResults = true;
+	
+					if (results.length > 0) {
+						anyResults = true;
+					} else {
+						let popheader = "No Key User Actions";
+						let desc = "Please configure some Key User Actions";
+						desc += `<a href="${url}/#uemapplications/performanceanalysis;uemapplicationId=${app.id}"`
+							+ ' class="newTab" target="_blank">here <img src="images/link.svg"></a>';
+						popup([], popheader, desc);
+					}
 					drawMethods(parseMethods(results,kuas), $goalList, app.xapp);
-				})
+				});
 			}
 			$.when.apply($, promises).then(function (d) {
-				if (!anyResults) {
-					let popheader = "No Key User Actions";
-					let desc = "Please configure some Key User Actions";
-					desc += `<a href="${url}/#uemapplications/performanceanalysis;uemapplicationId=${app.ids[0]}"`
-						+ ' class="newTab" target="_blank">here <img src="images/link.svg"></a>';
-					popup([], popheader, desc);
-				} 
+				$goalList.find("li").draggable();
 			});
-		} else {
-			query = `/api/v1/entity/applications/${app.id}/baseline`;
-			let p1 = dtAPIquery(query);
-			promises.push(p1);
-
-			$.when(p0,p1).done(function (d0,d1) {
-				let results = sliceAPIdata("ApplicationMethods", d1[0]);
-
-				if (results.length > 0) {
-					anyResults = true;
-				} else {
-					let popheader = "No Key User Actions";
-					let desc = "Please configure some Key User Actions";
-					desc += `<a href="${url}/#uemapplications/performanceanalysis;uemapplicationId=${app.id}"`
-						+ ' class="newTab" target="_blank">here <img src="images/link.svg"></a>';
-					popup([], popheader, desc);
-				}
-				drawMethods(parseMethods(results,kuas), $goalList, app.xapp);
-			});
-		}
-		$.when.apply($, promises).then(function (d) {
-			$goalList.find("li").draggable();
 		});
+
+		
 	}
 
 	function parseMethods(results, kuas=[]) {
