@@ -290,7 +290,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		//parse keyActions
 		results.forEach(function (result) {
 			result.step = result.key.replace(/([^"])"([^"])?/g, "$1\"\"$2"); //escape janky doublequotes
-			if(result.value in kuas) result.kua=true;
+			if(kuas.indexOf(result.value)) result.kua=true;
 			else result.kua=false;
 		});
 		results.sort((a, b) => (a.step.toLowerCase() > b.step.toLowerCase()) ? 1 : -1);
