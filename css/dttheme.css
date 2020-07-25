@@ -1447,3 +1447,15 @@ input.ellipsis {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+#goalListHeader {
+  display: flex;
+}
+
+#goalListHeader div {
+  flex: 0 1;
+}
+
+#goalListHeader div.spacer {
+  flex: 1;
+}

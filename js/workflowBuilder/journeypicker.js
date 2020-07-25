@@ -443,6 +443,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 			filteredActions = actions.filter(x => x.appid === app.id);
 		}
 		
+		$goalList.find("li").remove();
 		drawMethods(parseMethods(filteredActions), $goalList, app.xapp, sortby);
 	}
 
