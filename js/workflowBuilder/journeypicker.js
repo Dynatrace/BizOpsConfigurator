@@ -273,7 +273,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 					})*/
 					let filteredActions = actions.filter(x => x.appid === app.ids[i]);
 					if (filteredActions.length) anyResults = true;
-					drawMethods(parseMethods(results, kuas), $goalList, app.xapp);
+					drawMethods(parseMethods(filteredActions), $goalList, app.xapp);
 				}
 				$.when.apply($, promises).then(function (d) {
 					if (!anyResults) {
@@ -308,7 +308,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 				});*/
 				let filteredActions = actions.filter(x => x.appid === app.id);
 				if (filteredActions.length) anyResults = true;
-				drawMethods(parseMethods(results, kuas), $goalList, app.xapp);
+				drawMethods(parseMethods(filteredActions), $goalList, app.xapp);
 			}
 			$.when.apply($, promises).then(function (d) {
 				$goalList.find("li").draggable();
@@ -318,17 +318,17 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 
 	}
 
-	function parseMethods(results, kuas = []) {
+	function parseMethods(results) {
 		var keys = [];
 		var steps = [];
 		var type = 'useraction.name';
 		//parse keyActions
 		results.forEach(function (result) {
 			result.step = result.key.replace(/([^"])"([^"])?/g, "$1\"\"$2"); //escape janky doublequotes
-			if (kuas.indexOf(result.value)) result.kua = true;
-			else result.kua = false;
+			/*if (kuas.indexOf(result.value)) result.kua = true;
+			else result.kua = false;*/
 		});
-		results.sort((a, b) => (a.step.toLowerCase() > b.step.toLowerCase()) ? 1 : -1);
+		//results.sort((a, b) => (a.step.toLowerCase() > b.step.toLowerCase()) ? 1 : -1);
 		return results;
 	}
 
