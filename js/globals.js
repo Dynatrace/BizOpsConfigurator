@@ -652,7 +652,13 @@ var uniqId = (function () {
 function isInternalTenant(u=url) {
   //not like "%sprint%dynalabs.io%" and stringProperties.url_js not like "%.dynatracelabs.com" 
   let internal = false;
-  if(! u.match(/sprint.*dynalabs.io/) && ! u.match(/\.dynatracelabs.com/))
+  if(u.match(/sprint.*dynalabs.io/) 
+    || u.match(/\.dynatracelabs.com/)
+    || u.match(/managed-sprint.dynalabs.io/)
+    || u.match(/sprint.dynatracelabs.com/)
+    || u.match(/dev.dynatracelabs.com/)
+    || u.match(/managed-dev.dynalabs.io/)
+    )
     internal = true;
 
   InternalTenant = internal;
