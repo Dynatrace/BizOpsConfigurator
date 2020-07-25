@@ -240,7 +240,16 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 			d1[0].result.map(m => {
 				let type = m.metricId.match(/duration\.([^.]+)\.browser/)[1];     //builtin:apps.web.action.duration.custom.browser:parents:names:merge(4,5)
 				m.data.map(data => {
-					actions.push(data.dimensions);
+					let a = data.dimensions;
+					let action = {
+						appname: a[0],
+						appid: a[1],
+						methodname: a[2],
+						methodid: a[3]
+					}
+					if(kuas.findIndex(action.methodid)) action.kua = true;
+					else action.kua = false;
+					actions.push(action);
 				});
 			});
 
