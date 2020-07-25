@@ -245,8 +245,8 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 					let action = {
 						appname: a[0],
 						appid: a[1],
-						methodname: a[2], value: a[2],
-						methodid: a[3], key: a[3]
+						methodname: a[2], key: a[2],
+						methodid: a[3], value: a[3]
 					}
 					if (kuas.findIndex(k => k === action.methodid)) action.kua = true;
 					else action.kua = false;
