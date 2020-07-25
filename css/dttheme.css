@@ -544,7 +544,7 @@ a.dashboardCleanup-owner:hover, a.dashboardCleanup-db:hover {
   background-color: #ececec;
 }
 
-span.steptype {
+span.steptype, span.actionCount {
   font-size: smaller;
   color: #00a1b2;
 }
