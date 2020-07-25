@@ -12,7 +12,19 @@
         </div>
     </div>
     <div id="options" class="ui-helper-clearfix goalListWrapper">
-        Drag Key User Action over to funnel step:
+        <div class="flexcontainer">
+            <div>Drag Key User Action over to funnel step:</div>
+            <div class="spacer"></div>
+            <div>
+                <select id="sortby">
+                    <option>count.desc</option>
+                    <option>count.asc</option>
+                    <option>methodname.desc</option>
+                    <option>methodname.asc</option>
+                </select>
+            </div>
+        </div>
+        
         <ul id="goalList" class="ui-helper-reset ui-helper-clearfix goalList">
         </ul>
     </div>

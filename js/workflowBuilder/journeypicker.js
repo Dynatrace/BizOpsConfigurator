@@ -10,10 +10,10 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 	let $html;
 
 	//private data
-	let journeyData, selectors, chart,
+	let journeyData, selectors, chart, actions,
 		$funnel, $labelForm,
 		$whereClause, $funnelClause,
-		$goalList,
+		$goalList, $sortby,
 		$pencil, $plus, $minus, $updateLabel, $clearFunnel;
 	let $target = $(target);
 
@@ -168,6 +168,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		$updateLabel = selectors.updateLabel;
 		$clearFunnel = selectors.clearFunnel;
 		$funnelClause = selectors.funnelClause;
+		$sortby = selectors.sortby;
 	}
 
 	function updateLabel() {
@@ -219,13 +220,14 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		$minus.on("click", removeTier);
 		$clearFunnel.on("click", clearFunnel);
 		$pencil.on("click", pencilToggle);
+		$sortby.on("change", sortActions);
 	}
 
 	function populateMethodList() {
 		let promises = [];
 		let anyResults = false;
 		let kuas = [];
-		let actions = [];
+		actions = [];
 		$goalList.find("li").remove();
 
 		//get KUAs from metrics V2, no selector to get by App so just get everything 
@@ -246,7 +248,8 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 						appname: a[0],
 						appid: a[1],
 						methodname: a[2], key: a[2],
-						methodid: a[3], value: a[3]
+						methodid: a[3], value: a[3],
+						colname: 'useraction.name'
 					}
 					if (kuas.findIndex(k => k === action.methodid)) action.kua = true;
 					else action.kua = false;
@@ -428,6 +431,19 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 			drawSteps(parseSteps(data1[0]), $goalList, app.xapp);
 			$goalList.find("li").draggable();
 		});
+	}
+
+	function sortActions(e) {
+		let sortby = $sortby.val();
+		let filteredActions = [];
+
+		if(app.xapp){
+			filteredActions = actions.filter(x => x.appid === app.ids[i]);
+		} else {
+			filteredActions = actions.filter(x => x.appid === app.id);
+		}
+		
+		drawMethods(parseMethods(filteredActions), $goalList, app.xapp, sortby);
 	}
 
 
