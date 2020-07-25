@@ -225,14 +225,24 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		let promises = [];
 		let anyResults = false;
 		let kuas = [];
+		let actions = [];
 		$goalList.find("li").remove();
 
 		//get KUAs from metrics V2, no selector to get by App so just get everything 
 		let query = "/api/v2/metrics/query?pageSize=5000&metricSelector=builtin%3Aapps.web.action.apdex%3Amerge%281%29&resolution=Inf&from=now-1d%2Fd";
 		let p0 = dtAPIquery(query);
 		promises.push(p0);
-		$.when(p0).done(function(data) {
-			kuas=data.result[0].data.map(x=>x.dimensions[0])
+		query = "/api/v2/metrics/query?pageSize=5000&metricSelector=builtin%3Aapps.web.action.duration.%28xhr%2Cload%2Ccustom%29.browser%3Aparents%3Anames%3Amerge%284%2C5%29&resolution=Inf";
+		let p1 = dtAPIquery(query);
+		promises.push(p1);
+		$.when(p0,p1).done(function(d0,d1) {
+			kuas=d0.result[0].data.map(x=>x.dimensions[0]);
+			d1.result.map(m => {
+				let type = m.metricId.match(/duration\.([^.]+)\.browser/)[1];     //builtin:apps.web.action.duration.custom.browser:parents:names:merge(4,5)
+				m.data.map(data => {
+					actions.push(data.dimensions);
+				});
+			});
 
 			if (app.xapp) {
 				for (let i = 0; i < app.count; i++) {
@@ -241,11 +251,11 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 						continue;
 					}
 					query = `/api/v1/entity/applications/${app.ids[i]}/baseline`;
-					let p1 = dtAPIquery(query);
-					promises.push(p1);
+					let p2 = dtAPIquery(query);
+					promises.push(p2);
 	
-					$.when(p0,p1).done(function (d0,d1) {
-						let results = sliceAPIdata("ApplicationMethods", d1[0]);
+					$.when(p0,p1,p2).done(function (d0,d1,d2) {
+						let results = sliceAPIdata("ApplicationMethods", d2[0]);
 						if (results.length > 0) anyResults = true;
 						drawMethods(parseMethods(results,kuas), $goalList, app.xapp);
 					})
@@ -264,11 +274,11 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 					console.log("/baseline isn't supported on Mobile etc");
 				}
 				query = `/api/v1/entity/applications/${app.id}/baseline`;
-				let p1 = dtAPIquery(query);
-				promises.push(p1);
+				let p2 = dtAPIquery(query);
+				promises.push(p2);
 	
-				$.when(p0,p1).done(function (d0,d1) {
-					let results = sliceAPIdata("ApplicationMethods", d1[0]);
+				$.when(p0,p1,p2).done(function (d0,d1,d2) {
+					let results = sliceAPIdata("ApplicationMethods", d2[0]);
 	
 					if (results.length > 0) {
 						anyResults = true;
