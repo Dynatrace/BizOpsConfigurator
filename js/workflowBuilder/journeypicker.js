@@ -236,8 +236,8 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		let p1 = dtAPIquery(query);
 		promises.push(p1);
 		$.when(p0,p1).done(function(d0,d1) {
-			kuas=d0.result[0].data.map(x=>x.dimensions[0]);
-			d1.result.map(m => {
+			kuas=d0[0].result[0].data.map(x=>x.dimensions[0]);
+			d1[0].result.map(m => {
 				let type = m.metricId.match(/duration\.([^.]+)\.browser/)[1];     //builtin:apps.web.action.duration.custom.browser:parents:names:merge(4,5)
 				m.data.map(data => {
 					actions.push(data.dimensions);
