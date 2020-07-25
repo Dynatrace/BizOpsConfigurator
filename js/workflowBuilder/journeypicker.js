@@ -116,8 +116,8 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 					}
 					journeyData[i].clauses.push(clause);
 					if (appname) journeyData[i].appname = appname;
-					if(actionData) {
-						if(! ("stepData" in journeyData[i])) journeyData[i].stepData = [];
+					if (actionData) {
+						if (!("stepData" in journeyData[i])) journeyData[i].stepData = [];
 						journeyData[i].stepData.push(actionData);
 					}
 					chart.draw(journeyData, options);
@@ -232,12 +232,13 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		let query = "/api/v2/metrics/query?pageSize=5000&metricSelector=builtin%3Aapps.web.action.apdex%3Amerge%281%29&resolution=Inf&from=now-1d%2Fd";
 		let p0 = dtAPIquery(query);
 		promises.push(p0);
-		query = "/api/v2/metrics/query?pageSize=5000&metricSelector=builtin%3Aapps.web.action.duration.%28xhr%2Cload%2Ccustom%29.browser%3Aparents%3Anames%3Amerge%284%2C5%29&resolution=Inf";
+		//get all "important" actions
+		query = "/api/v2/metrics/query?pageSize=5000&metricSelector=builtin%3Aapps.web.action.duration.%28xhr%2Cload%2Ccustom%29.browser%3A%28count%29%3Aparents%3Anames%3Amerge%284%2C5%29&resolution=Inf";
 		let p1 = dtAPIquery(query);
 		promises.push(p1);
-		$.when(p0,p1).done(function(d0,d1) {
-			kuas=d0[0].result[0].data.map(x=>x.dimensions[0]);
-			d1[0].result.map(m => {
+		$.when(p0, p1).done(function (d0, d1) {
+			kuas = d0[0].result[0].data.map(x => x.dimensions[0]); //get global list of KUAs
+			d1[0].result.map(m => { //get global list of actions
 				let type = m.metricId.match(/duration\.([^.]+)\.browser/)[1];     //builtin:apps.web.action.duration.custom.browser:parents:names:merge(4,5)
 				m.data.map(data => {
 					let a = data.dimensions;
@@ -247,27 +248,32 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 						methodname: a[2],
 						methodid: a[3]
 					}
-					if(kuas.findIndex(k => k === action.methodid)) action.kua = true;
+					if (kuas.findIndex(k => k === action.methodid)) action.kua = true;
 					else action.kua = false;
+					action.count = data.values[0];
+					action.type = type;
 					actions.push(action);
 				});
 			});
 
 			if (app.xapp) {
 				for (let i = 0; i < app.count; i++) {
-					if(! app.ids[i].startsWith("APPLICATION-")) {
+					/*if (!app.ids[i].startsWith("APPLICATION-")) {
 						console.log("/baseline isn't supported on Mobile etc");
 						continue;
 					}
 					query = `/api/v1/entity/applications/${app.ids[i]}/baseline`;
 					let p2 = dtAPIquery(query);
 					promises.push(p2);
-	
-					$.when(p0,p1,p2).done(function (d0,d1,d2) {
+
+					$.when(p0, p1, p2).done(function (d0, d1, d2) {
 						let results = sliceAPIdata("ApplicationMethods", d2[0]);
 						if (results.length > 0) anyResults = true;
-						drawMethods(parseMethods(results,kuas), $goalList, app.xapp);
-					})
+						drawMethods(parseMethods(results, kuas), $goalList, app.xapp);
+					})*/
+					let filteredActions = actions.filter(x => x.appid === app.ids[i]);
+					if (filteredActions.length) anyResults = true;
+					drawMethods(parseMethods(results, kuas), $goalList, app.xapp);
 				}
 				$.when.apply($, promises).then(function (d) {
 					if (!anyResults) {
@@ -276,19 +282,19 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 						desc += `<a href="${url}/#uemapplications/performanceanalysis;uemapplicationId=${app.ids[0]}"`
 							+ ' class="newTab" target="_blank">here <img src="images/link.svg"></a>';
 						popup([], popheader, desc);
-					} 
+					}
 				});
 			} else {
-				if(! app.id.startsWith("APPLICATION-")) {
+				/*if (!app.id.startsWith("APPLICATION-")) {
 					console.log("/baseline isn't supported on Mobile etc");
 				}
 				query = `/api/v1/entity/applications/${app.id}/baseline`;
 				let p2 = dtAPIquery(query);
 				promises.push(p2);
-	
-				$.when(p0,p1,p2).done(function (d0,d1,d2) {
+
+				$.when(p0, p1, p2).done(function (d0, d1, d2) {
 					let results = sliceAPIdata("ApplicationMethods", d2[0]);
-	
+
 					if (results.length > 0) {
 						anyResults = true;
 					} else {
@@ -298,42 +304,60 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 							+ ' class="newTab" target="_blank">here <img src="images/link.svg"></a>';
 						popup([], popheader, desc);
 					}
-					drawMethods(parseMethods(results,kuas), $goalList, app.xapp);
-				});
+					drawMethods(parseMethods(results, kuas), $goalList, app.xapp);
+				});*/
+				let filteredActions = actions.filter(x => x.appid === app.id);
+				if (filteredActions.length) anyResults = true;
+				drawMethods(parseMethods(results, kuas), $goalList, app.xapp);
 			}
 			$.when.apply($, promises).then(function (d) {
 				$goalList.find("li").draggable();
 			});
 		});
 
-		
+
 	}
 
-	function parseMethods(results, kuas=[]) {
+	function parseMethods(results, kuas = []) {
 		var keys = [];
 		var steps = [];
 		var type = 'useraction.name';
 		//parse keyActions
 		results.forEach(function (result) {
 			result.step = result.key.replace(/([^"])"([^"])?/g, "$1\"\"$2"); //escape janky doublequotes
-			if(kuas.indexOf(result.value)) result.kua=true;
-			else result.kua=false;
+			if (kuas.indexOf(result.value)) result.kua = true;
+			else result.kua = false;
 		});
 		results.sort((a, b) => (a.step.toLowerCase() > b.step.toLowerCase()) ? 1 : -1);
 		return results;
 	}
 
-	function drawMethods(results, goallist = "#goallist", xapp = false) {
+	function drawMethods(results, goallist = "#goallist", xapp = false, sortby = "count.desc") {
 		let list = "";
-		results.forEach(function (step) {
-			list += `<li class='ui-corner-all ui-widget-content tooltip'>
+		results
+			.sort(sorter)
+			.forEach(function (step) {
+				list += `<li class='ui-corner-all ui-widget-content tooltip'>
 				<input id='${step.step}' data-json='${JSON.stringify(step)}' type='hidden'>
-				<span class='steptype'>${step.kua?"kua ":""}${step.type}</span>:
-				${step.step}
+				<span class='steptype'>${step.kua ? "* " : ""}${step.type}</span>:
+				${step.step} <span class='actionCount'>(${step.count})</span>
 				${xapp ? "<span class='tooltiptext'>" + step.appname + "</span>" : ""}
 				</li>`;
-		});
+			});
 		$(goallist).append(list);
+
+		function sorter(a, b) {
+			switch (sortby) {
+				case "count.desc":
+					return (b.count - a.count);
+				case "count.asc":
+					return (a.count - b.count);
+				case "methodname.desc":
+					return (b.methodname.toLowerCase() < a.methodname.toLowerCase() ? -1 : 1);
+				case "methodname.asc":
+					return (b.methodname.toLowerCase() > a.methodname.toLowerCase() ? -1 : 1);
+			}
+		}
 	}
 
 
