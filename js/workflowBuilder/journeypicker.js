@@ -13,7 +13,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 	let journeyData, selectors, chart, actions,
 		$funnel, $labelForm,
 		$whereClause, $funnelClause,
-		$goalList, $sortby,
+		$goalList, $sortby, $filterby,
 		$pencil, $plus, $minus, $updateLabel, $clearFunnel;
 	let $target = $(target);
 
@@ -169,6 +169,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		$clearFunnel = selectors.clearFunnel;
 		$funnelClause = selectors.funnelClause;
 		$sortby = selectors.sortby;
+		$filterby = selectors.filterby;
 	}
 
 	function updateLabel() {
@@ -335,9 +336,10 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		return results;
 	}
 
-	function drawMethods(results, goallist = "#goallist", xapp = false, sortby = "count.desc") {
+	function drawMethods(results, goallist = "#goallist", xapp = false, sortby = "count.desc", filterby = []) {
 		let list = "";
 		results
+			.filter(filterer)
 			.sort(sorter)
 			.forEach(function (step) {
 				list += `<li class='ui-corner-all ui-widget-content tooltip'>
@@ -360,6 +362,12 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 				case "methodname.asc":
 					return (b.methodname.toLowerCase() > a.methodname.toLowerCase() ? -1 : 1);
 			}
+		}
+
+		function filterer(x){
+			if(filterby.findIndex("Key")
+				&& ! x.kua) return false;
+				
 		}
 	}
 
@@ -435,6 +443,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 
 	function sortActions(e) {
 		let sortby = $sortby.val();
+		let filterby = $filterby.val();
 		let filteredActions = [];
 
 		if(app.xapp){
@@ -444,7 +453,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		}
 		
 		$goalList.find("li").remove();
-		drawMethods(parseMethods(filteredActions), $goalList, app.xapp, sortby);
+		drawMethods(parseMethods(filteredActions), $goalList, app.xapp, sortby, filterby);
 		$goalList.find("li").draggable();
 	}
 

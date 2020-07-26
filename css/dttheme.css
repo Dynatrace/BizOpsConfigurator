@@ -1454,7 +1454,6 @@ input.ellipsis {
 }
 
 .goalListHeader div {
-  flex: 1;
   white-space: nowrap;
   padding-right: 20px;
 }
