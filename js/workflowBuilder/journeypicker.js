@@ -292,19 +292,6 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 
 			if (app.xapp) {
 				for (let i = 0; i < app.count; i++) {
-					/*if (!app.ids[i].startsWith("APPLICATION-")) {
-						console.log("/baseline isn't supported on Mobile etc");
-						continue;
-					}
-					query = `/api/v1/entity/applications/${app.ids[i]}/baseline`;
-					let p2 = dtAPIquery(query);
-					promises.push(p2);
-
-					$.when(p0, p1, p2).done(function (d0, d1, d2) {
-						let results = sliceAPIdata("ApplicationMethods", d2[0]);
-						if (results.length > 0) anyResults = true;
-						drawMethods(parseMethods(results, kuas), $goalList, app.xapp);
-					})*/
 					let filteredActions = actions.filter(x => x.appid === app.ids[i]);
 					if (filteredActions.length) anyResults = true;
 					drawMethods(parseMethods(filteredActions), $goalList, app.xapp);
@@ -319,27 +306,6 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 					}
 				});
 			} else {
-				/*if (!app.id.startsWith("APPLICATION-")) {
-					console.log("/baseline isn't supported on Mobile etc");
-				}
-				query = `/api/v1/entity/applications/${app.id}/baseline`;
-				let p2 = dtAPIquery(query);
-				promises.push(p2);
-
-				$.when(p0, p1, p2).done(function (d0, d1, d2) {
-					let results = sliceAPIdata("ApplicationMethods", d2[0]);
-
-					if (results.length > 0) {
-						anyResults = true;
-					} else {
-						let popheader = "No Key User Actions";
-						let desc = "Please configure some Key User Actions";
-						desc += `<a href="${url}/#uemapplications/performanceanalysis;uemapplicationId=${app.id}"`
-							+ ' class="newTab" target="_blank">here <img src="images/link.svg"></a>';
-						popup([], popheader, desc);
-					}
-					drawMethods(parseMethods(results, kuas), $goalList, app.xapp);
-				});*/
 				let filteredActions = actions.filter(x => x.appid === app.id);
 				if (filteredActions.length) anyResults = true;
 				drawMethods(parseMethods(filteredActions), $goalList, app.xapp);
@@ -359,10 +325,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		//parse keyActions
 		results.forEach(function (result) {
 			result.step = result.key.replace(/([^"])"([^"])?/g, "$1\"\"$2"); //escape janky doublequotes
-			/*if (kuas.indexOf(result.value)) result.kua = true;
-			else result.kua = false;*/
 		});
-		//results.sort((a, b) => (a.step.toLowerCase() > b.step.toLowerCase()) ? 1 : -1);
 		return results;
 	}
 
