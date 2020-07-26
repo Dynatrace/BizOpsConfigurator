@@ -16,7 +16,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		$goalList, $sortby, $filterby, $searchby, $openFilters,
 		$pencil, $plus, $minus, $updateLabel, $clearFunnel;
 	let $target = $(target);
-	var timer, delay = 500;
+	var timer, delay = 200;
 
 	var options = {
 		chart: {
@@ -231,7 +231,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 	}
 
 	function openFiltersToggler() {
-		$openFilters.toggle();
+		$(".goalListHeader").toggle();
 		if($openFilters.is(":hidden")) $openFilters.text("+");
 		else $openFilters.text("-");
 	}
