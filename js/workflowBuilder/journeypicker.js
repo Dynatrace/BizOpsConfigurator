@@ -13,9 +13,10 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 	let journeyData, selectors, chart, actions,
 		$funnel, $labelForm,
 		$whereClause, $funnelClause,
-		$goalList, $sortby, $filterby,
+		$goalList, $sortby, $filterby, $searchby, $openFilters,
 		$pencil, $plus, $minus, $updateLabel, $clearFunnel;
 	let $target = $(target);
+	var timer, delay = 500;
 
 	var options = {
 		chart: {
@@ -170,6 +171,8 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		$funnelClause = selectors.funnelClause;
 		$sortby = selectors.sortby;
 		$filterby = selectors.filterby;
+		$searchby = selectors.searchby;
+		$openFilters = selectors.openFilters;
 	}
 
 	function updateLabel() {
@@ -223,6 +226,14 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		$pencil.on("click", pencilToggle);
 		$sortby.on("change", sortActions);
 		$filterby.on("change", sortActions);
+		$searchby.on("change", delayedSortActions);
+		$openFilters.on("click", openFiltersToggler);
+	}
+
+	function openFiltersToggler() {
+		$openFilters.toggle();
+		if($openFilters.is(":hidden")) $openFilters.text("+");
+		else $openFilters.text("-");
 	}
 
 	function populateMethodList() {
@@ -337,7 +348,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		return results;
 	}
 
-	function drawMethods(results, goallist = "#goallist", xapp = false, sortby = "count.desc", filterby = []) {
+	function drawMethods(results, goallist = "#goallist", xapp = false, sortby = "count.desc", filterby = [], searchby = "") {
 		let list = "";
 		results
 			.filter(filterer)
@@ -366,11 +377,15 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		}
 
 		function filterer(action) {
-			if (filterby.findIndex(x => x === "Key") > -1 && !action.kua) 
+			if (filterby.findIndex(x => x === "Key") > -1 && !action.kua)
+				return false;
+
+			if (searchby.length && !action.methodname.includes(searchby))
 				return false;
 
 			return true;
 		}
+
 	}
 
 
@@ -446,6 +461,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 	function sortActions(e) {
 		let sortby = $sortby.val();
 		let filterby = $filterby.val();
+		let searchby = $searchby.val();
 		let filteredActions = [];
 
 		if (app.xapp) {
@@ -455,8 +471,13 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		}
 
 		$goalList.find("li").remove();
-		drawMethods(parseMethods(filteredActions), $goalList, app.xapp, sortby, filterby);
+		drawMethods(parseMethods(filteredActions), $goalList, app.xapp, sortby, filterby, searchby);
 		$goalList.find("li").draggable();
+	}
+
+	function delayedSortActions(e) {
+		clearTimeout(timer);
+		timer = setTimeout(sortActions,delay);
 	}
 
 
