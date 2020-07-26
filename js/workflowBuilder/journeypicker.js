@@ -226,7 +226,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		$pencil.on("click", pencilToggle);
 		$sortby.on("change", sortActions);
 		$filterby.on("change", sortActions);
-		$searchby.on("change", delayedSortActions);
+		$searchby.on("keyup blur change", delayedSortActions);
 		$openFilters.on("click", openFiltersToggler);
 	}
 
@@ -237,10 +237,12 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 			$openFilters.text("+");
 			$openFilters.removeClass("zoom-out");
 			$openFilters.addClass("zoom-in");
+			$header.find("select.chosen").chosen("destroy");
 		} else {
 			$openFilters.text("-");
 			$openFilters.removeClass("zoom-in");
 			$openFilters.addClass("zoom-out");
+			$header.find("select.chosen").chosen();
 		}
 	}
 
@@ -522,7 +524,6 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 			drop: funnelDrop
 		});
 		attachHandlers();
-		$(".goalListHeader select.chosen").chosen();
 
 		mainP.resolve({ html: $html, updateData, getSelectors, getData, pencilToggle, populateGoalList });
 	});

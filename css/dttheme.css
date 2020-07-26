@@ -237,8 +237,8 @@ li.BOcollection input~ul {
 #options, .goalListWrapper {
   flex: 1 1 50%;
   order: 1;
-  /*overflow-y: auto;*/
-  max-height: calc(100vh - 230px);
+  /*overflow-y: auto;
+  max-height: calc(100vh - 230px);*/
 }
 
 #funnelbuttons, .funnelbuttons {
