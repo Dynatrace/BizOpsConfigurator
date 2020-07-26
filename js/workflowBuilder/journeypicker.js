@@ -390,7 +390,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 			if (filterby.findIndex(x => x === "Key") > -1 && !action.kua)
 				return false;
 
-			if (searchby.length && !action.methodname.includes(searchby))
+			if (searchby.length && !action.methodname.toLowerCase().includes(searchby.toLowerCase()))
 				return false;
 
 			return true;
