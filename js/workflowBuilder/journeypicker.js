@@ -10,13 +10,14 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 	let $html;
 
 	//private data
-	let journeyData, selectors, chart, actions, 
+	let journeyData, selectors, chart, actions,
 		$funnel, $labelForm,
 		$whereClause, $funnelClause,
 		$goalList, $sortby, $filterby, $searchby, $openFilters,
 		$pencil, $plus, $minus, $updateLabel, $clearFunnel;
 	let $target = $(target);
-	var timer, delay = 200;
+	var timer;
+	const delay = 200, pre = "App: ";
 
 	var options = {
 		chart: {
@@ -155,6 +156,13 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 			selectors = newSelectors;
 			popuplateSelectors();
 			$html = $widget;
+
+			if (app.names && app.names.length)
+				app.names.forEach((name) => {
+					let $opt = $("<option>")
+						.text(pre + name)
+						.appendTo($filterby);
+				});
 		});
 	}
 
@@ -233,7 +241,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 	function openFiltersToggler() {
 		let $header = $(".goalListHeader");
 		$header.toggle();
-		if($header.is(":hidden")) {
+		if ($header.is(":hidden")) {
 			$openFilters.text("+");
 			$openFilters.removeClass("zoom-out");
 			$openFilters.addClass("zoom-in");
@@ -383,12 +391,28 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 					return (b.methodname.toLowerCase() < a.methodname.toLowerCase() ? -1 : 1);
 				case "methodname.asc":
 					return (b.methodname.toLowerCase() > a.methodname.toLowerCase() ? -1 : 1);
+				case "appname.asc":
+					return (b.appname.toLowerCase() > a.appname.toLowerCase() ? -1 : 1);
+				case "appname.desc":
+					return (b.appname.toLowerCase() < a.appname.toLowerCase() ? -1 : 1);
+				case "appid.asc":
+					return (b.appid.toLowerCase() > a.appid.toLowerCase() ? -1 : 1);
+				case "appid.desc":
+					return (b.appid.toLowerCase() < a.appid.toLowerCase() ? -1 : 1);
 			}
 		}
 
 		function filterer(action) {
 			if (filterby.findIndex(x => x === "Key") > -1 && !action.kua)
 				return false;
+
+			if (filterby.findIndex(x => x.startsWith(pre)) > -1) {
+				if (filterby.filter(x => x.startsWith(pre))
+					.map(x => x.substring(pre.length))
+					.findIndex(x => x === action.appname) < 0)
+					return false;
+			}
+
 
 			if (searchby.length && !action.methodname.toLowerCase().includes(searchby.toLowerCase()))
 				return false;
@@ -487,7 +511,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 
 	function delayedSortActions(e) {
 		clearTimeout(timer);
-		timer = setTimeout(sortActions,delay);
+		timer = setTimeout(sortActions, delay);
 	}
 
 
@@ -500,9 +524,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		$target.replaceWith($html);
 		openFiltersToggler();
 
-		//populateGoalList();
 		populateMethodList();
-		//jsonviewer([data1[0], data2[0]]);
 
 		if (data != null) journeyData = data;
 		else journeyData = [
