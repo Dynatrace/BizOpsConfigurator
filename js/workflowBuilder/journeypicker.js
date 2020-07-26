@@ -232,8 +232,15 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 
 	function openFiltersToggler() {
 		$(".goalListHeader").toggle();
-		if($openFilters.is(":hidden")) $openFilters.text("+");
-		else $openFilters.text("-");
+		if($openFilters.is(":hidden")) {
+			$openFilters.text("+");
+			$openFilters.removeClass("zoom-out");
+			$openFilters.addClass("zoom-in");
+		} else {
+			$openFilters.text("-");
+			$openFilters.removeClass("zoom-in");
+			$openFilters.addClass("zoom-out");
+		}
 	}
 
 	function populateMethodList() {
@@ -488,6 +495,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		$target.parents(".workflowSection").addClass("flex");
 		$target.parent(".userInput").removeClass("userInput").addClass("journeyPicker");
 		$target.replaceWith($html);
+		$(".goalListHeader").hide();
 
 		//populateGoalList();
 		populateMethodList();

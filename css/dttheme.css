@@ -1451,7 +1451,6 @@ input.ellipsis {
 .goalListHeader {
   display: flex;
   align-items: flex-end;
-  display: none;
 }
 
 .goalListHeader div {
@@ -1462,3 +1461,7 @@ input.ellipsis {
 .goalListHeader div select {
   min-width: 200px;
 }
+
+.helpPopup {cursor: help;}
+.zoom-in {cursor: zoom-in;}
+.zoom-out {cursor: zoom-out;}
