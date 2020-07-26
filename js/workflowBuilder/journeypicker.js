@@ -364,9 +364,9 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 			}
 		}
 
-		function filterer(x){
-			if(filterby.findIndex("Key")
-				&& ! x.kua) return false;
+		function filterer(action){
+			if(filterby.findIndex(x => x === "Key")
+				&& ! action.kua) return false;
 				
 		}
 	}
