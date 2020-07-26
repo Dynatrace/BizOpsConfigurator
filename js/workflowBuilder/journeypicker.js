@@ -445,6 +445,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		
 		$goalList.find("li").remove();
 		drawMethods(parseMethods(filteredActions), $goalList, app.xapp, sortby);
+		$goalList.find("li").draggable();
 	}
 
 
