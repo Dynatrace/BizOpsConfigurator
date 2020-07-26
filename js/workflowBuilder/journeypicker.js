@@ -231,8 +231,9 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 	}
 
 	function openFiltersToggler() {
-		$(".goalListHeader").toggle();
-		if($openFilters.is(":hidden")) {
+		let $header = $(".goalListHeader");
+		$header.toggle();
+		if($header.is(":hidden")) {
 			$openFilters.text("+");
 			$openFilters.removeClass("zoom-out");
 			$openFilters.addClass("zoom-in");
@@ -495,7 +496,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		$target.parents(".workflowSection").addClass("flex");
 		$target.parent(".userInput").removeClass("userInput").addClass("journeyPicker");
 		$target.replaceWith($html);
-		$(".goalListHeader").hide();
+		openFiltersToggler();
 
 		//populateGoalList();
 		populateMethodList();
