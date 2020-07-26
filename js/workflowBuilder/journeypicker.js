@@ -10,7 +10,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 	let $html;
 
 	//private data
-	let journeyData, selectors, chart, actions,
+	let journeyData, selectors, chart, actions, 
 		$funnel, $labelForm,
 		$whereClause, $funnelClause,
 		$goalList, $sortby, $filterby, $searchby, $openFilters,
@@ -475,7 +475,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		let filteredActions = [];
 
 		if (app.xapp) {
-			filteredActions = actions.filter(x => app.ids.findIndex(y => y === x.appid));
+			filteredActions = actions.filter(x => app.ids.findIndex(y => y === x.appid) > -1);
 		} else {
 			filteredActions = actions.filter(x => x.appid === app.id);
 		}
