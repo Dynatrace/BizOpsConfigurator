@@ -222,6 +222,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		$clearFunnel.on("click", clearFunnel);
 		$pencil.on("click", pencilToggle);
 		$sortby.on("change", sortActions);
+		$filterby.on("change", sortActions);
 	}
 
 	function populateMethodList() {
