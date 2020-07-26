@@ -1448,14 +1448,12 @@ input.ellipsis {
   text-overflow: ellipsis;
 }
 
-#goalListHeader {
+.goalListHeader {
   display: flex;
+  align-items: flex-end;
 }
 
-#goalListHeader div {
-  flex: 0 1;
-}
-
-#goalListHeader div.spacer {
+.goalListHeader div {
   flex: 1;
+  white-space: nowrap;
 }

@@ -12,10 +12,16 @@
         </div>
     </div>
     <div id="options" class="ui-helper-clearfix goalListWrapper">
-        <div id="goalListHeader">
+        <div class="goalListHeader">
             <div>Drag Key User Action over to funnel step:</div>
-            <div class="spacer"></div>
-            <div>
+            <div>Filter by:<br>
+                <select id="actionFilter" multiple class="chosen">
+                    <option>Key</option>
+                    <option disabled>Entry</option>
+                    <option disabled>Conversion</option>
+                </select>
+            </div>
+            <div>Sort by:<br>
                 <select id="sortby">
                     <option>count.desc</option>
                     <option>count.asc</option>
