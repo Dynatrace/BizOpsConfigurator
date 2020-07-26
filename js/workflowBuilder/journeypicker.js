@@ -480,6 +480,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 			drop: funnelDrop
 		});
 		attachHandlers();
+		$(".goalListHeader select.chosen").chosen();
 
 		mainP.resolve({ html: $html, updateData, getSelectors, getData, pencilToggle, populateGoalList });
 	});
