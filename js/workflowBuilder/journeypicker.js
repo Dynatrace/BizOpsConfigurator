@@ -364,10 +364,11 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 			}
 		}
 
-		function filterer(action){
-			if(filterby.findIndex(x => x === "Key")
-				&& ! action.kua) return false;
-				
+		function filterer(action) {
+			if (filterby.findIndex(x => x === "Key")
+				&& !action.kua) return false;
+
+			return true;
 		}
 	}
 
@@ -446,12 +447,12 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		let filterby = $filterby.val();
 		let filteredActions = [];
 
-		if(app.xapp){
+		if (app.xapp) {
 			filteredActions = actions.filter(x => x.appid === app.ids[i]);
 		} else {
 			filteredActions = actions.filter(x => x.appid === app.id);
 		}
-		
+
 		$goalList.find("li").remove();
 		drawMethods(parseMethods(filteredActions), $goalList, app.xapp, sortby, filterby);
 		$goalList.find("li").draggable();
