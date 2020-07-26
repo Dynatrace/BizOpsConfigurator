@@ -449,7 +449,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		let filteredActions = [];
 
 		if (app.xapp) {
-			filteredActions = actions.filter(x => x.appid === app.ids[i]);
+			filteredActions = actions.filter(x => app.ids.findIndex(y=>x.appid));
 		} else {
 			filteredActions = actions.filter(x => x.appid === app.id);
 		}
