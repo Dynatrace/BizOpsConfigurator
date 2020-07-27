@@ -236,6 +236,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		$filterby.on("change", sortActions);
 		$searchby.on("keyup blur change", delayedSortActions);
 		$openFilters.on("click", openFiltersToggler);
+		$funnelClause.on("keyup blur change", funnelToWhere);
 	}
 
 	function openFiltersToggler() {
@@ -251,6 +252,27 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 			$openFilters.removeClass("zoom-in");
 			$openFilters.addClass("zoom-out");
 			$header.find("select.chosen").chosen();
+		}
+	}
+
+	function funnelToWhere() {
+		clearTimeout(timer);
+		timer = setTimeout(innerFunnelToWhere, delay);
+
+		function innerFunnelToWhere() {
+			if(! $funnelClause.hasClass("pencilMode")) return;
+
+			let funnelClause = $funnelClause.val();
+			let regex1 = /\([^,]*(,|$)/g;
+			let steps = [];
+
+			let matches = funnelClause.match(regex1);
+			matches.forEach((m) => {
+				let step = m.replace(/ AS ".*/, "");
+				steps.push(step);
+			});
+
+			$whereClause.val(steps.join(" AND "));
 		}
 	}
 
