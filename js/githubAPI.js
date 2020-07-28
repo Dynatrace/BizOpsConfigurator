@@ -4,37 +4,39 @@ http://www.apache.org/licenses/LICENSE-2.0
 Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.*/
 function getRepoContents(repo) {
     let p1 = $.Deferred();
-    let options = { headers: {} }
-    if ("etag" in repo && repo.contents && repo.contents.length) {
-        if ("repo" in repo.contents[0]) {
-            console.log("Cleaning circular reference...");
-            delete repo.etag;
-            delete repo.contents;
-        } else {
-            options.headers['If-None-Match'] = repo.etag;
+    if (OfflineMode) p1.resolve(repo.contents);
+    else {
+        let options = { headers: {} }
+        if ("etag" in repo && repo.contents && repo.contents.length) {
+            if ("repo" in repo.contents[0]) {
+                console.log("Cleaning circular reference...");
+                delete repo.etag;
+                delete repo.contents;
+            } else {
+                options.headers['If-None-Match'] = repo.etag;
+            }
         }
+        if (githubuser != "" && githubpat != "")
+            options.headers.Authorization = "Basic " + btoa(githubuser + ":" + githubpat);
+
+        let p2 = gitHubAPI(`/repos/${repo.owner}/${repo.repo}/contents/${repo.path}`, options);
+        $.when(p2).done(function (data, textStatus, jqXHR) {
+            switch (jqXHR.status) {
+                case 200: //new data
+                    gitHubUpdateContents(repo, data, textStatus, jqXHR);
+                    p1.resolve(p2);
+                    break;
+                case 304: //no change
+                    let contents = JSON.parse(JSON.stringify(repo.contents));
+                    if ("repo" in contents[0]) {
+                        contents.forEach(function (el) { delete el.repo; });
+                    }
+                    p1.resolve(contents);
+                    break;
+            }
+        })
+        return p1;
     }
-    if (githubuser != "" && githubpat != "")
-        options.headers.Authorization = "Basic " + btoa(githubuser + ":" + githubpat);
-
-    let p2 = gitHubAPI(`/repos/${repo.owner}/${repo.repo}/contents/${repo.path}`, options);
-    $.when(p2).done(function (data, textStatus, jqXHR) {
-        switch (jqXHR.status) {
-            case 200: //new data
-                gitHubUpdateContents(repo, data, textStatus, jqXHR);
-                p1.resolve(p2);
-                break;
-            case 304: //no change
-                let contents = JSON.parse(JSON.stringify(repo.contents));
-                if ("repo" in contents[0]) {
-                    contents.forEach(function (el) { delete el.repo; });
-                }
-                p1.resolve(contents);
-                break;
-        }
-
-    })
-    return p1;
 }
 
 /*function gitHubAPICheckRateLimit(){ //does not work, CORS & JSONP are broken on this endpoint
@@ -133,9 +135,9 @@ function parseRepoContents(data = [], repo, old) {
     let workflowsTemp = [];
     let readmesTemp = [];
     data.forEach(function (file) {
-        repo = JSON.parse(JSON.stringify(repo));
-        if ("contents" in repo) delete repo.contents;
-        file.repo = repo;
+        repocopy = JSON.parse(JSON.stringify(repo));
+        if ("contents" in repocopy) delete repo.contents;
+        file.repo = repocopy;
         let reWorkflow = /(\.cwf\.json$)/;
         let reDB = /(\.json$)|(^[0-9a-f-]{36}$)/;
         let reReadme = /\.md$/;
