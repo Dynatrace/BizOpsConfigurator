@@ -523,7 +523,7 @@ function globalButtonHandler() {
       case "downloadOfflinePack": {
         let filename = `OfflinePack-${Date.now()}.json`;
         download(filename, JSON.stringify({
-          dbList: db,
+          dbList: dbList,
           repoList: repoList,
           readmeList: readmeList,
           workflowList: workflowList
