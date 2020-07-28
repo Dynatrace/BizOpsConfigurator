@@ -62,6 +62,7 @@ function dbPopulateDBList(){
     let os = tx.objectStore("dbList");
 
     list.forEach((el) => {
+        if("repo" in el && "contents" in el.repo) delete el.repo.contents;
         os.put(el);
     });
 
@@ -139,6 +140,8 @@ function dbLoadDBList() {
 
     req.onsuccess = () => {
         req.result.forEach(el => {
+            if("repo" in el && "contents" in el.repo) delete el.repo.contents;
+
             let i = list.findIndex(x => x.sha === el.sha && x.name === el.name);
             if(i > -1)
                 list[i] = el; //update if exists
