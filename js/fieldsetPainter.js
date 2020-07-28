@@ -38,6 +38,13 @@ function fieldsetPainter() {
                 repoList.splice(i, 1);
                 $("#repo_config").load("html/repo_config.html", fieldsetPainter);
             });
+            $("input.repo_owner, input.repo_repo").on("keyup blur change", () => {
+                if(saveNeeded)return;
+                else {
+                    saveNeeded = true;
+                    $("#saveRepoConfig").prop("disabled",false);
+                }
+            });
 
             if(PreviewWorkflows) $("#previewWorkflows").prop("checked", true);
             else $("#previewWorkflows").prop("checked", false);
@@ -110,13 +117,6 @@ function fieldsetPainter() {
                     let i = $(this)[0].dataset['index'];
                     journeyOverviews.splice(i, 1);
                     $("#repo_config").load("html/repo_config.html", fieldsetPainter);
-                });
-                $("input.repo_owner, input.repo_repo").on("keyup blur change", () => {
-                    if(saveNeeded)return;
-                    else {
-                        saveNeeded = true;
-                        $("#saveRepoConfig").prop("disabled",false);
-                    }
                 });
             }
             break;
