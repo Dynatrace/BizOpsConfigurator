@@ -740,7 +740,10 @@ function globalButtonHandler() {
         break;
       }
       case "reloadDBs": {
-        loadEverythingFromGithubAndCache();
+        let p1 = loadEverythingFromGithubAndCache();
+        $.when(p1).done(()=>{
+          updateOfflineButtons();
+        });
         break;
       }
       case "addRepo": {

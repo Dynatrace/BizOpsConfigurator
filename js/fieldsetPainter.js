@@ -9,17 +9,12 @@ function fieldsetPainter() {
     switch (id) {
         case "repoconfig": {
             let saveNeeded = false;
-            $("#saveRepoConfig").prop("disabled",true);
+            $("#saveRepoConfig").prop("disabled", true);
             $("#dbTagsVersion").val(dbTagsVersion);
             $("#dbTO").val(dbTO);
             $("#dbAO").val(dbAO);
             $("#USQLlimit").val(USQLlimit);
-            if(dbList.length) $("#downloadOfflinePack").prop("disabled",false);
-            else $("#downloadOfflinePack").prop("disabled",true);
-            if(dbList.length) $("#uploadOfflinePack").prop("disabled",true);
-            else $("#uploadOfflinePack").prop("disabled",false);
-            if(dbList.length) $("#reloadDBs").val("Reload Dashboards");
-            else $("#reloadDBs").val("Load Dashboards");
+            updateOfflineButtons();
 
 
             //repos
@@ -39,16 +34,16 @@ function fieldsetPainter() {
                 $("#repo_config").load("html/repo_config.html", fieldsetPainter);
             });
             $("fieldset#repoconfig input:not([type=button])").on("keyup blur change", () => {
-                if(saveNeeded)return;
+                if (saveNeeded) return;
                 else {
                     saveNeeded = true;
-                    $("#saveRepoConfig").prop("disabled",false);
+                    $("#saveRepoConfig").prop("disabled", false);
                 }
             });
 
-            if(PreviewWorkflows) $("#previewWorkflows").prop("checked", true);
+            if (PreviewWorkflows) $("#previewWorkflows").prop("checked", true);
             else $("#previewWorkflows").prop("checked", false);
-            
+
             if (personaFlow) {
                 $("#personaFlow").prop("checked", true);
                 $(".oldFlow").hide();
@@ -496,23 +491,25 @@ function fieldsetPainter() {
                             let $ov_ul = $("<ul>")
                                 .appendTo($wf_li);
                             let subs = getStaticSubDBs(ov.file)
-                                .sort((a,b) => (a.name.toLowerCase() > b.name.toLowerCase()) ? 1 : -1);
+                                .sort((a, b) => (a.name.toLowerCase() > b.name.toLowerCase()) ? 1 : -1);
                             subs.forEach((sub) => {
-                                    let $sub_li = $("<li>")
-                                        .appendTo($ov_ul);
-                                    let $sub_li_a = $("<a>")
-                                        .addClass("dashboardList")
-                                        .attr("href", "#json")
-                                        .text(sub.name)
-                                        .appendTo($sub_li);
-                                    $sub_li_a.on("click", function () {
-                                        jsonviewer(sub.file, true, sub.file.dashboardMetadata.name, "#popupjsonviewer");
-                                    });
-                                    tokenList = new Set([...tokenList, ...scanForTokens(sub.file)]);
+                                let $sub_li = $("<li>")
+                                    .appendTo($ov_ul);
+                                let $sub_li_a = $("<a>")
+                                    .addClass("dashboardList")
+                                    .attr("href", "#json")
+                                    .text(sub.name)
+                                    .appendTo($sub_li);
+                                $sub_li_a.on("click", function () {
+                                    jsonviewer(sub.file, true, sub.file.dashboardMetadata.name, "#popupjsonviewer");
                                 });
+                                tokenList = new Set([...tokenList, ...scanForTokens(sub.file)]);
+                            });
                             tokenList = new Set([...tokenList, ...scanForTokens(ov.file)]);
-                            jsonviewer({ config: wf.file.config, tokens: Array.from(tokenList)
-                                .sort((a,b)=>(a.toLowerCase() > b.toLowerCase()) ? 1 : -1)},
+                            jsonviewer({
+                                config: wf.file.config, tokens: Array.from(tokenList)
+                                    .sort((a, b) => (a.toLowerCase() > b.toLowerCase()) ? 1 : -1)
+                            },
                                 true, wf.file.config.workflowName, "#popupjsonviewer");
                         }
                     });
@@ -725,4 +722,13 @@ function bcHandler() {
     $("#bc-connect").text(tenantID);
     if ($("#bcwrapper").children().length) $("#bcwrapper").show();
     else $("#bcwrapper").hide();
+}
+
+function updateOfflineButtons() {
+    if (dbList.length) $("#downloadOfflinePack").prop("disabled", false);
+    else $("#downloadOfflinePack").prop("disabled", true);
+    if (dbList.length) $("#uploadOfflinePack").prop("disabled", true);
+    else $("#uploadOfflinePack").prop("disabled", false);
+    if (dbList.length) $("#reloadDBs").val("Reload Dashboards");
+    else $("#reloadDBs").val("Load Dashboards");
 }
