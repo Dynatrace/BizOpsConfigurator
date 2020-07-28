@@ -742,6 +742,7 @@ function globalButtonHandler() {
         break;
       }
       case "reloadDBs": {
+        OfflineMode = $("#offlineMode").prop('checked');
         let p1 = loadEverythingFromGithubAndCache();
         $.when(p1).done(()=>{
           updateOfflineButtons();
