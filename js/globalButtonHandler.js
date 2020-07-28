@@ -668,10 +668,10 @@ function globalButtonHandler() {
         break;
       }
       case "saveRepoConfig": {
-        repoList[1].owner = $("#default_repo_owner").val();
+        /*repoList[1].owner = $("#default_repo_owner").val();
         repoList[1].repo = $("#default_repo_repo").val();
         repoList[0].owner = $("#old_repo_owner").val();
-        repoList[0].repo = $("#old_repo_repo").val();
+        repoList[0].repo = $("#old_repo_repo").val();*/
         oldVersion = parseInt($("#oldVersion").val());
         dbTagsVersion = parseInt($("#dbTagsVersion").val());
         USQLlimit = parseInt($("#USQLlimit").val());
@@ -681,6 +681,7 @@ function globalButtonHandler() {
         dbAO = $("#dbAO").val();
         dbFunnelTrue = $("#dbFunnelTrue").val();
         dbFunnelFalse = $("#dbFunnelFalse").val();
+        OfflineMode = $("offlineMode").val();
 
         $("input.repo_owner[data-index]").each(function (index, element) {
           let i = element.dataset.index;

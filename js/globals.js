@@ -133,6 +133,7 @@ var Idxdb = {
 }
 var PreviewWorkflows = false;
 var InternalTenant = false;
+var OfflineMode = false;
 
 
 ///////// Functions for manipulating global vars //////////
@@ -419,7 +420,6 @@ function loadGithubRepos(p = 1) {
     $.when.apply($, deferreds).done(function () {
       main.resolve();
       updateDashboardButton();
-      //updateLocalStorage();
     });
   });
   return main

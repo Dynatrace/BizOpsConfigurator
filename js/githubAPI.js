@@ -5,8 +5,8 @@ Unless required by applicable law or agreed to in writing, software distributed 
 function getRepoContents(repo) {
     let p1 = $.Deferred();
     let options = { headers: {} }
-    if ("etag" in repo && repo.contents && repo.contents.length){
-        if("repo" in repo.contents[0]){
+    if ("etag" in repo && repo.contents && repo.contents.length) {
+        if ("repo" in repo.contents[0]) {
             console.log("Cleaning circular reference...");
             delete repo.etag;
             delete repo.contents;
@@ -26,8 +26,8 @@ function getRepoContents(repo) {
                 break;
             case 304: //no change
                 let contents = JSON.parse(JSON.stringify(repo.contents));
-                if("repo" in contents[0]){
-                    contents.forEach(function(el){delete el.repo;});
+                if ("repo" in contents[0]) {
+                    contents.forEach(function (el) { delete el.repo; });
                 }
                 p1.resolve(contents);
                 break;
@@ -134,7 +134,7 @@ function parseRepoContents(data = [], repo, old) {
     let readmesTemp = [];
     data.forEach(function (file) {
         repo = JSON.parse(JSON.stringify(repo));
-        if("contents" in repo) delete repo.contents;
+        if ("contents" in repo) delete repo.contents;
         file.repo = repo;
         let reWorkflow = /(\.cwf\.json$)/;
         let reDB = /(\.json$)|(^[0-9a-f-]{36}$)/;
@@ -184,22 +184,34 @@ function getDBJSON(list) {
 
 function loadEverythingFromGithubAndCache() {
     let p = $.Deferred();
-    //Github repos
-    dbLoadRepoList()
-    .then(loadGithubRepos)
-    //Load from IndexedDB cache
-    .then(dbLoadWorkflowList)
-    .then(dbLoadReadmeList)
-    .then(dbLoadDBList)
-    //Download files
-    .then(downloadWorkflowsFromList)
-    .then(downloadReadmesFromList)
-    .then(downloadDBsFromList)
-    //Store in IndexedDB cache
-    .then(dbPopulateRepoList)
-    .then(dbPopulateWorkflowList)
-    .then(dbPopulateReadmeList)
-    .then(dbPopulateDBList)
-    .then(()=>{p.resolve();});
+    if (OfflineMode) {
+        console.log("Configurator in offline mode...");
+        //Github repos
+        dbLoadRepoList()
+            //Load from IndexedDB cache
+            .then(dbLoadWorkflowList)
+            .then(dbLoadReadmeList)
+            .then(dbLoadDBList)
+            .then(() => { p.resolve(); });
+    } else {
+        //Github repos
+        dbLoadRepoList()
+            .then(loadGithubRepos)
+            //Load from IndexedDB cache
+            .then(dbLoadWorkflowList)
+            .then(dbLoadReadmeList)
+            .then(dbLoadDBList)
+            //Download files
+            .then(downloadWorkflowsFromList)
+            .then(downloadReadmesFromList)
+            .then(downloadDBsFromList)
+            //Store in IndexedDB cache
+            .then(dbPopulateRepoList)
+            .then(dbPopulateWorkflowList)
+            .then(dbPopulateReadmeList)
+            .then(dbPopulateDBList)
+            .then(() => { p.resolve(); });
+    }
+
     return p;
 }

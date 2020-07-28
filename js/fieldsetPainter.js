@@ -14,6 +14,7 @@ function fieldsetPainter() {
             $("#dbTO").val(dbTO);
             $("#dbAO").val(dbAO);
             $("#USQLlimit").val(USQLlimit);
+            $("#offlineMode").val(OfflineMode);
             updateOfflineButtons();
 
 
