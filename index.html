@@ -99,20 +99,10 @@
 
   <!--jquery-->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script>if (!window.jQuery) {
-      var backup = document.createElement("script");
-      backup.src = "3rdparty/jquery/jquery.min.js";
-      document.currentScript.parentNode.insertBefore(backup,document.currentScript);
-    }
-  //document.write('<script src="3rdparty/jquery/jquery.min.js"><\/script>')</script>
+  <script>window.jQuery || document.write('<script src="3rdparty/jquery/jquery.min.js"><\/script>')</script>
   <!--jqueryui-->
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-  <script>if (!jQuery.ui) {
-    var backup = document.createElement("script");
-    backup.src = "3rdparty/jqueryui/jquery-ui.min.js";
-    document.currentScript.parentNode.insertBefore(backup,document.currentScript);
-  }
-  //jQuery.ui || document.write('<script src="3rdparty/jqueryui/jquery-ui.min.js"><\/script>')</script>
+  <script>jQuery.ui || document.write('<script src="3rdparty/jqueryui/jquery-ui.min.js"><\/script>')</script>
   <!--1st party-->
   <script src="js/globals.js"></script>
   <script src="js/dtAPI.js"></script>
@@ -138,13 +128,7 @@
   <script src="js/workflowBuilder/workflowBuilder-usql.js"></script>
   <!--d3-->
   <script src="https://ajax.googleapis.com/ajax/libs/d3js/5.15.1/d3.min.js"></script>
-  <script>
-    if (!window.d3) {
-    var backup = document.createElement("script");
-    backup.src = "3rdparty/d3/d3.min.js";
-    document.currentScript.parentNode.insertBefore(backup,document.currentScript);
-  }
-  //window.d3 || document.write('<script src="3rdparty/d3/d3.min.js"><\/script>')</script>
+  <script>window.d3 || document.write('<script src="3rdparty/d3/d3.min.js"><\/script>')</script>
   <!--other 3rdparty-->
   <script src="3rdparty/d3-funnel/dist/d3-funnel.js"></script>
   <script src="3rdparty/sheetJS/dist/xlsx.mini.min.js"></script>
