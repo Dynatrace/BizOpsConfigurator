@@ -50,7 +50,10 @@ function dbPopulateRepoList(){
     });
 
     tx.oncomplete = () => {p.resolve(true);}
-    tx.onerror = () => {p.resolve(false);}
+    tx.onerror = (e) => {
+        console.log("dbPopulateRepoList error: " + e.target.errorCode)
+        p.resolve(false);
+    }
     return p;
 }
 
@@ -67,7 +70,10 @@ function dbPopulateDBList(){
     });
 
     tx.oncomplete = () => {p.resolve(true);}
-    tx.onerror = () => {p.resolve(false);}
+    tx.onerror = (e) => {
+        console.log("dbPopulateDBList error: " + e.target.errorCode)
+        p.resolve(false);
+    }
     return p
 }
 
@@ -83,7 +89,10 @@ function dbPopulateWorkflowList(){
     });
 
     tx.oncomplete = () => {p.resolve(true);}
-    tx.onerror = () => {p.resolve(false);}
+    tx.onerror = (e) => {
+        console.log("dbPopulateWorkflowList error: " + e.target.errorCode)
+        p.resolve(false);
+    }
     return p
 }
 
@@ -99,7 +108,10 @@ function dbPopulateReadmeList(){
     });
 
     tx.oncomplete = () => {p.resolve(true);}
-    tx.onerror = () => {p.resolve(false);}
+    tx.onerror = (e) => {
+        console.log("dbPopulateReadmeList error: " + e.target.errorCode)
+        p.resolve(false);
+    }
     return p
 }
 
@@ -126,7 +138,10 @@ function dbLoadRepoList() {
     }
 
     tx.oncomplete = () => {p.resolve(true);}
-    tx.onerror = () => {p.resolve(false);}
+    tx.onerror = (e) => {
+        console.log("dbLoadRepoList error: " + e.target.errorCode)
+        p.resolve(false);
+    }
     return p
 }
 
@@ -177,7 +192,10 @@ function dbLoadWorkflowList() {
     }
 
     tx.oncomplete = () => {p.resolve(true);}
-    tx.onerror = () => {p.resolve(false);}
+    tx.onerror = (e) => {
+        console.log("dbLoadWorkflowList error: " + e.target.errorCode)
+        p.resolve(false);
+    }
     return p
 }
 
@@ -199,6 +217,9 @@ function dbLoadReadmeList() {
     }
 
     tx.oncomplete = () => {p.resolve(true);}
-    tx.onerror = () => {p.resolve(false);}
+    tx.onerror = (e) => {
+        console.log("dbLoadReadmeList error: " + e.target.errorCode)
+        p.resolve(false);
+    }
     return p
 }
