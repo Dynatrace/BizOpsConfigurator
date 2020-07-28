@@ -145,12 +145,17 @@ function dbLoadDBList() {
             let i = list.findIndex(x => x.sha === el.sha && x.name === el.name);
             if(i > -1)
                 list[i] = el; //update if exists
+            else
+                console.log("dbLoadDBList miss, sha: "+el.sha+" name:"+el.name);
             
         })
     }
 
-    tx.oncomplete = () => {p.resolve(true);}
-    tx.onerror = () => {p.resolve(false);}
+    tx.oncomplete = (e) => {p.resolve(true);}
+    tx.onerror = (e) => {
+        console.log("dbLoadDBList error: " + e.target.errorCode)
+        p.resolve(false);
+    }
     return p
 }
 

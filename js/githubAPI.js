@@ -164,7 +164,7 @@ function parseRepoContents(data = [], repo, old) {
     return { dbList: dbListTemp, workflowList: workflowsTemp, readmeList: readmesTemp };
 }
 
-function getDBJSON(list) {
+/*function getDBJSON(list) {
     let dbs = [];
     let promises = [];
 
@@ -180,7 +180,7 @@ function getDBJSON(list) {
         };
         return dbs;
     });
-}
+}*/
 
 function loadEverythingFromGithubAndCache() {
     let p = $.Deferred();
