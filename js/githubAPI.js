@@ -133,6 +133,8 @@ function parseRepoContents(data = [], repo, old) {
     let workflowsTemp = [];
     let readmesTemp = [];
     data.forEach(function (file) {
+        repo = JSON.parse(JSON.stringify(repo));
+        if("contents" in repo) delete repo.contents;
         file.repo = repo;
         let reWorkflow = /(\.cwf\.json$)/;
         let reDB = /(\.json$)|(^[0-9a-f-]{36}$)/;
