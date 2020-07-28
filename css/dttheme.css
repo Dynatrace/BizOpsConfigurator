@@ -102,9 +102,14 @@ input[type=button], input[type=button].default:hover, input[type=button]:visited
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-input[type=button]:hover, input[type=button].default, input[type=button]:active {
+input[type=button]:hover:not(:disabled), input[type=button].default, input[type=button]:active {
   background: #00a1b2;
   color: #fff;
+}
+
+input[type=button]:disabled {
+  border-color: #606060;
+  box-shadow: none;
 }
 
 select[multiple=multiple] {

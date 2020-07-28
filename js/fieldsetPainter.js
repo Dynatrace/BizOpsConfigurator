@@ -7,11 +7,19 @@ function fieldsetPainter() {
     if (typeof id === "undefined") id = $("#viewport").find("fieldset").attr("id");
     bcHandler();
     switch (id) {
-        case "repoconfig":
+        case "repoconfig": {
+            let saveNeeded = false;
+            $("#saveRepoConfig").prop("disabled",true);
             $("#dbTagsVersion").val(dbTagsVersion);
             $("#dbTO").val(dbTO);
             $("#dbAO").val(dbAO);
             $("#USQLlimit").val(USQLlimit);
+            if(dbList.length) $("#downloadOfflinePack").prop("disabled",false);
+            else $("#downloadOfflinePack").prop("disabled",true);
+            if(dbList.length) $("#uploadOfflinePack").prop("disabled",true);
+            else $("#uploadOfflinePack").prop("disabled",false);
+            if(dbList.length) $("#reloadDBs").val("Reload Dashboards");
+            else $("#reloadDBs").val("Load Dashboards");
 
 
             //repos
@@ -103,8 +111,16 @@ function fieldsetPainter() {
                     journeyOverviews.splice(i, 1);
                     $("#repo_config").load("html/repo_config.html", fieldsetPainter);
                 });
+                $("input.repo_owner, input.repo_repo").on("change", () => {
+                    if(saveNeeded)return;
+                    else {
+                        saveNeeded = true;
+                        $("#saveRepoConfig").prop("disabled",false);
+                    }
+                });
             }
             break;
+        }
         case "connect":
             $("#url").val(url);
             $("#token").val(token);

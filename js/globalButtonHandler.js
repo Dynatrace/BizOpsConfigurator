@@ -522,7 +522,12 @@ function globalButtonHandler() {
         break;
       case "downloadOfflinePack": {
         let filename = `OfflinePack-${Date.now()}.json`;
-        download(filename, JSON.stringify(dbList));
+        download(filename, JSON.stringify({
+          dbList: db,
+          repoList: repoList,
+          readmeList: readmeList,
+          workflowList: workflowList
+        }));
         break;
       }
       case "uploadOfflinePack": {
@@ -537,13 +542,17 @@ function globalButtonHandler() {
           fr = new FileReader();
           fr.onload = function () {
             let res = fr.result;
-            let json = JSON.parse(res);
-            /*if ('config' in json) {
-              selection.funnelLoaded = true;
-              selection.config = json.config;
-              fieldsetPainter();
-            }*/
-            dbList = json;
+            try{
+              let json = JSON.parse(res);
+              dbList = json.dbList;
+              repoList = json.repoList;
+              readmeList = json.readmeList;
+              workflowList = json.workflowList;
+            } catch(e){
+              alert("Loading offline pack failed: "+e.message);
+            }
+            
+            
           };
           if (typeof file !== "undefined") fr.readAsText(file);
         });
