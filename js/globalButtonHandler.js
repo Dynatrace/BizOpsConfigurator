@@ -677,11 +677,12 @@ function globalButtonHandler() {
         USQLlimit = parseInt($("#USQLlimit").val());
         personaFlow = $("#personaFlow").prop('checked');
         PreviewWorkflows = $("#previewWorkflows").prop('checked');
+        OfflineMode = $("offlineMode").prop('checked');
         dbTO = $("#dbTO").val();
         dbAO = $("#dbAO").val();
         dbFunnelTrue = $("#dbFunnelTrue").val();
         dbFunnelFalse = $("#dbFunnelFalse").val();
-        OfflineMode = $("offlineMode").val();
+        
 
         $("input.repo_owner[data-index]").each(function (index, element) {
           let i = element.dataset.index;

@@ -11,10 +11,10 @@ function fieldsetPainter() {
             let saveNeeded = false;
             $("#saveRepoConfig").prop("disabled", true);
             $("#dbTagsVersion").val(dbTagsVersion);
-            $("#dbTO").val(dbTO);
-            $("#dbAO").val(dbAO);
+            //$("#dbTO").val(dbTO);
+            //$("#dbAO").val(dbAO);
             $("#USQLlimit").val(USQLlimit);
-            $("#offlineMode").val(OfflineMode);
+            
             updateOfflineButtons();
 
 
@@ -44,6 +44,9 @@ function fieldsetPainter() {
 
             if (PreviewWorkflows) $("#previewWorkflows").prop("checked", true);
             else $("#previewWorkflows").prop("checked", false);
+
+            if (OfflineMode) $("#offlineMode").prop("checked", true);
+            else $("#offlineMode").prop("checked", false);
 
             if (personaFlow) {
                 $("#personaFlow").prop("checked", true);
