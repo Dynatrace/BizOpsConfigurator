@@ -111,7 +111,7 @@ function fieldsetPainter() {
                     journeyOverviews.splice(i, 1);
                     $("#repo_config").load("html/repo_config.html", fieldsetPainter);
                 });
-                $("input.repo_owner, input.repo_repo").on("change", () => {
+                $("input.repo_owner, input.repo_repo").on("keyup blur change", () => {
                     if(saveNeeded)return;
                     else {
                         saveNeeded = true;
