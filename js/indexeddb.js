@@ -9,7 +9,7 @@ function openOrCreateDB() {
     let db = Idxdb; //local ref to global obj
 
     if (!window.indexedDB) {
-        alert("Your browser is too old to support IndexedDB. Please upgrade.");
+        alert("Your browser is too old to support IndexedDB. Please upgrade to a modern browser.");
         return false;
     }
 
@@ -26,7 +26,7 @@ function openOrCreateDB() {
 function upgradeDB(e) {
     let db = e.target.result;
 
-    if (event.oldVersion < 1) {
+    if (e.oldVersion < 1) {
         let os = {};
         os = db.createObjectStore("repoList", { keyPath: ["owner", "repo", "path"] });
         os = db.createObjectStore("dbList", { keyPath: "sha" });
