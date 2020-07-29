@@ -531,6 +531,7 @@ function globalButtonHandler() {
         break;
       }
       case "uploadOfflinePack": {
+        OfflineMode = $("#offlineMode").prop('checked');
         //get file from a popup
         let popupHeader = "Offline Pack to upload";
         let inputs = [{ type: 'file', name: 'offlinePack', value: '', label: "JSON&nbsp;file" }];
