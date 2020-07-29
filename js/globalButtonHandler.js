@@ -551,7 +551,7 @@ function globalButtonHandler() {
             } catch(e){
               alert("Loading offline pack failed: "+e.message);
             }
-            
+            updateDashboardButton();
             
           };
           if (typeof file !== "undefined") fr.readAsText(file);
