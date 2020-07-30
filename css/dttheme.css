@@ -1470,3 +1470,7 @@ input.ellipsis {
 .helpPopup {cursor: help;}
 .zoom-in {cursor: zoom-in;}
 .zoom-out {cursor: zoom-out;}
+
+code {
+  white-space: pre-wrap;
+}
