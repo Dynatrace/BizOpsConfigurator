@@ -54,7 +54,9 @@ function generateFunnelForecast(config) {
             deferred = dtAPIquery(query, {})
             $.when(deferred).done(function (d) {
                 d.columnNames.forEach(function (c, i, a) {
-                    revs.push({ from: c, to: d.values[0][i] });
+                    let val = d.values[0][i];
+                    if (val == "null" || val == null) val = 0;
+                    revs.push({ from: c, to: val });
                 });
             });
             deferreds.push(deferred);
