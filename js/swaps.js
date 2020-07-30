@@ -249,7 +249,7 @@ function doSwaps(db, swaps) {
     dbS = JSON.stringify(db);
   }
   swaps.forEach(function (swap) {
-    if(swap.to){
+    if(swap.to || swap.to === 0){
       //let to = swap.to.replace(/\\([\s\S])|(")/g, "\\$1$2"); //escape any unescaped quotes //maybe don't do this here?
       let to = swap.to;
       dbS = dbS.replace(new RegExp(swap.from, 'g'), to);
