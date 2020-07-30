@@ -177,7 +177,7 @@ function generateAppForecast(config) {
             $.when(deferred).done(function (d) {
                 d.columnNames.forEach(function (c, i, a) {
                     let val = d.values[0][i];
-                    if (!val) val = 0.000001;
+                    if (!val) val = 0.000001;  //temp fix for swap issue
                     revs.push({ from: c, to: val });
                 });
             });
