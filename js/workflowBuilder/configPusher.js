@@ -208,6 +208,12 @@ function ConfigPusherFactory(target, transform, configPushType, configPushFile, 
                 $.when(p).done(refreshConfigPusher);
                 break;
             }
+            /*case "FULL_WEB_REQUEST": {
+                let query = `/api/config/v1/service/detectionRules/FULL_WEB_REQUEST/${customServiceTech}/${c.id}`;
+                p = dtAPIquery(query, { method: "PUT", data: data });
+                $.when(p).done(refreshConfigPusher);
+                break;
+            }*/
             default: {
                 console.log("unknown checkForExistingConfig type");
                 break;

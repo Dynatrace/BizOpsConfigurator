@@ -164,7 +164,7 @@ function generateAppForecast(config) {
         // Number of Frustrated Users
         queries.push('select count(usersessionid) as "anofu'+i+'" from usersession where useraction.application="'+appname+'" and userExperienceScore="FRUSTRATED" and startTime between '+startdate+' and '+enddate);
         // Action Duration
-        queries.push('select avg(useraction.duration) as "appdur'+i+'", count(useraction.errorCount) as "apperr'+i+'" from usersession where useraction.application="'+appname+'" and startTime between '+startdate+' and '+enddate);
+        queries.push('select avg(useraction.duration) as "appdur'+i+'", count(useraction.errorCount) as "apperr'+i+'" from usersession where useraction.application="'+appname+'" and useraction.keyUserAction=true and startTime between '+startdate+' and '+enddate);
         // Action Errors
         //queries.push('select count(useraction.errorCount) as "apperr'+i+'" from usersession where useraction.application="'+appname+'" and startTime between '+startdate+' and '+enddate);
 
