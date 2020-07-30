@@ -177,7 +177,7 @@ function generateAppForecast(config) {
             $.when(deferred).done(function (d) {
                 d.columnNames.forEach(function (c, i, a) {
                     let val = d.values[0][i];
-                    if (val == "null" || val == null) val = 0.0001;
+                    if (!val) val = 0.000001;
                     revs.push({ from: c, to: val });
                 });
             });
