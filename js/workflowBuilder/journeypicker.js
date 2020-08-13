@@ -369,6 +369,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 				actions.push(action);
 			});
 			drawMethods(parseMethods(actions), $goalList, app.xapp);
+			$goalList.find("li").draggable();
 		});
 	}
 
