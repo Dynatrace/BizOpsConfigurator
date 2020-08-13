@@ -14,7 +14,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		$funnel, $labelForm,
 		$whereClause, $funnelClause,
 		$goalList, $sortby, $filterby, $searchby, $openFilters,
-		$pencil, $plus, $minus, $updateLabel, $clearFunnel;
+		$pencil, $plus, $minus, $updateLabel, $clearFunnel, $getNonKUAs;
 	let $target = $(target);
 	var timer;
 	const delay = 200, pre = "App: ";
@@ -181,6 +181,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		$filterby = selectors.filterby;
 		$searchby = selectors.searchby;
 		$openFilters = selectors.openFilters;
+		$getNonKUAs = selectors.getNonKUAs;
 	}
 
 	function updateLabel() {
@@ -237,6 +238,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		$searchby.on("keyup blur change", delayedSortActions);
 		$openFilters.on("click", openFiltersToggler);
 		$funnelClause.on("keyup blur change", funnelToWhere);
+		$getNonKUAs.on("click", getNonKUAs)
 	}
 
 	function openFiltersToggler() {
@@ -260,7 +262,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		timer = setTimeout(innerFunnelToWhere, delay);
 
 		function innerFunnelToWhere() {
-			if(! $funnelClause.hasClass("pencilMode")) return;
+			if (!$funnelClause.hasClass("pencilMode")) return;
 
 			let funnelClause = $funnelClause.val();
 			let regex1 = /\([^,]*(,|$)/g;
@@ -336,8 +338,35 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 				$goalList.find("li").draggable();
 			});
 		});
+	}
 
-
+	function getNonKUAs() {
+		if (app.names && app.names.length)
+			let appstring = '"' + app.names.join('","') + '"';
+		//get all "non-important" actions
+		let usql = `select application, top(name,1000) AS name, count(*) AS count, type from useraction where application IN (${appstring}) AND keyUserAction=false group by application, name`;
+		let query = encodeURIComponent(usql) + `&startTimestamp=15973000000&pageSize=1000&addDeepLinkFields=false&explain=false`;
+		let p1 = dtAPIquery(query);
+		$.when(p1).done(function (d1) {
+			let uas = d1[0].values;
+			let actions = [];
+			uas.forEach((a)=>{
+				let i = app.names.findIndex(a[0]);
+				let id = app.ids[i];
+				let action = {
+					appname: a[0],
+					appid: id,
+					methodname: a[1], key: a[1],
+					methodid: undefined, value: undefined,
+					colname: 'useraction.name',
+					kua: false,
+					count: a[2],
+					type: a[3]
+				}
+				actions.push(action);
+			});
+			drawMethods(parseMethods(actions), $goalList, app.xapp);
+		});
 	}
 
 	function parseMethods(results) {
