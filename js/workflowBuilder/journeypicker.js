@@ -370,6 +370,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 			});
 			drawMethods(parseMethods(actions), $goalList, app.xapp);
 			$goalList.find("li").draggable();
+			$getNonKUAs.hide();
 		});
 	}
 
