@@ -351,7 +351,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		let query = `/api/v1/userSessionQueryLanguage/table?query=` + encodeURIComponent(usql) + `&startTimestamp=15973000000&pageSize=1000&addDeepLinkFields=false&explain=false`;
 		let p1 = dtAPIquery(query);
 		$.when(p1).done(function (d1) {
-			let uas = d1[0].values;
+			let uas = d1.values;
 			let actions = [];
 			uas.forEach((a)=>{
 				let i = app.names.findIndex(a[0]);
