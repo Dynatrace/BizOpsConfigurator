@@ -352,7 +352,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		let p1 = dtAPIquery(query);
 		$.when(p1).done(function (d1) {
 			let uas = d1.values;
-			let actions = [];
+			let expandedActions = [];
 			uas.forEach((a)=>{
 				let i = app.names.findIndex((b)=>a[0]===b);
 				let id = app.ids[i];
@@ -366,11 +366,12 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 					count: a[2],
 					type: a[3]
 				}
-				actions.push(action);
+				expandedActions.push(action);
 			});
-			drawMethods(parseMethods(actions), $goalList, app.xapp);
+			drawMethods(parseMethods(expandedActions), $goalList, app.xapp);
 			$goalList.find("li").draggable();
 			$getNonKUAs.hide();
+			actions = actions.concat(expandedActions);
 		});
 	}
 
