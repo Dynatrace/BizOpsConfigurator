@@ -354,7 +354,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 			let uas = d1.values;
 			let actions = [];
 			uas.forEach((a)=>{
-				let i = app.names.findIndex(a[0]);
+				let i = app.names.findIndex((b)=>a[0]===b);
 				let id = app.ids[i];
 				let action = {
 					appname: a[0],
