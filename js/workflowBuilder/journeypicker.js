@@ -341,8 +341,11 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 	}
 
 	function getNonKUAs() {
+		let appstring;
 		if (app.names && app.names.length)
-			let appstring = '"' + app.names.join('","') + '"';
+			appstring = '"' + app.names.join('","') + '"';
+		else 
+			appstring = `"${app.name}"`;
 		//get all "non-important" actions
 		let usql = `select application, top(name,1000) AS name, count(*) AS count, type from useraction where application IN (${appstring}) AND keyUserAction=false group by application, name`;
 		let query = encodeURIComponent(usql) + `&startTimestamp=15973000000&pageSize=1000&addDeepLinkFields=false&explain=false`;
