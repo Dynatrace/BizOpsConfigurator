@@ -347,7 +347,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		else 
 			appstring = `"${app.name}"`;
 		//get all "non-important" actions
-		let usql = `select application, top(name,1000) AS name, count(*) AS count, type from useraction where application IN (${appstring}) AND keyUserAction=false group by application, name`;
+		let usql = `select application, top(name,1000) AS name, count(*) AS count, type from useraction where application IN (${appstring}) AND keyUserAction=false group by application, type, name`;
 		let query = `/api/v1/userSessionQueryLanguage/table?query=` + encodeURIComponent(usql) + `&startTimestamp=15973000000&pageSize=1000&addDeepLinkFields=false&explain=false`;
 		let p1 = dtAPIquery(query);
 		$.when(p1).done(function (d1) {
