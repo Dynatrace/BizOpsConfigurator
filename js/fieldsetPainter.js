@@ -376,8 +376,8 @@ function fieldsetPainter() {
                         + ' class="newTab" target="_blank">here <img src="images/link.svg"></a>';
                     popup([], popheader, desc);
                 }
-                drawSteps(parseSteps(data2[0]), xapp);
-                drawSteps(parseSteps(data1[0]), xapp);
+                drawSteps(parseSteps(data2[0]), "#goallist", xapp);
+                drawSteps(parseSteps(data1[0]), "#goallist", xapp);
                 $("#goallist li").draggable();
                 jsonviewer([data1[0], data2[0]]);
             });
