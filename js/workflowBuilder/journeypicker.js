@@ -244,10 +244,12 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		journeyData.forEach(function (f, i, a) {
 			a[i].value = "";
 			a[i].clauses = [];
+			a[i].stepData = [];
 		});
 		updateWhere(journeyData);
 		chart.draw(journeyData, options);
-		populateGoalList();
+		//populateGoalList();
+		populateMethodList();
 	}
 
 	function attachHandlers() {
@@ -518,7 +520,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		}
 	}
 
-	function populateGoalList() {
+	function populateGoalList() { //deprecated for populateMethodList()
 		let mobileHack = (!app.xapp && app.id.split('-')[0] != "APPLICATION" ? true : false);
 		let p1 = getGoals(app.xapp ? app.names : app.name);
 		let p2 = getKeyActions(app.xapp ? app.names : app.name, mobileHack);
@@ -579,7 +581,6 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 			{ label: 'Decision', value: '', clauses: [] }
 		];
 		chart = new D3Funnel(`#${$funnel.attr("id")}`);
-		JourneyPickers.push(chart); //tmp for testing
 		chart.draw(journeyData, options);
 		updateWhere();
 		if (selection.config && "whereClause" in selection.config &&
@@ -593,7 +594,9 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		});
 		attachHandlers();
 
-		mainP.resolve({ html: $html, updateData, getSelectors, getData, pencilToggle, populateGoalList });
+		let JP = { html: $html, chart, updateData, getSelectors, getData, pencilToggle, populateMethodList };
+		JourneyPickers.push(JP);
+		mainP.resolve(JP);
 	});
 	return mainP;
 }
