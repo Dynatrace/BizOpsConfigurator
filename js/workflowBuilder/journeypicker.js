@@ -14,7 +14,8 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		$funnel, $labelForm,
 		$whereClause, $funnelClause,
 		$goalList, $sortby, $filterby, $searchby, $openFilters,
-		$pencil, $plus, $minus, $updateLabel, $clearFunnel, $getNonKUAs;
+		$pencil, $plus, $minus, $updateLabel, $clearFunnel, $getNonKUAs,
+		$zoomIn, $zoomOut;
 	let $target = $(target);
 	var timer;
 	const delay = 200, pre = "App: ";
@@ -174,6 +175,8 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		$pencil = selectors.pencil;
 		$plus = selectors.plus;
 		$minus = selectors.minus;
+		$zoomIn = selectors.zoomIn;
+		$zoomOut = selectors.zoomOut;
 		$updateLabel = selectors.updateLabel;
 		$clearFunnel = selectors.clearFunnel;
 		$funnelClause = selectors.funnelClause;
@@ -217,6 +220,26 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		}
 	}
 
+	function zoomIn() {
+		let width = $funnel.width();
+		let height = $funnel.height();
+
+		options.width = width + width * 0.2;
+		options.height = height + height * 0.2;
+
+		chart.draw(journeyData, options);
+	}
+
+	function zoomOut() {
+		let width = $funnel.width();
+		let height = $funnel.height();
+
+		options.width = width - width * 0.2;
+		options.height = height - height * 0.2;
+
+		chart.draw(journeyData, options);
+	}
+
 	function clearFunnel() {
 		journeyData.forEach(function (f, i, a) {
 			a[i].value = "";
@@ -231,6 +254,8 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		$updateLabel.on("click", updateLabel);
 		$plus.on("click", addTier);
 		$minus.on("click", removeTier);
+		$zoomin.on("click", zoomIn);
+		$zoomout.on("click", zoomOut);
 		$clearFunnel.on("click", clearFunnel);
 		$pencil.on("click", pencilToggle);
 		$sortby.on("change", sortActions);
