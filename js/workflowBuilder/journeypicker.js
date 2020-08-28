@@ -254,8 +254,8 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		$updateLabel.on("click", updateLabel);
 		$plus.on("click", addTier);
 		$minus.on("click", removeTier);
-		$zoomin.on("click", zoomIn);
-		$zoomout.on("click", zoomOut);
+		$zoomIn.on("click", zoomIn);
+		$zoomOut.on("click", zoomOut);
 		$clearFunnel.on("click", clearFunnel);
 		$pencil.on("click", pencilToggle);
 		$sortby.on("change", sortActions);
