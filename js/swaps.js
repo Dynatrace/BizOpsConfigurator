@@ -614,6 +614,7 @@ function conditionalGetSwaps(workflowInput, transform, swaps) {
   if (typeof priorSwap != "undefined") {
     let val = conditionalValues.find(x => x.prior === priorSwap.to);
     addToSwaps(swaps, { from: from, to: val.swap });
+    selection.conditionalSwaps.push({ from: from, to: val.swap });
   }
 }
 

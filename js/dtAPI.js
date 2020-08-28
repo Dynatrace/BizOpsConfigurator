@@ -585,6 +585,9 @@ function uploadWorkflow(workflow) {
   var query = "/api/config/v1/dashboards/" + id;
 
   //sub-dashboards & swaps
+  if(selection.conditionalSwaps.length){ //do prior to calculating subs, so we can have conditional drilldowns
+    overview = doSwaps(overview, selection.conditionalSwaps);
+  }
   let subs = getStaticSubDBs(overview, [config.oldId]);
   let swaps = selection.swaps;
   swaps.push({ from: config.oldId, to: config.id });
