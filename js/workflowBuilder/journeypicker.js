@@ -30,7 +30,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 			bottomPinch: 1
 		},
 		block: {
-			minHeight: 50,
+			minHeight: 100,
 			fill: {
 				type: 'gradient'
 			},
