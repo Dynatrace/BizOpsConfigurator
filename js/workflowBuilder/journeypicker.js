@@ -554,6 +554,7 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 			{ label: 'Decision', value: '', clauses: [] }
 		];
 		chart = new D3Funnel(`#${$funnel.attr("id")}`);
+		JourneyPickers.push(chart); //tmp for testing
 		chart.draw(journeyData, options);
 		updateWhere();
 		if (selection.config && "whereClause" in selection.config &&

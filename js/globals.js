@@ -134,6 +134,7 @@ var Idxdb = {
 var PreviewWorkflows = false;
 var InternalTenant = false;
 var OfflineMode = false;
+var JourneyPickers = [];
 
 
 ///////// Functions for manipulating global vars //////////
