@@ -224,8 +224,8 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		let width = $funnel.width();
 		let height = $funnel.height();
 
-		options.width = width + width * 0.2;
-		options.height = height + height * 0.2;
+		options.chart.width = width + width * 0.2;
+		options.chart.height = height + height * 0.2;
 
 		chart.draw(journeyData, options);
 	}
@@ -234,8 +234,8 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		let width = $funnel.width();
 		let height = $funnel.height();
 
-		options.width = width - width * 0.2;
-		options.height = height - height * 0.2;
+		options.chart.width = width - width * 0.2;
+		options.chart.height = height - height * 0.2;
 
 		chart.draw(journeyData, options);
 	}
