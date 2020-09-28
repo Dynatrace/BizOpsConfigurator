@@ -294,7 +294,7 @@ function findTileByName(db, findName) {
 function SAPappList(db, apps) {
   let leftIndex = findTileByName(db, "SAP APP Right");//Joe has his Left & Right flipped
   let rightIndex = findTileByName(db, "SAP App Left");
-  if (apps.length = 1) {
+  if (apps.length === 1) {
     columnList(db, leftIndex, apps);
     db.tiles.splice(rightIndex, 1);
   } else if (apps.length > 1) {
