@@ -400,7 +400,7 @@ function globalButtonHandler() {
           case "00000000-dddd-bbbb-ffff-000000000001":
             break;
           case "SAP Application Cockpit.json":
-            let $elArr = $("#SAPapps");
+            let $elArr = $("#SAPapps option:selected");
             let arr = [];
             $elArr.each((idx,el)=>{
               try{
