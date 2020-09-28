@@ -400,10 +400,16 @@ function globalButtonHandler() {
           case "00000000-dddd-bbbb-ffff-000000000001":
             break;
           case "SAP Application Cockpit.json":
-            let arr = $("#SAPapps").val();
-            arr.forEach(function (e, i, a) {
-              a[i] = JSON.parse(e);
-            });
+            let $elArr = $("#SAPapps");
+            let arr = [];
+            $elArr.each((idx,el)=>{
+              try{
+                let obj = JSON.parse($(el).attr("data-json"));
+                arr.push(obj);  
+              } catch(err){
+                console.log("SAPapps JSON parse error");
+              }
+            })
             selection.config.SAPapps = arr;
 
             break;
