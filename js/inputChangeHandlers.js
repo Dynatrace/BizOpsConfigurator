@@ -466,7 +466,7 @@ function tenantOverviewChangeHandler() {
         let customapps = apps.filter(app => app.entityId.includes("CUSTOM_APPLICATION"));
         let html = "";
         customapps.forEach(function (app) {
-          html += `<option value='${JSON.stringify(app)}'>${app.displayName}</option>`;
+          html += `<option data-json='${JSON.stringify(app)}' value='${app.entityId}'>${app.displayName}</option>`;
         });
         $("#SAPapps").html(html);
       });
