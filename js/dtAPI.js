@@ -606,7 +606,7 @@ function uploadWorkflow(workflow) {
   //handle powerups
   if(selection.config.powerups){
     addPowerupDisclaimer(dbObj);
-    subs.forEach(s=>{addPowerupDisclaimer(s);});
+    subs.forEach(s=>{addPowerupDisclaimer(s.file);});
   }
 
   //upload
