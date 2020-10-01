@@ -356,5 +356,10 @@ function addPowerupDisclaimer(db) {
   //inject disclaimer
   db.tiles.push(disclaimer);
 
+  //add tag
+  let tags = db.dashboardMetadata.tags;
+  if(!tags.includes("Powerup"))
+    tags.push("Powerup");
+
   return(db);
 }

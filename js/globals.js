@@ -11,6 +11,8 @@ const statusFilter = (x) => x.file.config.workflowStatus === undefined
   || x.file.config.workflowStatus === "Early Adopter"
   || (x.file.config.workflowStatus === "Preview" && PreviewWorkflows)
   || (x.file.config.workflowStatus === "Testing" && PreviewWorkflows && InternalTenant);
+const POWERUP_DISCLAIMER = `<div id="powerupDisclaimer">\uD83D\uDC8E Powerup Enabled Dashboard \uD83D\uDC8E 
+  <a href="#helpPopup/powerups" class="helpPopup hashHandled questionMark">?</a></div>`;
 
 //var dashboardDir = "json/Dynatrace-DashboardsV4/";
 var dbTO = "TenantOverview.json";
