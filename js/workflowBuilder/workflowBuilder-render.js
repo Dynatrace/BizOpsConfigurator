@@ -39,12 +39,12 @@ function renderWorkflow(el) {
     let config = clonedEl.find("#workflowConfigJSON").val();
     if (config.length > 0) selection['config'] = JSON.parse(config);
 
+    let html = sanitizer.sanitize(clonedEl.wrap("<div></div>").parent().html());
+
     //Add Powerup disclaimer
     if (selection.config.powerups) {
-        clonedEl.prepend(POWERUP_DISCLAIMER);
+        html = POWERUP_DISCLAIMER + html;
     }
-
-    let html = sanitizer.sanitize(clonedEl.wrap("<div></div>").parent().html());
 
     p.resolve(html);
 
