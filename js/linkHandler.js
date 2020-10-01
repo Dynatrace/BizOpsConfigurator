@@ -324,11 +324,11 @@ function helpPopup(args) {
     case "powerups": {
       let header = `Dynatrace Dashboard Powerups`;
       let content = `<p>What are Dashboard Powerups?</p>
-      The Powerups extension will introduce capabilities that may be considered for future releases (e.g. BizAnalytics maps by expanded kpi’s [like revenue or frustrated users], heatmaps, and user session maps).
+      <p>The Powerups extension will introduce capabilities that may be considered for future releases (e.g. BizAnalytics maps by expanded kpi’s [like revenue or frustrated users], heatmaps, and user session maps).
       The Powerups extension is community supported and NOT supported through normal support channels in ANY way.  Community support will be provided through <a href="https://github.com/LucasHocker/DynatraceDashboardPowerups/issues" target="_blank" class='newTab'>GitHub Issues <img src='images/link.svg'></a>.
       The Powerups extension will not make any callouts or otherwise interact with anything other than dashboard elements.
       Chrome is the only supported browser.
-      <i>The Powerups extension is provided without any representations, warranties, or formal support from Dynatrace.</i>
+      <i>The Powerups extension is provided without any representations, warranties, or formal support from Dynatrace.</i></p>
       `;
       popupHTML(header, content);
       break;
