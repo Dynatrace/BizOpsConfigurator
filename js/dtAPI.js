@@ -603,6 +603,12 @@ function uploadWorkflow(workflow) {
   var dbObj = doSwaps(overview, swaps);
   dbObj = validateDB(dbObj);
 
+  //handle powerups
+  if(selection.config.powerups){
+    addPowerupDisclaimer(dbObj);
+    subs.forEach(s=>{addPowerupDisclaimer(s);});
+  }
+
   //upload
   let dbS = JSON.stringify(dbObj);
   let workflowToSave = stringifyWithValues($workflow);

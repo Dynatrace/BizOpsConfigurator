@@ -86,7 +86,7 @@ function getStaticSubDBs(db, parentids = [""], subs = []) {
           if ("file" in d && d.file.id === id &&
             typeof (subs.find(x => x.name === d.name)) == "undefined") { //ensure it's not already in the array, note: ids are not unique
             console.log("getStaticSubDBs: " + id + " => " + d.file.dashboardMetadata.name);
-            if("contents" in d.repo) delete d.repo.contents; //prevent circular structure
+            if ("contents" in d.repo) delete d.repo.contents; //prevent circular structure
             subs.push(JSON.parse(JSON.stringify(d)));
             getStaticSubDBs(d.file, parentids, subs);
           }
@@ -330,4 +330,31 @@ function applyTileReplicators(db, replicators) {
       .filter(x => x.name !== rep.tilename); //remove placeholders
   });
 
+}
+
+function addPowerupDisclaimer(db) {
+  const disclaimer = {
+    "name": "Markdown",
+    "tileType": "MARKDOWN",
+    "configured": true,
+    "bounds": {
+      "top": 0,
+      "left": 0,
+      "width": 1254,
+      "height": 76
+    },
+    "tileFilter": {},
+    "markdown": "##\uD83D\uDC8E Powerup Enabled Dashboard \uD83D\uDC8E\n\n##  [Install Chrome Extension](https://chrome.google.com/webstore/detail/dynatrace-dashboard-power/dmpgdhbpdodhddciokonbahhbpaalmco)"
+  }
+
+  //move everything down by disclaimer height
+  const h = disclaimer.bounds.height;
+  db.tiles.forEach((t, i, a) => {
+    t.bounds.top = t.bounds.top + h;
+  });
+
+  //inject disclaimer
+  db.tiles.push(disclaimer);
+
+  return(db);
 }
