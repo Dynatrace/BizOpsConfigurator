@@ -41,8 +41,7 @@ function renderWorkflow(el) {
 
     //Add Powerup disclaimer
     if (selection.config.powerups) {
-        let $wf = clonedEl.find("#workflow");
-        $wf.prepend(POWERUP_DISCLAIMER);
+        clonedEl.prepend(POWERUP_DISCLAIMER);
     }
 
     let html = sanitizer.sanitize(clonedEl.wrap("<div></div>").parent().html());
