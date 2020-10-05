@@ -47,6 +47,7 @@ var repoList = [
   { 'owner': 'jjbologna', 'repo': 'SAP-extension-dashboards', 'path': '' },
   { 'owner': 'popecruzdt', 'repo': 'dt-kubernetes-config', 'path': '' },
   { 'owner': 'mcaminiti', 'repo': 'dynatrace-dashboards-dem-usage', 'path': '' },
+  { 'owner': 'imrankhan4z', 'repo': 'Dynatrace_Dashboards', 'path': '' },
   { 'owner': 'sergiohinojosa', 'repo': 'dashboards-dt-kubernetes', 'path': '' }
 ];
 var tenantOverviews = [
