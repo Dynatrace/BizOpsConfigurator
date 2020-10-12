@@ -40,7 +40,6 @@ var repoList = [
   { 'owner': 'TechShady', 'repo': 'Dynatrace-Remote-Employee', 'path': '' },
   { 'owner': 'TechShady', 'repo': 'Dynatrace-Infrastructure', 'path': '' },
   { 'owner': 'TechShady', 'repo': 'BizOpsLite', 'path': '' },
-  { 'owner': 'TechShady', 'repo': 'Dynatrace-Marketing-Dashboards', 'path': '' },
   { 'owner': 'LucasHocker', 'repo': 'DashboardTemplates', 'path': 'v1.192.96' },
   { 'owner': 'LucasHocker', 'repo': 'DashboardTemplates', 'path': '' },
   { 'owner': 'Dynatrace-JasonOstroski', 'repo': 'CitrixDynatraceDashboards', 'path': '' },
