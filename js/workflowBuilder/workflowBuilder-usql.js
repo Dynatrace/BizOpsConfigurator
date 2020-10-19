@@ -27,7 +27,8 @@ function loadUsqlQueryOptions(query, slicer, target, whereClause) {
     let p = dtAPIquery(query);
     //if (selection.config.convertSelectToDatalist
     //    && $target.attr("multiple")!="multiple"){
-    if($target.attr("multiple")!="multiple"){
+    if($target.attr("multiple")!="multiple"
+        && $target.is("select")){
         $target = convertSelectToDatalist($target);
     }
     return $.when(p).done(function (data) {
