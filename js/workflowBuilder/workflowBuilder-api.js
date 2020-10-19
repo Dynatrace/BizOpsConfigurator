@@ -9,6 +9,23 @@ function loadApiQuery($query) {
     let slicer = $query.siblings(".apiResultSlicer").val();
     let $target = $query.siblings(".workflowSelect");
     if (typeof selection.swaps !== "undefined") query = queryDoSwaps(query, selection.swaps);
+    if (selection.config.convertSelectToDatalist){
+        let id = $target.attr("id");
+        let $input = $("<input>")
+            .attr("id",id)
+            .attr("list",id+'_list')
+            .insertBefore($target);
+        let $datalist = $("<datalist>");
+        //copy attrs
+        let a = $target[0].attributes;
+        for(let i=0; i < a.length; i++){
+            $datalist.attr(a[i].name,a[i.value]);
+        }
+        $datalist.html($target.html);
+        //replace element
+        $target.replaceWith($datalist);
+        $target = $datalist;
+    }
     if (!query.match(/^\/api\//)) {
         console.log(`invalid api query: ${query}`);
         return;
