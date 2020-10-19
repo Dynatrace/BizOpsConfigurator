@@ -9,10 +9,6 @@ function loadApiQuery($query) {
     let slicer = $query.siblings(".apiResultSlicer").val();
     let $target = $query.siblings(".workflowSelect");
     if (typeof selection.swaps !== "undefined") query = queryDoSwaps(query, selection.swaps);
-    /*if (selection.config.convertSelectToDatalist //let's not do this unless needed, for API it might blow stuff up
-        && $target.attr("multiple") != "multiple") {
-        $target = convertSelectToDatalist($target);
-    }*/
     if (!query.match(/^\/api\//)) {
         console.log(`invalid api query: ${query}`);
         return;
@@ -205,7 +201,7 @@ function previewAPIhandler() {
             let p = loadApiQueryOptions(query, slicer, $target);
             $.when(p).done(function (data) {
                 //jsonviewer(data, true, "", "#apiResult");
-                if ($target.hasClass("chosen-select"))
+                if($target.hasClass("chosen-select"))
                     $target.chosen();
             });
         })

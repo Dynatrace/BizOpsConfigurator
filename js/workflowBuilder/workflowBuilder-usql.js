@@ -48,9 +48,7 @@ function sliceUSQLdata(slicer, data, target, whereClause) { //TODO: refactor thi
             let selectors = [`#usp${uniqId()}`];
             $target.html(`
                 <div class="inputHeader"><!--Keys:--></div>
-                <div class="userInput">
-                    <input id="${selectors[0].substr(1)}" list="${selectors[0].substr(1)}_list">
-                    <datalist id="${selectors[0].substr(1)}_list"><option></option></datalist></div>
+                <div class="userInput"><select id="${selectors[0].substr(1)}"><option></option></select></div>
                 `);
             parsedResults = parseKPIs(data);
             /*let options = drawKPIs(parsedResults);
@@ -61,7 +59,7 @@ function sliceUSQLdata(slicer, data, target, whereClause) { //TODO: refactor thi
             if (whereClause) {
                 let targetSelector = `#filterClause${uniqId()}`;
                 $target.append(`<div class="inputHeader">Where Clause:</div>
-                <div class="userInput"><input id="${targetSelector.substr(1)}" class="filterClause"></div>
+                <div class="userInput"><input disabled id="${targetSelector.substr(1)}" class="filterClause"></div>
                 `);
                 let eventData = { selectors: selectors, data: parsedResults, targetSelector: targetSelector };
                 $target.on("change", "select", eventData, previewChangeHandlerKeyWhereClause);
@@ -80,10 +78,7 @@ function sliceUSQLdata(slicer, data, target, whereClause) { //TODO: refactor thi
                 <div class="inputHeader">Keys:</div>
                 <div class="userInput"><select id="${selectors[0].substr(1)}"><option></option></select></div>
                 <div class="inputHeader">Values:</div>
-                <div class="userInput">
-                    <input id="${selectors[1].substr(1)}" list="${selectors[1].substr(1)}_list">
-                    <datalist id="${selectors[1].substr(1)}_list"><option></option></datalist>
-                </div>
+                <div class="userInput"><select id="${selectors[1].substr(1)}"><option></option></select></div>
                 `);
             $("#swaps").html(`
                 <div class="inputHeader">From:</div>
@@ -93,7 +88,7 @@ function sliceUSQLdata(slicer, data, target, whereClause) { //TODO: refactor thi
             if (whereClause) {
                 let targetSelector = `#filterClause${uniqId()}`;
                 $target.append(`<div class="inputHeader">Where Clause:</div>
-                <div class="userInput"><input id="${targetSelector.substr(1)}" class="filterClause"></div>
+                <div class="userInput"><input disabled id="${targetSelector.substr(1)}" class="filterClause"></div>
                 `);
                 let eventData = { selectors: selectors, data: parsedResults, targetSelector: targetSelector };
                 $target.on("change", "select", eventData, uspFilterChangeHandler);
@@ -126,7 +121,7 @@ function sliceUSQLdata(slicer, data, target, whereClause) { //TODO: refactor thi
             if (whereClause) {
                 let targetSelector = `#filterClause${uniqId()}`;
                 $target.append(`<div class="inputHeader">Where Clause:</div>
-                <div class="userInput"><input id="${targetSelector.substr(1)}" class="filterClause"></div>
+                <div class="userInput"><input disabled id="${targetSelector.substr(1)}" class="filterClause"></div>
                 `);
                 let eventData = { selectors: selectors, data: parsedResults, targetSelector: targetSelector };
                 $target.on("change", "select", eventData, previewChangeHandlerValX4Where);
@@ -144,10 +139,8 @@ function sliceUSQLdata(slicer, data, target, whereClause) { //TODO: refactor thi
             let colname = data.columnNames[0];
             $target.html(`
                 <div class="inputHeader"><!--Actions:--></div>
-                <div class="userInput">
-                    <input id="${selectors[0].substr(1)}" list="${selectors[0].substr(1)}_list">
-                    <datalist id="${selectors[0].substr(1)}_list" data-colname="${colname}">
-                    <option></option></datalist></div>
+                <div class="userInput"><select id="${selectors[0].substr(1)}" data-colname="${colname}">
+                    <option></option></select></div>
                 `);
             let options = drawActions(data);
             $(`${selectors[0]}`).html(options);
@@ -156,7 +149,7 @@ function sliceUSQLdata(slicer, data, target, whereClause) { //TODO: refactor thi
             if (whereClause) {
                 let targetSelector = `#filterClause${uniqId()}`;
                 $target.append(`<div class="inputHeader">Where Clause:</div>
-                <div class="userInput"><input id="${targetSelector.substr(1)}" class="filterClause"></div>
+                <div class="userInput"><input disabled id="${targetSelector.substr(1)}" class="filterClause"></div>
                 `);
                 let eventData = { selectors: selectors, data: parsedResults, targetSelector: targetSelector };
                 $target.on("change", "select", eventData, previewChangeHandlerActionWhereClause);
