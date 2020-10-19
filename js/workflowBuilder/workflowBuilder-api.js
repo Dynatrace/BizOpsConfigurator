@@ -19,9 +19,10 @@ function loadApiQuery($query) {
         //copy attrs
         let a = $target[0].attributes;
         for(let i=0; i < a.length; i++){
-            $datalist.attr(a[i].name,a[i.value]);
+            $datalist.attr(a[i].name,a[i].value);
         }
         $datalist.html($target.html);
+        $datalist.attr("id",id+'_list');
         //replace element
         $target.replaceWith($datalist);
         $target = $datalist;
