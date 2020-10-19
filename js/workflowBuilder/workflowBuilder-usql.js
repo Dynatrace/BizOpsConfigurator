@@ -48,7 +48,9 @@ function sliceUSQLdata(slicer, data, target, whereClause) { //TODO: refactor thi
             let selectors = [`#usp${uniqId()}`];
             $target.html(`
                 <div class="inputHeader"><!--Keys:--></div>
-                <div class="userInput"><select id="${selectors[0].substr(1)}"><option></option></select></div>
+                <div class="userInput">
+                    <input id="${selectors[0].substr(1)}" list="${selectors[0].substr(1)}_list">
+                    <datalist id="${selectors[0].substr(1)}_list"><option></option></datalist></div>
                 `);
             parsedResults = parseKPIs(data);
             /*let options = drawKPIs(parsedResults);
@@ -78,7 +80,10 @@ function sliceUSQLdata(slicer, data, target, whereClause) { //TODO: refactor thi
                 <div class="inputHeader">Keys:</div>
                 <div class="userInput"><select id="${selectors[0].substr(1)}"><option></option></select></div>
                 <div class="inputHeader">Values:</div>
-                <div class="userInput"><select id="${selectors[1].substr(1)}"><option></option></select></div>
+                <div class="userInput">
+                    <input id="${selectors[1].substr(1)}" list="${selectors[1].substr(1)}_list">
+                    <datalist id="${selectors[1].substr(1)}_list"><option></option></datalist>
+                </div>
                 `);
             $("#swaps").html(`
                 <div class="inputHeader">From:</div>
@@ -139,8 +144,10 @@ function sliceUSQLdata(slicer, data, target, whereClause) { //TODO: refactor thi
             let colname = data.columnNames[0];
             $target.html(`
                 <div class="inputHeader"><!--Actions:--></div>
-                <div class="userInput"><select id="${selectors[0].substr(1)}" data-colname="${colname}">
-                    <option></option></select></div>
+                <div class="userInput">
+                    <input id="${selectors[0].substr(1)}" list="${selectors[0].substr(1)}_list">
+                    <datalist id="${selectors[0].substr(1)}_list" data-colname="${colname}">
+                    <option></option></datalist></div>
                 `);
             let options = drawActions(data);
             $(`${selectors[0]}`).html(options);

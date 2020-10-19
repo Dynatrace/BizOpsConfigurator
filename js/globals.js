@@ -652,18 +652,39 @@ var uniqId = (function () {
   }
 })();
 
-function isInternalTenant(u=url) {
+function isInternalTenant(u = url) {
   //not like "%sprint%dynalabs.io%" and stringProperties.url_js not like "%.dynatracelabs.com" 
   let internal = false;
-  if(u.match(/sprint.*dynalabs.io/) 
+  if (u.match(/sprint.*dynalabs.io/)
     || u.match(/\.dynatracelabs.com/)
     || u.match(/managed-sprint.dynalabs.io/)
     || u.match(/sprint.dynatracelabs.com/)
     || u.match(/dev.dynatracelabs.com/)
     || u.match(/managed-dev.dynalabs.io/)
-    )
+  )
     internal = true;
 
   InternalTenant = internal;
   return internal;
+}
+
+function convertSelectToDatalist(target) {
+  let $target = $(target);
+  let id = $target.attr("id");
+  let $input = $("<input>")
+    .attr("id", id)
+    .attr("list", id + '_list')
+    .insertBefore($target);
+  let $datalist = $("<datalist>");
+  //copy attrs
+  let a = $target[0].attributes;
+  for (let i = 0; i < a.length; i++) {
+    $datalist.attr(a[i].name, a[i].value);
+  }
+  $datalist.html($target.html());
+  $datalist.attr("id", id + '_list');
+  //replace element
+  $target.replaceWith($datalist);
+  $target = $datalist;
+  return $target;
 }
