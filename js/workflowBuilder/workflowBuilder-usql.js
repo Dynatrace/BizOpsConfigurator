@@ -25,8 +25,9 @@ function loadUsqlQuery($usql) {
 function loadUsqlQueryOptions(query, slicer, target, whereClause) {
     let $target = $(target);
     let p = dtAPIquery(query);
-    if (selection.config.convertSelectToDatalist
-        && $target.attr("multiple")!="multiple"){
+    //if (selection.config.convertSelectToDatalist
+    //    && $target.attr("multiple")!="multiple"){
+    if($target.attr("multiple")!="multiple"){
         $target = convertSelectToDatalist($target);
     }
     return $.when(p).done(function (data) {
@@ -63,7 +64,7 @@ function sliceUSQLdata(slicer, data, target, whereClause) { //TODO: refactor thi
             if (whereClause) {
                 let targetSelector = `#filterClause${uniqId()}`;
                 $target.append(`<div class="inputHeader">Where Clause:</div>
-                <div class="userInput"><input disabled id="${targetSelector.substr(1)}" class="filterClause"></div>
+                <div class="userInput"><input id="${targetSelector.substr(1)}" class="filterClause"></div>
                 `);
                 let eventData = { selectors: selectors, data: parsedResults, targetSelector: targetSelector };
                 $target.on("change", "select", eventData, previewChangeHandlerKeyWhereClause);
@@ -92,7 +93,7 @@ function sliceUSQLdata(slicer, data, target, whereClause) { //TODO: refactor thi
             if (whereClause) {
                 let targetSelector = `#filterClause${uniqId()}`;
                 $target.append(`<div class="inputHeader">Where Clause:</div>
-                <div class="userInput"><input disabled id="${targetSelector.substr(1)}" class="filterClause"></div>
+                <div class="userInput"><input id="${targetSelector.substr(1)}" class="filterClause"></div>
                 `);
                 let eventData = { selectors: selectors, data: parsedResults, targetSelector: targetSelector };
                 $target.on("change", "select", eventData, uspFilterChangeHandler);
@@ -125,7 +126,7 @@ function sliceUSQLdata(slicer, data, target, whereClause) { //TODO: refactor thi
             if (whereClause) {
                 let targetSelector = `#filterClause${uniqId()}`;
                 $target.append(`<div class="inputHeader">Where Clause:</div>
-                <div class="userInput"><input disabled id="${targetSelector.substr(1)}" class="filterClause"></div>
+                <div class="userInput"><input id="${targetSelector.substr(1)}" class="filterClause"></div>
                 `);
                 let eventData = { selectors: selectors, data: parsedResults, targetSelector: targetSelector };
                 $target.on("change", "select", eventData, previewChangeHandlerValX4Where);
@@ -153,7 +154,7 @@ function sliceUSQLdata(slicer, data, target, whereClause) { //TODO: refactor thi
             if (whereClause) {
                 let targetSelector = `#filterClause${uniqId()}`;
                 $target.append(`<div class="inputHeader">Where Clause:</div>
-                <div class="userInput"><input disabled id="${targetSelector.substr(1)}" class="filterClause"></div>
+                <div class="userInput"><input id="${targetSelector.substr(1)}" class="filterClause"></div>
                 `);
                 let eventData = { selectors: selectors, data: parsedResults, targetSelector: targetSelector };
                 $target.on("change", "select", eventData, previewChangeHandlerActionWhereClause);
