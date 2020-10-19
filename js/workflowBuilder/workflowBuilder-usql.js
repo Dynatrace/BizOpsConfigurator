@@ -25,6 +25,10 @@ function loadUsqlQuery($usql) {
 function loadUsqlQueryOptions(query, slicer, target, whereClause) {
     let $target = $(target);
     let p = dtAPIquery(query);
+    if (selection.config.convertSelectToDatalist
+        && $target.attr("multiple")!="multiple"){
+        convertSelectToDatalist($target);
+    }
     return $.when(p).done(function (data) {
         jsonviewer(data, true, "", "#apiResult");
         let parsedResults = sliceUSQLdata(slicer, data, $target, whereClause);
