@@ -61,6 +61,7 @@ function workflowBuilderHandlers() {
     $("#viewport").on("change", "#inputType", inputTypeChangeHandler);
     $("#viewport").on("change", "#commonQueries", commonQueryChangeHandler);
     $("#viewport").on("change", "#usqlCommonQueries", usqlCommonQueryChangeHandler);
+    $("#viewport").on("change", "#usqlResultSlicer", usqlSlicerChangeHandler);
     $("#viewport").on("change", "input[type=checkbox]", checkHandler);
     $("#viewport").on("change", "#configPushType", configPushTypeHandler);
     $("#viewport").on("change", "#staticPreview", staticBoxPreviewHandler);

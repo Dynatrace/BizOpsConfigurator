@@ -448,3 +448,20 @@ function previewUSQLhandler() {
         });
     });
 }
+
+function usqlSlicerChangeHandler() {
+    let slicer = $("#usqlResultSlicer").val();
+
+    switch (slicer) {
+        case "Keys/Values_edit":
+        case "Keys_edit":
+            $("#addWhereClause").prop("checked", false);
+            $("#multiple").prop("checked", false);
+            $("#multiBox").hide();
+            $("#whereClauseBox").hide();
+            break;
+        default:
+            $("#multiBox").show();
+            $("#whereClauseBox").show();
+    }
+}
