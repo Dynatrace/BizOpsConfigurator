@@ -328,6 +328,7 @@ function previewChangeHandlerKeyValEdit(event) {
     let $key = $(event.data.selectors[0]);
     let $keyList = $(event.data.selectors[0] + '_list');
     let key = $key.val();
+    let name = key.split('.').slice(-1)[0];
     let $val = $(event.data.selectors[1]);
     let $valList = $(event.data.selectors[1] + '_list');
     let val = $val.val();
