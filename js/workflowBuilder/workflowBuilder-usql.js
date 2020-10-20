@@ -44,6 +44,48 @@ function sliceUSQLdata(slicer, data, target, whereClause) { //TODO: refactor thi
 
     let from = $("#transform").val();
     switch (slicer) {
+        case 'Keys_edit': {
+            let id = `usp${uniqId()}`;
+            let selectors = [`#${id}`];
+            $target.html(`
+                <div class="inputHeader"><!--Keys_edit:--></div>
+                <div class="userInput">
+                    <input id="${id}" list="${id}_list">
+                    <datalist id="${id}_list"><option></option></datalist>
+                </div>
+                `);
+            parsedResults = parseKPIs(data);
+            drawKPIsJQ(parsedResults, `#${id}_list`);
+            $("#swaps").html();
+            break;
+        }
+        case 'Keys/Values_edit': {
+            let selectors = [`#uspKey${uniqId()}`, `#uspVal${uniqId()}`];
+            parsedResults = parseUSPFilter(data);
+            $target.html(`
+                <div class="inputHeader">Keys:</div>
+                <div class="userInput">
+                    <input id="${selectors[0].substr(1)}" list="${selectors[0].substr(1)}_list">
+                    <datalist id="${selectors[0].substr(1)}_list"><option></option></datalist>
+                </div>
+                <div class="inputHeader">Values:</div>
+                <div class="userInput">
+                    <input id="${selectors[1].substr(1)}" list="${selectors[1].substr(1)}_list">
+                    <select id="${selectors[1].substr(1)}_list"><option></option></select>
+                </div>
+                `);
+            $("#swaps").html(`
+                <div class="inputHeader">From:</div>
+                <div class="userInput">${'${' + from + '}'}</div>
+            `);
+
+            let targetSelector = '';
+            let eventData = { selectors: selectors, data: parsedResults, targetSelector: targetSelector };
+            $target.on("change", "input", eventData, previewChangeHandlerKeyValEdit);
+            $target.find("input:first-of-type").trigger("change");
+
+            break;
+        }
         case 'Keys': {
             let selectors = [`#usp${uniqId()}`];
             $target.html(`
@@ -250,6 +292,53 @@ function previewChangeHandlerKeyVal(event) {
 
     let key = $(event.data.selectors[0]).val();
     let val = $(event.data.selectors[1]).val();
+
+    let fromkey = "${" + $("#transform").val() + ".key}";
+    let fromval = "${" + $("#transform").val() + ".value}";
+
+    let preview = $(`<table class="dataTable">`);
+    preview.append(`<thead><tr><td>From</td><td>To</td></tr></thead>`);
+    preview.append(`<tr><td>${fromkey}</td><td>${key}</td></tr>`);
+    preview.append(`<tr><td>${fromval}</td><td>${val}</td></tr>`);
+    $("#swaps").html(preview);
+}
+
+function previewChangeHandlerKeyValEdit(event) {
+    //uspFilterChangeHandler(event);
+    let $key = $(event.data.selectors[0]);
+    let $keyList = $(event.data.selectors[0] + '_list');
+    let key = $key.val();
+    let $val = $(event.data.selectors[1]);
+    let $valList = $(event.data.selectors[1] + '_list');
+    let val = $val.val();
+
+    let uspData;
+    if (typeof event !== "undefined" && typeof event.data !== "undefined" && typeof event.data.data !== "undefined") {
+        uspData = event.data.data;
+    }
+
+    if (typeof key == "undefined" || key == null || key == '') { //build out key list if needed
+        $keyList.html('');
+        $('<option>').val('').text('n/a').appendTo($keyList);
+        Object.keys(uspData).sort().forEach(function (t) {
+            Object.keys(uspData[t]).sort().forEach(function (k) {
+                $('<option>').val(k).text(k).attr('data-colname', t).appendTo($keyList);
+            });
+        });
+        $valList.hide();
+    }
+
+    if (key != "") {  //if we have the key draw the values
+        $valList.html('');
+        $('<option>').val('').text('n/a').appendTo($valList);
+        if (typeof uspData[type] != "undefined" &&
+            typeof uspData[type][key] != "undefined")
+            uspData[type][key].sort().forEach(function (v) {
+                $('<option>').val(v).text(v).appendTo($valList);
+            });
+        $valList.show();
+        if (val != '') $valList.val(val);
+    }
 
     let fromkey = "${" + $("#transform").val() + ".key}";
     let fromval = "${" + $("#transform").val() + ".value}";
