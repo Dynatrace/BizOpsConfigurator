@@ -325,7 +325,6 @@ function previewChangeHandlerKeyVal(event) {
 }
 
 function previewChangeHandlerKeyValEdit(event) {
-    //uspFilterChangeHandler(event);
     let $key = $(event.data.selectors[0]);
     let $keyList = $(event.data.selectors[0] + '_list');
     let key = $key.val();
@@ -343,7 +342,7 @@ function previewChangeHandlerKeyValEdit(event) {
         $('<option>').val('').text('n/a').appendTo($keyList);
         Object.keys(uspData).sort().forEach(function (t) {
             Object.keys(uspData[t]).sort().forEach(function (k) {
-                $('<option>').val(k).text(k).attr('data-colname', t).appendTo($keyList);
+                $('<option>').val(`${t}.${k}`).text(k).attr('data-colname', t).appendTo($keyList);
             });
         });
         $val.hide();
@@ -361,7 +360,6 @@ function previewChangeHandlerKeyValEdit(event) {
             });
         });
         $val.show();
-        //if (val != '') $valList.val(val);
     }
 
     let fromkey = "${" + $("#transform").val() + ".key}";
