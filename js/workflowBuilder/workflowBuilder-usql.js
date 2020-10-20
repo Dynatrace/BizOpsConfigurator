@@ -363,11 +363,13 @@ function previewChangeHandlerKeyValEdit(event) {
     }
 
     let fromkey = "${" + $("#transform").val() + ".key}";
+    let fromname = "${" + $("#transform").val() + ".name}";
     let fromval = "${" + $("#transform").val() + ".value}";
 
     let preview = $(`<table class="dataTable">`);
     preview.append(`<thead><tr><td>From</td><td>To</td></tr></thead>`);
     preview.append(`<tr><td>${fromkey}</td><td>${key}</td></tr>`);
+    preview.append(`<tr><td>${fromname}</td><td>${name}</td></tr>`);
     preview.append(`<tr><td>${fromval}</td><td>${val}</td></tr>`);
     $("#swaps").html(preview);
 }
