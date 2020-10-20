@@ -397,8 +397,8 @@ function generateWorkflowSwapList(el) {
       case 'Keys_edit': {
         let id = $workflowInput.find("input:first-of-type").val();
         let name = id.split('.').slice(-1);
-        let fromname = "${" + $("#transform").val() + ".name}";
-        let fromid = "${" + $("#transform").val() + ".id}";
+        let fromname = "${" + transform + ".name}";
+        let fromid = "${" + transform + ".id}";
         addToSwaps(swaps, { from: fromname, to: id });
         addToSwaps(swaps, { from: fromid, to: name });
         break;
