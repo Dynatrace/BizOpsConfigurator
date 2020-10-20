@@ -249,11 +249,11 @@ function doSwaps(db, swaps) {
     dbS = JSON.stringify(db);
   }
   swaps.forEach(function (swap) {
-    if(swap.to || swap.to === 0){
+    if (swap.to || swap.to === 0) {
       //let to = swap.to.replace(/\\([\s\S])|(")/g, "\\$1$2"); //escape any unescaped quotes //maybe don't do this here?
       let to = swap.to;
       dbS = dbS.replace(new RegExp(swap.from, 'g'), to);
-    } else if(swap.from) {
+    } else if (swap.from) {
       dbS = dbS.replace(new RegExp(swap.from, 'g'), "");
     }
   });
@@ -396,6 +396,12 @@ function generateWorkflowSwapList(el) {
       }
       case 'Keys_edit': {
         //TODO:
+        let id = $el.val();
+        let name = id.split('.').slice(-1);
+        let fromname = "${" + $("#transform").val() + ".name}";
+        let fromid = "${" + $("#transform").val() + ".id}";
+        addToSwaps(swaps, { from: fromname, to: id });
+        addToSwaps(swaps, { from: fromid, to: name });
         break;
       }
       case 'Keys/Values_edit': {
@@ -584,12 +590,12 @@ function journeyGetSwaps(workflowInput, transform, swaps) {
       from = "${" + transform + ".app-" + (i + 1) + "}";
       addToSwaps(swaps, { from: from, to: d.appname });
     }
-    if("stepData" in d){
+    if ("stepData" in d) {
       from = "${" + transform + ".methods-" + (i + 1) + "}";
-      let methods = d.stepData.map(x=>x.value).join('", "');
+      let methods = d.stepData.map(x => x.value).join('", "');
       addToSwaps(swaps, { from: from, to: methods });
       from = "${" + transform + ".appids-" + (i + 1) + "}";
-      let appids = d.stepData.map(x=>x.appid).join('", "');
+      let appids = d.stepData.map(x => x.appid).join('", "');
       addToSwaps(swaps, { from: from, to: appids });
     }
 
@@ -601,12 +607,12 @@ function journeyGetSwaps(workflowInput, transform, swaps) {
         from = "${" + transform + ".app-last}";
         addToSwaps(swaps, { from: from, to: d.appname });
       }
-      if("stepData" in d){
+      if ("stepData" in d) {
         from = "${" + transform + ".methods-last}";
-        let methods = d.stepData.map(x=>x.value).join('", "');
+        let methods = d.stepData.map(x => x.value).join('", "');
         addToSwaps(swaps, { from: from, to: methods });
         from = "${" + transform + ".appids-last}";
-        let appids = d.stepData.map(x=>x.appid).join('", "');
+        let appids = d.stepData.map(x => x.appid).join('", "');
         addToSwaps(swaps, { from: from, to: appids });
       }
     }
@@ -625,7 +631,7 @@ function conditionalGetSwaps(workflowInput, transform, swaps) {
   if (typeof priorSwap != "undefined") {
     let val = conditionalValues.find(x => x.prior === priorSwap.to);
     addToSwaps(swaps, { from: from, to: val.swap });
-    if(typeof(selection.conditionalSwaps) == "undefined") selection.conditionalSwaps = [];
+    if (typeof (selection.conditionalSwaps) == "undefined") selection.conditionalSwaps = [];
     selection.conditionalSwaps.push({ from: from, to: val.swap });
   }
 }
