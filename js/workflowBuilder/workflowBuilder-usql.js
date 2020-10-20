@@ -57,6 +57,11 @@ function sliceUSQLdata(slicer, data, target, whereClause) { //TODO: refactor thi
             parsedResults = parseKPIs(data);
             drawKPIsJQ(parsedResults, `#${id}_list`);
             $("#swaps").html();
+
+            let targetSelector = '';
+            let eventData = { selectors: selectors, data: parsedResults, targetSelector: targetSelector };
+            $target.on("change", "input", eventData, previewChangeHandlerKeyEdit);
+            $target.find("input:first-of-type").trigger("change");
             break;
         }
         case 'Keys/Values_edit': {
@@ -209,6 +214,24 @@ function sliceUSQLdata(slicer, data, target, whereClause) { //TODO: refactor thi
 
 
 function previewChangeHandlerKey(event) {
+    let $el = $(event.data.selectors[0]);
+
+    let $option = $el.find("option:selected");
+    //let val = $option.attr("data-colname") + "." + $option.val();
+    let val = $option.val();
+    let key = $option.text();
+    let fromkey = "${" + $("#transform").val() + ".name}";
+    let fromval = "${" + $("#transform").val() + ".id}";
+
+    let xform = `<table class="dataTable">
+        <thead><tr><td>From</td><td>To</td></tr></thead>
+        <tr><td>${fromkey}</td><td>${key}</td></tr>
+        <tr><td>${fromval}</td><td>${val}</td></tr>
+        </table>`;
+    $("#swaps").html(xform);
+}
+
+function previewChangeHandlerKeyEdit(event) {
     let $el = $(event.data.selectors[0]);
 
     let $option = $el.find("option:selected");

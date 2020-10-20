@@ -394,16 +394,27 @@ function generateWorkflowSwapList(el) {
         addToSwaps(swaps, { from: fromval, to: value });
         break;
       }
+      case 'Keys_edit': {
+        //TODO:
+        break;
+      }
+      case 'Keys/Values_edit': {
+        //TODO:
+        break;
+      }
       case 'Keys/Values': {
         let $selects = $workflowInput.find("select");
         let $key = $($selects[0]).find("option:selected");
         let $val = $($selects[1]).find("option:selected");
         let key = $key.attr("data-colname") + "." + $key.val();
+        let name = $key.val();
         let value = $val.val();
 
         let fromkey = "${" + transform + ".key}";
+        let fromname = "${" + transform + ".name}";
         let fromval = "${" + transform + ".value}";
         addToSwaps(swaps, { from: fromkey, to: key });
+        addToSwaps(swaps, { from: fromname, to: name });
         addToSwaps(swaps, { from: fromval, to: value });
         break;
       }
