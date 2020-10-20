@@ -234,17 +234,15 @@ function previewChangeHandlerKey(event) {
 function previewChangeHandlerKeyEdit(event) {
     let $el = $(event.data.selectors[0]);
 
-    let $option = $el.find("option:selected");
-    //let val = $option.attr("data-colname") + "." + $option.val();
-    let val = $option.val();
-    let key = $option.text();
-    let fromkey = "${" + $("#transform").val() + ".name}";
-    let fromval = "${" + $("#transform").val() + ".id}";
+    let id = $el.val();
+    let name = id.split('.').slice(-1);
+    let fromname = "${" + $("#transform").val() + ".name}";
+    let fromid = "${" + $("#transform").val() + ".id}";
 
     let xform = `<table class="dataTable">
         <thead><tr><td>From</td><td>To</td></tr></thead>
-        <tr><td>${fromkey}</td><td>${key}</td></tr>
-        <tr><td>${fromval}</td><td>${val}</td></tr>
+        <tr><td>${fromname}</td><td>${name}</td></tr>
+        <tr><td>${fromid}</td><td>${id}</td></tr>
         </table>`;
     $("#swaps").html(xform);
 }
