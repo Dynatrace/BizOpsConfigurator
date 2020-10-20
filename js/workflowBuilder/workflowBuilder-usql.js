@@ -71,7 +71,7 @@ function sliceUSQLdata(slicer, data, target, whereClause) { //TODO: refactor thi
                 <div class="inputHeader">Values:</div>
                 <div class="userInput">
                     <input id="${selectors[1].substr(1)}" list="${selectors[1].substr(1)}_list">
-                    <select id="${selectors[1].substr(1)}_list"><option></option></select>
+                    <datalist id="${selectors[1].substr(1)}_list"><option></option></datalist>
                 </div>
                 `);
             $("#swaps").html(`
