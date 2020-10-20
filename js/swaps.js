@@ -405,12 +405,16 @@ function generateWorkflowSwapList(el) {
       }
       case 'Keys/Values_edit': {
         //TODO:
-        let id = $workflowInput.find("input:first-of-type").val();
-        let name = id.split('.').slice(-1)[0];
+        let key = $workflowInput.find(`input:not([type]`).eq(0).val();
+        let val = $workflowInput.find(`input:not([type]`).eq(1).val();
+        let name = key.split('.').slice(-1)[0];
+        
+        let fromkey = "${" + transform + ".key}";
         let fromname = "${" + transform + ".name}";
-        let fromid = "${" + transform + ".id}";
+        let fromval = "${" + transform + ".val}";
+        addToSwaps(swaps, { from: fromkey, to: key });
         addToSwaps(swaps, { from: fromname, to: name });
-        addToSwaps(swaps, { from: fromid, to: id });
+        addToSwaps(swaps, { from: fromval, to: val });
         break;
       }
       case 'Keys/Values': {
