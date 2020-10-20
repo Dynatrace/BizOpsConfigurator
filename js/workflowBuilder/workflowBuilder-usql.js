@@ -331,11 +331,13 @@ function previewChangeHandlerKeyValEdit(event) {
     if (key != "") {  //if we have the key draw the values
         $valList.html('');
         $('<option>').val('').text('n/a').appendTo($valList);
-        if (typeof uspData[type] != "undefined" &&
-            typeof uspData[type][key] != "undefined")
-            uspData[type][key].sort().forEach(function (v) {
-                $('<option>').val(v).text(v).appendTo($valList);
+        Object.keys(uspData).sort().forEach(function (t) {
+            Object.keys(uspData[t]).sort().forEach(function (k) {
+                uspData[t][k].sort().forEach(function (v) {
+                    $('<option>').val(v).text(v).appendTo($valList);
+                });
             });
+        });
         $valList.show();
         if (val != '') $valList.val(val);
     }
