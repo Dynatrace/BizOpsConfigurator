@@ -23,6 +23,7 @@ function Input() {
                 let $newDiv = $(`
                 <div class="workflowInput" tabindex="0">
                     <div class="workflowInputPopup">
+                        <div><a href="#workflowBuilder" class="workflowInputEdit">✏️</a></div>
                         <div><a href="#workflowBuilder" class="workflowInputDelete">❌</a></div>
                         <div><a href="#workflowBuilder" class="workflowInputUp">🔼</a></div>
                         <div><a href="#workflowBuilder" class="workflowInputDown">🔽</a></div>
