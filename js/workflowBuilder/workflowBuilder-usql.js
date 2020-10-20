@@ -325,7 +325,7 @@ function previewChangeHandlerKeyValEdit(event) {
                 $('<option>').val(k).text(k).attr('data-colname', t).appendTo($keyList);
             });
         });
-        $valList.hide();
+        $val.hide();
     }
 
     if (key != "") {  //if we have the key draw the values
@@ -339,8 +339,8 @@ function previewChangeHandlerKeyValEdit(event) {
                 });
             });
         });
-        $valList.show();
-        if (val != '') $valList.val(val);
+        $val.show();
+        //if (val != '') $valList.val(val);
     }
 
     let fromkey = "${" + $("#transform").val() + ".key}";
