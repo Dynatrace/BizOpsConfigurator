@@ -395,8 +395,7 @@ function generateWorkflowSwapList(el) {
         break;
       }
       case 'Keys_edit': {
-        //TODO:
-        let id = $el.val();
+        let id = $workflowInput.find("input:first-of-type").val();
         let name = id.split('.').slice(-1);
         let fromname = "${" + $("#transform").val() + ".name}";
         let fromid = "${" + $("#transform").val() + ".id}";
