@@ -333,6 +333,7 @@ function previewChangeHandlerKeyValEdit(event) {
         $('<option>').val('').text('n/a').appendTo($valList);
         Object.keys(uspData).sort().forEach(function (t) {
             Object.keys(uspData[t]).sort().forEach(function (k) {
+                if(k===key)
                 uspData[t][k].sort().forEach(function (v) {
                     $('<option>').val(v).text(v).appendTo($valList);
                 });
