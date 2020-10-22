@@ -466,4 +466,5 @@ function populateNewInput(oldInput) {
         inputTypeChangeHandler();
     }
     $("#transform").val($transform.text());
+    $oldInput.remove();
 }
