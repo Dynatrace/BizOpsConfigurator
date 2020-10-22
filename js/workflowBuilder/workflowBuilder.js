@@ -415,7 +415,7 @@ function configOverridePreview(vals) {
 }
 
 function replacePopupHeaders() {
-    let p = $.get('html/workflowBuilder.html');
+    let p = $.get('html/personaFlow/workflowBuilder.html');
 
     $.when(p).done(template => {
         let $template = $(template);
