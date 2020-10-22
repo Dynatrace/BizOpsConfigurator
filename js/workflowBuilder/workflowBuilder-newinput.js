@@ -372,7 +372,7 @@ function configPushTypeHandler() {
     $("#transform").val($el.val().toLowerCase());
 }
 
-function populateNewInput($oldInput) {
+function populateNewInput(oldInput) {
     let $oldInput = $(oldInput);
     let $usqlQuery = $oldInput.find('.usqlQuery');
     let $usqlResultSlicer = $oldInput.find('.usqlResultSlicer');
