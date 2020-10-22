@@ -397,7 +397,7 @@ function populateNewInput(oldInput) {
     let $select = $oldInput.find('select');
     let options = $select.attr("data-options");
     let vals = options ? JSON.parse(options) : [];
-    let $transform = $oldInput.find(".transform");
+    let $transform = $oldInput.find(".transform span");
 
     if ($usqlQuery.length) {
         $("#inputType").val('Select (USQL)');
@@ -463,5 +463,5 @@ function populateNewInput(oldInput) {
         $("#customMetricType").val($customMetricType.val());
         $("#configPushFile").val($configPushFile.val());
     }
-    $("#transform").val($transform.val());
+    $("#transform").val($transform.text());
 }
