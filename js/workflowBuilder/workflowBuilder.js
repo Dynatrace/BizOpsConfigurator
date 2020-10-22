@@ -45,6 +45,7 @@ function workflowBuilderHandlers() {
     });
 
     //inputpopup links
+    $("#viewport").on("click", ".workflowInputEdit", workflowEditInput);
     $("#viewport").on("click", ".workflowInputDelete", function (e) {
         $(this).parents(".workflowInput").remove();
     });
@@ -85,6 +86,19 @@ function workflowSectionAddInput() {
     let section = $(this).parents(".workflowSection");
     let newInput = new Input();
     let p = newInput.prompt(section);
+    $.when(p).done(function (newInput) {
+        //section.append(newInput);
+        $(".workflowSectionPopup, .workflowInputPopup").addClass("hidden");
+    });
+}
+
+function workflowEditInput(e) {
+    let $pencil = $(this);
+    let $oldInput = $pencil.parents(".workflowInput");
+    let $section = $(this).parents(".workflowSection");
+
+    let newInput = new Input();
+    let p = newInput.prompt(section, oldInput);
     $.when(p).done(function (newInput) {
         //section.append(newInput);
         $(".workflowSectionPopup, .workflowInputPopup").addClass("hidden");
@@ -204,6 +218,7 @@ function workflowUploader() {
             let workflows = $("div[id=workflow]");
             if (workflows.length > 1)
                 workflows[0].replaceWith(workflows[workflows.length - 1]); //there can only be one
+            replacePopupHeaders();
             workflowSetFirstPageActive();
         };
         if (typeof file !== "undefined") fr.readAsText(file);
@@ -397,4 +412,21 @@ function configOverridePreview(vals) {
     swapPreview += `</table>`;
     $("#preview").html(preview);
     $("#swaps").html(swapPreview);
+}
+
+function replacePopupHeaders() {
+    let p = $.get('html/workflowBuilder.html');
+
+    $.when(p).done(template => {
+        let $template = $(template);
+        let $workflowSectionPopup = $template.find(".workflowSectionPopup");
+        let $workflowInputPopup = $template.find(".workflowInputPopup");
+
+        let $workflow = $("#workflow");
+        $workflow.find(".workflowSectionPopup")
+            .replaceWith($workflowSectionPopup);
+        $workflow.find(".workflowInputPopup")
+            .replaceWith($workflowInputPopup);
+    });
+    return p;
 }

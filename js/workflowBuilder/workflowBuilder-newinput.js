@@ -6,14 +6,20 @@ Unless required by applicable law or agreed to in writing, software distributed 
 function Input() {
     this.html = "";
 
-    this.prompt = function (section) {
+    this.prompt = function (section, oldInput) {
         let $section = $(section);
+        let $oldInput = $(oldInput);
         let p0 = $.Deferred();
         let p1 = $.get("html/personaFlow/workflowBuilder-newInput.html");
         $.when(p1).done(function (content) {
             let p2 = popupHTMLDeferred("New Input", content);
             $(".doneBar").append(`<div id="inputInfoBox"></div>`);
-            inputTypeChangeHandler();
+
+            if ($oldInput.length) {
+                populateNewInput($oldInput);
+            } else {
+                inputTypeChangeHandler();
+            }
 
             $.when(p2).done(function (data) {
                 if (typeof data == "undefined") {
@@ -364,4 +370,98 @@ function configPushTypeHandler() {
             break;
     }
     $("#transform").val($el.val().toLowerCase());
+}
+
+function populateNewInput($oldInput) {
+    let $oldInput = $(oldInput);
+    let $usqlQuery = $oldInput.find('.usqlQuery');
+    let $usqlResultSlicer = $oldInput.find('.usqlResultSlicer');
+    let $apiQuery = $oldInput.find('.apiQuery');
+    let $apiResultSlicer = $oldInput.find('.apiResultSlicer');
+    let $workflowInput = $oldInput.find('.workflowInput');
+    let $staticSelect = $oldInput.find('.staticSelect');
+    let $journeyPicker = $oldInput.find('.journeyPicker');
+    let $tileReplication = $oldInput.find('.tileReplication');
+    let $replicationColumns = $oldInput.find("replicationColumns");
+    let $replicationPriorTransform = $oldInput.find("replicationPriorTransform");
+    let $replicationTileName = $oldInput.find("replicationTileName");
+    let $conditionalSwap = $oldInput.find('.conditionalSwap');
+    let $conditionalPrior = $oldInput.find(".conditionalPrior");
+    let $configOverride = $oldInput.find('.configOverride');
+    let $overridePriorSwap = $oldInput.find(".overridePriorSwap")
+    let $configPusher = $oldInput.find('.configPusher');
+    let $configPushType = $configPusher.find('configPushType');
+    let $customServiceTech = $configPusher.find('customServiceTech');
+    let $customMetricType = $configPusher.find('customMetricType');
+    let $configPushFile = $configPusher.find('configPushFile');
+    let $select = $oldInput.find('select');
+    let options = $select.attr("data-options");
+    let vals = options ? JSON.parse(options) : [];
+    let $transform = $oldInput.find(".transform");
+
+    if ($usqlQuery.length) {
+        $("#inputType").val('Select (USQL)');
+        inputTypeChangeHandler();
+        $("#usqlQuery").val($usqlQuery.val());
+        $("#usqlResultSlicer").val($usqlResultSlicer.val());
+        $("#multiple").prop('checked',
+            ($select.attr("multiple") === "multiple" ? true : false));
+        $("#addWhereClause").prop('checked',
+            ($usqlResultSlicer.attr("data-addwhereclause") === "true" ? true : false));
+    } else if ($apiQuery.length) {
+        $("#inputType").val('Select (API)');
+        inputTypeChangeHandler();
+        $("#commonQueries").val('');
+        $("#apiQuery").val($apiQuery.val());
+        $("#apiResultSlicer").val($apiResultSlicer.val());
+        $("#multiple").prop('checked',
+            ($select.attr("multiple") === "multiple" ? true : false));
+    } else if ($workflowInput.length) {
+        $("#inputType").val('Text Input');
+        inputTypeChangeHandler();
+        $("#placeholder").val($workflowInput.attr('placeholder'));
+        $("#defaultvalue").val($workflowInput.val());
+    } else if ($staticSelect.length) {
+        $("#inputType").val('Select (static)');
+        inputTypeChangeHandler();
+        $("#staticOptions").val($select.attr("data-options"));
+        $("#staticPreview").html(
+            JSON.parse($select.attr("data-options"))
+                .reduce((agg, cv) =>
+                    agg + `<option value="${cv.val}">${cv.key}</option>`
+                    , "")
+        );
+        $("#multiple").prop('checked',
+            ($select.attr("multiple") === "multiple" ? true : false));
+    } else if ($journeyPicker.length) {
+        $("#inputType").val('Journey Picker');
+        inputTypeChangeHandler();
+        $("#app").val($appTransform.val());
+    } else if ($tileReplication.length) {
+        $("#inputType").val('Tile Replicator');
+        inputTypeChangeHandler();
+        $("#replicationTileName").val($replicationTileName.val());
+        $("#replicationPriorTransform").val($replicationPriorTransform.val());
+        $("#replicationColumns").val($replicationColumns.val());
+    } else if ($conditionalSwap.length) {
+        $("#inputType").val('Conditional Swap');
+        inputTypeChangeHandler();
+        $("#conditionalValues").val($options);
+        $("#conditionalPrior").val($conditionalPrior.val());
+        conditionalPreview(vals);
+    } else if ($configOverride.length) {
+        $("#inputType").val('Workflow Config Override');
+        inputTypeChangeHandler();
+        $("#overrideValues").val(options);
+        $("#overridePriorSwap").val($overridePriorSwap.val());
+        configOverridePreview(vals);
+    } else if ($configPusher.length) {
+        $("#inputType").val('DT Config Pusher');
+        inputTypeChangeHandler();
+        $("#configPushType").val($configPushType.val());
+        $("#customServiceTech").val($customServiceTech.val());
+        $("#customMetricType").val($customMetricType.val());
+        $("#configPushFile").val($configPushFile.val());
+    }
+    $("#transform").val($transform.val());
 }
