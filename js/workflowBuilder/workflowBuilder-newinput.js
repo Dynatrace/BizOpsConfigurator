@@ -173,6 +173,7 @@ function Input() {
                 }
                 $transform.text(data.transform);
                 $header.text(data.transform.charAt(0).toUpperCase() + data.transform.slice(1) + ':');
+                $oldInput.remove();
                 p0.resolve($newDiv);
             });
         });
@@ -466,5 +467,4 @@ function populateNewInput(oldInput) {
         inputTypeChangeHandler();
     }
     $("#transform").val($transform.text());
-    $oldInput.remove();
 }
