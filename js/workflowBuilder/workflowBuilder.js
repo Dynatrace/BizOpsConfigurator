@@ -98,7 +98,7 @@ function workflowEditInput(e) {
     let $section = $(this).parents(".workflowSection");
 
     let newInput = new Input();
-    let p = newInput.prompt(section, oldInput);
+    let p = newInput.prompt($section, $oldInput);
     $.when(p).done(function (newInput) {
         //section.append(newInput);
         $(".workflowSectionPopup, .workflowInputPopup").addClass("hidden");
