@@ -428,7 +428,7 @@ function replacePopupHeaders() {
         $workflow.find(".workflowInputPopup")
             .replaceWith($workflowInputPopup);
         $workflow.find(".workflowSectionPopup, .workflowInputPopup")
-            .hide();
+            .addClass("hidden");
     });
     return p;
 }
