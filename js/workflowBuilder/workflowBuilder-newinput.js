@@ -462,6 +462,8 @@ function populateNewInput(oldInput) {
         $("#customServiceTech").val($customServiceTech.val());
         $("#customMetricType").val($customMetricType.val());
         $("#configPushFile").val($configPushFile.val());
+    } else {
+        inputTypeChangeHandler();
     }
     $("#transform").val($transform.text());
 }
