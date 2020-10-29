@@ -9,6 +9,7 @@ function loadUsqlQuery($usql) {
     let slicer = $usql.siblings(".usqlResultSlicer").val();
     let whereClause = ($usql.siblings(".usqlResultSlicer[data-addWhereClause]").attr("data-addWhereClause") === 'true') ?
         true : false;
+    let multiple = $usql.siblings("select").attr("multiple");
     let $target = $usql.siblings(".workflowSelect");
     if (typeof selection.swaps !== "undefined") usql = queryDoSwaps(usql, selection.swaps);
     if (!usql.match(/^SELECT /i)) {
@@ -16,23 +17,23 @@ function loadUsqlQuery($usql) {
         return;
     }
     let query = "/api/v1/userSessionQueryLanguage/table?query=" + encodeURIComponent(usql) + "&explain=false";
-    let p1 = loadUsqlQueryOptions(query, slicer, $target, whereClause);
+    let p1 = loadUsqlQueryOptions(query, slicer, $target, whereClause, multiple);
     return $.when(p1).done(function (data) {
         jsonviewer(data);
     });
 }
 
-function loadUsqlQueryOptions(query, slicer, target, whereClause) {
+function loadUsqlQueryOptions(query, slicer, target, whereClause, multiple) {
     let $target = $(target);
     let p = dtAPIquery(query);
     return $.when(p).done(function (data) {
         jsonviewer(data, true, "", "#apiResult");
-        let parsedResults = sliceUSQLdata(slicer, data, $target, whereClause);
+        let parsedResults = sliceUSQLdata(slicer, data, $target, whereClause, multiple);
         $target.removeAttr("disabled");
     });
 }
 
-function sliceUSQLdata(slicer, data, target, whereClause) { //TODO: refactor this bowl of spaghetti
+function sliceUSQLdata(slicer, data, target, whereClause, multiple) { //TODO: refactor this bowl of spaghetti
     let $target = $(target);
     let parsedResults = [];
 
@@ -97,9 +98,12 @@ function sliceUSQLdata(slicer, data, target, whereClause) { //TODO: refactor thi
                 <div class="inputHeader"><!--Keys:--></div>
                 <div class="userInput"><select id="${selectors[0].substr(1)}"><option></option></select></div>
                 `);
+            if (multiple) {
+                $target.find('select')
+                    .attr("multiple", "multiple")
+                    .addClass("chosen-select");
+            }
             parsedResults = parseKPIs(data);
-            /*let options = drawKPIs(parsedResults);
-            $(`${selectors[0]}`).html(options);*/
             drawKPIsJQ(parsedResults, selectors[0]);
             $("#swaps").html();
 
@@ -131,6 +135,11 @@ function sliceUSQLdata(slicer, data, target, whereClause) { //TODO: refactor thi
                 <div class="inputHeader">From:</div>
                 <div class="userInput">${'${' + from + '}'}</div>
             `);
+            if (multiple) {
+                $target.find(`#${selectors[1].substr(1)}`)
+                    .attr("multiple", "multiple")
+                    .addClass("chosen-select");
+            }
 
             if (whereClause) {
                 let targetSelector = `#filterClause${uniqId()}`;
@@ -189,6 +198,11 @@ function sliceUSQLdata(slicer, data, target, whereClause) { //TODO: refactor thi
                 <div class="userInput"><select id="${selectors[0].substr(1)}" data-colname="${colname}">
                     <option></option></select></div>
                 `);
+            if (multiple) {
+                $target.find('select')
+                    .attr("multiple", "multiple")
+                    .addClass("chosen-select");
+            }
             let options = drawActions(data);
             $(`${selectors[0]}`).html(options);
             $("#swaps").html();
@@ -354,10 +368,10 @@ function previewChangeHandlerKeyValEdit(event) {
         $('<option>').val('').text('n/a').appendTo($valList);
         Object.keys(uspData).sort().forEach(function (t) {
             Object.keys(uspData[t]).sort().forEach(function (k) {
-                if(`${t}.${k}`===key)
-                uspData[t][k].sort().forEach(function (v) {
-                    $('<option>').val(v).text(v).appendTo($valList);
-                });
+                if (`${t}.${k}` === key)
+                    uspData[t][k].sort().forEach(function (v) {
+                        $('<option>').val(v).text(v).appendTo($valList);
+                    });
             });
         });
         $val.show();
