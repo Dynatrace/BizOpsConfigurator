@@ -169,7 +169,12 @@ function renderWorkflowPage(el) {
     $.when.apply($, promises).done(function () {
         let html = sanitizer.sanitize($el.html());
         //$el.find("select.chosen-select").chosen('destroy');
-        $el.find("select.chosen-select").show().chosen();
+        $el.find("select.chosen-select").each((i,chose)=>{
+            let $chose = $(chose);
+            if($chose.find("option").length>1){ //1 is likely default empty option
+                $chose.show().chosen();
+            }
+        });
         //.chosen("destroy") //in case we're already rendered for some reason
 
         p.resolve(html);

@@ -325,8 +325,18 @@ function previewChangeHandlerActionWhereClause(event) {
 function previewChangeHandlerKeyVal(event) {
     uspFilterChangeHandler(event);
 
-    let key = $(event.data.selectors[0]).val();
-    let val = $(event.data.selectors[1]).val();
+    let $key = $(event.data.selectors[0]);
+    let $val = $(event.data.selectors[1]);
+    let key = $key.val();
+    let val = $val.val();
+
+    $val.find("select.chosen-select").chosen('destroy');
+    $val.find("select.chosen-select").each((i, chose) => {
+        let $chose = $(chose);
+        if ($chose.find("option").length > 1) { //1 is likely default empty option
+            $chose.show().chosen();
+        }
+    })
 
     let fromkey = "${" + $("#transform").val() + ".key}";
     let fromval = "${" + $("#transform").val() + ".value}";
