@@ -782,4 +782,5 @@ function usqlSelectGetSwaps(slicer, workflowInput, transform, swaps) {
       }
     }
   }
+  return swaps;
 }
