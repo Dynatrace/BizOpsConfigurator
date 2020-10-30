@@ -60,7 +60,7 @@ function sliceUSQLdata(slicer, data, target, whereClause, multiple) { //TODO: re
             $("#swaps").html();
 
             let targetSelector = '';
-            let eventData = { selectors: selectors, data: parsedResults, targetSelector: targetSelector };
+            let eventData = { selectors: selectors, data: parsedResults, targetSelector: targetSelector, slicer: slicer };
             $target.on("change", "input", eventData, previewChangeHandlerKeyEdit);
             $target.find("input:first-of-type").trigger("change");
             break;
@@ -86,7 +86,7 @@ function sliceUSQLdata(slicer, data, target, whereClause, multiple) { //TODO: re
             `);
 
             let targetSelector = '';
-            let eventData = { selectors: selectors, data: parsedResults, targetSelector: targetSelector };
+            let eventData = { selectors: selectors, data: parsedResults, targetSelector: targetSelector, slicer: slicer };
             $target.on("change", "input", eventData, previewChangeHandlerKeyValEdit);
             $target.find("input:first-of-type").trigger("change");
 
@@ -112,11 +112,11 @@ function sliceUSQLdata(slicer, data, target, whereClause, multiple) { //TODO: re
                 $target.append(`<div class="inputHeader">Where Clause:</div>
                 <div class="userInput"><input id="${targetSelector.substr(1)}" class="filterClause"></div>
                 `);
-                let eventData = { selectors: selectors, data: parsedResults, targetSelector: targetSelector };
+                let eventData = { selectors: selectors, data: parsedResults, targetSelector: targetSelector, slicer: slicer };
                 $target.on("change", "select", eventData, previewChangeHandlerKeyWhereClause);
                 $target.find("select:first-of-type").trigger("change");
             } else {
-                let eventData = { selectors: selectors, data: parsedResults, targetSelector: '' };
+                let eventData = { selectors: selectors, data: parsedResults, targetSelector: '', slicer: slicer };
                 $target.on("change", "select", eventData, previewChangeHandlerKey);
                 $target.find("select:first-of-type").trigger("change");
             }
@@ -146,12 +146,12 @@ function sliceUSQLdata(slicer, data, target, whereClause, multiple) { //TODO: re
                 $target.append(`<div class="inputHeader">Where Clause:</div>
                 <div class="userInput"><input id="${targetSelector.substr(1)}" class="filterClause"></div>
                 `);
-                let eventData = { selectors: selectors, data: parsedResults, targetSelector: targetSelector };
+                let eventData = { selectors: selectors, data: parsedResults, targetSelector: targetSelector, slicer: slicer };
                 $target.on("change", "select", eventData, uspFilterChangeHandler);
                 $target.find("select:first-of-type").trigger("change");
             } else {
                 let targetSelector = '';
-                let eventData = { selectors: selectors, data: parsedResults, targetSelector: targetSelector };
+                let eventData = { selectors: selectors, data: parsedResults, targetSelector: targetSelector, slicer: slicer };
                 $target.on("change", "select", eventData, previewChangeHandlerKeyVal);
                 $target.find("select:first-of-type").trigger("change");
             }
@@ -179,11 +179,11 @@ function sliceUSQLdata(slicer, data, target, whereClause, multiple) { //TODO: re
                 $target.append(`<div class="inputHeader">Where Clause:</div>
                 <div class="userInput"><input id="${targetSelector.substr(1)}" class="filterClause"></div>
                 `);
-                let eventData = { selectors: selectors, data: parsedResults, targetSelector: targetSelector };
+                let eventData = { selectors: selectors, data: parsedResults, targetSelector: targetSelector, slicer: slicer };
                 $target.on("change", "select", eventData, previewChangeHandlerValX4Where);
                 $target.find("select:first-of-type").trigger("change");
             } else {
-                let eventData = { selectors: selectors, data: parsedResults, targetSelector: null };
+                let eventData = { selectors: selectors, data: parsedResults, targetSelector: null, slicer: slicer };
                 $target.on("change", "select", eventData, previewChangeHandlerValX4);
                 $target.find("select:first-of-type").trigger("change");
             }
@@ -212,11 +212,11 @@ function sliceUSQLdata(slicer, data, target, whereClause, multiple) { //TODO: re
                 $target.append(`<div class="inputHeader">Where Clause:</div>
                 <div class="userInput"><input id="${targetSelector.substr(1)}" class="filterClause"></div>
                 `);
-                let eventData = { selectors: selectors, data: parsedResults, targetSelector: targetSelector };
+                let eventData = { selectors: selectors, data: parsedResults, targetSelector: targetSelector, slicer: slicer };
                 $target.on("change", "select", eventData, previewChangeHandlerActionWhereClause);
                 $target.find("select:first-of-type").trigger("change");
             } else {
-                let eventData = { selectors: selectors, data: parsedResults, targetSelector: '' };
+                let eventData = { selectors: selectors, data: parsedResults, targetSelector: '', slicer: slicer };
                 $target.on("change", "select", eventData, previewChangeHandlerAction);
                 $target.find("select:first-of-type").trigger("change");
             }
@@ -346,7 +346,8 @@ function previewChangeHandlerKeyVal(event) {
     preview.append(`<tr><td>${fromkey}</td><td>${key}</td></tr>`);
     preview.append(`<tr><td>${fromval}</td><td>${val}</td></tr>`);*/
     //PREVIEW
-    let transform = $("#transform").val()
+    let transform = $("#transform").val();
+    let slicer = event.data.slicer;
     let swaps = usqlSelectGetSwaps(slicer, $workflowInput, transform, []);
     let preview = $(`<table class="dataTable">`);
     preview.append(`<thead><tr><td>From</td><td>To</td></tr></thead>`);
