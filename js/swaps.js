@@ -418,34 +418,36 @@ function generateWorkflowSwapList(el) {
       }
       case 'Keys/Values': {
         let $selects = $workflowInput.find("select");
+
+        //Handle key selector, cannot be multi
         let $key = $($selects[0]).find("option:selected");
         let key = $key.attr("data-colname") + "." + $key.val();
         let name = $key.val();
-
         let fromkey = "${" + transform + ".key}";
         let fromname = "${" + transform + ".name}";
         addToSwaps(swaps, { from: fromkey, to: key });
         addToSwaps(swaps, { from: fromname, to: name });
 
-        if ($selects[1].length) {
-          let multi = $selects[1].attr("multiple");
+        //Handle val selector, can be multi
+        let $val = $($selects[1]);
+        if ($val.length) {
+          let multi = $val.attr("multiple");
           if (multi) {
             let vals = [];
-            let $opts = $selects[1].find("option:selected");
+            let $opts = $val.find("option:selected");
             for (let i = 0; i < $opts.length; i++) {
               let $opt = $($opts[i]);
               let val = $opt.val();
               fromval = "${" + transform + "-" + i + ".value}";
               addToSwaps(swaps, { from: fromval, to: val });
               vals.push(val);
-              let fromcount = "${" + transform + ".count}";
-              addToSwaps(swaps, { from: fromcount, to: $opts.length.toString() });
-              fromval = "${" + transform + ".value}";
-              addToSwaps(swaps, { from: fromval, to: vals.join('", "') });
             }
+            let fromcount = "${" + transform + ".count}";
+            addToSwaps(swaps, { from: fromcount, to: $opts.length.toString() });
+            fromval = "${" + transform + ".value}";
+            addToSwaps(swaps, { from: fromval, to: vals.join('", "') });
           } else {
-            let $val = $($selects[1]).find("option:selected");
-            let value = $val.val();
+            let value = $val.find("option:selected").val();
             let fromval = "${" + transform + ".value}";
             addToSwaps(swaps, { from: fromval, to: value });
           }
