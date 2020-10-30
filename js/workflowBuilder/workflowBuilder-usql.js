@@ -345,17 +345,7 @@ function previewChangeHandlerKeyVal(event) {
     preview.append(`<thead><tr><td>From</td><td>To</td></tr></thead>`);
     preview.append(`<tr><td>${fromkey}</td><td>${key}</td></tr>`);
     preview.append(`<tr><td>${fromval}</td><td>${val}</td></tr>`);*/
-    //PREVIEW
-    let transform = $("#transform").val();
-    let slicer = event.data.slicer;
-    let swaps = usqlSelectGetSwaps(slicer, $workflowInput, transform, []);
-    let preview = $(`<table class="dataTable">`);
-    preview.append(`<thead><tr><td>From</td><td>To</td></tr></thead>`);
-    swaps.forEach((x) => {
-        preview.append(`<tr><td>${x.from}</td><td>${x.to}</td></tr>`);
-    });
-    
-    $("#swaps").html(preview);
+    showUSQLPreviewSwaps(event);
 }
 
 function previewChangeHandlerKeyValEdit(event) {
@@ -495,8 +485,8 @@ function previewUSQLhandler() {
             let slicer = $("#usqlResultSlicer").val();
             let whereClause = $("#addWhereClause").is(":checked");
             let $target = $("#preview");
-            let multiple = $("#multiple").is(":checked");
-            if (multiple) $target.attr("multiple", "multiple").addClass("chosen-select");
+            //let multiple = $("#multiple").is(":checked");
+            //if (multiple) $target.attr("multiple", "multiple").addClass("chosen-select");
             $("#apiQueryHeader").text(query);
             let p2 = loadUsqlQueryOptions(query, slicer, $target, whereClause);
             $.when(p2).done(function (data) {
@@ -521,5 +511,21 @@ function usqlSlicerChangeHandler() {
         default:
             $("#multiBox").show();
             $("#whereClauseBox").show();
+    }
+}
+
+function showUSQLPreviewSwaps(event) {
+    //PREVIEW
+    let $preview = $("#preview");
+    if ($preview.length) {
+        let transform = $("#transform").val();
+        let slicer = event.data.slicer;
+        let swaps = usqlSelectGetSwaps(slicer, $preview, transform, []);
+        let previewSwaps = $(`<table class="dataTable">`);
+        previewSwaps.append(`<thead><tr><td>From</td><td>To</td></tr></thead>`);
+        swaps.forEach((x) => {
+            previewSwaps.append(`<tr><td>${x.from}</td><td>${x.to}</td></tr>`);
+        });
+        $("#swaps").html(previewSwaps);
     }
 }
