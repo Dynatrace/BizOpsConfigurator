@@ -485,10 +485,9 @@ function previewUSQLhandler() {
             let slicer = $("#usqlResultSlicer").val();
             let whereClause = $("#addWhereClause").is(":checked");
             let $target = $("#preview");
-            //let multiple = $("#multiple").is(":checked");
-            //if (multiple) $target.attr("multiple", "multiple").addClass("chosen-select");
+            let multiple = $("#multiple").is(":checked");
             $("#apiQueryHeader").text(query);
-            let p2 = loadUsqlQueryOptions(query, slicer, $target, whereClause);
+            let p2 = loadUsqlQueryOptions(query, slicer, $target, whereClause, multiple);
             $.when(p2).done(function (data) {
                 jsonviewer(data, true, "", "#apiResult");
                 $(".chosen-select").chosen();
