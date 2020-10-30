@@ -330,8 +330,8 @@ function previewChangeHandlerKeyVal(event) {
     let key = $key.val();
     let val = $val.val();
 
-    $val.find("select.chosen-select").chosen('destroy');
-    $val.find("select.chosen-select").each((i, chose) => {
+    $val.filter("select.chosen-select").chosen('destroy');
+    $val.filter("select.chosen-select").each((i, chose) => {
         let $chose = $(chose);
         if ($chose.find("option").length > 1) { //1 is likely default empty option
             $chose.show().chosen();
