@@ -327,8 +327,8 @@ function previewChangeHandlerKeyVal(event) {
 
     let $key = $(event.data.selectors[0]);
     let $val = $(event.data.selectors[1]);
-    let key = $key.val();
-    let val = $val.val();
+    //let key = $key.val();
+    //let val = $val.val();
 
     $val.filter("select.chosen-select").chosen('destroy');
     $val.filter("select.chosen-select").each((i, chose) => {
@@ -338,13 +338,22 @@ function previewChangeHandlerKeyVal(event) {
         }
     })
 
-    let fromkey = "${" + $("#transform").val() + ".key}";
+    /*let fromkey = "${" + $("#transform").val() + ".key}";
     let fromval = "${" + $("#transform").val() + ".value}";
 
     let preview = $(`<table class="dataTable">`);
     preview.append(`<thead><tr><td>From</td><td>To</td></tr></thead>`);
     preview.append(`<tr><td>${fromkey}</td><td>${key}</td></tr>`);
-    preview.append(`<tr><td>${fromval}</td><td>${val}</td></tr>`);
+    preview.append(`<tr><td>${fromval}</td><td>${val}</td></tr>`);*/
+    //PREVIEW
+    let transform = $("#transform").val()
+    let swaps = usqlSelectGetSwaps(slicer, $workflowInput, transform, []);
+    let preview = $(`<table class="dataTable">`);
+    preview.append(`<thead><tr><td>From</td><td>To</td></tr></thead>`);
+    swaps.forEach((x) => {
+        preview.append(`<tr><td>${x.from}</td><td>${x.to}</td></tr>`);
+    });
+    
     $("#swaps").html(preview);
 }
 
@@ -485,6 +494,8 @@ function previewUSQLhandler() {
             let slicer = $("#usqlResultSlicer").val();
             let whereClause = $("#addWhereClause").is(":checked");
             let $target = $("#preview");
+            let multiple = $("#multiple").is(":checked");
+            if (multiple) $target.attr("multiple", "multiple").addClass("chosen-select");
             $("#apiQueryHeader").text(query);
             let p2 = loadUsqlQueryOptions(query, slicer, $target, whereClause);
             $.when(p2).done(function (data) {

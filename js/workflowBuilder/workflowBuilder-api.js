@@ -193,9 +193,9 @@ function previewAPIhandler() {
             query = query.replace("${app.name}", app.name);
             query = query.replace("${app.id}", app.id);
             $("#apiQueryHeader").text(query);
-            let multiple = $("#multiple").is(":checked");
             $("#preview").html(`<select>`);
             let $target = $("#preview select");
+            let multiple = $("#multiple").is(":checked");
             if (multiple) $target.attr("multiple", "multiple").addClass("chosen-select");
             let slicer = $("#apiResultSlicer").val();
             let p = loadApiQueryOptions(query, slicer, $target);

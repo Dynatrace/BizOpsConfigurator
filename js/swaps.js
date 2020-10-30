@@ -342,11 +342,17 @@ function scanForTokens(db) {
     return [];
 }
 
-function generateWorkflowSwapList(el) {
+function generateWorkflowSwapList(el, customSwaps = null) {
+  //TODO: adapt preview handlers to call this function in workflow builder
   let $el = $(el);
-  //let swaps = [];
-  if (typeof selection.swaps == "undefined") selection.swaps = [];
-  let swaps = selection.swaps;
+  let swaps;
+  if (customSwaps === null) {
+    if (typeof selection.swaps == "undefined") selection.swaps = [];
+    swaps = selection.swaps;
+  } else {
+    swaps = customSwaps;
+  }
+
 
   $el.find(".workflowInput").each(function (i, el) {
     let $workflowInput = $(this);
@@ -384,95 +390,13 @@ function generateWorkflowSwapList(el) {
         break;
       }
       //TODO: support multi for USQL, non whereClause
-      case 'Keys': {
-        let $option = $workflowInput.find("select option:selected");
-        let value = $option.val();
-        let key = $option.text();
-        let fromkey = "${" + transform + ".name}";
-        let fromval = "${" + transform + ".id}";
-        addToSwaps(swaps, { from: fromkey, to: key });
-        addToSwaps(swaps, { from: fromval, to: value });
-        break;
-      }
-      case 'Keys_edit': {
-        let id = $workflowInput.find("input:first-of-type").val();
-        let name = id.split('.').slice(-1)[0];
-        let fromname = "${" + transform + ".name}";
-        let fromid = "${" + transform + ".id}";
-        addToSwaps(swaps, { from: fromname, to: name });
-        addToSwaps(swaps, { from: fromid, to: id });
-        break;
-      }
-      case 'Keys/Values_edit': {
-        let key = $workflowInput.find(`input:not([type]`).eq(0).val();
-        let val = $workflowInput.find(`input:not([type]`).eq(1).val();
-        let name = key.split('.').slice(-1)[0];
-
-        let fromkey = "${" + transform + ".key}";
-        let fromname = "${" + transform + ".name}";
-        let fromval = "${" + transform + ".value}";
-        addToSwaps(swaps, { from: fromkey, to: key });
-        addToSwaps(swaps, { from: fromname, to: name });
-        addToSwaps(swaps, { from: fromval, to: val });
-        break;
-      }
-      case 'Keys/Values': {
-        let $selects = $workflowInput.find("select");
-
-        //Handle key selector, cannot be multi
-        let $key = $($selects[0]).find("option:selected");
-        let key = $key.attr("data-colname") + "." + $key.val();
-        let name = $key.val();
-        let fromkey = "${" + transform + ".key}";
-        let fromname = "${" + transform + ".name}";
-        addToSwaps(swaps, { from: fromkey, to: key });
-        addToSwaps(swaps, { from: fromname, to: name });
-
-        //Handle val selector, can be multi
-        let $val = $($selects[1]);
-        if ($val.length) {
-          let multi = $val.attr("multiple");
-          if (multi) {
-            let vals = [];
-            let $opts = $val.find("option:selected");
-            for (let i = 0; i < $opts.length; i++) {
-              let $opt = $($opts[i]);
-              let val = $opt.val();
-              fromval = "${" + transform + "-" + i + ".value}";
-              addToSwaps(swaps, { from: fromval, to: val });
-              vals.push(val);
-            }
-            let fromcount = "${" + transform + ".count}";
-            addToSwaps(swaps, { from: fromcount, to: $opts.length.toString() });
-            fromval = "${" + transform + ".value}";
-            addToSwaps(swaps, { from: fromval, to: vals.join('", "') });
-          } else {
-            let value = $val.find("option:selected").val();
-            let fromval = "${" + transform + ".value}";
-            addToSwaps(swaps, { from: fromval, to: value });
-          }
-        }
-        break;
-      }
-      case 'ValX3': {
-        let $selects = $workflowInput.find("select");
-        let val1 = $($selects[0]).val();
-        let val2 = $($selects[1]).val();
-        let val3 = $($selects[2]).val();
-
-        let from1 = "${" + $("#transform").val() + ".1}";
-        let from2 = "${" + $("#transform").val() + ".2}";
-        let from3 = "${" + $("#transform").val() + ".3}";
-        addToSwaps(swaps, { from: from1, to: val1 });
-        addToSwaps(swaps, { from: from2, to: val2 });
-        addToSwaps(swaps, { from: from3, to: val3 });
-        break;
-      }
+      case 'Keys': 
+      case 'Keys_edit': 
+      case 'Keys/Values_edit': 
+      case 'Keys/Values': 
+      case 'ValX3': 
       case 'actions': {
-        let $option = $workflowInput.find("select option:selected");
-        let value = $option.val();
-        let from = "${" + transform + "}";
-        addToSwaps(swaps, { from: from, to: value });
+        usqlSelectGetSwaps(slicer, $workflowInput, transform, swaps);
         break;
       }
       case undefined:
@@ -725,4 +649,137 @@ function addTileReplication(workflowInput, swaps) {
     if (typeof selection.TileReplicators === "undefined") selection.TileReplicators = [];
     selection.TileReplicators.push(replicator);
   } else return;
+}
+
+function usqlSelectGetSwaps(slicer, workflowInput, transform, swaps) {
+  let $workflowInput = $(workflowInput);
+  switch (slicer) {
+    case 'Keys': {
+      let $option = $workflowInput.find("select option:selected");
+      let value = $option.val();
+      let key = $option.text();
+      let fromkey = "${" + transform + ".name}";
+      let fromval = "${" + transform + ".id}";
+      addToSwaps(swaps, { from: fromkey, to: key });
+      addToSwaps(swaps, { from: fromval, to: value });
+      break;
+    }
+    case 'Keys_edit': {
+      let id = $workflowInput.find("input:first-of-type").val();
+      let name = id.split('.').slice(-1)[0];
+      let fromname = "${" + transform + ".name}";
+      let fromid = "${" + transform + ".id}";
+      addToSwaps(swaps, { from: fromname, to: name });
+      addToSwaps(swaps, { from: fromid, to: id });
+      break;
+    }
+    case 'Keys/Values_edit': {
+      let key = $workflowInput.find(`input:not([type]`).eq(0).val();
+      let val = $workflowInput.find(`input:not([type]`).eq(1).val();
+      let name = key.split('.').slice(-1)[0];
+
+      let fromkey = "${" + transform + ".key}";
+      let fromname = "${" + transform + ".name}";
+      let fromval = "${" + transform + ".value}";
+      addToSwaps(swaps, { from: fromkey, to: key });
+      addToSwaps(swaps, { from: fromname, to: name });
+      addToSwaps(swaps, { from: fromval, to: val });
+      break;
+    }
+    case 'Keys/Values': {
+      let $selects = $workflowInput.find("select");
+
+      //Handle key selector, cannot be multi
+      let $key = $($selects[0]).find("option:selected");
+      let key = $key.attr("data-colname") + "." + $key.val();
+      let name = $key.val();
+      let fromkey = "${" + transform + ".key}";
+      let fromname = "${" + transform + ".name}";
+      addToSwaps(swaps, { from: fromkey, to: key });
+      addToSwaps(swaps, { from: fromname, to: name });
+
+      //Handle val selector, can be multi
+      let $val = $($selects[1]);
+      if ($val.length) {
+        let multi = $val.attr("multiple");
+        if (multi) {
+          let vals = [];
+          let $opts = $val.find("option:selected");
+          for (let i = 0; i < $opts.length; i++) {
+            let $opt = $($opts[i]);
+            let val = $opt.val();
+            fromval = "${" + transform + "-" + i + ".value}";
+            addToSwaps(swaps, { from: fromval, to: val });
+            vals.push(val);
+          }
+          let fromcount = "${" + transform + ".count}";
+          addToSwaps(swaps, { from: fromcount, to: $opts.length.toString() });
+          fromval = "${" + transform + ".value}";
+          addToSwaps(swaps, { from: fromval, to: vals.join('", "') });
+        } else {
+          let value = $val.find("option:selected").val();
+          let fromval = "${" + transform + ".value}";
+          addToSwaps(swaps, { from: fromval, to: value });
+        }
+      }
+      break;
+    }
+    case 'ValX3': {
+      let $selects = $workflowInput.find("select");
+      let val1 = $($selects[0]).val();
+      let val2 = $($selects[1]).val();
+      let val3 = $($selects[2]).val();
+
+      let from1 = "${" + $("#transform").val() + ".1}";
+      let from2 = "${" + $("#transform").val() + ".2}";
+      let from3 = "${" + $("#transform").val() + ".3}";
+      addToSwaps(swaps, { from: from1, to: val1 });
+      addToSwaps(swaps, { from: from2, to: val2 });
+      addToSwaps(swaps, { from: from3, to: val3 });
+      break;
+    }
+    case 'actions': {
+      let $option = $workflowInput.find("select option:selected");
+      let value = $option.val();
+      let from = "${" + transform + "}";
+      addToSwaps(swaps, { from: from, to: value });
+      break;
+    }
+    case undefined:
+    default: {
+      let from = "${" + transform + "}";
+      let to = $workflowInput.find("input:not([type=hidden]):not(.chosen-search-input)").val();
+      if (typeof to !== "undefined") addToSwaps(swaps, { from: from, to: to });
+
+      let fromkey = "${" + transform + ".key}";
+      let fromval = "${" + transform + ".value}";
+      let $select = $workflowInput.find("select");
+      if ($select.length) {
+        let multi = $select.attr("multiple");
+        if (multi) {
+          let keys = [], vals = [];
+          let $opts = $select.find("option:selected");
+          for (let i = 0; i < $opts.length; i++) {
+            let $opt = $($opts[i]);
+            let key = $opt.text();
+            let val = $opt.val();
+            fromkey = "${" + transform + "-" + i + ".key}";
+            fromval = "${" + transform + "-" + i + ".value}";
+            addToSwaps(swaps, { from: fromkey, to: key });
+            addToSwaps(swaps, { from: fromval, to: val });
+            keys.push(key)
+            vals.push(val);
+          }
+          let fromcount = "${" + transform + ".count}";
+          addToSwaps(swaps, { from: fromcount, to: $opts.length.toString() });
+          addToSwaps(swaps, { from: fromkey, to: keys.join('", "') });
+          addToSwaps(swaps, { from: fromval, to: vals.join('", "') });
+        } else {
+          let $opt = $select.find("option:selected");
+          addToSwaps(swaps, { from: fromkey, to: $opt.text() });
+          addToSwaps(swaps, { from: fromval, to: $opt.val() });
+        }
+      }
+    }
+  }
 }
