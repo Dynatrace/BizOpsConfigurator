@@ -98,7 +98,8 @@ var usecases = [
   { name: "Site Reliability Engineering (SRE)", bizAnalytics: false, prefix: "a014" },
   { name: "Software Suite (COTS)", bizAnalytics: false, prefix: "a015" },
   { name: "Industry Vertical", bizAnalytics: true, prefix: "a016" },
-  { name: "Application Overview", bizAnalytics: true, prefix: "a017" }
+  { name: "Application Overview", bizAnalytics: true, prefix: "a017" },
+  { name: "Forecast Analysis", bizAnalytics: true, prefix: "a018" }
 ];
 //////// Global Vars ////////////
 var url = "";
