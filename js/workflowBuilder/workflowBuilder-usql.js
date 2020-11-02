@@ -319,7 +319,7 @@ function previewChangeHandlerActionWhereClause(event) {
     if (val != null && val != '' && val != 'n/a'){
         if($option.length===1)
         filters.push(`${colname}="${val}"`);
-        else if($option.length>1){
+        else if($option.length>1){ //multi-select
             let vals = $option.map(function () { return $(this).val(); })
                 .get()
                 .join(`", "`);
