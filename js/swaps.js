@@ -687,7 +687,7 @@ function usqlSelectGetSwaps(slicer, workflowInput, transform, swaps, whereClause
       //Handle key selector, cannot be multi
       let $key = $($selects[0]).find("option:selected");
       let type = $key.attr("data-colname");
-      let key = (type && $key.val() ? `${type}.${$key.val()}`:"");
+      let key = (type && $key.val() ? `${type}.${$key.val()}` : "");
       let name = $key.val();
       let fromkey = `\${${transform}.key}`;
       let fromname = `\${${transform}.name}`;
@@ -738,7 +738,14 @@ function usqlSelectGetSwaps(slicer, workflowInput, transform, swaps, whereClause
       let $option = $workflowInput.find("select option:selected");
       let value = $option.val();
       let from = `\${${transform}.name}`;
-      addToSwaps(swaps, { from: from, to: value });
+      if ($option.length === 1)
+        addToSwaps(swaps, { from: from, to: value });
+      else if ($option.length > 1) {
+        let vals = $val.map(function () { return $(this).val(); })
+          .get()
+          .join(`", "`);
+        addToSwaps(swaps, { from: from, to: vals });
+      }
       break;
     }
     case undefined:
