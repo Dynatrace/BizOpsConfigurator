@@ -389,7 +389,7 @@ function generateWorkflowSwapList(el, customSwaps = null) {
       case 'Keys/Values':
       case 'ValX3':
       case 'actions': {
-        usqlSelectGetSwaps(slicer, $workflowInput, transform, swaps);
+        usqlSelectGetSwaps(slicer, $workflowInput, transform, swaps, whereClause);
         break;
       }
       case undefined:
@@ -651,7 +651,7 @@ function addTileReplication(workflowInput, swaps) {
   } else return;
 }
 
-function usqlSelectGetSwaps(slicer, workflowInput, transform, swaps) {
+function usqlSelectGetSwaps(slicer, workflowInput, transform, swaps, whereClause) {
   let $workflowInput = $(workflowInput);
   switch (slicer) {
     case 'Keys': {

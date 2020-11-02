@@ -146,12 +146,12 @@ function sliceUSQLdata(slicer, data, target, whereClause, multiple) { //TODO: re
                 $target.append(`<div class="inputHeader">Where Clause:</div>
                 <div class="userInput"><input id="${targetSelector.substr(1)}" class="filterClause"></div>
                 `);
-                let eventData = { selectors: selectors, data: parsedResults, targetSelector: targetSelector, slicer: slicer };
+                let eventData = { selectors: selectors, data: parsedResults, targetSelector: targetSelector, slicer: slicer, whereClause: whereClause};
                 $target.on("change", "select", eventData, previewChangeHandlerKeyVal);
                 $target.find("select:first-of-type").trigger("change");
             } else {
                 let targetSelector = '';
-                let eventData = { selectors: selectors, data: parsedResults, targetSelector: targetSelector, slicer: slicer };
+                let eventData = { selectors: selectors, data: parsedResults, targetSelector: targetSelector, slicer: slicer, whereClause: whereClause };
                 $target.on("change", "select", eventData, previewChangeHandlerKeyVal);
                 $target.find("select:first-of-type").trigger("change");
             }
@@ -519,7 +519,8 @@ function showUSQLPreviewSwaps(event) {
     if ($preview.length) {
         let transform = $("#transform").val();
         let slicer = event.data.slicer;
-        let swaps = usqlSelectGetSwaps(slicer, $preview, transform, []);
+        let whereClause = event.data.whereClause;
+        let swaps = usqlSelectGetSwaps(slicer, $preview, transform, [], whereClause);
         let previewSwaps = $(`<table class="dataTable">`);
         previewSwaps.append(`<thead><tr><td>From</td><td>To</td></tr></thead>`);
         swaps.forEach((x) => {
