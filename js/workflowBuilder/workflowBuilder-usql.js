@@ -147,7 +147,7 @@ function sliceUSQLdata(slicer, data, target, whereClause, multiple) { //TODO: re
                 <div class="userInput"><input id="${targetSelector.substr(1)}" class="filterClause"></div>
                 `);
                 let eventData = { selectors: selectors, data: parsedResults, targetSelector: targetSelector, slicer: slicer };
-                $target.on("change", "select", eventData, uspFilterChangeHandler);
+                $target.on("change", "select", eventData, previewChangeHandlerKeyVal);
                 $target.find("select:first-of-type").trigger("change");
             } else {
                 let targetSelector = '';
