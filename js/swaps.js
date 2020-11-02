@@ -510,11 +510,6 @@ function apiSelectGetSwaps(select, transform, swaps) {
       addToSwaps(swaps, { from: fromtype, to: type });
     }
   }
-  if (whereClause) {
-    let from = "${" + transform + "}";
-    let filterClause = $workflowInput.find("input.filterClause, input.whereClause").val();
-    addToSwaps(swaps, { from: from, to: filterClause });
-  }
 }
 
 function journeyGetSwaps(workflowInput, transform, swaps) {
