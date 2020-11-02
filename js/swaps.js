@@ -686,7 +686,8 @@ function usqlSelectGetSwaps(slicer, workflowInput, transform, swaps, whereClause
 
       //Handle key selector, cannot be multi
       let $key = $($selects[0]).find("option:selected");
-      let key = $key.attr("data-colname") + "." + $key.val();
+      let type = $key.attr("data-colname");
+      let key = (type && $key.val() ? `${type}.${$key.val()}`:"");
       let name = $key.val();
       let fromkey = "${" + transform + ".key}";
       let fromname = "${" + transform + ".name}";
