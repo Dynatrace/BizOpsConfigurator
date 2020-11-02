@@ -374,12 +374,6 @@ function generateWorkflowSwapList(el, customSwaps = null) {
       configOverrideGetSwaps($workflowInput, swaps);
     } else if (tileReplication.length) {
       addTileReplication($workflowInput, swaps);
-    } else if (whereClause) {
-      let from = "${" + transform + "}";
-      let filterClause = $workflowInput.find("input.filterClause, input.whereClause").val();
-      //filterClause = filterClause.replace(/"/g, '\\"'); //not sure why I needed this before but now do not...
-
-      addToSwaps(swaps, { from: from, to: filterClause });
     } else switch (slicer) {
       case "ApplicationMethods":
       case "{entityId:name}":
@@ -389,49 +383,50 @@ function generateWorkflowSwapList(el, customSwaps = null) {
         apiSelectGetSwaps($select, transform, swaps);
         break;
       }
-      //TODO: support multi for USQL, non whereClause
-      case 'Keys': 
-      case 'Keys_edit': 
-      case 'Keys/Values_edit': 
-      case 'Keys/Values': 
-      case 'ValX3': 
+      case 'Keys':
+      case 'Keys_edit':
+      case 'Keys/Values_edit':
+      case 'Keys/Values':
+      case 'ValX3':
       case 'actions': {
         usqlSelectGetSwaps(slicer, $workflowInput, transform, swaps);
         break;
       }
       case undefined:
-      default: {
-        let from = "${" + transform + "}";
-        let to = $workflowInput.find("input:not([type=hidden]):not(.chosen-search-input)").val();
-        if (typeof to !== "undefined") addToSwaps(swaps, { from: from, to: to });
+      default: { //What is this used for??
+        if (!whereClause) { //added to maintain logic when moving else if(whereClause)
+          let from = "${" + transform + "}";
+          let to = $workflowInput.find("input:not([type=hidden]):not(.chosen-search-input)").val();
+          if (typeof to !== "undefined") addToSwaps(swaps, { from: from, to: to });
 
-        let fromkey = "${" + transform + ".key}";
-        let fromval = "${" + transform + ".value}";
-        let $select = $workflowInput.find("select");
-        if ($select.length) {
-          let multi = $select.attr("multiple");
-          if (multi) {
-            let keys = [], vals = [];
-            let $opts = $select.find("option:selected");
-            for (let i = 0; i < $opts.length; i++) {
-              let $opt = $($opts[i]);
-              let key = $opt.text();
-              let val = $opt.val();
-              fromkey = "${" + transform + "-" + i + ".key}";
-              fromval = "${" + transform + "-" + i + ".value}";
-              addToSwaps(swaps, { from: fromkey, to: key });
-              addToSwaps(swaps, { from: fromval, to: val });
-              keys.push(key)
-              vals.push(val);
+          let fromkey = "${" + transform + ".key}";
+          let fromval = "${" + transform + ".value}";
+          let $select = $workflowInput.find("select");
+          if ($select.length) {
+            let multi = $select.attr("multiple");
+            if (multi) {
+              let keys = [], vals = [];
+              let $opts = $select.find("option:selected");
+              for (let i = 0; i < $opts.length; i++) {
+                let $opt = $($opts[i]);
+                let key = $opt.text();
+                let val = $opt.val();
+                fromkey = "${" + transform + "-" + i + ".key}";
+                fromval = "${" + transform + "-" + i + ".value}";
+                addToSwaps(swaps, { from: fromkey, to: key });
+                addToSwaps(swaps, { from: fromval, to: val });
+                keys.push(key)
+                vals.push(val);
+              }
+              let fromcount = "${" + transform + ".count}";
+              addToSwaps(swaps, { from: fromcount, to: $opts.length.toString() });
+              addToSwaps(swaps, { from: fromkey, to: keys.join('", "') });
+              addToSwaps(swaps, { from: fromval, to: vals.join('", "') });
+            } else {
+              let $opt = $select.find("option:selected");
+              addToSwaps(swaps, { from: fromkey, to: $opt.text() });
+              addToSwaps(swaps, { from: fromval, to: $opt.val() });
             }
-            let fromcount = "${" + transform + ".count}";
-            addToSwaps(swaps, { from: fromcount, to: $opts.length.toString() });
-            addToSwaps(swaps, { from: fromkey, to: keys.join('", "') });
-            addToSwaps(swaps, { from: fromval, to: vals.join('", "') });
-          } else {
-            let $opt = $select.find("option:selected");
-            addToSwaps(swaps, { from: fromkey, to: $opt.text() });
-            addToSwaps(swaps, { from: fromval, to: $opt.val() });
           }
         }
       }
@@ -514,6 +509,11 @@ function apiSelectGetSwaps(select, transform, swaps) {
       let fromtype = "${" + transform + ".type}";
       addToSwaps(swaps, { from: fromtype, to: type });
     }
+  }
+  if (whereClause) {
+    let from = "${" + transform + "}";
+    let filterClause = $workflowInput.find("input.filterClause, input.whereClause").val();
+    addToSwaps(swaps, { from: from, to: filterClause });
   }
 }
 
@@ -747,40 +747,13 @@ function usqlSelectGetSwaps(slicer, workflowInput, transform, swaps) {
     }
     case undefined:
     default: {
-      let from = "${" + transform + "}";
-      let to = $workflowInput.find("input:not([type=hidden]):not(.chosen-search-input)").val();
-      if (typeof to !== "undefined") addToSwaps(swaps, { from: from, to: to });
-
-      let fromkey = "${" + transform + ".key}";
-      let fromval = "${" + transform + ".value}";
-      let $select = $workflowInput.find("select");
-      if ($select.length) {
-        let multi = $select.attr("multiple");
-        if (multi) {
-          let keys = [], vals = [];
-          let $opts = $select.find("option:selected");
-          for (let i = 0; i < $opts.length; i++) {
-            let $opt = $($opts[i]);
-            let key = $opt.text();
-            let val = $opt.val();
-            fromkey = "${" + transform + "-" + i + ".key}";
-            fromval = "${" + transform + "-" + i + ".value}";
-            addToSwaps(swaps, { from: fromkey, to: key });
-            addToSwaps(swaps, { from: fromval, to: val });
-            keys.push(key)
-            vals.push(val);
-          }
-          let fromcount = "${" + transform + ".count}";
-          addToSwaps(swaps, { from: fromcount, to: $opts.length.toString() });
-          addToSwaps(swaps, { from: fromkey, to: keys.join('", "') });
-          addToSwaps(swaps, { from: fromval, to: vals.join('", "') });
-        } else {
-          let $opt = $select.find("option:selected");
-          addToSwaps(swaps, { from: fromkey, to: $opt.text() });
-          addToSwaps(swaps, { from: fromval, to: $opt.val() });
-        }
-      }
+      //This should never happen, default case is handled in generateWorkflowSwapList
     }
+  }
+  if (whereClause) {
+    let from = "${" + transform + "}";
+    let filterClause = $workflowInput.find("input.filterClause, input.whereClause").val();
+    addToSwaps(swaps, { from: from, to: filterClause });
   }
   return swaps;
 }
