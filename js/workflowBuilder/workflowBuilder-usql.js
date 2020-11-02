@@ -316,8 +316,16 @@ function previewChangeHandlerActionWhereClause(event) {
     let from = "${" + $("#transform").val() + "}";
 
     let filters = [];
-    if (val != null && val != '' && val != 'n/a')
+    if (val != null && val != '' && val != 'n/a'){
+        if($option.length===1)
         filters.push(`${colname}="${val}"`);
+        else if($option.length>1){
+            let vals = $option.map(function () { return $(this).val(); })
+                .get()
+                .join(`", "`);
+            filters.push(`${colname} IN ("${vals}")`);
+        }
+    }
 
     let filterClause = filters.length > 0 ?
         " AND (" + filters.join(" AND ") + ")" :
