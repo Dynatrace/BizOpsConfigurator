@@ -536,7 +536,7 @@ function usqlKeyValFilterBuilder(keySelector, valSelector) {
     let type = (($keyOpt.length > 0) ?
         $keyOpt[0].dataset['colname'] :
         undefined);
-    let $val = $(valSelector);
+    let $val = $(valSelector).find("option:selected");
     let val = $val.val();
     let filterClause = "";
     let filters = [];
