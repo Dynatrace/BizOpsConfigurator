@@ -653,8 +653,8 @@ function usqlSelectGetSwaps(slicer, workflowInput, transform, swaps, whereClause
       let $option = $workflowInput.find("select option:selected");
       let value = $option.val();
       let key = $option.text();
-      let fromkey = "${" + transform + ".name}";
-      let fromval = "${" + transform + ".id}";
+      let fromkey = `\${${transform}.name}`;
+      let fromval = `\${${transform}.id}`;
       addToSwaps(swaps, { from: fromkey, to: key });
       addToSwaps(swaps, { from: fromval, to: value });
       break;
@@ -662,8 +662,8 @@ function usqlSelectGetSwaps(slicer, workflowInput, transform, swaps, whereClause
     case 'Keys_edit': {
       let id = $workflowInput.find("input:first-of-type").val();
       let name = id.split('.').slice(-1)[0];
-      let fromname = "${" + transform + ".name}";
-      let fromid = "${" + transform + ".id}";
+      let fromname = `\${${transform}.name}`;
+      let fromid = `\${${transform}.id}`;
       addToSwaps(swaps, { from: fromname, to: name });
       addToSwaps(swaps, { from: fromid, to: id });
       break;
@@ -673,9 +673,9 @@ function usqlSelectGetSwaps(slicer, workflowInput, transform, swaps, whereClause
       let val = $workflowInput.find(`input:not([type]`).eq(1).val();
       let name = key.split('.').slice(-1)[0];
 
-      let fromkey = "${" + transform + ".key}";
-      let fromname = "${" + transform + ".name}";
-      let fromval = "${" + transform + ".value}";
+      let fromkey = `\${${transform}.key}`;
+      let fromname = `\${${transform}.name}`;
+      let fromval = `\${${transform}.value}`;
       addToSwaps(swaps, { from: fromkey, to: key });
       addToSwaps(swaps, { from: fromname, to: name });
       addToSwaps(swaps, { from: fromval, to: val });
@@ -689,8 +689,8 @@ function usqlSelectGetSwaps(slicer, workflowInput, transform, swaps, whereClause
       let type = $key.attr("data-colname");
       let key = (type && $key.val() ? `${type}.${$key.val()}`:"");
       let name = $key.val();
-      let fromkey = "${" + transform + ".key}";
-      let fromname = "${" + transform + ".name}";
+      let fromkey = `\${${transform}.key}`;
+      let fromname = `\${${transform}.name}`;
       addToSwaps(swaps, { from: fromkey, to: key });
       addToSwaps(swaps, { from: fromname, to: name });
 
@@ -704,17 +704,17 @@ function usqlSelectGetSwaps(slicer, workflowInput, transform, swaps, whereClause
           for (let i = 0; i < $opts.length; i++) {
             let $opt = $($opts[i]);
             let val = $opt.val();
-            fromval = "${" + transform + "-" + i + ".value}";
+            fromval = `\${${transform}-${i}.value}`;
             addToSwaps(swaps, { from: fromval, to: val });
             vals.push(val);
           }
-          let fromcount = "${" + transform + ".count}";
+          let fromcount = `\${${transform}.count}`;
           addToSwaps(swaps, { from: fromcount, to: $opts.length.toString() });
-          fromval = "${" + transform + ".value}";
+          fromval = `\${${transform}.value}`;
           addToSwaps(swaps, { from: fromval, to: vals.join('", "') });
         } else {
           let value = $val.find("option:selected").val();
-          let fromval = "${" + transform + ".value}";
+          let fromval = `\${${transform}.value}`;
           addToSwaps(swaps, { from: fromval, to: value });
         }
       }
@@ -726,9 +726,9 @@ function usqlSelectGetSwaps(slicer, workflowInput, transform, swaps, whereClause
       let val2 = $($selects[1]).val();
       let val3 = $($selects[2]).val();
 
-      let from1 = "${" + $("#transform").val() + ".1}";
-      let from2 = "${" + $("#transform").val() + ".2}";
-      let from3 = "${" + $("#transform").val() + ".3}";
+      let from1 = `\${${$("#transform").val()}.1}`;
+      let from2 = `\${${$("#transform").val()}.2}`;
+      let from3 = `\${${$("#transform").val()}.3}`;
       addToSwaps(swaps, { from: from1, to: val1 });
       addToSwaps(swaps, { from: from2, to: val2 });
       addToSwaps(swaps, { from: from3, to: val3 });
@@ -737,7 +737,7 @@ function usqlSelectGetSwaps(slicer, workflowInput, transform, swaps, whereClause
     case 'actions': {
       let $option = $workflowInput.find("select option:selected");
       let value = $option.val();
-      let from = "${" + transform + "}";
+      let from = `\${${transform}.name}`;
       addToSwaps(swaps, { from: from, to: value });
       break;
     }
