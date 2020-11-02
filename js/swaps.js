@@ -741,7 +741,7 @@ function usqlSelectGetSwaps(slicer, workflowInput, transform, swaps, whereClause
       if ($option.length === 1)
         addToSwaps(swaps, { from: from, to: value });
       else if ($option.length > 1) {
-        let vals = $val.map(function () { return $(this).val(); })
+        let vals = $option.map(function () { return $(this).val(); })
           .get()
           .join(`", "`);
         addToSwaps(swaps, { from: from, to: vals });
