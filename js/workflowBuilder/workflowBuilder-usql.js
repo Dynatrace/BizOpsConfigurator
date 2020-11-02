@@ -323,13 +323,14 @@ function previewChangeHandlerActionWhereClause(event) {
 }
 
 function previewChangeHandlerKeyVal(event) {
+    //use old overloaded handler, clean this up over time
     uspFilterChangeHandler(event);
 
     let $key = $(event.data.selectors[0]);
     let $val = $(event.data.selectors[1]);
-    //let key = $key.val();
-    //let val = $val.val();
+    let $clause = $(event.data.targetSelector);
 
+    //handle multi
     $val.filter("select.chosen-select").chosen('destroy');
     $val.filter("select.chosen-select").each((i, chose) => {
         let $chose = $(chose);
@@ -338,13 +339,12 @@ function previewChangeHandlerKeyVal(event) {
         }
     })
 
-    /*let fromkey = "${" + $("#transform").val() + ".key}";
-    let fromval = "${" + $("#transform").val() + ".value}";
-
-    let preview = $(`<table class="dataTable">`);
-    preview.append(`<thead><tr><td>From</td><td>To</td></tr></thead>`);
-    preview.append(`<tr><td>${fromkey}</td><td>${key}</td></tr>`);
-    preview.append(`<tr><td>${fromval}</td><td>${val}</td></tr>`);*/
+    //handle whereClause
+    if ($clause.length) {
+        $clause.val(usqlKeyValFilterBuilder($key, $val));
+    }
+    
+    //generate preview if in workflow builder
     showUSQLPreviewSwaps(event);
 }
 
@@ -527,4 +527,35 @@ function showUSQLPreviewSwaps(event) {
         });
         $("#swaps").html(previewSwaps);
     }
+}
+
+function usqlKeyValFilterBuilder(keySelector, valSelector) {
+    let $key = $(keySelector);
+    let key = $key.val();
+    let $keyOpt = $key.find("option:selected");
+    let type = (($keyOpt.length > 0) ?
+        $keyOpt[0].dataset['colname'] :
+        undefined);
+    let $val = $(valSelector);
+    let val = $val.val();
+    let filterClause = "";
+    let filters = [];
+
+    if (key != '' && type != '' && val != '' &&
+        key != null && type != null && val != null) {
+        if ($val.length === 1)
+            filters.push(`${type}.${key}="${val}"`);
+        else if ($val.length > 1) {
+            let vals = $val.map(function () { return $(this).val(); })
+                .get()
+                .join(`", "`);
+            filters.push(`${type}.${key} IN ("${vals}")`);
+        }
+    }
+
+    filterClause = filters.length > 0 ?
+        " AND (" + filters.join(" AND ") + ")" :
+        "";
+
+    return filterClause;
 }
