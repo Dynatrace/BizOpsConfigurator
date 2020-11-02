@@ -112,11 +112,11 @@ function sliceUSQLdata(slicer, data, target, whereClause, multiple) { //TODO: re
                 $target.append(`<div class="inputHeader">Where Clause:</div>
                 <div class="userInput"><input id="${targetSelector.substr(1)}" class="filterClause"></div>
                 `);
-                let eventData = { selectors: selectors, data: parsedResults, targetSelector: targetSelector, slicer: slicer };
+                let eventData = { selectors: selectors, data: parsedResults, targetSelector: targetSelector, slicer: slicer, whereClause: whereClause };
                 $target.on("change", "select", eventData, previewChangeHandlerKeyWhereClause);
                 $target.find("select:first-of-type").trigger("change");
             } else {
-                let eventData = { selectors: selectors, data: parsedResults, targetSelector: '', slicer: slicer };
+                let eventData = { selectors: selectors, data: parsedResults, targetSelector: '', slicer: slicer, whereClause: whereClause };
                 $target.on("change", "select", eventData, previewChangeHandlerKey);
                 $target.find("select:first-of-type").trigger("change");
             }
@@ -179,11 +179,11 @@ function sliceUSQLdata(slicer, data, target, whereClause, multiple) { //TODO: re
                 $target.append(`<div class="inputHeader">Where Clause:</div>
                 <div class="userInput"><input id="${targetSelector.substr(1)}" class="filterClause"></div>
                 `);
-                let eventData = { selectors: selectors, data: parsedResults, targetSelector: targetSelector, slicer: slicer };
+                let eventData = { selectors: selectors, data: parsedResults, targetSelector: targetSelector, slicer: slicer, whereClause: whereClause };
                 $target.on("change", "select", eventData, previewChangeHandlerValX4Where);
                 $target.find("select:first-of-type").trigger("change");
             } else {
-                let eventData = { selectors: selectors, data: parsedResults, targetSelector: null, slicer: slicer };
+                let eventData = { selectors: selectors, data: parsedResults, targetSelector: null, slicer: slicer, whereClause: whereClause };
                 $target.on("change", "select", eventData, previewChangeHandlerValX4);
                 $target.find("select:first-of-type").trigger("change");
             }
@@ -212,11 +212,11 @@ function sliceUSQLdata(slicer, data, target, whereClause, multiple) { //TODO: re
                 $target.append(`<div class="inputHeader">Where Clause:</div>
                 <div class="userInput"><input id="${targetSelector.substr(1)}" class="filterClause"></div>
                 `);
-                let eventData = { selectors: selectors, data: parsedResults, targetSelector: targetSelector, slicer: slicer };
+                let eventData = { selectors: selectors, data: parsedResults, targetSelector: targetSelector, slicer: slicer, whereClause: whereClause };
                 $target.on("change", "select", eventData, previewChangeHandlerActionWhereClause);
                 $target.find("select:first-of-type").trigger("change");
             } else {
-                let eventData = { selectors: selectors, data: parsedResults, targetSelector: '', slicer: slicer };
+                let eventData = { selectors: selectors, data: parsedResults, targetSelector: '', slicer: slicer, whereClause: whereClause };
                 $target.on("change", "select", eventData, previewChangeHandlerAction);
                 $target.find("select:first-of-type").trigger("change");
             }
