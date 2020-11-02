@@ -328,7 +328,7 @@ function previewChangeHandlerActionWhereClause(event) {
     }
 
     let filterClause = filters.length > 0 ?
-        " AND (" + filters.join(" AND ") + ")" :
+        " (" + filters.join(" AND ") + ")" :
         "";
     $target.val(filterClause);
 
