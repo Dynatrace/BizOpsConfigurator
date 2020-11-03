@@ -884,7 +884,7 @@ function globalButtonHandler() {
         else if (button.val() == "Done") {
           if (selection.testMode) {
             let tester = button.parents(".popupHTML");
-            compareWorkflowVsRepo();
+            compareWorkflowVsRepo(tester);
           } else {
             let p = uploadWorkflow($("#workflow"));
             $.when(p).done(function () {
