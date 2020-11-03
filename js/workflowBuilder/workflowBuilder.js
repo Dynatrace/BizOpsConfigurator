@@ -191,8 +191,10 @@ function workflowConfiguration() {
         });
 
         $.when(p2).done(function (data) {
-            let newConfig = JSON.stringify(data);
-            $("#workflowConfigJSON").val(newConfig);
+            if (data) {
+                let newConfig = JSON.stringify(data);
+                $("#workflowConfigJSON").val(newConfig);
+            }
             p0.resolve();
         })
     });
