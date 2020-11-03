@@ -656,9 +656,21 @@ function compareWorkflowVsRepo(tester) {
         let match = (swapFroms.includes(x)) ? "match" : "notmatch";
         html += `<tr class="${match}"><td>${x}</td></tr>`;
       });
-      html += `</table></div></div>`;
+      html += `</table></div>`;
     }
 
+    let entIDs = Array.from(new Set([...scanForEntIDs(overview)])).sort();
+    if (entIDs.length) {
+      html += `<div>Potential EntityIDs:<br>
+      <table class="dashboard dataTable">
+      <thead><tr><td>Found</td></tr></thead>`;
+      entIDs.forEach(x => {
+        html += `<tr class="notmatch"><td>${x}</td></tr>`;
+      });
+      html += `</table></div>`;
+    }
+
+    html += `</div>`;
     popupHTMLDeferred("Test Results", html)
     .then(()=>{
       $(tester).remove(); //Kill window underneath

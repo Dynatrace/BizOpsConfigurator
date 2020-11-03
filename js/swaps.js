@@ -342,6 +342,21 @@ function scanForTokens(db) {
     return [];
 }
 
+function scanForEntIDs(db) {
+  var dbs = "";
+  if (typeof db == "string") { //already a string, great do the swaps
+    dbs = db;
+  } else if (typeof db == "object") {
+    dbs = JSON.stringify(db);
+  } else if (typeof db == "undefined") return [];
+
+  let matches = Array.from(dbs.matchAll(/[A-Z_]+-[0-9A-F]{16}/g), m => m[0]);
+  if (matches.length > 0)
+    return matches;
+  else
+    return [];
+}
+
 function generateWorkflowSwapList(el, customSwaps = null) {
   //TODO: adapt preview handlers to call this function in workflow builder
   let $el = $(el);
