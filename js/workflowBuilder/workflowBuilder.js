@@ -169,7 +169,10 @@ function workflowConfiguration() {
         personas.forEach(function (e) {
             html += `<option value="${e.prefix}">${e.name}</option>`;
         })
-        $("#persona").html(html);
+        $("#persona")
+            .html(html)
+            .chosen();
+
 
         html = "";
         usecases
