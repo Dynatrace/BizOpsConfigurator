@@ -600,7 +600,7 @@ function updateDashboardButton() {
   }
 }
 
-function compareWorkflowVsRepo() {
+function compareWorkflowVsRepo(tester) {
   let config = selection.config || {};
   let main = $.Deferred();
   let deferreds = [];
@@ -659,7 +659,10 @@ function compareWorkflowVsRepo() {
       html += `</table></div></div>`;
     }
 
-    popupHTML("Test Results", html);
+    popupHTMLDeferred("Test Results", html)
+    .then(()=>{
+      $(tester).remove();
+    });
 
   });
 

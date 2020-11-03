@@ -883,7 +883,8 @@ function globalButtonHandler() {
         }
         else if (button.val() == "Done") {
           if (selection.testMode) {
-            compareWorkflowVsRepo();
+            let tester = button.parents(".popupHTML");
+            compareWorkflowVsRepo(tester);
           } else {
             let p = uploadWorkflow($("#workflow"));
             $.when(p).done(function () {
