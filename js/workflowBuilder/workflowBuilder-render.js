@@ -213,15 +213,16 @@ function workflowTest() {
         $("#workflow").attr("id", "workflowInactive");
         $.when(p).done(function (renderedHTML) {
             selection.testMode = true;
-            let p1 = popupHTMLDeferred("Testing Workflow", renderedHTML);
+            selection.testModePromise = popupHTMLDeferred("Testing Workflow", renderedHTML);
             $(".doneBar").hide();
             workflowSetFirstPageActive();
             let activePage = $("#workflow .workflowPage.activePage");
             renderWorkflowPage(activePage);
             drawWorkflowPagerButton();
-            $.when(p1).done(function () {
+            $.when(selection.testModePromise).done(function () {
                 delete selection.testMode;
                 delete selection.swaps;
+                delete selection.testModePromise;
                 $("#workflowInactive").attr("id", "workflow");
                 updatePageListing();
             });
