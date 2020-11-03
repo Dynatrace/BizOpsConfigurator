@@ -169,10 +169,7 @@ function workflowConfiguration() {
         personas.forEach(function (e) {
             html += `<option value="${e.prefix}">${e.name}</option>`;
         })
-        $("#persona")
-            .html(html)
-            .chosen();
-
+        $("#persona").html(html);
 
         html = "";
         usecases
@@ -192,6 +189,8 @@ function workflowConfiguration() {
             if ($el.val() !== "false") $el.attr("checked", true);
             else $el.attr("checked", false);
         });
+
+        $("#persona").chosen();
 
         $.when(p2).done(function (data) {
             if (data) {
