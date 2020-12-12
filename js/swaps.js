@@ -756,10 +756,14 @@ function usqlSelectGetSwaps(slicer, workflowInput, transform, swaps, whereClause
       if ($option.length === 1)
         addToSwaps(swaps, { from: from, to: value });
       else if ($option.length > 1) {
-        let vals = $option.map(function () { return $(this).val(); })
+        let vals = []
+        $option.map((i, el) => $(el).val())
           .get()
-          .join(`", "`);
-        addToSwaps(swaps, { from: from, to: vals });
+          .forEach((v, i) => {
+            addToSwaps(swaps, { from: `\${${transform}-${i}.name}`, to: v });
+            vals.push(v);
+          });
+        addToSwaps(swaps, { from: from, to: vals.join(`", "`) });
       }
       break;
     }

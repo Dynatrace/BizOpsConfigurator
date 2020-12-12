@@ -237,12 +237,6 @@ function previewChangeHandlerKey(event) {
     let fromkey = "${" + $("#transform").val() + ".name}";
     let fromval = "${" + $("#transform").val() + ".id}";
 
-    /*let xform = `<table class="dataTable">
-        <thead><tr><td>From</td><td>To</td></tr></thead>
-        <tr><td>${fromkey}</td><td>${key}</td></tr>
-        <tr><td>${fromval}</td><td>${val}</td></tr>
-        </table>`;
-    $("#swaps").html(xform);*/
     //generate preview if in workflow builder
     showUSQLPreviewSwaps(event);
 }
@@ -255,12 +249,6 @@ function previewChangeHandlerKeyEdit(event) {
     let fromname = "${" + $("#transform").val() + ".name}";
     let fromid = "${" + $("#transform").val() + ".id}";
 
-    /*let xform = `<table class="dataTable">
-        <thead><tr><td>From</td><td>To</td></tr></thead>
-        <tr><td>${fromname}</td><td>${name}</td></tr>
-        <tr><td>${fromid}</td><td>${id}</td></tr>
-        </table>`;
-    $("#swaps").html(xform);*/
     //generate preview if in workflow builder
     showUSQLPreviewSwaps(event);
 }
@@ -282,10 +270,6 @@ function previewChangeHandlerKeyWhereClause(event) {
         "";
     $target.val(filterClause);
 
-    /*let preview = $(`<table class="dataTable">`);
-    preview.append(`<thead><tr><td>From</td><td>To</td></tr></thead>`);
-    preview.append(`<tr><td>${from}</td><td>${filterClause}</td></tr>`);
-    $("#swaps").html(preview);*/
     //generate preview if in workflow builder
     showUSQLPreviewSwaps(event);
 }
@@ -298,10 +282,6 @@ function previewChangeHandlerAction(event) {
     let val = $option.val();
     let from = "${" + $("#transform").val() + "}";
 
-    /*let preview = $(`<table class="dataTable">`);
-    preview.append(`<thead><tr><td>From</td><td>To</td></tr></thead>`);
-    preview.append(`<tr><td>${from}</td><td>${val}</td></tr>`);
-    $("#swaps").html(preview);*/
     //generate preview if in workflow builder
     showUSQLPreviewSwaps(event);
 }
@@ -332,10 +312,6 @@ function previewChangeHandlerActionWhereClause(event) {
         "";
     $target.val(filterClause);
 
-    /*let preview = $(`<table class="dataTable">`);
-    preview.append(`<thead><tr><td>From</td><td>To</td></tr></thead>`);
-    preview.append(`<tr><td>${from}</td><td>${filterClause}</td></tr>`);
-    $("#swaps").html(preview);*/
     //generate preview if in workflow builder
     showUSQLPreviewSwaps(event);
 }
@@ -405,16 +381,6 @@ function previewChangeHandlerKeyValEdit(event) {
         $val.show();
     }
 
-    /*let fromkey = "${" + $("#transform").val() + ".key}";
-    let fromname = "${" + $("#transform").val() + ".name}";
-    let fromval = "${" + $("#transform").val() + ".value}";
-
-    let preview = $(`<table class="dataTable">`);
-    preview.append(`<thead><tr><td>From</td><td>To</td></tr></thead>`);
-    preview.append(`<tr><td>${fromkey}</td><td>${key}</td></tr>`);
-    preview.append(`<tr><td>${fromname}</td><td>${name}</td></tr>`);
-    preview.append(`<tr><td>${fromval}</td><td>${val}</td></tr>`);
-    $("#swaps").html(preview);*/
     //generate preview if in workflow builder
     showUSQLPreviewSwaps(event);
 }
@@ -432,13 +398,6 @@ function previewChangeHandlerValX4(event) {
     let from3 = "${" + $("#transform").val() + ".3}";
     let from4 = "${" + $("#transform").val() + ".4}";
 
-    /*let preview = $(`<table class="dataTable">`);
-    preview.append(`<thead><tr><td>From</td><td>To</td></tr></thead>`);
-    preview.append(`<tr><td>${from1}</td><td>${val1}</td></tr>`);
-    preview.append(`<tr><td>${from2}</td><td>${val2}</td></tr>`);
-    preview.append(`<tr><td>${from3}</td><td>${val3}</td></tr>`);
-    preview.append(`<tr><td>${from4}</td><td>${val4}</td></tr>`);
-    $("#swaps").html(preview);*/
     //generate preview if in workflow builder
     showUSQLPreviewSwaps(event);
 }
@@ -450,10 +409,6 @@ function previewChangeHandlerValX4Where(event) {
 
     let from = "${" + $("#transform").val() + "}";
 
-    /*let preview = $(`<table class="dataTable">`);
-    preview.append(`<thead><tr><td>From</td><td>To</td></tr></thead>`);
-    preview.append(`<tr><td>${from}</td><td>${val}</td></tr>`);
-    $("#swaps").html(preview);*/
     //generate preview if in workflow builder
     showUSQLPreviewSwaps(event);
 }
