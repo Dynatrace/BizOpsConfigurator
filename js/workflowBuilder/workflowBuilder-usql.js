@@ -441,6 +441,12 @@ function usqlCommonQueryChangeHandler() {
             $("#transform").val("kua");
             $("#addWhereClause").prop("checked", true);
             break;
+        case "Distinct Actions":
+            $("#usqlQuery").val('SELECT DISTINCT useraction.name FROM useraction WHERE useraction.application IN ("${app.name}") LIMIT 5000');
+            $("#usqlResultSlicer").val("actions");
+            $("#transform").val("action");
+            $("#addWhereClause").prop("checked", true);
+            break;
         case "Conversion Goals":
             $("#usqlQuery").val('SELECT useraction.matchingConversionGoals FROM useraction WHERE useraction.application IN ("${app.name}") AND matchingConversionGoals IS NOT NULL LIMIT 5000');
             $("#usqlResultSlicer").val("actions");
