@@ -402,11 +402,11 @@ function globalButtonHandler() {
           case "SAP Application Cockpit.json":
             let $elArr = $("#SAPapps option:selected");
             let arr = [];
-            $elArr.each((idx,el)=>{
-              try{
+            $elArr.each((idx, el) => {
+              try {
                 let obj = JSON.parse($(el).attr("data-json"));
-                arr.push(obj);  
-              } catch(err){
+                arr.push(obj);
+              } catch (err) {
                 console.log("SAPapps JSON parse error");
               }
             })
@@ -549,17 +549,17 @@ function globalButtonHandler() {
           fr = new FileReader();
           fr.onload = function () {
             let res = fr.result;
-            try{
+            try {
               let json = JSON.parse(res);
               dbList = json.dbList;
               repoList = json.repoList;
               readmeList = json.readmeList;
               workflowList = json.workflowList;
-            } catch(e){
-              alert("Loading offline pack failed: "+e.message);
+            } catch (e) {
+              alert("Loading offline pack failed: " + e.message);
             }
             updateDashboardButton();
-            
+
           };
           if (typeof file !== "undefined") fr.readAsText(file);
         });
@@ -689,7 +689,7 @@ function globalButtonHandler() {
         dbAO = $("#dbAO").val();
         dbFunnelTrue = $("#dbFunnelTrue").val();
         dbFunnelFalse = $("#dbFunnelFalse").val();
-        
+
 
         $("input.repo_owner[data-index]").each(function (index, element) {
           let i = element.dataset.index;
@@ -751,7 +751,7 @@ function globalButtonHandler() {
       case "reloadDBs": {
         OfflineMode = $("#offlineMode").prop('checked');
         let p1 = loadEverythingFromGithubAndCache();
-        $.when(p1).done(()=>{
+        $.when(p1).done(() => {
           updateOfflineButtons();
         });
         break;
@@ -872,15 +872,14 @@ function globalButtonHandler() {
         let button = $("#workflowButton");
         let activePage = $("#workflow").find(".workflowPage.activePage");
         let $invalids = $("#workflow").find(`:invalid`);
-        if($invalids.length){
+        if ($invalids.length) {
           $invalids.eq(0)
             .focus()
-            .animate({border: '10px solid red'},250)
-            .animate({border: '5px solid red'},250)
-            .animate({border: '2px solid red'},250)
-            .animate({border: '1px solid red'},250)
-            .animate({border: ''})
-            ;
+            .fadeOut(250)
+            .fadeIn(250)
+            .fadeOut(250)
+            .fadeIn(250);
+          ;
           break;
         }
         generateWorkflowSwapList(activePage);
