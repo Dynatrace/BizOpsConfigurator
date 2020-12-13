@@ -871,6 +871,11 @@ function globalButtonHandler() {
       case "workflowButton": {
         let button = $("#workflowButton");
         let activePage = $("#workflow").find(".workflowPage.activePage");
+        let $invalids = $("#workflow").find(`:invalid`);
+        if($invalids.length){
+          $invalids.get(0).focus();
+          break;
+        }
         generateWorkflowSwapList(activePage);
         while (ConfigPushers.length) {
           let cp = ConfigPushers.shift();
