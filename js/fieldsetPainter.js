@@ -736,3 +736,9 @@ function updateOfflineButtons() {
     if (dbList.length) $("#reloadDBs").val("Reload Dashboards");
     else $("#reloadDBs").val("Load Dashboards");
 }
+
+function highlightPersonaList(id){
+    let $link = $(`#${id}`);
+    $link.addClass("justAdded");
+    $link.parents('section').addClass("expanded");
+}

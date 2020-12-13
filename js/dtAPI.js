@@ -614,10 +614,22 @@ function uploadWorkflow(workflow) {
   let workflowToSave = stringifyWithValues($workflow);
   saveConfigDashboard(workflowConfigID(id), { html: workflowToSave });
   uploadSubs(subs);
-  selection = {};
-  if (typeof dtrum !== "undefined")
-    return dtAPIquery(query, { method: "PUT", data: dbS })
+  
+  let res = dtAPIquery(query, { method: "PUT", data: dbS })
       .done(() => { if (typeof dtrum !== "undefined") dtrum.leaveAction(dtaction); });
+
+  let returnInfo = {
+    id: id,
+    persona: selection.persona,
+    usecase: selection.usecase,
+    workflow: selection.workflow.name
+  }
+  selection = {};
+
+  if(res)
+    return returnInfo;
+  else 
+    return false;
 }
 
 function deleteDashboards(id, re) {

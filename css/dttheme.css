@@ -1474,3 +1474,7 @@ input.ellipsis {
 code {
   white-space: pre-wrap;
 }
+
+a.justAdded, a.justAdded:visited {
+  color: #fd8232;
+}
