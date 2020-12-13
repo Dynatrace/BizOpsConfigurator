@@ -902,8 +902,10 @@ function globalButtonHandler() {
               let p_DBA = getAllDashboards();
               $.when(p_DBA).done(function (data) {
                 processDBADashboards(data);
-                $("#viewport").load("html/personaFlow/persona_list.html", fieldsetPainter);
-                highlightPersonaList(returnInfo.id);
+                $("#viewport").load("html/personaFlow/persona_list.html", ()=>{
+                  fieldsetPainter();
+                  highlightPersonaList(returnInfo.id);
+                });
               });
             });
           }
