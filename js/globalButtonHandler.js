@@ -873,7 +873,13 @@ function globalButtonHandler() {
         let activePage = $("#workflow").find(".workflowPage.activePage");
         let $invalids = $("#workflow").find(`:invalid`);
         if($invalids.length){
-          $invalids.get(0).focus();
+          $invalids.get(0).focus()
+            .animate({border: '10px solid red'})
+            .animate({border: '5px solid red'})
+            .animate({border: '2px solid red'})
+            .animate({border: '1px solid red'})
+            .animate({border: ''})
+            ;
           break;
         }
         generateWorkflowSwapList(activePage);
