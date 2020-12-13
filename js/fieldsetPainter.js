@@ -720,7 +720,6 @@ function fieldsetPainter() {
 }
 
 function bcHandler() {
-
     $("#bcwrapper").empty();
     $("div.bc").prependTo($("#bcwrapper"));
     $("#bc-connect").text(tenantID);
@@ -738,7 +737,7 @@ function updateOfflineButtons() {
 }
 
 function highlightPersonaList(id){
-    let $link = $(`#${id}`);
-    $link.addClass("justAdded");
-    $link.parents('section').addClass("expanded");
+    let $dd = $(`#${id}`);
+    $dd.prev().children("a").addClass("justAdded");
+    $dd.parents('section').addClass("expanded");
 }
