@@ -44,15 +44,17 @@ function Input() {
                 let $transform = $newDiv.find(".transform span");
                 switch (data.inputType) {
                     case "Text Input": {
-                        $(`<input class="workflowInput" disabled>`)
+                        let $inputBox = $(`<input class="workflowInput" disabled>`)
                             .attr("placeholder", data.placeholder)
                             .val(data.defaultvalue)
                             .appendTo($input);
+                        if (data.required) $inputBox.attr("required", "required");
                         break;
                     }
                     case "Select (API)": {
                         let $select = $(`<select class="workflowSelect" disabled></select>`);
                         if (data.multiple) $select.attr("multiple", "multiple").addClass("chosen-select");
+                        if (data.required) $select.attr("required", "required");
                         $select.appendTo($input);
                         $(`<input type="hidden" class="apiQuery">`)
                             .val(data.apiQuery)
@@ -65,6 +67,7 @@ function Input() {
                     case "Select (USQL)": {
                         let $select = $(`<select class="workflowSelect" disabled ${data.multiple ? "multiple" : ""}></select>`);
                         if (data.multiple) $select.attr("multiple", "multiple").addClass("chosen-select");
+                        if (data.required) $select.attr("required", "required");
                         $select.appendTo($input);
                         $(`<input type="hidden" class="usqlQuery">`)
                             .val(data.usqlQuery)
@@ -78,6 +81,7 @@ function Input() {
                     case "Select (static)": {
                         let $select = $(`<select class="workflowSelect staticSelect" disabled></select>`);
                         if (data.multiple) $select.attr("multiple", "multiple").addClass("chosen-select");
+                        if (data.required) $select.attr("required", "required");
                         $select
                             .attr("data-options", data.staticOptions)
                             .appendTo($input);
@@ -189,6 +193,7 @@ function inputTypeChangeHandler() {
     $("#staticBox").hide();
     $("#multiBox").hide();
     $("#whereClauseBox").hide();
+    $("requiredBox").hide();
     $("#textInputBox").hide();
     $("#inputInfoBox").hide();
     $("#apiQueryHeader").text();
@@ -206,12 +211,14 @@ function inputTypeChangeHandler() {
     switch ($("#inputType").val()) {
         case "Text Input":
             $("#textInputBox").show();
+            $("requiredBox").show();
             break;
         case "Select (API)":
             $("#apiQueryBox").show();
             $("#newInputResult").show();
             $("#newInputPreview").show();
             $("#multiBox").show();
+            $("requiredBox").show();
             break;
         case "Select (USQL)":
             $("#usqlQueryBox").show();
@@ -219,6 +226,7 @@ function inputTypeChangeHandler() {
             $("#newInputPreview").show();
             $("#multiBox").show();
             $("#whereClauseBox").show();
+            $("requiredBox").show();
             $("#inputInfoBox").html(`<img src="images/light-bulb-yellow_300.svg">
             Be sure the replacement token in query is filled on a prior page.`);
             $("#inputInfoBox").show();
@@ -229,6 +237,7 @@ function inputTypeChangeHandler() {
             $("#preview").html(html);
             $("#newInputPreview").show();
             $("#multiBox").show();
+            $("requiredBox").show();
             break;
         case "Checkboxes":
             break;
@@ -409,6 +418,8 @@ function populateNewInput(oldInput) {
             ($select.attr("multiple") === "multiple" ? true : false));
         $("#addWhereClause").prop('checked',
             ($usqlResultSlicer.attr("data-addwhereclause") === "true" ? true : false));
+        $("#required").prop('checked',
+            ($select.attr("required") === "required" ? true : false));
     } else if ($apiQuery.length) {
         $("#inputType").val('Select (API)');
         inputTypeChangeHandler();
@@ -417,11 +428,15 @@ function populateNewInput(oldInput) {
         $("#apiResultSlicer").val($apiResultSlicer.val());
         $("#multiple").prop('checked',
             ($select.attr("multiple") === "multiple" ? true : false));
+        $("#required").prop('checked',
+            ($select.attr("required") === "required" ? true : false));
     } else if ($workflowInput.length) {
         $("#inputType").val('Text Input');
         inputTypeChangeHandler();
         $("#placeholder").val($workflowInput.attr('placeholder'));
         $("#defaultvalue").val($workflowInput.val());
+        $("#required").prop('checked',
+            ($workflowInput.attr("required") === "required" ? true : false));
     } else if ($staticSelect.length) {
         $("#inputType").val('Select (static)');
         inputTypeChangeHandler();
@@ -434,6 +449,8 @@ function populateNewInput(oldInput) {
         );
         $("#multiple").prop('checked',
             ($select.attr("multiple") === "multiple" ? true : false));
+        $("#required").prop('checked',
+            ($select.attr("required") === "required" ? true : false));
     } else if ($journeyPicker.length) {
         $("#inputType").val('Journey Picker');
         inputTypeChangeHandler();
