@@ -875,10 +875,10 @@ function globalButtonHandler() {
         if($invalids.length){
           $invalids.eq(0)
             .focus()
-            .animate({border: '10px solid red'})
-            .animate({border: '5px solid red'})
-            .animate({border: '2px solid red'})
-            .animate({border: '1px solid red'})
+            .animate({border: '10px solid red'},250)
+            .animate({border: '5px solid red'},250)
+            .animate({border: '2px solid red'},250)
+            .animate({border: '1px solid red'},250)
             .animate({border: ''})
             ;
           break;
