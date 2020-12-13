@@ -198,7 +198,7 @@ function previewAPIhandler() {
             let multiple = $("#multiple").is(":checked");
             if (multiple) $target.attr("multiple", "multiple").addClass("chosen-select");
             let required = $("#required").is(":checked");
-            if (required) $select.attr("required", "required");
+            if (required) $target.attr("required", "required");
             let slicer = $("#apiResultSlicer").val();
             let p = loadApiQueryOptions(query, slicer, $target);
             $.when(p).done(function (data) {
