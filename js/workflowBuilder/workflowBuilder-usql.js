@@ -23,17 +23,17 @@ function loadUsqlQuery($usql) {
     });
 }
 
-function loadUsqlQueryOptions(query, slicer, target, whereClause, multiple) {
+function loadUsqlQueryOptions(query, slicer, target, whereClause, multiple, required) {
     let $target = $(target);
     let p = dtAPIquery(query);
     return $.when(p).done(function (data) {
         jsonviewer(data, true, "", "#apiResult");
-        let parsedResults = sliceUSQLdata(slicer, data, $target, whereClause, multiple);
+        let parsedResults = sliceUSQLdata(slicer, data, $target, whereClause, multiple, required);
         $target.removeAttr("disabled");
     });
 }
 
-function sliceUSQLdata(slicer, data, target, whereClause, multiple) { //TODO: refactor this bowl of spaghetti
+function sliceUSQLdata(slicer, data, target, whereClause, multiple, required) { //TODO: refactor this bowl of spaghetti
     let $target = $(target);
     let parsedResults = [];
 
@@ -103,6 +103,10 @@ function sliceUSQLdata(slicer, data, target, whereClause, multiple) { //TODO: re
                     .attr("multiple", "multiple")
                     .addClass("chosen-select");
             }
+            if (required) {
+                $target.find('select')
+                    .attr("required", "required");
+            }
             parsedResults = parseKPIs(data);
             drawKPIsJQ(parsedResults, selectors[0]);
             $("#swaps").html();
@@ -139,6 +143,10 @@ function sliceUSQLdata(slicer, data, target, whereClause, multiple) { //TODO: re
                 $target.find(`#${selectors[1].substr(1)}`)
                     .attr("multiple", "multiple")
                     .addClass("chosen-select");
+            }
+            if (required) {
+                $target.find(`#${selectors[1].substr(1)}`)
+                    .attr("required", "required");
             }
 
             if (whereClause) {
@@ -202,6 +210,10 @@ function sliceUSQLdata(slicer, data, target, whereClause, multiple) { //TODO: re
                 $target.find('select')
                     .attr("multiple", "multiple")
                     .addClass("chosen-select");
+            }
+            if (required) {
+                $target.find('select')
+                    .attr("required", "required");
             }
             let options = drawActions(data);
             $(`${selectors[0]}`).html(options);
@@ -471,8 +483,9 @@ function previewUSQLhandler() {
             let whereClause = $("#addWhereClause").is(":checked");
             let $target = $("#preview");
             let multiple = $("#multiple").is(":checked");
+            let required = $("#required").is(":checked");
             $("#apiQueryHeader").text(query);
-            let p2 = loadUsqlQueryOptions(query, slicer, $target, whereClause, multiple);
+            let p2 = loadUsqlQueryOptions(query, slicer, $target, whereClause, multiple, required);
             $.when(p2).done(function (data) {
                 jsonviewer(data, true, "", "#apiResult");
                 $(".chosen-select").chosen();
