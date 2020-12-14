@@ -764,6 +764,8 @@ function usqlSelectGetSwaps(slicer, workflowInput, transform, swaps, whereClause
             vals.push(v);
           });
         addToSwaps(swaps, { from: from, to: vals.join(`", "`) });
+        let fromcount = "${" + transform + ".count}";
+        addToSwaps(swaps, { from: fromcount, to: $option.length.toString() });
       }
       break;
     }
