@@ -754,7 +754,7 @@ function highlightPersonaList(returnedInfo){
             let $dl = $('<dl>')
                 .addClass('list')
                 .html(dbHtml)
-                .css("margin-top","0px")
+                .css("margin-top","5px")
                 .css("margin-top","-10px")
                 .prependTo($list);
             $('<div>')
