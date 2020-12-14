@@ -935,8 +935,10 @@ function globalButtonHandler() {
             $.when(p_DBA).done(function (data) {
               processDBADashboards(data);
               $(this).val("Deleted");
-              $("#viewport").load("html/personaFlow/persona_list.html", fieldsetPainter);
-              expandPersonaList([personaPrefix],[usecasePrefix]);
+              $("#viewport").load("html/personaFlow/persona_list.html", () => {
+                fieldsetPainter();
+                expandPersonaList([personaPrefix], [usecasePrefix]);
+              });
             });
           });
 
