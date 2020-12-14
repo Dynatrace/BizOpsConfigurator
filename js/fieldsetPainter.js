@@ -681,14 +681,14 @@ function fieldsetPainter() {
 
             deployedPersonas.forEach(function (personaPrefix) {
                 let persona = personas.find(({ prefix }) => prefix === personaPrefix);
-                let startPersonaHtml = `<section><a class="expandable">${persona.name}</a><article>`;
+                let startPersonaHtml = `<section data-type="persona" data-prefix="${personaPrefix}"><a class="expandable">${persona.name}</a><article>`;
                 let endPersonaHtml = `</article></section>`;
 
                 let filteredDBs = personaDBs.filter(db => db.id.split("-")[1] === personaPrefix);
                 let deployedUsecases = filteredDBs.map(({ id }) => id.split("-")[2]).filter(unique);
                 deployedUsecases.forEach(function (usecasePrefix) {
                     let usecase = usecases.find(({ prefix }) => prefix === usecasePrefix);
-                    let startUsecaseHtml = `<section><a class="expandable">${usecase.name}</a><article><div id="tenantList"><dl class="list">`;
+                    let startUsecaseHtml = `<section data-type="usecase" data-prefix="${usecasePrefix}"><a class="expandable">${usecase.name}</a><article><div id="tenantList"><dl class="list">`;
                     let endUsecaseHtml = `</dl></div></article></section>`;
 
                     let filteredDBs2 = filteredDBs.filter(db => db.id.split("-")[2] === usecasePrefix);
@@ -763,5 +763,13 @@ function highlightPersonaList(returnedInfo){
                 .insertBefore($dl);
         }
     }
-    
+}
+
+function expandPersonaList(personaPrefixList=[],usecasePrefixList=[]) {
+    personaPrefixList.forEach(prefix=>{
+        $(`section[data-type="persona"][data-prefix=${prefix}]`).addClass("expanded");
+    });
+    usecasePrefixList.forEach(prefix=>{
+        $(`section[data-type="usecase"][data-prefix=${prefix}]`).addClass("expanded");
+    });
 }

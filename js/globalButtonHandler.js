@@ -917,6 +917,8 @@ function globalButtonHandler() {
         $(this).prop('disabled', true);
         let id = $(this)[0].parentNode.id;
         let count = 1;
+        let personaPrefix = $(this).parents(`section[data-type="persona"]`).attr("data-prefix");
+        let usecasePrefix = $(this).parents(`section[data-type="usecase"]`).attr("data-prefix");
 
         let parts = id.split("-");
         let re = new RegExp(`${parts[0]}-${parts[1]}-${parts[2]}-[a-f0-9]{4}-${parts[4]}`);
@@ -934,6 +936,7 @@ function globalButtonHandler() {
               processDBADashboards(data);
               $(this).val("Deleted");
               $("#viewport").load("html/personaFlow/persona_list.html", fieldsetPainter);
+              expandPersonaList([personaPrefix],[usecasePrefix]);
             });
           });
 
