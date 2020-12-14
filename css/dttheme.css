@@ -1478,3 +1478,9 @@ code {
 a.justAdded, a.justAdded:visited {
   color: #fd8232;
 }
+
+.recycleDBs {
+  position: absolute;
+  top: 5px;
+  left: 10px;
+}

@@ -748,8 +748,9 @@ function globalButtonHandler() {
         $("#x_a").trigger("click");
         break;
       }
-      case "reloadDBs": {
+      case "reloadDBs": 
         OfflineMode = $("#offlineMode").prop('checked');
+      case "recycleDBs": {
         let p1 = loadEverythingFromGithubAndCache();
         $.when(p1).done(() => {
           updateOfflineButtons();
