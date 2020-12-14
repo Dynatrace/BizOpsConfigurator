@@ -694,7 +694,7 @@ function fieldsetPainter() {
                     let filteredDBs2 = filteredDBs.filter(db => db.id.split("-")[2] === usecasePrefix);
                     filteredDBs2.forEach(function (db) {
                         let dbHtml = `
-                        <dt><a target='_blank' href='${url}/#dashboard;id=${db.id};gf=defaultManagementZone' class='newTab'>
+                        <dt><a target='_blank' href='${url}/#dashboard;id=${db.id};gf=defaultManagementZone;gtf=defaultTimeFrame' class='newTab'>
                         ${db.name} <img src='images/link.svg'></a> (${db.owner})</dt>
                         <dd id="${db.id}">
                             <input type="button" id="personaEdit" value="Edit">
@@ -736,8 +736,26 @@ function updateOfflineButtons() {
     else $("#reloadDBs").val("Load Dashboards");
 }
 
-function highlightPersonaList(id){
-    let $dd = $(`#${id}`);
-    $dd.prev().children("a").addClass("justAdded");
-    $dd.parents('section').addClass("expanded");
+function highlightPersonaList(returnedInfo){
+    let $dd = $(`#${returnedInfo.id}`);
+    if($dd.length){
+        $dd.prev().children("a").addClass("justAdded");
+        $dd.parents('section').addClass("expanded");
+    } else {
+        let $list = $(`#personaDeployedList`);
+        if($list.length){
+            let dbHtml = `
+                <dt><a target='_blank' href='${url}/#dashboard;id=${returnedInfo.id};gf=defaultManagementZone;gtf=defaultTimeFrame' class='newTab justAdded'>
+                ${returnedInfo.name} <img src='images/link.svg'></a> (${returnedInfo.owner})</dt>
+                <dd id="${returnedInfo.id}">
+                    <input type="button" id="personaEdit" value="Edit">
+                    <input type="button" id="personaDelete" value="Delete">
+                </dd>`;
+            $('<dl>')
+                .addClass('list')
+                .html(dbHtml)
+                .prependTo($list);
+        }
+    }
+    
 }

@@ -899,16 +899,14 @@ function globalButtonHandler() {
           } else {
             let p = uploadWorkflow($("#workflow"));
             $.when(p).done(returnInfo => {
-              setTimeout(()=>{
-                let p_DBA = getAllDashboards();
-                $.when(p_DBA).done(data => {
-                  processDBADashboards(data);
-                  $("#viewport").load("html/personaFlow/persona_list.html", ()=>{
-                    fieldsetPainter();
-                    highlightPersonaList(returnInfo.id);
-                  });
+              let p_DBA = getAllDashboards();
+              $.when(p_DBA).done(data => {
+                processDBADashboards(data);
+                $("#viewport").load("html/personaFlow/persona_list.html", () => {
+                  fieldsetPainter();
+                  highlightPersonaList(returnInfo);
                 });
-              },100);
+              });
             });
           }
         }
