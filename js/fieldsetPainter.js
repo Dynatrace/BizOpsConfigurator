@@ -751,10 +751,16 @@ function highlightPersonaList(returnedInfo){
                     <input type="button" id="personaEdit" value="Edit">
                     <input type="button" id="personaDelete" value="Delete">
                 </dd>`;
-            $('<dl>')
+            let $dl = $('<dl>')
                 .addClass('list')
                 .html(dbHtml)
+                .css("margin-top","0px")
+                .css("margin-top","-10px")
                 .prependTo($list);
+            $('<div>')
+                .html("Just added:")
+                .css("margin-top","15px")
+                .insertBefore($dl);
         }
     }
     
