@@ -14,7 +14,7 @@ $(document).ready(function () {
   loadStaticHandlers();
 
   // global button handler
-  $("#viewport, #repo_config").on("click", "input:button", globalButtonHandler);
+  $("#viewport, #repo_config, #dashboard_list").on("click", "input:button", globalButtonHandler);
 
   //anchor handler
   $("#bcwrapper, #viewport, #repo_config, #dashboard_list, #errorBox")
