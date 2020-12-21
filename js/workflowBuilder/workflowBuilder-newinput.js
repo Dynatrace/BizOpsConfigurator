@@ -486,7 +486,7 @@ function populateNewInput(oldInput) {
     $("#transform").val($transform.text());
 }
 
-function multipleChangeHandler(){
+/*function multipleChangeHandler(){
     let $multi = $(`#multiple`);
     let $required = $(`#required`);
     if($multi.prop("checked")){ //multi selected, cannot do required
@@ -495,4 +495,4 @@ function multipleChangeHandler(){
     } else { //required ok
         $required.prop("disabled",false);
     }
-}
+}*/
