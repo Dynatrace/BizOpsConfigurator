@@ -491,6 +491,10 @@ function fieldsetPainter(scope) {
                                 && x.repo.repo === wf.file.config.githubRepo
                                 && x.repo.path === wf.file.config.githubPath
                             );
+                            if(typeof(ov)==="undefined"){
+                                console.log(`ERROR: unable to match OV - ${wf.file.config.overviewDB}`);
+                                return false;
+                            }
                             let $wf_ov_a = $("<a>")
                                 .addClass("dashboardList")
                                 .attr("href", "#json")
