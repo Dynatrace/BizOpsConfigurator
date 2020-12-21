@@ -500,7 +500,7 @@ function fieldsetPainter(scope = this) {
                                     json: ov.file,
                                     config: wf.file.config, 
                                     tokens: tokenList,
-                                    readme: findWorkflowReadme(workflow)
+                                    readme: findWorkflowReadme(wf)
                                 }
                                 workflowViewer(viewerObj, wf.file.config.workflowName, target = "#popupjsonviewer", show = "Readme")
                             });
@@ -531,7 +531,7 @@ function fieldsetPainter(scope = this) {
                                 true, wf.file.config.workflowName, "#popupjsonviewer");*/
                             viewerObj = {
                                 json: { config: wf.file.config, tokens: tokenList },
-                                readme: findWorkflowReadme(workflow)
+                                readme: findWorkflowReadme(wf)
                             }
                             workflowViewer(viewerObj, wf.file.config.workflowName, target = "#popupjsonviewer", show = "Readme")
                         }
