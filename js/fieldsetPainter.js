@@ -4,9 +4,9 @@ http://www.apache.org/licenses/LICENSE-2.0
 Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.*/
 function fieldsetPainter(scope) {
     let id;
-    if(typeof(scope)==="string") //normal callback style
+    if (typeof (scope) === "string") //normal callback style
         id = $(this).find("fieldset").attr("id");
-    else if(typeof(scope)==="object" && "selector" in scope) //manual fire of fieldsetPainter
+    else if (typeof (scope) === "object" && "selector" in scope) //manual fire of fieldsetPainter
         id = $(scope.selector).find("fieldset").attr("id");
     if (typeof id === "undefined") //if we still don't have an id, go find one
         id = $("#viewport").find("fieldset").attr("id");
@@ -491,7 +491,7 @@ function fieldsetPainter(scope) {
                                 && x.repo.repo === wf.file.config.githubRepo
                                 && x.repo.path === wf.file.config.githubPath
                             );
-                            if(typeof(ov)==="undefined"){
+                            if (typeof (ov) === "undefined") {
                                 console.log(`ERROR: unable to match OV - ${wf.file.config.overviewDB}`);
                                 return false;
                             }
@@ -507,11 +507,11 @@ function fieldsetPainter(scope) {
                                 viewerObj = ov.file;
                                 viewerObj = {
                                     json: ov.file,
-                                    config: wf.file.config, 
+                                    config: wf.file.config,
                                     tokens: tokenList,
                                     readme: findWorkflowReadme(wf)
                                 }
-                                workflowViewer(viewerObj, wf.file.config.workflowName, target = "#popupjsonviewer", show = "Readme")
+                                workflowViewer(viewerObj, ov.name, target = "#popupjsonviewer", show = "JSON")
                             });
                             let $ov_ul = $("<ul>")
                                 .appendTo($wf_li);
@@ -526,8 +526,15 @@ function fieldsetPainter(scope) {
                                     .text(sub.name)
                                     .appendTo($sub_li);
                                 $sub_li_a.on("click", function () {
-                                    jsonviewer(sub.file, true, sub.file.dashboardMetadata.name, "#popupjsonviewer");
-                                    viewerObj = sub.file;
+                                    //jsonviewer(sub.file, true, sub.file.dashboardMetadata.name, "#popupjsonviewer");
+                                    //viewerObj = sub.file;
+                                    viewerObj = {
+                                        json: sub.file,
+                                        config: wf.file.config,
+                                        tokens: tokenList,
+                                        readme: findWorkflowReadme(wf)
+                                    }
+                                    workflowViewer(viewerObj, sub.file.dashboardMetadata.name, target = "#popupjsonviewer", show = "JSON")
                                 });
                                 tokenList = new Set([...tokenList, ...scanForTokens(sub.file)]);
                             });
@@ -540,6 +547,8 @@ function fieldsetPainter(scope) {
                                 true, wf.file.config.workflowName, "#popupjsonviewer");*/
                             viewerObj = {
                                 json: { config: wf.file.config, tokens: tokenList },
+                                config: wf.file.config,
+                                tokens: tokenList,
                                 readme: findWorkflowReadme(wf)
                             }
                             workflowViewer(viewerObj, wf.file.config.workflowName, target = "#popupjsonviewer", show = "Readme")
@@ -820,9 +829,9 @@ function workflowViewer(obj = {}, title = "", target = "#popupjsonviewer", show 
     $(`#title`).text(title);
     let $show = $("#show")
         .val(show)
-        .on("change",(e)=>{
+        .on("change", (e) => {
             let newShow = $show.val();
-            workflowViewer(obj,title,target,newShow);
+            workflowViewer(obj, title, target, newShow);
         });
     let $content = $(`#popupjsonviewercontent`);
 
@@ -841,7 +850,7 @@ function workflowViewer(obj = {}, title = "", target = "#popupjsonviewer", show 
                 jsonviewer(obj.config, true, null, "#popupjsonviewercontent");
             } else fail = true;
             break;
-        case "Config":
+        case "Tokens":
             if ("tokens" in obj) {
                 jsonviewer(obj.tokens, true, null, "#popupjsonviewercontent");
             } else fail = true;
