@@ -66,6 +66,7 @@ function workflowBuilderHandlers() {
     $("#viewport").on("change", "input[type=checkbox]", checkHandler);
     $("#viewport").on("change", "#configPushType", configPushTypeHandler);
     $("#viewport").on("change", "#staticPreview", staticBoxPreviewHandler);
+    $("#viewport").on("change", "#multiple", multipleChangeHandler);
     $("#viewport").on("click", "#test", previewHandler);
     $("#viewport").on("click", "#staticBoxAdd", staticBoxAddHandler);
     $("#viewport").on("click", "#conditionalAdd", conditionalAddHandler);

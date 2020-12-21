@@ -485,3 +485,13 @@ function populateNewInput(oldInput) {
     }
     $("#transform").val($transform.text());
 }
+
+function multipleChangeHandler(){
+    let $multi = $(`#multiple`);
+    let $required = $(`#required`);
+    if($multi.prop("checked")){ //multi selected, cannot do required
+        $required.disable();
+    } else { //required ok
+        $required.enable();
+    }
+}
