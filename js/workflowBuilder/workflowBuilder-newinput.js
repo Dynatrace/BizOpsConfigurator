@@ -490,8 +490,8 @@ function multipleChangeHandler(){
     let $multi = $(`#multiple`);
     let $required = $(`#required`);
     if($multi.prop("checked")){ //multi selected, cannot do required
-        $required.disable();
+        $required.prop("disabled",true);
     } else { //required ok
-        $required.enable();
+        $required.prop("disabled",false);
     }
 }
