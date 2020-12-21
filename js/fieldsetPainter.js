@@ -805,6 +805,7 @@ function expandPersonaList(personaPrefixList = [], usecasePrefixList = []) {
 function workflowViewer(obj = {}, title = "", target = "#popupjsonviewer", show = "Readme") {
     let fail = false;
     let $target = $(target);
+    let $show = $("#show");
     $target.html(`
     <div id="popupjsonviewermenu">
         <span id="title"></span>
@@ -818,10 +819,9 @@ function workflowViewer(obj = {}, title = "", target = "#popupjsonviewer", show 
     <div id="popupjsonviewercontent"></div>
     `);
     $(`#title`).text(title);
-    $("#show")
+    $show
         .val(show)
-        .on("change",(i,el)=>{
-            let $show = $(el);
+        .on("change",(e)=>{
             let newShow = $show.val();
             workflowViewer(obj,title,target,newShow);
         });
