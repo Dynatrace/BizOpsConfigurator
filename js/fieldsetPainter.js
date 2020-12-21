@@ -2,7 +2,7 @@
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
 http://www.apache.org/licenses/LICENSE-2.0
 Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.*/
-function fieldsetPainter(scope=this) {
+function fieldsetPainter(scope = this) {
     let id = $(scope).find("fieldset").attr("id");
     if (typeof id === "undefined") id = $("#viewport").find("fieldset").attr("id");
     bcHandler();
@@ -14,7 +14,7 @@ function fieldsetPainter(scope=this) {
             //$("#dbTO").val(dbTO);
             //$("#dbAO").val(dbAO);
             $("#USQLlimit").val(USQLlimit);
-            
+
             updateOfflineButtons();
 
 
@@ -452,6 +452,7 @@ function fieldsetPainter(scope=this) {
             break;
         }
         case "dashboardList": {
+            let viewerObj = {};
             let $wf_ul = $("#dashboardList ul")
             $wf_ul.html("");
             workflowList
@@ -471,8 +472,11 @@ function fieldsetPainter(scope=this) {
                             $wf_li_a.detach();
                             $wf_li.empty();
                             $wf_li_a.appendTo($wf_li);
-                            jsonviewer({ config: wf.file.config },
-                                true, wf.file.config.workflowName, "#popupjsonviewer");
+                            //jsonviewer({ config: wf.file.config },
+                            //    true, wf.file.config.workflowName, "#popupjsonviewer");
+                            // Closing an open workflow
+                            viewerObj = {};
+                            workflowViewer(viewerObj, "", target = "#popupjsonviewer", show = "Blank")
                         } else {
                             let tokenList = new Set();
                             $wf_li_a.addClass("open");
@@ -490,7 +494,15 @@ function fieldsetPainter(scope=this) {
                             $wf_ov_a.before(" - (");
                             $wf_ov_a.after(")");
                             $wf_ov_a.on("click", function () {
-                                jsonviewer(ov.file, true, ov.file.dashboardMetadata.name, "#popupjsonviewer");
+                                //jsonviewer(ov.file, true, ov.file.dashboardMetadata.name, "#popupjsonviewer");
+                                viewerObj = ov.file;
+                                viewerObj = {
+                                    json: ov.file,
+                                    config: wf.file.config, 
+                                    tokens: tokenList,
+                                    readme: findWorkflowReadme(workflow)
+                                }
+                                workflowViewer(viewerObj, wf.file.config.workflowName, target = "#popupjsonviewer", show = "Readme")
                             });
                             let $ov_ul = $("<ul>")
                                 .appendTo($wf_li);
@@ -506,15 +518,22 @@ function fieldsetPainter(scope=this) {
                                     .appendTo($sub_li);
                                 $sub_li_a.on("click", function () {
                                     jsonviewer(sub.file, true, sub.file.dashboardMetadata.name, "#popupjsonviewer");
+                                    viewerObj = sub.file;
                                 });
                                 tokenList = new Set([...tokenList, ...scanForTokens(sub.file)]);
                             });
                             tokenList = new Set([...tokenList, ...scanForTokens(ov.file)]);
-                            jsonviewer({
-                                config: wf.file.config, tokens: Array.from(tokenList)
-                                    .sort((a, b) => (a.toLowerCase() > b.toLowerCase()) ? 1 : -1)
+                            tokenList = Array.from(tokenList)
+                                .sort((a, b) => (a.toLowerCase() > b.toLowerCase()) ? 1 : -1)
+                            /*jsonviewer({
+                                config: wf.file.config, tokens: tokenList
                             },
-                                true, wf.file.config.workflowName, "#popupjsonviewer");
+                                true, wf.file.config.workflowName, "#popupjsonviewer");*/
+                            viewerObj = {
+                                json: { config: wf.file.config, tokens: tokenList },
+                                readme: findWorkflowReadme(workflow)
+                            }
+                            workflowViewer(viewerObj, wf.file.config.workflowName, target = "#popupjsonviewer", show = "Readme")
                         }
                     });
                 });
@@ -736,14 +755,14 @@ function updateOfflineButtons() {
     else $("#reloadDBs").val("Load Dashboards");
 }
 
-function highlightPersonaList(returnedInfo){
+function highlightPersonaList(returnedInfo) {
     let $dd = $(`#${returnedInfo.id}`);
-    if($dd.length){
+    if ($dd.length) {
         $dd.prev().children("a").addClass("justAdded");
         $dd.parents('section').addClass("expanded");
     } else {
         let $list = $(`#personaDeployedList`);
-        if($list.length){
+        if ($list.length) {
             let dbHtml = `
                 <dt><a target='_blank' href='${url}/#dashboard;id=${returnedInfo.id};gf=defaultManagementZone;gtf=defaultTimeFrame' class='newTab justAdded'>
                 ${returnedInfo.name} <img src='images/link.svg'></a> (${returnedInfo.owner})</dt>
@@ -754,22 +773,75 @@ function highlightPersonaList(returnedInfo){
             let $dl = $('<dl>')
                 .addClass('list')
                 .html(dbHtml)
-                .css("margin-top","5px")
-                .css("margin-top","-10px")
+                .css("margin-top", "5px")
+                .css("margin-top", "-10px")
                 .prependTo($list);
             $('<div>')
                 .html("Just added:")
-                .css("margin-top","15px")
+                .css("margin-top", "15px")
                 .insertBefore($dl);
         }
     }
 }
 
-function expandPersonaList(personaPrefixList=[],usecasePrefixList=[]) {
-    personaPrefixList.forEach(prefix=>{
+function expandPersonaList(personaPrefixList = [], usecasePrefixList = []) {
+    personaPrefixList.forEach(prefix => {
         $(`section[data-type="persona"][data-prefix=${prefix}]`).addClass("expanded");
     });
-    usecasePrefixList.forEach(prefix=>{
+    usecasePrefixList.forEach(prefix => {
         $(`section[data-type="usecase"][data-prefix=${prefix}]`).addClass("expanded");
     });
+}
+
+function workflowViewer(obj = {}, title = "", target = "#popupjsonviewer", show = "Readme") {
+    let fail = false;
+    let $target = $(target);
+    $target.html(`
+    <div id="popupjsonviewermenu">
+        <span id="title"></span>
+        <select id="show">
+            <option>Readme</option>
+            <option>Config</option>
+            <option>Tokens</option>
+            <option>JSON</option>
+        </select>
+    </div>
+    <div id="popupjsonviewercontent"></div>
+    `);
+    $(`#title`).text(title);
+    $("#show").val(show);
+    let $content = $(`#popupjsonviewercontent`);
+
+
+    switch (show) {
+        case "Blank":
+            $content.html(``);
+            break;
+        case "JSON":
+            if ("json" in obj) {
+                jsonviewer(obj.json, true, null, "#popupjsonviewercontent");
+            } else fail = true;
+            break;
+        case "Config":
+            if ("config" in obj) {
+                jsonviewer(obj.config, true, null, "#popupjsonviewercontent");
+            } else fail = true;
+            break;
+        case "Config":
+            if ("tokens" in obj) {
+                jsonviewer(obj.tokens, true, null, "#popupjsonviewercontent");
+            } else fail = true;
+            break;
+        case "Readme":
+        default:
+            if ("workflow" in obj) {
+                let readme = ;
+                if (readme) $content.html(readme.html);
+            } else fail = true;
+            break;
+    }
+    if (fail) {
+        console.log("workflowViewer failure, blanking...");
+        $content.html(``);
+    }
 }
