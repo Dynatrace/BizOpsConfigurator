@@ -460,6 +460,8 @@ function fieldsetPainter(scope) {
             let viewerObj = {};
             let $wf_ul = $("#dashboardList ul")
             $wf_ul.html("");
+            if(workflowList.length) $(`#recycleDBs`).hide();
+            else $(`#recycleDBs`).show();
             workflowList
                 .sort((a, b) => (a.file.config.workflowName.toLowerCase() > b.file.config.workflowName.toLowerCase()) ? 1 : -1)
                 .forEach((wf, i) => {
