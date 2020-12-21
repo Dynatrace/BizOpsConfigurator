@@ -759,7 +759,7 @@ function globalButtonHandler() {
       case "recycleDBs": {
         let p1 = loadEverythingFromGithubAndCache();
         $.when(p1).done(() => {
-          fieldsetPainter("#dashboard_list");
+          fieldsetPainter({selector:`#dashboard_list`});
         });
         break;
       }

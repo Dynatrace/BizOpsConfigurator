@@ -2,9 +2,14 @@
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
 http://www.apache.org/licenses/LICENSE-2.0
 Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.*/
-function fieldsetPainter(scope = this) {
-    let id = $(scope).find("fieldset").attr("id");
-    if (typeof id === "undefined") id = $("#viewport").find("fieldset").attr("id");
+function fieldsetPainter(scope) {
+    let id;
+    if(typeof(scope)==="string") //normal callback style
+        id = $(this).find("fieldset").attr("id");
+    else if(typeof(scope)==="object" && "selector" in scope) //manual fire of fieldsetPainter
+        id = $(scope.selector).find("fieldset").attr("id");
+    if (typeof id === "undefined") //if we still don't have an id, go find one
+        id = $("#viewport").find("fieldset").attr("id");
     bcHandler();
     switch (id) {
         case "repoconfig": {
