@@ -1201,7 +1201,7 @@ input:invalid, select:invalid, select:invalid + .chosen-container {
   visibility: hidden;
 }
 
-#readmeViewer img {
+#readmeViewer img, #popupjsonviewercontent img {
   flex: 0;
   max-width: calc(100vw - 236px - 300px - 250px);
   border: 1px solid #606060;
