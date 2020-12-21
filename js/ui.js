@@ -325,12 +325,12 @@ function errorboxJQXHR(jqXHR, textStatus, errorThrown) {
   }
   $("#errorBox").html(errorMsg);
   $("#errorBox").show();
-  logError(errorMsg);
+  logError(errorMsg,errorThrown);
 }
 
-function logError(errorMsg) {
-  console.log(errorMsg);
-  if (typeof dtrum !== "undefined") dtrum.reportError(errorMsg);
+function logError(errorMsg,e) {
+  console.warn(errorMsg,e);
+  if (typeof dtrum !== "undefined") dtrum.reportError(e);
 }
 
 function errorbox(e) {
@@ -341,7 +341,7 @@ function errorbox(e) {
     errorMsg = e;
   $("#errorBox").html(errorMsg);
   $("#errorBox").show();
-  logError(errorMsg);
+  logError(errorMsg,e);
 }
 
 function warningbox(e) {
