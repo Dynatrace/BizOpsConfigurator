@@ -835,7 +835,7 @@ function workflowViewer(obj = {}, title = "", target = "#popupjsonviewer", show 
         case "Readme":
         default:
             if ("workflow" in obj) {
-                let readme = ;
+                let readme = obj.readme;
                 if (readme) $content.html(readme.html);
             } else fail = true;
             break;
