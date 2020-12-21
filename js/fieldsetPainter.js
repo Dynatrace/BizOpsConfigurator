@@ -818,7 +818,13 @@ function workflowViewer(obj = {}, title = "", target = "#popupjsonviewer", show 
     <div id="popupjsonviewercontent"></div>
     `);
     $(`#title`).text(title);
-    $("#show").val(show);
+    $("#show")
+        .val(show)
+        .on("change",(i,el)=>{
+            let $show = $(el);
+            let newShow = $show.val();
+            workflowViewer(obj,title,target,newShow);
+        });
     let $content = $(`#popupjsonviewercontent`);
 
 
