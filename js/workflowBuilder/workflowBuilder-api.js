@@ -89,6 +89,27 @@ function sliceAPIdata(slicer, data) {
             valueMap.forEach((val, key, map) => { parsedResults.push({ value: val.id, key: key, type: val.type, appid: appid, appname: appname, colname: 'useraction.name' }); });
             parsedResults = parsedResults.sort((a, b) => a.key.toLowerCase() > b.key.toLowerCase() ? 1 : -1);
             break;
+        case "Properties":
+            if("userActionAndSessionProperties" in data){
+                data.userActionAndSessionProperties.forEach(function (prop) {
+                    if(prop.storeAsSessionProperty){
+                        parsedResults.push({ 
+                            value: prop.key, 
+                            key: `Session: ${prop.displayName}`,
+                            type: prop.type
+                        });
+                    }
+                    if(prop.storeAsUserActionProperty){
+                        parsedResults.push({ 
+                            value: prop.key, 
+                            key: `Action: ${prop.displayName}`,
+                            type: prop.type
+                        });
+                    }
+                    
+                });
+            }
+            break;
     }
     return parsedResults.sort((a, b) => (a.key.toLowerCase() > b.key.toLowerCase()) ? 1 : -1);
 }
@@ -176,6 +197,14 @@ function commonQueryChangeHandler() {
             Be sure the replacement token in query is filled on a prior page.`);
             $("#inputInfoBox").show();
             break;
+        case "UserActionSessionProperties":
+            $("#apiQuery").val("/api/config/v1/applications/web/${app.id}");
+            $("#apiResultSlicer").val("Properties");
+            $("#transform").val("property");
+            $("#inputInfoBox").html(`<img src="images/light-bulb-yellow_300.svg">
+                Be sure the replacement token in query is filled on a prior page.`);
+            $("#inputInfoBox").show();
+            break;
     }
 }
 
@@ -203,7 +232,7 @@ function previewAPIhandler() {
             let p = loadApiQueryOptions(query, slicer, $target);
             $.when(p).done(function (data) {
                 //jsonviewer(data, true, "", "#apiResult");
-                if($target.hasClass("chosen-select"))
+                if ($target.hasClass("chosen-select"))
                     $target.chosen();
             });
         })
