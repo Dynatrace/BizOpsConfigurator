@@ -529,7 +529,8 @@ function apiSelectGetSwaps(select, transform, swaps) {
       let fromtype = "${" + transform + ".type}";
       addToSwaps(swaps, { from: fromtype, to: type });
     }
-    e.attributes.filter(attr => attr.specified == true && attr.name.startsWith('data-'))
+    $select.children("option:selected").get(0)
+      .attributes.filter(attr => attr.specified == true && attr.name.startsWith('data-'))
       .forEach(attr => {
         let fromattr = "${" + transform + "." + attr.name.replace(/data-/, '') + "}";
         addToSwaps(swaps, { from: fromattr, to: attr.value });
