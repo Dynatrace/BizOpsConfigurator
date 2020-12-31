@@ -392,9 +392,10 @@ function generateWorkflowSwapList(el, customSwaps = null) {
     } else switch (slicer) {
       case "ApplicationMethods":
       case "{entityId:name}":
+      case "{key:displayName}":
       case "{entityId:displayName}":
-      case "values:{id:name}": 
-      case "Properties": 
+      case "values:{id:name}":
+      case "Properties":
       case "slo": {
         let $select = $workflowInput.find("select");
         apiSelectGetSwaps($select, transform, swaps);

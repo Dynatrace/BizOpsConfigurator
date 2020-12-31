@@ -32,10 +32,10 @@ function loadApiQueryOptions(query, slicer, target) {
                 let $opt = $(`<option>`).val(i.value).text(i.key);
                 if (typeof i.type !== "undefined") $opt.attr("data-type", i.type);
                 Object.keys(i)
-                    .filter(x=>x.startsWith('data_'))
-                    .forEach(x=>{
-                        $opt.attr(x.replace(/_/g,'-')
-                            ,i[x]);
+                    .filter(x => x.startsWith('data_'))
+                    .forEach(x => {
+                        $opt.attr(x.replace(/_/g, '-')
+                            , i[x]);
                     });
                 $opt.appendTo($target);
             });
@@ -58,6 +58,14 @@ function sliceAPIdata(slicer, data) {
             }
             data.forEach(function (item) {
                 parsedResults.push({ value: item.entityId, key: item.displayName });
+            });
+            break;
+        case "{key:displayName}":
+            if (!Array.isArray(data)) { //flatten values/monitors/etc
+                data = data[Object.keys(data)[0]];
+            }
+            data.forEach(function (item) {
+                parsedResults.push({ value: item.key, key: item.displayName });
             });
             break;
         case "{entityId:name}":
@@ -97,7 +105,7 @@ function sliceAPIdata(slicer, data) {
             break;
         case "Properties":
             if ("userActionAndSessionProperties" in data) {
-                data.userActionAndSessionProperties.forEach( prop => {
+                data.userActionAndSessionProperties.forEach(prop => {
                     if (prop.storeAsSessionProperty) {
                         parsedResults.push({
                             value: prop.key,
@@ -118,10 +126,10 @@ function sliceAPIdata(slicer, data) {
                 });
             }
         case "slo":
-            if("slo" in data){
-                data.slo.forEach(slo=>{
+            if ("slo" in data) {
+                data.slo.forEach(slo => {
                     parsedResults.push({
-                        value: slo.id, 
+                        value: slo.id,
                         key: slo.name,
                         data_metricRate: slo.metricRate,
                         data_filter: slo.filter
@@ -216,9 +224,17 @@ function commonQueryChangeHandler() {
             Be sure the replacement token in query is filled on a prior page.`);
             $("#inputInfoBox").show();
             break;
-        case "UserActionSessionProperties":
+        case "UserActionSessionProperties (web)":
             $("#apiQuery").val("/api/config/v1/applications/web/${app.id}");
             $("#apiResultSlicer").val("Properties");
+            $("#transform").val("property");
+            $("#inputInfoBox").html(`<img src="images/light-bulb-yellow_300.svg">
+                Be sure the replacement token in query is filled on a prior page.`);
+            $("#inputInfoBox").show();
+            break;
+        case "UserActionSessionProperties (mobile)":
+            $("#apiQuery").val("/api/config/v1/applications/mobile/${app.id}/userActionAndSessionProperties");
+            $("#apiResultSlicer").val("{key:displayName}");
             $("#transform").val("property");
             $("#inputInfoBox").html(`<img src="images/light-bulb-yellow_300.svg">
                 Be sure the replacement token in query is filled on a prior page.`);
