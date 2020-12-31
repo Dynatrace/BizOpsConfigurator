@@ -90,23 +90,25 @@ function sliceAPIdata(slicer, data) {
             parsedResults = parsedResults.sort((a, b) => a.key.toLowerCase() > b.key.toLowerCase() ? 1 : -1);
             break;
         case "Properties":
-            if("userActionAndSessionProperties" in data){
+            if ("userActionAndSessionProperties" in data) {
                 data.userActionAndSessionProperties.forEach(function (prop) {
-                    if(prop.storeAsSessionProperty){
-                        parsedResults.push({ 
-                            value: prop.key, 
+                    if (prop.storeAsSessionProperty) {
+                        parsedResults.push({
+                            value: prop.key,
                             key: `Session: ${prop.displayName}`,
-                            type: prop.type
+                            type: prop.type,
+                            usql: `usersession.${prop.type.toLowerCase()}Properties.${prop.key}`
                         });
                     }
-                    if(prop.storeAsUserActionProperty){
-                        parsedResults.push({ 
-                            value: prop.key, 
+                    if (prop.storeAsUserActionProperty) {
+                        parsedResults.push({
+                            value: prop.key,
                             key: `Action: ${prop.displayName}`,
-                            type: prop.type
+                            type: prop.type,
+                            usql: `useraction.${prop.type.toLowerCase()}Properties.${prop.key}`
                         });
                     }
-                    
+
                 });
             }
             break;
@@ -203,6 +205,14 @@ function commonQueryChangeHandler() {
             $("#transform").val("property");
             $("#inputInfoBox").html(`<img src="images/light-bulb-yellow_300.svg">
                 Be sure the replacement token in query is filled on a prior page.`);
+            $("#inputInfoBox").show();
+            break;
+        case "KeyUserActions":
+            $("#apiQuery").val("/api/config/v1/applications/web/${app.id}/keyUserActions");
+            $("#apiResultSlicer").val("Properties");
+            $("#transform").val("property");
+            $("#inputInfoBox").html(`<img src="images/light-bulb-yellow_300.svg">
+                    Be sure the replacement token in query is filled on a prior page.`);
             $("#inputInfoBox").show();
             break;
     }
