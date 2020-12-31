@@ -97,7 +97,7 @@ function sliceAPIdata(slicer, data) {
             break;
         case "Properties":
             if ("userActionAndSessionProperties" in data) {
-                data.userActionAndSessionProperties.forEach(function (prop) {
+                data.userActionAndSessionProperties.forEach( prop => {
                     if (prop.storeAsSessionProperty) {
                         parsedResults.push({
                             value: prop.key,
@@ -115,6 +115,17 @@ function sliceAPIdata(slicer, data) {
                         });
                     }
 
+                });
+            }
+        case "slo":
+            if("slo" in data){
+                data.slo.forEach(slo=>{
+                    parsedResults.push({
+                        value: slo.id, 
+                        key: slo.name,
+                        data_metricRate: slo.metricRate,
+                        data_filter: slo.filter
+                    })
                 });
             }
             break;
@@ -220,6 +231,11 @@ function commonQueryChangeHandler() {
             $("#inputInfoBox").html(`<img src="images/light-bulb-yellow_300.svg">
                     Be sure the replacement token in query is filled on a prior page.`);
             $("#inputInfoBox").show();
+            break;
+        case "SLOs":
+            $("#apiQuery").val("/api/v2/slo?sort=name&demo=false&timeFrame=CURRENT&evaluate=false");
+            $("#apiResultSlicer").val("slo");
+            $("#transform").val("slo");
             break;
     }
 }
