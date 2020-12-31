@@ -32,7 +32,7 @@ function loadApiQueryOptions(query, slicer, target) {
                 let $opt = $(`<option>`).val(i.value).text(i.key);
                 if (typeof i.type !== "undefined") $opt.attr("data-type", i.type);
                 Object.keys(i)
-                    .filter(x=>x.startsWith('data-'))
+                    .filter(x=>x.startsWith('data_'))
                     .forEach(x=>{
                         $opt.attr(x.replace(/_/g,'-')
                             ,i[x]);
