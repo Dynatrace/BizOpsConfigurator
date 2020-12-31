@@ -487,6 +487,11 @@ function apiSelectGetSwaps(select, transform, swaps) {
       let $e = $(e);
       let obj = { value: $e.val(), key: $e.text() };
       if (typeof $e.attr("data-type") !== "undefined") obj['type'] = $e.attr("data-type");
+      e.attributes.filter(attr => attr.specified == true && attr.name.startsWith('data-'))
+        .forEach(attr => {
+          let fromattr = "${" + transform + "-" + i + "." + attr.name.replace(/data-/, '') + "}";
+          addToSwaps(swaps, { from: fromattr, to: attr.value });
+        });
       values.push(obj);
     });
     let i = 1;
@@ -524,6 +529,11 @@ function apiSelectGetSwaps(select, transform, swaps) {
       let fromtype = "${" + transform + ".type}";
       addToSwaps(swaps, { from: fromtype, to: type });
     }
+    e.attributes.filter(attr => attr.specified == true && attr.name.startsWith('data-'))
+      .forEach(attr => {
+        let fromattr = "${" + transform + "." + attr.name.replace(/data-/, '') + "}";
+        addToSwaps(swaps, { from: fromattr, to: attr.value });
+      });
   }
 }
 

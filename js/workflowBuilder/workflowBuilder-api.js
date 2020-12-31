@@ -31,6 +31,12 @@ function loadApiQueryOptions(query, slicer, target) {
             parsedResults.forEach(function (i) {
                 let $opt = $(`<option>`).val(i.value).text(i.key);
                 if (typeof i.type !== "undefined") $opt.attr("data-type", i.type);
+                Object.keys(i)
+                    .filter(x=>x.startsWith('data-'))
+                    .forEach(x=>{
+                        $opt.attr(x.replace(/_/g,'-')
+                            ,i[x]);
+                    });
                 $opt.appendTo($target);
             });
         }
@@ -97,7 +103,7 @@ function sliceAPIdata(slicer, data) {
                             value: prop.key,
                             key: `Session: ${prop.displayName}`,
                             type: prop.type,
-                            usql: `usersession.${prop.type.toLowerCase()}Properties.${prop.key}`
+                            data_usql: `usersession.${prop.type.toLowerCase()}Properties.${prop.key}`
                         });
                     }
                     if (prop.storeAsUserActionProperty) {
@@ -105,7 +111,7 @@ function sliceAPIdata(slicer, data) {
                             value: prop.key,
                             key: `Action: ${prop.displayName}`,
                             type: prop.type,
-                            usql: `useraction.${prop.type.toLowerCase()}Properties.${prop.key}`
+                            data_usql: `useraction.${prop.type.toLowerCase()}Properties.${prop.key}`
                         });
                     }
 
