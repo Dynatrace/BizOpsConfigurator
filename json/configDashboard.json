@@ -9,7 +9,7 @@
   "dashboardMetadata": {
     "name": "Config",
     "shared": false,
-    "owner": "",
+    "owner": "Configurator",
     "sharingDetails": {
       "linkShared": false,
       "published": false
