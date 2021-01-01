@@ -581,6 +581,9 @@ function uploadWorkflow(workflow) {
   overview["dashboardMetadata"]["shared"] = (selection.shared?selection.shared:"true");
   overview["dashboardMetadata"]["sharingDetails"]["linkShared"] = (selection.shared?selection.shared:"true");
   overview["dashboardMetadata"]["sharingDetails"]["published"] = (selection.published?selection.published:"true");
+  if(typeof(overview["dashboardMetadata"]["tags"])=="undefined") overview["dashboardMetadata"]["tags"]=[];
+  if(Array.isArray(selection.additionalTags) && selection.additionalTags.length)
+    overview.dashboardMetadata.tags = overview.dashboardMetadata.tags.concat(selection.additionalTags);
 
   var query = "/api/config/v1/dashboards/" + id;
 
