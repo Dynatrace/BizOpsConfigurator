@@ -655,7 +655,8 @@ function drawWorkflowPagerButton(workflowSelector = "#workflow") {
       .appendTo($dttag);
     $x.on('click', e => {
       let $el = $(e.target);
-      let oldtag = $el.parent().text().replace(/x$/,'');
+      let oldtag = $el.parent().text().replace(/x$/, '');
+      selection.additionalTags = selection.additionalTags.filter(x => x != oldtag);
       $(`#new_tag`).val(oldtag);
       $el.parent().remove();
     })
