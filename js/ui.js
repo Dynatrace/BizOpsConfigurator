@@ -596,7 +596,7 @@ function drawWorkflowPagerButton(workflowSelector = "#workflow") {
               <label for="owner_token">${owner}</label>
             </div>
             <div>
-              <input type="radio" id="owner_admin" name="owner" value="owner_admin">
+              <input type="radio" id="owner_admin" name="owner" value="admin">
               <label for="owner_admin">admin</label>
             </div>
             <div>

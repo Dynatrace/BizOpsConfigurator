@@ -905,6 +905,7 @@ function globalButtonHandler() {
             compareWorkflowVsRepo(tester);
           } else {
             selection.owner = $(`input:radio[name='owner']:checked`).val();
+            if(selection.owner=="owner_other") selection.owner = $(`#other`).val().trim();
             selection.shared = ($(`#shared`).attr('checked') == "checked" ? "true" : "false");
             selection.published = ($(`#published`).attr('checked') == "checked" ? "true" : "false");
             let p = uploadWorkflow($("#workflow"));
