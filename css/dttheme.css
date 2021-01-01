@@ -1501,6 +1501,7 @@ a.justAdded, a.justAdded:visited {
 
 #workflowAdvancedArticle {
   display: flex;
+  margin-top: -30px;
 }
 
 #workflowAdvancedArticle>div {

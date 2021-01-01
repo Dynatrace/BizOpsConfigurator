@@ -578,10 +578,10 @@ function getAllInputData(popup) {
 }
 
 function drawWorkflowPagerButton(workflowSelector = "#workflow") {
-  let workflow = $(workflowSelector);
-  let pages = workflow.find(".workflowPage").length;
-  let activePageNum = workflow.find(".workflowPage.activePage").index();
-  let button = $("#workflowButton");
+  let $workflow = $(workflowSelector);
+  let pages = $workflow.find(".workflowPage").length;
+  let activePageNum = $workflow.find(".workflowPage.activePage").index();
+  let $button = $("#workflowButton");
   let html;
   if (activePageNum < pages) {
     html = `<input type="button" id="workflowButton" value="Next">`;
@@ -631,13 +631,14 @@ function drawWorkflowPagerButton(workflowSelector = "#workflow") {
     `;
   }
 
-
-  if (button.length < 1) {
-    workflow.append(html);
-    $(`#workflowAdvancedArticle`).hide();
-  } else {
-    button.replaceWith(html);
+  if ($button.length) {
+    $button.remove();
   }
+  $workflow.append(html);
+  $(`#workflowAdvancedArticle`).hide();
+  $(`#other`).on('focus',()=>{
+    $(`#owner_other`).prop('checked','checked');
+  });
 }
 
 function updateDashboardButton() {
