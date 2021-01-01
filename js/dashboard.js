@@ -119,9 +119,15 @@ function validateDB(input) {
   if (!Object.keys(db)) {
     e += ` Empty dashboard, see previous errors.`;
   }
+  if(typeof(db.tiles)=="undefined"){
+    e += ` Dashboard missing 'tiles' section`;
+  }
+  if(typeof(db.dashboardMetadata)=="undefined"){
+    e += ` Dashboard missing 'dashboardMetadata' section`;
+  }
 
   //trunc any MARKDOWNs that are too long
-  if (db.tiles) {
+  if (!e.length) {
     db.tiles.forEach(function (t, index, arr) {
       if (t.tileType == 'MARKDOWN' && t.markdown.length > 1000) {
         t.markdown = t.markdown.substring(0, 1000);
