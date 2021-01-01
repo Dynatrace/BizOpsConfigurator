@@ -587,41 +587,43 @@ function drawWorkflowPagerButton(workflowSelector = "#workflow") {
     html = `<input type="button" id="workflowButton" value="Next">`;
   } else {
     html = `<input type="button" id="workflowButton" value="Done">
-      <section><a class="expandable" id="workflowAdvanced">Advanced</a><article id="workflowAdvancedArticle">
-        <div>
-          <div><b>Dashboard owner:</b></div>
+      <section><a class="expandable" id="workflowAdvanced">Advanced</a><article>
+        <div id="workflowAdvancedArticle">
           <div>
-            <input type="radio" id="owner_token" name="owner" value="${owner}" checked>
-            <label for="owner_token">${owner}</label>
-          </div>
-          <div>
-            <input type="radio" id="owner_admin" name="owner" value="owner_admin">
-            <label for="owner_admin">admin</label>
-          </div>
-          <div>
-            <input type="radio" id="owner_other" name="owner" value="owner_other">
-            <label for="owner_other">Other: <input id="other"></label>
-          </div>
-        </div>
-        <div>
-          <div><b>Sharing:</b></div>
-          <div>
-            <input type="checkbox" id="shared" checked>
-            <label for="shared">Share dashboard</label>
-          </div>
-          <div>
-            <input type="checkbox" id="published" checked>
-            <label for="published">Publish dashboard</label>
-          </div>
-        </div>
-        <div>
-          <div><b>Additional tags:</b></div>
-          <div>
-            <div id="tag_list"></div>
+            <div><b>Dashboard owner:</b></div>
             <div>
-              <label for="new_tag">Tag:</label>
-              <input id="new_tag" placeholder="newtag">
-              <input type="button" id="new_tag_add" value="+">
+              <input type="radio" id="owner_token" name="owner" value="${owner}" checked>
+              <label for="owner_token">${owner}</label>
+            </div>
+            <div>
+              <input type="radio" id="owner_admin" name="owner" value="owner_admin">
+              <label for="owner_admin">admin</label>
+            </div>
+            <div>
+              <input type="radio" id="owner_other" name="owner" value="owner_other">
+              <label for="owner_other">Other: <input id="other"></label>
+            </div>
+          </div>
+          <div>
+            <div><b>Sharing:</b></div>
+            <div>
+              <input type="checkbox" id="shared" checked>
+              <label for="shared">Share dashboard</label>
+            </div>
+            <div>
+              <input type="checkbox" id="published" checked>
+              <label for="published">Publish dashboard</label>
+            </div>
+          </div>
+          <div>
+            <div><b>Additional tags:</b></div>
+            <div>
+              <div id="tag_list"></div>
+              <div>
+                <label for="new_tag">Tag:</label>
+                <input id="new_tag" placeholder="newtag">
+                <input type="button" id="new_tag_add" value="+">
+              </div>
             </div>
           </div>
         </div>
