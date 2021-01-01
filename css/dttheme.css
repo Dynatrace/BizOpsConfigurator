@@ -1158,7 +1158,7 @@ div.userInput input[type="button"] {
   overflow: auto;
 }
 
-input:invalid, select:invalid, select:invalid + .chosen-container {
+input:invalid, select:invalid, select:invalid+.chosen-container {
   border-bottom: 3px solid red;
 }
 
@@ -1467,9 +1467,17 @@ input.ellipsis {
   min-width: 200px;
 }
 
-.helpPopup {cursor: help;}
-.zoom-in {cursor: zoom-in;}
-.zoom-out {cursor: zoom-out;}
+.helpPopup {
+  cursor: help;
+}
+
+.zoom-in {
+  cursor: zoom-in;
+}
+
+.zoom-out {
+  cursor: zoom-out;
+}
 
 code {
   white-space: pre-wrap;
@@ -1483,4 +1491,23 @@ a.justAdded, a.justAdded:visited {
   position: absolute;
   top: 5px;
   left: 10px;
+}
+
+#workflowAdvanced {
+  top: -50px;
+  position: relative;
+  left: 120px;
+}
+
+#workflowAdvancedArticle {
+  display: flex;
+}
+
+#workflowAdvancedArticle>div {
+  flex: 1 1;
+}
+
+#new_tag_add {
+  width: 25px;
+  min-width: 25px;
 }

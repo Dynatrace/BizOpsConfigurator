@@ -587,30 +587,30 @@ function drawWorkflowPagerButton(workflowSelector = "#workflow") {
     html = `<input type="button" id="workflowButton" value="Next">`;
   } else {
     html = `<input type="button" id="workflowButton" value="Done">
-      <section><a class="expandable">Advanced</a><article>
-        <div>Dashboard owner:</div>
+      <section><a class="expandable" id="workflowAdvanced">Advanced</a><article id="workflowAdvancedArticle">
+        <div><b>Dashboard owner:</b></div>
         <div>
           <input type="radio" id="owner_token" name="owner" value="${owner}" checked>
           <label for="owner_token">${owner}</label>
         </div>
         <div>
-          <input type="radio" id="owner_admin" name="owner" value="owner_admin" checked>
+          <input type="radio" id="owner_admin" name="owner" value="owner_admin">
           <label for="owner_admin">admin</label>
         </div>
         <div>
-          <input type="radio" id="owner_other" name="owner" value="owner_other" checked>
+          <input type="radio" id="owner_other" name="owner" value="owner_other">
           <label for="owner_other">Other: <input id="other"></label>
         </div>
-        <div>Sharing:</div>
+        <div><b>Sharing:</b></div>
         <div>
-          <input type="checkbox" id="shared" checked="checked">
+          <input type="checkbox" id="shared" checked>
           <label for="shared">Share dashboard</label>
         </div>
         <div>
-          <input type="checkbox" id="published" checked="checked".
+          <input type="checkbox" id="published" checked>
           <label for="published">Publish dashboard</label>
         </div>
-        <div>Additional tags:</div>
+        <div><b>Additional tags:</b></div>
         <div>
           <div id="tag_list"></div>
           <div>
