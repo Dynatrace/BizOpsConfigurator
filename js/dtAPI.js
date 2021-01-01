@@ -626,7 +626,7 @@ function uploadWorkflow(workflow) {
     persona: selection.persona,
     usecase: selection.usecase,
     workflow: selection.workflow.name,
-    owner: owner,
+    owner: (selection.owner?selection.owner:owner),
     name: dbObj.dashboardMetadata.name
   }
   selection = {};
