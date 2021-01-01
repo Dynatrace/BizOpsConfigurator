@@ -657,7 +657,7 @@ function drawWorkflowPagerButton(workflowSelector = "#workflow") {
       let $el = $(e.target);
       let oldtag = $el.parent().text().replace(/x$/,'');
       $(`#new_tag`).val(oldtag);
-      $el.remove();
+      $el.parent().remove();
     })
   });
 }
