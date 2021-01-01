@@ -904,6 +904,9 @@ function globalButtonHandler() {
             let tester = button.parents(".popupHTML");
             compareWorkflowVsRepo(tester);
           } else {
+            selection.owner = $(`input:radio[name='owner']:checked`).val();
+            selection.shared = ($(`#shared`).attr('checked') == "checked" ? "true" : "false");
+            selection.published = ($(`#published`).attr('checked') == "checked" ? "true" : "false");
             let p = uploadWorkflow($("#workflow"));
             $.when(p).done(returnInfo => {
               let p_DBA = getAllDashboards();

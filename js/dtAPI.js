@@ -577,10 +577,10 @@ function uploadWorkflow(workflow) {
   config.id = id;
   config.oldId = overview["id"];
   overview["id"] = id;
-  overview["dashboardMetadata"]["owner"] = owner;
-  overview["dashboardMetadata"]["shared"] = "true"; //always shared
-  overview["dashboardMetadata"]["sharingDetails"]["linkShared"] = "true"; //always shared
-  overview["dashboardMetadata"]["sharingDetails"]["published"] = "true"; //only overviews published
+  overview["dashboardMetadata"]["owner"] = (selection.owner?selection.owner:owner);
+  overview["dashboardMetadata"]["shared"] = (selection.shared?selection.shared:"true");
+  overview["dashboardMetadata"]["sharingDetails"]["linkShared"] = (selection.shared?selection.shared:"true");
+  overview["dashboardMetadata"]["sharingDetails"]["published"] = (selection.published?selection.published:"true");
 
   var query = "/api/config/v1/dashboards/" + id;
 

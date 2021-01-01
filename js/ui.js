@@ -641,7 +641,7 @@ function drawWorkflowPagerButton(workflowSelector = "#workflow") {
   $(`#new_tag_add`).on('click', () => {
     let $new_tag = $(`#new_tag`);
     let newtag = $new_tag.val().trim();
-    $new_tag.val();
+    $new_tag.val('');
     if (typeof (selection.additionalTags) == "undefined") selection.additionalTags = [];
     selection.additionalTags.push(newtag);
     let $tag_list = $(`#tag_list`);
@@ -653,8 +653,8 @@ function drawWorkflowPagerButton(workflowSelector = "#workflow") {
       .addClass('dttag_x')
       .text('x')
       .appendTo($dttag);
-    $x.on('click', el => {
-      let $el = $(el);
+    $x.on('click', e => {
+      let $el = $(e.target);
       let oldtag = $el.text();
       $(`#new_tag`).val(oldtag);
       $el.remove();

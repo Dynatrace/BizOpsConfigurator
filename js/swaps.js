@@ -300,10 +300,11 @@ function transformSubs(subs, dbid, swaps, config, nextID = nextDB) {
     swaps.push({ from: sub.id, to: id, wrap: false });
     config.subids.push({ from: sub.id, to: id });
     sub.id = id;
-    sub["dashboardMetadata"]["owner"] = owner;
-    sub["dashboardMetadata"]["shared"] = "true";
-    sub["dashboardMetadata"]["sharingDetails"]["linkShared"] = "true";
-    sub["dashboardMetadata"]["sharingDetails"]["published"] = "false";
+    sub["dashboardMetadata"]["owner"] = (selection.owner?selection.owner:owner);
+    sub["dashboardMetadata"]["shared"] = (selection.shared?selection.shared:"true");
+    sub["dashboardMetadata"]["sharingDetails"]["linkShared"] = (selection.shared?selection.shared:"true");
+    sub["dashboardMetadata"]["sharingDetails"]["published"] = (selection.published?selection.published:"true");
+
     if (typeof config.mz == "string")
       sub["dashboardMetadata"]["dashboardFilter"]["managementZone"] = {
         "id": config.mz,
