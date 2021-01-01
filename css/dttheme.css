@@ -1512,3 +1512,7 @@ a.justAdded, a.justAdded:visited {
   width: 25px;
   min-width: 25px;
 }
+
+.dttag_x {
+  color: #00b9cc;
+}

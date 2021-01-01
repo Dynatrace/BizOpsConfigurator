@@ -635,9 +635,28 @@ function drawWorkflowPagerButton(workflowSelector = "#workflow") {
     $button.remove();
   }
   $workflow.append(html);
-  $(`#workflowAdvancedArticle`).hide();
-  $(`#other`).on('focus',()=>{
-    $(`#owner_other`).prop('checked','checked');
+  $(`#other`).on('focus', () => {
+    $(`#owner_other`).prop('checked', 'checked');
+  });
+  $(`#new_tag_add`).on('click', () => {
+    let newtag = $(`#new_tag`).val().trim();
+    if (typeof (selection.additionalTags) == "undefined") selection.additionalTags = [];
+    selection.additionalTags.push(newtag);
+    let $tag_list = $(`#tag_list`);
+    let $dttag = $('<div>')
+      .addClass('dttag')
+      .html(newtag)
+      .appendTo($tag_list);
+    let $x = $('<span>')
+      .addClass('dttag_x')
+      .text(' x')
+      .appendTo($dttag);
+    $x.on('click', el => {
+      let $el = $(el);
+      let oldtag = $el.text();
+      $(`#new_tag`).val(oldtag);
+      $el.remove();
+    })
   });
 }
 
