@@ -325,11 +325,11 @@ function errorboxJQXHR(jqXHR, textStatus, errorThrown) {
   }
   $("#errorBox").html(errorMsg);
   $("#errorBox").show();
-  logError(errorMsg,errorThrown);
+  logError(errorMsg, errorThrown);
 }
 
-function logError(errorMsg,e) {
-  console.warn(errorMsg,e);
+function logError(errorMsg, e) {
+  console.warn(errorMsg, e);
   if (typeof dtrum !== "undefined") dtrum.reportError(e);
 }
 
@@ -341,7 +341,7 @@ function errorbox(e) {
     errorMsg = e;
   $("#errorBox").html(errorMsg);
   $("#errorBox").show();
-  logError(errorMsg,e);
+  logError(errorMsg, e);
 }
 
 function warningbox(e) {
@@ -582,8 +582,47 @@ function drawWorkflowPagerButton(workflowSelector = "#workflow") {
   let pages = workflow.find(".workflowPage").length;
   let activePageNum = workflow.find(".workflowPage.activePage").index();
   let button = $("#workflowButton");
-  let html = `<input type="button" id="workflowButton" value="${activePageNum < pages ?
-    "Next" : "Done"}">`;
+  let html;
+  if (activePageNum < pages) {
+    html = `<input type="button" id="workflowButton" value="Next">`;
+  } else {
+    html = `<input type="button" id="workflowButton" value="Done">
+      <section><a class="expandable">Advanced</a><article>
+        <div>Dashboard owner:</div>
+        <div>
+          <input type="radio" id="owner_token" name="owner" value="${owner}" checked>
+          <label for="owner_token">${owner}</label>
+        </div>
+        <div>
+          <input type="radio" id="owner_admin" name="owner" value="owner_admin" checked>
+          <label for="owner_admin">admin</label>
+        </div>
+        <div>
+          <input type="radio" id="owner_other" name="owner" value="owner_other" checked>
+          <label for="owner_other">Other: <input id="other"></label>
+        </div>
+        <div>Sharing:</div>
+        <div>
+          <input type="checkbox" id="shared" checked="checked">
+          <label for="shared">Share dashboard</label>
+        </div>
+        <div>
+          <input type="checkbox" id="published" checked="checked".
+          <label for="published">Publish dashboard</label>
+        </div>
+        <div>Additional tags:</div>
+        <div>
+          <div id="tag_list"></div>
+          <div>
+            <label for="new_tag">Tag:</label>
+            <input id="new_tag" placeholder="newtag">
+            <input type="button" id="new_tag_add" value="+">
+          </div>
+        </div>
+      </article></section>
+    `;
+  }
+
 
   if (button.length < 1) {
     workflow.append(html);
@@ -672,10 +711,10 @@ function compareWorkflowVsRepo(tester) {
 
     html += `</div>`;
     popupHTMLDeferred("Test Results", html)
-    .then(()=>{
-      $(tester).remove(); //Kill window underneath
-      selection.testModePromise.resolve(); //restore main workflow
-    });
+      .then(() => {
+        $(tester).remove(); //Kill window underneath
+        selection.testModePromise.resolve(); //restore main workflow
+      });
 
   });
 
