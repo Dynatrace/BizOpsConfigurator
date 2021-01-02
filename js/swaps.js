@@ -248,6 +248,8 @@ function doSwaps(db, swaps) {
     });
     dbS = JSON.stringify(db);
   }
+
+  const safecopy = dbS;
   swaps.forEach(function (swap) {
     if (swap.to || swap.to === 0) {
       //let to = swap.to.replace(/\\([\s\S])|(")/g, "\\$1$2"); //escape any unescaped quotes //maybe don't do this here?
@@ -265,6 +267,7 @@ function doSwaps(db, swaps) {
     console.log(err);
     console.log(dbS);
     console.log(swaps);
+    dbObj = JSON.parse(safecopy);
   }
   return dbObj; //always return db as a new object
 }
