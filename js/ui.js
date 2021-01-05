@@ -636,7 +636,7 @@ function drawWorkflowPagerButton(workflowSelector = "#workflow") {
     $button.remove();
   }
   if ($workflowAdvanced.length){
-    $workflowAdvanced.parent(`section`).remove();
+    $workflowAdvanced.parents(`section`).remove();
   }
   $workflow.append(html);
   $(`#other`).on('focus', () => {
