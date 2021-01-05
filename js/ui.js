@@ -582,7 +582,7 @@ function drawWorkflowPagerButton(workflowSelector = "#workflow") {
   let pages = $workflow.find(".workflowPage").length;
   let activePageNum = $workflow.find(".workflowPage.activePage").index();
   let $button = $("#workflowButton");
-  let $workflowAdvanced = $(`[id=workflowAdvanced]`);
+  let $workflowAdvanced = $(`[id=workflowAdvancedArticle]`);
   let html;
   if (activePageNum < pages) {
     html = `<input type="button" id="workflowButton" value="Next">`;
@@ -636,7 +636,7 @@ function drawWorkflowPagerButton(workflowSelector = "#workflow") {
     $button.remove();
   }
   if ($workflowAdvanced.length){
-    $workflowAdvanced.remove();
+    $workflowAdvanced.parent(`section`).remove();
   }
   $workflow.append(html);
   $(`#other`).on('focus', () => {
