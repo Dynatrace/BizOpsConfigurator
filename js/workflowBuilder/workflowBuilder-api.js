@@ -253,6 +253,11 @@ function commonQueryChangeHandler() {
             $("#apiResultSlicer").val("slo");
             $("#transform").val("slo");
             break;
+        case "RequestAttributes":
+            $("#apiQuery").val("/api/config/v1/service/requestAttributes");
+            $("#apiResultSlicer").val("values:{id:name}");
+            $("#transform").val("ra");
+            break;
     }
 }
 
