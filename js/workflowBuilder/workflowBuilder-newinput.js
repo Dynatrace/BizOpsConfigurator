@@ -174,6 +174,11 @@ function Input() {
                             .appendTo($div);
                         break;
                     }
+                    case "Tag Value Picker": {
+                        
+                        break;
+                    }
+
                 }
                 $transform.text(data.transform);
                 $header.text(data.transform.charAt(0).toUpperCase() + data.transform.slice(1) + ':');
@@ -206,6 +211,7 @@ function inputTypeChangeHandler() {
     $("#configOverride").hide();
     $("#configPusher").hide();
     $("#tileReplication").hide();
+    $("#tagValuePicker").hide();
 
 
     switch ($("#inputType").val()) {
@@ -306,6 +312,11 @@ function inputTypeChangeHandler() {
             $(".tryitout").hide();
             $("#configPushType").trigger("change");;
             break;
+        case "Tag Value Picker":
+            $("#tagValuePicker").show();
+            $("#multiBox").show();
+            $(".transform").show();
+            break;
     }
 }
 
@@ -392,18 +403,18 @@ function populateNewInput(oldInput) {
     let $staticSelect = $oldInput.find('.staticSelect');
     let $journeyPicker = $oldInput.find('.journeyPicker');
     let $tileReplication = $oldInput.find('.tileReplication');
-    let $replicationColumns = $oldInput.find("replicationColumns");
-    let $replicationPriorTransform = $oldInput.find("replicationPriorTransform");
-    let $replicationTileName = $oldInput.find("replicationTileName");
+    let $replicationColumns = $oldInput.find(".replicationColumns"); 
+    let $replicationPriorTransform = $oldInput.find(".replicationPriorTransform");
+    let $replicationTileName = $oldInput.find(".replicationTileName");
     let $conditionalSwap = $oldInput.find('.conditionalSwap');
     let $conditionalPrior = $oldInput.find(".conditionalPrior");
     let $configOverride = $oldInput.find('.configOverride');
     let $overridePriorSwap = $oldInput.find(".overridePriorSwap")
     let $configPusher = $oldInput.find('.configPusher');
-    let $configPushType = $configPusher.find('configPushType');
-    let $customServiceTech = $configPusher.find('customServiceTech');
-    let $customMetricType = $configPusher.find('customMetricType');
-    let $configPushFile = $configPusher.find('configPushFile');
+    let $configPushType = $configPusher.find('.configPushType');
+    let $customServiceTech = $configPusher.find('.customServiceTech');
+    let $customMetricType = $configPusher.find('.customMetricType');
+    let $configPushFile = $configPusher.find('.configPushFile');
     let $select = $oldInput.find('select');
     let options = $select.attr("data-options");
     let vals = options ? JSON.parse(options) : [];
