@@ -499,7 +499,8 @@ function tagValuePickerPreview() {
                 $(`#preview .tagValuePickerValue`).remove();
                 let $valPicker = $(`<select>`)
                     .addClass('tagValuePickerValue')
-                    .attr("multiple", "multiple").addClass("chosen-select");
+                    .attr("multiple", "multiple").addClass("chosen-select")
+                    .insertAfter($tagPicker);
                 if (required) $valPicker.attr("required", "required");
                 tagVals[t].forEach(v => {
                     $(`<option>`).text(t)
