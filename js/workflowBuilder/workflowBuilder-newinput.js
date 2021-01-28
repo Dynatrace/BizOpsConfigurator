@@ -175,7 +175,13 @@ function Input() {
                         break;
                     }
                     case "Tag Value Picker": {
-                        
+                        let $select = $(`<select class="tagValuePicker" disabled></select>`);
+                        //if (data.multiple) $select.attr("multiple", "multiple").addClass("chosen-select");
+                        if (data.required) $select.attr("required", "required");
+                        $select.appendTo($input);
+                        $(`<input type="hidden" class="entityType">`)
+                            .val(data.entityType)
+                            .appendTo($input);
                         break;
                     }
 
@@ -314,7 +320,7 @@ function inputTypeChangeHandler() {
             break;
         case "Tag Value Picker":
             $("#tagValuePicker").show();
-            $("#multiBox").show();
+            //$("#multiBox").show();
             $(".transform").show();
             break;
     }
