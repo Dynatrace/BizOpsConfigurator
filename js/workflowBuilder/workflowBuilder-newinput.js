@@ -322,6 +322,7 @@ function inputTypeChangeHandler() {
             $("#tagValuePicker").show();
             //$("#multiBox").show();
             $(".transform").show();
+            $("#newInputPreview").show();
             break;
     }
 }

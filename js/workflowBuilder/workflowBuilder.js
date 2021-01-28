@@ -475,15 +475,11 @@ function tagValuePickerPreview() {
                     data = data.filter(x => x.serviceType == "Database");
                     break;
             }
-            let tags = [... new Set(data.map(x => x.tags).flat().map(x => x.key))];
+            let tagsRaw = data.map(x => x.tags).flat().filter(x=>'value' in x);
+            let tags = [... new Set(tagsRaw.map(x=>x.key))];
             let tagVals = {};
             tags.forEach(t => {
-                if (typeof (t.value) != "undefined") {
-                    if (!tagVals.hasOwnProperty(t))
-                        tagVals[t] = [];
-                    if (!tagVals[t].includes(t.value))
-                        tagVals[t].push(t.value);
-                }
+                tagVals[t] = [... new Set(tagsRaw.filter(x=>x.key==t).map(x=>x.value))];
             });
 
             $("#preview").html(`<select>`);
