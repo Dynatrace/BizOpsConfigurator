@@ -503,7 +503,7 @@ function tagValuePickerPreview() {
                 let $valPicker = $(`#preview .tagValuePickerValue`);
 
                 //$valPicker.is(`.chosen-select`).chosen("destroy");
-                $valPicker.html();
+                $valPicker.children().remove();
                 if (required) $valPicker.attr("required", "required");
                 tagVals[t].forEach(v => {
                     $(`<option>`).text(v)
