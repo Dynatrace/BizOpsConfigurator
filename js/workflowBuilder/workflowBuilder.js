@@ -502,7 +502,7 @@ function tagValuePickerPreview() {
                 let t = $tagPicker.val();
                 let $valPicker = $(`#preview .tagValuePickerValue`);
 
-                $valPicker.is(`.chosen-select`).chosen("destroy");
+                //$valPicker.is(`.chosen-select`).chosen("destroy");
                 $valPicker.html();
                 if (required) $valPicker.attr("required", "required");
                 tagVals[t].forEach(v => {
