@@ -447,7 +447,7 @@ function tagValuePickerPreview() {
     $.when(p0).done(function () {
         let entityType = $("#entityType").val();
         let query = ``;
-        switch(entityType){
+        switch (entityType) {
             case "APPLICATION":
                 query = `/api/v1/entity/applications?includeDetails=false`;
                 break;
@@ -463,25 +463,25 @@ function tagValuePickerPreview() {
         }
         let p1 = dtAPIquery(query, {});
         $.when(p1).done(function (data) {
-            switch(entityType){
+            switch (entityType) {
                 case "APPLICATION":
-                break;
-            case "SERVICE":
-                data = data.filter(x=>x.serviceType!="Database");
-                break;
-            case "HOST":
-                break;
-            case "database":
-                data = data.filter(x=>x.serviceType=="Database");
-                break;
+                    break;
+                case "SERVICE":
+                    data = data.filter(x => x.serviceType != "Database");
+                    break;
+                case "HOST":
+                    break;
+                case "database":
+                    data = data.filter(x => x.serviceType == "Database");
+                    break;
             }
-            let tags = [... new Set(myjson.map(x=>x.tags).flat().map(x=>x.key))];
+            let tags = [... new Set(data.map(x => x.tags).flat().map(x => x.key))];
             let tagVals = {};
-            tags.forEach(t=>{
-                if(typeof(t.value)!="undefined"){
-                    if(!tagVals.hasOwnProperty(t))
-                        tagVals[t]=[];
-                    if(!tagVals[t].includes(t.value))
+            tags.forEach(t => {
+                if (typeof (t.value) != "undefined") {
+                    if (!tagVals.hasOwnProperty(t))
+                        tagVals[t] = [];
+                    if (!tagVals[t].includes(t.value))
                         tagVals[t].push(t.value);
                 }
             });
@@ -493,21 +493,21 @@ function tagValuePickerPreview() {
             //if (multiple) $tagPicker.attr("multiple", "multiple").addClass("chosen-select");
             let required = $("#required").is(":checked");
             if (required) $tagPicker.attr("required", "required");
-            tags.forEach(t=>{
+            tags.forEach(t => {
                 $(`<option>`).text(t).appendTo($tagPicker);
             });
             if ($tagPicker.hasClass("chosen-select"))
                 $tagPicker.chosen();
-            $tagPicker.on("change",()=>{
+            $tagPicker.on("change", () => {
                 let t = $tagPicker.val();
                 $(`#preview .tagValuePickerValue`).remove();
                 let $valPicker = $(`<select>`)
                     .addClass('tagValuePickerValue')
                     .attr("multiple", "multiple").addClass("chosen-select");
                 if (required) $valPicker.attr("required", "required");
-                tagVals[t].forEach(v=>{
+                tagVals[t].forEach(v => {
                     $(`<option>`).text(t)
-                        .attr("selected","selected")
+                        .attr("selected", "selected")
                         .appendTo($valPicker);
                 });
                 if ($valPicker.hasClass("chosen-select"))
