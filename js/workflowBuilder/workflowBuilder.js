@@ -482,9 +482,13 @@ function tagValuePickerPreview() {
                 tagVals[t] = [... new Set(tagsRaw.filter(x=>x.key==t).map(x=>x.value))];
             });
 
-            $("#preview").html(`<select>`);
-            let $tagPicker = $("#preview select");
-            $tagPicker.addClass('tagValuePickerTag');
+            $("#preview").html(`
+                <div class="inputHeader">Tag:</div>
+                <div class="userInput"><select class="tagValuePickerTag"></select></div>
+                <div class="inputHeader">Value:</div>
+                <div class="userInput"><select class="tagValuePickerValue chosen-select" multiple></select></div>
+            `);
+            let $tagPicker = $("#preview select.tagValuePickerTag");
             //let multiple = $("#multiple").is(":checked");
             //if (multiple) $tagPicker.attr("multiple", "multiple").addClass("chosen-select");
             let required = $("#required").is(":checked");
@@ -496,11 +500,10 @@ function tagValuePickerPreview() {
                 $tagPicker.chosen();
             $tagPicker.on("change", () => {
                 let t = $tagPicker.val();
-                $(`#preview .tagValuePickerValue`).remove();
-                let $valPicker = $(`<select>`)
-                    .addClass('tagValuePickerValue')
-                    .attr("multiple", "multiple").addClass("chosen-select")
-                    .insertAfter($tagPicker);
+                let $valPicker = $(`#preview .tagValuePickerValue`);
+
+                $valPicker.is(`.chosen-select`).chosen("destroy");
+                $valPicker.html();
                 if (required) $valPicker.attr("required", "required");
                 tagVals[t].forEach(v => {
                     $(`<option>`).text(v)
