@@ -503,7 +503,7 @@ function tagValuePickerPreview() {
                     .insertAfter($tagPicker);
                 if (required) $valPicker.attr("required", "required");
                 tagVals[t].forEach(v => {
-                    $(`<option>`).text(t)
+                    $(`<option>`).text(v)
                         .attr("selected", "selected")
                         .appendTo($valPicker);
                 });
