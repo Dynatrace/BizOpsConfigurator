@@ -446,12 +446,15 @@ function tagValuePickerPreview() {
 
     $.when(p0).done(function () {
         $("#preview").html(`
+        <div class="tagValuePicker">
             <input type="hidden" class="entityType">
             <div class="inputHeader">Tag:</div>
             <div class="userInput"><select class="tagValuePickerTag"></select></div>
             <div class="inputHeader">Value:</div>
             <div class="userInput"><select class="tagValuePickerValue chosen-select" multiple></select></div>
+        </div>
         `);
+        let $inputDiv = $(`#preview `)
         let $tagPicker = $inputDiv.find("select.tagValuePickerTag");
         let $valPicker = $inputDiv.find(`select.tagValuePickerValue`);
         let $entityType = $inputDiv.find(`input.entityType`);
