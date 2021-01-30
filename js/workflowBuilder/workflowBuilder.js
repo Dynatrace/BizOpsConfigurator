@@ -445,75 +445,52 @@ function tagValuePickerPreview() {
     let p0 = getConnectInfo();
 
     $.when(p0).done(function () {
-        let entityType = $("#entityType").val();
-        let query = ``;
-        switch (entityType) {
-            case "APPLICATION":
-                query = `/api/v1/entity/applications?includeDetails=false`;
-                break;
-            case "SERVICE":
-                query = `/api/v1/entity/services?includeDetails=false`;
-                break;
-            case "HOST":
-                query = `/api/v1/entity/infrastructure/hosts?includeDetails=false`;
-                break;
-            case "database":
-                query = `/api/v1/entity/services?includeDetails=false`;
-                break;
-        }
-        let p1 = dtAPIquery(query, {});
-        $.when(p1).done(function (data) {
-            switch (entityType) {
-                case "APPLICATION":
-                    break;
-                case "SERVICE":
-                    data = data.filter(x => x.serviceType != "Database");
-                    break;
-                case "HOST":
-                    break;
-                case "database":
-                    data = data.filter(x => x.serviceType == "Database");
-                    break;
-            }
-            let tagsRaw = data.map(x => x.tags).flat().filter(x=>'value' in x);
-            let tags = [... new Set(tagsRaw.map(x=>x.key))];
-            let tagVals = {};
-            tags.forEach(t => {
-                tagVals[t] = [... new Set(tagsRaw.filter(x=>x.key==t).map(x=>x.value))];
-            });
+        $("#preview").html(`
+            <input type="hidden" class="entityType">
+            <div class="inputHeader">Tag:</div>
+            <div class="userInput"><select class="tagValuePickerTag"></select></div>
+            <div class="inputHeader">Value:</div>
+            <div class="userInput"><select class="tagValuePickerValue chosen-select" multiple></select></div>
+        `);
+        let $tagPicker = $inputDiv.find("select.tagValuePickerTag");
+        let $valPicker = $inputDiv.find(`select.tagValuePickerValue`);
+        let $entityType = $inputDiv.find(`input.entityType`);
 
-            $("#preview").html(`
-                <div class="inputHeader">Tag:</div>
-                <div class="userInput"><select class="tagValuePickerTag"></select></div>
-                <div class="inputHeader">Value:</div>
-                <div class="userInput"><select class="tagValuePickerValue chosen-select" multiple></select></div>
-            `);
-            let $tagPicker = $("#preview select.tagValuePickerTag");
-            //let multiple = $("#multiple").is(":checked");
-            //if (multiple) $tagPicker.attr("multiple", "multiple").addClass("chosen-select");
-            let required = $("#required").is(":checked");
-            if (required) $tagPicker.attr("required", "required");
-            tags.forEach(t => {
-                $(`<option>`).text(t).appendTo($tagPicker);
-            });
-            if ($tagPicker.hasClass("chosen-select"))
-                $tagPicker.chosen();
-            $tagPicker.on("change", () => {
-                let t = $tagPicker.val();
-                let $valPicker = $(`#preview .tagValuePickerValue`);
+        //let multiple = $("#multiple").is(":checked");
+        //if (multiple) $tagPicker.attr("multiple", "multiple").addClass("chosen-select");
+        let required = $("#required").is(":checked");
+        if (required) $tagPicker.attr("required", "required");
+        $entityType.val($("#entityType").val());
+        loadTagValuePicker($preview);
+    });
+}
 
-                $valPicker.filter(`.chosen-select`).chosen("destroy");
-                $valPicker.children().remove();
-                if (required) $valPicker.attr("required", "required");
-                tagVals[t].forEach(v => {
-                    $(`<option>`).text(v)
-                        .attr("selected", "selected")
-                        .appendTo($valPicker);
-                });
-                if ($valPicker.hasClass("chosen-select"))
-                    $valPicker.chosen();
-            });
+function loadTagValuePicker(inputDiv) {
+    let $inputDiv = $(inputDiv);
+    let $tagPicker = $inputDiv.find("select.tagValuePickerTag");
+    let $valPicker = $inputDiv.find(`select.tagValuePickerValue`);
+    let $entityType = $inputDiv.find(`input.entityType`);
 
-        })
+    let p0 = getTagValues($entityType.val());
+
+    $.when(p0).done(tagVals => {
+        tags.forEach(t => {
+            $(`<option>`).text(t).appendTo($tagPicker);
+        });
+        //if ($tagPicker.hasClass("chosen-select"))
+        //    $tagPicker.chosen();
+        $tagPicker.on("change", () => {
+            let t = $tagPicker.val();
+            $valPicker.filter(`.chosen-select`).chosen("destroy");
+            $valPicker.children().remove();
+            if (required) $valPicker.attr("required", "required");
+            tagVals[t].forEach(v => {
+                $(`<option>`).text(v)
+                    .attr("selected", "selected")
+                    .appendTo($valPicker);
+            });
+            if ($valPicker.hasClass("chosen-select"))
+                $valPicker.chosen();
+        });
     });
 }

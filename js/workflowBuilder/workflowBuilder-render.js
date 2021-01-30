@@ -165,6 +165,12 @@ function renderWorkflowPage(el) {
         $input.find(".replicationTileName").attr("type", "hidden");
     });
 
+    //render tag value pickers
+    $el.find(".tagValuePicker").each(function () {
+        let p1 = loadTagValuePicker($(this));
+        promises.push(p1);
+    });
+
     //make sure any XHRs are finished before we return the html
     $.when.apply($, promises).done(function () {
         let html = sanitizer.sanitize($el.html());

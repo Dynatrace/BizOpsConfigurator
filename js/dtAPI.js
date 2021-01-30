@@ -550,8 +550,8 @@ function uploadWorkflow(workflow) {
   //let config = JSON.parse($workflow.find("#workflowConfigJSON").val());
   let config = selection.config;
   config.swaps = selection.swaps; //safe store for editing dbs later
-  if(!selection.persona) selection.persona  = personas.find(x => x.prefix === config.persona[0]);
-  if(!selection.usecase) selection.usecase  = usecases.find(x => x.prefix === config.usecase);
+  if (!selection.persona) selection.persona = personas.find(x => x.prefix === config.persona[0]);
+  if (!selection.usecase) selection.usecase = usecases.find(x => x.prefix === config.usecase);
   let overview = {};
   let actionName = `NewFlowDeploy-${selection.persona.name}-${selection.usecase.name}-${selection.config.workflowName}`;
   let dtaction;
@@ -577,18 +577,18 @@ function uploadWorkflow(workflow) {
   config.id = id;
   config.oldId = overview["id"];
   overview["id"] = id;
-  overview["dashboardMetadata"]["owner"] = (selection.owner?selection.owner:owner);
-  overview["dashboardMetadata"]["shared"] = (selection.shared?selection.shared:"true");
-  overview["dashboardMetadata"]["sharingDetails"]["linkShared"] = (selection.shared?selection.shared:"true");
-  overview["dashboardMetadata"]["sharingDetails"]["published"] = (selection.published?selection.published:"true");
-  if(typeof(overview["dashboardMetadata"]["tags"])=="undefined") overview["dashboardMetadata"]["tags"]=[];
-  if(Array.isArray(selection.additionalTags) && selection.additionalTags.length)
+  overview["dashboardMetadata"]["owner"] = (selection.owner ? selection.owner : owner);
+  overview["dashboardMetadata"]["shared"] = (selection.shared ? selection.shared : "true");
+  overview["dashboardMetadata"]["sharingDetails"]["linkShared"] = (selection.shared ? selection.shared : "true");
+  overview["dashboardMetadata"]["sharingDetails"]["published"] = (selection.published ? selection.published : "true");
+  if (typeof (overview["dashboardMetadata"]["tags"]) == "undefined") overview["dashboardMetadata"]["tags"] = [];
+  if (Array.isArray(selection.additionalTags) && selection.additionalTags.length)
     overview.dashboardMetadata.tags = overview.dashboardMetadata.tags.concat(selection.additionalTags);
 
   var query = "/api/config/v1/dashboards/" + id;
 
   //sub-dashboards & swaps
-  if(selection.conditionalSwaps && selection.conditionalSwaps.length){ //do prior to calculating subs, so we can have conditional drilldowns
+  if (selection.conditionalSwaps && selection.conditionalSwaps.length) { //do prior to calculating subs, so we can have conditional drilldowns
     overview = doSwaps(overview, selection.conditionalSwaps);
   }
   let subs = getStaticSubDBs(overview, [config.oldId]);
@@ -607,9 +607,9 @@ function uploadWorkflow(workflow) {
   dbObj = validateDB(dbObj);
 
   //handle powerups
-  if(selection.config.powerups){
+  if (selection.config.powerups) {
     addPowerupDisclaimer(dbObj);
-    subs.forEach(s=>{addPowerupDisclaimer(s.file);});
+    subs.forEach(s => { addPowerupDisclaimer(s.file); });
   }
 
   //upload
@@ -617,23 +617,23 @@ function uploadWorkflow(workflow) {
   let workflowToSave = stringifyWithValues($workflow);
   saveConfigDashboard(workflowConfigID(id), { html: workflowToSave });
   uploadSubs(subs);
-  
+
   let res = dtAPIquery(query, { method: "PUT", data: dbS })
-      .done(() => { if (typeof dtrum !== "undefined") dtrum.leaveAction(dtaction); });
+    .done(() => { if (typeof dtrum !== "undefined") dtrum.leaveAction(dtaction); });
 
   let returnInfo = {
     id: id,
     persona: selection.persona,
     usecase: selection.usecase,
     workflow: selection.workflow.name,
-    owner: (selection.owner?selection.owner:owner),
+    owner: (selection.owner ? selection.owner : owner),
     name: dbObj.dashboardMetadata.name
   }
   selection = {};
 
-  if(res)
+  if (res)
     return returnInfo;
-  else 
+  else
     return false;
 }
 
@@ -645,4 +645,46 @@ function deleteDashboards(id, re) {
     }
   });
   return p_delete;
+}
+
+function getTagValues(entityType) {
+  let p0 = $.Deferred();
+  let query = ``;
+  switch (entityType) {
+    case "APPLICATION":
+      query = `/api/v1/entity/applications?includeDetails=false`;
+      break;
+    case "SERVICE":
+      query = `/api/v1/entity/services?includeDetails=false`;
+      break;
+    case "HOST":
+      query = `/api/v1/entity/infrastructure/hosts?includeDetails=false`;
+      break;
+    case "database":
+      query = `/api/v1/entity/services?includeDetails=false`;
+      break;
+  }
+  let p1 = dtAPIquery(query, {});
+  $.when(p1).done(function (data) {
+    switch (entityType) {
+      case "APPLICATION":
+        break;
+      case "SERVICE":
+        data = data.filter(x => x.serviceType != "Database");
+        break;
+      case "HOST":
+        break;
+      case "database":
+        data = data.filter(x => x.serviceType == "Database");
+        break;
+    }
+    let tagsRaw = data.map(x => x.tags).flat().filter(x => 'value' in x);
+    let tags = [... new Set(tagsRaw.map(x => x.key))];
+    let tagVals = {};
+    tags.forEach(t => {
+      tagVals[t] = [... new Set(tagsRaw.filter(x => x.key == t).map(x => x.value))];
+    });
+    p0.resolve(tagVals);
+  });
+  return p0;
 }
