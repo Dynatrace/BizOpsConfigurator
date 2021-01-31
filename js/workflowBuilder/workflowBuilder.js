@@ -477,7 +477,7 @@ function loadTagValuePicker(inputDiv) {
     let p0 = getTagValues($entityType.val());
 
     $.when(p0).done(tagVals => {
-        tags.forEach(t => {
+        Object.keys(tagVals).forEach(t => {
             $(`<option>`).text(t).appendTo($tagPicker);
         });
         //if ($tagPicker.hasClass("chosen-select"))
