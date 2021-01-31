@@ -454,7 +454,7 @@ function tagValuePickerPreview() {
             <div class="userInput"><select class="tagValuePickerValue chosen-select" multiple></select></div>
         </div>
         `);
-        let $inputDiv = $(`#preview tagValuePicker`)
+        let $inputDiv = $(`#preview .tagValuePicker`)
         let $tagPicker = $inputDiv.find("select.tagValuePickerTag");
         let $valPicker = $inputDiv.find(`select.tagValuePickerValue`);
         let $entityType = $inputDiv.find(`input.entityType`);
