@@ -906,8 +906,8 @@ function globalButtonHandler() {
           } else {
             selection.owner = $(`input:radio[name='owner']:checked`).val();
             if(selection.owner=="owner_other") selection.owner = $(`#other`).val().trim();
-            selection.shared = ($(`#shared`).prop('checked') == "checked" ? "true" : "false");
-            selection.published = ($(`#published`).prop('checked') == "checked" ? "true" : "false");
+            selection.shared = $(`#shared`).prop('checked').toString();
+            selection.published = $(`#published`).prop('checked').toString();
             let p = uploadWorkflow($("#workflow"));
             $.when(p).done(returnInfo => {
               let p_DBA = getAllDashboards();
