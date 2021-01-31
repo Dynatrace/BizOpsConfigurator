@@ -966,7 +966,7 @@ function tagValueGetSwaps(workflowInput, transform, swaps) {
   let vals = $workflowInput.find(`.tagValuePickerValue`).val();
 
   addToSwaps(swaps, { from: `${transform}.tag`, to: tag });
-  addToSwaps(swaps, { from: `${transform}.count`, to: vals.length });
+  addToSwaps(swaps, { from: `${transform}.count`, to: vals.length.toString() });
   vals.forEach((val,i)=>{
     addToSwaps(swaps, { from: `${transform}-${i+1}.val`, to: val });
   });

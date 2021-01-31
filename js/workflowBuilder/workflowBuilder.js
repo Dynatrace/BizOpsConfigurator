@@ -496,6 +496,7 @@ function loadTagValuePicker(inputDiv) {
                 $valPicker.chosen();
             let eventData = { tagValuePicker: $inputDiv };
             $valPicker.on("change", eventData, tagValuePickerChangeHandler);
+            $valPicker.trigger("change");
         });
     });
 
