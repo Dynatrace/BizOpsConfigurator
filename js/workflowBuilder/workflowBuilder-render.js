@@ -170,7 +170,7 @@ function renderWorkflowPage(el) {
         let $tagValuePicker = $(this);
         let p1 = loadTagValuePicker($tagValuePicker);
         $.when(p1).done(()=>{
-            $tagValuePicker.removeAttr("disabled");
+            $tagValuePicker.find(`select`).removeAttr("disabled");
         });
         promises.push(p1);
     });
