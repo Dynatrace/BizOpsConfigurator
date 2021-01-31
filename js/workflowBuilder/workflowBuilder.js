@@ -496,4 +496,6 @@ function loadTagValuePicker(inputDiv) {
                 $valPicker.chosen();
         });
     });
+    
+    return p0;
 }
