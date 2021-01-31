@@ -494,8 +494,24 @@ function loadTagValuePicker(inputDiv) {
             });
             if ($valPicker.hasClass("chosen-select"))
                 $valPicker.chosen();
+            let eventData = { tagValuePicker: $inputDiv };
+            $valPicker.on("change", eventData, tagValuePickerChangeHandler);
         });
     });
-    
+
     return p0;
+}
+
+function tagValuePickerChangeHandler(event) {
+    let $tagValuePicker = $(event.data.tagValuePicker);
+    let transform = $("#transform").val();
+    let swaps = [];
+    let preview = $(`<table class="dataTable">`);
+
+    preview.append(`<thead><tr><td>From</td><td>To</td></tr></thead>`);
+    tagValueGetSwaps($tagValuePicker, transform, swaps);
+    swaps.forEach((x) => {
+        preview.append(`<tr><td>${x.from}</td><td>${x.to}</td></tr>`);
+    });
+    $("#swaps").html(preview);
 }

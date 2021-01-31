@@ -536,6 +536,7 @@ function generateWorkflowSwapList(el, customSwaps = null) {
     let conditionalSwap = $workflowInput.find(".conditionalSwap");
     let configOverride = $workflowInput.find(".configOverride");
     let tileReplication = $workflowInput.find(".tileReplication");
+    let tagValuePicker = $workflowInput.find(".tagValuePicker");
 
     if (journeyPicker.length) {
       journeyGetSwaps($workflowInput, transform, swaps);
@@ -545,6 +546,8 @@ function generateWorkflowSwapList(el, customSwaps = null) {
       configOverrideGetSwaps($workflowInput, swaps);
     } else if (tileReplication.length) {
       addTileReplication($workflowInput, swaps);
+    } else if (tagValuePicker.length){
+      tagValueGetSwaps(workflowInput, transform, swaps);
     } else
       switch (slicer) {
         case "ApplicationMethods":
@@ -953,5 +956,20 @@ function usqlSelectGetSwaps(slicer, workflowInput, transform, swaps, whereClause
     let filterClause = $workflowInput.find("input.filterClause, input.whereClause").val();
     addToSwaps(swaps, { from: from, to: filterClause });
   }
+  return swaps;
+}
+
+function tagValueGetSwaps(workflowInput, transform, swaps) {
+  let $workflowInput = $(workflowInput);
+
+  let tag = $workflowInput.find(`.tagValuePickerTag`).val();
+  let vals = $workflowInput.find(`.tagValuePickerValue`).val();
+
+  addToSwaps(swaps, { from: `${transform}.tag`, to: tag });
+  addToSwaps(swaps, { from: `${transform}.count`, to: vals.length });
+  vals.forEach((val,i)=>{
+    addToSwaps(swaps, { from: `${transform}-${i+1}.val`, to: val });
+  });
+
   return swaps;
 }
