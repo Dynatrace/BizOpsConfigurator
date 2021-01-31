@@ -547,7 +547,7 @@ function generateWorkflowSwapList(el, customSwaps = null) {
     } else if (tileReplication.length) {
       addTileReplication($workflowInput, swaps);
     } else if (tagValuePicker.length){
-      tagValueGetSwaps(workflowInput, transform, swaps);
+      tagValueGetSwaps($workflowInput, transform, swaps);
     } else
       switch (slicer) {
         case "ApplicationMethods":
