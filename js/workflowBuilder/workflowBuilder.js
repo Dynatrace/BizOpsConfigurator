@@ -454,7 +454,7 @@ function tagValuePickerPreview() {
             <div class="userInput"><select class="tagValuePickerValue chosen-select" multiple></select></div>
         </div>
         `);
-        let $inputDiv = $(`#preview `)
+        let $inputDiv = $(`#preview tagValuePicker`)
         let $tagPicker = $inputDiv.find("select.tagValuePickerTag");
         let $valPicker = $inputDiv.find(`select.tagValuePickerValue`);
         let $entityType = $inputDiv.find(`input.entityType`);
@@ -464,7 +464,7 @@ function tagValuePickerPreview() {
         let required = $("#required").is(":checked");
         if (required) $tagPicker.attr("required", "required");
         $entityType.val($("#entityType").val());
-        loadTagValuePicker($preview);
+        loadTagValuePicker($inputDiv);
     });
 }
 

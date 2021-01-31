@@ -175,13 +175,18 @@ function Input() {
                         break;
                     }
                     case "Tag Value Picker": {
-                        let $select = $(`<select class="tagValuePicker" disabled></select>`);
+                        $input.html(`
+                        <div class="tagValuePicker">
+                            <input type="hidden" class="entityType">
+                            <div class="inputHeader">Tag:</div>
+                            <div class="userInput"><select class="tagValuePickerTag" disabled></select></div>
+                            <div class="inputHeader">Value:</div>
+                            <div class="userInput"><select class="tagValuePickerValue chosen-select" multiple disabled></select></div>
+                        </div>`);
+
                         //if (data.multiple) $select.attr("multiple", "multiple").addClass("chosen-select");
-                        if (data.required) $select.attr("required", "required");
-                        $select.appendTo($input);
-                        $(`<input type="hidden" class="entityType">`)
-                            .val(data.entityType)
-                            .appendTo($input);
+                        if (data.required) $input.find(`select`).attr("required", "required");
+                        $input.find(`.entityType`).val(data.entityType)
                         break;
                     }
 
