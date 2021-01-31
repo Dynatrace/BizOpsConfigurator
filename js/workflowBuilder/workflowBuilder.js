@@ -487,7 +487,6 @@ function loadTagValuePicker(inputDiv) {
             let t = $tagPicker.val();
             $valPicker.filter(`.chosen-select`).chosen("destroy");
             $valPicker.children().remove();
-            if (required) $valPicker.attr("required", "required");
             tagVals[t].forEach(v => {
                 $(`<option>`).text(v)
                     .attr("selected", "selected")
