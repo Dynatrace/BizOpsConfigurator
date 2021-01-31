@@ -1518,3 +1518,7 @@ a.justAdded, a.justAdded:visited {
   margin-left: 5px;
   cursor: pointer;
 }
+
+.tagValuePicker {
+  width: 100%
+}
