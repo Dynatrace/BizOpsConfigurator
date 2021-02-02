@@ -460,7 +460,8 @@ function transformSubs(subs, dbid, swaps, config, nextID = nextDB) {
     sub["dashboardMetadata"]["owner"] = selection.owner ? selection.owner : owner;
     sub["dashboardMetadata"]["shared"] = selection.shared ? selection.shared : "true";
     sub["dashboardMetadata"]["sharingDetails"]["linkShared"] = selection.shared ? selection.shared : "true";
-    sub["dashboardMetadata"]["sharingDetails"]["published"] = selection.published ? selection.published : "true";
+    //sub["dashboardMetadata"]["sharingDetails"]["published"] = selection.published ? selection.published : "true";
+    sub["dashboardMetadata"]["sharingDetails"]["published"] = "false";
 
     if (typeof sub["dashboardMetadata"] == "undefined") sub["dashboardMetadata"] = {};
     if (typeof sub["dashboardMetadata"]["dashboardFilter"] == "undefined")
