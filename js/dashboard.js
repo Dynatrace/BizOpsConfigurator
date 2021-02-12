@@ -330,7 +330,7 @@ function applyTileReplicators(db, replicators) {
           newTile.bounds.left = t.bounds.left + t.bounds.width * colnum;
           newTile.bounds.top = t.bounds.top + t.bounds.height * rownum;
 
-          newTile.name = rep.vals[j];
+          if(rep.vals[j]) newTile.name = rep.vals[j];
           let tmp = JSON.stringify(newTile);
           let from = '\\${' + rep.transform + '\\.([^}]+)}';
           let to = '${' + rep.transform + '-' + j.toString() + '.$1}';

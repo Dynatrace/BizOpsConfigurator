@@ -819,7 +819,7 @@ function addTileReplication(workflowInput, swaps) {
       .filter((x) => x.from.startsWith("${" + replicationPriorTransform + "-1."))
       .map((x) => x.from.match(/-1\.([^}]+)/)[1]);
     let vals = [];
-    swaps
+    swaps  //get tile names if they exist
       .filter((x) => x.from.startsWith("${" + replicationPriorTransform + "-") && x.from.endsWith(".name}"))
       .forEach((x) => {
         let i = x.from.match(/-([^.]+)\./)[1];
@@ -970,6 +970,7 @@ function tagValueGetSwaps(workflowInput, transform, swaps) {
   addToSwaps(swaps, { from: `\${${transform}.count}`, to: vals.length.toString() });
   vals.forEach((val,i)=>{
     addToSwaps(swaps, { from: `\${${transform}-${i+1}.val}`, to: val });
+    addToSwaps(swaps, { from: `\${${transform}-${i+1}.name}`, to: val });
   });
 
   return swaps;
