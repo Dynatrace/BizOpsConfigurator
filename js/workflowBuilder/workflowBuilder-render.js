@@ -116,9 +116,9 @@ function renderWorkflowPage(el) {
     //render any title swaps
     $el.find(".workflowSection h3").each(function () {
         let $title = $(this);
-        let title = $title.val();
+        let title = $title.text();
         if (typeof selection.swaps !== "undefined") title = queryDoSwaps(title, selection.swaps);
-        $title.val(title);
+        $title.text(title);
     });
 
     //render conditional swaps
