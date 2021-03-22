@@ -553,9 +553,11 @@ function uploadWorkflow(workflow) {
   if (!selection.persona) selection.persona = personas.find(x => x.prefix === config.persona[0]);
   if (!selection.usecase) selection.usecase = usecases.find(x => x.prefix === config.usecase);
   let overview = {};
-  let actionName = `NewFlowDeploy-${selection.persona.name}-${selection.usecase.name}-${selection.config.workflowName}`;
+  //let actionName = `NewFlowDeploy-${selection.persona.name}-${selection.usecase.name}-${selection.config.workflowName}`;
+  let actionName = `NewFlowDeploy`;
   let dtaction;
-  if (typeof dtrum !== "undefined") dtaction = dtrum.enterAction(actionName, "deploy");
+  //if (typeof dtrum !== "undefined") dtaction = dtrum.enterAction(actionName, "deploy");
+  if (typeof dtrum !== "undefined") dtrum.actionName(actionName);
 
   //get dashboard JSON
   try {
@@ -619,7 +621,9 @@ function uploadWorkflow(workflow) {
   uploadSubs(subs);
 
   let res = dtAPIquery(query, { method: "PUT", data: dbS })
-    .done(() => { if (typeof dtrum !== "undefined") dtrum.leaveAction(dtaction); });
+    .done(() => { 
+      //if (typeof dtrum !== "undefined") dtrum.leaveAction(dtaction); 
+    });
 
   let returnInfo = {
     id: id,
