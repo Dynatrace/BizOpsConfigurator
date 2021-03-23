@@ -617,14 +617,14 @@ function uploadWorkflow(workflow) {
   //report action props
   if (typeof dtrum !== "undefined") {
     let longs = { //long
-      dashboardsDeployed: { value: subs.length + 1, public: true }
+      dashboardsdeployed: { value: subs.length + 1, public: true }
     };
     let dates = null;
     let strings = { //string
-      personaFromAPI: { value: selection.persona.name, public: true },
-      usecaseFromAPI: { value: selection.usecase.name, public: true },
-      workflowFromAPI: { value: selection.workflow.file.config.workflowName, public: true },
-      powerUpsFromAPI: { value: selection.config.powerups, public: true }
+      personafromapi: { value: selection.persona.name, public: true },
+      usecasefromapi: { value: selection.usecase.name, public: true },
+      workflowfromapi: { value: selection.workflow.file.config.workflowName, public: true },
+      powerupsfromapi: { value: selection.config.powerups, public: true }
     };
     let doubles = null;
     let returnVal = dtrum.addActionProperties(dtaction,
