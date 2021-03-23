@@ -621,9 +621,10 @@ function uploadWorkflow(workflow) {
     },
     null, //date
     { //string
-      persona: { value: selection.persona.name, public: true },
-      usecase: { value: selection.usecase.name, public: true },
-      workflow: { value: selection.workflow.name, public: true }
+      personaFromAPI: { value: selection.persona.name, public: true },
+      usecaseFromAPI: { value: selection.usecase.name, public: true },
+      workflowFromAPI: { value: selection.workflow.file.config.workflowName, public: true },
+      powerUpsFromAPI: { value: selection.config.powerups, public: true}
     },
     null //double
   );
@@ -637,7 +638,10 @@ function uploadWorkflow(workflow) {
 
   let res = dtAPIquery(query, { method: "PUT", data: dbS })
     .done(() => {
-      if (typeof dtrum !== "undefined") dtrum.leaveAction(dtaction);
+      if (typeof dtrum !== "undefined") {
+        dtrum.leaveAction(dtaction);
+        dtrum.sendSignal(false, true, false);
+      }
     });
 
   let returnInfo = {
