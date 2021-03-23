@@ -614,6 +614,21 @@ function uploadWorkflow(workflow) {
     subs.forEach(s => { addPowerupDisclaimer(s.file); });
   }
 
+  //report action props
+  if (typeof dtrum !== "undefined") dtrum.addActionProperties(dtaction,
+    { //long
+      dashboardsDeployed: { value: subs.length + 1, public: true }
+    },
+    null, //date
+    { //string
+      persona: { value: selection.persona.name, public: true },
+      usecase: { value: selection.usecase.name, public: true },
+      workflow: { value: selection.workflow.name, public: true }
+    },
+    null //double
+  );
+
+
   //upload
   let dbS = JSON.stringify(dbObj);
   let workflowToSave = stringifyWithValues($workflow);
@@ -621,8 +636,8 @@ function uploadWorkflow(workflow) {
   uploadSubs(subs);
 
   let res = dtAPIquery(query, { method: "PUT", data: dbS })
-    .done(() => { 
-      if (typeof dtrum !== "undefined") dtrum.leaveAction(dtaction); 
+    .done(() => {
+      if (typeof dtrum !== "undefined") dtrum.leaveAction(dtaction);
     });
 
   let returnInfo = {
