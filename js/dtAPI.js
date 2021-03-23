@@ -615,19 +615,26 @@ function uploadWorkflow(workflow) {
   }
 
   //report action props
-  if (typeof dtrum !== "undefined") dtrum.addActionProperties(dtaction,
-    { //long
+  if (typeof dtrum !== "undefined") {
+    let longs = { //long
       dashboardsDeployed: { value: subs.length + 1, public: true }
-    },
-    null, //date
-    { //string
+    };
+    let dates = null;
+    let strings = { //string
       personaFromAPI: { value: selection.persona.name, public: true },
       usecaseFromAPI: { value: selection.usecase.name, public: true },
       workflowFromAPI: { value: selection.workflow.file.config.workflowName, public: true },
-      powerUpsFromAPI: { value: selection.config.powerups, public: true}
-    },
-    null //double
-  );
+      powerUpsFromAPI: { value: selection.config.powerups, public: true }
+    };
+    let doubles = null;
+    let returnVal = dtrum.addActionProperties(dtaction,
+      longs,
+      dates,
+      strings,
+      doubles
+    );
+    console.log(["dtrum.addActionProperties:", longs, dates, strings, doubles, returnVal]);
+  }
 
 
   //upload
