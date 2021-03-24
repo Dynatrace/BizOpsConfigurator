@@ -547,7 +547,7 @@ function generateWorkflowSwapList(el, customSwaps = null) {
       configOverrideGetSwaps($workflowInput, swaps);
     } else if (tileReplication.length) {
       addTileReplication($workflowInput, swaps);
-    } else if (tagValuePicker.length){
+    } else if (tagValuePicker.length) {
       tagValueGetSwaps($workflowInput, transform, swaps);
     } else
       switch (slicer) {
@@ -555,6 +555,7 @@ function generateWorkflowSwapList(el, customSwaps = null) {
         case "{entityId:name}":
         case "{key:displayName}":
         case "{entityId:displayName}":
+        case "entities: {entityId:displayName}":
         case "values:{id:name}":
         case "Properties":
         case "slo": {
@@ -968,9 +969,9 @@ function tagValueGetSwaps(workflowInput, transform, swaps) {
 
   addToSwaps(swaps, { from: `\${${transform}}`, to: tag });
   addToSwaps(swaps, { from: `\${${transform}.count}`, to: vals.length.toString() });
-  vals.forEach((val,i)=>{
-    addToSwaps(swaps, { from: `\${${transform}-${i+1}.val}`, to: val });
-    addToSwaps(swaps, { from: `\${${transform}-${i+1}.name}`, to: val });
+  vals.forEach((val, i) => {
+    addToSwaps(swaps, { from: `\${${transform}-${i + 1}.val}`, to: val });
+    addToSwaps(swaps, { from: `\${${transform}-${i + 1}.name}`, to: val });
   });
 
   return swaps;

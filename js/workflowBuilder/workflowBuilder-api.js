@@ -60,6 +60,14 @@ function sliceAPIdata(slicer, data) {
                 parsedResults.push({ value: item.entityId, key: item.displayName });
             });
             break;
+        case "entities: {entityId:displayName}":
+            if (!Array.isArray(data.entities)) { //flatten values/monitors/etc
+                data = data[Object.keys(data.entities)[0]];
+            }
+            data.entities.forEach(function (item) {
+                parsedResults.push({ value: item.entityId, key: item.displayName });
+            });
+            break;
         case "{key:displayName}":
             if (!Array.isArray(data)) { //flatten values/monitors/etc
                 data = data[Object.keys(data)[0]];
@@ -257,6 +265,11 @@ function commonQueryChangeHandler() {
             $("#apiQuery").val("/api/config/v1/service/requestAttributes");
             $("#apiResultSlicer").val("values:{id:name}");
             $("#transform").val("ra");
+            break;
+        case "Entities":
+            $("#apiQuery").val("/api/v2/entities?entitySelector=type%28%22HOST%22%29");
+            $("#apiResultSlicer").val("entities: {entityId:displayName}");
+            $("#transform").val("entity");
             break;
     }
 }
