@@ -799,7 +799,8 @@ function configOverrideGetSwaps(workflowInput, swaps) {
           logError("Selection.config undefined");
           selection.config = {};
         }
-        if (typeof val !== "undefined") selection.config.overviewDB = val.overrideValue;
+        if (typeof val !== "undefined" && typeof val.overrideValue !== "undefined") 
+          selection.config.overviewDB = val.overrideValue;
         else console.log("No override match found");
     }
   }
