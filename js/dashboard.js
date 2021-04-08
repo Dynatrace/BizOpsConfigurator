@@ -155,7 +155,8 @@ function validateDB(input) {
   //check that bounds are divisible by 38 and < 5016
   if (!e.length) {
     for (let i = db.tiles.length - 1; i >= 0; i--) {
-      t = db.tiles[i];
+      let t = db.tiles[i];
+      let arr = db.tiles;
 
       if (t.bounds.left % 38 != 0) {
         e += ` tile[${i}] left bound not divisible by 38\n`;
