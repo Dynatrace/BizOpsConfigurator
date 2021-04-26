@@ -119,7 +119,8 @@ function sliceAPIdata(slicer, data) {
                             value: prop.key,
                             key: `Session: ${prop.displayName}`,
                             type: prop.type,
-                            data_usql: `usersession.${prop.type.toLowerCase()}Properties.${prop.key}`
+                            data_usql: `usersession.${prop.type.toLowerCase()}Properties.${prop.key}`,
+                            data_usqland: `AND usersession.${prop.type.toLowerCase()}Properties.${prop.key}`
                         });
                     }
                     if (prop.storeAsUserActionProperty) {
@@ -127,7 +128,8 @@ function sliceAPIdata(slicer, data) {
                             value: prop.key,
                             key: `Action: ${prop.displayName}`,
                             type: prop.type,
-                            data_usql: `useraction.${prop.type.toLowerCase()}Properties.${prop.key}`
+                            data_usql: `useraction.${prop.type.toLowerCase()}Properties.${prop.key}`,
+                            data_usqland: `AND usersession.${prop.type.toLowerCase()}Properties.${prop.key}`
                         });
                     }
 
