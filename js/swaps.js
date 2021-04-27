@@ -731,6 +731,8 @@ function journeyGetSwaps(workflowInput, transform, swaps) {
   journeyData.forEach(function (d, i) {
     from = "${" + transform + ".header-" + (i + 1) + "}";
     addToSwaps(swaps, { from: from, to: d.label });
+    from = "${" + transform + ".step-" + (i + 1) + "}";
+    addToSwaps(swaps, { from: from, to: d.value });
     if ("appname" in d) {
       from = "${" + transform + ".app-" + (i + 1) + "}";
       addToSwaps(swaps, { from: from, to: d.appname });
@@ -748,6 +750,8 @@ function journeyGetSwaps(workflowInput, transform, swaps) {
       //last
       from = "${" + transform + ".header-last}";
       addToSwaps(swaps, { from: from, to: d.label });
+      from = "${" + transform + ".step-last}";
+      addToSwaps(swaps, { from: from, to: d.value });
       if ("appname" in d) {
         from = "${" + transform + ".app-last}";
         addToSwaps(swaps, { from: from, to: d.appname });
