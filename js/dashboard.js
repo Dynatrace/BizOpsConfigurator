@@ -107,7 +107,8 @@ function getStaticSubDBs(db, parentids = [""], subs = []) {
         }
       }
       if(!found){
-        console.warn("getStaticSubDBs: " + id + " was NOT found in dbList");
+        console.warn("getStaticSubDBs: " + id + " was NOT found in dbList. Please check your links.");
+        if (typeof dtrum !== "undefined") dtrum.reportCustomError("getStaticSubDBs broken link: " + id, e, db.dashboardMetadata.name, true);
       }
     }
   }
