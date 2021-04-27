@@ -93,14 +93,21 @@ function getStaticSubDBs(db, parentids = [""], subs = []) {
   });
   return subs;
 
-  function inner(id){
-    if (id != db.id && !parentids.includes(id)) for (let d of dbList) { //skip self and parent links
-      if ("file" in d && d.file.id === id &&
-        typeof (subs.find(x => x.name === d.name)) == "undefined") { //ensure it's not already in the array, note: ids are not unique
-        console.log("getStaticSubDBs: " + id + " => " + d.file.dashboardMetadata.name);
-        if ("contents" in d.repo) delete d.repo.contents; //prevent circular structure
-        subs.push(JSON.parse(JSON.stringify(d)));
-        getStaticSubDBs(d.file, parentids, subs);
+  function inner(id) {
+    if (id != db.id && !parentids.includes(id)) {
+      let found = false;
+      for (let d of dbList) { //skip self and parent links
+        if ("file" in d && d.file.id === id &&
+          typeof (subs.find(x => x.name === d.name)) == "undefined") { //ensure it's not already in the array, note: ids are not unique
+          found = true;
+          console.log("getStaticSubDBs: " + id + " => " + d.file.dashboardMetadata.name);
+          if ("contents" in d.repo) delete d.repo.contents; //prevent circular structure
+          subs.push(JSON.parse(JSON.stringify(d)));
+          getStaticSubDBs(d.file, parentids, subs);
+        }
+      }
+      if(!found){
+        console.warn("getStaticSubDBs: " + id + " was NOT found in dbList");
       }
     }
   }
@@ -119,10 +126,10 @@ function validateDB(input) {
   if (!Object.keys(db)) {
     e += ` Empty dashboard, see previous errors.`;
   }
-  if(typeof(db.tiles)=="undefined"){
+  if (typeof (db.tiles) == "undefined") {
     e += ` Dashboard missing 'tiles' section`;
   }
-  if(typeof(db.dashboardMetadata)=="undefined"){
+  if (typeof (db.dashboardMetadata) == "undefined") {
     e += ` Dashboard missing 'dashboardMetadata' section`;
   }
 
@@ -331,7 +338,7 @@ function applyTileReplicators(db, replicators) {
           newTile.bounds.left = t.bounds.left + t.bounds.width * colnum;
           newTile.bounds.top = t.bounds.top + t.bounds.height * rownum;
 
-          if(rep.vals[j]) newTile.name = rep.vals[j];
+          if (rep.vals[j]) newTile.name = rep.vals[j];
           let tmp = JSON.stringify(newTile);
           let from = '\\${' + rep.transform + '\\.([^}]+)}';
           let to = '${' + rep.transform + '-' + j.toString() + '.$1}';
