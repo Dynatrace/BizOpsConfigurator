@@ -633,7 +633,7 @@ function uploadWorkflow(workflow) {
       strings,
       doubles
     );
-    console.log(["dtrum.addActionProperties:", longs, dates, strings, doubles, returnVal]);
+    //console.log(["dtrum.addActionProperties:", longs, dates, strings, doubles, returnVal]);
   }
 
 
