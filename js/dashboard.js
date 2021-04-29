@@ -84,7 +84,7 @@ function getStaticSubDBs(db, parentids = [""], subs = []) {
         let id = m[3];
         inner(id);
       }
-      matches = t.markdown.matchAll(/!PU[^ ]+url=[^ ]+id=([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/g);
+      matches = t.markdown.matchAll(/!PU[^!\n]+url=[^ ]+id=([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/g);
       for (let m of matches) {
         let id = m[1];
         inner(id);
