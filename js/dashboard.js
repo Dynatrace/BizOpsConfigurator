@@ -89,6 +89,12 @@ function getStaticSubDBs(db, parentids = [""], subs = []) {
         let id = m[1];
         inner(id);
       }
+    } else if(t.customName != undefined){
+      t.customName.matchAll(/!PU[^!\n]+url=[^ ]+id=([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/g);
+      for (let m of matches) {
+        let id = m[1];
+        inner(id);
+      }
     }
   });
   return subs;
