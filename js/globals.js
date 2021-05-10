@@ -102,7 +102,8 @@ var usecases = [
   { name: "Software Suite (COTS)", bizAnalytics: false, prefix: "a015" },
   { name: "Industry Vertical", bizAnalytics: true, prefix: "a016" },
   { name: "Application Overview", bizAnalytics: true, prefix: "a017" },
-  { name: "Forecast Analysis", bizAnalytics: true, prefix: "a018" }
+  { name: "Forecast Analysis", bizAnalytics: true, prefix: "a018" },
+  { name: "On Demand", bizAnalytics: true, prefix: "a019" }
 ];
 //////// Global Vars ////////////
 var url = "";
