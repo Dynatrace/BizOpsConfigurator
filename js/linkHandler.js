@@ -264,7 +264,7 @@ function hashHandler(hash) {
       break;
     }
     case "#edit": {
-      let id = hashargs.id;
+      let id = hashargs[1];
       editWorkflow(id);
       break;
     }
