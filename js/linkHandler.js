@@ -263,6 +263,11 @@ function hashHandler(hash) {
       helpPopup(hashargs);
       break;
     }
+    case "#edit": {
+      let id = hashargs.id;
+      editWorkflow(id);
+      break;
+    }
 
     case "#home":
     default:

@@ -961,17 +961,7 @@ function globalButtonHandler() {
       }
       case "personaEdit": {
         let id = $(this)[0].parentNode.id;
-
-        let p1 = loadDashboard(workflowConfigID(id));
-
-        $.when(p1).done(function (data) {
-          selection['workflow'] = {};
-          selection['workflow']['file'] = parseConfigDashboard(data);
-          selection['workflow']['loadedFromConfigDB'] = true;
-          selection['workflow']['originalID'] = id;
-          //selection.funnelLoaded = true;
-          $("#viewport").load("html/personaFlow/persona_userInputs.html", fieldsetPainter);
-        });
+        editWorkflow(id);
         break;
       }
       case "":

@@ -870,3 +870,16 @@ function workflowViewer(obj = {}, title = "", target = "#popupjsonviewer", show 
         $content.html(``);
     }
 }
+
+function editWorkflow(id){
+    let p1 = loadDashboard(workflowConfigID(id));
+
+    $.when(p1).done(function (data) {
+      selection['workflow'] = {};
+      selection['workflow']['file'] = parseConfigDashboard(data);
+      selection['workflow']['loadedFromConfigDB'] = true;
+      selection['workflow']['originalID'] = id;
+      //selection.funnelLoaded = true;
+      $("#viewport").load("html/personaFlow/persona_userInputs.html", fieldsetPainter);
+    });
+}
