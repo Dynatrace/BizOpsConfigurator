@@ -265,7 +265,7 @@ function hashHandler(hash) {
     }
     case "#edit": {
       let id = hashargs[1];
-      editWorkflow(id);
+      loadEditScreen(id)
       break;
     }
 
@@ -297,6 +297,14 @@ function loadDeployScreen(args) {
         $("#viewport").load("html/personaFlow/persona_usecase.html", fieldsetPainter);
         break;
     }
+  });
+}
+
+function loadEditScreen(id){
+  let p0 = getConnectInfo(true);
+
+  return $.when(p0).done(function () {
+    editWorkflow(id);
   });
 }
 
