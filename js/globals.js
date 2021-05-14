@@ -50,6 +50,7 @@ var repoList = [
   { 'owner': 'mcaminiti', 'repo': 'dynatrace-dashboards-dem-usage', 'path': '' },
   { 'owner': 'imrankhan4z', 'repo': 'Dynatrace_Dashboards', 'path': '' },
   { 'owner': 'sergiohinojosa', 'repo': 'dashboards-dt-kubernetes', 'path': '' },
+  { 'owner': 'br-se', 'repo': 'poc-dashboards', 'path': '' },
   { 'owner': 'mikeferg99', 'repo': 'dashboards', 'path': '' }
 ];
 var tenantOverviews = [
