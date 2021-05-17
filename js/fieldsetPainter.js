@@ -888,12 +888,12 @@ function editWorkflow(id) {
                 && x.repo.repo === configData.selection.workflow.repo.repo
                 && x.repo.path === configData.selection.workflow.repo.path
             );
-            
+
             selection = configData.selection;
             selection['workflow']['loadedFromConfigDB'] = true;
             selection['workflow']['originalID'] = id;
             if(workflow != undefined){
-                if(workflow.repo.sha !== configData.selection.workflow.repo.sha){
+                if(workflow.sha !== configData.selection.workflow.sha){
                     warningbox(new Error("Saved workflow does not match current version. Attempting to merge..."));
                     selection.workflow = JSON.parse(JSON.stringify(workflow));
                 } 
