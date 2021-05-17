@@ -704,7 +704,7 @@ function fieldsetPainter(scope) {
         case "persona_user_inputs": {
             let p = renderWorkflow(selection.workflow.file.html);
             $.when(p).done(function (html) {
-                if(html.contains('id="workflow"'))
+                if(html.includes('id="workflow"'))
                     $("#workflow").replaceWith(html);
                 else     
                     $("#workflow").html(html);
