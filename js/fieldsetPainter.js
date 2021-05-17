@@ -878,12 +878,11 @@ function editWorkflow(id) {
     let p1 = loadDashboard(workflowConfigID(id));
 
     $.when(p1).done(function (data) {
-        //selection['workflow'] = {};
-        //selection['workflow']['file'] = parseConfigDashboard(data);
         selection = {};
         let configData = parseConfigDashboard(data);
         let workflow = workflowList.find(x =>
-                x.repo.owner === configData.selection.workflow.repo.owner
+                x.name === configData.selection.name
+                && x.repo.owner === configData.selection.workflow.repo.owner
                 && x.repo.repo === configData.selection.workflow.repo.repo
                 && x.repo.path === configData.selection.workflow.repo.path
             );
