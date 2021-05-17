@@ -581,7 +581,7 @@ function uploadWorkflow(workflow) {
   overview["id"] = id;
   overview["dashboardMetadata"]["owner"] = (selection.owner ? selection.owner : owner);
   overview["dashboardMetadata"]["shared"] = (selection.shared ? selection.shared : "true");
-  if(!"sharingDetails" in overview["dashboardMetadata"]) overview["dashboardMetadata"]["sharingDetails"] = {};
+  if(overview["dashboardMetadata"]["sharingDetails"] == undefined) overview["dashboardMetadata"]["sharingDetails"] = {};
   overview["dashboardMetadata"]["sharingDetails"]["linkShared"] = (selection.shared ? selection.shared : "true");
   overview["dashboardMetadata"]["sharingDetails"]["published"] = (selection.published ? selection.published : "true");
   if (typeof (overview["dashboardMetadata"]["tags"]) == "undefined") overview["dashboardMetadata"]["tags"] = [];
