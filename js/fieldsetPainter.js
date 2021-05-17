@@ -460,7 +460,7 @@ function fieldsetPainter(scope) {
             let viewerObj = {};
             let $wf_ul = $("#dashboardList ul")
             $wf_ul.html("");
-            if(workflowList.length) $(`#recycleDBs`).hide();
+            if (workflowList.length) $(`#recycleDBs`).hide();
             else $(`#recycleDBs`).show();
             workflowList
                 .sort((a, b) => (a.file.config.workflowName.toLowerCase() > b.file.config.workflowName.toLowerCase()) ? 1 : -1)
@@ -871,15 +871,23 @@ function workflowViewer(obj = {}, title = "", target = "#popupjsonviewer", show 
     }
 }
 
-function editWorkflow(id){
+function editWorkflow(id) {
     let p1 = loadDashboard(workflowConfigID(id));
 
     $.when(p1).done(function (data) {
-      selection['workflow'] = {};
-      selection['workflow']['file'] = parseConfigDashboard(data);
-      selection['workflow']['loadedFromConfigDB'] = true;
-      selection['workflow']['originalID'] = id;
-      //selection.funnelLoaded = true;
-      $("#viewport").load("html/personaFlow/persona_userInputs.html", fieldsetPainter);
+        //selection['workflow'] = {};
+        //selection['workflow']['file'] = parseConfigDashboard(data);
+        selection = {};
+        let configData = parseConfigDashboard(data);
+        if ("selection" in configData) {
+            selection = configData.selection;
+            selection['workflow']['loadedFromConfigDB'] = true;
+            selection['workflow']['originalID'] = id;
+        } else {
+            errorbox("Config dashboard doesn't match current format.")
+        }
+
+        //selection.funnelLoaded = true;
+        $("#viewport").load("html/personaFlow/persona_userInputs.html", fieldsetPainter);
     });
 }
