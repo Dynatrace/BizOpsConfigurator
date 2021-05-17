@@ -640,7 +640,7 @@ function uploadWorkflow(workflow) {
   //upload
   let dbS = JSON.stringify(dbObj);
   let workflowToSave = stringifyWithValues($workflow);
-  saveConfigDashboard(workflowConfigID(id), { html: workflowToSave });
+  saveConfigDashboard(workflowConfigID(id), { selection: selection });
   uploadSubs(subs);
 
   let res = dtAPIquery(query, { method: "PUT", data: dbS })
