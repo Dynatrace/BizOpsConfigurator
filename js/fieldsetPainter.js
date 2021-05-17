@@ -880,13 +880,15 @@ function editWorkflow(id) {
     $.when(p1).done(function (data) {
         selection = {};
         let configData = parseConfigDashboard(data);
-        let workflow = workflowList.find(x =>
+        
+        if ("selection" in configData) {
+            let workflow = workflowList.find(x =>
                 x.name === configData.selection.workflow.name
                 && x.repo.owner === configData.selection.workflow.repo.owner
                 && x.repo.repo === configData.selection.workflow.repo.repo
                 && x.repo.path === configData.selection.workflow.repo.path
             );
-        if ("selection" in configData) {
+            
             selection = configData.selection;
             selection['workflow']['loadedFromConfigDB'] = true;
             selection['workflow']['originalID'] = id;
