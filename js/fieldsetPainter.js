@@ -704,7 +704,10 @@ function fieldsetPainter(scope) {
         case "persona_user_inputs": {
             let p = renderWorkflow(selection.workflow.file.html);
             $.when(p).done(function (html) {
-                $("#workflow").html(html);
+                if(html.contains('id="workflow"'))
+                    $("#workflow").replaceWith(html);
+                else     
+                    $("#workflow").html(html);
                 workflowSetFirstPageActive();
                 let activePage = $("#workflow .workflowPage.activePage");
                 renderWorkflowPage(activePage);
