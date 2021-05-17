@@ -882,10 +882,23 @@ function editWorkflow(id) {
         //selection['workflow']['file'] = parseConfigDashboard(data);
         selection = {};
         let configData = parseConfigDashboard(data);
+        let workflow = workflowList.find(x =>
+                x.repo.owner === configData.selection.workflow.repo.owner
+                && x.repo.repo === configData.selection.workflow.repo.repo
+                && x.repo.path === configData.selection.workflow.repo.path
+            );
         if ("selection" in configData) {
             selection = configData.selection;
             selection['workflow']['loadedFromConfigDB'] = true;
             selection['workflow']['originalID'] = id;
+            if(workflow != undefined){
+                if(workflow.repo.sha !== configData.selection.workflow.repo.sha){
+                    warningbox(new Error("Saved workflow does not match current version. Attempting to merge..."));
+                    selection.workflow = JSON.parse(JSON.stringify(workflow));
+                } 
+            } else {
+                logError("WARN:",new Error("Editing workflow that is no longer in the list... "));
+            }
         } else {
             errorbox("Config dashboard doesn't match current format.")
         }
