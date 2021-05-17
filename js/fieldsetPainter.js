@@ -881,7 +881,7 @@ function editWorkflow(id) {
         selection = {};
         let configData = parseConfigDashboard(data);
         let workflow = workflowList.find(x =>
-                x.name === configData.selection.name
+                x.name === configData.selection.workflow.name
                 && x.repo.owner === configData.selection.workflow.repo.owner
                 && x.repo.repo === configData.selection.workflow.repo.repo
                 && x.repo.path === configData.selection.workflow.repo.path
