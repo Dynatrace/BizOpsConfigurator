@@ -16,6 +16,20 @@ function loadApiQuery($query) {
     let p1 = loadApiQueryOptions(query, slicer, $target);
     return $.when(p1).done(function (data) {
         jsonviewer(data);
+
+        //if we already have the value, set it, e.g. if this is an edit
+        let transform = $query.parents(`.workflowInput`).find(`.transform span`).text();
+        if (selection
+            && Array.isArray(swaps)
+            && selection.swaps.length) {
+            let swaps = selection.swaps
+                .filter(x => x.from.endsWith('.id'))
+                .filter(x => x.from.replace(/\.id/, '') === transform);
+            if (Array.isArray(swaps)
+                && swaps.length) {
+                $target.value(swaps[0].to);
+            }
+        }
     });
 }
 

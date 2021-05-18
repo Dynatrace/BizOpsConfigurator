@@ -27,6 +27,7 @@ function renderWorkflow(el) {
         let val = $(fromInputs[i]).val();
         $(toInputs[i]).attr("value", val);
     }
+    
 
     //cleanup clone
     clonedEl.find(".chosen-select").chosen("destroy"); //in case we're already rendered for some reason
