@@ -20,7 +20,7 @@ function loadApiQuery($query) {
         //if we already have the value, set it, e.g. if this is an edit
         let transform = $query.parents(`.workflowInput`).find(`.transform span`).text();
         if (selection
-            && Array.isArray(swaps)
+            && Array.isArray(selection.swaps)
             && selection.swaps.length) {
             let swaps = selection.swaps
                 .filter(x => x.from.endsWith('.id'))
