@@ -417,6 +417,11 @@ function loadGithubRepos(p = 1) {
 
     //If there were previously sleeping tries against the GH API, cancel them, e.g. if user got rate limit but went back and entered PAT
     GHTimers.forEach(timer=>clearTimeout(timer));
+    if(GithubRemaining < 1
+      && githubuser != undefined && githubuser.length
+      && githubpat != undefined  && githubpat.length) { //assume we hit rate limiting but now have PAT set, try again
+        GithubRemaining = 1;
+    }
 
     for (i = 0; i < repoList.length; i++) {
       let repo = repoList[i];
