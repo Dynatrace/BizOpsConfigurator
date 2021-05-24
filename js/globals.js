@@ -143,6 +143,7 @@ var PreviewWorkflows = false;
 var InternalTenant = false;
 var OfflineMode = false;
 var JourneyPickers = [];
+var GHTimers = [];
 
 
 ///////// Functions for manipulating global vars //////////
@@ -413,6 +414,9 @@ function loadGithubRepos(p = 1) {
     dbList = [];
     readmeList = [];
     workflowList = [];
+
+    //If there were previously sleeping tries against the GH API, cancel them, e.g. if user got rate limit but went back and entered PAT
+    GHTimers.forEach(timer=>clearTimeout(timer));
 
     for (i = 0; i < repoList.length; i++) {
       let repo = repoList[i];

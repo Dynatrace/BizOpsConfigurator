@@ -84,7 +84,9 @@ function gitHubAPI(query, options = {}, retries = 3) {
                 seconds = Math.trunc(Math.max((then - now) + 1, 1));
                 warningbox(`GitHub API Ratelimiting: retrying in ${seconds}s. Consider using GitHub PAT to avoid this.`);
                 console.log("GitHub API Ratelimiting: query=" + query + " retries=" + retries + " seconds=" + seconds + " now=" + now + " then=" + then);
-                return setTimeout(function () { return gitHubAPI(query, options, retries - 1); }, seconds * 1000);
+                let ghTimer = setTimeout(function () { return gitHubAPI(query, options, retries - 1); }, seconds * 1000);
+                GHTimers.push(ghTimer);
+                return ghTimer;
             });
     }
 
