@@ -6,7 +6,7 @@ This is a Single Page App (SPA) to get inputs from the user and from the Dynatra
 There's amazing insights that be unlocked just by using stock Dynatrace dashboard tiles. Building dashboards is pretty easy: just drag and drop, populate a few USQL queries, and poof business relevant insights. How can we make it even faster? Share a currated list of dashboards used across our customer base and customize queries with a few clicks and drags. All using the power of the Dynatrace API that's already available.
 
 ## Getting started
-Click here: [dynatrace.github.com/BizOpsConfigurator](https://dynatrace.github.com/BizOpsConfigurator).
+Click here: [dynatrace.github.io/BizOpsConfigurator](https://dynatrace.github.io/BizOpsConfigurator).
 
 Be sure to check out the Prerequisites and Overview pages.
 
