@@ -39,7 +39,7 @@ async function runMZcleanupReport() {
 
     async function getMZlist() {
         let url = `${HOST}/api/config/v1/managementZones?Api-Token=${TOKEN}`;
-        const response = await fetch(ruleURL)
+        const response = await fetch(url)
         const res = await response.json();
         MZLIST = res.values;
         $infobox.text(`Retrieved ${MZLIST.length} MZs.`)
@@ -53,10 +53,10 @@ async function runMZcleanupReport() {
         for (let i = 0; i < MZLIST.length; i++) {
             let mz = MZLIST[i];
             let entitySelector = encodeURIComponent(`type("HOST"),mzId(${mz.id})`);
-            let hostURL = `${HOST}/api/v2/entities?pageSize=1&entitySelector=${(entitySelector)}&Api-Token=${TOKEN}`;
+            let url = `${HOST}/api/v2/entities?pageSize=1&entitySelector=${(entitySelector)}&Api-Token=${TOKEN}`;
 
             if (!mz.hasOwnProperty('hosts')) {
-                const response = await fetch(hostURL)
+                const response = await fetch(url)
                 const hosts = await response.json();
                 mz.hosts = hosts.totalCount;
                 xhrCount++;
@@ -77,10 +77,10 @@ async function runMZcleanupReport() {
         for (let i = 0; i < MZLIST.length; i++) {
             let mz = MZLIST[i];
             let entitySelector = encodeURIComponent(`type("HOST"),mzId(${mz.id})`);
-            let ruleURL = `${HOST}/api/config/v1/managementZones/${mz.id}?Api-Token=${TOKEN}`;
+            let url = `${HOST}/api/config/v1/managementZones/${mz.id}?Api-Token=${TOKEN}`;
 
             if (!mz.hasOwnProperty('rules') || !Array.isArray(mz.rules) || !mz.rules.length) {
-                const response = await fetch(ruleURL)
+                const response = await fetch(url)
                 const res = await response.json();
                 mz.rules = res.rules;
                 xhrCount++;
@@ -101,10 +101,10 @@ async function runMZcleanupReport() {
         for (let i = 0; i < MZLIST.length; i++) {
             let mz = MZLIST[i];
             let ms = new Date().getTime() - (1000*60*60*24*30); //-30d
-            let usageURL = `${SELFHEALTHHOST}/api/v1/userSessionQueryLanguage/table?query=select%20count%28%2A%29%20from%20useraction%20where%20stringProperties.mz%20%3D%20%22${mz.name}%22%20&startTimestamp=${ms}&addDeepLinkFields=false&explain=false&Api-Token=${SELFHEALTHTOKEN}`;
+            let url = `${SELFHEALTHHOST}/api/v1/userSessionQueryLanguage/table?query=select%20count%28%2A%29%20from%20useraction%20where%20stringProperties.mz%20%3D%20%22${mz.name}%22%20&startTimestamp=${ms}&addDeepLinkFields=false&explain=false&Api-Token=${SELFHEALTHTOKEN}`;
 
             if (!mz.hasOwnProperty('count') || !mz.count) {
-                const response = await fetch(usageURL)
+                const response = await fetch(url)
                 const res = await response.json();
                 mz.count = res.values[0];
                 xhrCount++;
