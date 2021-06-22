@@ -62,7 +62,7 @@ async function runMZcleanupReport() {
         await getRulesPerMZ();
         if (SELFHEALTHHOST && SELFHEALTHTOKEN)
             await getSelfHealthUsagePerMZ();
-            $spinner.hide();
+        $spinner.hide();
     }
 
     function generateReports() {
@@ -192,13 +192,25 @@ async function runMZcleanupReport() {
                 .appendTo($ul);
         })
     }
-    
-    function listFrequentRules() { 
+
+    function listFrequentRules() {
         $(`#MZ-tabs`).children().removeClass('active');
         $(`#MZ-tab-rules`).parent().addClass('active');
         $resultbox.html(`<h2>Frequent Rules:</h2>`);
+        let counts = [];
+        MZLIST.map(x => x.rules).flat()
+        .forEach(rule => {
+            let str = JSON.stringify(rule);
+            counts.push({rule: str, count: 1})
+        });
+        
+        counts.reduce((a, b) => { a[b.rule] = (a[b.rule] || 0) + b.count; return a; }, {});
+
+        $resultbox.append(`<pre>`
+            + JSON.stringify(counts, null, 3)
+            + `</pre>`);
     }
-    function listUnusedMZs() { 
+    function listUnusedMZs() {
         $(`#MZ-tabs`).children().removeClass('active');
         $(`#MZ-tab-unused`).parent().addClass('active');
         $resultbox.html(`<h2>Unused MZs:</h2>`);
@@ -206,7 +218,7 @@ async function runMZcleanupReport() {
 
     function showJSON() {
         $(`#MZ-tabs`).children().removeClass('active');
-        $(`#MZ-tab-json`).parent().addClass('active');
+        $(`#MZ-tab-JSON`).parent().addClass('active');
         $resultbox.html(`<h2>Full JSON Result:</h2>`);
         $resultbox.append(`<pre>`
             + JSON.stringify(MZLIST, null, 3)
