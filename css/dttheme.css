@@ -1534,10 +1534,21 @@ a.justAdded, a.justAdded:visited {
   border-bottom: 0px;
 }
 
-#MZ-tabs > div.active {
+#MZ-tabs > div.active, #MZ-tabs > div:hover {
   background: #606060;
 }
 
 #MZ-list {
-  border-bottom: 1px solid #606060;
+  border: 1px solid #606060;
+  padding: 5px;
+}
+
+#MZ-infobox-container {
+  margin: 10px;
+  border: 1px solid #00a1b2;
+  padding: 10px;
+}
+
+#MZ-spinner {
+  display: hidden;
 }

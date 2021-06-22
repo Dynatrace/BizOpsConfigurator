@@ -12,6 +12,7 @@ async function runMZcleanupReport() {
     let MZLIST = [];
     let $infobox = $(`#MZ-infobox`);
     let $resultbox = $(`#MZ-list`);
+    let $spinner = $(`#MZ-spinner`);
     let valid = await checkTokenScopes();
 
     if (valid) {
@@ -23,6 +24,7 @@ async function runMZcleanupReport() {
 
     ////////////////////////////////////////
     async function checkTokenScopes() {
+        $spinner.show();
         let required = [
             "ReadConfig",
             "entities.read"
@@ -46,28 +48,29 @@ async function runMZcleanupReport() {
         if (missing.length) {
             $infobox.text(`Missing token scopes: ${missing.join(', ')}.<br>`);
             $infobox.addClass('invalid');
+            $spinner.hide();
             return false;
         }
+        $spinner.hide();
         return true;
     }
 
     async function getAllTheData() {
+        $spinner.show();
         await getMZlist();
         await getHostsPerMZ();
         await getRulesPerMZ();
         if (SELFHEALTHHOST && SELFHEALTHTOKEN)
             await getSelfHealthUsagePerMZ();
+            $spinner.hide();
     }
 
     function generateReports() {
-        listOfEmptyMZs();
-        listDupMZs();
-        listFrequentRules();
-        listUnusedMZs();
-
-        $resultbox.append(`<pre>`
-            + JSON.stringify(MZLIST, null, 3)
-            + `</pre>`);
+        $(`#MZ-tab-empty`).click(listOfEmptyMZs);
+        $(`#MZ-tab-dup`).click(listDupMZs);
+        $(`#MZ-tab-rules`).click(listFrequentRules);
+        $(`#MZ-tab-unused`).click(listUnusedMZs);
+        $(`#MZ-tab-JSON`).click(showJSON);
     }
 
     function disableRulesForAll() {
@@ -159,7 +162,7 @@ async function runMZcleanupReport() {
     }
 
     function listOfEmptyMZs() {
-        $resultbox.append(`<h2>Empty MZs:</h2>`);
+        $resultbox.html(`<h2>Empty MZs:</h2>`);
         let $ul = $(`<ul>`).appendTo($resultbox);
         MZLIST.filter(x => x.hosts === 0).forEach(mz => {
             $(`<li>`)
@@ -169,7 +172,7 @@ async function runMZcleanupReport() {
     }
 
     function listDupMZs() {
-        $resultbox.append(`<h2>Duplicate MZs:</h2>`);
+        $resultbox.html(`<h2>Duplicate MZs:</h2>`);
         let $ul = $(`<ul>`).appendTo($resultbox);
 
         let mznames = MZLIST.map(x => ({ name: x.name, count: 1 }))
@@ -186,8 +189,19 @@ async function runMZcleanupReport() {
         })
     }
     
-    function listFrequentRules() { }
-    function listUnusedMZs() { }
+    function listFrequentRules() { 
+        $resultbox.html(`<h2>Frequent Rules:</h2>`);
+    }
+    function listUnusedMZs() { 
+        $resultbox.html(`<h2>Unused MZs:</h2>`);
+    }
+
+    function showJSON() {
+        $resultbox.html(`<h2>Full JSON Result:</h2>`);
+        $resultbox.append(`<pre>`
+            + JSON.stringify(MZLIST, null, 3)
+            + `</pre>`);
+    }
 
     function getURL(selector) {
         url = $(selector).val().toLowerCase();
