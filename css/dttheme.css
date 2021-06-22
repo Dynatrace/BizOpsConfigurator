@@ -1534,6 +1534,16 @@ a.justAdded, a.justAdded:visited {
   border-bottom: 0px;
 }
 
+#MZ-tabs > div > a {
+  color: white;
+  text-decoration: none;
+}
+
+#MZ-tabs > div.active > a, #MZ-tabs > div > a:hover {
+  color: #00a1b2;
+  text-decoration: underline;
+}
+
 #MZ-tabs > div.active, #MZ-tabs > div:hover {
   background: #606060;
 }
