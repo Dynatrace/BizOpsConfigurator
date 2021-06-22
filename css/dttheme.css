@@ -1550,5 +1550,5 @@ a.justAdded, a.justAdded:visited {
 }
 
 #MZ-spinner {
-  display: hidden;
+  display: none;
 }
