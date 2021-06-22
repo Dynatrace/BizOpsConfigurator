@@ -565,7 +565,6 @@ span.steptype, span.actionCount {
 
 div.license {
   font-size: 12px;
-  ;
   color: #ABABAB;
   font-style: italic;
   position: fixed;
@@ -1521,4 +1520,19 @@ a.justAdded, a.justAdded:visited {
 
 .tagValuePicker {
   width: 100%
+}
+
+#MZ-tabs {
+  display: flex;
+  border: 1px solid #606060;
+  border-radius: 3px 3px 0px 0px;
+  padding: 2px 5px 2px 5px;
+}
+
+#MZ-tabs > div {
+  background: #454646;
+}
+
+#MZ-tabs > div.active {
+  background: #606060;
 }
