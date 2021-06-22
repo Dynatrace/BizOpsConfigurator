@@ -31,6 +31,9 @@ async function runMZcleanupReport() {
         $infobox.removeClass('invalid');
         const response = await fetch(url,{
             method: "post",
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8'
+            },
             body: JSON.stringify({
                 "token": TOKEN
             })
