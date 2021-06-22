@@ -1,0 +1,26 @@
+<fieldset id="MZcleanup">
+    <legend>HostUnit Report</legend>
+    <div id="MZcleanup-Connect">
+        <table>
+            <tr><td>Tenant URL:</td><td><input class="api" id="url" autocomplete="url" placeholder="https://&lt;tenant&gt;.dynatrace-managed.com/e/&lt;xxxx-xxxxxx-xxxxx-xxxxx&gt;"></td></tr>
+            <tr>
+              <td>API Token:</td>
+              <td><input type="password" class="api" id="token" autocomplete="token" placeholder="dt0c01.xxxxxxxx">
+                <a href="#revealToken" id="revealToken"><img class="open" src="images/eye-open.svg"><img class="close" src="images/eye-close.svg"></a>
+              </td></tr>
+
+            <tr><td>Self-health URL:<br>(optional)</td><td><input class="api" id="selfhealthurl" autocomplete="selfhealthurl" placeholder="https://&lt;tenant&gt;.live.dynatrace.com"></td></tr>
+            <tr>
+                <td>API Token:</td>
+                <td><input type="password" class="api" id="selfhealthtoken" autocomplete="selfhealthtoken" placeholder="dt0c01.xxxxxxxx">
+                  <a href="#selfhealthrevealToken" id="selfhealthrevealToken"><img class="open" src="images/eye-open.svg"><img class="close" src="images/eye-close.svg"></a>
+                </td></tr>
+          </table>
+          <input type="button" id="runMZcleanupReport" name="Name" onclick="runMZcleanupReport();">
+    </div>
+    
+    <h3></h3>
+    <span id="MZ-infobox" class="info"></span>
+    <div id="MZ-list" class="flexcontainer"></div>
+    
+</fieldset>

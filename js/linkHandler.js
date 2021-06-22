@@ -234,6 +234,8 @@ function hashHandler(hash) {
     case "#HUreport":
       $("#viewport").load("html/miscTools/HUreport.html", HUreportChangeHandler);
       break;
+    case "#MZcleanup":
+      $("#viewport").load("html/miscTools/mzcleanup.html", MZcleanupHandler)
     case "#devguide": {
       $("#viewport").load("html/devguide.html");
       break;
