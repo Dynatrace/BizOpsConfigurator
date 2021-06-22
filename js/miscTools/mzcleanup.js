@@ -32,7 +32,8 @@ async function runMZcleanupReport() {
         const response = await fetch(url,{
             method: "post",
             headers: {
-                'Content-Type': 'application/json; charset=utf-8'
+                'Content-Type': 'application/json; charset=utf-8',
+                Authorization: `Api-Token ${TOKEN}`
             },
             body: JSON.stringify({
                 "token": TOKEN
