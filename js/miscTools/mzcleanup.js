@@ -6,12 +6,45 @@ Unless required by applicable law or agreed to in writing, software distributed 
 async function runMZcleanupReport() {
     let HOST = getURL(`#url`);
     let TOKEN = $(`#token`).val();
+    let SCOPES = [];
     let SELFHEALTHHOST = getURL(`#selfhealthurl`);
     let SELFHEALTHTOKEN = $(`#selfhealthtoken`).text();
     let MZLIST = [];
     let $infobox = $(`#MZ-infobox`);
-    await getAllTheData();
-    generateReports();
+    let valid = await checkTokenScopes();
+
+    if(valid){
+        await getAllTheData();
+        generateReports();
+    }
+    
+
+
+    ////////////////////////////////////////
+    async function checkTokenScopes(){
+        let required = [
+            "ReadConfig",
+            "entities.read"
+        ];
+        let url = `${HOST}/api/v1/tokens/lookup`;
+
+        $infobox.removeClass('invalid');
+        const response = await fetch(url,{
+            method: "post",
+            body: JSON.stringify({
+                "token": TOKEN
+            })
+        })
+        const res = await response.json();
+        SCOPES = res.scopes;
+        let missing = required.filter(x => !SCOPES.includes(x));
+        if(missing.length){
+            $infobox.text(`Missing token scopes: ${missing.join(', ')}.<br>`);
+            $infobox.addClass('invalid');
+            return false;
+        }
+        return true;
+    }
 
     async function getAllTheData() {
         await getMZlist();
@@ -42,11 +75,11 @@ async function runMZcleanupReport() {
         const response = await fetch(url)
         const res = await response.json();
         MZLIST = res.values;
-        $infobox.text(`Retrieved ${MZLIST.length} MZs.`)
+        $infobox.text(`Retrieved ${MZLIST.length} MZs.<br>`)
     }
 
     async function getHostsPerMZ() {
-        $infobox.append(`<br>Firing ${MZLIST.length} XHRs to get a count of hosts in MZ... Please be patient.`);
+        $infobox.append(`Firing ${MZLIST.length} XHRs to get a count of hosts in MZ... Please be patient.<br>`);
         let $status = $(`<span>`).appendTo($infobox);
         let xhrCount = 0;
 
@@ -65,12 +98,12 @@ async function runMZcleanupReport() {
                 $status.text(`${i} XHRs complete`);
         }
 
-        $status.text(`all XHRs complete.`);
+        $status.text(`all XHRs complete.<br>`);
         return await xhrCount;
     }
 
     async function getRulesPerMZ() {
-        $infobox.append(`<br>Firing ${MZLIST.length} XHRs to get a list of rules... Please be patient.`);
+        $infobox.append(`Firing ${MZLIST.length} XHRs to get a list of rules... Please be patient.<br>`);
         let $status = $(`<span>`).appendTo($infobox);
         let xhrCount = 0;
 
@@ -89,12 +122,12 @@ async function runMZcleanupReport() {
                 $status.text(`${i} XHRs complete`);
         }
 
-        $status.text(`all XHRs complete.`);
+        $status.text(`all XHRs complete.<br>`);
         return await xhrCount;
     }
 
     async function getSelfHealthUsagePerMZ(){
-        $infobox.append(`<br>Firing ${MZLIST.length} XHRs against self-health to get usage... Please be patient.`);
+        $infobox.append(`Firing ${MZLIST.length} XHRs against self-health to get usage... Please be patient.<br>`);
         let $status = $(`<span>`).appendTo($infobox);
         let xhrCount = 0;
 
@@ -113,7 +146,7 @@ async function runMZcleanupReport() {
                 $status.text(`${i} XHRs complete`);
         }
 
-        $status.text(`all XHRs complete.`);
+        $status.text(`all XHRs complete.<br>`);
         return await xhrCount;
     }
 
@@ -131,6 +164,7 @@ async function runMZcleanupReport() {
         $(selector).val(url);
         return url;
     }
+
 }
 
 function MZcleanupHandler(){

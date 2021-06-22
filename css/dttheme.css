@@ -1158,7 +1158,7 @@ div.userInput input[type="button"] {
   overflow: auto;
 }
 
-input:invalid, select:invalid, select:invalid+.chosen-container {
+input:invalid, select:invalid, select:invalid+.chosen-container, div.invalid {
   border-bottom: 3px solid red;
 }
 
