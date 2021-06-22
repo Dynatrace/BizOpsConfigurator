@@ -162,6 +162,8 @@ async function runMZcleanupReport() {
     }
 
     function listOfEmptyMZs() {
+        $(`##MZ-tabs`).children().removeClass('active');
+        $(`#MZ-tab-empty`).parent().addClass('active');
         $resultbox.html(`<h2>Empty MZs:</h2>`);
         let $ul = $(`<ul>`).appendTo($resultbox);
         MZLIST.filter(x => x.hosts === 0).forEach(mz => {
@@ -172,6 +174,8 @@ async function runMZcleanupReport() {
     }
 
     function listDupMZs() {
+        $(`##MZ-tabs`).children().removeClass('active');
+        $(`#MZ-tab-dup`).parent().addClass('active');
         $resultbox.html(`<h2>Duplicate MZs:</h2>`);
         let $ul = $(`<ul>`).appendTo($resultbox);
 
@@ -190,13 +194,19 @@ async function runMZcleanupReport() {
     }
     
     function listFrequentRules() { 
+        $(`##MZ-tabs`).children().removeClass('active');
+        $(`#MZ-tab-rules`).parent().addClass('active');
         $resultbox.html(`<h2>Frequent Rules:</h2>`);
     }
     function listUnusedMZs() { 
+        $(`##MZ-tabs`).children().removeClass('active');
+        $(`#MZ-tab-unused`).parent().addClass('active');
         $resultbox.html(`<h2>Unused MZs:</h2>`);
     }
 
     function showJSON() {
+        $(`##MZ-tabs`).children().removeClass('active');
+        $(`#MZ-tab-json`).parent().addClass('active');
         $resultbox.html(`<h2>Full JSON Result:</h2>`);
         $resultbox.append(`<pre>`
             + JSON.stringify(MZLIST, null, 3)
