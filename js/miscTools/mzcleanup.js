@@ -5,7 +5,7 @@ Unless required by applicable law or agreed to in writing, software distributed 
 
 async function runMZcleanupReport() {
     let HOST = getURL(`#url`);
-    let TOKEN = $(`#token`).text();
+    let TOKEN = $(`#token`).val();
     let SELFHEALTHHOST = getURL(`#selfhealthurl`);
     let SELFHEALTHTOKEN = $(`#selfhealthtoken`).text();
     let MZLIST = [];
@@ -129,6 +129,7 @@ async function runMZcleanupReport() {
         if (url.length > 1 && !url.startsWith("https://"))
           url = "https://" + url;
         $(selector).val(url);
+        return url;
     }
 }
 
