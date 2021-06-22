@@ -17,7 +17,8 @@ async function runMZcleanupReport() {
         await getMZlist();
         await getHostsPerMZ();
         await getRulesPerMZ();
-        await getSelfHealthUsagePerMZ();
+        if(SELFHEALTHHOST && SELFHEALTHTOKEN)
+            await getSelfHealthUsagePerMZ();
     }
 
     function generateReports() {
