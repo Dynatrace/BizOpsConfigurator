@@ -1524,15 +1524,20 @@ a.justAdded, a.justAdded:visited {
 
 #MZ-tabs {
   display: flex;
-  border: 1px solid #606060;
-  border-radius: 3px 3px 0px 0px;
-  padding: 2px 5px 2px 5px;
 }
 
 #MZ-tabs > div {
-  background: #454646;
+  border: 1px solid #606060;
+  border-radius: 5px 5px 0px 0px;
+  padding: 2px 5px 2px 5px;
+  margin: 0px 2px 0px 0px;
+  border-bottom: 0px;
 }
 
 #MZ-tabs > div.active {
   background: #606060;
+}
+
+#MZ-list {
+  border-bottom: 1px solid #606060;
 }
