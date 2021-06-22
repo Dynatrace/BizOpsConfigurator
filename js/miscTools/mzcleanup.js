@@ -11,17 +11,18 @@ async function runMZcleanupReport() {
     let SELFHEALTHTOKEN = $(`#selfhealthtoken`).text();
     let MZLIST = [];
     let $infobox = $(`#MZ-infobox`);
+    let $resultbox = $(`#MZ-list`);
     let valid = await checkTokenScopes();
 
-    if(valid){
+    if (valid) {
         await getAllTheData();
         generateReports();
     }
-    
+
 
 
     ////////////////////////////////////////
-    async function checkTokenScopes(){
+    async function checkTokenScopes() {
         let required = [
             "ReadConfig",
             "entities.read"
@@ -29,7 +30,7 @@ async function runMZcleanupReport() {
         let url = `${HOST}/api/v1/tokens/lookup`;
 
         $infobox.removeClass('invalid');
-        const response = await fetch(url,{
+        const response = await fetch(url, {
             method: "post",
             headers: {
                 'Content-Type': 'application/json; charset=utf-8',
@@ -42,7 +43,7 @@ async function runMZcleanupReport() {
         const res = await response.json();
         SCOPES = res.scopes;
         let missing = required.filter(x => !SCOPES.includes(x));
-        if(missing.length){
+        if (missing.length) {
             $infobox.text(`Missing token scopes: ${missing.join(', ')}.<br>`);
             $infobox.addClass('invalid');
             return false;
@@ -54,16 +55,19 @@ async function runMZcleanupReport() {
         await getMZlist();
         await getHostsPerMZ();
         await getRulesPerMZ();
-        if(SELFHEALTHHOST && SELFHEALTHTOKEN)
+        if (SELFHEALTHHOST && SELFHEALTHTOKEN)
             await getSelfHealthUsagePerMZ();
     }
 
     function generateReports() {
-        $(`#MZ-list`).text(JSON.stringify(MZLIST,null,3));
         listOfEmptyMZs();
         listDupMZs();
         listFrequentRules();
         listUnusedMZs();
+
+        $resultbox.append(`<pre>`
+            + JSON.stringify(MZLIST, null, 3)
+            + `</pre>`);
     }
 
     function disableRulesForAll() {
@@ -79,7 +83,7 @@ async function runMZcleanupReport() {
         const response = await fetch(url)
         const res = await response.json();
         MZLIST = res.values;
-        $infobox.text(`Retrieved ${MZLIST.length} MZs.<br>`)
+        $infobox.html(`Retrieved ${MZLIST.length} MZs.<br>`)
     }
 
     async function getHostsPerMZ() {
@@ -99,10 +103,10 @@ async function runMZcleanupReport() {
                 xhrCount++;
             }
             if (i && i % 100 === 0)
-                $status.text(`${i} XHRs complete`);
+                $status.html(`${i} XHRs complete`);
         }
 
-        $status.text(`all XHRs complete.<br>`);
+        $status.html(`all XHRs complete.<br>`);
         return await xhrCount;
     }
 
@@ -123,21 +127,21 @@ async function runMZcleanupReport() {
                 xhrCount++;
             }
             if (i && i % 100 === 0)
-                $status.text(`${i} XHRs complete`);
+                $status.html(`${i} XHRs complete`);
         }
 
-        $status.text(`all XHRs complete.<br>`);
+        $status.html(`all XHRs complete.<br>`);
         return await xhrCount;
     }
 
-    async function getSelfHealthUsagePerMZ(){
+    async function getSelfHealthUsagePerMZ() {
         $infobox.append(`Firing ${MZLIST.length} XHRs against self-health to get usage... Please be patient.<br>`);
         let $status = $(`<span>`).appendTo($infobox);
         let xhrCount = 0;
 
         for (let i = 0; i < MZLIST.length; i++) {
             let mz = MZLIST[i];
-            let ms = new Date().getTime() - (1000*60*60*24*30); //-30d
+            let ms = new Date().getTime() - (1000 * 60 * 60 * 24 * 30); //-30d
             let url = `${SELFHEALTHHOST}/api/v1/userSessionQueryLanguage/table?query=select%20count%28%2A%29%20from%20useraction%20where%20stringProperties.mz%20%3D%20%22${mz.name}%22%20&startTimestamp=${ms}&addDeepLinkFields=false&explain=false&Api-Token=${SELFHEALTHTOKEN}`;
 
             if (!mz.hasOwnProperty('count') || !mz.count) {
@@ -147,30 +151,56 @@ async function runMZcleanupReport() {
                 xhrCount++;
             }
             if (i && i % 100 === 0)
-                $status.text(`${i} XHRs complete`);
+                $status.html(`${i} XHRs complete`);
         }
 
-        $status.text(`all XHRs complete.<br>`);
+        $status.html(`all XHRs complete.<br>`);
         return await xhrCount;
     }
 
-    function listOfEmptyMZs(){}
-    function listDupMZs(){}
-    function listFrequentRules(){}
-    function listUnusedMZs(){}
+    function listOfEmptyMZs() {
+        $resultbox.append(`<h2>Empty MZs:</h2>`);
+        let $ul = $(`<ul>`).appendTo($resultbox);
+        MZLIST.filter(x => x.hosts === 0).forEach(mz => {
+            $(`<li>`)
+                .text(mz.name)
+                .appendTo($ul);
+        })
+    }
 
-    function getURL(selector){
+    function listDupMZs() {
+        $resultbox.append(`<h2>Duplicate MZs:</h2>`);
+        let $ul = $(`<ul>`).appendTo($resultbox);
+
+        let mznames = MZLIST.map(x => ({ name: x.name, count: 1 }))
+            .reduce((a, b) => { a[b.name] = (a[b.name] || 0) + b.count; return a; }, {});
+
+        var dups = Object.keys(mznames).filter(a => mznames[a] > 1);
+
+        var duplicateMZs = MZLIST.filter(x => dups.includes(x.name)).sort((a, b) => a.name > b.name ? -1 : 1);
+
+        duplicateMZs.forEach(mz => {
+            $(`<li>`)
+                .text(mz.name)
+                .appendTo($ul);
+        })
+    }
+    
+    function listFrequentRules() { }
+    function listUnusedMZs() { }
+
+    function getURL(selector) {
         url = $(selector).val().toLowerCase();
         if (url.length > 1 && url.charAt(url.length - 1) == "/")
-          url = url.substring(0, url.length - 1);
+            url = url.substring(0, url.length - 1);
         if (url.length > 1 && !url.startsWith("https://"))
-          url = "https://" + url;
+            url = "https://" + url;
         $(selector).val(url);
         return url;
     }
 
 }
 
-function MZcleanupHandler(){
+function MZcleanupHandler() {
     $(`#runMZcleanupReport`).click(runMZcleanupReport);
 }
