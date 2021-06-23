@@ -104,7 +104,7 @@ async function runMZcleanupReport() {
         $(`#MZ-tab-empty`).click(listOfEmptyMZs);
         $(`#MZ-tab-dup`).click(listDupMZs);
         $(`#MZ-tab-rules`).click(listFrequentRules);
-        if(selfhealthvalid)$(`#MZ-tab-unused`).click(listUnusedMZs);
+        if (selfhealthvalid) $(`#MZ-tab-unused`).click(listUnusedMZs);
         $(`#MZ-tab-JSON`).click(showJSON);
     }
 
@@ -221,11 +221,13 @@ async function runMZcleanupReport() {
     function listOfEmptyMZs() {
         $(`#MZ-tabs`).children().removeClass('active');
         $(`#MZ-tab-empty`).parent().addClass('active');
-        $resultbox.html(`<h2>Empty MZs:</h2>`);
+
         let $ul = $(`<ul>`).appendTo($resultbox);
-        MZLIST.filter(x => x.hosts === 0)
-            .sort((a,b) => a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1)
-            .forEach(mz => {
+        let list = MZLIST.filter(x => x.hosts === 0)
+            .sort((a, b) => a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1);
+
+        $resultbox.html(`<h2>Empty MZs (${list.length}):</h2>`);
+        list.forEach(mz => {
             $(`<li>`)
                 .text(mz.name)
                 .appendTo($ul);
@@ -235,16 +237,14 @@ async function runMZcleanupReport() {
     function listDupMZs() {
         $(`#MZ-tabs`).children().removeClass('active');
         $(`#MZ-tab-dup`).parent().addClass('active');
-        $resultbox.html(`<h2>Duplicate MZs:</h2>`);
-        let $ul = $(`<ul>`).appendTo($resultbox);
 
         let mznames = MZLIST.map(x => ({ name: x.name, count: 1 }))
             .reduce((a, b) => { a[b.name] = (a[b.name] || 0) + b.count; return a; }, {});
-
         var dups = Object.keys(mznames).filter(a => mznames[a] > 1);
-
         var duplicateMZs = MZLIST.filter(x => dups.includes(x.name)).sort((a, b) => a.name > b.name ? -1 : 1);
 
+        $resultbox.html(`<h2>Duplicate MZs (${duplicateMZs.length}):</h2>`);
+        let $ul = $(`<ul>`).appendTo($resultbox);
         duplicateMZs.forEach(mz => {
             $(`<li>`)
                 .text(mz.name)
@@ -255,7 +255,7 @@ async function runMZcleanupReport() {
     function listFrequentRules() {
         $(`#MZ-tabs`).children().removeClass('active');
         $(`#MZ-tab-rules`).parent().addClass('active');
-        $resultbox.html(`<h2>Frequent Rules:</h2>`);
+        
         let counts = [];
         MZLIST.map(x => x.rules).flat()
             .forEach(rule => {
@@ -271,6 +271,7 @@ async function runMZcleanupReport() {
             .filter(x => x.count > 1)
             .sort((a, b) => b.count - a.count);
 
+            $resultbox.html(`<h2>Frequent Rules (${counts.length}):</h2>`);
         $resultbox.append(`<pre>`
             + JSON.stringify(counts, null, 3)
             + `</pre>`);
@@ -279,11 +280,12 @@ async function runMZcleanupReport() {
     function listUnusedMZs() {
         $(`#MZ-tabs`).children().removeClass('active');
         $(`#MZ-tab-unused`).parent().addClass('active');
-        $resultbox.html(`<h2>Unused MZs:</h2>`);
-        let $ul = $(`<ul>`).appendTo($resultbox);
 
-        MZLIST.filter(x => !x.actions).map(x => x.name)
-            .forEach(mz => {
+        let list = MZLIST.filter(x => !x.actions).map(x => x.name);
+
+        $resultbox.html(`<h2>Unused MZs (${list.length}):</h2>`);
+        let $ul = $(`<ul>`).appendTo($resultbox);
+        list.forEach(mz => {
                 $(`<li>`).text(mz).appendTo($ul);
             })
     }
