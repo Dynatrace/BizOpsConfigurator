@@ -204,7 +204,9 @@ async function runMZcleanupReport() {
             counts.push({rule: str, count: 1})
         });
         
-        counts.reduce((a, b) => { a[b.rule] = (a[b.rule] || 0) + b.count; return a; }, {});
+        counts = counts
+            .reduce((a, b) => { a[b.rule] = (a[b.rule] || 0) + b.count; return a; }, {})
+            .sort((a,b) => { a.count - b.count});
 
         $resultbox.append(`<pre>`
             + JSON.stringify(counts, null, 3)
