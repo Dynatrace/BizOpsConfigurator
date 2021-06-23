@@ -207,7 +207,7 @@ async function runMZcleanupReport() {
             if (!mz.hasOwnProperty('count') || !mz.count) {
                 const response = await fetch(url)
                 const res = await response.json();
-                mz.actions = res.values[0];
+                mz.actions = res.values[0][0];
                 xhrCount++;
             }
             if (i && i % 100 === 0)
@@ -223,7 +223,9 @@ async function runMZcleanupReport() {
         $(`#MZ-tab-empty`).parent().addClass('active');
         $resultbox.html(`<h2>Empty MZs:</h2>`);
         let $ul = $(`<ul>`).appendTo($resultbox);
-        MZLIST.filter(x => x.hosts === 0).forEach(mz => {
+        MZLIST.filter(x => x.hosts === 0)
+            .sort((a,b) => a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1)
+            .forEach(mz => {
             $(`<li>`)
                 .text(mz.name)
                 .appendTo($ul);
@@ -266,6 +268,7 @@ async function runMZcleanupReport() {
             .reduce((a, b) => { a[b.rule] = (a[b.rule] || 0) + b.count; return a; }, {});
         counts = Object.keys(countsobj)
             .map(x => ({ rule: x, count: countsobj[x] }))
+            .filter(x => x.count > 1)
             .sort((a, b) => b.count - a.count);
 
         $resultbox.append(`<pre>`
