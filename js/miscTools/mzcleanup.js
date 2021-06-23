@@ -204,8 +204,11 @@ async function runMZcleanupReport() {
             counts.push({rule: str, count: 1})
         });
         
-        counts = counts
-            .reduce((a, b) => { a[b.rule] = (a[b.rule] || 0) + b.count; return a; }, {})
+        //aggregate rules
+        let countsobj = counts
+            .reduce((a, b) => { a[b.rule] = (a[b.rule] || 0) + b.count; return a; }, {});
+        counts = Object.keys(countsobj)
+            .map(x => ({rule: x, count: countsobj[x]}))
             .sort((a,b) => { a.count - b.count});
 
         $resultbox.append(`<pre>`
