@@ -199,17 +199,17 @@ async function runMZcleanupReport() {
         $resultbox.html(`<h2>Frequent Rules:</h2>`);
         let counts = [];
         MZLIST.map(x => x.rules).flat()
-        .forEach(rule => {
-            let str = JSON.stringify(rule);
-            counts.push({rule: str, count: 1})
-        });
-        
+            .forEach(rule => {
+                let str = JSON.stringify(rule);
+                counts.push({ rule: str, count: 1 })
+            });
+
         //aggregate rules
         let countsobj = counts
             .reduce((a, b) => { a[b.rule] = (a[b.rule] || 0) + b.count; return a; }, {});
         counts = Object.keys(countsobj)
-            .map(x => ({rule: x, count: countsobj[x]}))
-            .sort((a,b) => { a.count - b.count});
+            .map(x => ({ rule: x, count: countsobj[x] }))
+            .sort((a, b) => b.count - a.count);
 
         $resultbox.append(`<pre>`
             + JSON.stringify(counts, null, 3)
