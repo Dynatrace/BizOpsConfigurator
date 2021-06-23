@@ -215,10 +215,17 @@ async function runMZcleanupReport() {
             + JSON.stringify(counts, null, 3)
             + `</pre>`);
     }
+    
     function listUnusedMZs() {
         $(`#MZ-tabs`).children().removeClass('active');
         $(`#MZ-tab-unused`).parent().addClass('active');
         $resultbox.html(`<h2>Unused MZs:</h2>`);
+        let $ul = $(`<ul>`).appendTo($resultbox);
+
+        MZLIST.filter(x => !x.count).map(x => x.name)
+            .forEach(mz => {
+                $(`<li>`).text(mz).appendTo($ul);
+            })
     }
 
     function showJSON() {
