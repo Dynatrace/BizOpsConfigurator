@@ -184,6 +184,10 @@ function linkHandler(e) {
         $("#viewport").load("html/miscTools/MassEdit.html", massEditInit);
         break;
       }
+      case "MZcleanup":{
+        $("#viewport").load("html/miscTools/MZcleanup.html", MZcleanupHandler);
+        break;
+      }
       case "devguide": {
         $("#viewport").load("html/devguide.html");
         break;
