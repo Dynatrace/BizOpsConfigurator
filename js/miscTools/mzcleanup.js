@@ -97,6 +97,7 @@ async function runMZcleanupReport() {
         else
             $(`#MZ-tab-unused`).disable();
         $spinner.hide();
+        $infobox.html(`Data loaded successfully.`)
     }
 
     function generateReports() {
