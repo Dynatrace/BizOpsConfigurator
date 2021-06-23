@@ -167,7 +167,7 @@ function linkHandler(e) {
           $("#token").prop('type', 'text');
         }
         break;
-        case "selfhealthrevealToken":
+      case "selfhealthrevealToken":
         if ($("#selfhealthrevealToken").hasClass("revealed")) {
           $("#selfhealthrevealToken").removeClass("revealed");
           $("#selfhealthtoken").prop('type', 'password');
@@ -312,7 +312,7 @@ function loadDeployScreen(args) {
   });
 }
 
-function loadEditScreen(id){
+function loadEditScreen(id) {
   let p0 = getConnectInfo(true);
 
   return $.when(p0).done(function () {

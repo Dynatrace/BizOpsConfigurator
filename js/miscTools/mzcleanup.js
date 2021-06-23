@@ -222,11 +222,11 @@ async function runMZcleanupReport() {
         $(`#MZ-tabs`).children().removeClass('active');
         $(`#MZ-tab-empty`).parent().addClass('active');
 
-        let $ul = $(`<ul>`).appendTo($resultbox);
         let list = MZLIST.filter(x => x.hosts === 0)
             .sort((a, b) => a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1);
 
         $resultbox.html(`<h2>Empty MZs (${list.length}):</h2>`);
+        let $ul = $(`<ul>`).appendTo($resultbox);
         list.forEach(mz => {
             $(`<li>`)
                 .text(mz.name)
