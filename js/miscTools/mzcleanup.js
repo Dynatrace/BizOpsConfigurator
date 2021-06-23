@@ -281,7 +281,10 @@ async function runMZcleanupReport() {
         $(`#MZ-tabs`).children().removeClass('active');
         $(`#MZ-tab-unused`).parent().addClass('active');
 
-        let list = MZLIST.filter(x => !x.actions).map(x => x.name);
+        let list = MZLIST
+            .filter(x => !x.actions)
+            .map(x => x.name)
+            .sort((a,b) => a.toLowerCase() < b.toLowerCase() ? -1 : 1);
 
         $resultbox.html(`<h2>Unused MZs (${list.length}):</h2>`);
         let $ul = $(`<ul>`).appendTo($resultbox);
