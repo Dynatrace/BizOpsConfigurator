@@ -839,7 +839,7 @@ th {
   display: none;
 }
 
-#revealToken {
+#revealToken, #selfhealthrevealToken {
   display: inline-block;
   cursor: pointer;
   color: white;
@@ -849,21 +849,21 @@ th {
   vertical-align: middle;
 }
 
-#revealToken img.close {
+#revealToken img.close, #selfhealthrevealToken img.close{
   display: none;
   height: 20px;
   width: 20px;
 }
 
-#revealToken img.open {
+#revealToken img.open, #selfhealthrevealToken img.open{
   display: inline;
 }
 
-#revealToken.revealed img.close {
+#revealToken.revealed img.close, #selfhealthrevealToken.revealed img.close {
   display: inline;
 }
 
-#revealToken.revealed img.open {
+#revealToken.revealed img.open, #selfhealthrevealToken.revealed img.open {
   display: none;
 }
 

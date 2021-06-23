@@ -167,6 +167,15 @@ function linkHandler(e) {
           $("#token").prop('type', 'text');
         }
         break;
+        case "selfhealthrevealToken":
+        if ($("#selfhealthrevealToken").hasClass("revealed")) {
+          $("#selfhealthrevealToken").removeClass("revealed");
+          $("#selfhealthtoken").prop('type', 'password');
+        } else {
+          $("#selfhealthrevealToken").addClass("revealed");
+          $("#selfhealthtoken").prop('type', 'text');
+        }
+        break;
       case "HUreport": {
         $("#viewport").load("html/miscTools/HUreport.html", HUreportChangeHandler);
         break;
