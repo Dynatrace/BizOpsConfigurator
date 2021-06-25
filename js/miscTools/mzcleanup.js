@@ -105,6 +105,7 @@ async function runMZcleanupReport() {
         $(`#MZ-tab-dup`).click(listDupMZs);
         $(`#MZ-tab-rules`).click(listFrequentRules);
         if (selfhealthvalid) $(`#MZ-tab-unused`).click(listUnusedMZs);
+        $(`#MZ-tab-disabled`).click(listDisabled);
         $(`#MZ-tab-JSON`).click(showJSON);
     }
 
@@ -291,6 +292,33 @@ async function runMZcleanupReport() {
         list.forEach(mz => {
                 $(`<li>`).text(mz).appendTo($ul);
             })
+    }
+
+    function listDisabled() {
+        $(`#MZ-tabs`).children().removeClass('active');
+        $(`#MZ-tab-disabled`).parent().addClass('active');
+
+        let disabledRules = MZLIST.map(x => x.rules).flat()
+            .filter(rule => rule.enabled == false);
+        let MZwithDisabledRule = MZLIST
+            .filter(x => x.rules.findIndex(rule => rule.enabled == false) > -1)
+            .sort((a,b) => a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1);
+
+        $resultbox.html(`<h2>Disabled rules (${list.length}):</h2>`);
+        let $ul = $(`<ul>`).appendTo($resultbox);
+        MZwithDisabledRule.forEach(mz => {
+                let $li = $(`<li>`)
+                    .text(`${mz.name}:`)
+                    .appendTo($ul);
+                let $rules = $(`<ul>`)
+                    .appendTo($li);
+                mz.rules.filter(x => x.enabled == false).forEach(rule => {
+                    let $rule = $(`<li>`)
+                        .text(JSON.stringify(rule))
+                        .addClass(`mz-rule-disabled`)
+                        .appendTo($rules);
+                });
+            });
     }
 
     function showJSON() {
