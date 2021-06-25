@@ -25,14 +25,16 @@ async function runMZcleanupReport() {
 
     ////////////////////////////////////////
     async function checkTokenScopes() {
-        $spinner.show();
+        $infobox.removeClass('invalid');
         let required = [
             "ReadConfig",
             "entities.read"
         ];
         let url = `${HOST}/api/v1/tokens/lookup`;
 
-        $infobox.removeClass('invalid');
+        
+        if (!HOST || !TOKEN) return false;
+        $spinner.show();
         const response = await fetch(url, {
             method: "post",
             headers: {
@@ -57,7 +59,6 @@ async function runMZcleanupReport() {
     }
 
     async function checkSelfHealthTokenScopes() {
-        $spinner.show();
         $infobox.removeClass('invalid');
         let required = [
             "DTAQLAccess"
@@ -65,6 +66,7 @@ async function runMZcleanupReport() {
         let url = `${SELFHEALTHHOST}/api/v1/tokens/lookup`;
 
         if (!SELFHEALTHHOST || !SELFHEALTHTOKEN) return false;
+        $spinner.show();
         const response = await fetch(url, {
             method: "post",
             headers: {
