@@ -1557,6 +1557,7 @@ a.justAdded, a.justAdded:visited {
   margin: 10px;
   border: 1px solid #00a1b2;
   padding: 10px;
+  display: none;
 }
 
 #MZ-spinner {

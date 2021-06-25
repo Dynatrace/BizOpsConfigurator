@@ -13,6 +13,8 @@ async function runMZcleanupReport() {
     let $infobox = $(`#MZ-infobox`);
     let $resultbox = $(`#MZ-list`);
     let $spinner = $(`#MZ-spinner`);
+    
+    $(`#MZ-infobox-container`).show();
     let valid = await checkTokenScopes();
     let selfhealthvalid = await checkSelfHealthTokenScopes();
 
