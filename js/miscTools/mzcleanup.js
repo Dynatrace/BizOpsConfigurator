@@ -13,7 +13,7 @@ async function runMZcleanupReport() {
     let $infobox = $(`#MZ-infobox`);
     let $resultbox = $(`#MZ-list`);
     let $spinner = $(`#MZ-spinner`);
-    
+
     $(`#MZ-infobox-container`).show();
     let valid = await checkTokenScopes();
     let selfhealthvalid = await checkSelfHealthTokenScopes();
@@ -100,7 +100,7 @@ async function runMZcleanupReport() {
         if (selfhealthvalid)
             await getSelfHealthUsagePerMZ();
         else
-            $(`#MZ-tab-unused`).disable();
+            $(`#MZ-tab-unused`).prop( "disabled", true );
         $spinner.hide();
         $infobox.html(`Data loaded successfully.`)
     }
