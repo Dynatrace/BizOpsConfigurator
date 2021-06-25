@@ -28,6 +28,7 @@ async function runMZcleanupReport() {
     $(`#MZ-spinner *`).css("animation","none");
     $(`#MZ-infobox-container`).css("border", "1px red solid");
     $(`#MZ-infobox`).text(e);
+    console.error(e);
 }
 
     ////////////////////////////////////////
