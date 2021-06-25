@@ -58,12 +58,13 @@ async function runMZcleanupReport() {
 
     async function checkSelfHealthTokenScopes() {
         $spinner.show();
+        $infobox.removeClass('invalid');
         let required = [
             "DTAQLAccess"
         ];
         let url = `${SELFHEALTHHOST}/api/v1/tokens/lookup`;
 
-        $infobox.removeClass('invalid');
+        if (!SELFHEALTHHOST || !SELFHEALTHTOKEN) return false;
         const response = await fetch(url, {
             method: "post",
             headers: {
@@ -92,7 +93,7 @@ async function runMZcleanupReport() {
         await getMZlist();
         await getHostsPerMZ();
         await getRulesPerMZ();
-        if (SELFHEALTHHOST && SELFHEALTHTOKEN && selfhealthvalid)
+        if (selfhealthvalid)
             await getSelfHealthUsagePerMZ();
         else
             $(`#MZ-tab-unused`).disable();
