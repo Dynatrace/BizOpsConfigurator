@@ -1544,7 +1544,7 @@ a.justAdded, a.justAdded:visited {
   text-decoration: underline;
 }
 
-#MZ-tabs > div.active, #MZ-tabs > div:hover {
+#MZ-tabs > div.active, #MZ-tabs > div:hover:not(.MZ-tab-spacer) {
   background: #606060;
 }
 
@@ -1563,8 +1563,8 @@ a.justAdded, a.justAdded:visited {
   display: none;
 }
 
-.MZ-tab-spacer {
-  width: 40px;
+#MZ-tabs .MZ-tab-spacer {
+  width: 10px;
   border: 0px;
 }
 

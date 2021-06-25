@@ -137,9 +137,9 @@ async function runMZcleanupReport() {
         if (list.length) {
             let skipped = MZLIST.length - list.length;
             if (skipped)
-                $infobox.append(`Firing ${list.length} XHRs to get a count of hosts in MZ, ${skipped} skipped... Please be patient.<br>`);
+                $infobox.append(`Firing ${list.length} API calls to get a count of hosts in MZ, ${skipped} skipped... Please be patient.<br>`);
             else
-                $infobox.append(`Firing ${MZLIST.length} XHRs to get a count of hosts in MZ... Please be patient.<br>`);
+                $infobox.append(`Firing ${MZLIST.length} API calls to get a count of hosts in MZ... Please be patient.<br>`);
             let $status = $(`<span>`).appendTo($infobox);
             let xhrCount = 0;
 
@@ -155,10 +155,10 @@ async function runMZcleanupReport() {
                     xhrCount++;
                 }
                 if (i && i % 100 === 0)
-                    $status.html(`${i} XHRs complete`);
+                    $status.html(`${i} API calls complete`);
             }
 
-            $status.html(`all XHRs complete.<br>`);
+            $status.html(`all API calls complete.<br>`);
             return await xhrCount;
         } else {
             $infobox.append(`All ${MZLIST.length} MZs have a count of hosts, skipping...<br>`);
@@ -170,9 +170,9 @@ async function runMZcleanupReport() {
         if (list.length) {
             let skipped = MZLIST.length - list.length;
             if (skipped)
-                $infobox.append(`Firing ${list.length} XHRs to get a list of rules, ${skipped} skipped... Please be patient.<br>`);
+                $infobox.append(`Firing ${list.length} API calls to get a list of rules, ${skipped} skipped... Please be patient.<br>`);
             else
-                $infobox.append(`Firing ${MZLIST.length} XHRs to get a list of rules... Please be patient.<br>`);
+                $infobox.append(`Firing ${MZLIST.length} API calls to get a list of rules... Please be patient.<br>`);
             let $status = $(`<span>`).appendTo($infobox);
             let xhrCount = 0;
 
@@ -188,10 +188,10 @@ async function runMZcleanupReport() {
                     xhrCount++;
                 }
                 if (i && i % 100 === 0)
-                    $status.html(`${i} XHRs complete`);
+                    $status.html(`${i} API calls complete`);
             }
 
-            $status.html(`all XHRs complete.<br>`);
+            $status.html(`all API calls complete.<br>`);
             return await xhrCount;
         } else {
             $infobox.append(`All ${MZLIST.length} MZs have a list of rules, skipping...<br>`);
@@ -199,7 +199,7 @@ async function runMZcleanupReport() {
     }
 
     async function getSelfHealthUsagePerMZ() {
-        $infobox.append(`Firing ${MZLIST.length} XHRs against self-health to get usage... Please be patient.<br>`);
+        $infobox.append(`Firing ${MZLIST.length} API calls against self-health to get usage... Please be patient.<br>`);
         let $status = $(`<span>`).appendTo($infobox);
         let xhrCount = 0;
 
@@ -215,10 +215,10 @@ async function runMZcleanupReport() {
                 xhrCount++;
             }
             if (i && i % 100 === 0)
-                $status.html(`${i} XHRs complete`);
+                $status.html(`${i} API calls complete`);
         }
 
-        $status.html(`all XHRs complete.<br>`);
+        $status.html(`all API calls complete.<br>`);
         return await xhrCount;
     }
 
@@ -301,15 +301,15 @@ async function runMZcleanupReport() {
         $(`#MZ-tabs`).children().removeClass('active');
         $(`#MZ-tab-disabled`).parent().addClass('active');
 
-        let disabledRules = MZLIST.map(x => x.rules).flat()
-            .filter(rule => rule.enabled == false);
-        let MZwithDisabledRule = MZLIST
+        //let disabledRules = MZLIST.map(x => x.rules).flat()
+        //    .filter(rule => rule.enabled == false);
+        let mzWithDisabledRule = MZLIST
             .filter(x => x.rules.findIndex(rule => rule.enabled == false) > -1)
             .sort((a,b) => a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1);
 
-        $resultbox.html(`<h2>Disabled rules (${list.length}):</h2>`);
+        $resultbox.html(`<h2>Disabled rules (${mzWithDisabledRule.length}):</h2>`);
         let $ul = $(`<ul>`).appendTo($resultbox);
-        MZwithDisabledRule.forEach(mz => {
+        mzWithDisabledRule.forEach(mz => {
                 let $li = $(`<li>`)
                     .text(`${mz.name}:`)
                     .appendTo($ul);
