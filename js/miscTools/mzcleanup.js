@@ -122,7 +122,7 @@ async function runMZcleanupReport() {
             let deleted = 0;
             $infobox.html(`Firing ${$checks.length} API calls to delete MZs... Please be patient.<br>`);
             let $status = $(`<span>`)
-                .text(`${deleted} / ${checks.length} deleted`)
+                .text(`${deleted} / ${$checks.length} deleted`)
                 .appendTo($infobox);
             $checks.each(async (cb_idx, cb) => {
                 let mzid = $(cb).data('mzid');
@@ -279,7 +279,7 @@ async function runMZcleanupReport() {
                     .appendTo($resultbox);
                 let $label = $(`<label for="checkAll">All: </label>`)
                     .appendTo($footer);
-                let $checkall = $(`<input type="checkbox" id ="checkAll">`)
+                let $checkall = $(`<input type="checkbox" id ="checkAll" checked>`)
                     .on("change", checkUncheckAll)
                     .appendTo($footer);
                 let $execute = $(`<input type="button" id="mzExecute" value="Delete">`)
