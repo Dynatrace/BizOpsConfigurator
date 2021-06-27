@@ -124,7 +124,7 @@ async function runMZcleanupReport() {
             let $status = $(`<span>`)
                 .text(`${deleted} / ${checks.length} deleted`)
                 .appendTo($infobox);
-            $checks.each((cb_idx,cb)=>{
+            $checks.each(async (cb_idx, cb) => {
                 let mzid = $(cb).data('mzid');
                 let url = `${HOST}/api/config/v1/managementZones/${mzid}`;
                 const response = await fetch(url, {
@@ -133,9 +133,9 @@ async function runMZcleanupReport() {
                         Authorization: `Api-Token ${TOKEN}`
                     }
                 })
-                if(response.ok){
+                if (response.ok) {
                     deleted++;
-                    if(deleted % 20 === 0)
+                    if (deleted % 20 === 0)
                         $status.text(`${deleted} / ${checks.length} deleted`);
                 }
             })
@@ -267,8 +267,8 @@ async function runMZcleanupReport() {
                 let $td = $('<td>')
                     .appdendTo($tr);
                 let $check = $(`<input type="checkbox">`)
-                    .data('mzid',mz.id)
-                    .prop('checked',true)
+                    .data('mzid', mz.id)
+                    .prop('checked', true)
                     .appendTo($td);
                 $tr.appendTo($table);
             })
@@ -280,10 +280,10 @@ async function runMZcleanupReport() {
                 let $label = $(`<label for="checkAll">All: </label>`)
                     .appendTo($footer);
                 let $checkall = $(`<input type="checkbox" id ="checkAll"`)
-                    .on("change",checkUncheckAll)
+                    .on("change", checkUncheckAll)
                     .appendTo($footer);
                 let $execute = $(`<input type="button" id="mzExecute" value="Delete">`)
-                    .on("click",deleteAllByID)
+                    .on("click", deleteAllByID)
                     .appendTo($footer)
             }
         }
@@ -433,8 +433,8 @@ async function runMZcleanupReport() {
             return url;
         }
 
-        function checkUncheckAll(){
-            $(`table input[type=checkbox]`).each((cb_idx,cb)=>{
+        function checkUncheckAll() {
+            $(`table input[type=checkbox]`).each((cb_idx, cb) => {
                 $(cb).prop('checked', !$(cb).prop('checked'));
             })
         }
