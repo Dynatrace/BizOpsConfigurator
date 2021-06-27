@@ -11,10 +11,12 @@ async function runMZcleanupReport() {
         let SELFHEALTHHOST = getURL(`#selfhealthurl`);
         let SELFHEALTHTOKEN = $(`#selfhealthtoken`).val();
         let MZLIST = [];
-        let READONLY = $(`#mzReadOnly`).prop('checked');
         let $infobox = $(`#MZ-infobox`);
         let $resultbox = $(`#MZ-list`);
         let $spinner = $(`#MZ-spinner`);
+        let $readonly = $(`#mzReadOnly`);
+        let READONLY = $readonly.prop('checked');
+        $readonly.on("change", () => { readonly = $readonly.prop('checked'); });
 
         $(`#MZ-infobox-container`).show();
         let valid = await checkTokenScopes();
@@ -239,7 +241,7 @@ async function runMZcleanupReport() {
                     .appendTo($ul);
             })
 
-            if(!READONLY){
+            if (!READONLY) {
                 let $footer = $(`<div>`)
                     .addClass('MZ-footer')
                     .appendTo($resultbox);
@@ -265,7 +267,7 @@ async function runMZcleanupReport() {
                     .appendTo($ul);
             })
 
-            if(!READONLY){
+            if (!READONLY) {
                 let $footer = $(`<div>`)
                     .addClass('MZ-footer')
                     .appendTo($resultbox);
@@ -298,13 +300,13 @@ async function runMZcleanupReport() {
                 + JSON.stringify(counts, null, 3)
                 + `</pre>`);
 
-                if(!READONLY){
-                    let $footer = $(`<div>`)
-                        .addClass('MZ-footer')
-                        .appendTo($resultbox);
-                    let $execute = $(`<input type="button" id="mzExecute" value="Disable">`)
-                        .appendTo($footer)
-                }
+            if (!READONLY) {
+                let $footer = $(`<div>`)
+                    .addClass('MZ-footer')
+                    .appendTo($resultbox);
+                let $execute = $(`<input type="button" id="mzExecute" value="Disable">`)
+                    .appendTo($footer)
+            }
         }
 
         function listUnusedMZs() {
@@ -322,7 +324,7 @@ async function runMZcleanupReport() {
                 $(`<li>`).text(mz).appendTo($ul);
             })
 
-            if(!READONLY){
+            if (!READONLY) {
                 let $footer = $(`<div>`)
                     .addClass('MZ-footer')
                     .appendTo($resultbox);
@@ -357,7 +359,7 @@ async function runMZcleanupReport() {
                 });
             });
 
-            if(!READONLY){
+            if (!READONLY) {
                 let $footer = $(`<div>`)
                     .addClass('MZ-footer')
                     .appendTo($resultbox);
@@ -374,13 +376,13 @@ async function runMZcleanupReport() {
                 + JSON.stringify(MZLIST, null, 3)
                 + `</pre>`);
 
-                if(!READONLY){
-                    let $footer = $(`<div>`)
-                        .addClass('MZ-footer')
-                        .appendTo($resultbox);
-                    let $execute = $(`<input type="button" id="mzExecute" value="Download">`)
-                        .appendTo($footer)
-                }
+            if (!READONLY) {
+                let $footer = $(`<div>`)
+                    .addClass('MZ-footer')
+                    .appendTo($resultbox);
+                let $execute = $(`<input type="button" id="mzExecute" value="Download">`)
+                    .appendTo($footer)
+            }
         }
 
         function getURL(selector) {

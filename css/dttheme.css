@@ -1578,4 +1578,5 @@ a.justAdded, a.justAdded:visited {
   position:sticky;
   bottom: 0px;
   border: 1px solid #606060;
+  background: #242424;
 }
