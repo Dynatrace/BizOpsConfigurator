@@ -116,8 +116,31 @@ async function runMZcleanupReport() {
             $(`#MZ-tab-JSON`).click(showJSON);
         }
 
-        function disableRulesForAll() {
-
+        async function deleteAllByID() {
+            $spinner.show();
+            let $checks = $(`table input[type=checkbox]:checked`);
+            let deleted = 0;
+            $infobox.html(`Firing ${$checks.length} API calls to delete MZs... Please be patient.<br>`);
+            let $status = $(`<span>`)
+                .text(`${deleted} / ${checks.length} deleted`)
+                .appendTo($infobox);
+            $checks.each((cb_idx,cb)=>{
+                let mzid = $(cb).data('mzid');
+                let url = `${HOST}/api/config/v1/managementZones/${mzid}`;
+                const response = await fetch(url, {
+                    method: "delete",
+                    headers: {
+                        Authorization: `Api-Token ${TOKEN}`
+                    }
+                })
+                if(response.ok){
+                    deleted++;
+                    if(deleted % 20 === 0)
+                        $status.text(`${deleted} / ${checks.length} deleted`);
+                }
+            })
+            $infobox.html(`Successfully deleted ${deleted} / ${checks.length}<br>`);
+            $spinner.hide();
         }
 
         function deleteAll() {
@@ -234,18 +257,33 @@ async function runMZcleanupReport() {
                 .sort((a, b) => a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1);
 
             $resultbox.html(`<h2>Empty MZs (${list.length}):</h2>`);
-            let $ul = $(`<ul>`).appendTo($resultbox);
+            let $table = $(`<table>`).appendTo($resultbox);
+            $(`<tr><th>ManagementZone</th><th>Disable</th></tr>`).appendTo($table);
             list.forEach(mz => {
-                $(`<li>`)
+                let $tr = $('<tr>')
+                $(`<td>`)
                     .text(mz.name)
-                    .appendTo($ul);
+                    .appendTo($tr);
+                let $td = $('<td>')
+                    .appdendTo($tr);
+                let $check = $(`<input type="checkbox">`)
+                    .data('mzid',mz.id)
+                    .prop('checked',true)
+                    .appendTo($td);
+                $tr.appendTo($table);
             })
 
             if (!READONLY) {
                 let $footer = $(`<div>`)
                     .addClass('MZ-footer')
                     .appendTo($resultbox);
-                let $execute = $(`<input type="button" id="mzExecute" value="Disable">`)
+                let $label = $(`<label for="checkAll">All: </label>`)
+                    .appendTo($footer);
+                let $checkall = $(`<input type="checkbox" id ="checkAll"`)
+                    .on("change",checkUncheckAll)
+                    .appendTo($footer);
+                let $execute = $(`<input type="button" id="mzExecute" value="Delete">`)
+                    .on("click",deleteAllByID)
                     .appendTo($footer)
             }
         }
@@ -393,6 +431,12 @@ async function runMZcleanupReport() {
                 url = "https://" + url;
             $(selector).val(url);
             return url;
+        }
+
+        function checkUncheckAll(){
+            $(`table input[type=checkbox]`).each((cb_idx,cb)=>{
+                $(cb).prop('checked', !$(cb).prop('checked'));
+            })
         }
 
     } catch (e) { //let user know things broke...
