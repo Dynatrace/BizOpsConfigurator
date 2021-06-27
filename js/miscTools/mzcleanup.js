@@ -279,7 +279,7 @@ async function runMZcleanupReport() {
                     .appendTo($resultbox);
                 let $label = $(`<label for="checkAll">All: </label>`)
                     .appendTo($footer);
-                let $checkall = $(`<input type="checkbox" id ="checkAll"`)
+                let $checkall = $(`<input type="checkbox" id ="checkAll">`)
                     .on("change", checkUncheckAll)
                     .appendTo($footer);
                 let $execute = $(`<input type="button" id="mzExecute" value="Delete">`)
