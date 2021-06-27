@@ -16,7 +16,7 @@ async function runMZcleanupReport() {
         let $spinner = $(`#MZ-spinner`);
         let $readonly = $(`#mzReadOnly`);
         let READONLY = $readonly.prop('checked');
-        $readonly.on("change", () => { readonly = $readonly.prop('checked'); });
+        $readonly.on("change", () => { READONLY = $readonly.prop('checked'); });
 
         $(`#MZ-infobox-container`).show();
         let valid = await checkTokenScopes();
