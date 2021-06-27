@@ -136,10 +136,10 @@ async function runMZcleanupReport() {
                 if (response.ok) {
                     deleted++;
                     if (deleted % 20 === 0)
-                        $status.text(`${deleted} / ${checks.length} deleted`);
+                        $status.text(`${deleted} / ${$checks.length} deleted`);
                 }
             })
-            $infobox.html(`Successfully deleted ${deleted} / ${checks.length}<br>`);
+            $infobox.html(`Successfully deleted ${deleted} / ${$checks.length}<br>`);
             $spinner.hide();
         }
 
