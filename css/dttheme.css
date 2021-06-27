@@ -1572,3 +1572,10 @@ a.justAdded, a.justAdded:visited {
 .mz-rule-disabled {
   text-decoration: line-through;
 }
+
+.MZ-footer {
+  text-align: right;
+  position:sticky;
+  bottom: 0px;
+  border: 1px solid #606060;
+}
