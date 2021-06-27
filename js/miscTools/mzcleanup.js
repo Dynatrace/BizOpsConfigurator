@@ -265,7 +265,7 @@ async function runMZcleanupReport() {
                     .text(mz.name)
                     .appendTo($tr);
                 let $td = $('<td>')
-                    .appdendTo($tr);
+                    .appendTo($tr);
                 let $check = $(`<input type="checkbox">`)
                     .data('mzid', mz.id)
                     .prop('checked', true)
