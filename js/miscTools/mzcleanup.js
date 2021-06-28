@@ -297,7 +297,7 @@ async function runMZcleanupReport() {
                     .on("click", deleteAllByID)
                     .appendTo($footer)
             } else {
-                $(`table th:nth-of-type(2), table td:nth-of-type`).hide();
+                $(`table th:nth-of-type(2), table td:nth-of-type(2)`).hide();
             }
         }
 
