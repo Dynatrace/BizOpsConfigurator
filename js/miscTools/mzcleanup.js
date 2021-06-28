@@ -120,7 +120,7 @@ async function runMZcleanupReport() {
         }
 
         async function deleteAllByID() {
-            $(`#mzExecute`).disable();
+            $(`#mzExecute`).prop( "disabled", true );
             window.screenTop(0);
             $spinner.show();
             let $checks = $(`table input[type=checkbox]:checked`);
@@ -268,7 +268,7 @@ async function runMZcleanupReport() {
                 .sort((a, b) => a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1);
 
             $resultbox.html(`<h2>Empty MZs (${list.length}):</h2>`);
-            let $table = $(`<table>`).appendTo($resultbox);
+            let $table = $(`<table class="mzResults">`).appendTo($resultbox);
             $(`<tr><th>ManagementZone</th><th>Disable</th></tr>`).appendTo($table);
             list.forEach(mz => {
                 let $tr = $('<tr>')
@@ -297,7 +297,7 @@ async function runMZcleanupReport() {
                     .on("click", deleteAllByID)
                     .appendTo($footer)
             } else {
-                $(`table th:nth-of-type(2), table td:nth-of-type(2)`).hide();
+                $(`table.mzResults th:nth-of-type(2), table.mzResults td:nth-of-type(2)`).hide();
             }
         }
 
