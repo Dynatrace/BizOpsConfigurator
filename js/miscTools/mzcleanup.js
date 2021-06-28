@@ -253,6 +253,8 @@ async function runMZcleanupReport() {
             return await xhrCount;
         }
 
+
+        /////////// Reports /////////
         function listOfEmptyMZs() {
             $(`#MZ-tabs`).children().removeClass('active');
             $(`#MZ-tab-empty`).parent().addClass('active');
@@ -289,6 +291,8 @@ async function runMZcleanupReport() {
                 let $execute = $(`<input type="button" id="mzExecute" value="Delete">`)
                     .on("click", deleteAllByID)
                     .appendTo($footer)
+            } else {
+                $(`table th:nth-of-type(2), table td:nth-of-type`).hide();
             }
         }
 
