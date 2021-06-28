@@ -117,6 +117,7 @@ async function runMZcleanupReport() {
         }
 
         async function deleteAllByID() {
+            $(`#mzExecute`).disable();
             $spinner.show();
             let $checks = $(`table input[type=checkbox]:checked`);
             let deleted = 0;
