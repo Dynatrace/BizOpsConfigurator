@@ -126,7 +126,7 @@ async function runMZcleanupReport() {
             let $status = $(`<span>`)
                 .text(`${deleted} / ${$checks.length} deleted`)
                 .appendTo($infobox);
-            await $checks.each(async (cb_idx, cb) => {
+            await Promise.all($checks.each(async (cb_idx, cb) => {
                 let mzid = $(cb).data('mzid');
                 let url = `${HOST}/api/config/v1/managementZones/${mzid}`;
                 const response = await fetch(url, {
@@ -143,7 +143,7 @@ async function runMZcleanupReport() {
                 } else {
                     $status.append(`<br>Failed: ${response.status}`);
                 }
-            })
+            }))
             $infobox.html(`Successfully deleted ${deleted} / ${$checks.length}<br>`);
             $spinner.hide();
             $(`#MZ-tabs > .active > a`).trigger('click'); //refresh report
