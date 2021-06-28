@@ -16,7 +16,10 @@ async function runMZcleanupReport() {
         let $spinner = $(`#MZ-spinner`);
         let $readonly = $(`#mzReadOnly`);
         let READONLY = $readonly.prop('checked');
-        $readonly.on("change", () => { READONLY = $readonly.prop('checked'); });
+        $readonly.on("change", () => { 
+            READONLY = $readonly.prop('checked'); 
+            refreshReport();
+        });
 
         $(`#MZ-infobox-container`).show();
         let valid = await checkTokenScopes();
@@ -146,7 +149,7 @@ async function runMZcleanupReport() {
             }))
             $infobox.html(`Successfully deleted ${deleted} / ${$checks.length}<br>`);
             $spinner.hide();
-            $(`#MZ-tabs > .active > a`).trigger('click'); //refresh report
+            refreshReport();
         }
 
         function deleteAll() {
@@ -447,6 +450,10 @@ async function runMZcleanupReport() {
             $(`table input[type=checkbox]`).each((cb_idx, cb) => {
                 $(cb).prop('checked', !$(cb).prop('checked'));
             })
+        }
+
+        function refreshReport() {
+            $(`#MZ-tabs > .active > a`).trigger('click'); //refresh report
         }
 
     } catch (e) { //let user know things broke...
