@@ -269,7 +269,7 @@ async function runMZcleanupReport() {
 
             $resultbox.html(`<h2>Empty MZs (${list.length}):</h2>`);
             let $table = $(`<table class="mzResults">`).appendTo($resultbox);
-            $(`<tr><th>ManagementZone</th><th>Disable</th></tr>`).appendTo($table);
+            $(`<tr><th>ManagementZone</th><th>Delete</th></tr>`).appendTo($table);
             list.forEach(mz => {
                 let $tr = $('<tr>')
                 $(`<td>`)
