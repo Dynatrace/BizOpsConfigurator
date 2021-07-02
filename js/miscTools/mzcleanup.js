@@ -463,8 +463,12 @@ async function runMZcleanupReport() {
             let list = MZLIST
                 .filter(x => x.rules.findIndex(rule => rule.enabled == false) > -1)
                 .sort((a, b) => a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1);
+            let numrules = list
+                .map(x => x.rules)
+                .filter(x => x.enabled === false)
+                .reduce((acc,cv) => acc + cv);
 
-            $resultbox.html(`<h2>Disabled rules (${list.length}):</h2>`);
+            $resultbox.html(`<h2>Disabled rules (${numrules}):</h2>`);
 
             let $table = $(`<table class="mzResults">`).appendTo($resultbox);
             $(`<tr><th>ManagementZone</th>
