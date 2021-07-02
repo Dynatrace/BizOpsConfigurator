@@ -121,7 +121,7 @@ async function runMZcleanupReport() {
 
         async function deleteAllByID() {
             $(`#mzExecute`).prop("disabled", true);
-            window.screenTop(0);
+            window.screenTo(0,0);
             $spinner.show();
             let $checks = $(`table input[type=checkbox]:checked`);
             let deleted = 0;
@@ -154,7 +154,7 @@ async function runMZcleanupReport() {
 
         async function affectRules() {
             $(`#mzExecute`).prop("disabled", true);
-            window.screenTop(0);
+            window.screenTo(0,0);
             $spinner.show();
             let $checks = $(`table input[type=checkbox]:checked`);
             let rules = [];
