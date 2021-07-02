@@ -16,8 +16,8 @@ async function runMZcleanupReport() {
         let $spinner = $(`#MZ-spinner`);
         let $readonly = $(`#mzReadOnly`);
         let READONLY = $readonly.prop('checked');
-        $readonly.on("change", () => { 
-            READONLY = $readonly.prop('checked'); 
+        $readonly.on("change", () => {
+            READONLY = $readonly.prop('checked');
             refreshReport();
         });
 
@@ -120,7 +120,7 @@ async function runMZcleanupReport() {
         }
 
         async function deleteAllByID() {
-            $(`#mzExecute`).prop( "disabled", true );
+            $(`#mzExecute`).prop("disabled", true);
             window.screenTop(0);
             $spinner.show();
             let $checks = $(`table input[type=checkbox]:checked`);
@@ -148,6 +148,78 @@ async function runMZcleanupReport() {
                 }
             }))
             $infobox.html(`Successfully deleted ${deleted} / ${$checks.length}<br>`);
+            $spinner.hide();
+            refreshReport();
+        }
+
+        async function affectRules() {
+            $(`#mzExecute`).prop("disabled", true);
+            window.screenTop(0);
+            $spinner.show();
+            let $checks = $(`table input[type=checkbox]:checked`);
+            let rules = [];
+            let MZs = [];
+            let affected = 0;
+            let action = $(`#mzExecute`).data("action");
+
+            //figure out the rules and MZs affected
+            $checks.each((c_idx,check) => {
+                let $check = $(check);
+                let mzid = $check.data("mzid");
+                let r_idx = $check.data("r_idx");
+
+                if(!MZs.includes(mzid)) MZs.push(mzid);
+                rules.push({
+                    mzid: mzid,
+                    r_idx: r_idx
+                });
+            });
+            let list = MZLIST.filter(x => MZs.includes(x.id) ); //Don't make a copy here, then we don't need to go get new data
+
+            if(action =="disable") {
+                list.forEach(mz => {
+                    let r = rules.filter(x => x.mzid === mz.id);
+                    mz.rules.forEach((rule,r_idx) => {
+                        if(r.findIndex(x => x.r_idx === r_idx)) rule.enabled = false;
+                    })
+                })
+            } else if(action == "delete") {
+                list.forEach(mz => {
+                    rules
+                        .filter(x => x.mzid === mz.id)
+                        .sort((a,b) => b.r_idx - a.r_idx) //be sure to start at end to avoid shifting indexes
+                        .forEach(r => {
+                            mz.rules.splice(r.r_idx,1);
+                        })
+                        
+                })
+            }
+
+            //update UI
+            $infobox.html(`${action}ing ${$rules.length} rules, across ${MZs.length} MZs... Please be patient.<br>`);
+            let $status = $(`<span>`)
+                .text(`${affected} / ${$rules.length} ${action}d`)
+                .appendTo($infobox);
+            await Promise.all(list.forEach(async mz => {
+                let url = `${HOST}/api/config/v1/managementZones/${mz.id}`;
+                const response = await fetch(url, {
+                    method: "put",
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Api-Token ${TOKEN}`
+                    },
+                    body: JSON.stringify(mz)
+                })
+                if (response.ok) {
+                    affected++;
+                    if (affected % 20 === 0)
+                        $status.text(`${affected} / ${MZs.length} updated`);
+                    MZLIST = MZLIST.filter(x => x.id !== mzid);
+                } else {
+                    $status.append(`<br>Failed: ${response.status}`);
+                }
+            }))
+            $infobox.html(`Successfully updated ${affected} / ${MZs.length}<br>`);
             $spinner.hide();
             refreshReport();
         }
@@ -395,7 +467,7 @@ async function runMZcleanupReport() {
                 .sort((a, b) => a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1);
 
             $resultbox.html(`<h2>Disabled rules (${mzWithDisabledRule.length}):</h2>`);
-            let $ul = $(`<ul>`).appendTo($resultbox);
+            /*let $ul = $(`<ul>`).appendTo($resultbox);
             mzWithDisabledRule.forEach(mz => {
                 let $li = $(`<li>`)
                     .text(`${mz.name}:`)
@@ -408,14 +480,50 @@ async function runMZcleanupReport() {
                         .addClass(`mz-rule-disabled`)
                         .appendTo($rules);
                 });
-            });
+            });*/
+            let $table = $(`<table class="mzResults">`).appendTo($resultbox);
+            $(`<tr><th>ManagementZone</th>
+                <th>Rule</th>
+                <th>Delete</th></tr>`).appendTo($table);
+            list.forEach(mz => {
+                let rules = mz.rules.filter(x => x.enabled == false);
+                rules.forEach((rule, r_idx) => {
+                    let $td;
+                    let $tr = $('<tr>');
+                    if (!r_idx) {
+                        $td = $(`<td>`)
+                            .text(mz.name)
+                            .appendTo($tr);
+                        if (rules.length) $td.attr("rowspan", rules.length);
+                    }
+                    $td = $('<td>')
+                        .text(JSON.stringify(rule))
+                        .addClass(`mz-rule-disabled`)
+                        .appendTo($tr);
+                    $td = $('<td>')
+                        .appendTo($tr);
+                    let $check = $(`<input type="checkbox">`)
+                        .data('mzid', mz.id)
+                        .data('r_idx', r_idx)
+                        .prop('checked', true)
+                        .appendTo($td);
+                    $tr.appendTo($table);
+                })
+            })
 
             if (!READONLY) {
                 let $footer = $(`<div>`)
                     .addClass('MZ-footer')
                     .appendTo($resultbox);
+                let $label = $(`<label for="checkAll">All: </label>`)
+                    .appendTo($footer);
+                let $checkall = $(`<input type="checkbox" id ="checkAll" checked>`)
+                    .on("change", checkUncheckAll)
+                    .appendTo($footer);
                 let $execute = $(`<input type="button" id="mzExecute" value="Delete">`)
-                    .appendTo($footer)
+                .data("action","delete")
+                .on("click", affectRules)    
+                .appendTo($footer)
             }
         }
 
