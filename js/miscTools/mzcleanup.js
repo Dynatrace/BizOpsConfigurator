@@ -460,27 +460,12 @@ async function runMZcleanupReport() {
             $(`#MZ-tabs`).children().removeClass('active');
             $(`#MZ-tab-disabled`).parent().addClass('active');
 
-            //let disabledRules = MZLIST.map(x => x.rules).flat()
-            //    .filter(rule => rule.enabled == false);
-            let mzWithDisabledRule = MZLIST
+            let list = MZLIST
                 .filter(x => x.rules.findIndex(rule => rule.enabled == false) > -1)
                 .sort((a, b) => a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1);
 
-            $resultbox.html(`<h2>Disabled rules (${mzWithDisabledRule.length}):</h2>`);
-            /*let $ul = $(`<ul>`).appendTo($resultbox);
-            mzWithDisabledRule.forEach(mz => {
-                let $li = $(`<li>`)
-                    .text(`${mz.name}:`)
-                    .appendTo($ul);
-                let $rules = $(`<ul>`)
-                    .appendTo($li);
-                mz.rules.filter(x => x.enabled == false).forEach(rule => {
-                    let $rule = $(`<li>`)
-                        .text(JSON.stringify(rule))
-                        .addClass(`mz-rule-disabled`)
-                        .appendTo($rules);
-                });
-            });*/
+            $resultbox.html(`<h2>Disabled rules (${list.length}):</h2>`);
+
             let $table = $(`<table class="mzResults">`).appendTo($resultbox);
             $(`<tr><th>ManagementZone</th>
                 <th>Rule</th>
