@@ -199,8 +199,9 @@ function ConfigPusherFactory(target, transform, configPushType, configPushFile, 
             }
             case "CustomMetric": {
                 c = configData;
-                let parts = c.metricKey.split(':');
-                c.metricKey = parts[0] + ':' +
+                let MK = (c.hasOwnProperty("tsmMetricKey")?"tsmMetricKey":"metricKey");
+                let parts = c[MK].split(':');
+                c[MK] = parts[0] + ':' +
                     parts[1].replace(/[/,: ]/g,'_'); //app.name may have reserved chars, but don't replace :
                 data = JSON.stringify(c);
                 let query = `/api/config/v1/calculatedMetrics/${customMetricType}`;
