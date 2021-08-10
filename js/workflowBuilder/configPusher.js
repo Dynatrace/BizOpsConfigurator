@@ -120,7 +120,8 @@ function ConfigPusherFactory(target, transform, configPushType, configPushFile, 
                 let query = `/api/config/v1/calculatedMetrics/${customMetricType}`;
                 p = dtAPIquery(query);
                 $.when(p).done(function (result) {
-                    if (result.values.find(x => x.id === c.metricKey && x.name === c.name)) {
+                    let MK = (c.hasOwnProperty("tsmMetricKey")?"tsmMetricKey":"metricKey");
+                    if (result.values.find(x => x.id === c[MK] && x.name === c.name)) {
                         configured = true;
                     } else {
                         configured = false;
