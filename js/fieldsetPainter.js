@@ -462,6 +462,7 @@ function fieldsetPainter(scope) {
             $wf_ul.html("");
             if (workflowList.length) $(`#recycleDBs`).hide();
             else $(`#recycleDBs`).show();
+            $(`#loadedTemplates`).text(workflowList.length);
             workflowList
                 .sort((a, b) => (a.file.config.workflowName.toLowerCase() > b.file.config.workflowName.toLowerCase()) ? 1 : -1)
                 .forEach((wf, i) => {
