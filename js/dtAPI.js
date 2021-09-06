@@ -564,7 +564,13 @@ function uploadWorkflow(workflow) {
     overview = dbList.find(x => x.name === config.overviewDB &&
       x.repo.owner === config.githubUser && x.repo.repo === config.githubRepo &&
       x.repo.path === config.githubPath);
-    overview = JSON.parse(JSON.stringify(overview.file));
+      if(overview)
+        overview = JSON.parse(JSON.stringify(overview.file));
+      else {
+        errorbox("Unable to find selected overview in downloaded list.");
+        return;
+      }
+
   } catch (err) {
     errorbox("Unable to find selected overview in downloaded list.");
     return;
