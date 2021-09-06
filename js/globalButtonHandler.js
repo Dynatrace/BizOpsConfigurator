@@ -586,7 +586,7 @@ function globalButtonHandler() {
           $.when(p1).done(function (d) {
             //filearray.push(d);
             let name = (d && d.dashboardMetadata && d.dashboardMetadata.name)?d.dashboardMetadata.name:'';
-            let filename = `${name}-${Date.now()}.json`;
+            let filename = `${name}.json`;
             download(filename, JSON.stringify(d));
             p0.resolve();
           });
