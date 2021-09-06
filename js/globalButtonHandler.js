@@ -574,26 +574,28 @@ function globalButtonHandler() {
           filelist = filelist.concat(JSON.parse(element.dataset.dbids));
         });
 
-        let filename = `dashboards-${filelist.length}-${Date.now()}.json`;
-
         let filearray = []; //get from XHRs
         let deferreds = [];
         deferreds[0] = $.Deferred();
         filelist.forEach(function (f) {
+          
           let p0 = $.Deferred();
           let p1 = loadDashboard(f);
           deferreds.push(p0);
           deferreds.push(p1);
           $.when(p1).done(function (d) {
-            filearray.push(d);
+            //filearray.push(d);
+            let name = (d && d.dashboardMetadata && d.dashboardMetadata.name)?d.dashboardMetadata.name:'';
+            let filename = `${name}-${Date.now()}.json`;
+            download(filename, JSON.stringify(d));
             p0.resolve();
           });
         });
         deferreds[0].resolve();
 
-        $.when.apply($, deferreds).done(function () {
+        /*$.when.apply($, deferreds).done(function () {
           download(filename, JSON.stringify(filearray));
-        });
+        });*/
         break;
       }
       case "publishDashboards":
