@@ -459,13 +459,16 @@ function transformSubs(subs, dbid, swaps, config, nextID = nextDB) {
     sub.id = id;
     sub["dashboardMetadata"]["owner"] = selection.owner ? selection.owner : owner;
     sub["dashboardMetadata"]["shared"] = selection.shared ? selection.shared : "true";
-    if(sub["dashboardMetadata"]["sharingDetails"] == undefined) sub["dashboardMetadata"]["sharingDetails"] = {};
+    if (sub["dashboardMetadata"]["sharingDetails"] == undefined) sub["dashboardMetadata"]["sharingDetails"] = {};
     sub["dashboardMetadata"]["sharingDetails"]["linkShared"] = selection.shared ? selection.shared : "true";
     //sub["dashboardMetadata"]["sharingDetails"]["published"] = selection.published ? selection.published : "true";
     sub["dashboardMetadata"]["sharingDetails"]["published"] = "false";
 
-    if (typeof sub["dashboardMetadata"] == "undefined") sub["dashboardMetadata"] = {};
-    if (typeof sub["dashboardMetadata"]["dashboardFilter"] == "undefined")
+    if (typeof sub["dashboardMetadata"] == "undefined"
+      || typeof sub["dashboardMetadata"] == "null")
+      sub["dashboardMetadata"] = {};
+    if (typeof sub["dashboardMetadata"]["dashboardFilter"] == "undefined"
+      || typeof sub["dashboardMetadata"]["dashboardFilter"] == "null")
       sub["dashboardMetadata"]["dashboardFilter"] = {};
     if (typeof config.mz == "string")
       sub["dashboardMetadata"]["dashboardFilter"]["managementZone"] = {
@@ -804,7 +807,7 @@ function configOverrideGetSwaps(workflowInput, swaps) {
           logError("Selection.config undefined");
           selection.config = {};
         }
-        if (typeof val !== "undefined" && typeof val.overrideValue !== "undefined") 
+        if (typeof val !== "undefined" && typeof val.overrideValue !== "undefined")
           selection.config.overviewDB = val.overrideValue;
         else console.log("No override match found");
     }
