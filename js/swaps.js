@@ -465,10 +465,10 @@ function transformSubs(subs, dbid, swaps, config, nextID = nextDB) {
     sub["dashboardMetadata"]["sharingDetails"]["published"] = "false";
 
     if (typeof sub["dashboardMetadata"] == "undefined"
-      || typeof sub["dashboardMetadata"] == "null")
+      || sub["dashboardMetadata"] == null)
       sub["dashboardMetadata"] = {};
     if (typeof sub["dashboardMetadata"]["dashboardFilter"] == "undefined"
-      || typeof sub["dashboardMetadata"]["dashboardFilter"] == "null")
+      || sub["dashboardMetadata"]["dashboardFilter"] == null)
       sub["dashboardMetadata"]["dashboardFilter"] = {};
     if (typeof config.mz == "string")
       sub["dashboardMetadata"]["dashboardFilter"]["managementZone"] = {
