@@ -669,7 +669,8 @@ function uploadWorkflow(workflow) {
             }
           ],
           "publicAccess": {
-            "managementZoneIds": []
+            "managementZoneIds": [],
+            "urls": {}
           }
         }
       setTimeout(()=>{
