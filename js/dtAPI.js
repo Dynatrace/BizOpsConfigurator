@@ -656,6 +656,48 @@ function uploadWorkflow(workflow) {
         dtrum.leaveAction(dtaction);
         dtrum.sendSignal(false, true, false);
       }
+
+      //add additional handling for new shareSettings trash
+      let shareSetings = {
+          "id": "a5fca32f-d3ba-4749-b201-5d3cd70b9d22",
+          "enabled": "true",
+          "preset": "true",
+          "permissions": [
+            {
+              "type": "ALL",
+              "permission": "VIEW"
+            }
+          ],
+          "publicAccess": {
+            "managementZoneIds": []
+          }
+        }
+      setTimeout(()=>{
+        //main dashboard
+        let shareEndpoint = `/api/config/v1/dashboards/${id}/shareSettings`;
+        shareSetings.id = id;
+        shareSetings.enabled = true;
+        shareSetings.preset = true;
+        let options = {
+          method: "PUT",
+          data: JSON.stringify(shareSetings)
+        }
+        dtAPIquery(shareEndpoint,options);
+        
+        //each sub
+        shareSetings.preset = false;
+        subs.forEach(sub => {
+          shareEndpoint = `/api/config/v1/dashboards/${sub.id}/shareSettings`;
+          shareSetings.id = sub.id;
+          options = {
+            method: "PUT",
+            data: JSON.stringify(shareSetings)
+          }
+          dtAPIquery(shareEndpoint,options);
+        })
+
+        
+      },10000); //wait ten seconds to avoid race condition on server
     });
 
   let returnInfo = {
