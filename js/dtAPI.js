@@ -688,8 +688,8 @@ function uploadWorkflow(workflow) {
         //each sub
         shareSetings.preset = false;
         subs.forEach(sub => {
-          shareEndpoint = `/api/config/v1/dashboards/${sub.id}/shareSettings`;
-          shareSetings.id = sub.id;
+          shareEndpoint = `/api/config/v1/dashboards/${sub.file.id}/shareSettings`;
+          shareSetings.id = sub.file.id;
           options = {
             method: "PUT",
             data: JSON.stringify(shareSetings)
