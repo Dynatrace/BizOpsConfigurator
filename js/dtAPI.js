@@ -698,7 +698,7 @@ function uploadWorkflow(workflow) {
         })
 
         
-      },10000); //wait ten seconds to avoid race condition on server
+      },10000); //wait ten seconds to avoid race condition on server (APM-323370)
     });
 
   let returnInfo = {
