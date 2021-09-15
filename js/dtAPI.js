@@ -683,7 +683,7 @@ function uploadWorkflow(workflow) {
           method: "PUT",
           data: JSON.stringify(shareSetings)
         }
-        dtAPIquery(shareEndpoint,options);
+        //dtAPIquery(shareEndpoint,options); //apparently not necessary
         
         //each sub
         shareSetings.preset = false;
