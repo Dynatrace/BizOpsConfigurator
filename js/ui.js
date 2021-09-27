@@ -323,7 +323,7 @@ function errorboxJQXHR(jqXHR, textStatus, errorThrown) {
       }
     }
   }
-  $("#errorBox").html(errorMsg);
+  $("#errorBox").text(errorMsg);
   $("#errorBox").show();
   logError(errorMsg, errorThrown);
 }
@@ -339,7 +339,7 @@ function errorbox(e) {
     errorMsg = "ERROR! " + e.name + ": " + e.message;
   if (typeof e == "string")
     errorMsg = e;
-  $("#errorBox").html(errorMsg);
+  $("#errorBox").text(errorMsg);
   $("#errorBox").show();
   logError(errorMsg, e);
 }
@@ -351,7 +351,7 @@ function warningbox(e) {
     errorMsg = "WARNING: " + e.name + ": " + e.message;
   if (typeof e == "string")
     errorMsg = e;
-  $errorBox.html(errorMsg);
+  $errorBox.text(errorMsg);
   $errorBox.addClass("info");
   $errorBox.show();
   console.log(errorMsg);
