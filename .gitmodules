@@ -19,3 +19,9 @@
 [submodule "3rdparty/3rdparty/showdown-xss-filter"]
 	path = 3rdparty/3rdparty/showdown-xss-filter
 	url = https://github.com/VisionistInc/showdown-xss-filter.git
+[submodule "3rdparty/showdown-xss-filter"]
+	path = 3rdparty/showdown-xss-filter
+	url = https://github.com/VisionistInc/showdown-xss-filter.git
+[submodule "3rdparty/js-xss"]
+	path = 3rdparty/js-xss
+	url = https://github.com/leizongmin/js-xss.git
