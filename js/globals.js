@@ -492,8 +492,9 @@ function downloadReadmesFromList() {
         .fail(errorboxJQXHR)
         .done(function (d) {
           try {
-            var converter = new showdown.Converter({ extensions: ['xssfilter'] });
+            var converter = new showdown.Converter();
             let html = converter.makeHtml(d);
+            html = sanitizer.sanitize(html);
             file.html = html.replace(/<img ([^>]*)src="(?!http)([^"]+)"([^>]*)>/g,
               `<img $1src="https://github.com/${file.repo.owner}/${file.repo.repo}/raw/master/$2"$3>`);
           } catch (e) {

@@ -107,8 +107,9 @@ function renderWorkflowPage(el) {
         let md = $ta.val();
         if (typeof selection.swaps !== "undefined") md = queryDoSwaps(md, selection.swaps);
         let style = $ta.attr("style");
-        var converter = new showdown.Converter({ extensions: ['xssfilter'] });
+        var converter = new showdown.Converter();
         html = converter.makeHtml(md) || "Markdown failed to render";
+        html = sanitizer.sanitize(html);
         $(this).html(html);
         $(this).addClass("markdownTransformed");
         $(this).attr("style", style);
