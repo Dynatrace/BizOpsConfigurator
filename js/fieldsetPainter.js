@@ -829,7 +829,7 @@ function workflowViewer(obj = {}, title = "", target = "#popupjsonviewer", show 
             <option>Tokens</option>
             <option>JSON</option>
         </select>
-        <a href="https://github.com/${obj.config.githubUser}/${obj.config.githubRepo}/issues" target="_blank" class="">Issues</a>
+        <a href="https://github.com/${obj.config.githubUser}/${obj.config.githubRepo}/issues" target="_blank" class="newTab">Issues <img src="images/link.svg"></a>
     </div>
     <div id="popupjsonviewercontent"></div>
     `);
@@ -866,7 +866,12 @@ function workflowViewer(obj = {}, title = "", target = "#popupjsonviewer", show 
         default:
             if ("readme" in obj) {
                 let readme = obj.readme;
-                if (readme) $content.html(readme.html);
+                if (readme) {
+                    $content.html(readme.html);
+                    $content.find(`a:not(.newTab)[href^="http"]`)
+                        .addClass("newTab")
+                        .after(` <img src="images/link.svg">`);
+                } 
             } else fail = true;
             break;
     }

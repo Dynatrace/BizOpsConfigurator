@@ -1580,3 +1580,7 @@ a.justAdded, a.justAdded:visited {
   border: 1px solid #606060;
   background: #242424;
 }
+
+#popupjsonviewermenu a {
+  margin-left: 50px;
+}
