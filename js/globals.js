@@ -6,11 +6,18 @@ Unless required by applicable law or agreed to in writing, software distributed 
 var configDashboard = "json/configDashboard.json";
 const REpersonaWorkflow = /^bbbbbbbb-a[0-9]{3}-a[0-9]{3}-[0]{4}-[0-9]{12}$/;
 const unique = (value, index, self) => self.indexOf(value) === index;
-const statusFilter = (x) => x.file.config.workflowStatus === undefined
-  || x.file.config.workflowStatus === "GA"
-  || x.file.config.workflowStatus === "Early Adopter"
-  || (x.file.config.workflowStatus === "Preview" && PreviewWorkflows)
-  || (x.file.config.workflowStatus === "Testing" && PreviewWorkflows && InternalTenant);
+const statusFilter = (x) =>
+  (
+    typeof (x) != "undefined"
+    && typeof (x.file) != "undefined"
+    && typeof (x.file.config) != "undefined"
+  ) && (
+    x.file.config.workflowStatus === undefined
+    || x.file.config.workflowStatus === "GA"
+    || x.file.config.workflowStatus === "Early Adopter"
+    || (x.file.config.workflowStatus === "Preview" && PreviewWorkflows)
+    || (x.file.config.workflowStatus === "Testing" && PreviewWorkflows && InternalTenant)
+  );;
 const POWERUP_DISCLAIMER = `<div id="powerupDisclaimer">\uD83D\uDC8E Powerup Enabled Dashboard \uD83D\uDC8E 
   <a href="#helpPopup/powerups" class="helpPopup hashHandled questionMark">?</a></div>`;
 
@@ -416,13 +423,13 @@ function loadGithubRepos(p = 1) {
 
     //If there were previously sleeping tries against the GH API, cancel them, e.g. if user got rate limit but went back and entered PAT
     let timer;
-    while(timer=GHTimers.pop()){
+    while (timer = GHTimers.pop()) {
       clearTimeout(timer);
     }
-    if(GithubRemaining < 1
+    if (GithubRemaining < 1
       && githubuser != undefined && githubuser.length
-      && githubpat != undefined  && githubpat.length) { //assume we hit rate limiting but now have PAT set, try again
-        GithubRemaining = 1;
+      && githubpat != undefined && githubpat.length) { //assume we hit rate limiting but now have PAT set, try again
+      GithubRemaining = 1;
     }
 
     for (i = 0; i < repoList.length; i++) {
@@ -670,16 +677,16 @@ var uniqId = (function () {
   }
 })();
 
-function isInternalTenant(u=url) {
+function isInternalTenant(u = url) {
   //not like "%sprint%dynalabs.io%" and stringProperties.url_js not like "%.dynatracelabs.com" 
   let internal = false;
-  if(u.match(/sprint.*dynalabs.io/) 
+  if (u.match(/sprint.*dynalabs.io/)
     || u.match(/\.dynatracelabs.com/)
     || u.match(/managed-sprint.dynalabs.io/)
     || u.match(/sprint.dynatracelabs.com/)
     || u.match(/dev.dynatracelabs.com/)
     || u.match(/managed-dev.dynalabs.io/)
-    )
+  )
     internal = true;
 
   InternalTenant = internal;
