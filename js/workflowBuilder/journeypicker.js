@@ -313,11 +313,14 @@ function JourneyPickerFactory(target, app, data = null) { //JourneyPicker factor
 		$goalList.find("li").remove();
 
 		//get KUAs from metrics V2, no selector to get by App so just get everything 
-		let query = "/api/v2/metrics/query?pageSize=5000&metricSelector=builtin%3Aapps.web.action.apdex%3Amerge%281%29&resolution=Inf&from=now-1d%2Fd";
+		let params = `pageSize=5000&metricSelector=builtin:apps.web.action.apdex:merge("User type")&resolution=Inf&from=now-1d/d`;
+		let query = "/api/v2/metrics/query?"+encodeURIComponent(params);
+		
 		let p0 = dtAPIquery(query);
 		promises.push(p0);
 		//get all "important" actions
-		query = "/api/v2/metrics/query?pageSize=5000&metricSelector=builtin%3Aapps.web.action.duration.%28xhr%2Cload%2Ccustom%29.browser%3A%28count%29%3Aparents%3Anames%3Amerge%284%2C5%29&resolution=Inf";
+		params = `pageSize=5000&metricSelector=builtin:apps.web.action.duration.(xhr,load,custom).browser:(count):parents:names:merge("dt.entity.browser")&resolution=Inf`;
+		query = "/api/v2/metrics/query?"+encodeURIComponent(params);
 		let p1 = dtAPIquery(query);
 		promises.push(p1);
 		$.when(p0, p1).done(function (d0, d1) {
