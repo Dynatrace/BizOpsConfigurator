@@ -1584,3 +1584,7 @@ a.justAdded, a.justAdded:visited {
 #popupjsonviewermenu a {
   margin-left: 50px;
 }
+
+#issues {
+  display: inline;
+}
