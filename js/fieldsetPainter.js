@@ -829,6 +829,7 @@ function workflowViewer(obj = {}, title = "", target = "#popupjsonviewer", show 
             <option>Tokens</option>
             <option>JSON</option>
         </select>
+        <a href="https://github.com/${obj.config.githubUser}/${obj.config.githubRepo}/issues" target="_blank" class="">Issues</a>
     </div>
     <div id="popupjsonviewercontent"></div>
     `);
