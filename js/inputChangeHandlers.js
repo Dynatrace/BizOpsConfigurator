@@ -956,6 +956,7 @@ function workflowPickerAllChangeHandler(e) {
     default:
       let i = $workflow.find("option:selected").attr('data-workflowIndex');
       let workflow = workflowList[i];
+      if(typeof(workflow) == "undefined") return false;
       let readme = findWorkflowReadme(workflow);
       if (typeof readme != "undefined" && typeof readme.html != "undefined")
         $readmeViewer.html(readme.html);
