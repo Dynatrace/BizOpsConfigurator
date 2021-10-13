@@ -699,6 +699,7 @@ function workflowPickerChangeHandler(e) {
   let $workflow = $("#workflow");
   let $readmeViewer = $("#readmeViewer");
   let $blogLink = $("#blogLink");
+  let $issues = $(`#issues`);
   $("#persona_usecase_next").siblings(".dttag").remove();
 
   switch (id) {
@@ -794,6 +795,8 @@ function workflowPickerChangeHandler(e) {
         $blogLink.hide();
         $blogLink.html("");
       }
+      $issues.html(`<a href="https://github.com/${workflow.file.config.githubUser}/${workflow.file.config.githubRepo}/issues" target="_blank" class="newTab">Issues <img src="images/link.svg"></a>`);
+      $issues.show();
       if ("workflowStatus" in workflow.file.config && workflow.file.config.workflowStatus
         && workflow.file.config.workflowStatus != "GA")
         $("#persona_usecase_next").after(`<div class='dttag'>${workflow.file.config.workflowStatus}</div>`);
@@ -817,6 +820,7 @@ function workflowPickerOwnerChangeHandler(e) {
   let $workflow = $("#workflow");
   let $readmeViewer = $("#readmeViewer");
   let $blogLink = $("#blogLink");
+  let $issues = $(`#issues`);
   $("#persona_usecase_next").siblings(".dttag").remove();
 
   switch (id) {
@@ -906,6 +910,8 @@ function workflowPickerOwnerChangeHandler(e) {
         $blogLink.hide();
         $blogLink.html("");
       }
+      $issues.html(`<a href="https://github.com/${workflow.file.config.githubUser}/${workflow.file.config.githubRepo}/issues" target="_blank" class="newTab">Issues <img src="images/link.svg"></a>`);
+      $issues.show();
       if ("workflowStatus" in workflow.file.config && workflow.file.config.workflowStatus
         && workflow.file.config.workflowStatus != "GA")
         $("#persona_usecase_next").after(`<div class='dttag'>${workflow.file.config.workflowStatus}</div>`);
@@ -920,6 +926,7 @@ function workflowPickerAllChangeHandler(e) {
   let $workflow = $("#workflow");
   let $readmeViewer = $("#readmeViewer");
   let $blogLink = $("#blogLink");
+  let $issues = $(`#issues`);
   $("#persona_usecase_next").siblings(".dttag").remove();
 
   switch (id) {
@@ -959,6 +966,8 @@ function workflowPickerAllChangeHandler(e) {
         $blogLink.hide();
         $blogLink.html("");
       }
+      $issues.html(`<a href="https://github.com/${workflow.file.config.githubUser}/${workflow.file.config.githubRepo}/issues" target="_blank" class="newTab">Issues <img src="images/link.svg"></a>`);
+      $issues.show();
       if ("workflowStatus" in workflow.file.config && workflow.file.config.workflowStatus
         && workflow.file.config.workflowStatus != "GA")
         $("#persona_usecase_next").after(`<div class='dttag'>${workflow.file.config.workflowStatus}</div>`);
