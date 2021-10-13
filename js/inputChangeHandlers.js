@@ -692,6 +692,7 @@ function HUreportChangeHandler() {
 }
 
 function workflowPickerChangeHandler(e) {
+  if(LOADING_REPOS) return false;
   let el = $(this);
   let id = el.attr('id');
   let $persona = $("#persona");
@@ -813,6 +814,7 @@ function ellipsisToggler() {
 }
 
 function workflowPickerOwnerChangeHandler(e) {
+  if(LOADING_REPOS) return false;
   let el = $(this);
   let id = el.attr('id');
   let $owner = $("#owner");
@@ -921,6 +923,7 @@ function workflowPickerOwnerChangeHandler(e) {
 }
 
 function workflowPickerAllChangeHandler(e) {
+  if(LOADING_REPOS) return false;
   let el = $(this);
   let id = el.attr('id');
   let $workflow = $("#workflow");

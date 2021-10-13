@@ -113,6 +113,7 @@ var usecases = [
   { name: "On Demand", bizAnalytics: true, prefix: "a019" }
 ];
 //////// Global Vars ////////////
+var LOADING_REPOS = false;
 var url = "";
 var token = "";
 var owner = "";
@@ -411,6 +412,8 @@ function parseSteps(result) {
 }
 
 function loadGithubRepos(p = 1) {
+  if(LOADING_REPOS) return false;
+  LOADING_REPOS = true;
   let i = p;//(v5test?1:0);
   let deferreds = [];
   let main = $.Deferred();
@@ -447,6 +450,7 @@ function loadGithubRepos(p = 1) {
     $.when.apply($, deferreds).done(function () {
       main.resolve();
       updateDashboardButton();
+      LOADING_REPOS = false;
     });
   });
   return main
