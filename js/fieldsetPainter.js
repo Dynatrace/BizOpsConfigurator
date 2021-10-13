@@ -870,6 +870,7 @@ function workflowViewer(obj = {}, title = "", target = "#popupjsonviewer", show 
                     $content.html(readme.html);
                     $content.find(`a:not(.newTab)[href^="http"]`)
                         .addClass("newTab")
+                        .attr('target','_blank')
                         .after(` <img src="images/link.svg">`);
                 } 
             } else fail = true;
