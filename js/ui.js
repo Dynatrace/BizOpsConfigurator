@@ -755,3 +755,11 @@ function compareWorkflowVsRepo(tester) {
   });
 
 }
+
+function disableButtons(){
+  $(`#main button`).prop('disabled',true);
+}
+
+function enableButtons(){
+  $(`#main button`).prop('disabled',false);
+}

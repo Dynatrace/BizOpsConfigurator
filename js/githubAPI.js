@@ -198,6 +198,7 @@ function loadEverythingFromGithubAndCache() {
             .then(dbLoadDBList)
             .then(() => { p.resolve(); });
     } else {
+        disableButtons();
         //Github repos
         dbLoadRepoList()
             .then(loadGithubRepos)
@@ -214,7 +215,10 @@ function loadEverythingFromGithubAndCache() {
             .then(dbPopulateWorkflowList)
             .then(dbPopulateReadmeList)
             .then(dbPopulateDBList)
-            .then(() => { p.resolve(); });
+            .then(() => { 
+                enableButtons();
+                p.resolve(); 
+            });
     }
 
     return p;
