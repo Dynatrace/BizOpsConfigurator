@@ -547,6 +547,40 @@ function downloadWorkflowsFromList() {
   });
 }
 
+async function downloadFromS3(url) {
+  const response = await fetch(url)
+  if (!response.ok) {
+    errorbox('S3 download not OK');
+    return false;
+  }
+  const res = await response.json();
+
+  if (res.hasOwnProperty("repoList"))
+    repoList = res.repoList;
+  else errorbox("S3 did not contain repoList");
+  if (res.hasOwnProperty("workflowList"))
+    workflowList = res.workflowList;
+  else errorbox("S3 did not contain workflowList");
+  if (res.hasOwnProperty("dbList"))
+    dbList = res.dbList;
+  else errorbox("S3 did not contain dbList");
+  if (res.hasOwnProperty("readmeList"))
+    readmeList = res.readmeList;
+  else errorbox("S3 did not contain readmeList");
+}
+
+function loadFromS3orGH(){
+  let src = $(`#src`).val();
+
+  switch(src){
+    case "GitHub API":
+      return(loadEverythingFromGithubAndCache());
+    case "S3":
+    default:
+      return(downloadFromS3);
+  }
+}
+
 function nextDB(id) {
   let s = id.substring(0, 24);
   let re = new RegExp(s + "([0-9]{8})$");

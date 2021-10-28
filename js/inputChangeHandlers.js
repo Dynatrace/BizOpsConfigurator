@@ -21,6 +21,7 @@ function loadInputChangeHandlers() {
   $("#viewport").on("change", ".workflowPicker", workflowPickerChangeHandler);
   $("#viewport").on("change", ".workflowPickerOwner", workflowPickerOwnerChangeHandler);
   $("#viewport").on("change", ".workflowPickerAll", workflowPickerAllChangeHandler);
+  $("#viewport").on("change", "#src", srcChangeHandler);
 
   $("#viewport").on("click", "section h4", helpdocToggler);
   $("#viewport").on("click", ".ellipsis", ellipsisToggler);
@@ -692,7 +693,7 @@ function HUreportChangeHandler() {
 }
 
 function workflowPickerChangeHandler(e) {
-  if(LOADING_REPOS) return false;
+  if (LOADING_REPOS) return false;
   let el = $(this);
   let id = el.attr('id');
   let $persona = $("#persona");
@@ -814,7 +815,7 @@ function ellipsisToggler() {
 }
 
 function workflowPickerOwnerChangeHandler(e) {
-  if(LOADING_REPOS) return false;
+  if (LOADING_REPOS) return false;
   let el = $(this);
   let id = el.attr('id');
   let $owner = $("#owner");
@@ -923,7 +924,7 @@ function workflowPickerOwnerChangeHandler(e) {
 }
 
 function workflowPickerAllChangeHandler(e) {
-  if(LOADING_REPOS) return false;
+  if (LOADING_REPOS) return false;
   let el = $(this);
   let id = el.attr('id');
   let $workflow = $("#workflow");
@@ -956,7 +957,7 @@ function workflowPickerAllChangeHandler(e) {
     default:
       let i = $workflow.find("option:selected").attr('data-workflowIndex');
       let workflow = workflowList[i];
-      if(typeof(workflow) == "undefined") return false;
+      if (typeof (workflow) == "undefined") return false;
       let readme = findWorkflowReadme(workflow);
       if (typeof readme != "undefined" && typeof readme.html != "undefined")
         $readmeViewer.html(readme.html);
@@ -977,5 +978,18 @@ function workflowPickerAllChangeHandler(e) {
         $("#persona_usecase_next").after(`<div class='dttag'>${workflow.file.config.workflowStatus}</div>`);
 
       window.location.hash = `#deploy/all/${$workflow.val()}`;
+  }
+}
+
+function srcChangeHandler(e) {
+  let $el = $(this);
+  let val = $el.val();
+
+  switch (val) {
+    case "GitHub API":
+      $(`tr.github`).show();
+    case "S3":
+    default:
+      $(`tr.github`).hide();
   }
 }

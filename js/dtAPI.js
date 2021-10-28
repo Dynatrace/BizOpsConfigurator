@@ -13,7 +13,8 @@ function createFullConnection() {
       $("#viewport").load("html/configurator/main.html", fieldsetPainter);
       getVersion()
         .then(processVersion)
-        .then(loadEverythingFromGithubAndCache)
+        //.then(loadEverythingFromGithubAndCache)
+        .then(loadFromS3orGH)
         //Return
         .then(() => { return main.resolve(); });
     }
@@ -564,12 +565,12 @@ function uploadWorkflow(workflow) {
     overview = dbList.find(x => x.name === config.overviewDB &&
       x.repo.owner === config.githubUser && x.repo.repo === config.githubRepo &&
       x.repo.path === config.githubPath);
-      if(overview)
-        overview = JSON.parse(JSON.stringify(overview.file));
-      else {
-        errorbox("Unable to find selected overview in downloaded list.");
-        return;
-      }
+    if (overview)
+      overview = JSON.parse(JSON.stringify(overview.file));
+    else {
+      errorbox("Unable to find selected overview in downloaded list.");
+      return;
+    }
 
   } catch (err) {
     errorbox("Unable to find selected overview in downloaded list.");
@@ -587,7 +588,7 @@ function uploadWorkflow(workflow) {
   overview["id"] = id;
   overview["dashboardMetadata"]["owner"] = (selection.owner ? selection.owner : owner);
   overview["dashboardMetadata"]["shared"] = (selection.shared ? selection.shared : "true");
-  if(overview["dashboardMetadata"]["sharingDetails"] == undefined) overview["dashboardMetadata"]["sharingDetails"] = {};
+  if (overview["dashboardMetadata"]["sharingDetails"] == undefined) overview["dashboardMetadata"]["sharingDetails"] = {};
   overview["dashboardMetadata"]["sharingDetails"]["linkShared"] = (selection.shared ? selection.shared : "true");
   overview["dashboardMetadata"]["sharingDetails"]["published"] = (selection.published ? selection.published : "true");
   if (typeof (overview["dashboardMetadata"]["tags"]) == "undefined") overview["dashboardMetadata"]["tags"] = [];
@@ -659,21 +660,21 @@ function uploadWorkflow(workflow) {
 
       //add additional handling for new shareSettings trash
       let shareSetings = {
-          "id": "a5fca32f-d3ba-4749-b201-5d3cd70b9d22",
-          "enabled": "true",
-          "preset": "true",
-          "permissions": [
-            {
-              "type": "ALL",
-              "permission": "VIEW"
-            }
-          ],
-          "publicAccess": {
-            "managementZoneIds": [],
-            "urls": {}
+        "id": "a5fca32f-d3ba-4749-b201-5d3cd70b9d22",
+        "enabled": "true",
+        "preset": "true",
+        "permissions": [
+          {
+            "type": "ALL",
+            "permission": "VIEW"
           }
+        ],
+        "publicAccess": {
+          "managementZoneIds": [],
+          "urls": {}
         }
-      setTimeout(()=>{
+      }
+      setTimeout(() => {
         //main dashboard
         let shareEndpoint = `/api/config/v1/dashboards/${id}/shareSettings`;
         shareSetings.id = id;
@@ -684,7 +685,7 @@ function uploadWorkflow(workflow) {
           data: JSON.stringify(shareSetings)
         }
         //dtAPIquery(shareEndpoint,options); //apparently not necessary
-        
+
         //each sub
         shareSetings.preset = false;
         subs.forEach(sub => {
@@ -694,11 +695,11 @@ function uploadWorkflow(workflow) {
             method: "PUT",
             data: JSON.stringify(shareSetings)
           }
-          dtAPIquery(shareEndpoint,options);
+          dtAPIquery(shareEndpoint, options);
         })
 
-        
-      },10000); //wait ten seconds to avoid race condition on server (APM-323370)
+
+      }, 10000); //wait ten seconds to avoid race condition on server (APM-323370)
     });
 
   let returnInfo = {
@@ -769,8 +770,3 @@ function getTagValues(entityType) {
   return p0;
 }
 
-function downloadAndUnpackFromS3(url){
-
-
-
-}
