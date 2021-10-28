@@ -593,7 +593,7 @@ div.license a:hover {
   padding: 0px 5px 5px 5px;
 }
 
-tr.github {
+tr.github, tr.githubpat {
   display: none;
 }
 
