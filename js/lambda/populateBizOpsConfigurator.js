@@ -1,3 +1,8 @@
+/*Copyright 2019 Dynatrace LLC
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
+http://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.*/
+//This is run from arn:aws:lambda:us-east-1:446130280781:function:populateBizOpsConfigurator
 const https = require('https');
 var AWS = require('aws-sdk');
 const s3 = new AWS.S3({ region: "us-east-1" });
@@ -21,6 +26,9 @@ const repos = [
     { 'owner': 'br-se', 'repo': 'poc-dashboards', 'path': '' },
     { 'owner': 'mikeferg99', 'repo': 'dashboards', 'path': '' }
 ];
+
+const BUCKET = "bizopsconfigurator";
+const KEY = "dashboardpack-latest.json";
 
 
 //// main
@@ -74,23 +82,26 @@ exports.handler = async (event) => {
         });
         let zipped = zlib.gzipSync(output);
         let success = repos.filter(r => r.success).length;
-        const filename = `dashboardpack-${(new Date()).getTime()}.json.gz`;
-        const latest = `dashboardpack-latest.json.gz`;
+        const filename = `dashboardpack-${(new Date()).getTime()}.json`;
+
 
         try {
             //upload unique object
             const s3response = await s3.upload({
-                Bucket: "bizopsconfigurator",
+                Bucket: BUCKET,
                 Key: filename,
                 Body: zipped,
-                ContentType: 'application/gzip'
+                ContentType: 'application/json',
+                ContentEncoding: 'gzip',
+                ACL: 'public-read'
             }).promise();
 
             //copy to latest
             const s3response2 = await s3.copyObject({
-                Bucket: "bizopsconfigurator",
-                Key: latest,
-                CopySource: `bizopsconfigurator/${filename}`
+                Bucket: BUCKET,
+                Key: KEY,
+                CopySource: `${BUCKET}/${filename}`,
+                ACL: 'public-read'
             }).promise();
 
             //done
@@ -120,29 +131,29 @@ async function download(url) {
     }
 
     const promise = new Promise(function (resolve, reject) {
-        const request = function (url, opts) {
-            const req = https.get(url, opts, (res) => {
-                if(res.statusCode === 301 || res.statusCode === 302) {
-                    return request(res.headers.location,opts);
-                  } else if(res.statusCode >= 400){
-                    console.error(`https call to ${url} failed with statusCode ${res.statusCode}`);
-                    reject();
-                  } else {
-                    let data = "";
-                    res.on('data', chunk => { data += chunk; });
-                    res.on('end', () => {
-                        resolve(data);
-                    });
-                }
-            }).on('error', (e) => {
-                console.error(e);
-                reject();
-            })
-        }
-
-        request()
+        innerGet(url,opts,resolve,reject);
     })
     return promise;
+
+    function innerGet(url,opts,resolve,reject) {
+        const req = https.get(url, opts, (res) => {
+            if (res.statusCode === 301 || res.statusCode === 302) {
+                return innerGet(res.headers.location, opts,resolve,reject);
+            } else if (res.statusCode >= 400) {
+                console.error(`https call to ${url} failed with statusCode ${res.statusCode}`);
+                reject();
+            } else {
+                let data = "";
+                res.on('data', chunk => { data += chunk; });
+                res.on('end', () => {
+                    resolve(data);
+                });
+            }
+        }).on('error', (e) => {
+            console.error(e);
+            reject();
+        })
+    }
 }
 
 async function downloadJSON(url) {
@@ -162,6 +173,7 @@ async function downloadJSON(url) {
 
 async function getRepo(repo) {
     let url = `https://api.github.com/repos/${repo.owner}/${repo.repo}/contents/${repo.path}`;
+    console.log(`Downloading repo from ${url}...`);
     return downloadJSON(url);
 }
 
