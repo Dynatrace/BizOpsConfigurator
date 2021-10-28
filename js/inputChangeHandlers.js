@@ -988,6 +988,7 @@ function srcChangeHandler(e) {
   switch (val) {
     case "GitHub API":
       $(`tr.github, tr.githubpat`).show();
+      break;
     case "S3":
     default:
       $(`tr.github, tr.githubpat`).hide();
