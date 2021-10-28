@@ -13,6 +13,7 @@ function globalButtonHandler() {
     if (typeof dtrum !== "undefined") dtrum.actionName("globalButtonHandler(" + id + ")");
     switch (id) {
       case "connect":
+        src = $(`#src`).val();
         url = $("input#url").val().toLowerCase();
         if (url.length > 1 && url.charAt(url.length - 1) == "/")
           url = url.substring(0, url.length - 1);

@@ -115,6 +115,7 @@ var usecases = [
 ];
 //////// Global Vars ////////////
 var LOADING_REPOS = false;
+var src = "";
 var url = "";
 var token = "";
 var owner = "";
@@ -570,14 +571,12 @@ async function downloadFromS3(url) {
 }
 
 function loadFromS3orGH(){
-  let src = $(`#src`).val();
-
   switch(src){
     case "GitHub API":
       return(loadEverythingFromGithubAndCache());
     case "S3":
     default:
-      return(downloadFromS3);
+      return(downloadFromS3());
   }
 }
 
