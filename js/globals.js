@@ -548,7 +548,7 @@ function downloadWorkflowsFromList() {
   });
 }
 
-async function downloadFromS3(url) {
+async function downloadFromS3(url=s3URL) {
   const response = await fetch(url)
   if (!response.ok) {
     errorbox('S3 download not OK');
