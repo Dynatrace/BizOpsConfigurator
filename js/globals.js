@@ -566,16 +566,16 @@ async function downloadFromS3(url=s3URL) {
   if (res.hasOwnProperty("workflowList"))
     workflowList = res.workflowList;
   else errorbox("S3 did not contain workflowList");
-  if (res.hasOwnProperty("dbList"))
+  if (res.hasOwnProperty("dbList")){
     dbList = res.dbList;
-  else errorbox("S3 did not contain dbList");
+    updateDashboardButton();
+  } else errorbox("S3 did not contain dbList");
   if (res.hasOwnProperty("readmeList")){
     readmeList = res.readmeList;
     readmeList.forEach(file => {
       parseReadme(file,file.file);
     })
-  }
-  else errorbox("S3 did not contain readmeList");
+  } else errorbox("S3 did not contain readmeList");
 }
 
 function loadFromS3orGH(){

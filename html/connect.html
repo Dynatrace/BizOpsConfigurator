@@ -1,3 +1,4 @@
+<!--this file is for the connect popup-->
 <fieldset id="connect">
   <legend>Dynatrace & Github APIs</legend>
   <table>
@@ -23,6 +24,15 @@
       </td>
     </tr>
     <tr>
+        <td>Source:</td>
+        <td>
+          <select id="src">
+            <option selected>S3</option>
+            <option>GitHub API</option>
+          </select>
+        </td>
+      </tr>
+    <tr class="githubpat">
       <td colspan="2">
         <input type="checkbox" id="authgithub" /> Use GitHub PAT
         <a
