@@ -503,18 +503,8 @@ function downloadReadmesFromList() {
     if (typeof file.file == "undefined" || file.file == null) {
       let p = $.get(file.download_url)
         .fail(errorboxJQXHR)
-        .done(function (d) {
-          try {
-            var converter = new showdown.Converter();
-            let html = converter.makeHtml(d);
-            html = sanitizer.sanitize(html);
-            file.html = html.replace(/<img ([^>]*)src="(?!http)([^"]+)"([^>]*)>/g,
-              `<img $1src="https://github.com/${file.repo.owner}/${file.repo.repo}/raw/master/$2"$3>`);
-          } catch (e) {
-            let emsg = "Showdown Error on file " + file.path + ". " + e.name + ": " + e.message;
-            errorbox(emsg);
-            arr.splice(index, 1);
-          }
+        .done(function (md) {
+          parseReadme(file,md);
         });
       promises.push(p);
     }
@@ -522,6 +512,20 @@ function downloadReadmesFromList() {
   $.when.apply($, promises).done(function () {
 
   });
+}
+
+function parseReadme(file,md){
+  try {
+    var converter = new showdown.Converter();
+    let html = converter.makeHtml(md);
+    html = sanitizer.sanitize(html);
+    file.html = html.replace(/<img ([^>]*)src="(?!http)([^"]+)"([^>]*)>/g,
+      `<img $1src="https://github.com/${file.repo.owner}/${file.repo.repo}/raw/master/$2"$3>`);
+  } catch (e) {
+    let emsg = "Showdown Error on file " + file.path + ". " + e.name + ": " + e.message;
+    errorbox(emsg);
+    arr.splice(index, 1);
+  }
 }
 
 function downloadWorkflowsFromList() {
@@ -565,8 +569,12 @@ async function downloadFromS3(url=s3URL) {
   if (res.hasOwnProperty("dbList"))
     dbList = res.dbList;
   else errorbox("S3 did not contain dbList");
-  if (res.hasOwnProperty("readmeList"))
+  if (res.hasOwnProperty("readmeList")){
     readmeList = res.readmeList;
+    readmeList.forEach(file => {
+      parseReadme(file,file.file);
+    })
+  }
   else errorbox("S3 did not contain readmeList");
 }
 
