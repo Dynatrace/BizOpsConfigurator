@@ -112,7 +112,11 @@ exports.handler = async (event) => {
             //done
             const response = {
                 statusCode: 200,
-                body: JSON.stringify(`Successfully loaded ${success} of ${repos.length} repos and wrote to S3.`),
+                body: JSON.stringify(`Successfully loaded ${success} / ${repos.length} repos, ` 
+                    + `${workflows.filter(x=>x.success).length} / ${workflows.length} workflows, `
+                    + `${dashboards.filter(x=>x.success).length} / ${dashboards.length} dashboards, `
+                    + `${readmes.filter(x=>x.success).length} / ${readmes.length} readmes `
+                    + ` and wrote to S3.`),
             };
             mainResolve(response);
         } catch (e) {
@@ -165,6 +169,8 @@ async function download(url) {
 async function downloadJSON(url) {
     let p = download(url);
     return p.then((data) => {
+        //data = data.replace(/[\n\r\t]*/g,'');
+        data = removeByteOrderMark(data);
         try {
             let json = JSON.parse(data);
             return (json);
@@ -239,3 +245,5 @@ function parseRepoContents(contents = [], repo, data = {}) {
         console.warn(`contents not an array: ${JSON.stringify(contents).substring(0, 100)}`);
     }
 }
+
+let removeByteOrderMark = a=>a[0]=="\ufeff"?a.slice(1):a
