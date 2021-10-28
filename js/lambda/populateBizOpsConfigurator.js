@@ -30,6 +30,10 @@ const repos = [
 const BUCKET = "bizopsconfigurator";
 const KEY = "dashboardpack-latest.json";
 
+const keepAliveAgent = new https.Agent({ 
+    keepAlive: true,
+    maxSockets: 30
+})
 
 //// main
 exports.handler = async (event) => {
@@ -48,6 +52,7 @@ exports.handler = async (event) => {
         readmes: readmes
     }
 
+
     for (const repo of repos) {
         let contents = await getRepo(repo);
         if (contents && Array.isArray(contents)) {
@@ -60,15 +65,15 @@ exports.handler = async (event) => {
     }
 
     console.log(`data length: ` + JSON.stringify({ dashboards: dashboards.length, readmes: readmes.length, workflows: workflows.length }));
-    for (const db of dashboards) {
+    for (let db of dashboards) {
         let p = downloadDB(db);
         promises.push(p);
     }
-    for (const wf of workflows) {
+    for (let wf of workflows) {
         let p = downloadWF(wf);
         promises.push(p);
     }
-    for (const rm of readmes) {
+    for (let rm of readmes) {
         let p = downloadRM(rm);
         promises.push(p);
     }
@@ -76,7 +81,7 @@ exports.handler = async (event) => {
     Promise.allSettled(promises).then(async (results) => {
         let output = JSON.stringify({
             dbList: dashboards,
-            repos: repos,
+            repoList: repos,
             readmeList: readmes,
             workflowList: workflows
         });
@@ -127,7 +132,8 @@ async function download(url) {
     const opts = {
         headers: {
             'User-Agent': 'populateBizOpsConfigurator'
-        }
+        },
+        agent: keepAliveAgent
     }
 
     const promise = new Promise(function (resolve, reject) {
