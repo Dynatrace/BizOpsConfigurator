@@ -941,6 +941,7 @@ function usqlSelectGetSwaps(slicer, workflowInput, transform, swaps, whereClause
       let $option = $workflowInput.find("select option:selected");
       let value = $option.val();
       let from = `\${${transform}.name}`;
+      let raw = `\${${transform}.raw}`;
       if ($option.length === 1) addToSwaps(swaps, { from: from, to: value });
       else if ($option.length > 1) {
         let vals = [];
@@ -952,6 +953,7 @@ function usqlSelectGetSwaps(slicer, workflowInput, transform, swaps, whereClause
             vals.push(v);
           });
         addToSwaps(swaps, { from: from, to: vals.join(`", "`) });
+        addToSwaps(swaps, { from: raw, to: vals.join(`, `) });
         let fromcount = "${" + transform + ".count}";
         addToSwaps(swaps, { from: fromcount, to: $option.length.toString() });
       }
