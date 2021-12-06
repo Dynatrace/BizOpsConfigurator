@@ -421,7 +421,8 @@ function populateNewInput(oldInput) {
     let $conditionalSwap = $oldInput.find('.conditionalSwap');
     let $conditionalPrior = $oldInput.find(".conditionalPrior");
     let $configOverride = $oldInput.find('.configOverride');
-    let $overridePriorSwap = $oldInput.find(".overridePriorSwap")
+    let $overridePriorSwap = $oldInput.find(".overridePriorSwap");
+    let $overridePriorVals = $oldInput.find(".overrideValues");
     let $configPusher = $oldInput.find('.configPusher');
     let $configPushType = $configPusher.find('.configPushType');
     let $customServiceTech = $configPusher.find('.customServiceTech');
@@ -493,7 +494,7 @@ function populateNewInput(oldInput) {
     } else if ($configOverride.length) {
         $("#inputType").val('Workflow Config Override');
         inputTypeChangeHandler();
-        $("#overrideValues").val(options);
+        $("#overrideValues").val($overridePriorVals.val());
         $("#overridePriorSwap").val($overridePriorSwap.val());
         configOverridePreview(vals);
     } else if ($configPusher.length) {
