@@ -881,7 +881,7 @@ function globalButtonHandler() {
       case "workflowButton": {
         let button = $("#workflowButton");
         let activePage = $("#workflow").find(".workflowPage.activePage");
-        let $invalids = $("#workflow").find(`:invalid`);
+        let $invalids = activePage.find(`:invalid`);
         if ($invalids.length) {
           $invalids.eq(0)
             .focus()
