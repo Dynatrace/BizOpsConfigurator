@@ -420,6 +420,7 @@ function populateNewInput(oldInput) {
     let $replicationTileName = $oldInput.find(".replicationTileName");
     let $conditionalSwap = $oldInput.find('.conditionalSwap');
     let $conditionalPrior = $oldInput.find(".conditionalPrior");
+    let $conditionalPriorVals = $oldInput.find(".conditionalValues");
     let $configOverride = $oldInput.find('.configOverride');
     let $overridePriorSwap = $oldInput.find(".overridePriorSwap");
     let $overridePriorVals = $oldInput.find(".overrideValues");
@@ -430,7 +431,7 @@ function populateNewInput(oldInput) {
     let $configPushFile = $configPusher.find('.configPushFile');
     let $select = $oldInput.find('select');
     let options = $select.attr("data-options");
-    let vals = options ? JSON.parse(options) : [];
+    let vals = options ? JSON.parse(options) : null;
     let $transform = $oldInput.find(".transform span");
 
     if ($usqlQuery.length) {
@@ -488,7 +489,7 @@ function populateNewInput(oldInput) {
     } else if ($conditionalSwap.length) {
         $("#inputType").val('Conditional Swap');
         inputTypeChangeHandler();
-        $("#conditionalValues").val($options);
+        $("#conditionalValues").val($conditionalPriorVals.val());
         $("#conditionalPrior").val($conditionalPrior.val());
         conditionalPreview(vals);
     } else if ($configOverride.length) {
