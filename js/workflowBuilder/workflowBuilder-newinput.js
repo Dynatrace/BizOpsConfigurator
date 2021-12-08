@@ -422,7 +422,7 @@ function populateNewInput(oldInput) {
     let $conditionalPrior = $oldInput.find(".conditionalPrior");
     let $conditionalPriorVals = $oldInput.find(".conditionalValues");
     let $configOverride = $oldInput.find('.configOverride');
-    let $overridePriorSwap = $oldInput.find(".overridePriorSwap");
+    let $overridePriorSwap = $oldInput.find(".overridePrior");
     let $overridePriorVals = $oldInput.find(".overrideValues");
     let $configPusher = $oldInput.find('.configPusher');
     let $configPushType = $configPusher.find('.configPushType');
