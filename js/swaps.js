@@ -793,6 +793,9 @@ function configOverrideGetSwaps(workflowInput, swaps) {
   let $workflowInput = $(workflowInput);
   let overrideValues = JSON.parse($workflowInput.find(".overrideValues").val());
   let overridePrior = $workflowInput.find(".overridePrior").val();
+  if(overridePrior.length
+    && (!overridePrior.startsWith("${") && overridePrior.endsWith("}")))
+    overridePrior = '${' + overridePrior + '}';
   let overrideAction = $workflowInput.find(".overrideAction").val();
   let priorSwap = swaps.find((x) => x.from === overridePrior);
   if (typeof priorSwap != "undefined") {
