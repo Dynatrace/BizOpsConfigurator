@@ -811,6 +811,8 @@ function configOverrideGetSwaps(workflowInput, swaps) {
           selection.config.overviewDB = val.overrideValue;
         else console.log("No override match found");
     }
+  } else {
+    console.log(`Unable to match priorSwap for configOverride. Deploying default dashboard. Was looking for '${overridePrior}' in: `, swaps);
   }
 }
 
