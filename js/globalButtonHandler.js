@@ -864,7 +864,6 @@ function globalButtonHandler() {
               $(this).val("Deleted");
               $("#viewport").load("html/personaFlow/persona_list.html", () => {
                 fieldsetPainter();
-                expandPersonaList([personaPrefix], [usecasePrefix]);
               });
             });
         break;
