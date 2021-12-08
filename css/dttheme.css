@@ -1588,3 +1588,7 @@ a.justAdded, a.justAdded:visited {
 #issues {
   display: inline;
 }
+
+div.userInput:nth-child(2) {
+  margin-top: 10px;
+}
