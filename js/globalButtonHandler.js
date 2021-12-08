@@ -857,6 +857,18 @@ function globalButtonHandler() {
         break;
       }
 
+      case "persona_refresh": {
+        let p_DBA = getAllDashboards();
+            $.when(p_DBA).done(function (data) {
+              processDBADashboards(data);
+              $(this).val("Deleted");
+              $("#viewport").load("html/personaFlow/persona_list.html", () => {
+                fieldsetPainter();
+                expandPersonaList([personaPrefix], [usecasePrefix]);
+              });
+            });
+        break;
+      }
       case "persona_list": {
         $("#viewport").load("html/personaFlow/persona_list.html", fieldsetPainter);
         break;
