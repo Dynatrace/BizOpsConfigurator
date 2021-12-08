@@ -857,7 +857,7 @@ function globalButtonHandler() {
         break;
       }
 
-      case "persona_refresh": {
+      case "persona_list_refresh": {
         let p_DBA = getAllDashboards();
             $.when(p_DBA).done(function (data) {
               processDBADashboards(data);
