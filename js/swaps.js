@@ -793,7 +793,7 @@ function configOverrideGetSwaps(workflowInput, swaps) {
   let $workflowInput = $(workflowInput);
   let overrideValues = JSON.parse($workflowInput.find(".overrideValues").val());
   let overridePrior = $workflowInput.find(".overridePrior").val();
-  if(overridePrior.length
+  if (overridePrior.length
     && (!overridePrior.startsWith("${") && !overridePrior.endsWith("}")))
     overridePrior = '${' + overridePrior + '}';
   let overrideAction = $workflowInput.find(".overrideAction").val();
@@ -949,8 +949,10 @@ function usqlSelectGetSwaps(slicer, workflowInput, transform, swaps, whereClause
       let value = $option.val();
       let from = `\${${transform}.name}`;
       let raw = `\${${transform}.raw}`;
-      if ($option.length === 1) addToSwaps(swaps, { from: from, to: value });
-      else if ($option.length > 1) {
+      if ($option.length === 1) {
+        addToSwaps(swaps, { from: from, to: value });
+        addToSwaps(swaps, { from: raw, to: value });
+      } else if ($option.length > 1) {
         let vals = [];
         $option
           .map((i, el) => $(el).val())
