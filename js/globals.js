@@ -112,7 +112,8 @@ var usecases = [
   { name: "Industry Vertical", bizAnalytics: true, prefix: "a016" },
   { name: "Application Overview", bizAnalytics: true, prefix: "a017" },
   { name: "Forecast Analysis", bizAnalytics: true, prefix: "a018" },
-  { name: "On Demand", bizAnalytics: true, prefix: "a019" }
+  { name: "On Demand", bizAnalytics: true, prefix: "a019" },
+  { name: "Application Analytics", bizAnalytics: true, prefix: "a020" }
 ];
 //////// Global Vars ////////////
 var LOADING_REPOS = false;
