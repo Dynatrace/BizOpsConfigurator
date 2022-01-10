@@ -16,7 +16,7 @@ const repos = [
     { 'owner': 'TechShady', 'repo': 'BizOpsLite', 'path': '' },
     { 'owner': 'LucasHocker', 'repo': 'DashboardTemplates', 'path': 'v1.192.96' },
     { 'owner': 'LucasHocker', 'repo': 'DashboardTemplates', 'path': '' },
-    { 'owner': 'Dynatrace-JasonOstroski', 'repo': 'CitrixDynatraceDashboards', 'path': '' },
+    { 'owner': 'JasonOstroski', 'repo': 'CitrixDynatraceDashboards', 'path': '' },
     { 'owner': 'jjbologna', 'repo': 'SAP-extension-dashboards', 'path': '' },
     { 'owner': 'JLLormeau', 'repo': 'dynatrace_template_fr', 'path': '' },
     { 'owner': 'popecruzdt', 'repo': 'BizOpsConfiguratorPacks', 'path': '' },
