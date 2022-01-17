@@ -673,8 +673,10 @@ function apiSelectGetSwaps(select, transform, swaps) {
     let i = 1;
     values.forEach((obj) => {
       let fromkey = "${" + transform + "-" + i + ".name}";
+      let fromkeyenc = "${" + transform + "-" + i + ".nameenc}";
       let fromval = "${" + transform + "-" + i + ".id}";
       addToSwaps(swaps, { from: fromkey, to: obj.key });
+      addToSwaps(swaps, { from: fromkeyenc, to: encodeURIComponent(obj.key) });
       addToSwaps(swaps, { from: fromval, to: obj.value });
       if (typeof obj.type != "undefined") {
         let fromtype = "${" + transform + "-" + i + ".type}";
@@ -685,8 +687,11 @@ function apiSelectGetSwaps(select, transform, swaps) {
     let fromcount = "${" + transform + ".count}";
     addToSwaps(swaps, { from: fromcount, to: values.length.toString() });
     let from = "${" + transform + ".name}";
+    let fromenc = "${" + transform + ".nameenc}";
     let to = values.map((x) => x.key.replace(/"/g, '\\"')).join('", "');
+    let toenc = values.map((x) => encodeURIComponent(x.key).replace(/"/g, '\\"')).join('", "');
     addToSwaps(swaps, { from: from, to: to });
+    addToSwaps(swaps, { from: fromenc, to: toenc });
     from = "${" + transform + ".id}";
     to = values.map((x) => x.value.replace(/"/g, '\\"')).join('", "');
     addToSwaps(swaps, { from: from, to: to });
@@ -695,8 +700,10 @@ function apiSelectGetSwaps(select, transform, swaps) {
     let key = $select.children("option:selected").text();
 
     let fromkey = "${" + transform + ".name}";
+    let fromkeyenc = "${" + transform + ".nameenc}";
     let fromval = "${" + transform + ".id}";
     addToSwaps(swaps, { from: fromkey, to: key });
+    addToSwaps(swaps, { from: fromkeyenc, to: encodeURIComponent(key) });
     addToSwaps(swaps, { from: fromval, to: val });
     if ($select.children("option:selected[data-type]").length) {
       let type = $select.children("option:selected[data-type]").attr("data-type");
