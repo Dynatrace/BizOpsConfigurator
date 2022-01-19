@@ -926,7 +926,9 @@ function usqlSelectGetSwaps(slicer, workflowInput, transform, swaps, whereClause
             let $opt = $($opts[i]);
             let val = $opt.val();
             let fromval = `\${${transform}-${i}.value}`;
+            let fromvalenc = `\${${transform}-${i}.value}`;
             addToSwaps(swaps, { from: fromval, to: val });
+            addToSwaps(swaps, { from: fromvalenc, to: encodeURIComponent(val) });
             vals.push(val);
           }
           let fromcount = `\${${transform}.count}`;
@@ -936,7 +938,7 @@ function usqlSelectGetSwaps(slicer, workflowInput, transform, swaps, whereClause
           let fromvalenc = `\${${transform}.valueenc}`;
           addToSwaps(swaps, { from: fromval, to: vals.join('", "') });
           addToSwaps(swaps, { from: fromraw, to: vals.join(`, `) });
-          addToSwaps(swaps, { from: fromvalenc, to: vals.map(v=>encodeURIComponent(v)).join(`, `) });
+          addToSwaps(swaps, { from: fromvalenc, to: vals.map(v => encodeURIComponent(v)).join(`, `) });
         } else {
           let value = $val.find("option:selected").val();
           let fromval = `\${${transform}.value}`;
@@ -982,7 +984,7 @@ function usqlSelectGetSwaps(slicer, workflowInput, transform, swaps, whereClause
           });
         addToSwaps(swaps, { from: from, to: vals.join(`", "`) });
         addToSwaps(swaps, { from: raw, to: vals.join(`, `) });
-        addToSwaps(swaps, { from: nameenc, to: vals.map(v=>encodeURIComponent(v)).join(`, `) });
+        addToSwaps(swaps, { from: nameenc, to: vals.map(v => encodeURIComponent(v)).join(`, `) });
         let fromcount = "${" + transform + ".count}";
         addToSwaps(swaps, { from: fromcount, to: $option.length.toString() });
       }
