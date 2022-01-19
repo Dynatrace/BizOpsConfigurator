@@ -91,7 +91,8 @@ var personas = [
   { name: "Digital Marketer", prefix: "a006" },
   { name: "IT Exec", prefix: "a004" },
   { name: "Dynatrace Admin", prefix: "a005" },
-  { name: "Line of Business", prefix: "a007" }
+  { name: "Line of Business", prefix: "a007" },
+  { name: "Playground", prefix: "a008" }
 ];
 var usecases = [
   { name: "User Journey", bizAnalytics: true, prefix: "a001" },
@@ -113,7 +114,8 @@ var usecases = [
   { name: "Application Overview", bizAnalytics: true, prefix: "a017" },
   { name: "Forecast Analysis", bizAnalytics: true, prefix: "a018" },
   { name: "On Demand", bizAnalytics: true, prefix: "a019" },
-  { name: "Application Analytics", bizAnalytics: true, prefix: "a020" }
+  { name: "Application Analytics", bizAnalytics: true, prefix: "a020" },
+  { name: "Playground", bizAnalytics: true, prefix: "a021" }
 ];
 //////// Global Vars ////////////
 var LOADING_REPOS = false;
