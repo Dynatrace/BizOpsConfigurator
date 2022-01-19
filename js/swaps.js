@@ -926,7 +926,7 @@ function usqlSelectGetSwaps(slicer, workflowInput, transform, swaps, whereClause
             let $opt = $($opts[i]);
             let val = $opt.val();
             let fromval = `\${${transform}-${i}.value}`;
-            let fromvalenc = `\${${transform}-${i}.value}`;
+            let fromvalenc = `\${${transform}-${i}.valueenc}`;
             addToSwaps(swaps, { from: fromval, to: val });
             addToSwaps(swaps, { from: fromvalenc, to: encodeURIComponent(val) });
             vals.push(val);
