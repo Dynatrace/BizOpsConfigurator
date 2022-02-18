@@ -429,17 +429,38 @@ function doSwaps(db, swaps) {
 
 function doEncodedMarkdownTileSwaps(t, swaps) {
   if (t.tileType == "MARKDOWN") {
-    let match = t.markdown.match(/sessionquery=([^&]*)&?/);
-    if (match) {
-      let query = match[1];
-      query = decodeURIComponent(query);
+    // let match = t.markdown.match(/sessionquery=([^&]*)&?/);
+    // if (match) {
+    //   let query = match[1];
+    //   query = decodeURIComponent(query);
 
+    //   swaps.forEach(function (swap) {
+    //     query = query.replace(new RegExp(swap.from, "g"), swap.to);
+    //   });
+
+    //   query = encodeURIComponent(query);
+    //   t.markdown = t.markdown.replace(/sessionquery=[^&]*&?/, "sessionquery=" + query + "&");
+    // } else if (t.markdown.includes("sessionquery")) {
+    //   console.log("MARKDOWN tile did not match regex");
+    //   console.log(t);
+    // }
+    let matches = t.markdown.matchAll(/sessionquery=([^&]*)&?/);
+    if (matches) {
+      for (match of matches) {
+        let query = match[1];
+        query = decodeURIComponent(query);
+
+        swaps.forEach(function (swap) {
+          query = query.replace(new RegExp(swap.from, "g"), swap.to);
+        });
+
+        query = encodeURIComponent(query);
+        t.markdown = t.markdown.replace(match[0], "sessionquery=" + query + "&");
+      }
+      //now, also swap non-encoded stuff
       swaps.forEach(function (swap) {
-        query = query.replace(new RegExp(swap.from, "g"), swap.to);
+        t.markdown = t.markdown.replace(new RegExp(swap.from, "g"), swap.to);
       });
-
-      query = encodeURIComponent(query);
-      t.markdown = t.markdown.replace(/sessionquery=[^&]*&?/, "sessionquery=" + query + "&");
     } else if (t.markdown.includes("sessionquery")) {
       console.log("MARKDOWN tile did not match regex");
       console.log(t);
