@@ -444,7 +444,7 @@ function doEncodedMarkdownTileSwaps(t, swaps) {
     //   console.log("MARKDOWN tile did not match regex");
     //   console.log(t);
     // }
-    let matches = t.markdown.matchAll(/sessionquery=([^&]*)&?/);
+    let matches = t.markdown.matchAll(/sessionquery=([^&]*)&?/g);
     if (matches) {
       for (match of matches) {
         let query = match[1];
