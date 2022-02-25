@@ -444,10 +444,11 @@ function doEncodedMarkdownTileSwaps(t, swaps) {
     //   console.log("MARKDOWN tile did not match regex");
     //   console.log(t);
     // }
-    let matches = t.markdown.matchAll(/sessionquery=([^&]*)&?/g);
+    let matches = t.markdown.matchAll(/sessionquery=([^&]*)(&|!PU)?/g);
     if (matches) {
       for (match of matches) {
         let query = match[1];
+        let postfix = match[2];
         query = decodeURIComponent(query);
 
         swaps.forEach(function (swap) {
@@ -455,7 +456,7 @@ function doEncodedMarkdownTileSwaps(t, swaps) {
         });
 
         query = encodeURIComponent(query);
-        t.markdown = t.markdown.replace(match[0], "sessionquery=" + query + "&");
+        t.markdown = t.markdown.replace(match[0], "sessionquery=" + query + postfix);
       }
       //now, also swap non-encoded stuff
       swaps.forEach(function (swap) {
