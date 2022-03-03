@@ -457,6 +457,11 @@ function doEncodedMarkdownTileSwaps(t, swaps) {
 
         query = encodeURIComponent(query);
         t.markdown = t.markdown.replace(match[0], "sessionquery=" + query + postfix);
+
+        //ugly hack to make John's query work
+        if(match[1].includes('useraction.%2A') && query.includes('useraction.*')){
+          console.warn('doEncodedMarkdownTileSwaps re-encode did not match. break here');
+        }
       }
       //now, also swap non-encoded stuff
       swaps.forEach(function (swap) {
