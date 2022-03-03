@@ -455,7 +455,7 @@ function doEncodedMarkdownTileSwaps(t, swaps) {
           query = query.replace(new RegExp(swap.from, "g"), swap.to);
         });
 
-        query = encodeURIComponent(query);
+        query = fixedEncodeURIComponent(query);
         t.markdown = t.markdown.replace(match[0], "sessionquery=" + query + postfix);
 
         //ugly hack to make John's query work
