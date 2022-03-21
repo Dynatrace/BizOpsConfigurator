@@ -231,7 +231,7 @@ function ConfigPusherFactory(target, transform, configPushType, configPushFile, 
                 break;
             }
             case "SLO": {
-                let query = `/api/v2/SLO`;
+                let query = `/api/v2/slo`;
                 if (c.hasOwnProperty('id')) {
                     delete c.id;
                     data = JSON.stringify(c);
