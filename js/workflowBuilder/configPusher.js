@@ -130,6 +130,22 @@ function ConfigPusherFactory(target, transform, configPushType, configPushFile, 
                 });
                 break;
             }
+            case "SLO": {
+                let query = `/api/v2/slo/sloSelector=${encodeURIComponent(sloSelector)}&sort=name&timeFrame=CURRENT&pageIdx=1&demo=false&evaluate=false&enabledSlos=true`;
+                p = dtAPIquery(query);
+                $.when(p).done(function (result) {
+                    if (result.totalCount === 1) {
+                        configured = true;
+                    } else if (result.totalCount > 1){
+                        configured = true;
+                        alternates = result.values;
+                    } else {
+                        configured = false;
+                        alternates = result.values;
+                    }
+                });
+                break;
+            }
             default: {
                 console.log("unknown checkForExistingConfig type");
                 break;
@@ -207,6 +223,16 @@ function ConfigPusherFactory(target, transform, configPushType, configPushFile, 
                 data = JSON.stringify(c);
                 let query = `/api/config/v1/calculatedMetrics/${customMetricType}`;
                 p = dtAPIquery(query, { method: "POST", data: data });
+                $.when(p).done(refreshConfigPusher);
+                break;
+            }
+            case "SLO": {
+                let query = `/api/v2/SLO`;
+                if(c.hasOwnProperty('id')) {
+                    delete c.id;
+                    data = JSON.stringify(c);
+                }
+                p = dtAPIquery(query, { method: "PUSH", data: data });
                 $.when(p).done(refreshConfigPusher);
                 break;
             }
