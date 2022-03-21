@@ -120,7 +120,7 @@ function ConfigPusherFactory(target, transform, configPushType, configPushFile, 
                 let query = `/api/config/v1/calculatedMetrics/${customMetricType}`;
                 p = dtAPIquery(query);
                 $.when(p).done(function (result) {
-                    let MK = (c.hasOwnProperty("tsmMetricKey")?"tsmMetricKey":"metricKey");
+                    let MK = (c.hasOwnProperty("tsmMetricKey") ? "tsmMetricKey" : "metricKey");
                     if (result.values.find(x => x.id === c[MK] && x.name === c.name)) {
                         configured = true;
                     } else {
@@ -131,19 +131,22 @@ function ConfigPusherFactory(target, transform, configPushType, configPushFile, 
                 break;
             }
             case "SLO": {
-                let query = `/api/v2/slo/sloSelector=${encodeURIComponent(sloSelector)}&sort=name&timeFrame=CURRENT&pageIdx=1&demo=false&evaluate=false&enabledSlos=true`;
-                p = dtAPIquery(query);
-                $.when(p).done(function (result) {
-                    if (result.totalCount === 1) {
-                        configured = true;
-                    } else if (result.totalCount > 1){
-                        configured = true;
-                        alternates = result.values;
-                    } else {
-                        configured = false;
-                        alternates = result.values;
-                    }
-                });
+                if (c && c.name) {
+                    let sloSelector = `name(${c.name})`;
+                    let query = `/api/v2/slo/sloSelector=${encodeURIComponent(sloSelector)}&sort=name&timeFrame=CURRENT&pageIdx=1&demo=false&evaluate=false&enabledSlos=true`;
+                    p = dtAPIquery(query);
+                    $.when(p).done(function (result) {
+                        if (result.totalCount === 1) {
+                            configured = true;
+                        } else if (result.totalCount > 1) {
+                            configured = true;
+                            alternates = result.values;
+                        } else {
+                            configured = false;
+                            alternates = result.values;
+                        }
+                    });
+                }
                 break;
             }
             default: {
@@ -216,10 +219,10 @@ function ConfigPusherFactory(target, transform, configPushType, configPushFile, 
             }
             case "CustomMetric": {
                 c = configData;
-                let MK = (c.hasOwnProperty("tsmMetricKey")?"tsmMetricKey":"metricKey");
+                let MK = (c.hasOwnProperty("tsmMetricKey") ? "tsmMetricKey" : "metricKey");
                 let parts = c[MK].split(':');
                 c[MK] = parts[0] + ':' +
-                    parts[1].replace(/[/,: ]/g,'_'); //app.name may have reserved chars, but don't replace :
+                    parts[1].replace(/[/,: ]/g, '_'); //app.name may have reserved chars, but don't replace :
                 data = JSON.stringify(c);
                 let query = `/api/config/v1/calculatedMetrics/${customMetricType}`;
                 p = dtAPIquery(query, { method: "POST", data: data });
@@ -228,7 +231,7 @@ function ConfigPusherFactory(target, transform, configPushType, configPushFile, 
             }
             case "SLO": {
                 let query = `/api/v2/SLO`;
-                if(c.hasOwnProperty('id')) {
+                if (c.hasOwnProperty('id')) {
                     delete c.id;
                     data = JSON.stringify(c);
                 }
