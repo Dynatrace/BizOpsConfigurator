@@ -236,7 +236,7 @@ function ConfigPusherFactory(target, transform, configPushType, configPushFile, 
                     delete c.id;
                     data = JSON.stringify(c);
                 }
-                p = dtAPIquery(query, { method: "PUSH", data: data });
+                p = dtAPIquery(query, { method: "POST", data: data });
                 $.when(p).done(refreshConfigPusher);
                 break;
             }
