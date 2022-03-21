@@ -169,6 +169,7 @@ function ConfigPusherFactory(target, transform, configPushType, configPushFile, 
             or choose alternate: </span>`);
             $altSelect = $(`<select id="${altID}">`)
                 .appendTo($html);
+            if(!Array.isArray(alternates)) alternates = [];
             alternates.forEach(function (i) {
                 let $opt = $("<option>");
                 $opt.val(i.id)
