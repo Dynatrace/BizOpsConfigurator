@@ -132,8 +132,8 @@ function ConfigPusherFactory(target, transform, configPushType, configPushFile, 
             }
             case "SLO": {
                 if (c && c.name) {
-                    let sloSelector = `name(${c.name})`;
-                    let query = `/api/v2/slo/sloSelector=${encodeURIComponent(sloSelector)}&sort=name&timeFrame=CURRENT&pageIdx=1&demo=false&evaluate=false&enabledSlos=true`;
+                    let sloSelector = `name("${c.name}")`;
+                    let query = `/api/v2/slo?sloSelector=${encodeURIComponent(sloSelector)}&sort=name&timeFrame=CURRENT&pageIdx=1&demo=false&evaluate=false&enabledSlos=true`;
                     p = dtAPIquery(query);
                     $.when(p).done(function (result) {
                         if (result.totalCount === 1) {
