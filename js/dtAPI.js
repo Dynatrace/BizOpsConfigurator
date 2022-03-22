@@ -572,7 +572,11 @@ async function uploadWorkflow(workflow) {
   //let actionName = `NewFlowDeploy-${selection.persona.name}-${selection.usecase.name}-${selection.config.workflowName}`;
   let actionName = `NewFlowDeploy`;
   let dtaction;
-  if (typeof dtrum !== "undefined") dtaction = dtrum.enterAction(actionName, "xhr");
+  //if (typeof dtrum !== "undefined") dtaction = dtrum.enterAction(actionName, "xhr");
+  if (typeof dtrum !== "undefined") {
+    dtaction = dtrum.enterAction(actionName);
+    dtrum.enterXhrCallback(dtaction);
+  }
   //if (typeof dtrum !== "undefined") dtrum.actionName(actionName);
 
   //get dashboard JSON
@@ -681,6 +685,7 @@ async function uploadWorkflow(workflow) {
   let res = dtAPIquery(query, { method: "PUT", data: dbS })
     .done(() => {
       if (typeof dtrum !== "undefined") {
+        dtrum.leaveXhrCallback(dtaction);
         dtrum.leaveAction(dtaction);
         dtrum.sendSignal(false, true, false);
       }
