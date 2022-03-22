@@ -513,9 +513,13 @@ async function checkDashboard(id) {
   let res = await dtAPIquery(query, {
     success: ()=>{return true;},
     error: ()=>{return false}
-  });
+  })
+    .catch((e)=>{
+      res = false;
+      console.log("checkDashboard: in catch block.");
+    });
   console.log("checkDashboard: "+res);
-  return res;
+  return res == true;
 }
 
 function addParentConfig(config, id) {
@@ -593,8 +597,7 @@ async function uploadWorkflow(workflow) {
     id = selection.workflow.originalID;
   else {
     id = nextWorkflowOverview(selection.persona.prefix, selection.usecase.prefix);
-    checkDB = await checkDashboard(id);
-    let checkDB = true;
+    let checkDB = await checkDashboard(id);
     let attempts = 5;
     while(checkDB && attempts--){ //Try to prevent server side race condition
       id = incWorkflowOverview(id);
