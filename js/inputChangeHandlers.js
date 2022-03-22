@@ -784,6 +784,10 @@ function workflowPickerChangeHandler(e) {
     default:
       let i = $workflow.find("option:selected").attr('data-workflowIndex');
       let workflow = workflowList[i];
+      if(!workflow){
+        console.warn(`Workflow not found. i:${i}, workflowList.length:${workflowList.length}`);
+        return false;
+      }
       let readme = findWorkflowReadme(workflow);
       if (typeof readme != "undefined" && typeof readme.html != "undefined")
         $readmeViewer.html(readme.html);
