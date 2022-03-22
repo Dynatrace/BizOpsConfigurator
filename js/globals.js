@@ -655,6 +655,7 @@ var sanitizer = {};
   sanitizer.sanitize = sanitize;
 })(jQuery);
 
+/** finds the largest deployment number in current cache of dashboards and provides next workflow id */
 function nextWorkflowOverview(persona, usecase) {
   //"bbbbbbbb-a463-0001-0000-ffffffffffff"
   //bbbbbbbb - Configurator dashboard
@@ -675,6 +676,14 @@ function nextWorkflowOverview(persona, usecase) {
   return newID;
 }
 
+/** simply increments deployment id */
+function incWorkflowOverview(id) {
+  let deployment = parseInt(id.slice(-12),10);
+  let newDeployment = id.slice(0,-12) + (deployment + 1).toString();
+  return newDeployment;
+}
+
+/** increments dashboard number */
 function nextWorkflowDBID(id) {
   let parts = id.split("-");
   let newID = parseInt(parts[3]) + 1;
@@ -682,6 +691,7 @@ function nextWorkflowDBID(id) {
   return parts.join("-");
 }
 
+/** return id of corresponding config dashboard */
 function workflowConfigID(id) {
   let parts = id.split("-");
   parts[3] = "ffff";

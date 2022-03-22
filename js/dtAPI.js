@@ -590,10 +590,17 @@ async function uploadWorkflow(workflow) {
   if (typeof selection.workflow.originalID !== "undefined")
     id = selection.workflow.originalID;
   else {
+    id = nextWorkflowOverview(selection.persona.prefix, selection.usecase.prefix);
+    checkDB = await checkDashboard(id);
     let checkDB = true;
-    while(checkDB){ //Try to prevent server side race condition
-      id = nextWorkflowOverview(selection.persona.prefix, selection.usecase.prefix);
+    let attempts = 5;
+    while(checkDB && attempts--){ //Try to prevent server side race condition
+      id = incWorkflowOverview(id);
       checkDB = await checkDashboard(id);
+    }
+    if(checkDB && !attempts){
+      errorbox("Unable to determine next dashboard id. Try refreshing browser.");
+      return false;
     }
   }
     
