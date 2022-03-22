@@ -237,10 +237,7 @@ function ConfigPusherFactory(target, transform, configPushType, configPushFile, 
                     data = JSON.stringify(c);
                 }
                 p = dtAPIquery(query, { method: "POST", data: data, dataType: "text" });
-                //$.when(p).done(refreshConfigPusher);
-                $.when(p).done(function(res){
-                    console.log("Pushed SLO. Result:"+res);
-                });
+                $.when(p).done(refreshConfigPusher);
                 break;
             }
             /*case "FULL_WEB_REQUEST": {
