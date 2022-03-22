@@ -508,6 +508,13 @@ function loadDashboard(id) {
   return dtAPIquery(query, {});
 }
 
+function checkDashboard(id) {
+  var query = "/api/config/v1/dashboards/" + id;
+  return dtAPIquery(query, {
+    success: ()=>{return true;},
+    error: ()=>{return false}
+  });
+}
 
 function addParentConfig(config, id) {
   let p = loadDashboard(configID(id));
@@ -547,7 +554,7 @@ function deleteDashboard(id) {
   return dtAPIquery(query, { method: "DELETE" });
 }
 
-function uploadWorkflow(workflow) {
+async function uploadWorkflow(workflow) {
   let $workflow = $(workflow);
   //let config = JSON.parse($workflow.find("#workflowConfigJSON").val());
   let config = selection.config;
@@ -582,8 +589,14 @@ function uploadWorkflow(workflow) {
   let id = "";
   if (typeof selection.workflow.originalID !== "undefined")
     id = selection.workflow.originalID;
-  else
-    id = nextWorkflowOverview(selection.persona.prefix, selection.usecase.prefix);
+  else {
+    let checkDB = true;
+    while(checkDB){ //Try to prevent server side race condition
+      id = nextWorkflowOverview(selection.persona.prefix, selection.usecase.prefix);
+      checkDB = await checkDashboard(id);
+    }
+  }
+    
   config.id = id;
   config.oldId = overview["id"];
   overview["id"] = id;
