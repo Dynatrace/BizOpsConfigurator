@@ -520,7 +520,7 @@ async function checkDashboard(id) {
       console.log("checkDashboard: in catch block.");
     });
   console.log("checkDashboard: "+res);
-  return res == true;
+  return res ? true : false;
 }
 
 function addParentConfig(config, id) {
