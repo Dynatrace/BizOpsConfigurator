@@ -510,7 +510,8 @@ function loadDashboard(id) {
 
 async function checkDashboard(id) {
   let query = "/api/config/v1/dashboards/" + id;
-  let res = await dtAPIquery(query, {
+  let res = null;
+  res = await dtAPIquery(query, {
     success: ()=>{return true;},
     error: ()=>{return false}
   })
