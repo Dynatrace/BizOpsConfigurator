@@ -236,8 +236,11 @@ function ConfigPusherFactory(target, transform, configPushType, configPushFile, 
                     delete c.id;
                     data = JSON.stringify(c);
                 }
-                p = dtAPIquery(query, { method: "POST", data: data });
-                $.when(p).done(refreshConfigPusher);
+                p = dtAPIquery(query, { method: "POST", data: data, dataType: "text" });
+                //$.when(p).done(refreshConfigPusher);
+                $.when(p).done(function(res){
+                    console.log("Pushed SLO. Result:"+res);
+                });
                 break;
             }
             /*case "FULL_WEB_REQUEST": {
