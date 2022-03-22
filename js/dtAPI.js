@@ -508,12 +508,14 @@ function loadDashboard(id) {
   return dtAPIquery(query, {});
 }
 
-function checkDashboard(id) {
-  var query = "/api/config/v1/dashboards/" + id;
-  return dtAPIquery(query, {
+async function checkDashboard(id) {
+  let query = "/api/config/v1/dashboards/" + id;
+  let res = await dtAPIquery(query, {
     success: ()=>{return true;},
     error: ()=>{return false}
   });
+  console.log("checkDashboard: "+res);
+  return res;
 }
 
 function addParentConfig(config, id) {
