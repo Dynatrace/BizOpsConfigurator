@@ -789,14 +789,18 @@ function workflowPickerChangeHandler(e) {
         $readmeViewer.html(readme.html);
       else
         $readmeViewer.html("");
-      let blogURL = workflow.file.config.blogURL;
-      if (blogURL != "") {
-        $blogLink.html(`<a href="${blogURL}" class="newTab" target="_blank">Blog post <img src='images/link.svg'></a>`);
-        $blogLink.show();
-      } else {
-        $blogLink.hide();
-        $blogLink.html("");
-      }
+      //let blogURL = workflow.file.config.blogURL;
+      // let blogURL = findWorkflowBlogURL(workflow);
+      // if (blogURL != "") {
+      //   $blogLink
+      //     .html(`<a href="${blogURL}" class="newTab" target="_blank">Blog post <img src='images/link.svg'></a>`)
+      //     .show();
+      // } else {
+      //   $blogLink
+      //     .hide()
+      //     .html("");
+      // }
+      insertBlogLink($blogLink, workflow);
       $issues.html(`<a href="https://github.com/${workflow.file.config.githubUser}/${workflow.file.config.githubRepo}/issues" target="_blank" class="newTab">Issues <img src="images/link.svg"></a>`);
       $issues.show();
       if ("workflowStatus" in workflow.file.config && workflow.file.config.workflowStatus
@@ -905,14 +909,16 @@ function workflowPickerOwnerChangeHandler(e) {
         $readmeViewer.html(readme.html);
       else
         $readmeViewer.html("");
-      let blogURL = workflow.file.config.blogURL;
-      if (blogURL != "") {
-        $blogLink.html(`<a href="${blogURL}" class="newTab" target="_blank">Blog post <img src='images/link.svg'></a>`);
-        $blogLink.show();
-      } else {
-        $blogLink.hide();
-        $blogLink.html("");
-      }
+      //let blogURL = workflow.file.config.blogURL;
+      // let blogURL = findWorkflowBlogURL(workflow);
+      // if (blogURL != "") {
+      //   $blogLink.html(`<a href="${blogURL}" class="newTab" target="_blank">Blog post <img src='images/link.svg'></a>`);
+      //   $blogLink.show();
+      // } else {
+      //   $blogLink.hide();
+      //   $blogLink.html("");
+      // }
+      insertBlogLink($blogLink, workflow);
       $issues.html(`<a href="https://github.com/${workflow.file.config.githubUser}/${workflow.file.config.githubRepo}/issues" target="_blank" class="newTab">Issues <img src="images/link.svg"></a>`);
       $issues.show();
       if ("workflowStatus" in workflow.file.config && workflow.file.config.workflowStatus
@@ -963,14 +969,15 @@ function workflowPickerAllChangeHandler(e) {
         $readmeViewer.html(readme.html);
       else
         $readmeViewer.html("");
-      let blogURL = workflow.file.config.blogURL;
-      if (blogURL != "") {
-        $blogLink.html(`<a href="${blogURL}" class="newTab" target="_blank">Blog post <img src='images/link.svg'></a>`);
-        $blogLink.show();
-      } else {
-        $blogLink.hide();
-        $blogLink.html("");
-      }
+      // let blogURL = workflow.file.config.blogURL;
+      // if (blogURL != "") {
+      //   $blogLink.html(`<a href="${blogURL}" class="newTab" target="_blank">Blog post <img src='images/link.svg'></a>`);
+      //   $blogLink.show();
+      // } else {
+      //   $blogLink.hide();
+      //   $blogLink.html("");
+      // }
+      insertBlogLink($blogLink, workflow);
       $issues.html(`<a href="https://github.com/${workflow.file.config.githubUser}/${workflow.file.config.githubRepo}/issues" target="_blank" class="newTab">Issues <img src="images/link.svg"></a>`);
       $issues.show();
       if ("workflowStatus" in workflow.file.config && workflow.file.config.workflowStatus
@@ -992,5 +999,24 @@ function srcChangeHandler(e) {
     case "S3":
     default:
       $(`tr.github, tr.githubpat`).hide();
+  }
+}
+
+function insertBlogLink(target, workflow) {
+  let $blogLink = $(target);
+  let blogURL = (typeof workflow != "undefined" &&
+    typeof workflow.file != "undefined" &&
+    typeof workflow.file.config != "undefined") ?
+    workflow.file.config.blogURL :
+    "";
+
+  if (blogURL != "") {
+    $blogLink
+      .html(`<a href="${blogURL}" class="newTab" target="_blank">Blog post <img src='images/link.svg'></a>`)
+      .show();
+  } else {
+    $blogLink
+      .hide()
+      .html("");
   }
 }
