@@ -874,7 +874,8 @@ function globalButtonHandler() {
       }
       case "persona_deploy": {
         selection = {};
-        $("#viewport").load("html/personaFlow/persona_usecase.html", fieldsetPainter);
+        if(workflowList.length)
+          $("#viewport").load("html/personaFlow/persona_usecase.html", fieldsetPainter);
         break;
       }
       case "persona_usecase_next": {
