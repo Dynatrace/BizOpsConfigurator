@@ -21,6 +21,7 @@ function loadInputChangeHandlers() {
   $("#viewport").on("change", ".workflowPicker", workflowPickerChangeHandler);
   $("#viewport").on("change", ".workflowPickerOwner", workflowPickerOwnerChangeHandler);
   $("#viewport").on("change", ".workflowPickerAll", workflowPickerAllChangeHandler);
+  $("#viewport").on("change", ".workflowPickerTag", workflowPickerTagsChangeHandler);
   $("#viewport").on("change", "#src", srcChangeHandler);
 
   $("#viewport").on("click", "section h4", helpdocToggler);
