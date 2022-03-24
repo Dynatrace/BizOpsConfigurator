@@ -531,6 +531,7 @@ function getConnectInfo(full = false) {
 
       $.when(p2).done(function (inputs) {
         if(typeof(inputs)=="undefined"){
+          window.location.hash = "begin";
           p0.resolve();
           return p0;
         }
