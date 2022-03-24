@@ -191,7 +191,7 @@ function workflowConfiguration() {
             else $el.attr("checked", false);
         });
 
-        $("#persona").chosen();
+        // $("#persona").chosen();
 
         $.when(p2).done(function (data) {
             if (data) {
