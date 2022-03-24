@@ -859,7 +859,7 @@ function workflowPickerTagsChangeHandler(e) {
       let tag = $tag.val();
       let filteredWFs = workflowList
         .filter(statusFilter)
-        .filter(wf => Array.isArray(wf.tags) && wf.tags.include(tag));
+        .filter(wf => Array.isArray(wf.tags) && wf.tags.includes(tag));
       filteredWFs
         .sort((a, b) => a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1)
         .forEach(function (wf) {
