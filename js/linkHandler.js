@@ -308,6 +308,9 @@ function loadDeployScreen(args) {
       case "all":
         $("#viewport").load("html/personaFlow/persona_usecase_all.html", fieldsetPainter);
         break;
+      case "tags":
+        $("#viewport").load("html/personaFlow/persona_usecase_tags.html", fieldsetPainter);
+        break;
       case "persona":
       default:
         $("#viewport").load("html/personaFlow/persona_usecase.html", fieldsetPainter);

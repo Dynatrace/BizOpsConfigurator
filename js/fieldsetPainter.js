@@ -702,6 +702,10 @@ function fieldsetPainter(scope) {
             workflowPickerAllChangeHandler();
             break;
         }
+        case "persona_usecase_selection_tags": {
+            workflowPickerTagsChangeHandler();
+            break;
+        }
         case "persona_user_inputs": {
             let p = renderWorkflow(selection.workflow.file.html);
             $.when(p).done(function (html) {

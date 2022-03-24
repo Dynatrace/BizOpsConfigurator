@@ -822,6 +822,83 @@ function ellipsisToggler() {
   $(".ellipsisMenu").toggle();
 }
 
+function workflowPickerTagsChangeHandler(e) {
+  if (LOADING_REPOS) return false;
+  let el = $(this);
+  let id = el.attr('id');
+  let $tag = $("#tag");
+  let $workflow = $("#workflow");
+  let $readmeViewer = $("#readmeViewer");
+  let $blogLink = $("#blogLink");
+  let $issues = $(`#issues`);
+  $("#persona_usecase_next").siblings(".dttag").remove();
+
+  switch (id) {
+    case undefined: {
+      let tags = workflowList
+        .filter(statusFilter)
+        .map((x) => x.tags).flat().filter(unique);
+      let tagOptions = "";
+      tags.sort((a, b) => a.toLowerCase() > b.toLowerCase() ? 1 : -1).forEach(function (tag) {
+        tagOptions += `<option>${tag}</option>`;
+      });
+      $tag.html(tagOptions);
+      if (window.location.hash.includes("#deploy/tags")) {
+        let args = hashArgs();
+        if (args[2] != "" && args[2] != null)
+          $tag.val(args[2]);
+      }
+      if ($tag.val() == null) {
+        $tag.val($tag.find("option:first").val());
+        window.location.hash = `#deploy/tags/${$tag.val()}`;
+      }
+      //do not break
+    }
+    case "tag": {
+      let workflowOptions = "";
+      let tag = $tag.val();
+      let filteredWFs = workflowList
+        .filter(statusFilter)
+        .filter(wf => Array.isArray(wf.tags) && wf.tags.include(tag));
+      filteredWFs
+        .sort((a, b) => a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1)
+        .forEach(function (wf) {
+          let name = wf.file.config.workflowName;
+          let i = workflowList.findIndex((x) => x == wf);
+          workflowOptions += `<option data-workflowIndex="${i}">${name}</option>`;
+        });
+      $workflow.html(workflowOptions);
+      if (window.location.hash.includes("#deploy/tags")) {
+        let args = hashArgs();
+        if (args[4] != "" && args[4] != null)
+          $workflow.val(args[4]);
+      }
+      if ($workflow.val() == null) {
+        $workflow.val($workflow.find("option:first").val());
+        window.location.hash = `#deploy/tags/${$tag.val()}/${$workflow.val()}`;
+      }
+      //do not break
+    }
+    case "workflow":
+    default:
+      let i = $workflow.find("option:selected").attr('data-workflowIndex');
+      let workflow = workflowList[i];
+      let readme = findWorkflowReadme(workflow);
+      if (typeof readme != "undefined" && typeof readme.html != "undefined")
+        $readmeViewer.html(readme.html);
+      else
+        $readmeViewer.html("");
+      insertBlogLink($blogLink, workflow);
+      $issues.html(`<a href="https://github.com/${workflow.file.config.githubUser}/${workflow.file.config.githubRepo}/issues" target="_blank" class="newTab">Issues <img src="images/link.svg"></a>`);
+      $issues.show();
+      if ("workflowStatus" in workflow.file.config && workflow.file.config.workflowStatus
+        && workflow.file.config.workflowStatus != "GA")
+        $("#persona_usecase_next").after(`<div class='dttag'>${workflow.file.config.workflowStatus}</div>`);
+
+      window.location.hash = `#deploy/tags/${$tag.val()}/${$workflow.val()}`;
+  }
+}
+
 function workflowPickerOwnerChangeHandler(e) {
   if (LOADING_REPOS) return false;
   let el = $(this);
