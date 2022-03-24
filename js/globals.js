@@ -418,7 +418,7 @@ function parseSteps(result) {
 }
 
 function loadGithubRepos(p = 1) {
-  if(LOADING_REPOS) return false;
+  if (LOADING_REPOS) return false;
   LOADING_REPOS = true;
   let i = p;//(v5test?1:0);
   let deferreds = [];
@@ -508,7 +508,7 @@ function downloadReadmesFromList() {
       let p = $.get(file.download_url)
         .fail(errorboxJQXHR)
         .done(function (md) {
-          parseReadme(file,md);
+          parseReadme(file, md);
         });
       promises.push(p);
     }
@@ -518,7 +518,7 @@ function downloadReadmesFromList() {
   });
 }
 
-function parseReadme(file,md){
+function parseReadme(file, md) {
   try {
     var converter = new showdown.Converter();
     let html = converter.makeHtml(md);
@@ -556,7 +556,7 @@ function downloadWorkflowsFromList() {
   });
 }
 
-async function downloadFromS3(url=s3URL) {
+async function downloadFromS3(url = s3URL) {
   const response = await fetch(url)
   if (!response.ok) {
     errorbox('S3 download not OK');
@@ -570,25 +570,26 @@ async function downloadFromS3(url=s3URL) {
   if (res.hasOwnProperty("workflowList"))
     workflowList = res.workflowList;
   else errorbox("S3 did not contain workflowList");
-  if (res.hasOwnProperty("dbList")){
+  if (res.hasOwnProperty("dbList")) {
     dbList = res.dbList;
+    updateWorkflowTags(workflowList, dbList);
     updateDashboardButton();
   } else errorbox("S3 did not contain dbList");
-  if (res.hasOwnProperty("readmeList")){
+  if (res.hasOwnProperty("readmeList")) {
     readmeList = res.readmeList;
     readmeList.forEach(file => {
-      parseReadme(file,file.file);
+      parseReadme(file, file.file);
     })
   } else errorbox("S3 did not contain readmeList");
 }
 
-function loadFromS3orGH(){
-  switch(src){
+function loadFromS3orGH() {
+  switch (src) {
     case "GitHub API":
-      return(loadEverythingFromGithubAndCache());
+      return (loadEverythingFromGithubAndCache());
     case "S3":
     default:
-      return(downloadFromS3());
+      return (downloadFromS3());
   }
 }
 
@@ -678,8 +679,8 @@ function nextWorkflowOverview(persona, usecase) {
 
 /** simply increments deployment id */
 function incWorkflowOverview(id) {
-  let deployment = parseInt(id.slice(-12),10);
-  let newDeployment = id.slice(0,-12) + (deployment + 1).toString();
+  let deployment = parseInt(id.slice(-12), 10);
+  let newDeployment = id.slice(0, -12) + (deployment + 1).toString();
   return newDeployment;
 }
 
@@ -754,7 +755,29 @@ function isInternalTenant(u = url) {
 }
 
 function fixedEncodeURIComponent(str) {
-  return encodeURIComponent(str).replace(/[!'()*]/g, function(c) {
+  return encodeURIComponent(str).replace(/[!'()*]/g, function (c) {
     return '%' + c.charCodeAt(0).toString(16).toUpperCase();
   });
+}
+
+function updateWorkflowTags(wfL, dbL) {
+  wfL.forEach((wf) => {
+    if (wf && wf.file && wf.file.config && wf.file.config.overviewDB) {
+      let o = wf.file.config.owner;
+      let r = wf.file.config.repo;
+      let p = wf.file.config.path;
+      let ov = wf.file.config.overviewDB;
+
+      if (Array.isArray(dbL) && dbL.length) {
+        let db = dbL.find((d) => d && d.repo && d.repo.owner == o && d.repo.repo == r && d.repo.path == p && d.name == ov);
+        if (db) {
+          wf.tags = getTagsFromDB(db.file);
+        } else {
+          wf.invalid = "Overview not found.";
+        }
+      }
+    } else {
+      wf.invalid = "WF config missing.";
+    }
+  })
 }

@@ -405,3 +405,12 @@ function addPowerupDisclaimer(db) {
 
   return (db);
 }
+
+function getTagsFromDB(db){
+  if(db && db.dashboardMetadata && Array.isArray(db.dashboardMetadata.tags)){
+    return db.dashboardMetadata.tags;
+  } else {
+    return [];
+  }
+
+}

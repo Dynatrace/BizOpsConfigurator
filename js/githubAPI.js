@@ -210,6 +210,8 @@ function loadEverythingFromGithubAndCache() {
             .then(downloadWorkflowsFromList)
             .then(downloadReadmesFromList)
             .then(downloadDBsFromList)
+            //Update tags
+            .then(()=>{updateWorkflowTags(wfL, dbL);return true;})
             //Store in IndexedDB cache
             .then(dbPopulateRepoList)
             .then(dbPopulateWorkflowList)
