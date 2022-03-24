@@ -530,6 +530,9 @@ function getConnectInfo(full = false) {
       let p2 = popupHTMLDeferred("API Connection", content);
 
       $.when(p2).done(function (inputs) {
+        if(typeof(inputs)=="undefined"){
+          p0.resolve();
+        }
         url = inputs.url.toLowerCase();
         if (url.length > 1 && url.charAt(url.length - 1) == "/")
           url = url.substring(0, url.length - 1);
