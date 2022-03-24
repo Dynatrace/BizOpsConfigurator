@@ -531,7 +531,8 @@ function getConnectInfo(full = false) {
 
       $.when(p2).done(function (inputs) {
         if(typeof(inputs)=="undefined"){
-          window.location.hash = "begin";
+          console.log("User did not provide a tenant URL, refresh page.");
+          window.location.replace("/#begin");
           p0.resolve();
           return p0;
         }
