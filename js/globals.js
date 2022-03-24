@@ -763,7 +763,7 @@ function fixedEncodeURIComponent(str) {
 function updateWorkflowTags(wfL, dbL) {
   wfL.forEach((wf) => {
     if (wf && wf.file && wf.file.config && wf.file.config.overviewDB) {
-      let o = wf.file.config.githubOwner;
+      let o = wf.file.config.githubUser;
       let r = wf.file.config.githubRepo;
       let p = wf.file.config.githubPath;
       let ov = wf.file.config.overviewDB;
