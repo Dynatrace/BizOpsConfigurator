@@ -532,6 +532,7 @@ function getConnectInfo(full = false) {
       $.when(p2).done(function (inputs) {
         if(typeof(inputs)=="undefined"){
           p0.resolve();
+          return p0;
         }
         url = inputs.url.toLowerCase();
         if (url.length > 1 && url.charAt(url.length - 1) == "/")
