@@ -66,12 +66,6 @@ var tenantOverviews = [
 var appOverviews = [
   { name: 'Citrix (New)', filename: 'CitrixOverview.json', repo: { 'owner': 'Dynatrace-JasonOstroski', 'repo': 'CitrixDashboardsV1', 'path': '' } }
 ];
-var journeyOverviews = [
-  { name: 'UserJourney (w/ KPI)', filename: 'OverviewTrue.json', repo: { 'owner': 'TechShady', 'repo': 'Dynatrace-DashboardV5', 'path': '' } },
-  { name: 'UserJourney (w/o KPI)', filename: 'OverviewFalse.json', repo: { 'owner': 'TechShady', 'repo': 'Dynatrace-DashboardV5', 'path': '' } },
-  { name: 'LiteUserJourney (w/ KPI)', filename: 'LiteOverviewTrue.json', repo: { 'owner': 'TechShady', 'repo': 'BizOpsLite', 'path': '' } },
-  { name: 'LiteUserJourney (w/o KPI)', filename: 'LiteOverviewFalse.json', repo: { 'owner': 'TechShady', 'repo': 'BizOpsLite', 'path': '' } }
-];
 var personas = [
   { name: "Ops", prefix: "a001" },
   { name: "Dev", prefix: "a002" },
