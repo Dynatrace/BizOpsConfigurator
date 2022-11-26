@@ -66,6 +66,8 @@ var tenantOverviews = [
 var appOverviews = [
   { name: 'Citrix (New)', filename: 'CitrixOverview.json', repo: { 'owner': 'Dynatrace-JasonOstroski', 'repo': 'CitrixDashboardsV1', 'path': '' } }
 ];
+var journeyOverviews = [
+];
 var personas = [
   { name: "Ops", prefix: "a001" },
   { name: "Dev", prefix: "a002" },
