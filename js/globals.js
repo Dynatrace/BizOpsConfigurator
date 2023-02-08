@@ -76,7 +76,8 @@ var personas = [
   { name: "IT Exec", prefix: "a004" },
   { name: "Dynatrace Admin", prefix: "a005" },
   { name: "Line of Business", prefix: "a007" },
-  { name: "Playground", prefix: "a008" }
+  { name: "Playground", prefix: "a008" },
+  { name: "Analyist", prefix: "a009" }
 ];
 var usecases = [
   { name: "User Journey", bizAnalytics: true, prefix: "a001" },
@@ -98,9 +99,10 @@ var usecases = [
   { name: "Application Overview", bizAnalytics: true, prefix: "a017" },
   { name: "Forecast Analysis", bizAnalytics: true, prefix: "a018" },
   { name: "On Demand", bizAnalytics: true, prefix: "a019" },
-  { name: "Application Analytics", bizAnalytics: true, prefix: "a020" },
-  { name: "Reports", bizAnalytics: true, prefix: "a021" },
-  { name: "Playground", bizAnalytics: true, prefix: "a022" }
+  { name: "Customer Journey Analytics", bizAnalytics: true, prefix: "a020" },
+  { name: "Customer Journey Reports", bizAnalytics: true, prefix: "a021" },
+  { name: "Playground", bizAnalytics: true, prefix: "a022" },
+  { name: "Customer Journey Observability", bizAnalytics: true, prefix: "a023" }
 ];
 //////// Global Vars ////////////
 var LOADING_REPOS = false;
