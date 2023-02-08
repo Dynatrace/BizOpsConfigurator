@@ -77,7 +77,7 @@ var personas = [
   { name: "Dynatrace Admin", prefix: "a005" },
   { name: "Line of Business", prefix: "a007" },
   { name: "Playground", prefix: "a008" },
-  { name: "Analyist", prefix: "a009" }
+  { name: "Analyst", prefix: "a009" }
 ];
 var usecases = [
   { name: "User Journey", bizAnalytics: true, prefix: "a001" },
