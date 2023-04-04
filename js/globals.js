@@ -100,9 +100,9 @@ var usecases = [
   { name: "Forecast Analysis", bizAnalytics: true, prefix: "a018" },
   { name: "On Demand", bizAnalytics: true, prefix: "a019" },
   { name: "Customer Journey Analytics", bizAnalytics: true, prefix: "a020" },
-  { name: "Customer Journey Reports", bizAnalytics: true, prefix: "a021" },
+  { name: "Business Reports", bizAnalytics: true, prefix: "a021" },
   { name: "Playground", bizAnalytics: true, prefix: "a022" },
-  { name: "Customer Journey Observability", bizAnalytics: true, prefix: "a023" }
+  { name: "Business Observability", bizAnalytics: true, prefix: "a023" }
 ];
 //////// Global Vars ////////////
 var LOADING_REPOS = false;
