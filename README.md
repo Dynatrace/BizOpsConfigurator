@@ -1,4 +1,7 @@
 # BizOps Configurator Overview
+## End of Life notice - 2024.09.06
+This application will no longer be actively developed, due to new Dynatrace dashboards and AppEngine having greater capabilities. You may continue using the app and bug and security fixes will continue as before; however, no new features will be added.
+
 ## What the heck is this thing?
 This is a Single Page App (SPA) to get inputs from the user and from the Dynatrace API, to transform a stock collection of currated dashboards, and to upload via the Dynatrace API
 
