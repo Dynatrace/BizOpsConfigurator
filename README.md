@@ -1,3 +1,7 @@
+
+⚠️ This repository will be archived on July 31, 2026 and no longer maintained.
+The code will be available for historical reference or archival purposes.
+
 # BizOps Configurator Overview
 ## End of Life notice - 2024.09.06
 This application will no longer be actively developed, due to new Dynatrace dashboards and AppEngine having greater capabilities. You may continue using the app and bug and security fixes will continue as before; however, no new features will be added.
